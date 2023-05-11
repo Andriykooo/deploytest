@@ -1,0 +1,190 @@
+.predictionDates {
+  font-family: var(--global-font-black);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 19px;
+
+  display: flex;
+  align-items: center;
+
+  color: var(--global-color-text-primary);
+}
+
+.match {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--global-color-text-primary);
+}
+.sportLeague {
+  font-family: var(--global-font-bold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+}
+.matchClicked {
+  color: black !important;
+  background-color: var(--global-color-text-primary);
+}
+
+.matchClicked .match {
+  color: #212529 !important;
+}
+
+.borderRad {
+  border-radius: 10px 10px 0px 0px;
+}
+.btn.match {
+  padding-left: 1rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.arrowPrediction {
+  margin-right: 1rem;
+  width: 16px !important;
+  cursor: pointer;
+  position: absolute;
+  right: 1%;
+}
+.fontBlack {
+  color: black !important;
+}
+.stakeReturn {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  padding-right: 0.25rem;
+  color: var(--global-color-text-primary);
+}
+.stakeValue {
+  font-family: var(--global-font-bold);
+}
+.betMade {
+  background-color: #3c424c !important;
+  color: white !important;
+  position: relative;
+}
+.betClicked {
+  background-color: white !important;
+  color: black !important;
+}
+.predictionArrow {
+  transform: rotate(180deg);
+}
+.cancelButton {
+  background: var(--global-color-secondary);
+  border-radius: 10px;
+  position: absolute;
+  top: 35%;
+  right: 3%;
+  font-family: var(--global-font-bold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 70px;
+  height: 30px;
+  color: var(--global-color-text-primary);
+}
+.predictionContainer {
+  background: var(--global-color-secondary);
+  padding: 0 !important;
+}
+.predictionValues {
+  display: flex;
+}
+.predictionWhite {
+  background-color: white !important;
+  border-radius: 10px;
+}
+
+.empty-data {
+  color: var(--global-color-text-primary);
+}
+
+.predictionBody {
+  padding-right: 40px;
+}
+.prediction-clickable {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+  .stakeReturn {
+    width: 35%;
+  }
+  .predictionBody {
+    padding-bottom: 60px;
+    padding-right: 0px;
+  }
+
+  .infiniteScroll {
+    padding-top: 0px;
+  }
+
+  .linearOpen {
+    display: block;
+  }
+}
+@media screen and (max-width: 700px) {
+  .predictionValues {
+    display: grid;
+  }
+}
+@media screen and (max-width: 400px) {
+  .stakeReturn {
+    width: 45%;
+  }
+}
+.inlineStyleOpenPrediction {
+  margin-top: 12px;
+}
+.sports-icons {
+  margin-left: 16px;
+}
+
+.predictionsMobileMenuBar {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 24px;
+}
+
+.predictionsMobileMenu {
+  width: auto;
+  height: 39px;
+  padding: 18px;
+  background: #45494f;
+  border-radius: 40px;
+  color: var(--global-color-text-primary);
+  font-family: "Jeko-Bold";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+}
+
+.activeButton{
+  border: 1px solid var(--global-color-text-primary) !important;
+}
+
+@media screen and (max-width: 991px){
+.predictionsTitle {
+    min-width: auto;
+}
+}

@@ -1,0 +1,161 @@
+.terms {
+  background: linear-gradient(180deg, #34393f -4.99%, #000000 135.26%);
+  color: white;
+  overflow-y: hidden;
+  max-width: 920px;
+  padding-top: 0px;
+}
+
+.termsContent {
+  height: calc(100vh - 400px);
+  margin: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-width: 920px;
+  text-align: justify;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+.termsContent::-webkit-scrollbar {
+  display: none;
+}
+
+.none {
+  padding-left: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+li {
+  padding-top: 10px;
+}
+
+.termsTitle {
+  font-family: var(--global-font-black);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  margin: 0 auto;
+  max-width: 920px;
+  padding-top: 90px;
+  padding-bottom: 40px;
+}
+.termsTitleForMainPage {
+  font-family: var(--global-font-black);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  margin: 0 auto;
+  max-width: 920px;
+  padding-top: 130px;
+  padding-bottom: 40px;
+}
+.backgroundImage {
+  background-image: linear-gradient(
+      0deg,
+      rgba(37, 40, 44, 0.41),
+      rgba(37, 40, 44, 0.41)
+    ),
+    url("../../assets/images/loginBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 89vh;
+  overflow-y: hidden;
+  padding-top: 0px !important;
+  margin: 0 auto;
+  max-width: 100%;
+}
+.backgroundImageLogged {
+  background-image: none;
+  min-height: 100vh;
+  overflow-y: hidden;
+  padding-top: 0px !important;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.acceptBtn.disabled {
+  background: var(--global-color-secondary);
+  margin-top: 20px;
+}
+
+.acceptBtn {
+  background: var(--global-color-button-primary);
+  border-radius: 10px;
+  color: white;
+  font-family: var(--global-font-bold);
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 383px;
+  margin: auto;
+  width: 100%;
+  height: 48px;
+  border: none;
+  margin-top: 20px;
+}
+
+.privacyModalTitle {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
+.privacyContentModal {
+  color: white;
+  margin: 0px 40px;
+}
+
+@media (max-width: 991px) {
+  .termsContent {
+    height: calc(100vh - 310px);
+  }
+  .termsTitleForMainPage {
+    justify-content: center;
+    padding-top: 100px;
+    font-size: 32px;
+  }
+
+  .privacyModalTitle {
+    padding-top: 0;
+    padding-bottom: 20px;
+    font-size: 31px;
+  }
+
+  .termsTitle {
+    max-width: 90%;
+    padding-top: 29px;
+  }
+
+  .termsContent {
+    margin: 0 20px;
+  }
+
+  .acceptBtn {
+    max-width: 90%;
+  }
+
+  .termsContent-height-50 {
+    max-height: 65%;
+  }
+
+  .privacyContentModal {
+    max-height: 70vh;
+    height: auto;
+  }
+}

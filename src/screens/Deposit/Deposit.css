@@ -1,0 +1,210 @@
+.enterAmount {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--global-color-text-primary);
+  margin-left: 16px;
+}
+.setValue {
+  background-color: var(--global-color-secondary);
+  border-radius: 10px;
+  color: #bcbfc2;
+  border-color: transparent;
+  margin-left: 35px;
+  padding: 12px !important;
+}
+.setAmount {
+  background-color: var(--global-color-secondary);
+  border-radius: 10px;
+  border-color: transparent;
+  height: 50px;
+  text-indent: 10px;
+  min-width: 200px;
+  width: 19.56rem;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #bcbfc2;
+}
+.noIndent {
+  color: white;
+  text-indent: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 40px;
+  margin-right: 34px;
+  width: 56px;
+}
+.decimalText {
+  margin: 14px !important;
+}
+
+.buttonDepositDiv {
+  display: flex;
+  margin-top: 20px;
+  width: auto;
+  justify-content: space-between;
+}
+.selfExcludeStyle {
+  padding: 0;
+}
+
+.gateway-iframe{
+  --height: 585px;
+  height: var(--height);
+  width: 50%;
+}
+
+.depositLoader{
+  margin-right: 700px;
+  padding-top: 150px;
+}
+
+.withdrawLoader{
+  margin-right: 400px;
+  padding-top: 150px;
+}
+
+@media screen and (min-width: 991px) {
+  .noIndent {
+    margin-right: 0px;
+  }
+  .btnPosition {
+    width: 327px !important;
+    margin-left: 450px !important;
+  }
+
+  .btnPosition {
+    margin-top: 322px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .gateway-iframe{
+    width: 100%;
+    --height: calc(100vh - 275px);
+  }
+
+  .depositLoader{
+    margin-right: 0px;
+    padding-top: 0px;
+  }
+
+  .withdrawLoader{
+    margin-right: 0px;
+    padding-top: 100px;
+  }
+
+  .netDepositLimit {
+    display: flex;
+    justify-content: center;
+  }
+  .selectButton {
+    display: flex;
+    justify-content: center;
+  }
+  .noIndent {
+    margin-right: 12px;
+  }
+  .buttonDepositDiv {
+    width: 327px !important;
+  }
+  .selectDepositDiv {
+    display: flex;
+    align-items: center;
+  }
+  .setValue {
+    margin-left: 11px;
+  }
+  .btnPosition {
+    width: 327px !important;
+    display: flex;
+    justify-content: center;
+  }
+  .contaiiner {
+    display: flex;
+    flex-direction: column;
+  }
+  .primaryBtn {
+    margin-top: auto;
+    text-align: bottom;
+    margin-bottom: 112px;
+  }
+  .primaryBtn {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+@media screen and (max-width: 437px) {
+  .selectDepositDiv {
+    display: flex;
+    justify-content: center;
+  }
+  .noIndent {
+    margin: 0px;
+  }
+
+  .buttonDepositDiv {
+    display: flex;
+    margin-top: 20px;
+    width: auto;
+    justify-content: space-between;
+  }
+}
+@media only screen and (max-width: 370px) and (min-width: 320px) {
+  .noIndent {
+    width: 2.93rem;
+  }
+  .menuTitle {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 30px;
+  }
+  .goBackArrow {
+    padding-left: 10px;
+  }
+  .selectDepositDiv {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .buttonDepositDiv {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .setValue {
+    margin-left: 19px;
+    width: 2.93rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.widthSet {
+  width: 400px;
+}
+.authorizeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.clickedSum {
+  background: var(--global-color-tertiary) !important;
+}
+.btnPosition {
+  bottom: 77px;
+  background-color: var(--global-color-secondary);
+  border-radius: 10px;
+  color: #bcbfc2;
+  border-color: transparent;
+  height: 50px;
+  text-indent: 10px;
+  width: 414px;
+  margin-right: 0px;
+}
+.content_width {
+  width: 327px !important;
+}

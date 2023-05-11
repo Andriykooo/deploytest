@@ -1,0 +1,106 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/actions";
+import { images } from "../../utils/imagesConstant";
+
+export const Countries = ({
+  handle,
+  choosenCountry,
+  setCountry,
+  setCountryFlag,
+  setCountryCode,
+  setSelectedCountry,
+  setStates,
+  showCountries,
+  setShowCountries,
+}) => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  return (
+    <div
+      className="modal show "
+      id="limitModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      style={showCountries ? { display: "block" } : { display: "none" }}
+    >
+      <div className="modal-dialog modal-fullscreen countriesModalDialog">
+        <div className="modal-content fScreen mt-0 p-2">
+          <div className="modal-content-inside">
+            <div className="modalTitle-countries">
+              <p className="selectCountryTitle depositModalLimit">
+                Select country of residence
+              </p>
+              <img
+                src={images.closeIcon}
+                className="closeIconSus closeFullScreenModal"
+                alt="Close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowCountries(false)}
+              />
+            </div>
+            <div className="selectDecimal-countries d-flex searchStyle">
+              <img
+                src={images.search}
+                alt="Search icon"
+                className="countriesSearch"
+              />
+              <input
+                className=" decimalText countryModalText searchField"
+                placeholder="Search"
+                onChange={(e) => handle(e, "country")}
+              />
+            </div>
+            {choosenCountry.map((country, index) => {
+              return (
+                <div
+                  key={index}
+                  data-id={index}
+                  className={
+                    country.cca2 === user?.country
+                      ? "selectDecimal-countries selectedOdd d-flex mb-3"
+                      : "selectDecimal-countries d-flex mb-3 "
+                  }
+                  alt="Close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => {
+                    if (country?.states) {
+                      setStates(country?.states);
+                    } else {
+                      setStates([]);
+                    }
+                    setCountry(country?.name);
+                    setCountryFlag(country?.flag_url);
+                    setCountryCode(country?.cca2);
+                    localStorage.setItem("country_code", country?.cca2);
+                    let newUser = user;
+                    newUser["country"] = country?.cca2;
+                    newUser["country_name"] = country?.name;
+                    dispatch(setUser(newUser));
+                    setSelectedCountry("");
+                    setShowCountries(false);
+                  }}
+                >
+                  <div className="selectDecimal-countries d-flex">
+                    <img
+                      rel="preload"
+                      src={country.flag_url}
+                      alt={country.name}
+                      className="countriesFlags"
+                    />
+                    <p className="m-3 decimalText">{country.name}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,92 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import nextIcon from "../../assets/images/nextIcon.png";
+import previousIcon from "../../assets/images/previousIcon.png";
+import { popularCasinoGames } from "../../utils/constants";
+import { Button } from "../button/Button";
+
+const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
+  const isMobile = useSelector((state) => state.setMobile);
+  const currentSlide = 0;
+
+  return (
+    <>
+      {!isMobile ? (
+        <>
+          <div className="mainGames newGamCont">
+            <div className="mainGamesContainer">
+              <div className="mainGamesBox">
+                <div className="recommendedTitle">{title}</div>
+                <div className="newGamesImagesContainer">
+                  <Button
+                    className={
+                      currentSlide > 0
+                        ? "previousButton show"
+                        : "previousButton"
+                    }
+                    // onClick={previousSlide}
+                    text={
+                      <>
+                        <img src={previousIcon} />
+                      </>
+                    }
+                  ></Button>
+                  <div className="newGamesImages">
+                    {popularCasinoGames.map((row, index) => {
+                      let itemClass = index === 0 ? "item1" : "item";
+                      return (
+                        <div
+                          className={itemClass}
+                          style={{ backgroundImage: `url(${row})` }}
+                          key={index}
+                        ></div>
+                      );
+                    })}
+                  </div>
+                  <Button
+                    className={
+                      currentSlide < 8 - 8
+                        ? "nextButton show nextButton2"
+                        : "nextButton nextButton2"
+                    }
+                    // onClick={nextSlide}
+                    text={
+                      <>
+                        <img src={nextIcon} />
+                      </>
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="recommendedContainer">
+            <div className="mainGamesContainer">
+              <div className="mainGamesBox">
+                <div className="recommendedTitle">{title}</div>
+                <div className="recommendedImages">
+                  {gamesData.map((row, index) => {
+                    let respClass = index === 0 ? "firstNewImg" : "gamesImages";
+                    return (
+                      <img
+                        key={index}
+                        className={respClass}
+                        src={`${baseUrl}${row?.url_188}`}
+                        alt="Game 1"
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+};
+
+export default CasinoNewGames;

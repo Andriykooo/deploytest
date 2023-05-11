@@ -1,0 +1,486 @@
+.App-header {
+  background: #25292d;
+}
+.inputOfSportsInHomepage div:first-child {
+  background: var(--global-color-shade6) !important;
+}
+.styleOfHeaderTextInSlider {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 26px;
+  padding-right: 26px;
+  margin-top: 30px;
+}
+.home-page-container {
+  width: 100%;
+  height: calc(100% - 74px);
+  margin-top: 74px;
+}
+.popular-in-casino {
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--global-color-text-primary);
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.see-all-in-casino {
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #cca349;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.home-page-body {
+  width: 100%;
+  height: 100%;
+  margin-top: 74px;
+}
+.home-events {
+  padding: 0;
+  border-bottom: 1px solid var(--global-color-secondary);
+  display: flex;
+  justify-content: center;
+  height: 49px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.home-events .MuiButtonBase-root {
+  border-bottom: none !important;
+}
+.home-live-matches {
+  margin-top: 12px;
+}
+
+.inPlay-live-matches {
+  margin-top: 12px;
+  border-radius: 0px;
+}
+
+.home-slider-container {
+  padding: 15px 15px 30px 15px;
+  background: var(--global-color-shade2);
+}
+
+.messageStyle {
+  margin-top: 10px;
+  margin-left: 10px;
+  color: white;
+}
+.sidebarSports {
+  height: 100%;
+}
+
+.home-events .MuiButtonBase-root {
+  color: #a4a4a4;
+}
+
+.bet-group-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  background: #2c3035;
+}
+
+.bet-group {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.bet-group-text {
+  color: var(--global-color-text-secondary);
+  margin-left: 10px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+}
+.IconsStyleAtTheEndOfPage {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+.IconsStyleAtTheEndOfPage img {
+  width: 150px;
+  height: 150px;
+}
+.descriptionStyleOfPlay {
+  text-align: center;
+  font-weight: 400;
+  font-size: 32px;
+  color: var(--global-color-text-secondary);
+}
+.descriptionStyleOfPlayFirst {
+  font-weight: 400;
+  font-size: 32px;
+  color: #fff;
+}
+.home-live-matches-footer {
+  margin: 26px 26px 30px 26px;
+  display: flex;
+  gap: 40px;
+}
+.containerOfLiveGamesFooter {
+  display: flex;
+  flex-direction: column;
+  width: 33.33%;
+}
+.titleOfLiveGames {
+  margin-top: 10px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  color: var(--global-color-text-primary);
+  margin-bottom: 6px;
+}
+.paragraphOfLiveGame {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--global-color-text-primary);
+}
+.borderOfLeftSideOFBetGroup {
+  width: 1px;
+  height: 100%;
+  background-color: #414851;
+}
+
+.casino-grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(158px, 1fr) [col-start]);
+  grid-gap: 10px;
+  padding: 10px 26px;
+}
+
+.casino-grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+}
+
+.item1 {
+  grid-row: 1 / span 2;
+  height: 281px;
+}
+
+.events-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.events-titles-container {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  display: flex;
+  left: 20px;
+}
+.buttonOfEvents {
+  right: 36px !important;
+}
+.title-of-events {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+.subtitle-of-events {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  margin-top: 7px;
+}
+
+.horseRacingEvents {
+  position: unset;
+  width: 100%;
+  padding: 16px;
+}
+
+.content-in-events {
+  width: calc(100% -50px);
+}
+.odds-in-events {
+  width: 50px;
+}
+
+.accordion-of-specials .accordion-button:not(.collapsed) {
+  height: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.accordion-of-specials .accordion-button {
+  height: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.hour-of-special-events {
+  font-weight: 400;
+  font-size: 12px;
+  padding-right: 15px;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  line-height: 14px;
+}
+.match-of-special-events {
+  color: #fff;
+  font-family: var(--global-font-regular);
+  font-weight: 400;
+  font-size: 12px;
+}
+.accordion-specials-container button {
+  height: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.dailySpecialsAccordion:last-of-type button {
+  border-bottom: 0px !important;
+  border-radius: 0 0 8px 8px !important;
+}
+
+.leagues-accordion .accordion-button {
+  background-color: #313438 !important;
+}
+
+.special-title {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+.specials-container {
+  position: relative;
+}
+.events-contents-specials {
+  position: static;
+  width: auto;
+}
+.accordion-special-container {
+  margin-bottom: 0 !important;
+}
+.inPlayAccordion {
+  margin-bottom: 6px !important;
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.padding-class {
+  margin-top: 16px !important;
+}
+
+.swifty-special-container-component {
+  position: relative;
+}
+.title-special-swifty-menu {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+}
+@media only screen and (max-height: 751px) {
+  .min-vh-100 {
+    min-height: auto !important;
+  }
+  .sidebarRow {
+    overflow: auto;
+  }
+  .sidebar {
+    position: absolute !important;
+  }
+  .arrowIcon {
+    margin-right: 0rem;
+  }
+  .App-header {
+    min-height: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 3px;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #2c3035;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .odds-of-events {
+    border-right: 0;
+  }
+  .title-of-events {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .subtitle-of-events {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .styleOfHeaderTextInSlider {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .home-events {
+    border-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .sidebar {
+    display: none;
+  }
+  .sidebarSports {
+    display: none;
+  }
+  .home-page-container {
+    height: calc(100% - 56px);
+    margin-top: 56px;
+  }
+  .bet-group {
+    flex-direction: column;
+    height: 55px;
+    justify-content: center;
+    padding: 0 5px;
+  }
+  .bet-group-container {
+    padding: 11px;
+  }
+  .bet-group-text {
+    font-size: 12px;
+    margin-left: 0;
+  }
+  .home-events {
+    display: block;
+    padding: 0 16px;
+  }
+  .containerOfLiveGamesFooter {
+    width: auto;
+  }
+  .containerOfLiveGamesFooter:last-child {
+    margin-bottom: 30px;
+  }
+  .home-live-matches-footer {
+    flex-direction: column;
+    gap: 0px;
+    margin: 0px 60px;
+    display: flex;
+  }
+  .home-live-matches {
+    margin-top: 0;
+    padding: 0;
+  }
+  .descriptionStyleOfPlay {
+    margin-top: 30px;
+    margin-bottom: 22px;
+  }
+  .home-slider-container {
+    padding: 0;
+    padding-top: 8px;
+  }
+  .container-swifty-special {
+    padding: 12px 18px;
+  }
+  .casinoSpecialMenus {
+    flex-direction: row;
+  }
+
+  .padding-class {
+    margin-top: 32px !important;
+  }
+}
+
+.sidebar-skeleton.active {
+  width: 270px;
+}
+
+.sidebar-skeleton {
+  width: 70px;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .sidebarSports {
+    position: absolute;
+    top: 74px;
+    left: 2px;
+    width: 280px;
+    height: calc(100% - 74px);
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .sidebarSports {
+    display: block;
+  }
+
+  .home-container-skeleton {
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .mainArticle-skeleton {
+    padding: 0;
+    width: 100vw;
+  }
+}
+
+.casinoSpecialMenus {
+  position: sticky;
+  z-index: 1;
+  margin-top: -65px;
+  top: -65px;
+  justify-content: flex-start;
+}
+
+.menu-links {
+  height: 24px;
+}
