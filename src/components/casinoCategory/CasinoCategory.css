@@ -1,0 +1,981 @@
+.casinoContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  left: 0px;
+}
+.imageContainer img {
+  padding: 0;
+  width: 100%;
+  object-fit: cover;
+  max-height: 230px;
+}
+
+.mainImage {
+  position: relative;
+  width: 100%;
+  height: 498px;
+  left: 0px;
+}
+
+.imageText {
+  width: 100%;
+  /* padding: 40px; */
+}
+
+.casinoCarousel {
+  padding: 15px 15px 0 15px;
+}
+
+.pauseButton {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 40px;
+  top: 30px;
+}
+.hoveredButton {
+  cursor: pointer;
+}
+.textContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  padding: 0 40px;
+  width: 100%;
+  bottom: 40px;
+}
+
+.firstImageText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 6px;
+  font-family: var(--global-font-bold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 24px;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--global-color-text-primary);
+}
+
+.secondImageText {
+  font-family: var(--global-font-semibold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-transform: capitalize;
+  color: var(--global-color-text-primary);
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  margin-right: 290px;
+}
+
+.playButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 13px 50px;
+  gap: 10px;
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  right: 40px;
+  bottom: 13px;
+  border-radius: 8px;
+}
+
+.btnPrimary.heroBannerButton {
+  position: static;
+}
+
+.mainContainer {
+  padding: 0px 0px;
+  width: 100%;
+  height: auto;
+  margin-top: 15px;
+}
+
+.recommendedTitle {
+  margin-left: 24px;
+  top: -50px;
+  font-family: var(--global-font-semibold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  cursor: pointer;
+}
+.recommendedViewAll {
+  margin-right: 30px;
+  font-size: 16px;
+  color: var(--global-color-text-quaternary);
+}
+
+.slider {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  position: absolute;
+  width: 1760px;
+  height: 190px;
+  left: 40px;
+  top: 43px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.slider::-webkit-scrollbar {
+  display: none;
+}
+
+.gamesImages {
+  width: 205px;
+  height: 190px;
+  border-radius: 6px;
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+}
+
+.imageButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 1780px;
+  position: absolute;
+  width: 1840px;
+  height: 30px;
+  left: 0px;
+  top: 123px;
+}
+
+.previousButton {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  background: rgba(193, 179, 147, 0.4);
+  box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  border-radius: 17px;
+}
+
+.nextButton {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  background: rgba(193, 179, 147, 0.4);
+  box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  border-radius: 17px;
+}
+
+.footballImgContainer {
+  display: flex;
+  max-width: 1840px;
+  width: 100%;
+}
+
+.footballImage {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.newGamesContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.newGamesTitle {
+  font-family: var(--global-font-semibold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 48px;
+  color: var(--global-color-text-primary);
+  margin-bottom: 0px;
+  cursor: pointer;
+  margin-left: 50px;
+}
+
+.newGamesImages {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(158px, 1fr) [col-start]);
+  grid-gap: 10px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.newGamesImages::-webkit-scrollbar {
+  display: none;
+}
+
+.newGamesImages > div {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+}
+
+.newGamesImagesContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
+}
+
+.previousButton,
+.nextButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 1299px;
+  width: 30px;
+  height: 30px;
+  background: rgba(193, 179, 147, 0.4);
+  box-shadow: 0px 10px 20px 10px rgb(0 0 0 / 46%);
+  border-radius: 17px;
+  margin-top: 0px;
+}
+
+.previousButton:hover,
+.nextButton:hover {
+  background: #c2ae82;
+  box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  color: var(--global-color-text-primary);
+}
+
+.previousButton:disabled,
+.nextButton:disabled {
+  color: #6c6d6f;
+  cursor: default;
+}
+
+.footballCont {
+  display: flex;
+  justify-content: center;
+  padding: 0px 40px;
+  margin-top: 40px;
+}
+
+.footballImage {
+  width: 100%;
+  padding: 0px 40px;
+}
+
+.item1 {
+  grid-row: 1 / span 2;
+  height: 281px;
+}
+
+.newGamesFirstSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.newGamesLargeImage {
+  width: 418px;
+  height: 390px;
+  border-radius: 6px;
+}
+
+.mainGames {
+  margin-top: 50px;
+  margin-bottom: 25px;
+  padding: 0px 20px;
+}
+
+.mainGamesContainer {
+  margin-top: 0px;
+  padding: 0px 10px;
+}
+
+.mainGamesBox {
+  position: relative;
+}
+
+.newGamesFirstSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.newGamesImage1 {
+  border-radius: 6px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.newGamesSecondSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.newGamCont {
+  margin-bottom: 100px;
+}
+
+.casinoFooter {
+  width: 100%;
+  padding: 0px 0px;
+}
+
+.casinoGame {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.casinoMultiSlider .slick-list {
+  height: 100%;
+}
+
+.casinoMultiSlider .slick-track > :not(:first-child) > div > div {
+  padding: 0;
+}
+
+.casinoMultiSlider .slick-track > :first-child > div > div {
+  height: 100%;
+}
+
+.casinoMultiSlider .slick-slide {
+  height: 380px;
+  width: 205px;
+}
+
+.casinoMultiSlider .casinoGameContainer {
+  height: 190px;
+  width: 100%;
+  padding: 5px;
+}
+
+.casinoGameContainer {
+  position: relative;
+  display: flex !important;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.casino-item:hover .casinoGame {
+  opacity: 0.6;
+}
+
+.casino-item:hover .btnPrimary,
+.casino-item:hover .likeGame {
+  display: block;
+}
+
+.btnPlayNow {
+  display: none;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 12px;
+  font-size: 12px;
+  padding: 4px 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.likeGame {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* Modal */
+
+.casino-modal {
+  display: block;
+}
+
+.casino-modal-dialog {
+  max-width: calc(100% - 200px) !important;
+}
+
+.casino-modal-content {
+  padding: 0rem !important;
+  margin-top: 0rem;
+  display: block;
+}
+
+.casino-modal-header {
+  background: #c2a546;
+  border-radius: 0px;
+  height: 44px;
+  font-family: var(--global-font-semibold);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  justify-content: space-between !important;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+}
+
+.casino-game-cover {
+  position: relative;
+}
+.casino-game-img {
+  width: 100%;
+  opacity: 0.5;
+}
+
+.casino-game-trending {
+  width: 190px;
+  height: 210px;
+}
+
+.casino-modal-body {
+  position: relative;
+  padding: 0 !important;
+  border-radius: 0 0 6px 6px;
+  display: flex;
+  flex-direction: column;
+  min-height: 604px;
+  background: var(--global-color-shade5);
+}
+.compress-icon {
+  margin-right: 10px;
+}
+
+.casino-full-screen .casino-modal-dialog {
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 40px);
+  margin: 20px auto 20px auto;
+  max-width: 100% !important;
+  margin: 0;
+}
+
+.casino-full-screen .casino-modal-content {
+  height: 100%;
+  background: var(--global-color-shade5);
+}
+
+.casino-full-screen .casino-modal-body {
+  height: 100%;
+  border-radius: 0;
+}
+
+.play-icon {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  left: 50%;
+  opacity: 1;
+}
+
+.casino-game-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 397px;
+}
+
+.play-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.casino-game-description {
+  padding: 25px 125px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--global-color-text-primary);
+}
+
+.casino-game-info {
+  width: calc(100% - 100px);
+  margin: 0 auto;
+  color: var(--global-color-text-primary);
+  border-top: 1px dashed #5c5656;
+  padding: 33px;
+}
+
+.casino-game-bet {
+  display: flex;
+  justify-content: space-around;
+}
+
+.casino-game-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.amount-value {
+  color: var(--global-color-text-secondary);
+}
+
+.casino-play-now {
+  border-radius: 5px;
+  width: 245px;
+  padding: 8px;
+  margin-right: 20px;
+}
+
+.casino-try-free {
+  color: var(--global-color-secondary);
+  background: var(--global-color-text-primary);
+  border-radius: 5px;
+  width: 245px;
+  padding: 8px;
+}
+
+.casino-game-play {
+  display: flex;
+  justify-content: center;
+  margin-top: 33px;
+}
+
+.casino-game-iframe {
+  width: 100%;
+  min-height: 640px;
+  height: 100%;
+}
+
+.likeGame:hover {
+  background: transparent !important;
+}
+
+.playButton {
+  border-radius: 4px;
+}
+
+.gameNumber {
+  position: absolute;
+  bottom: 20px;
+  z-index: 1;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 64px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: yellow;
+}
+
+.gameImageWrapper {
+  position: relative;
+}
+
+.casinoSlider .slick-slide {
+  height: 200px;
+  width: 215px;
+}
+
+.trendingSlider {
+  margin-left: 20px;
+}
+
+.trendingSlider .slick-slide {
+  width: 248px;
+  height: 225px;
+  margin: 0 0 20px 20px;
+}
+
+.trendingSlider .slick-track {
+  margin-left: 25px;
+}
+
+.amount-title {
+  font-size: 13px;
+}
+
+@media (max-width: 991px) {
+  .slick-slide .numbering {
+    top: 102px;
+    left: -50px;
+    height: 145px;
+    width: auto;
+  }
+
+  .trendingSlider .slick-slide {
+    height: 200px;
+    width: 215px;
+    margin: 0 30px 50px 25px;
+  }
+
+  .trendingSlider .slick-track {
+    margin-left: 45px;
+  }
+
+  .imageContainer img {
+    width: 100%;
+  }
+  .casinoContainer {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .imageContainer {
+    width: 100%;
+    left: 0px;
+  }
+
+  .casinoGame.trending {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mainImage {
+    position: absolute;
+    width: 100%;
+    height: 246.54px;
+    left: 0px;
+  }
+
+  .imageText {
+    padding: 0;
+    width: 100%;
+  }
+
+  .pauseButton {
+    top: 13px;
+    right: 16px;
+  }
+
+  .textContainer {
+    width: 100%;
+    padding: 0 16px 22px 16px;
+    bottom: 0;
+  }
+
+  .firstImageText {
+    width: 100%;
+    font-family: var(--global-font-semibold);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    position: unset;
+    gap: 0px;
+  }
+
+  .secondImageText {
+    width: 100%;
+    font-family: var(--global-font-semibold);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+  }
+
+  .playButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 10px 10px;
+    gap: 10px;
+    position: absolute;
+    width: 76px;
+    height: 34px;
+    border-radius: 20px;
+    right: 16px;
+    bottom: auto;
+  }
+
+  .mainContainer {
+    height: auto;
+    height: auto;
+    padding: 0;
+    position: relative;
+  }
+
+  .recommendedImages {
+    display: flex;
+    padding: 0px;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+
+  .recommendedContainer {
+    width: 100%;
+    top: 70px;
+    padding-left: 16px;
+    position: unset;
+    padding-bottom: 24px;
+  }
+  .recommendedImages img {
+    width: 205px;
+    height: 190px;
+  }
+
+  .recommendedTitle {
+    margin-left: 0px;
+    top: -45px;
+    font-family: var(--global-font-semibold);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    color: var(--global-color-text-primary);
+  }
+
+  .recommendedImages {
+    width: 100%;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .recommendedImages::-webkit-scrollbar {
+    display: none;
+  }
+
+  .imageButtons {
+    width: 880px;
+    gap: 820px;
+  }
+
+  .slider {
+    width: 800px;
+    margin-left: 0px;
+  }
+
+  .footballCont {
+    margin-top: 24px;
+  }
+
+  .newGamesContainer {
+    padding-left: 16px;
+    padding-right: 0px;
+  }
+
+  .newGamesTitle {
+    margin-bottom: 0px;
+  }
+
+  .newGamesImages {
+    padding: 0px;
+    padding-left: 16px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .newGamesImages::-webkit-scrollbar {
+    display: none;
+  }
+
+  .newGamesContainer {
+    width: 100%;
+  }
+
+  .newGamesTitle {
+    position: absolute;
+    margin-left: 0px;
+    bottom: unset;
+    font-family: var(--global-font-semibold);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    color: var(--global-color-text-primary);
+  }
+
+  .imagesSection {
+    display: flex;
+    padding: 0px;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .imagesSection::-webkit-scrollbar {
+    display: none;
+  }
+
+  .footballImage {
+    width: 100%;
+    padding: 0px 16px;
+  }
+
+  .gamesImages {
+    width: 180px;
+  }
+
+  .mainGamesContainer {
+    padding: 0px;
+  }
+
+  .mainGamesBox {
+    position: relative;
+  }
+
+  .firstNewImg {
+    width: 205px;
+    height: 190px;
+  }
+
+  .casinoFooter {
+    margin-top: 70px;
+  }
+
+  /* Modal */
+
+  .casino-modal {
+    overflow: hidden;
+  }
+
+  .casino-modal-content {
+    padding: 0;
+    margin-top: 0rem;
+    background: var(--global-color-shade5);
+  }
+
+  .casino-modal-dialog {
+    max-width: 100% !important;
+    margin: 0;
+    height: 100%;
+  }
+
+  .casino-modal-content {
+    margin-top: 0 !important;
+    height: 100%;
+  }
+
+  .casino-modal-body {
+    overflow: auto;
+    display: block;
+    min-height: unset;
+    height: 100%;
+  }
+
+  .casino-modal-header {
+    border-radius: 0;
+  }
+  .casino-game-description {
+    padding: 24px;
+  }
+  .casino-game-info {
+    width: calc(100% - 48px);
+    padding: 24px 0;
+  }
+  .casino-game-bet {
+    display: block;
+  }
+  .casino-game-amount {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .casino-game-cover {
+    height: 300px;
+  }
+}
+
+.casino-item {
+  width: 205px;
+  height: 190px;
+  position: relative;
+}
+
+.hero-multi-line {
+  height: 390px;
+  width: 418px;
+}
+
+.hero-multi-line-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trending {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  height: 248px;
+  width: 255px;
+}
+
+.numbering {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  width: auto;
+  height: 133px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  z-index: 1;
+  pointer-events: none;
+}

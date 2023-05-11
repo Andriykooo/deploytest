@@ -1,0 +1,20 @@
+.html-parse-title {
+  font-family: Jeko-Black;
+  font-size: 34px;
+}
+
+.html-parse-content {
+  max-height: calc(100vh - 350px);
+  overflow: auto;
+  font-family: Jeko-Regular;
+  font-size: 12px;
+}
+
+@media (max-width: 991px) {
+  .html-parse-content {
+    max-height: calc(100vh - 220px);
+    overflow: auto;
+    font-family: Jeko-Regular;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,381 @@
+.markets-container {
+  margin-bottom: 10px;
+}
+.market-types {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.active-market {
+  height: 4px;
+  width: 100%;
+  background: var(--global-color-secondary);
+}
+.market-type {
+  margin: 0 10px;
+}
+.MuiTabs-indicator {
+  height: 4px !important;
+  background: var(--global-color-button-primary) !important;
+}
+.Mui-selected {
+  color: #fff !important;
+}
+.MuiButtonBase-root {
+  border-bottom: 4px solid var(--global-color-secondary) !important;
+  font-family: var(--global-font-medium) !important;
+  text-transform: capitalize !important;
+  padding: 12px !important;
+  font-size: 12px !important;
+}
+
+.MuiSwitch-switchBase {
+  padding: 0 !important;
+}
+
+.swiper-slide {
+  width: auto !important;
+}
+
+.MuiTabScrollButton-horizontal.Mui-disabled {
+  display: none !important;
+}
+
+.competition-name {
+  padding-left: 16px;
+}
+
+.competitions-select {
+  height: 34px;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: var(--global-color-shade8);
+  border-radius: 6px;
+  font-family: "Jeko-Medium";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.competitions-select:not(.opened) {
+  margin-bottom: 6px;
+}
+
+.competitions-select.markets-select:not(.opened) {
+  margin-bottom: 24px;
+}
+
+.select-competition-container {
+  max-width: 310px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15px;
+  position: relative;
+}
+.MuiAutocomplete-popupIndicator {
+  border: none !important;
+}
+.competitions-options {
+  width: 100%;
+  max-height: 154px;
+  overflow: auto;
+  background: var(--global-color-shade6);
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+  position: absolute;
+  z-index: 9;
+  max-width: 310px;
+  filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 0.5));
+}
+.MuiAutocomplete-input,
+.MuiSvgIcon-root,
+.MuiInputLabel-outlined {
+  color: white !important;
+}
+.MuiOutlinedInput-root {
+  background: var(--global-color-shade8) !important;
+  font-family: var(--global-font-regular) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  color: var(--global-color-text-primary) !important;
+}
+.MuiAutocomplete-clearIndicator {
+  border: none !important;
+}
+div .MuiAutocomplete-popper {
+  font-size: 18px !important;
+}
+.MuiAutocomplete-noOptions {
+  color: white !important;
+}
+.MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+  background: black;
+}
+.competitions-select span {
+  word-break: break-word;
+  font-family: "Jeko-Medium";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+.MuiAutocomplete-endAdornment {
+  top: auto !important;
+}
+.sport-competitions {
+  padding: 10px;
+  height: 82px;
+  background: var(--global-color-shade6);
+  border-radius: 6px;
+}
+
+.sport-name {
+  margin-bottom: 10px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  text-transform: capitalize;
+  font-family: var(--global-font-montserrat);
+  font-style: normal;
+  font-family: "Jeko-SemiBold";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.competition-option,
+.competition-no-option {
+  padding: 9px 24px;
+}
+
+.competition-option {
+  cursor: pointer;
+}
+
+.competition-option:hover {
+  background: var(--global-color-tertiary);
+}
+.closeSidebarButton {
+  position: absolute;
+  transition: opacity 0.1s ease-in-out;
+  top: 50%;
+  left: 100%;
+  width: 20px;
+  height: 42px;
+  background: var(--global-color-shade2);
+  border-radius: 0px 5px 5px 0px;
+  z-index: 9;
+  transform: translateY(-100%);
+  padding: 0;
+}
+
+.closeSidebarButton2 {
+  left: 50px;
+}
+.openSidebarButton {
+  margin-left: 4px;
+}
+.closeSidebarButton img {
+  transform: rotate(270deg);
+}
+
+.openSidebarButtonn img {
+  transform: rotate(90deg);
+}
+.valueOfBets:hover {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .container-match-details-paragraph {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: 1px solid #43474d;
+    background-color: var(--global-color-shade6);
+    align-items: center;
+    height: 40px;
+  }
+  .competitions-select.markets-select:not(.opened) {
+    margin-bottom: 10px;
+  }
+  .sportsMatchesContainer {
+    padding: 18px;
+  }
+  .sport-competitions {
+    background: transparent;
+    padding: 0;
+    height: auto;
+  }
+  .select-competition-container {
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+  .competitions-options {
+    max-width: 100%;
+    height: 100%;
+    filter: none;
+  }
+  .competitions-options {
+    width: 100%;
+    height: calc(100vh - 92px);
+    max-height: 100vh;
+    position: relative;
+    z-index: 10;
+  }
+  .competitions-options.markets-options {
+    height: calc(100vh - 260px);
+  }
+  .competition-option {
+    padding: 10.5px 24px;
+    font-style: normal;
+    font-weight: 400;
+    font-family: var(--global-font-medium);
+  }
+  .markets-select {
+    margin-bottom: 16px;
+  }
+  .competitions-select {
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px;
+    color: #f9f9f9;
+    padding: 10.5px 16px;
+    background: var(--global-color-shade6);
+    font-style: normal;
+    font-weight: 400;
+    font-family: var(--global-font-medium);
+  }
+  .competitions-select.opened {
+    border-radius: 15px 15px 0 0;
+  }
+  .competitions-options.opened {
+    border-radius: 0;
+    margin: 0;
+  }
+  .markets-select.opened {
+    margin-bottom: 0;
+  }
+  .main-article-static {
+    position: fixed;
+    top: 56px;
+    width: 100%;
+  }
+}
+.browser-chrome {
+  margin-left: 0px;
+}
+.browser-chrome2 {
+  left: 60px;
+}
+.browser-safari2 {
+  left: 60px;
+}
+.browser-firefox {
+  margin-left: 0px;
+}
+.browser-safari {
+  margin-left: 0px;
+}
+
+.MuiAutocomplete-paper {
+  background-color: var(--global-color-secondary) !important;
+  font-family: var(--global-font-regular) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  color: var(--global-color-text-primary) !important;
+}
+
+.MuiAutocomplete-paper li:hover {
+  background-color: var(--global-color-tertiary) !important;
+}
+.MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.MuiInputBase-root {
+  font-family: var(--global-font-regular) !important;
+  font-style: normal;
+  font-weight: 400;
+  height: 36px !important;
+}
+.MuiInputBase-input {
+  font-family: var(--global-font-regular) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  color: var(--global-color-text-primary) !important;
+  height: 20px !important;
+  padding: 10px 0 10px 6px !important;
+  line-height: 16px !important;
+  max-width: 205px !important;
+}
+.MuiInputBase-input {
+  padding: 0 !important;
+  font-size: 13px !important;
+}
+#autocomplete-competition::placeholder,
+#autocomplete-competitionInPlay::placeholder {
+  color: var(--global-color-text-primary) !important;
+  opacity: 1;
+  font-size: 14px;
+}
+
+#autocomplete-market::placeholder,
+#autocomplete-marketInPlay::placeholder {
+  color: var(--global-color-text-primary) !important;
+  opacity: 1;
+  font-size: 14px;
+}
+
+.autoCompleteMultipleInRow {
+  display: grid;
+  grid-template-columns: 350px 1fr 1fr 1fr;
+  gap: 10px;
+}
+.selectCompetition {
+  width: 40% !important;
+  max-width: none !important;
+}
+.timeCompetition {
+  width: 20% !important;
+}
+.regionCompetiton {
+  width: 20% !important;
+}
+.countryCompetition {
+  width: 20% !important;
+}
+
+@media screen and (max-width: 992px) {
+  .MuiAutocomplete-root {
+    margin-bottom: 6px;
+    max-width: 100% !important;
+  }
+  .MuiInputBase-root {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: 10px !important;
+  }
+
+  .autoCompleteMultipleInRow {
+    grid-template-columns: 1fr;
+  }
+}

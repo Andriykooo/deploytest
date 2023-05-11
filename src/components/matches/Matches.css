@@ -1,0 +1,1989 @@
+.matchCard {
+  width: 100%;
+  background: var(--global-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 1px solid var(--global-color-secondary);
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  min-height: 40px;
+}
+
+.matchTeam {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  flex: 1 1;
+  justify-content: flex-start;
+  text-align: start;
+}
+
+.matchCardDate {
+  align-items: center;
+  font-size: 12px;
+  padding-left: 12px;
+}
+
+.more-markets {
+  border-left: 1px solid var(--global-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.more-marketsTemp {
+  border-left: 1px solid var(--global-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+}
+
+.matchResult {
+  width: 64px;
+  height: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 16px;
+  background: rgba(245, 196, 81, 0.1);
+  border-radius: 16px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #ffffff;
+  color: #f5c451;
+  background: linear-gradient(0deg, #bc9239, #bc9239),
+    linear-gradient(0deg, rgba(106, 47, 47, 0.2), rgba(106, 47, 47, 0.2)),
+    linear-gradient(180deg, #f4176a 0%, rgba(255, 3, 98, 0) 100%), #c2034b;
+
+  background: rgba(245, 196, 81, 0.1);
+}
+
+.matchDate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 120%;
+  color: #a4a4a4;
+  margin-left: 20px;
+}
+
+.matchOdds {
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: var(--global-font-black);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  width: 71px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--global-color-text-primary);
+  cursor: pointer;
+}
+
+.matchCardRowContainer:last-of-type
+  .matchCardRow
+  .containerOfSelections:last-of-type
+  .styleOfSelectedOdd {
+  border-radius: 0 0 10px 0;
+}
+
+.matchCardRowContainer:last-of-type
+  .matchCardRow
+  .containerOfSelections:last-of-type
+  .valueOfBets:hover {
+  border-radius: 0 0 10px 0;
+}
+
+.matchOddsContainerFootball {
+  display: flex;
+  position: relative;
+}
+
+.activeOdd {
+  background: var(--global-color-tertiary);
+}
+
+.odds {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.footballOdds {
+  display: flex;
+  justify-content: space-between;
+  padding-right: unset;
+  padding-left: 0;
+}
+
+.inActiveOdd {
+  color: var(--global-color-text-primary);
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.lastOdd {
+  border-radius: 0px 8px 8px 0px;
+}
+
+.bellIcon {
+  width: 15px;
+  height: 14px;
+}
+
+.matchesContainer {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 8px;
+}
+
+.odds-change.up {
+  background: var(--global-color-price-going-in);
+  color: var(--global-color-text-primary) !important;
+}
+.odds-change.down {
+  background: var(--global-color-price-going-out);
+  color: var(--global-color-text-primary) !important;
+}
+
+.lastSelection {
+  border-radius: 0 8px 8px 0;
+}
+
+.accourdHeader button {
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  padding-bottom: 10px !important;
+}
+
+.match-event-accordion-body {
+  background-color: var(--global-color-shade2);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  padding: 0px 12px 12px 12px !important;
+  border-radius: 0 0 10px 10px;
+}
+
+.selected-types {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 40px;
+  color: #949495;
+  margin-bottom: 40px;
+}
+
+.match-details-main .sports-types {
+  padding: 0;
+}
+
+.sports-types {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.match-selected-type {
+  display: flex;
+  align-items: center;
+}
+
+.match-selected-type-color {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+.match-selected-type-name {
+  margin-left: 10px;
+}
+
+.matchLeague {
+  background: var(--global-color-secondary);
+  width: 100%;
+  height: 28px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--global-color-text-primary);
+  margin-top: 15px;
+}
+
+.league {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.matchCardIcon {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.oddsDesc {
+  display: flex;
+  padding-right: 1.5rem;
+}
+
+.typeBet {
+  width: 80px;
+  text-align: center;
+}
+
+.decimalValue {
+  color: #f5c451;
+}
+
+.sports-matches-container {
+  padding: 0;
+}
+
+.mb-match-time {
+  background: var(--global-color-secondary);
+  padding: 4px 10px;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  height: 28px;
+}
+
+.mb-match-hour {
+  margin-left: 3px;
+}
+
+.sports-body {
+  padding: 26px 26px 0px 26px;
+}
+
+.selectionName {
+  font-family: var(--global-font-regular);
+}
+
+.singleSelection {
+  width: fit-content;
+  padding-right: 20px;
+}
+.stream-line {
+  color: #ffffff;
+  margin-bottom: 0;
+  height: 20px;
+  margin: 0px 10px;
+}
+.container-match-details-paragraph {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  background-color: #373b40;
+  border-radius: 6px 6px 0 0;
+}
+.teams-match-details--header {
+  justify-content: space-around;
+}
+.MarketMenuContainer {
+  font-size: 12px;
+  width: 105px;
+}
+
+.tempmarketMenu {
+  width: 105px;
+}
+@media screen and (max-width: 991px) {
+  .MarketMenuContainer {
+    font-size: 10px;
+    width: auto;
+  }
+
+  .tempmarketMenu {
+    width: auto;
+  }
+  .container-match-details-paragraph {
+    margin-bottom: 0;
+  }
+  .matchCard {
+    padding-top: 10px;
+  }
+
+  .matchCardRowContainer:last-of-type
+    .matchCardRow
+    .containerOfSelections:first-of-type
+    .styleOfSelectedOdd {
+    border-radius: 0px 0px 0px 8px;
+  }
+
+  .matchCardRowContainer:last-of-type
+    .matchCardRow
+    .containerOfSelections:first-of-type
+    .valueOfBets:hover {
+    border-radius: 0px 0px 0px 8px;
+  }
+  .matchIceHockeyRow {
+    flex-direction: column;
+    height: 145px !important;
+  }
+
+  .dropdownFixedStyle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px 15px 0px 0px;
+    width: 100%;
+    height: calc(100% - 57px);
+    background: var(--global-color-shade6);
+    z-index: 99;
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #f9f9f9;
+  }
+  .dropdownFixedStyleComponent {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    border-radius: 15px 15px 0px 0px;
+    width: 100%;
+    height: calc(100% - 57px);
+    background: #2e3034;
+    z-index: 99;
+    font-family: "Jeko-Regular";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #f9f9f9;
+    z-index: 1000;
+  }
+  .dropdownFixedStyleComponentMarkets {
+    top: 30px;
+  }
+
+  .fs-10 {
+    font-size: 10px;
+  }
+
+  .iceHockeyGames {
+    justify-content: space-around;
+  }
+
+  .matchDate {
+    font-size: 12px;
+  }
+
+  .sports-matches-container {
+    justify-content: center;
+    padding: 0 18px;
+  }
+
+  .matchOdds {
+    width: 71px;
+  }
+
+  .matchesContainer {
+    justify-content: space-between;
+    padding-left: 12px;
+  }
+  .teamsIceHockey {
+    width: 100% !important;
+    height: 48px;
+    justify-content: space-around;
+  }
+
+  .typeBet {
+    width: 50px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 170%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+
+  .mainInPlay {
+    padding: 0px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .matchResult {
+    height: auto;
+    line-height: normal;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .matchResult {
+    padding-left: 10px;
+    padding-right: 10px;
+    height: auto;
+    font-size: 11px;
+    line-height: normal;
+  }
+
+  .matchOdds {
+    font-size: 12px;
+  }
+
+  .league {
+    font-size: 12px;
+  }
+
+  .oddsDesc {
+    padding-right: 1rem;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 155%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+
+.liveGames {
+  position: absolute;
+  width: 57px;
+  height: 16px;
+  left: 42px;
+  font-family: "Jeko-Regular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.eventStyle {
+  font-size: 12px;
+}
+
+@media screen and (max-width: 470px) {
+  .eventStyle {
+    font-size: 12px;
+  }
+
+  .matchCardIcon img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .matchCardDate {
+    padding-left: 5px !important;
+    padding-right: 0;
+    font-size: 12px;
+  }
+
+  .matchDate {
+    margin-left: 10px;
+  }
+
+  .matchOdds {
+    width: 40px;
+    font-size: 12px;
+  }
+
+  .typeBet {
+    width: 40px;
+    text-align: center;
+  }
+
+  .mobileMatchCard {
+    width: 143px;
+  }
+
+  .decimalValue {
+    font-size: 12px !important;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+
+  .matchTeam {
+    font-size: 10px;
+  }
+
+  .betAmountIcehockey {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 351px) {
+  .mobileMatchCard {
+    width: 115px;
+  }
+
+  .matchCardDate {
+    padding-left: 2px !important;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .matchCardIcon img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .matchOdds {
+    width: 35px;
+    font-size: 12px;
+  }
+
+  .typeBet {
+    width: 30px;
+    text-align: center;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+
+.gameTimeContainer {
+  font-family: Jeko-Regular;
+  font-weight: 400;
+  line-height: 12px;
+  color: var(--global-color-text-primary);
+  margin-top: 2px;
+}
+
+.matchStartGames {
+  color: #fff;
+}
+
+.headerOfGames {
+  background: var(--global-color-shade8);
+  margin: 0;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.match-event-selection {
+  width: calc(100% - 55px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-right: 1px solid var(--global-color-shade2);
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #dcdcdc;
+}
+
+.match-event-odds {
+  width: 55px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--global-color-text-secondary);
+}
+
+.match-event-odds:hover {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+  cursor: pointer;
+}
+
+.match-event-odds.selected {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+}
+
+.accordionStyle {
+  border: none;
+  background: none;
+  color: #fff;
+}
+
+.accordionHeaderStyle {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.homeSportsContainer .accordion-button.collapsed {
+  /* display: flex;
+  flex-direction: row-reverse;
+  margin-right: auto;
+  justify-content: flex-end;
+  gap: 20px; */
+  padding-left: 20px;
+}
+
+.accordion-button {
+  background-color: var(--global-color-shade2) !important;
+  color: #fff !important;
+  background: linear-gradient(180deg, #34393f -4.99%, #000000 135.26%);
+  background: var(--global-color-shade2);
+  padding-left: 12px;
+  font-family: var(--global-font-regular);
+  font-size: 14px;
+  height: 34px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.accordion-of-specials .accordion-button {
+  background-color: #353a40 !important;
+}
+.inPlay-specials .accordion-button {
+  background-color: #45494f !important;
+}
+
+.leagues-accordion .accordion-button {
+  background-color: #2b2f34 !important;
+  border-radius: 0 !important;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.homeSportsContainer.accordion-header {
+  pointer-events: none;
+}
+
+.racingHeader {
+  display: flex;
+  width: 100%;
+  height: 42px;
+  align-items: center;
+  background: #45494f;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.racingWrapper {
+  display: flex;
+  padding-left: 10px;
+  height: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  align-items: center;
+}
+
+.racingContent {
+  flex: 0 0 auto;
+  width: 300px;
+}
+
+.racingWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.racingWrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.racingBody {
+  margin: 12px;
+}
+
+.racingLink {
+  font-family: "Jeko-Regular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  gap: 6px;
+}
+
+.racingUnderTitle {
+  font-family: "Jeko-Regular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  color: #c59e43;
+}
+
+.homeSportsContainer .accordion-button:after,
+.leagues-accordion .accordion-button:after {
+  background: none;
+  margin-left: 0;
+}
+.homeSportsContainer .accordion-button:not(.collapsed)::after,
+.leagues-accordion .accordion-button:not(.collapsed)::after {
+  background: none;
+  margin-left: 0;
+}
+
+.leagues-accordion .accordion-button:not(.collapsed)::after {
+  background: url(../../assets/images/arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(180deg);
+}
+
+.leagues-accordion .accordion-button:after {
+  background: url(../../assets/images/arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(0deg);
+}
+
+.accordion-button:after {
+  background: url(../../assets/images/arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(180deg);
+}
+.accordion-button:not(.collapsed)::after {
+  background: url(../../assets/images/arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(0deg);
+}
+
+.matchCardRow {
+  cursor: pointer;
+  background: var(--global-color-shade8);
+}
+
+.matchCardRowContainer:last-of-type .matchCardRow {
+  border-radius: 0px 0px 10px 10px;
+}
+
+.matchCardRow:nth-last-child(2) {
+  border-radius: 20px;
+}
+
+.valueOfBets {
+  border-left: 1px solid var(--global-color-secondary);
+}
+
+.accordianStyle {
+  border-width: 0px !important;
+}
+
+.accordion-body {
+  position: relative;
+  padding: 0px;
+  color: #fff;
+}
+
+.accordion-header {
+  background: var(--global-color-shade2) !important;
+  border-radius: 10px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.homeSportsContainer button {
+  width: 100%;
+  height: 48px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  background: url(../../assets/images/swiftySpecialsLogo.png) !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover !important;
+}
+
+.horseRacingContainer button {
+  background: url(../../assets/images/eventsBoostLogo.png) !important;
+  background-size: cover !important;
+}
+
+.popularCasinoContainer {
+  border-radius: 0px;
+}
+
+.popularCasinoContainer button {
+  background: transparent !important;
+}
+
+.mainInPlay {
+  margin-top: 0px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.odds-changed-triangle {
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-bottom: 18px solid var(--global-color-price-going-out);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+.accordion {
+  border-width: 0px !important;
+  margin-bottom: 10px;
+  margin-top: 0 !important;
+}
+
+.homeSportsMainContainer {
+  margin-bottom: 2px;
+}
+
+:focus {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.accordion-button:not(.collapsed),
+.accordion-button:not(.collapsed):focus {
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px;
+}
+.homeSportsContainer .accordion-button:not(.collapsed),
+.homeSportsContainer .accordion-button:not(.collapsed):focus {
+  height: 105px;
+  display: flex;
+  /* flex-direction: row-reverse; */
+  /* margin-right: auto; */
+  /* justify-content: flex-end; */
+  /* gap: 20px; */
+  padding-left: 20px;
+  align-items: flex-start;
+  padding-top: 14px;
+  z-index: 0;
+}
+
+.homeSportsContainer button .casinoMenu .menu button {
+  font-family: var(--global-font-semibold);
+  color: #adadad;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 12px;
+  width: auto;
+  height: 36px;
+  background: #292929 !important;
+  border: 1px solid var(--global-color-shade9);
+  box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
+  border-radius: 100px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.homeSportsContainer button .casinoMenu .menu .selected {
+  background: var(--global-color-shade9) !important;
+  border: none;
+  color: var(--global-color-text-primary);
+}
+
+.matchTeamStyle {
+  justify-content: end;
+  text-align: end;
+}
+
+.goBackButton {
+  height: 32px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  background: #373b40;
+  border-radius: 6px;
+  color: #fff;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  padding: 0 16px !important;
+}
+
+.goBackButton span {
+  font-size: 12px;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15px;
+}
+
+.pitchCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 100%;
+  height: 334px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+.goBackButtonMatchDetails {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .sports-body {
+    padding: 0;
+  }
+  .pitchCenter {
+    margin-bottom: 0;
+    height: 195px;
+  }
+  .accordionContainer {
+    margin-bottom: 16px;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+
+.pitch-top {
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-position: top right;
+}
+.pitch-bottom {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-position: top right;
+  font-size: 20px;
+}
+
+.live-label {
+  width: 122.6px;
+  height: 32px;
+  background: rgba(55, 59, 64, 0.5);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(55, 59, 64, 0.5);
+  border-radius: 6px;
+  font-size: 12px;
+  height: 32px;
+  padding: 5px 20px;
+}
+
+.live-label:first-of-type {
+  margin-right: 10px;
+}
+
+.live-label:nth-child(2) {
+  background: rgba(159, 165, 158, 0.5);
+}
+
+.md-match-name {
+  border-bottom: 1px solid var(--global-color-secondary);
+  display: flex;
+}
+.accordionContainer {
+  margin-top: 18px;
+}
+.accordion-container-without-markets {
+  margin-top: 18px;
+}
+
+@media screen and (max-width: 480px) {
+  .accordionContainer {
+    margin-top: 6px;
+  }
+  .pitch-top {
+    top: 2px;
+    padding-right: 0;
+  }
+
+  .live-label {
+    height: 18px;
+    font-size: 12px;
+  }
+
+  .accourdHeader button {
+    font-size: 10px;
+    font-family: var(--global-font-regular);
+  }
+
+  .match-event-selection,
+  .match-event-odds {
+    font-size: 12px;
+    font-family: var(--global-font-regular);
+  }
+
+  .headerOfGames {
+    min-height: 35px;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    width: 143%;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+  .match-selected-type-name {
+    margin-left: 10px;
+    font-family: var(--global-font-montserrat);
+    color: #949495;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+
+  .betAmountsIceHockey {
+    color: var(--global-color-text-secondary);
+    padding: 6px;
+    font-size: 10px;
+  }
+  .pitch-bottom {
+    font-size: 12px !important;
+    bottom: 15px;
+  }
+}
+.containerOfSelectionsOthers {
+  display: flex;
+}
+.more-markets-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: #fff;
+  font-size: 11px;
+}
+@media screen and(max-width: 1400px) and (min-width: 991px) {
+  .pitch-bottom {
+    font-size: 16px !important;
+  }
+  .pitch-top {
+    width: calc(100% - 298px);
+    top: 170px;
+  }
+
+  .live-label {
+    height: 30px;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .pitch-top {
+    top: 15px;
+  }
+
+  .live-label {
+    height: 32px;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+}
+.matchOddsContainer {
+  display: flex;
+}
+.teams-for-matchdetails-container {
+  display: flex;
+  justify-content: space-around;
+  height: 37px;
+  margin-top: 10px;
+}
+.match-details-teams-teams {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #373b40;
+  background-color: var(--global-color-secondary);
+  background-color: #d0d0d0;
+  width: 47%;
+  padding: 10px 16px 0 16px;
+  border-radius: 6px;
+}
+.match-details-teams-teams:first-of-type {
+  text-align: end;
+  padding: 10px 16px 10px 0;
+}
+.match-result-soccer-vs {
+  width: 6%;
+  height: 100%;
+  border-radius: 6px;
+  color: #ffffff;
+  background: #bc9239;
+  margin: 0 1rem 0 1rem;
+}
+.match-details-teams-teams:first-of-type {
+  margin-left: 12px;
+}
+.match-details-teams-teams:last-of-type {
+  margin-right: 12px;
+}
+@media screen and (max-width: 991px) {
+  .ice-hockey-container {
+    font-size: 10px;
+    text-align: center;
+    padding: 0;
+  }
+  .accordionContainer {
+    margin-top: 0;
+  }
+  .accordion-of-specials {
+    background-color: #353a40;
+    background: transparent;
+  }
+  .accordion-of-specials {
+    background: transparent !important;
+  }
+  .IOSSwitch:checked {
+    background-color: red;
+  }
+  .mobile-container-match-details-content {
+    position: static;
+  }
+  .teams-for-matchdetails-container {
+    display: flex;
+    margin-left: 0;
+  }
+  .teams-container-details {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+  }
+  .teams-container-details-vs {
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container-match-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .goBackButtonDetails {
+    margin-bottom: 0;
+    background-color: transparent;
+  }
+  .stream-line {
+    font-size: 13px;
+    margin-bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+  }
+  .stream-container {
+    display: flex;
+    align-items: center;
+  }
+  .teams-for-matchdetails-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 0px 0px 6px 6px;
+    border-top: none;
+    justify-content: space-around;
+    padding: 3px 0px;
+    height: 90px;
+  }
+  .team-for-matchdetails-mobile {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px;
+    color: #dcdcdc;
+    padding: 7px 10px;
+    border-radius: 6px;
+    background: var(--global-color-secondary);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  .team-for-matchdetails-mobile:last-of-type {
+    margin-top: 0;
+  }
+
+  .team-for-matchdetails-mobile:last-of-type {
+    justify-content: start;
+  }
+  .containerOfSelectionsSports {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .footballContainerSports {
+    margin-bottom: 10px;
+  }
+  .MuiAutocomplete-root {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    height: auto !important;
+    margin-bottom: 6px !important;
+  }
+  #autocomplete-competition::placeholder,
+  #autocomplete-marketInPlay::placeholder {
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px !important;
+    line-height: 16px;
+    color: var(--global-color-text-primary);
+  }
+
+  .matchOddsContainer {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    border-right: 1px solid var(--global-color-secondary);
+  }
+
+  .containerOfSelections:last-of-type .matchOddsContainer {
+    border-right: 0;
+    border-radius: 0px 0px 8px 0px;
+  }
+  .accordion-button:not(.collapsed),
+  .accordion-button:not(.collapsed):focus {
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px;
+    height: 40px;
+    font-family: var(--global-font-montserrat);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 14px;
+    line-height: 20px;
+  }
+  .accordion-button.collapsed {
+    padding-top: 10px;
+    height: 40px;
+    font-family: var(--global-font-montserrat);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 14px;
+    line-height: 20px;
+  }
+
+  .containerOfSelections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33.33%;
+    border-top: 1px solid var(--global-color-secondary);
+  }
+
+  .containerOfSelections:first-child {
+    border-left: 0px;
+  }
+  .containerOfSelections:last-child {
+    border-right: 0;
+  }
+  .selectionTeams {
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 10px;
+    text-align: center;
+    color: var(--global-color-text-primary);
+    padding: 7px 0px;
+    width: 100%;
+    border-bottom: 1px solid var(--global-color-secondary);
+  }
+  .valueOddsInBets {
+    border-left: 0px;
+    color: var(--global-color-text-secondary);
+    width: 100%;
+    height: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    height: 40px;
+  }
+  .mobileBetsOdds {
+    width: 100% !important;
+    justify-content: space-around;
+  }
+  .matchResultMobile {
+    height: 20px !important;
+    width: 51px;
+  }
+
+  .mobileMatchContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 14px;
+    padding-top: 14px;
+    height: 35px;
+  }
+  .mobileMatchRowForTeams {
+    width: 100%;
+    align-items: center;
+    display: flex;
+  }
+  .matchTeamMobile {
+    padding-left: 10px;
+    font-family: var(--global-font-regular);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: var(--global-color-text-primary);
+    padding-bottom: 11px;
+    padding-top: 11px;
+  }
+  .dateandtimeofmatchinfootball {
+    background-color: var(--global-color-secondary);
+  }
+
+  .tempmarketMenu {
+    width: auto;
+    padding-right: 9px;
+  }
+
+  .matchTeamStyle {
+    justify-content: flex-start;
+    text-align: start;
+    justify-content: center;
+    font-size: 13px;
+    height: 32px;
+  }
+  .matchTeamStyle:first-of-type {
+    justify-content: right !important;
+    padding-right: 5px;
+  }
+  .matchTeamStyle:last-of-type {
+    justify-content: left !important;
+  }
+  .matchResult {
+    height: 32px;
+    border-radius: 16px;
+    font-size: 11px;
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .match-result-ice-hockey {
+    height: 23px;
+  }
+  .vs-for-matchdetails {
+    width: 20%;
+    font-size: 13px;
+    margin-left: 5px;
+  }
+
+  .liveGames {
+    flex-direction: row;
+    align-items: center;
+    font-family: var(--global-font-medium);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 15px;
+  }
+
+  .matchesContainer {
+    margin: 0 auto;
+    border-bottom: 1px solid var(--global-color-secondary);
+  }
+
+  .auto-width-container {
+    width: auto;
+  }
+
+  .selected-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+  }
+
+  .match-selected-type:nth-child(4) {
+    order: 4;
+  }
+
+  .match-selected-type:nth-child(3) {
+    order: 3;
+  }
+
+  .match-selected-type:nth-child(1) {
+    order: 2;
+  }
+
+  .match-selected-type {
+    width: 100%;
+  }
+
+  .match-selected-type-color {
+    width: 20px;
+  }
+  .accordion {
+    margin-bottom: 6px;
+  }
+  .homeSportsMainContainer {
+    margin-bottom: 2px;
+  }
+  .match-vs-teams {
+    height: 20px !important;
+  }
+  .sports-body {
+    padding: 0;
+  }
+}
+
+.betAmountsIceHockey {
+  font-size: 10px;
+  color: var(--global-color-text-secondary);
+  padding: 6px;
+}
+.ice-hockey-title {
+  display: flex;
+  justify-content: space-between;
+}
+.ice-hockey-sub-container {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-secondary);
+  border-right: 1px solid var(--global-color-secondary);
+}
+.ice-hockey-sub-container:last-of-type {
+  border-bottom: 0;
+}
+.ice-hockey-container:last-of-type .ice-hockey-sub-container {
+  border-right: 0;
+}
+.ice-hockey-container .ice-hockey-sub-container:last-of-type {
+  border-top: 0;
+}
+
+.betAmountIcehockey {
+  padding: 6px;
+  font-size: 10px;
+}
+
+.tempMarketMenuContainer {
+  width: 20%;
+}
+
+.betIceHockeyContainer {
+  font-size: 10px;
+  color: #f5c451;
+  box-sizing: border-box;
+  line-height: 14px;
+  font-family: var(--global-font-black);
+  border-left: 1px solid var(--global-color-secondary);
+  width: 105px;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selectionTeamContainer {
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  color: #fff;
+}
+
+.matchIceHockeyRow {
+  height: 63px;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+/* HORSE CARD CSS*/
+
+.titleRow {
+  width: 100%;
+  height: 47px;
+  background: var(--global-color-secondary);
+  border-radius: 0px;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 8px;
+  padding-left: 16px;
+}
+
+.matchCardRow:nth-last-child(2) {
+  border-radius: 0px;
+}
+
+.underTitle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 0px;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 11px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-secondary);
+  gap: 2px;
+}
+
+.matchCardRowContainer2 {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 40px;
+  align-items: center;
+}
+
+.matchCardRow2 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 33.33%;
+  border-radius: 0px;
+  cursor: pointer;
+  background: var(--global-color-shade8);
+}
+
+.matchTeam {
+  display: flex;
+  width: 50%;
+}
+
+.matchTeam2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+}
+
+.author {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 11px;
+  color: #b5b5b5;
+  margin-top: 2px;
+}
+
+.bet {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  border-left: 2px solid var(--global-color-secondary);
+  width: 12.5%;
+  min-height: 40px;
+  color: var(--global-color-text-secondary);
+}
+.containerOfSelections {
+  display: flex;
+}
+
+@media screen and (max-width: 1600px) {
+  .bet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 93%;
+    transform: translate(-50%, -50%);
+    border-left: 0.1em solid var(--global-color-secondary);
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .bet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 94%;
+    transform: translate(-50%, -50%);
+    border-left: 0.09em solid var(--global-color-secondary);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .bet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 93.5%;
+    transform: translate(-50%, -50%);
+    border-left: 0.09em solid var(--global-color-secondary);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .bet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 93.5%;
+    transform: translate(-50%, -50%);
+    border-left: 0.06em solid var(--global-color-secondary);
+  }
+}
+
+.viewCard {
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #d0a342;
+}
+
+.countries {
+  padding-top: 5rem;
+}
+
+.countriesItem {
+  width: 12.5%;
+  display: flex;
+  min-height: 40px;
+  border-left: 2px solid var(--global-color-secondary);
+  justify-content: center;
+  align-items: center;
+  color: var(--global-color-text-secondary);
+}
+
+.whiteTxt {
+  color: white;
+  font-family: var(--global-font-medium);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.titleContainer {
+  display: flex;
+}
+
+.matchCardRowWidth {
+  border-radius: 0px;
+  width: 100%;
+}
+
+.pointerImg {
+  margin-right: 5px;
+}
+
+.horseHeader {
+  padding-top: 0.5rem;
+}
+.styleOfSelectedOdd {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+}
+
+.oddsInPlay {
+  box-sizing: border-box;
+  width: 88px;
+  height: 45px;
+  border-left: 1px solid #353a40;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px -1px;
+  font-family: "Jeko-Medium";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #bc9239;
+}
+
+.inPlayPlaceBet {
+  width: 88px;
+  margin: 0px -1px;
+}
+.matchIceHockeyRow:first-of-type {
+  border-bottom: 0;
+}
+.ice-hockey-main-container {
+  width: 100%;
+  height: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}

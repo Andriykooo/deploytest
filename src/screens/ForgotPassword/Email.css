@@ -1,0 +1,76 @@
+.logInTitlee {
+  margin: auto;
+  font-family: var(--global-font-black);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 42px;
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  color: var(--global-color-text-primary);
+  margin-top: 46px;
+  margin-bottom: 32px;
+}
+.checkIcon {
+  margin: auto;
+
+  padding-left: 40px;
+  padding-right: 76.5;
+  padding-top: 100px;
+  padding-bottom: 32x;
+  margin-bottom: 32px;
+}
+.paragraphh {
+  margin: auto;
+  font-family: var(--global-font-regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  padding-bottom: 32px;
+  color: var(--global-color-text-primary);
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.validBtn {
+  background: var(--global-color-button-primary);
+  border-radius: 10px;
+}
+
+.email-sent-container{
+  margin-top: 74px;
+  padding-top: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 454px;
+  margin: 74px auto;
+}
+.loginbuttons1 {
+  font-family: var(--global-font-regular);
+  margin: auto;
+  margin-bottom: 25px;
+  width: 24rem;
+  height: 50px;
+  border: 2px solid var(--global-color-secondary);
+  box-sizing: border-box;
+  border-radius: 10px;
+  border-radius: 10px;
+  margin: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-right: 80px;
+  margin-top: 32px;
+  margin-left: 100px;
+  width: 327px;
+  height: 48px;
+}
+
+
+@media (max-width: 991px){
+  .email-sent-container{
+    padding-top: 50px;
+  }
+}
