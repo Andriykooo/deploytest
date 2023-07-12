@@ -25,17 +25,6 @@ async function getData() {
   });
 }
 
-export const metadata = {
-  images: [
-    "https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg",
-  ],
-  openGraph: {
-    images: [
-      "https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg",
-    ],
-  },
-};
-
 export async function generateMetadata() {
   const seo = await apiServices.get(apiUrl.GET_GLOBAL_SEO);
 
