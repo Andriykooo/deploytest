@@ -15,10 +15,13 @@ a {
   padding: 0 !important;
   height: 100%;
 }
+
 .btn-check:focus + .btn,
+.btn:active,
 .btn:focus {
   outline: none !important;
   box-shadow: none !important;
+  border-color: transparent !important;
 }
 .dropdown-menu.show {
   border: none;
@@ -50,7 +53,6 @@ a {
 }
 .popularDropdown,
 .azDropdown {
-  font-family: var(--global-font-black);
   font-weight: 400;
   font-size: 18px;
   line-height: 20px;
@@ -69,7 +71,6 @@ a {
   font-weight: 300;
   font-size: 16px !important;
   line-height: 20px !important;
-  font-family: var(--global-font-regular);
   width: 100% !important;
   color: white !important;
   padding-bottom: 1rem !important;
@@ -134,6 +135,11 @@ a {
   height: 60px;
   align-items: center;
 }
+
+.sidebarBox.active {
+  background: rgba(188, 146, 57, 0.07);
+}
+
 @media only screen and (max-width: 991px) {
   .sidebarMenu {
     margin-bottom: 30px;

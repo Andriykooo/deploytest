@@ -1,0 +1,9 @@
+.horseracing-accordion .accordion-header,
+.horseracing-accordion .accordion-header .accordion-button {
+  border-radius: 6px 6px 0 0;
+}
+
+.horseracing-accordion .slick-list,
+.horseracing-accordion .carousel-wrapper .carousel-list {
+  border-radius: 0 0 6px 6px;
+}

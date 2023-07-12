@@ -1,13 +1,14 @@
-import React from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
 import { images } from "../../utils/imagesConstant";
-import { Button } from "../../components/button/Button";
+import "../Login/Login.css";
+import Image from "next/image";
 // prettier-ignore
 
 export const LoginPassword = ({newUser, passwordShown, password, isValid, togglePassword, verifyLink, checkPassword, isLoading, validatePassword}) => {
     return(
-        <div className=" loginForm d-grid justify-content-center p-4">
+        <div className=" loginForm d-grid justify-content-center">
             <h1 className="logInTitle">
                 Welcome back, {newUser.first_name}
             </h1>
@@ -26,7 +27,7 @@ export const LoginPassword = ({newUser, passwordShown, password, isValid, toggle
 
                     />
                     {isValid && (
-                        <img
+                        <Image
                             src={images.showPassIcon}
                             onClick={togglePassword}
                             className="showPasswordIconBtm welcome"

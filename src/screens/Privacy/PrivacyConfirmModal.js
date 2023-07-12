@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -7,6 +7,7 @@ import { setUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
+import { removeLocalStorageItem } from "@/utils/localStorage";
 
 const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
   const privacyDivRef = useRef(null);
@@ -17,7 +18,7 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
   const loggedUser = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
   const user = useSelector((state) => state.user);
-  const router = useRouter();
+  const pathname = usePathname();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
     };
     setIsLoading(true);
     apiServices
-      .put(apiUrl.PUT_PRIVACY, body)
+      .put(apiUrl.USER, body)
       .then(() => {
         setIsLoading(false);
 
@@ -60,7 +61,7 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
 
         dispatch(setUser(newUser));
         handlePrivacyCloseModal();
-        localStorage.removeItem("privacyPolicyChanged");
+        removeLocalStorageItem("privacyPolicyChanged");
         SuccesToast({ message: "Privacy Policy Updated Successfully" });
       })
       .catch(() => {
@@ -103,7 +104,7 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
               <div
                 ref={privacyDivRef}
                 className={
-                  !loggedUser && router.pathname.indexOf("/privacy") > "-1"
+                  !loggedUser && pathname.indexOf("/privacy") > "-1"
                     ? "termsContent termsContent-height-50"
                     : "termsContent termsContent-height-60 privacyContentModal"
                 }

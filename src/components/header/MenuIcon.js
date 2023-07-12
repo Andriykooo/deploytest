@@ -1,9 +1,9 @@
-import React from "react";
+import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 
 export const MenuIcon = ({ swiftyMenu, setSwiftyMenu }) => {
   return swiftyMenu ? (
-    <img
+    <Image
       src={images.closeIcon}
       onClick={() => setSwiftyMenu(!swiftyMenu)}
       alt=""
@@ -12,7 +12,7 @@ export const MenuIcon = ({ swiftyMenu, setSwiftyMenu }) => {
       className="header-icon"
     />
   ) : (
-    <img
+    <Image
       src={images.menuIcon}
       onClick={() => setSwiftyMenu(!swiftyMenu)}
       alt=""

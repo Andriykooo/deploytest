@@ -1,14 +1,14 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { theme } from "../../utils/config";
 import { ArrowDownIcon } from "../../utils/icons";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
+import { usePathname } from "next/navigation";
 
 export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
-  const location = useLocation();
-  const isMobile = useSelector((state) => state.setMobile);
+  const pathname = usePathname();
+  const isTablet = useSelector((state) => state.isTablet);
 
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -20,9 +20,9 @@ export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   useEffect(() => {
     setSelectedItem(null);
     onSelect?.(null);
-  }, [location]);
+  }, [pathname]);
 
-  return !isMobile ? (
+  return !isTablet ? (
     <Autocomplete
       popupIcon={<ArrowDownIcon />}
       id="autocomplete-competition"
@@ -31,7 +31,6 @@ export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
       isOptionEqualToValue={(option, value) => option.value === value.value}
       sx={{
         width: "100%",
-        height: "50px",
         color: theme?.colors?.colorTextPrimary,
       }}
       renderOption={(props, option) => {

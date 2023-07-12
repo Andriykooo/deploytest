@@ -1,18 +1,20 @@
+"use client";
+
 import axios from "axios";
-import React, { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { BaseLayout } from "../../components/baseLayout/BaseLayout";
 import { AutocompleteSelect } from "../../components/custom/AutocompleteSelect";
 import { BetSelectedTypes } from "../../components/custom/BetSelectedTypes";
-import Footer from "../../components/footer/Footer";
 import Matches from "../../components/matches/Matches";
-import { SidebarLayout } from "../../components/sidebarLayout/SidebarLayout";
 import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
+import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
+import { SidebarLayout } from "../../layouts/sidebarLayout/SidebarLayout";
 import { setCompetitions } from "../../store/actions";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
+import { useParams } from "next/navigation";
+import { Footer } from "@/components/footer/Footer";
 
 const InPlay = () => {
   const [markets, setMarkets] = useState([]);
@@ -29,9 +31,9 @@ const InPlay = () => {
   const dispatch = useDispatch();
 
   const getCompetitions = (marketId) => {
-    let url = `${apiUrl.NEXT_PUBLIC_GET_COMPETITIONS}?sportId=${id}&isLive=false`;
+    let url = `${apiUrl.GET_COMPETITIONS}?sportId=${id}&isLive=false`;
     if (marketId) {
-      url = `${apiUrl.NEXT_PUBLIC_GET_COMPETITIONS}?sportId=${id}&marketId=${marketId}&isLive=false`;
+      url = `${apiUrl.GET_COMPETITIONS}?sportId=${id}&marketId=${marketId}&isLive=false`;
     }
 
     axios
@@ -60,7 +62,7 @@ const InPlay = () => {
     setIsLoading(true);
 
     axios
-      .get(`${apiUrl.NEXT_PUBLIC_MARKETS}/${id}`)
+      .get(`${apiUrl.MARKETS}/${id}`)
       .then((result) => {
         let data = result?.data;
         const sortedData = data.sort((a, b) => {
@@ -164,10 +166,7 @@ const InPlay = () => {
                   {message && <div className="messageStyle">{message}</div>}
                 </div>
               </div>
-              <div className={shortContent ? "pageFooter" : "pageFooter"}>
-                {id && <BetSelectedTypes />}
-                {isLoading && <Footer />}
-              </div>
+            
             </div>
           </>
         )}

@@ -5,7 +5,6 @@
   width: 53px;
   top: 24px;
   border-radius: 4px;
-  font-family: "Jeko-Bold";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -15,7 +14,6 @@
 .menu-link-promotions {
   height: 40px;
   border-radius: 40px;
-  font-family: "Jeko-Medium";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -46,7 +44,6 @@
 .promotion-duration {
   width: 98px;
   font-size: 14px;
-  font-family: "Jeko-Bold";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -77,22 +74,18 @@
 }
 .promotion-amount {
   margin-left: 20px;
-  font-family: "Jeko-Regular";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   color: #ffffff;
 }
 .promotion-value {
-  font-family: "Jeko-Bold";
   font-size: 14px;
 }
 .promotion-valid {
   font-size: 14px;
-  font-family: "Jeko-Regular";
 }
 .promotion-competition {
-  font-family: "Jeko-Bold";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -101,7 +94,6 @@
 }
 .promotion-expiring {
   color: #e22727;
-  font-family: var(--global-font-regular);
 }
 .promotion-title {
   display: flex;

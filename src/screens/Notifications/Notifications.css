@@ -1,5 +1,4 @@
 .notificationsSub {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
@@ -15,7 +14,6 @@
   height: 30px;
 }
 .form-check-label {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -55,5 +53,5 @@
   span
   .MuiSwitch-switchBase.Mui-checked
   + .MuiSwitch-track {
-  background-color: var(--global-color-bullet-point) !important;
+  background-color: var(--global-color-notification-success) !important;
 }

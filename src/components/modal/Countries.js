@@ -1,7 +1,8 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
+import Image from "next/image";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 export const Countries = ({
   handle,
@@ -33,7 +34,7 @@ export const Countries = ({
               <p className="selectCountryTitle depositModalLimit">
                 Select country of residence
               </p>
-              <img
+              <Image
                 src={images.closeIcon}
                 className="closeIconSus closeFullScreenModal"
                 alt="Close"
@@ -44,7 +45,7 @@ export const Countries = ({
               />
             </div>
             <div className="selectDecimal-countries d-flex searchStyle">
-              <img
+              <Image
                 src={images.search}
                 alt="Search icon"
                 className="countriesSearch"
@@ -55,7 +56,7 @@ export const Countries = ({
                 onChange={(e) => handle(e, "country")}
               />
             </div>
-            {choosenCountry.map((country, index) => {
+            {choosenCountry?.map((country, index) => {
               return (
                 <div
                   key={index}
@@ -77,7 +78,7 @@ export const Countries = ({
                     setCountry(country?.name);
                     setCountryFlag(country?.flag_url);
                     setCountryCode(country?.cca2);
-                    localStorage.setItem("country_code", country?.cca2);
+                    addLocalStorageItem("country_code", country?.cca2);
                     let newUser = user;
                     newUser["country"] = country?.cca2;
                     newUser["country_name"] = country?.name;
@@ -87,11 +88,13 @@ export const Countries = ({
                   }}
                 >
                   <div className="selectDecimal-countries d-flex">
-                    <img
+                    <Image
                       rel="preload"
                       src={country.flag_url}
                       alt={country.name}
                       className="countriesFlags"
+                      height={24}
+                      width={24}
                     />
                     <p className="m-3 decimalText">{country.name}</p>
                   </div>

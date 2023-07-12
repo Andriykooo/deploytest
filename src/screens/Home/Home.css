@@ -17,7 +17,6 @@
   margin-top: 74px;
 }
 .popular-in-casino {
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -27,7 +26,6 @@
   cursor: pointer;
 }
 .see-all-in-casino {
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -53,9 +51,6 @@
 
 .home-events .MuiButtonBase-root {
   border-bottom: none !important;
-}
-.home-live-matches {
-  margin-top: 12px;
 }
 
 .inPlay-live-matches {
@@ -101,7 +96,6 @@
   text-align: center;
   font-size: 16px;
   line-height: 20px;
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
 }
@@ -115,45 +109,7 @@
   width: 150px;
   height: 150px;
 }
-.descriptionStyleOfPlay {
-  text-align: center;
-  font-weight: 400;
-  font-size: 32px;
-  color: var(--global-color-text-secondary);
-}
-.descriptionStyleOfPlayFirst {
-  font-weight: 400;
-  font-size: 32px;
-  color: #fff;
-}
-.home-live-matches-footer {
-  margin: 26px 26px 30px 26px;
-  display: flex;
-  gap: 40px;
-}
-.containerOfLiveGamesFooter {
-  display: flex;
-  flex-direction: column;
-  width: 33.33%;
-}
-.titleOfLiveGames {
-  margin-top: 10px;
-  font-family: var(--global-font-regular);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 150%;
-  color: var(--global-color-text-primary);
-  margin-bottom: 6px;
-}
-.paragraphOfLiveGame {
-  font-family: var(--global-font-regular);
-  font-style: normal;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 19px;
-  color: var(--global-color-text-primary);
-}
+
 .borderOfLeftSideOFBetGroup {
   width: 1px;
   height: 100%;
@@ -197,7 +153,6 @@
   right: 36px !important;
 }
 .title-of-events {
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -207,7 +162,6 @@
   color: #ffffff;
 }
 .subtitle-of-events {
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -232,27 +186,25 @@
 }
 
 .accordion-of-specials .accordion-button:not(.collapsed) {
-  height: 35px;
+  height: 32px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 .accordion-of-specials .accordion-button {
-  height: 35px;
+  height: 32px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .hour-of-special-events {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 12px;
   padding-right: 15px;
-  font-family: var(--global-font-medium);
   font-style: normal;
   line-height: 14px;
 }
 .match-of-special-events {
   color: #fff;
-  font-family: var(--global-font-regular);
   font-weight: 400;
   font-size: 12px;
 }
@@ -267,12 +219,7 @@
   border-radius: 0 0 8px 8px !important;
 }
 
-.leagues-accordion .accordion-button {
-  background-color: #313438 !important;
-}
-
 .special-title {
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -291,6 +238,12 @@
 .accordion-special-container {
   margin-bottom: 0 !important;
 }
+
+.accordion-wrapper {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
 .inPlayAccordion {
   margin-bottom: 6px !important;
   padding-left: 26px;
@@ -308,7 +261,6 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -348,19 +300,17 @@
   }
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
   .odds-of-events {
     border-right: 0;
   }
   .title-of-events {
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
   }
   .subtitle-of-events {
-    font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -402,32 +352,19 @@
     display: block;
     padding: 0 16px;
   }
-  .containerOfLiveGamesFooter {
-    width: auto;
-  }
-  .containerOfLiveGamesFooter:last-child {
-    margin-bottom: 30px;
-  }
-  .home-live-matches-footer {
-    flex-direction: column;
-    gap: 0px;
-    margin: 0px 60px;
-    display: flex;
-  }
+
   .home-live-matches {
     margin-top: 0;
     padding: 0;
   }
-  .descriptionStyleOfPlay {
-    margin-top: 30px;
-    margin-bottom: 22px;
-  }
+
   .home-slider-container {
     padding: 0;
     padding-top: 8px;
   }
-  .container-swifty-special {
-    padding: 12px 18px;
+
+  .accordion-header {
+    border-radius: 0;
   }
   .casinoSpecialMenus {
     flex-direction: row;

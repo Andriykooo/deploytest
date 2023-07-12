@@ -1,9 +1,10 @@
-import { React } from "react";
+import { Skeleton } from "@mui/material";
 import Slider from "react-slick";
 import "swiper/css";
-import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
 import { iconsAtTheSlider } from "../../utils/constants";
-import { Skeleton } from "@mui/material";
+import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
+import "./HomeSlider.css";
+import Image from "next/image";
 
 const MobileHomeSlider = ({ isLoading }) => {
   const settings = {
@@ -41,7 +42,7 @@ const MobileHomeSlider = ({ isLoading }) => {
           iconsAtTheSlider.map((row, index) => {
             return (
               <div className="slider-image-container" key={index}>
-                <img src={row?.icon} alt="" />
+                <Image src={row?.icon} alt="" />
               </div>
             );
           })

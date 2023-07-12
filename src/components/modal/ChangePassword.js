@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -6,6 +6,8 @@ import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import Image from "next/image";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 export const ChangePassowrd = ({
   currentPassword,
@@ -34,10 +36,10 @@ export const ChangePassowrd = ({
       new_password: newPassword,
     };
     apiServices
-      .post(apiUrl.NEXT_PUBLIC_CHANGE_PASSWORD, body)
+      .post(apiUrl.CHANGE_PASSWORD, body)
       .then((result) => {
-        localStorage.setItem("token", result?.token);
-        localStorage.setItem("refresh_token", result?.refresh_token);
+        addLocalStorageItem("token", result?.token);
+        addLocalStorageItem("refresh_token", result?.refresh_token);
         SuccesToast({ message: "Password successfully updated" });
         setIsLoading(false);
         setShowChangePassword(false);
@@ -112,7 +114,7 @@ export const ChangePassowrd = ({
                     handlePassword(e.target.value, "current-password")
                   }
                 />
-                <img
+                <Image
                   onClick={() => togglePassword("currentpassword")}
                   src={images.showPassIcon}
                   className="showPasswordIcon"
@@ -132,7 +134,7 @@ export const ChangePassowrd = ({
                     handlePassword(e.target.value, "new-password")
                   }
                 />
-                <img
+                <Image
                   onClick={() => togglePassword("newpassword")}
                   src={images.showPassIcon}
                   className="showPasswordIconBtm"
@@ -166,7 +168,7 @@ export const ChangePassowrd = ({
                     handlePassword(e.target.value, "confirm-password")
                   }
                 />
-                <img
+                <Image
                   onClick={() => togglePassword("confirmpassword")}
                   src={images.showPassIcon}
                   className="showPasswordIconBtm"

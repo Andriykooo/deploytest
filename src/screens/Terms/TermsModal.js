@@ -1,11 +1,13 @@
-import { React, useEffect, useRef, useState } from "react";
 import parse from "html-react-parser";
-import { apiUrl } from "../../utils/constants";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
+import { apiUrl } from "../../utils/constants";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
+import "../Terms/Terms.css";
+import Image from "next/image";
 
 const TermsModal = ({ setPageModal }) => {
   const termsDivRef = useRef(null);
@@ -42,9 +44,9 @@ const TermsModal = ({ setPageModal }) => {
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
           {isMobile ? (
-            <img src={images.gamingMobile} alt="Swifty Gaming Logo" />
+            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
           ) : (
-            <img src={images.GroupSwifty} alt="Swifty Gaming Logo" />
+            <Image src={images.GroupSwifty} alt="Swifty Gaming Logo" />
           )}
         </div>
         <div

@@ -26,6 +26,13 @@ export const setMobile = (payload) => {
   };
 };
 
+export const setTablet = (payload) => {
+  return {
+    type: constants.SET_TABLET,
+    payload,
+  };
+};
+
 export const setLoggedUser = (payload) => {
   return {
     type: constants.SET_LOGGEDUSER,
@@ -88,9 +95,16 @@ export const setCompetitions = (payload) => {
   };
 };
 
-export const selectBet = (payload) => {
+export const setSelectBet = (payload) => {
   return {
     type: constants.SELECT_BET,
+    payload,
+  };
+};
+
+export const setBetTicker = (payload) => {
+  return {
+    type: constants.BET_TICKER,
     payload,
   };
 };
@@ -168,6 +182,36 @@ export const setSidebarRight = (payload) => {
 export const setHeaderData = (payload) => {
   return {
     type: constants.SET_HEADER_DATA,
+    payload,
+  };
+};
+
+export const setActivePage = (payload) => {
+  return {
+    type: constants.SET_ACTIVE_PAGE,
+    payload,
+  };
+};
+
+;
+
+export const setLanguage = (payload) => {
+  return {
+    type: constants.SET_LANGUAGE,
+    payload,
+  };
+};
+
+export const setTradingChatSettings = (payload) => {
+  return {
+    type: constants.SET_TRADING_CHAT_SETTINGS,
+    payload,
+  };
+};
+
+export const setRaceCard = (payload) => {
+  return {
+    type: constants.SET_RACE_CARD,
     payload,
   };
 };

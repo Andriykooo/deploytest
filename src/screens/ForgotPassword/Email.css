@@ -1,6 +1,5 @@
 .logInTitlee {
   margin: auto;
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -23,7 +22,6 @@
 }
 .paragraphh {
   margin: auto;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -49,7 +47,6 @@
   margin: 74px auto;
 }
 .loginbuttons1 {
-  font-family: var(--global-font-regular);
   margin: auto;
   margin-bottom: 25px;
   width: 24rem;

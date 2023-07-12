@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { monthDates } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
 
 function BonuesesAndPromotions() {
   const [selected, setSelected] = useState(0);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleClick = (index) => {
     setSelected(index);
@@ -57,11 +61,11 @@ function BonuesesAndPromotions() {
             <div className=" bonuses-container-menu">
               <div className="d-flex d-lg-none">
                 <div className="d-flex ">
-                  <img
+                  <Image
                     src={images.goBackArrow}
                     alt="Go back"
                     className="goBackArrow ms-0 "
-                    onClick={() => navigate("/profile")}
+                    onClick={() => router.push("/profile")}
                   />
                 </div>
               </div>
@@ -92,7 +96,7 @@ function BonuesesAndPromotions() {
                     }`}
                     key={index}
                   >
-                    <img
+                    <Image
                       src={value?.image}
                       alt=""
                       className="promotion-image"

@@ -1,0 +1,18 @@
+.base-layout {
+  margin-top: 74px;
+  min-height: calc(100vh - 74px);
+}
+
+@media (max-width: 1024px) {
+  .base-layout {
+    margin-top: 56px;
+    min-height: calc(100vh - 56px);
+  }
+}
+
+@media (max-width: 600px) {
+  .base-layout {
+    margin-bottom: 80px;
+    min-height: calc(100vh - 136px);
+  }
+}

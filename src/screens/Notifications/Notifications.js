@@ -1,6 +1,9 @@
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { setLoggedUser } from "../../store/actions";
@@ -12,6 +15,8 @@ import {
   pushNotifications,
 } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import "../Notifications/Notifications.css";
+import "../Withdraw/Withdraw.css";
 import { ToggleLabel } from "./ToggleLabel";
 
 const Notifications = () => {
@@ -69,7 +74,7 @@ const Notifications = () => {
     let body = {};
     body[key] = currValue;
     apiServices
-      .put(`${apiUrl.NEXT_PUBLIC_SETTINGS}`, body)
+      .put(`${apiUrl.SETTINGS}`, body)
       .then((result) => {
         if (Object.keys(result).length < 1) {
           SuccesToast("Notification turned off successfully!");
@@ -81,7 +86,7 @@ const Notifications = () => {
         )
       );
   };
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <>
       <Header />
@@ -93,11 +98,11 @@ const Notifications = () => {
           <div className={isMobile ? "p-4 pt-0" : "depositBody"}>
             <div className="d-flex d-lg-none">
               <div className="d-flex ">
-                <img
+                <Image
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 mb-3"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>

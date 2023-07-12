@@ -1,8 +1,8 @@
-import { SocketContext } from "../../context/socket";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { SocketContext } from "../../context/socket";
 import { setActiveSport, setSportTypes } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
@@ -14,8 +14,10 @@ import {
 } from "../../utils/socketSubscribers";
 import { ArrowButton } from "../custom/ArrowButton";
 import { SpinningLoader } from "../loaders/Loader";
+import "./ProfileMenu.css";
 import { ProfileSidebar } from "./ProfileSidebar";
 import { SportsSidebar } from "./SportsSidebar";
+import { nextWindow } from "@/utils/nextWindow";
 
 const ProfileMenu = ({
   page,
@@ -33,6 +35,7 @@ const ProfileMenu = ({
 }) => {
   const dispatch = useDispatch();
   const { subscriptionsSocket } = useContext(SocketContext);
+
   const isMobile = useSelector((state) => state.setMobile);
   const sportTypes = useSelector((state) => state.sports);
   const activeSport = useSelector((state) => state.activeSport);
@@ -44,13 +47,12 @@ const ProfileMenu = ({
   const [isHovered, setIsHovered] = useState(false);
   const [sportsData, setSportsData] = useState(sportTypes);
 
-  const width = window.innerWidth;
   const sportsStoredData = useSelector((state) => state.sportsData);
   const uuid = uuidv4();
 
   const getSportTypes = () => {
     axios
-      .get(apiUrl.NEXT_PUBLIC_GET_SPORT_TYPES)
+      .get(apiUrl.GET_SPORT_TYPES)
       .then((result) => {
         let sportsData = result?.data;
         if (sportsData && sportsData.length > 0) {
@@ -72,7 +74,7 @@ const ProfileMenu = ({
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(
+    const mediaQuery = nextWindow.matchMedia(
       "(min-width: 992px) and (max-width: 1200px)"
     );
     setIsHovered(mediaQuery.matches);
@@ -80,7 +82,7 @@ const ProfileMenu = ({
   }, []);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1400px)");
+    const mediaQuery = nextWindow.matchMedia("(min-width: 1400px)");
     if (setLargeScreen) {
       setLargeScreen(mediaQuery.matches);
     }
@@ -98,10 +100,10 @@ const ProfileMenu = ({
   };
 
   useEffect(() => {
-    const mediaQuery992_1200 = window.matchMedia(
+    const mediaQuery992_1200 = nextWindow.matchMedia(
       "(min-width: 992px) and (max-width: 1200px)"
     );
-    const mediaQuery1400 = window.matchMedia("(min-width: 1400px)");
+    const mediaQuery1400 = nextWindow.matchMedia("(min-width: 1400px)");
     mediaQuery992_1200.addEventListener("change", handleMatch);
     mediaQuery1400.addEventListener("change", handleMatch);
     return () => {
@@ -117,7 +119,7 @@ const ProfileMenu = ({
   }, []);
 
   const removeSidebarArrow = () => {
-    if (width > 1201) {
+    if (nextWindow?.innerWidth > 1201) {
       setTimeout(() => {
         setIsHovered(false);
       }, 1500);

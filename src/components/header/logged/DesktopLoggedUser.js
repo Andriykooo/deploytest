@@ -1,14 +1,16 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
 import { images } from "../../../utils/imagesConstant";
+import Image from "next/image";
 
 export const DesktopLoggedUser = ({ showBetSlip }) => {
-  const selectedBets = useSelector((state) => state.selectedBets);
-  let userBalance = localStorage.getItem("userBalance");
-  let userCurrency = localStorage.getItem("userCurrency");
   const router = useRouter();
+  const selectedBets = useSelector((state) => state.selectedBets);
+  const user = useSelector((state) => state.loggedUser);
+
+  const userBalance = user.user_data.balance;
+  const userCurrency = user.user_data.currency.abbreviation;
 
   return (
     <div className="sing-up-txt">
@@ -18,7 +20,7 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
             <Image
               src={images.profile}
               alt="Profile"
-              className="pe-3 profileImage"
+              className="profileImage"
               onClick={() => {
                 router.push("/profile");
               }}
@@ -44,13 +46,15 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
                 }}
               >
                 <SlipIcon />
-                {selectedBets && selectedBets.length > 0 && (
-                  <span className="total-slip-bets">{selectedBets.length}</span>
+                {selectedBets && selectedBets?.bets?.length > 0 && (
+                  <span className="total-slip-bets">
+                    {selectedBets?.bets.length}
+                  </span>
                 )}
               </div>
             )}
           </div>
-          <div className="d-grid">
+          <div className="d-flex flex-column justify-content-between">
             <p className="signText balanceText">Balance</p>
             <div className="d-flex">
               <p className="signText balanceAmount">

@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -7,6 +7,7 @@ import { setUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
+import { removeLocalStorageItem } from "@/utils/localStorage";
 
 const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
   const termsDivRef = useRef(null);
@@ -17,7 +18,7 @@ const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
   const user = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.setMobile);
   const loggedUser = useSelector((state) => state.loggedUser);
-  const router = useRouter();
+  const pathname = usePathname();
   const dispatch = useDispatch();
 
   const handleScroll = () => {
@@ -58,7 +59,7 @@ const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
     };
     setIsLoading(true);
     apiServices
-      .put(apiUrl.PUT_PRIVACY, body)
+      .put(apiUrl.USER, body)
       .then(() => {
         setIsLoading(false);
 
@@ -67,7 +68,7 @@ const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
 
         dispatch(setUser(newUser));
         handleCloseTermsModal();
-        localStorage.removeItem("termsConditionsChanged");
+        removeLocalStorageItem("termsConditionsChanged");
         SuccesToast({ message: "Terms and Conditions Updated Successfully" });
       })
       .catch(() => {
@@ -100,7 +101,7 @@ const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
               <div
                 ref={termsDivRef}
                 className={
-                  !loggedUser && router.pathname.indexOf("/privacy") > "-1"
+                  !loggedUser && pathname.indexOf("/privacy") > "-1"
                     ? "termsContent termsContent-height-50"
                     : "termsContent termsContent-height-60 privacyContentModal"
                 }

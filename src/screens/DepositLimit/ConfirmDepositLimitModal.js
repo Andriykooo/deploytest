@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -8,6 +8,7 @@ import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import Image from "next/image";
 
 const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
   const user = useSelector((state) => state.loggedUser);
@@ -31,7 +32,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
       action,
     };
     apiServices
-      .post(apiUrl.NEXT_PUBLIC_RECONFIRM_DEPOSIT, body)
+      .post(apiUrl.RECONFIRM_DEPOSIT, body)
       .then(() => {
         let newUser = {
           ...user,
@@ -42,7 +43,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
             ),
           },
         };
-        apiServices.get(apiUrl.NEXT_PUBLIC_USER).then((response) => {
+        apiServices.get(apiUrl.USER).then((response) => {
           newUser.user_data = response;
           if (action === "accept") {
             SuccesToast({
@@ -85,12 +86,12 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
         >
           <div className="modal-content modalCenterContent confirm-modalContent">
             <div className="d-flex arrow-top goBackArrowDeposit">
-              <img
+              <Image
                 src={images.goBackArrow}
                 alt="Go back"
                 className="goBackArrow ms-0 mb-3"
                 onClick={() => {
-                  router.push("home");
+                  router.push("/home");
                   setShowConfirm(false);
                 }}
               />
@@ -98,7 +99,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
             <div className="confirmDepositLimit max-width-confirmContainer">
               {user.user_data.actions.length === 0 ? (
                 <>
-                  <img
+                  <Image
                     className="confirmImg"
                     src={images.confirmIcon}
                     alt={images.confirmIcon}
@@ -112,7 +113,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
               ) : (
                 user.user_data.actions.map((row, index) => (
                   <div className="confirmContainer" key={index}>
-                    <img
+                    <Image
                       className="confirmImg"
                       src={images.confirmIcon}
                       alt={images.confirmIcon}
@@ -131,7 +132,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
                             : row.old_value
                         }
                       />
-                      <img
+                      <Image
                         className="confirmArrows"
                         src={images.confirmArrows}
                         alt={images.confirmArrows}

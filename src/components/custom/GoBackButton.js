@@ -1,19 +1,19 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { images } from "../../utils/imagesConstant";
 
 export const GoBackButton = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <div className=" goBackStyle">
-      <img
+      <Image
         src={images.goBackArrow}
         alt="Go back"
         className="goBackArrow"
-        onClick={() => navigate("/profile")}
+        onClick={() => router.push("/profile")}
       />
-      <p className="goBack" onClick={() => navigate("/profile")}>
+      <p className="goBack" onClick={() => router.push("/profile")}>
         Go Back
       </p>
     </div>

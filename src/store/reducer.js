@@ -1,4 +1,3 @@
-import { nextWindow } from "../utils/nextWindow";
 import * as constants from "./actionTypes";
 
 const initialState = {
@@ -8,11 +7,21 @@ const initialState = {
   swifty_id: null,
   signup_platform: "",
   user_settings: null,
+  language: null,
   sports: [],
   activeSport: null,
   competitionsData: [],
-  setMobile: nextWindow?.document.documentElement.clientWidth <= 991,
-  selectedBets: [],
+  setMobile: false,
+  isTablet: false,
+  selectedBets: {
+    bets: [],
+    stakes: {},
+    action: "check",
+  },
+  betTicker: {
+    status: "",
+    bet_referral_id: "",
+  },
   betAmounts: [],
   returnAmounts: [],
   activeSocketSubscribe: null,
@@ -28,6 +37,9 @@ const initialState = {
     isActive: false,
   },
   headerData: null,
+  tradingChat: null,
+  activePage: null,
+  raceCard: null,
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -35,8 +47,13 @@ const rootReducer = (appstate = initialState, action) => {
   let includeReturnAmount = actualReturnAmounts.some(
     (item) => item.bet_id === action.payload?.bet_id
   );
+  let actualBetAmounts;
+  let includeAmount;
 
   switch (action.type) {
+    case constants.BET_TICKER:
+      console.log("BET_TICKER", action.payload);
+      return { ...appstate, betTicker: action.payload };
     case constants.SET_USER:
       return { ...appstate, user: action.payload };
     case constants.SET_DATA:
@@ -46,13 +63,18 @@ const rootReducer = (appstate = initialState, action) => {
 
     case constants.SET_MOBILE:
       return { ...appstate, setMobile: action.payload };
-
+    case constants.SET_TABLET:
+      return { ...appstate, isTablet: action.payload };
     case constants.SET_LOGGEDUSER:
       return { ...appstate, loggedUser: action.payload };
     case constants.SET_LOGOUT:
       return { ...appstate, loggedUser: action.payload };
     case constants.ON_BOARDING:
-      return { ...appstate, on_boarding: action.payload };
+      return {
+        ...appstate,
+        on_boarding: action.payload,
+        language: appstate.language || action.payload.languages[0],
+      };
     case constants.SWIFTY_ID:
       return { ...appstate, swifty_id: action.payload };
     case constants.SIGNUP_PLATFORM:
@@ -66,38 +88,47 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.COMPETITIONS_DATA:
       return { ...appstate, competitionsData: action.payload };
     case constants.SELECT_BET:
-      if (includeReturnAmount) {
-        let filteredBets = appstate.selectedBets.filter(
-          (row) => row.bet_id !== action.payload.bet_id
-        );
-        return { ...appstate, selectedBets: filteredBets };
-      } else {
-        return {
-          ...appstate,
-          selectedBets: [...appstate.selectedBets, action.payload],
-        };
-      }
+      return {
+        ...appstate,
+        selectedBets: action.payload,
+      };
     case constants.REMOVE_BET:
       if (action.payload === "all") {
-        return { ...appstate, selectedBets: [] };
+        return {
+          ...appstate,
+          selectedBets: {
+            bets: [],
+            stakes: {},
+            action: "check",
+          },
+        };
       } else {
-        let filteredBets = appstate.selectedBets.filter(
-          (row) => row.bet_id !== action.payload.bet_id
+        let filteredBets = appstate.selectedBets.bets.filter(
+          (row) =>
+            row.bet_id !==
+            `${action.payload.bet_provider}-${action.payload.bet_id}`
         );
-        return { ...appstate, selectedBets: filteredBets };
+        return {
+          ...appstate,
+          selectedBets: { ...appstate.selectedBets, bets: filteredBets },
+        };
       }
     case constants.SET_BET_AMOUNT:
-      if (includeReturnAmount) {
-        actualReturnAmounts = actualReturnAmounts.filter(
+      actualBetAmounts = [...appstate.betAmounts];
+      includeAmount = actualBetAmounts.some(
+        (item) => item.bet_id === action.payload?.bet_id
+      );
+      if (includeAmount) {
+        actualBetAmounts = actualBetAmounts.filter(
           (row) => row.bet_id !== action.payload?.bet_id
         );
-        actualReturnAmounts.push(action.payload);
+        actualBetAmounts.push(action.payload);
       } else {
-        actualReturnAmounts.push(action.payload);
+        actualBetAmounts.push(action.payload);
       }
       return {
         ...appstate,
-        betAmounts: actualReturnAmounts,
+        betAmounts: actualBetAmounts,
       };
     case constants.REMOVE_BET_AMOUNT:
       if (action.payload === "all") {
@@ -128,6 +159,7 @@ const rootReducer = (appstate = initialState, action) => {
         return { ...appstate, returnAmounts: [] };
       } else {
         let filteredBetAmounts = [...appstate.returnAmounts];
+
         filteredBetAmounts = filteredBetAmounts.filter(
           (row) => row.bet_id !== action.payload
         );
@@ -160,12 +192,39 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         headerData: action.payload,
+        activePage:
+          appstate.activePage ||
+          action.payload.find((page) => page.path === "/home"),
       };
 
     case constants.SET_SIDEBAR_RIGHT:
       return {
         ...appstate,
         sidebarRight: action.payload,
+      };
+
+    case constants.SET_LANGUAGE:
+      return {
+        ...appstate,
+        language: action.payload,
+      };
+
+    case constants.SET_TRADING_CHAT_SETTINGS:
+      return {
+        ...appstate,
+        tradingChat: action.payload,
+      };
+
+    case constants.SET_ACTIVE_PAGE:
+      return {
+        ...appstate,
+        activePage: action.payload,
+      };
+
+    case constants.SET_RACE_CARD:
+      return {
+        ...appstate,
+        raceCard: action.payload,
       };
 
     default:

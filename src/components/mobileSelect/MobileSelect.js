@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useRef, useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
 import { ArrowDownIcon, CloseIcon } from "../../utils/icons";
-import { useClickOutside } from "../../utils/useClickOutside";
 
 export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
   const autoselectRef = useRef(null);

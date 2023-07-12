@@ -10,6 +10,12 @@ export const addLocalStorageItem = (key, value) => {
   }
 };
 
+export const removeLocalStorageItem = (key) => {
+  if (typeof window !== "undefined") {
+    return localStorage.removeItem(key);
+  }
+};
+
 export const clearLocalStorage = () => {
   if (typeof window !== "undefined") {
     return localStorage.clear();

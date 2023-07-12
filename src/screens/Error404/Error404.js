@@ -1,13 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "next/link";
 import arrowRight from "../../assets/images/arrow_right.svg";
 import { images } from "../../utils/imagesConstant";
+import "./Error404.css";
 
-function Error404() {
+export const Error404 = () => {
   return (
-    <div>
+    <div className="error-page">
       <div className="header-of-error-component">
-        <Link href="home">
+        <Link href="/home">
           <Image src={images.GroupSwifty} alt="Swifty Gaming" />
         </Link>
       </div>
@@ -19,7 +20,7 @@ function Error404() {
             That page you're looking for can't be found.
           </p>
           <div className="error-page-navigation">
-            <Link href="home">
+            <Link href="/home">
               <button className="btnPrimary error-page-navigation-button">
                 Go to Homepage
                 <Image src={arrowRight} className="arrow-right-error" />
@@ -30,6 +31,4 @@ function Error404() {
       </div>
     </div>
   );
-}
-
-export default Error404;
+};

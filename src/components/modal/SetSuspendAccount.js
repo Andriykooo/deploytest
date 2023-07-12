@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import Image from "next/image";
 
 export const SetSuspendAccount = ({
   suspendData,
@@ -36,7 +37,7 @@ export const SetSuspendAccount = ({
           <p className="d-flex justify-content-center depositModalLimit">
             Suspend account
           </p>
-          <img
+          <Image
             src={images.closeIcon}
             className="closeIconSus"
             alt="Close"
@@ -70,7 +71,7 @@ export const SetSuspendAccount = ({
                   <p className="m-3 decimalText">{value.name}</p>
                 </div>
                 {selectedLimit === value.value && (
-                  <img
+                  <Image
                     src={images.selected}
                     alt="selected"
                     className="oddsSelected"

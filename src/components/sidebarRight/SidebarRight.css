@@ -1,41 +1,43 @@
 .bet-slip-container {
-  background: var(--global-color-shade-dark);
+  background: var(--global-color-shade2);
+  color: var(--global-color-text-primary);
   position: absolute;
-  width: 307px;
+  width: 305px;
   height: calc(100% - 74px);
   overflow: auto;
   transition: 0.5s;
+  right: 0;
   z-index: 100;
   overflow-x: hidden;
   overflow-y: auto;
+  padding: 2px;
 }
 
 .bet-slip-container ~ .content {
-  margin-right: 307px;
+  margin-right: 305px;
 }
 
 .selected-bets {
   overflow: auto;
-  height: calc(100% - 210px);
+  height: calc(100% - 228px);
 }
 .ContainerOfMultipleBets {
   display: flex;
 }
 .slip-bets-title {
-  background: var(--global-color-shade6);
+  background: var(--global-color-shade5);
   display: flex;
   justify-content: center;
   text-transform: uppercase;
-  margin-right: 2px;
   height: 35px;
   align-items: center;
-  margin-bottom: 1px;
-  padding: 1px;
+  margin-bottom: 2px;
 }
 .betsStyle {
   line-height: 18px;
   margin-left: 5px;
   font-size: 14px;
+  font-weight: 600;
   align-items: center;
 }
 .bet-slip-description {
@@ -44,9 +46,13 @@
   align-items: center;
   width: 50%;
   height: 100%;
-  background-color: #404246;
-  color: #adadad;
+  background-color: var(--global-color-shade10);
+  color: var(--global-color-text-primary);
   font-size: 14px;
+}
+
+.bet-slip-description.active {
+  background: var(--global-color-secondary);
 }
 .my-bets-container {
   display: flex;
@@ -56,23 +62,22 @@
 }
 .buttons-of-bets {
   width: 25%;
-  background: #292929;
-  color: #adadad;
+  background: var(--global-color-shade10);
+  color: var(--global-color-text-primary);
   font-size: 12px;
   padding: 12px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid #404246 !important;
+  border-right: 1px solid var(--global-color-shade7) !important;
 }
 .selected-myBets {
-  color: #fff;
-  background-color: #404246;
+  color: var(--global-color-text-primary);
+  background-color: var(--global-color-shade7);
 }
 .empty-slip {
   display: flex;
   flex-direction: column;
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -98,8 +103,6 @@
   padding: 9px 13px;
   cursor: pointer;
   display: flex;
-  margin-top: 2px;
-  margin-right: 2px;
   align-items: flex-start;
 }
 .remove-text {
@@ -112,7 +115,7 @@
 .selected-bet-container {
   background: var(--global-color-shade6);
   padding: 12px;
-  margin-right: 2px;
+
   margin-top: 2px;
 }
 .selectMultipleBets {
@@ -136,7 +139,6 @@
 
 .selected-match {
   display: block;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -155,11 +157,11 @@
   border-radius: 2px 0 0 2px;
   border: none;
   width: 80%;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
+  padding: 0 10px;
 }
 .styleOfReturnValues {
   width: 88px;
@@ -179,7 +181,6 @@
   background-color: var(--global-color-shade6);
   margin-top: 2px;
   cursor: pointer;
-  margin-right: 1px;
 }
 .showOrHideTextOfMultiples {
   font-style: normal;
@@ -214,7 +215,6 @@
   margin-right: 4px;
   padding: 2px 4px;
   cursor: pointer;
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -224,7 +224,6 @@
   color: var(--global-color-shade6);
 }
 .styleOfReturnValues {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -258,7 +257,7 @@
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .slips-bets-title-container {
     padding: 9px 13px;
   }
@@ -270,10 +269,7 @@
     overflow: hidden;
     padding: 0;
   }
-  .selected-bets {
-    overflow: auto;
-    height: calc(100% - 210px);
-  }
+
   .place-bet-button {
     border-radius: 0;
   }
@@ -300,4 +296,24 @@
   align-items: center;
   border-radius: 8px;
   font-size: 10px;
+}
+
+.betslip-add {
+  position: relative;
+  height: 305px;
+  width: 301px;
+  margin-bottom: 4px;
+}
+
+.betslip-add img {
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.dynamic-betslip {
+  position: absolute;
+  width: 100%;
+  bottom: 25px;
+  padding: 0 20px;
 }

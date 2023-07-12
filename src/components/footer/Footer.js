@@ -1,76 +1,45 @@
-import { SocketContext } from "../../context/socket";
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+"use client";
+
 import { useSelector } from "react-redux";
-import { PageContentModal } from "../pageContentModal/PageContentModal";
+import { LinkType } from "../LinkType/LinkType";
+import { HtmlParse } from "../htmlParse/HtmlParse";
+import LanguageDropdown from "../languageDropdown/languageDropdown";
 import { FooterList } from "./FooterList";
 
-const Footer = () => {
-  const isMobile = useSelector((state) => state.setMobile);
-  const { gamingSocket } = useContext(SocketContext);
-  
-  const [modalData, setModalData] = useState(null);
-  const [footerData, setFooterData] = useState(null);
-
-  useEffect(() => {
-    gamingSocket?.emit("footer", {}, (response) => {
-      setFooterData(response);
-    });
-  }, []);
+export const Footer = ({ footerData }) => {
+  const isTablet = useSelector((state) => state.isTablet);
 
   return (
     <>
       <footer className="footer-container-div">
         <div className="pt-5 footerContainerMenu">
-          {!isMobile ? (
+          {!isTablet ? (
             <div className="row">
               {footerData?.columns.map((column, index) => {
                 return (
                   <div key={index} className="col-6 col-lg-3 pb-5">
                     <div className="row">
-                      <div className="col-12">
+                      <div className="col-12 mb-2">
                         <strong>{column.name}</strong>
                       </div>
-                      <div className="col-12">
-                        {column.links.map((link, index) => {
-                          if (link.page_type === "new_tab") {
-                            return (
-                              <Link
-                                rel="noopener noreferrer"
-                                key={index}
-                                href={link.path}
-                                target="_blank"
-                              >
-                                <div className="footer-link">{link.name}</div>
-                              </Link>
-                            );
-                          }
-
-                          if (link.page_type === "modal") {
-                            return (
-                              <div
-                                key={index}
-                                className="footer-link"
-                                onClick={() => {
-                                  setModalData(link);
-                                }}
-                              >
-                                {link.name}
-                              </div>
-                            );
-                          }
-
-                          if (link.page_type === "redirect") {
-                            return (
-                              <Link href={link.path} key={index}>
-                                <div className="footer-link">{link.name}</div>
-                              </Link>
-                            );
-                          }
-
-                          return null;
-                        })}
-                      </div>
+                      {column.links.map((link, index) => {
+                        return (
+                          <div className="col-12 mb-2" key={index}>
+                            <LinkType
+                              type={link.page_type}
+                              path={link.path}
+                              openType={link?.open_type}
+                              modalData={{
+                                slug: link?.path,
+                                title: link?.name,
+                              }}
+                              className="footer-link"
+                            >
+                              {link.name}
+                            </LinkType>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -83,32 +52,47 @@ const Footer = () => {
               })}
             </div>
           )}
-          <div className="row mb-4">
-            {footerData?.images.map((image, index) => {
-              return image.image !== "blank" ? (
-                <div
-                  key={index}
-                  className="col-6 col-lg text-start text-lg-center"
-                >
-                  <Link href={image.url}>
-                    <img alt="footer-link" src={image.image} />
-                  </Link>
+          <div className="row footer-images">
+            {footerData?.images.map((row, index) => {
+              return (
+                <div key={index} className="footer-images-row">
+                  {row?.items?.map((image, rowIndex) => {
+                    return image.image ? (
+                      <div key={rowIndex} className="footer-image">
+                        <LinkType
+                          type={image.page_type}
+                          path={image.path}
+                          openType={image?.open_type}
+                          modalData={{
+                            slug: image?.path,
+                            title: image?.name,
+                          }}
+                        >
+                          <img alt="footer-link" src={image.image} />
+                        </LinkType>
+                      </div>
+                    ) : null;
+                  })}
+                  {index === footerData?.images?.length - 1 && (
+                    <div
+                      className="footer-image seal"
+                      dangerouslySetInnerHTML={{
+                        __html: footerData?.footer_row2.body,
+                      }}
+                    />
+                  )}
                 </div>
-              ) : null;
+              );
             })}
           </div>
           <div className="footer">
-            <p
-              dangerouslySetInnerHTML={{ __html: footerData?.footer_row1 }}
-            ></p>
-            <p
-              dangerouslySetInnerHTML={{ __html: footerData?.footer_row2 }}
-            ></p>
+            <div>
+              <HtmlParse html={footerData?.footer_row1} />
+            </div>
+            <LanguageDropdown />
           </div>
         </div>
       </footer>
-      <PageContentModal data={modalData} setData={setModalData} />
     </>
   );
 };
-export default Footer;

@@ -1,12 +1,16 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
-import { React, useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { SetDepositLimit } from "../../components/modal/SetDepositLimit";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { images } from "../../utils/imagesConstant";
+import "../DepositLimit/DepositLimit.css";
 
 const DepositLimit = () => {
   const [dailyLimit, setDailyLimit] = useState(0);
@@ -25,7 +29,7 @@ const DepositLimit = () => {
     (state) =>
       state.loggedUser?.user_data?.settings?.safer_gambling?.deposit_limit
   );
-  const navigate = useNavigate();
+  const router = useRouter();
   const [loader, setLoader] = useState(true);
   useEffect(() => {
     setLoader(true);
@@ -48,11 +52,11 @@ const DepositLimit = () => {
         </div>
         <div className="depositLimit max-width-container">
           <div className="d-flex arrow-top">
-            <img
+            <Image
               src={images.goBackArrow}
               alt="Go back"
               className="goBackArrow ms-0 mb-3"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
             />
           </div>
           <p className="menuTitle arrow-top">Deposit Limit</p>
@@ -90,7 +94,7 @@ const DepositLimit = () => {
                     ) : (
                       saferGambling?.deposit_limit_daily?.name
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"
@@ -131,7 +135,7 @@ const DepositLimit = () => {
                     ) : (
                       saferGambling?.deposit_limit_weekly?.name
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"
@@ -172,7 +176,7 @@ const DepositLimit = () => {
                     ) : (
                       saferGambling?.deposit_limit_monthly?.name
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"

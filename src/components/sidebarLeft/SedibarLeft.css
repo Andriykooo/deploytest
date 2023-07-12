@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.sidebar-left-chat {
+  padding-bottom: 71px;
+}
+
 .sidebar-left ~ .content {
   margin-left: 70px;
 }
@@ -12,7 +16,7 @@
   margin-left: 276px;
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1024px) {
   .sidebar-left {
     display: none;
   }

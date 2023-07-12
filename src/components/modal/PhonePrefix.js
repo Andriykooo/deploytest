@@ -1,5 +1,6 @@
-import React from "react";
+import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 export const PhonePrefix = ({
   handle,
@@ -26,7 +27,7 @@ export const PhonePrefix = ({
               <p className="selectCountryTitle depositModalLimit">
                 Select country of mobile number
               </p>
-              <img
+              <Image
                 src={images.closeIcon}
                 className="closeIconSus closeFullScreenModal"
                 alt="Close"
@@ -35,7 +36,7 @@ export const PhonePrefix = ({
               />
             </div>
             <div className="selectDecimal d-flex mb-5">
-              <img
+              <Image
                 src={images.search}
                 alt="Search icon"
                 className="countriesSearch"
@@ -61,12 +62,12 @@ export const PhonePrefix = ({
                     setCountryFlag(countries?.flag_url);
                     setCountryCode(countries?.cca2);
                     setphonePrefix(countries?.phone_number_prefix);
-                    localStorage.setItem("country_code", countries?.cca2);
+                    addLocalStorageItem("country_code", countries?.cca2);
                     setSelectedCountry("");
                   }}
                 >
                   <div className="selectDecimal d-flex">
-                    <img
+                    <Image
                       src={countries.flag_url}
                       alt={countries.name}
                       className="countriesFlags"

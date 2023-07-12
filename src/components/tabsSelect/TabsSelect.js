@@ -1,23 +1,30 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { theme } from "../../utils/config";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
 
-export const TabsSelect = ({ onChange, data, placeholder }) => {
-  const isMobile = useSelector((state) => state.setMobile);
-  const [selectedItem, setSelectedItem] = useState(null);
+export const TabsSelect = ({
+  onChange,
+  data,
+  placeholder,
+  selectedItemId,
+  variant = "scrollable",
+}) => {
+  const isTablet = useSelector((state) => state.isTablet);
+  const [selectedItem, setSelectedItem] = useState(
+    data.find((item) => item.id === selectedItemId)
+  );
 
   const handleSelect = (item) => {
     setSelectedItem(item);
     onChange?.(item);
   };
 
-  return !isMobile ? (
+  return !isTablet ? (
     <div className="markets-container">
       <Box>
         <Tabs
-          variant="scrollable"
+          variant={variant}
           value={data.find((item) => item.id === selectedItem?.id) || data[0]}
           scrollButtons="auto"
           allowScrollButtonsMobile
@@ -31,13 +38,9 @@ export const TabsSelect = ({ onChange, data, placeholder }) => {
                 label={item?.label}
                 value={item}
                 sx={{
-                  minWidth: "fit-content",
-                  flex: 1,
-                  color: theme?.colors?.colorTextPrimary,
-                  borderBottom:
-                    selectedItem?.label === item?.label
-                      ? "4px solid #BC9239 !important"
-                      : "none",
+                  color:
+                    selectedItem?.label === item?.label ? "#ffffff" : "#A4A4A4",
+                  textTransform: "none",
                   display: "flex",
                 }}
                 key={item.id}

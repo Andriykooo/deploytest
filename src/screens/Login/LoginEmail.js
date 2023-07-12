@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import FacebookLogin from "react-facebook-login";
-import { GoogleLogin } from "react-google-login";
+import { useGoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import { Loader } from "../../components/loaders/Loader";
 import { setLoggedUser, setSignUpPlatform, setUser } from "../../store/actions";
@@ -11,6 +12,7 @@ import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 
 export const LoginEmail = ({
   email,
@@ -22,7 +24,7 @@ export const LoginEmail = ({
   setIsLoading,
   setIsValid,
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [showConfirmDepositLimit, setShowConfirmDepositLimit] = useState(true);
 
@@ -32,21 +34,16 @@ export const LoginEmail = ({
       .post(apiUrl.SIGNIN_SOCIAL, body)
       .then((response) => {
         dispatch(setLoggedUser(response));
-        localStorage.setItem("access_token", response?.token);
-        localStorage.setItem("refresh_token", response?.refresh_token);
-        localStorage.setItem("device_id", device_id);
-        localStorage.setItem("kyc_access_token", response?.kyc_access_token);
-        localStorage.setItem("swifty_id", response?.swifty_id);
-        localStorage.setItem("userBalance", response?.user_data?.balance);
-        localStorage.setItem(
-          "userCurrency",
-          response?.user_data?.currency?.abbreviation
-        );
-        let nextUrlPath = localStorage.getItem("nextUrlPath");
+        addLocalStorageItem("access_token", response?.token);
+        addLocalStorageItem("refresh_token", response?.refresh_token);
+        addLocalStorageItem("device_id", device_id);
+        addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
+        addLocalStorageItem("swifty_id", response?.swifty_id);
+        let nextUrlPath = getLocalStorageItem("nextUrlPath");
         if (nextUrlPath && nextUrlPath === "casino") {
-          navigate("/casino");
+          router.push("/casino");
         } else {
-          navigate("/sports");
+          router.push("/home");
         }
         if (
           response?.user_data?.actions &&
@@ -60,7 +57,7 @@ export const LoginEmail = ({
           showConfirmDepositLimit &&
           response?.user_data?.actions.length > 0
         ) {
-          navigate("/confirm_deposit_limit");
+          router.push("/confirm_deposit_limit");
         }
         setIsLoading(false);
       })
@@ -69,9 +66,9 @@ export const LoginEmail = ({
       });
   };
 
-  const responseGoogle = (response) => {
-    if (response?.profileObj) {
-      const googleResponse = response?.profileObj;
+  const responseGoogle = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      const googleResponse = jwt_decode(tokenResponse.credential);
       setEmail(googleResponse?.email);
       setIsLoading(true);
       setIsValid(true);
@@ -81,19 +78,19 @@ export const LoginEmail = ({
           if (resolve?.email_exist) {
             let body = {
               login_platform: "google",
-              social_token: response?.tokenId,
+              social_token: tokenResponse.credential,
             };
             googleResponse && handleSocialSubmit(body);
           } else {
             let newUser = {
               email: googleResponse?.email,
-              social_token: response?.tokenId,
+              social_token: tokenResponse.credential,
               first_name: googleResponse?.givenName,
               last_name: googleResponse?.familyName,
             };
             dispatch(setUser(newUser));
             dispatch(setSignUpPlatform("google"));
-            navigate("/sign_up");
+            router.push("/sign_up");
             setIsLoading(false);
           }
         })
@@ -102,8 +99,8 @@ export const LoginEmail = ({
           setIsValid(true);
           setEmail("");
         });
-    }
-  };
+    },
+  });
 
   const responseFacebook = (response) => {
     if (response.email) {
@@ -128,7 +125,7 @@ export const LoginEmail = ({
             };
             dispatch(setUser(newUser));
             dispatch(setSignUpPlatform("facebook"));
-            navigate("/sign_up");
+            router.push("/sign_up");
             setIsLoading(false);
           }
         })
@@ -152,7 +149,7 @@ export const LoginEmail = ({
   };
 
   return (
-    <div className=" loginForm d-grid justify-content-center p-4">
+    <div className=" loginForm d-grid justify-content-center">
       <p className="logInTitle">Let's start with your email</p>
       <form className="d-grid justify-content-center">
         <div className="emailValidation">
@@ -166,7 +163,11 @@ export const LoginEmail = ({
             autoFocus
           />
           {isValid && (
-            <img src={images.validated} className="validatedIcon" alt="Valid" />
+            <Image
+              src={images.validated}
+              className="validatedIcon"
+              alt="Valid"
+            />
           )}
         </div>
         <button
@@ -185,33 +186,26 @@ export const LoginEmail = ({
       </p>
       <div className="whiteButtonsGroup d-grid">
         <div className="loginWhiteButtons">
-          <img alt="img-fbIcon" src={images.fbIcon} className="loginIconFb" />
+          <Image alt="img-fbIcon" src={images.fbIcon} className="loginIconFb" />
           <div className="continueBtn white">
-            <FacebookLogin
+            {/* <FacebookLogin
               appId="255259129680845"
               autoLoad={false}
               fields="name,email"
               callback={responseFacebook}
               className="google-btn"
-            />
+            /> */}
             <span className="social-login-title">Continue with Facebook</span>
           </div>
         </div>
         <div className="loginWhiteButtons">
-          <img
+          <Image
             alt="img-googleIcon"
             src={images.googleIcon}
             className="loginIconGoogle"
           />
           <div className="continueBtn white">
-            <GoogleLogin
-              clientId="408471041229-mqj9th0v6poqii9sq6au9jctapt98k4a.apps.googleusercontent.com"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              autoLoad={false}
-              cookiePolicy={"single_host_origin"}
-              className="google-btn"
-            />
+            <button onClick={responseGoogle} className="google-btn" />
             <span className="social-login-title">Continue with Google</span>
           </div>
         </div>

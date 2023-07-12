@@ -1,29 +1,32 @@
-import { Accordion } from "react-bootstrap";
 import React from "react";
-import BasketballCard from "../../pages/Basketball/BasketballCard";
-import HockeyCard from "../../pages/IceHockey/HockeyCard";
+import { Accordion } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import BasketballCard from "../../screens/Basketball/BasketballCard";
+import HockeyCard from "../../screens/IceHockey/HockeyCard";
+import { MarketOptions } from "../matches/MarketOptions";
 import MatchCard from "../matches/MatchCard";
-import HorseCard from "../../pages/HorseRacing/HorseCard";
 
-export const MatchAccordion = ({
-  competitionName,
-  row,
-  index,
-  selectionTypes,
-  id,
-  inPlay,
-  backgroundColor,
-}) => {
+const matchTypes = ["basketball", "icehockey"];
+
+export const MatchAccordion = ({ row, type, inPlay, number }) => {
+  const isTablet = useSelector((state) => state.isTablet);
+
+  const selectionTypes = [...row.events]
+    .sort((current, next) => {
+      return next.selections.length - current.selections.length;
+    })[0]
+    .selections.map((selection) => ({
+      name: selection.name,
+    }));
+
   return (
-    <Accordion defaultActiveKey={[0, 1, 2]} alwaysOpen key={index}>
-      <Accordion.Item
-        eventKey={index}
-        style={{ borderWidth: "0", backgroundColor: "#25292d" }}
-      >
-        <Accordion.Header> {row.competition_name}</Accordion.Header>
+    <Accordion defaultActiveKey={["1"]} className="accordion-wrapper">
+      <Accordion.Item eventKey={String(number)}>
+        <Accordion.Header>{row.name}</Accordion.Header>
         <Accordion.Body>
+          {!isTablet && <MarketOptions options={selectionTypes} />}
           <div className="matchContainer">
-            {row?.matches.map((row, index) => {
+            {row?.events.map((row, index) => {
               let moreMarkets = false;
               let firstRow = false;
               if (row?.selections) {
@@ -36,51 +39,32 @@ export const MatchAccordion = ({
               if (index === 0) {
                 firstRow = true;
               }
+
               moreMarkets = false;
               return (
-                <React.Fragment key={index}>
-                  {id === "4" ? (
+                <React.Fragment key={row.event_id}>
+                  {type === "basketball" && (
                     <BasketballCard
                       match={row}
                       key={index}
                       moreMarkets={moreMarkets}
                       firstRow={firstRow}
-                      selectionTypes={selectionTypes}
-                      id={id}
                       inPlay={inPlay}
-                      competitionName={competitionName}
+                      competitionName={row.name}
                     />
-                  ) : id === "15" ? (
+                  )}
+                  {type === "icehockey" && (
                     <HockeyCard
                       match={row}
                       key={index}
                       moreMarkets={moreMarkets}
                       firstRow={firstRow}
-                      selectionTypes={selectionTypes}
-                      id={id}
                       inPlay={inPlay}
                     />
-                  ) : id === "20000001" ? (
-                    <HorseCard
-                      match={row}
-                      key={index}
-                      moreMarkets={moreMarkets}
-                      firstRow={firstRow}
-                      selectionTypes={selectionTypes}
-                      id={id}
-                      inPlay={inPlay}
-                    />
-                  ) : (
-                    <MatchCard
-                      match={row}
-                      key={index}
-                      moreMarkets={moreMarkets}
-                      firstRow={firstRow}
-                      selectionTypes={selectionTypes}
-                      id={id}
-                      inPlay={inPlay}
-                      backgroundColor={backgroundColor}
-                    />
+                  )}
+
+                  {!matchTypes.includes(type) && (
+                    <MatchCard match={row} key={index} inPlay={inPlay} />
                   )}
                 </React.Fragment>
               );

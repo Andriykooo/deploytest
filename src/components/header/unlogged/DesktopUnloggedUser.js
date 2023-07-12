@@ -1,10 +1,11 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
 
 export const DesktopUnloggedUser = ({ showBetSlip }) => {
   const selectedBets = useSelector((state) => state.selectedBets);
   const router = useRouter();
+
   return (
     <div
       className={showBetSlip ? "sing-up-txt between-container" : "sing-up-txt"}
@@ -32,8 +33,10 @@ export const DesktopUnloggedUser = ({ showBetSlip }) => {
           }}
         >
           <SlipIcon />
-          {selectedBets && selectedBets.length > 0 && (
-            <span className="total-slip-bets">{selectedBets.length}</span>
+          {selectedBets && selectedBets?.bets?.length > 0 && (
+            <span className="total-slip-bets">
+              {selectedBets?.bets?.length}
+            </span>
           )}
         </div>
       )}

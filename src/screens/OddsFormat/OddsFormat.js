@@ -1,6 +1,8 @@
-import { React } from "react";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { setLoggedUser } from "../../store/actions";
@@ -18,7 +20,7 @@ const OddsFormat = () => {
     const body = {
       odds_format: key,
     };
-    apiServices.put(`${apiUrl.NEXT_PUBLIC_SETTINGS}`, body).then((result) => {
+    apiServices.put(`${apiUrl.SETTINGS}`, body).then((result) => {
       if (Object.keys(result).length < 1) {
         let newUser = {};
         Object.assign(newUser, loggedUser);
@@ -28,7 +30,7 @@ const OddsFormat = () => {
       SuccesToast({ message: "Odds format updated!" });
     });
   };
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <>
@@ -40,11 +42,11 @@ const OddsFormat = () => {
         <div className="depositLimit">
           <div className="d-flex d-lg-none">
             <div className="d-flex ">
-              <img
+              <Image
                 src={images.goBackArrow}
                 alt="Go back"
                 className="goBackArrow ms-0 mb-3"
-                onClick={() => navigate("/profile")}
+                onClick={() => router.push("/profile")}
               />
             </div>
           </div>
@@ -65,7 +67,7 @@ const OddsFormat = () => {
                   <p className="m-3 decimalText">{value.format}</p>
                 </span>
                 {loggedUser.user_data.settings.odds_format === value.id ? (
-                  <img
+                  <Image
                     src={images.validated}
                     alt="selected"
                     className="oddsSelected"

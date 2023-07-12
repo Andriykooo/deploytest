@@ -1,32 +1,8 @@
 {
-  "env": {
-    "node": true,
-    "browser": true,
-    "commonjs": true,
-    "es6": true
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "next",
-    "next/bebel"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 13,
-    "sourceType": "module"
-  },
-  "plugins": ["react"],
+  "extends": ["next/babel", "next/core-web-vitals"],
   "rules": {
     "react/prop-types": "off",
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "react-hooks/exhaustive-deps": "off",
     "no-useless-escape": "off",
     "react/react-in-jsx-scope": "off",

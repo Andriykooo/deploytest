@@ -1,7 +1,9 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import { Swiper } from "swiper/react";
 import Header from "../../components/header/Header";
@@ -12,7 +14,10 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CasinoBet, CasinoResult } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
+import "../TransactionHistory/TransactionHistory.css";
 import "./TransactionModals";
+import { useRouter } from "next/navigation";
+import { nextWindow } from "@/utils/nextWindow";
 
 const TransactionHistory = () => {
   const skeletonHeader = new Array(4).fill(0);
@@ -21,7 +26,7 @@ const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   let active = "active";
   const getTransactions = () => {
@@ -63,24 +68,13 @@ const TransactionHistory = () => {
     return dateNow;
   };
 
-  const transactionRow = (item, type) => {
+  const getTxDetails = (item) => {
     var icon = ``;
     var transactionTitle = ``;
     switch (item?.transaction_type) {
-      case "bet_win":
-        icon = (
-          <img
-            alt="img-betWon"
-            src={images.betWon}
-            width="40px"
-            height="40px"
-          />
-        );
-        transactionTitle = `Bet Won (#${item.id})`;
-        break;
       case "bet_cancel":
         icon = (
-          <img
+          <Image
             alt="img-betCancelled"
             src={images.betCancelled}
             width="40px"
@@ -91,7 +85,7 @@ const TransactionHistory = () => {
         break;
       case "bet_place":
         icon = (
-          <img
+          <Image
             alt="img-betPlacedBlack"
             src={images.betPlacedBlack}
             width="40px"
@@ -102,7 +96,7 @@ const TransactionHistory = () => {
         break;
       case "bet_pushed":
         icon = (
-          <img
+          <Image
             alt="img-betPushed"
             src={images.betPushed}
             width="40px"
@@ -113,7 +107,7 @@ const TransactionHistory = () => {
         break;
       case "bet_undo":
         icon = (
-          <img
+          <Image
             alt="img-betPlacedBlack"
             src={images.betPlacedBlack}
             width="40px"
@@ -124,7 +118,7 @@ const TransactionHistory = () => {
         break;
       case item?.transaction_type.includes("deposit"):
         icon = (
-          <img
+          <Image
             alt="img-depositBlack"
             src={images.depositBlack}
             width="40px"
@@ -133,9 +127,10 @@ const TransactionHistory = () => {
         );
         transactionTitle = `Deposit`;
         break;
+      case "withdrawal":
       case item?.transaction_type.includes("withdraw"):
         icon = (
-          <img
+          <Image
             alt="img-withdrawalBlack"
             src={images.withdrawalBlack}
             width="40px"
@@ -146,7 +141,7 @@ const TransactionHistory = () => {
         break;
       case "user_balance_adjustment":
         icon = (
-          <img
+          <Image
             alt="img-depositBlack"
             src={images.depositBlack}
             width="40px"
@@ -157,20 +152,55 @@ const TransactionHistory = () => {
         break;
       case "casino_bet":
         icon = <CasinoBet />;
-        transactionTitle = "Casino Bet";
+        transactionTitle = "Casino";
         break;
       case "casino_result":
         icon = <CasinoResult />;
-        transactionTitle = "Casino Result";
+        transactionTitle = "Casino";
         break;
       default:
+        // Place Bet
+        if (item?.transaction_type.indexOf("bet_slip_place") > -1) {
+          icon = (
+            <Image
+              alt="img-betPlacedBlack"
+              src={images.betPlacedBlack}
+              width="40px"
+              height="40px"
+            />
+          );
+          transactionTitle = item.transaction_title;
+        } else if (item?.transaction_type.indexOf("bet_win") > -1) {
+          icon = (
+            <Image
+              alt="img-betWon"
+              src={images.betWon}
+              width="40px"
+              height="40px"
+            />
+          );
+          transactionTitle = `Bet Won (#${item.id})`;
+        } else {
+          console.log("type", item?.transaction_type);
+        }
+
         break;
     }
-    if (type === "icon") {
-      return icon;
-    } else {
-      return transactionTitle;
-    }
+    var amount = item.amount ? parseFloat(item.amount) : "";
+    amount =
+      !amount || amount < 0 ? amount.toFixed(2) : "+" + amount.toFixed(2);
+
+    const date = new Date(item.transaction_datetime).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return {
+      icon,
+      title: transactionTitle,
+      amount,
+      date,
+    };
   };
 
   const betTypeIcon = {
@@ -193,7 +223,7 @@ const TransactionHistory = () => {
         .addEventListener("scroll", onScroll);
     }
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => nextWindow.removeEventListener("scroll", onScroll);
   }, []);
   return (
     <>
@@ -207,11 +237,11 @@ const TransactionHistory = () => {
           <div className="depositBody">
             <div className="d-flex d-lg-none">
               <div className="d-flex ">
-                <img
+                <Image
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 mb-3"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>
@@ -269,64 +299,33 @@ const TransactionHistory = () => {
                                 {getDate(value.date)}
                               </span>
                               {value?.data.map((item) => {
-                                var icon = ``;
-                                var transactionTitle = ``;
-                                var amount = item.amount
-                                  ? parseInt(item.amount)
-                                  : "";
-                                if (amount < 0) {
-                                  amount = amount.toFixed(2);
-                                } else {
-                                  if (amount === 0) {
-                                    amount = amount.toFixed(2);
-                                  } else {
-                                    amount = "+" + amount.toFixed(2);
-                                  }
-                                }
-                                icon = transactionRow(item, "icon");
-                                transactionTitle = transactionRow(
-                                  item,
-                                  "title"
-                                );
+                                const txDetails = getTxDetails(item);
                                 return (
-                                  <div
-                                    key={item.id + item.transaction_datetime}
-                                  >
+                                  <div key={item.id}>
                                     <div className="mb-2" key={item.date}>
                                       <div className="transactionCard col-8 d-flex">
-                                        <div style={betTypeIcon}>{icon}</div>
+                                        <div style={betTypeIcon}>
+                                          {txDetails.icon}
+                                        </div>
                                         <div className="d-block ms-3 pt-3 col-8">
                                           <div className="typeDate">
                                             <span className="placed">
-                                              {transactionTitle} -
+                                              {txDetails.title}
                                             </span>
                                             <span className="betDate">
-                                              {new Date(
-                                                item.transaction_datetime
-                                              ).toLocaleTimeString([], {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                                hour12: true,
-                                              })}
+                                              {txDetails.date}
                                             </span>
                                           </div>
                                           <div className="valuesDiv">
                                             <div className="col d-flex placed ">
                                               <span className="typeDate">
-                                                {item.row5}
-                                              </span>
-                                            </div>
-                                            <div className="col d-flex placed">
-                                              <span className="typeDate betOdd">
-                                                {item.row4}
+                                                {item.row2}
                                               </span>
                                             </div>
                                           </div>
                                           <div className="col-2 placed mt-auto mb-auto">
                                             <span className="m-0 profitValue pt-3">
-                                              {amount < 0
-                                                ? item.amount
-                                                : "+" + item.amount}
+                                              {txDetails.amount}
                                             </span>
                                           </div>
                                         </div>

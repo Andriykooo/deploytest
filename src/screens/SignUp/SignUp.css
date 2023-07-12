@@ -1,5 +1,4 @@
 .nameLabels {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -52,7 +51,6 @@
   display: none;
 }
 .selectCountryTitle {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -105,7 +103,6 @@ input:focus {
   outline: none;
 }
 .codeSent {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -119,7 +116,6 @@ input:focus {
 }
 .codeInput {
   width: 4.6rem !important;
-  font-family: var(--global-font-black);
   margin-bottom: 25px;
   height: 4.6rem;
   color: white;
@@ -223,9 +219,6 @@ input:-webkit-autofill:active {
   text-indent: unset;
   background-color: var(--global-color-secondary) !important;
 }
-.login-buttons {
-  color: #bcbfc2;
-}
 
 .selectDecimal-countries {
   background: var(--global-color-secondary);
@@ -239,7 +232,8 @@ input:-webkit-autofill:active {
 }
 
 .Toastify__toast-body > div:last-child{
-  padding: 15px;
+  padding-right: 25px;
+  padding-left: 10px;
 }
 
 @media (min-width: 576px){

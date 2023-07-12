@@ -1,12 +1,46 @@
-import React from "react";
+import classNames from "classnames";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
-import { matchesPerRow } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
+import { useSelector } from "react-redux";
+import Slider from "react-slick";
+import { horseRacingHomeMenu } from "../../utils/constants";
+import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
+import { BannerMenu } from "../bannerMenu/BannerMenu";
 import { Carousel } from "../carousel/Carousel";
-import { HorseRacingHomeMenu } from "../custom/HomeSportMenus";
+import { EmptyState } from "../emptyState/EmptyState";
+import { RacingItem } from "./RacingItem";
 
-export const RacingWidget = () => {
-  return (
+export const RacingWidget = ({ data, venue }) => {
+  const isMobile = useSelector((state) => state.setMobile);
+  const [selectedFilter, setSelectedFilter] = useState({ name: venue });
+
+  const filteredData = data?.events?.filter((event) => {
+    if (!selectedFilter?.name || selectedFilter?.name === "Next Races") {
+      return true;
+    }
+
+    if (selectedFilter.name === "Today") {
+      return moment(event.event_start_time).isSame(moment(), "day");
+    }
+
+    if (selectedFilter.name === "Tomorrow") {
+      return moment(event.event_start_time).isSame(
+        moment().add(1, "day"),
+        "day"
+      );
+    }
+
+    return selectedFilter.name === event.event_venue;
+  });
+
+  useEffect(() => {
+    if (venue) {
+      setSelectedFilter({ name: venue });
+    }
+  }, [venue]);
+
+  return data ? (
     <div className="home-live-matches container-swifty-special mainInPlay">
       <Accordion
         defaultActiveKey="0"
@@ -15,129 +49,67 @@ export const RacingWidget = () => {
       >
         <Accordion.Item
           eventKey="0"
-          style={{ borderWidth: "0", backgroundColor: "#25292d" }}
+          style={{ borderWidth: "0", backgroundColor: "transparent" }}
         >
-          <Accordion.Header className="homeSportsContainer horseRacingContainer">
-            Next Off - Horse Racing
-          </Accordion.Header>
-          <Accordion.Body className="racingBody">
-            <HorseRacingHomeMenu />
-            <div className="horse-matches">
-              <Carousel arrowClassName="small-arrows">
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-                <div className="horse-links">
-                  <div className="racingLink">
-                    <img
-                      src={images.streamVideo}
-                      alt="#"
-                      className="racingHeaderImg"
-                    />
-                    Carlise 14:35
-                  </div>
-                  <div className="racingUnderTitle">2m 1f | EW 1/5 1-2-3</div>
-                </div>
-              </Carousel>
-              <div className="events-contents-container horseEvents">
-                {matchesPerRow?.map((row, index) => {
-                  return (
-                    <div className="events-row-container" key={index}>
-                      <div className="events-small-container">
-                        <div className="horse-container">
-                          <span className="text-of-horse">
-                            <img src={images.shirt} alt="#" />
-                            {row.matchTitle}
-                          </span>
-                          <span className="odds-of-horse">{row.bet}</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-                <div className="more-container-in-horse">
-                  <span className="more-sidebar-in-events ">
-                    View Racecard {">"}
-                  </span>
-                </div>
-                <div className="more-container-in-horse">
-                  <span className="more-sidebar-in-events ">
-                    View Racecard {">"}
-                  </span>
-                </div>
-                <div className="more-container-in-horse">
-                  <span className="more-sidebar-in-events ">
-                    View Racecard {">"}
-                  </span>
-                </div>
+          {data?.header_banner && (
+            <BannerMenu
+              title={data?.title}
+              image={data?.header_banner}
+              options={[
+                ...horseRacingHomeMenu,
+                ...data.filter_options.map((option) => ({ name: option })),
+              ]}
+              selected={selectedFilter}
+              setSelected={setSelectedFilter}
+            />
+          )}
+          <Accordion.Body
+            className={classNames({ "my-3": data?.header_banner })}
+          >
+            {filteredData.length ? (
+              <div className="horse-matches">
+                {isMobile ? (
+                  <Carousel arrowClassName="small-arrows">
+                    {filteredData.map((event, index) => {
+                      return <RacingItem data={event} key={index} />;
+                    })}
+                  </Carousel>
+                ) : (
+                  <Slider
+                    slidesToScroll={3}
+                    slidesToShow={3}
+                    nextArrow={<SampleNextArrow />}
+                    prevArrow={<SamplePrevArrow />}
+                    infinite={false}
+                    responsive={[
+                      {
+                        breakpoint: 800,
+                        settings: {
+                          slidesToShow: 2,
+                          slidesToScroll: 2,
+                        },
+                      },
+                      {
+                        breakpoint: 560,
+                        settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                        },
+                      },
+                    ]}
+                  >
+                    {filteredData.map((event, index) => {
+                      return <RacingItem data={event} key={index} />;
+                    })}
+                  </Slider>
+                )}
               </div>
-            </div>
+            ) : (
+              <EmptyState message="There are no more races for the day!" />
+            )}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
     </div>
-  );
+  ) : null;
 };

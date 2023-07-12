@@ -1,6 +1,7 @@
-import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
 import { setLogOut, setLoggedUser, setUser } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl, profileCards } from "../../utils/constants";
@@ -8,6 +9,7 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
+import { clearLocalStorage, getLocalStorageItem } from "@/utils/localStorage";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -17,28 +19,21 @@ export const ProfileSidebar = ({
   active,
   setIsLoggingOut,
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const onLogOut = () => {
     let body = {
-      device_id: localStorage.getItem("device_id"),
+      device_id: getLocalStorageItem("device_id"),
     };
     setIsLoggingOut(true);
     apiServices
-      .post(apiUrl.NEXT_PUBLIC_SIGN_OUT, body)
+      .post(apiUrl.SIGN_OUT, body)
       .then(() => {
         dispatch(setLogOut(null));
         dispatch(setUser(null));
         dispatch(setLoggedUser(null));
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("swifty_id");
-        localStorage.removeItem("kyc_access_token");
-        localStorage.removeItem("userBalance");
-        localStorage.removeItem("userCurrency");
-        sessionStorage.removeItem("loggedUserInTime");
-        navigate("/login");
+        clearLocalStorage();
+        router.push("/login");
         setIsLoggingOut(false);
       })
       .catch(() => {
@@ -46,7 +41,7 @@ export const ProfileSidebar = ({
       });
   };
   return (
-    <SidebarProfilMenu sideBarMenu>
+    <SidebarProfilMenu sideBarMenu version={version}>
       {version ? (
         <PredictionsMenu page={page} active={active} />
       ) : (
@@ -55,7 +50,7 @@ export const ProfileSidebar = ({
             return (
               <div key={index} className="borderProfile">
                 {sideBarMenu && (
-                  <NavLink to={value.route} key={index} data-id={index}>
+                  <Link href={value.route} key={index} data-id={index}>
                     <ProfileCard active={value.text === page ? active : ""}>
                       <div
                         className={
@@ -64,7 +59,11 @@ export const ProfileSidebar = ({
                             : "dropdown sidebarBox d-flex profileMenuDisplay"
                         }
                       >
-                        <img alt="img-img" src={value.image} className="m-2" />
+                        <Image
+                          alt="img-img"
+                          src={value.image}
+                          className="m-2"
+                        />
                         <Button
                           className={
                             "btn dropdown-toggle popularDropdown profile top w-100 "
@@ -80,7 +79,7 @@ export const ProfileSidebar = ({
                         {profileMenu ? (
                           ""
                         ) : (
-                          <img
+                          <Image
                             src={images.arrowIcon}
                             alt="arrow"
                             className="arrow rotate profileMenu"
@@ -88,7 +87,7 @@ export const ProfileSidebar = ({
                         )}
                       </div>
                     </ProfileCard>
-                  </NavLink>
+                  </Link>
                 )}
               </div>
             );
@@ -98,7 +97,7 @@ export const ProfileSidebar = ({
       {!version && (
         <ProfileCard>
           <div className="dropdown sidebarBox profileMenuDisplay">
-            <img alt="logoutIcon" src={images.logoutIcon} className="m-2" />
+            <Image alt="logoutIcon" src={images.logoutIcon} className="m-2" />
             <Button
               className={"btn dropdown-toggle azDropdown profile top w-100"}
               type="button"

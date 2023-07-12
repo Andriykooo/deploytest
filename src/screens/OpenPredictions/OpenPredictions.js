@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+"use client";
 
+import React, { useEffect, useState } from "react";
 import { Skeleton } from "@mui/material";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
@@ -60,7 +62,7 @@ const OpenPredictions = () => {
   const getOpenPredictions = () => {
     setIsLoading(true);
     apiServices
-      .get(`${apiUrl.NEXT_PUBLIC_PREDICTIONS_HISTORY}?status=open&page=1`)
+      .get(`${apiUrl.PREDICTIONS_HISTORY}?status=open&page=1`)
       .then((result) => {
         setOpenedPredictions(result?.data);
         setHasMore(result.current_page < result.total_page);
@@ -73,7 +75,7 @@ const OpenPredictions = () => {
 
   const handleCancelBet = (id) => {
     apiServices
-      .put(`${apiUrl.NEXT_PUBLIC_CANCEL_BET}/${id}`, {})
+      .put(`${apiUrl.CANCEL_BET}/${id}`, {})
       .then(() => {
         getOpenPredictions();
         setCancelBetId("");
@@ -87,7 +89,7 @@ const OpenPredictions = () => {
     getOpenPredictions();
   }, []);
 
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <>
       <Header />
@@ -108,11 +110,11 @@ const OpenPredictions = () => {
           <div className="infiniteScroll">
             <div className="d-flex d-lg-none">
               <div className="d-flex">
-                <img
+                <Image
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 mb-3"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>
@@ -124,11 +126,11 @@ const OpenPredictions = () => {
                 <Button
                   className={"predictionsMobileMenu activeButton"}
                   onClick={() => {
-                    navigate("/open_predictions");
+                    router.push("/open_predictions");
                   }}
                   text={
                     <>
-                      <img src={images.openPending} />
+                      <Image src={images.openPending} />
                       &nbsp; Open
                     </>
                   }
@@ -137,11 +139,11 @@ const OpenPredictions = () => {
                 <Button
                   className={"predictionsMobileMenu"}
                   onClick={() => {
-                    navigate("/settled_predictions");
+                    router.push("/settled_predictions");
                   }}
                   text={
                     <>
-                      <img src={images.settledDone} />
+                      <Image src={images.settledDone} />
                       &nbsp; Settled
                     </>
                   }
@@ -251,7 +253,7 @@ const OpenPredictions = () => {
                                                 </>
                                               }
                                             />
-                                            <img
+                                            <Image
                                               src={
                                                 activeBet === match?.match_id
                                                   ? images.arrowIconBlack

@@ -1,21 +1,53 @@
-.footer-container-div {
-  background: linear-gradient(
-    177.73deg,
-    #34393f -669.58%,
-    #000000 870.68%
-  ) !important;
+.footer {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 245px;
+  gap: 34px;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.4);
 }
+
+.footer-container-div {
+  background: var(--global-color-shade2);
+}
+
+.footer-images > :not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.footer-images-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.footer-image img {
+  max-height: 32px;
+}
+
+.footer-image.seal img {
+  max-width: 32px;
+}
+
+.footer-image.seal > :first-child {
+  display: flex;
+}
+
 .container-fluid {
   position: relative;
   padding-left: 50px;
+  height: 60px;
 }
+
 .footerContainerMenu {
   max-width: 920px;
   padding-bottom: 1.25rem;
   margin: 0 auto;
 }
+
 .footerContainerMenu a {
-  font-family: var(--global-font-bold), sans-serif !important;
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 1rem;
@@ -23,57 +55,68 @@
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.8) !important;
 }
+
 .footerContainerMenu .footer-link {
-  font-family: var(--global-font-bold), sans-serif !important;
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 1rem;
   text-decoration: none;
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.8) !important;
-  height: 23px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  height: 100%;
 }
+
 .footerContainerMenu strong {
   font-size: 1rem;
-  font-family: var(--global-font-black);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--global-color-text-primary);
 }
-.footerContainerMenu p {
-  font-family: var(--global-font-montserrat);
+
+.html-parse-title {
+  font-size: 34px;
+  line-height: 38px;
+}
+
+.html-parse-content p {
   font-style: normal;
   font-weight: 400;
-  font-size: 0.8125rem;
-  line-height: 0.875rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  line-height: 12px;
 }
+
 .footerContainerMenu .footer-help-links {
   display: flex;
   justify-content: center;
 }
+
 .footerContainerMenu .footer-policy-links {
   display: flex;
   justify-content: center;
 }
+
 .footerContainerMenu .footer-social-links {
   display: flex;
   justify-content: flex-end;
 }
+
 .mobileVersionLinks span {
   line-height: 1.75rem;
   margin-bottom: 1rem;
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
   line-height: 1rem;
   color: var(--global-color-text-primary);
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1024px) {
+  .footer {
+    margin-top: 15px;
+  }
+
   .footer-container-div {
     padding-right: 2.5rem !important;
     padding-left: 2.5rem !important;
@@ -88,6 +131,12 @@
     height: 0.875rem !important;
     cursor: pointer !important;
   }
+
+  .swifty-gaming img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   .footer-items {
     margin-bottom: 2rem;
   }
@@ -96,7 +145,57 @@
     margin-bottom: 0.5rem !important;
   }
   .footer-items a {
-    font-family: var(--global-font-montserrat);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: var(--global-color-text-primary);
+  }
+}
+
+.swifty-predictions {
+  color: #bcbfc2;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-container-div {
+    padding-right: 2.5rem !important;
+    padding-left: 2.5rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  .mobileVersionLinks {
+    display: block !important;
+    margin-bottom: 1.7rem;
+  }
+
+  .mobileVersionLinks img {
+    width: 1.125rem !important;
+    height: 0.875rem !important;
+    cursor: pointer !important;
+  }
+
+  .swifty-gaming img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .footer-items {
+    margin-bottom: 2rem;
+  }
+
+  .footer-items div {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .footer-items a {
     font-style: normal;
     font-weight: 400;
     font-size: 0.75rem !important;
@@ -104,8 +203,5 @@
     font-weight: 300;
     color: var(--global-color-text-primary);
     opacity: 0.8;
-  }
-  .footerContainerMenu p {
-    font-size: 0.625rem;
   }
 }

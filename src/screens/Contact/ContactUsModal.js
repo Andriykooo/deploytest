@@ -1,14 +1,15 @@
-import React, { useState } from "react";
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
-import { alertToast } from "../../utils/alert";
-import { Helmet } from "react-helmet-async";
+import { Link } from "next/link";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
-import { XIcon } from "../../utils/icons";
+import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
+import { alertToast } from "../../utils/alert";
+import { apiUrl } from "../../utils/constants";
+import { XIcon } from "../../utils/icons";
+import { images } from "../../utils/imagesConstant";
+import "../Contact/Contact.css";
+import Image from "next/image";
 
 const ContactUsModal = ({ setPageModal }) => {
   const isMobile = useSelector((state) => state.setMobile);
@@ -51,9 +52,9 @@ const ContactUsModal = ({ setPageModal }) => {
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
           {isMobile ? (
-            <img src={images.gamingMobile} alt="Swifty Gaming Logo" />
+            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
           ) : (
-            <img src={images.GroupSwifty} alt="Swifty Gaming Logo" />
+            <Image src={images.GroupSwifty} alt="Swifty Gaming Logo" />
           )}
         </div>
         <div
@@ -69,9 +70,6 @@ const ContactUsModal = ({ setPageModal }) => {
             <>
               <div className="contact contactPage">
                 <div className="container">
-                  <Helmet>
-                    <title>Swifty Gaming | Contact Us</title>
-                  </Helmet>
                   <div className="row contact mt-2">
                     <div className="col-md-6 span-sm-0" id="contact-banner">
                       <h2 className="banner-title-contact">Contact Us</h2>
@@ -91,7 +89,7 @@ const ContactUsModal = ({ setPageModal }) => {
                         <div className="btn-group-vertical">
                           {showSubmitMessage ? (
                             <>
-                              <img
+                              <Image
                                 src={images.checkIcon}
                                 alt="Submitted Icon"
                                 className="submit-icon"
@@ -188,7 +186,7 @@ const ContactUsModal = ({ setPageModal }) => {
                       <span className="social-divider" />
                       <div className="social-media-form">
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.twitterIcon}
                             alt="Swifty Global Twitter Account"
                           />
@@ -202,7 +200,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </Link>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.instagramIcon}
                             alt="Swifty Global Instagram Account"
                           />
@@ -216,7 +214,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </Link>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.telegramIcon}
                             alt="Swifty Global Telegram"
                           />
@@ -230,7 +228,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </Link>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.linkedIcon}
                             alt="Swifty Global LinkedIn Account"
                           />
@@ -244,7 +242,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </Link>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.emailIcon}
                             alt="Swifty Global Email"
                           />
@@ -258,7 +256,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </Link>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.phoneIcon}
                             alt="Swifty Global Phone Number"
                           />
@@ -272,7 +270,7 @@ const ContactUsModal = ({ setPageModal }) => {
                           </a>
                         </div>
                         <div className="social-media-accounts">
-                          <img
+                          <Image
                             src={images.locationIcon}
                             alt="Swifty Global Location"
                           />

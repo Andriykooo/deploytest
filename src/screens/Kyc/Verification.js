@@ -1,13 +1,17 @@
+"use client";
+
 import SumsubWebSdk from "@sumsub/websdk-react";
-import React, { useEffect, useState } from "react";
-import { BaseLayout } from "../../components/baseLayout/BaseLayout";
+import { useEffect, useState } from "react";
+import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
 
 export const Verification = () => {
   const [kycAccessToken, setKycAccessToken] = useState(
-    localStorage.getItem("kyc_access_token") || ""
+    getLocalStorageItem("kyc_access_token") || ""
   );
 
   useEffect(() => {
@@ -18,16 +22,16 @@ export const Verification = () => {
 
   function getNewAccessToken() {
     apiServices
-      .get(apiUrl.NEXT_PUBLIC_KYC_TOKEN)
+      .get(apiUrl.KYC_TOKEN)
       .then((result) => {
         const token = result?.token;
-        localStorage.setItem("kyc_access_token", token);
+        addLocalStorageItem("kyc_access_token", token);
         setKycAccessToken(token);
       })
       .catch((error) => {
         if (error?.response?.status === 401) {
           alertToast({ message: error?.message });
-          window.location.href = "/login";
+          nextWindow.location.href = "/login";
         } else {
           alertToast({ message: error?.message });
         }
@@ -35,28 +39,26 @@ export const Verification = () => {
   }
 
   return (
-    <BaseLayout title="Sign Up">
-      <div className="backgroundImage d-flex justify-content-center">
-        <div className="verification-sumsub">
-          <SumsubWebSdk
-            accessToken={kycAccessToken}
-            expirationHandler={() => {
-              setKycAccessToken("");
-            }}
-            config={{
-              lang: "en",
-              uiConf: {
-                customCssStr: ".title {\n  color: white !important;\n}",
-              },
-            }}
-            options={{ addViewportTag: false, adaptIframeHeight: true }}
-            onMessage={() => {}}
-            onError={() => {
-              setKycAccessToken("");
-            }}
-            onReady={(data) => console.log(data)}
-          />
-        </div>
+    <BaseLayout title="Sign Up" className="backgroundImage">
+      <div className="verification-sumsub">
+        <SumsubWebSdk
+          accessToken={kycAccessToken}
+          expirationHandler={() => {
+            setKycAccessToken("");
+          }}
+          config={{
+            lang: "en",
+            uiConf: {
+              customCssStr: ".title {\n  color: white !important;\n}",
+            },
+          }}
+          options={{ addViewportTag: false, adaptIframeHeight: true }}
+          onMessage={() => {}}
+          onError={() => {
+            setKycAccessToken("");
+          }}
+          onReady={(data) => console.log(data)}
+        />
       </div>
     </BaseLayout>
   );

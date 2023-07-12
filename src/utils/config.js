@@ -7,7 +7,7 @@ export const theme = {
     shade1: "#1C1F22",
     shade5: "#2b2f34",
     shade6: "#2e3034",
-    colorTextPrimary: "#ffffff"
+    colorTextPrimary: "#ffffff",
   },
   gradients: {
     logo: "linear-gradient(135.53deg, #FF3364 19.83%, #BB34FF 50.53%, #3586FF 80.25%);",
@@ -16,13 +16,5 @@ export const theme = {
   },
   fonts: {
     fontMontserrat: "Montserrat",
-    fontRegular: "Jeko-Regular",
-    fontBlack: "Jeko-Black",
-    fontBold: "Jeko-Bold",
-    fontSemiBold: "Jeko-SemiBold",
-    fontMedium: "Jeko-Medium",
-    fontInter: "Inter",
-    fontRoboto: "Roboto",
-    fontExtraBold: "Jeko-Extra-Bold"
   },
 };

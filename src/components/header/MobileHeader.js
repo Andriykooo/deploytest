@@ -1,10 +1,11 @@
-import Link from "next/link";
+import { Link } from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import { MenuIcon } from "./MenuIcon";
 import { MobileLoggedUser } from "./logged/MobileLoggedUser";
 import { MobileUnloggedUser } from "./unlogged/MobileUnloggedUser";
+import Image from "next/image";
 
 export const MobileHeader = ({
   page,
@@ -35,8 +36,8 @@ export const MobileHeader = ({
           />
         </div>
         <div>
-          <Link to="/home">
-            <img src={images.gamingMobile} alt="Swifty Gaming Logo" />
+          <Link href="/home">
+            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
           </Link>
         </div>
         <div className="col-3 sing-up-txt mobileAccInfo">

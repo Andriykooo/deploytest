@@ -1,6 +1,7 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { SocketContext } from "../../context/socket";
 import { setActiveSocketSubscribe, setSportData } from "../../store/actions";
 import {
   competitionSubscriber,
@@ -17,19 +18,11 @@ import {
   unsubscribeToSport,
 } from "../../utils/socketSubscribers";
 import { MatchAccordion } from "../custom/MatchAccordion";
-import { SocketContext } from "../../context/socket";
+import "./Matches.css";
 
-const Matches = ({
-  competitionsData,
-  selectionTypes,
-  marketId,
-  id,
-  inPlay,
-  comp_id,
-  setComponetitionsData,
-  openedLeague,
-}) => {
+const Matches = ({ competitionsData, marketOptions, marketId, inPlay, type,  }) => {
   let competitions = competitionsData;
+
   const sportsData = useSelector((state) => state.sportsData);
   let activeSport = useSelector((state) => state.activeSport);
   const selectedBets = useSelector((state) => state.selectedBets);
@@ -39,23 +32,6 @@ const Matches = ({
   const { subscriptionsSocket } = useContext(SocketContext);
   const dispatch = useDispatch();
   const uuid = uuidv4();
-  const backgroundColor = [];
-
-  useEffect(() => {
-    if (!openedLeague) {
-      if (competitionsData && competitionsData.length > 0) {
-        let competition = competitionsData.find(
-          (comp) => comp.competition_id === comp_id
-        );
-        if (competition) {
-          const filtered = competitionsData.filter((compFiltered) => {
-            return compFiltered.competition_id === comp_id;
-          });
-          setComponetitionsData(filtered);
-        }
-      }
-    }
-  }, [comp_id, openedLeague, competitionsData, setComponetitionsData]);
 
   // SUBSCRIBE SPORT
   useEffect(() => {
@@ -111,7 +87,7 @@ const Matches = ({
         const data = message;
         console.log(data);
         if (data && data.length > 0) {
-          sportSubscriber(data, competitions);
+          sportSubscriber(data);
         }
       });
       return () => {
@@ -366,19 +342,16 @@ const Matches = ({
       }
     >
       {competitionsData.map((row, index) => {
-        let competitionName = row?.competition_name;
         return (
-          <MatchAccordion
-            competitionName={competitionName}
-            row={row}
-            key={index}
-            index={index}
-            selectionTypes={selectionTypes}
-            marketId={marketId}
-            id={id}
-            inPlay={inPlay}
-            backgroundColor={backgroundColor}
-          />
+          <div key={index} className="mx-3">
+            <MatchAccordion
+              marketOptions={marketOptions}
+              row={row}
+              type={type}
+              inPlay={inPlay}
+              number={index + 1}
+            />
+          </div>
         );
       })}
     </div>

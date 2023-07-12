@@ -1,7 +1,12 @@
+"use client";
+
+import { removeLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
-import { React, useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
@@ -29,7 +34,7 @@ const SuspendAccount = () => {
       state.loggedUser?.user_data?.settings?.safer_gambling?.suspend_account
         ?.suspend_account_for
   );
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.loggedUser);
   const [loader, setLoader] = useState(true);
@@ -48,7 +53,7 @@ const SuspendAccount = () => {
       suspend_account_for: suspendPeriod,
     };
     apiServices
-      .put(apiUrl.NEXT_PUBLIC_SETTINGS, body)
+      .put(apiUrl.SETTINGS, body)
       .then(() => {
         SuccesToast({ message: "Successfully updated!" });
         setIsLoading(false);
@@ -62,14 +67,12 @@ const SuspendAccount = () => {
         newUser.user_data.settings.safer_gambling.suspend_account.suspend_account_for.value =
           suspendPeriod;
         dispatch(setLoggedUser(newUser));
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("userBalance");
-        localStorage.removeItem("userCurrency");
+        removeLocalStorageItem("access_token");
+        removeLocalStorageItem("refresh_token");
         setTimeout(() => {
-          window.location.replace("/login");
+          nextWindow.location.replace("/login");
           setTimeout(() => {
-            window.location.reload();
+            nextWindow.location.reload();
           }, 500);
         }, 500);
       })
@@ -106,11 +109,11 @@ const SuspendAccount = () => {
         </div>
         <div className="depositLimit max-width-container">
           <div className="d-flex arrow-top">
-            <img
+            <Image
               src={images.goBackArrow}
               alt="Go back"
               className="goBackArrow ms-0 mb-3"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
             />
           </div>
           <p className="menuTitle arrow-top">Suspend account</p>
@@ -148,7 +151,7 @@ const SuspendAccount = () => {
                     ) : (
                       suspendText
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"

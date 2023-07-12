@@ -1,14 +1,17 @@
-import { React, useEffect, useState } from "react";
+"use client";
+
+import { Skeleton } from "@mui/material";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Button } from "../../components/button/Button";
+import Header from "../../components/header/Header";
+import { SetRealityCheck } from "../../components/modal/SetRealityCheck";
+import ProfileMenu from "../../components/profileMenu/ProfileMenu";
+import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../RealityCheck/RealityCheck.css";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
-import Header from "../../components/header/Header";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { SetRealityCheck } from "../../components/modal/SetRealityCheck";
-import { images } from "../../utils/imagesConstant";
-import { Button } from "../../components/button/Button";
-import { Skeleton } from "@mui/material";
 
 const RealityCheck = () => {
   const user_settings = useSelector((state) => state?.user_settings);
@@ -24,7 +27,7 @@ const RealityCheck = () => {
     show: false,
     data: [],
   });
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     setLoader(true);
@@ -58,11 +61,11 @@ const RealityCheck = () => {
         </div>
         <div className="depositLimit max-width-container">
           <div className="d-flex arrow-top">
-            <img
+            <Image
               src={images.goBackArrow}
               alt="Go back"
               className="goBackArrow ms-0 mb-3"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
             />
           </div>
           <p className="menuTitle arrow-top">Reality Check </p>
@@ -98,7 +101,7 @@ const RealityCheck = () => {
                     ) : (
                       realityCheckTxt
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"

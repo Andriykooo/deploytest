@@ -10,7 +10,7 @@ export const ArrowButton = ({ active, setActive }) => {
         openSidebarButtonn: !active,
       })}
       onClick={() => setActive(!active)}
-      text={<Image src={images.arrowIcon} alt="arrow" />}
+      text={<Image src={images.arrowIcon} alt="arrow" height={24} width={12} />}
     />
   );
 };

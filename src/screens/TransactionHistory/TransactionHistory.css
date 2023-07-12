@@ -1,7 +1,6 @@
 .monthData {
   background: var(--global-color-secondary);
   border-radius: 40px;
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -53,13 +52,10 @@
   color: var(--global-color-text-primary);
 }
 .typeDate {
-  font-family: var(--global-font-regular);
   color: #d3d3d3;
   padding-right: 0.25rem;
 }
-.placed {
-  font-family: var(--global-font-bold);
-}
+
 .depositSum {
   font-size: 34px;
   line-height: 24px;

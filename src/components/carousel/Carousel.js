@@ -1,37 +1,49 @@
+"use client";
+
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
-import { useEffect, useState } from "react";
 
-export const Carousel = ({ children, arrowClassName }) => {
-  const { scrollRef, prev, next, activePageIndex, pages } = useSnapCarousel();
+export const Carousel = ({ children, arrowClassName, center }) => {
+  const { scrollRef, prev, next, activePageIndex, pages, refresh } =
+    useSnapCarousel();
   const [hidePrevArrow, setHidePrevArrow] = useState(true);
-  const [hideNextArrow, setHideNextArrow] = useState(false);
+  const [hideNextArrow, setHideNextArrow] = useState(true);
 
   useEffect(() => {
-    setHidePrevArrow(activePageIndex === 0);
-    setHideNextArrow(activePageIndex === pages.length - 1);
+    if (pages.length) {
+      setHidePrevArrow(activePageIndex === 0);
+      setHideNextArrow(activePageIndex === pages.length - 1);
+    }
   }, [activePageIndex, pages.length]);
+
+  useEffect(() => {
+    refresh();
+  }, [children]);
 
   return (
     <div className="carousel-wrapper">
-      <div className="carousel-list" ref={scrollRef}>
+      <div
+        className={classNames("carousel-list", {
+          "justify-content-center": center && hidePrevArrow && hideNextArrow,
+        })}
+        ref={scrollRef}
+      >
         {children}
       </div>
       {!hidePrevArrow && (
         <SamplePrevArrow
-          className={classNames({
+          className={classNames(arrowClassName, {
             disabled: activePageIndex === 0,
-            [arrowClassName]: true,
           })}
           onClick={prev}
         />
       )}
       {!hideNextArrow && (
         <SampleNextArrow
-          className={classNames({
+          className={classNames(arrowClassName, {
             disabled: activePageIndex === pages.length - 1,
-            [arrowClassName]: true,
           })}
           onClick={next}
         />

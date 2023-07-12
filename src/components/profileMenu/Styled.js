@@ -4,9 +4,8 @@ import { theme } from "../../utils/config";
 export const ProfileCard = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom:1px;
   background: ${(props) =>
-    props.active ? "rgba(188, 146, 57, 0.07)" : theme?.colors?.mainSecondary};
+    props.active ? "rgba(188, 146, 57, 0.07)" : "#353A40"};
   margin-left:${(props) => (props.active ? "0" : "8px")}
   box-sizing: border-box;
   padding-right: "1rem";
@@ -22,30 +21,30 @@ export const SidebarProfile = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 
-  & > :not(:last-child) {
+  & > div {
     border-bottom: 1px solid #25292d;
   }
 
-  @media (max-width: 991px) {
+  @media (max-width: 1024px) {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 56px);
   }
 `;
 export const SidebarProfilMenu = styled.div`
   background: ${(props) => (props.version ? " transparent !important" : "")};
-  position: absolute;
+  position: fixed;
   z-index: 10;
   background: ${theme?.colors?.mainSecondary};
   padding-right: 0 !important;
   width: ${(props) => (props.sideBarMenu ? " 402px" : "402px")};
-  height: ${(props) => (props.sideBarMenu ? "auto" : "auto")};
+  height: "calc(100vh - 74px)";
   overflow-x: hidden;
-  overflow-y: overlay;
+  overflow-y: auto;
   -webkit-scrollbar: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
   border-bottom: 1px solid rgb(37, 41, 45) !important;
-  margin-top: 74px;
+  top: 74px;
   @media screen and (max-width: 991px) {
     position: fixed;
     width: 100%;

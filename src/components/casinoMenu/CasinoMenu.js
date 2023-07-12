@@ -1,10 +1,12 @@
 import { Skeleton } from "@mui/material";
 import classNames from "classnames";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useClickOutside } from "../../hooks/useClickOutside";
 import { images } from "../../utils/imagesConstant";
-import { useClickOutside } from "../../utils/useClickOutside";
 import { Button } from "../button/Button";
+import "./CasinoMenu.css";
 
 const skeletonArray = Array(5).fill(null);
 
@@ -16,13 +18,13 @@ const CasinoMenu = ({
   setCategory,
   isLoading,
 }) => {
-  const isMobile = useSelector((state) => state.setMobile);
+  const isTablet = useSelector((state) => state.isTablet);
   const inputRef = useRef(null);
 
   const [activeSearch, setActiveSearch] = useState(false);
 
   const handleActivateSearch = () => {
-    if (isMobile) {
+    if (isTablet) {
       setActiveSearch(true);
       inputRef.current.focus();
     }
@@ -75,7 +77,9 @@ const CasinoMenu = ({
                   <div
                     className="menu"
                     key={item.id}
-                    onClick={() => setCategory(item)}
+                    onClick={() => {
+                      setCategory(category?.id !== item?.id ? item : null);
+                    }}
                   >
                     <Button
                       className={classNames("menu-link", {
@@ -89,12 +93,18 @@ const CasinoMenu = ({
               })}
           </div>
           <div className="casino-search" onClick={handleActivateSearch}>
-            <img src={images.search} alt="Search icon" className="searchIcon" />
+            <Image
+              src={images.search}
+              alt="Search icon"
+              className="searchIcon"
+              height={20}
+              width={20}
+            />
             <input
               ref={inputRef}
               className={classNames("searchInput", { active: activeSearch })}
               type="text"
-              placeholder={!isMobile ? "Search" : ""}
+              placeholder={!isTablet ? "Search" : ""}
               value={search}
               onChange={handleSearch}
             />

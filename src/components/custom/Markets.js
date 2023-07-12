@@ -51,7 +51,7 @@ export const Markets = ({
       {!isMobile && (
         <div
           className={
-            !isLoading ? "markets-container d-flex" : "markets-container "
+            !isLoading ? "markets-container d-flex" : "markets-container"
           }
         >
           {activeSport && (

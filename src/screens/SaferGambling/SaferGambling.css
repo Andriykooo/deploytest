@@ -1,5 +1,4 @@
 .saferTitle {
-  font-family: var(--global-font-bold);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -9,7 +8,6 @@
   color: var(--global-color-text-primary);
 }
 .saferMessage {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -28,7 +26,6 @@
   width: 100%;
 }
 .safer-gambling-information {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

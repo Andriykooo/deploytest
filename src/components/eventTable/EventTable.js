@@ -1,30 +1,62 @@
 import { useState } from "react";
 import { ArrowDownIcon } from "../../utils/icons";
+import { MatchOdds } from "../matches/MatchOdds";
+import "./EventTable.css";
 
-export const EventTable = ({ data }) => {
+function groupByThree(array) {
+  const result = [];
+
+  for (let i = 0; i < array.length; i += 3) {
+    const group = array.slice(i, i + 3);
+    result.push(group);
+  }
+
+  return result;
+}
+
+export const EventTable = ({ selections }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const groupedSelections = groupByThree(selections);
+
   return (
-    <div className="events-table">
-      <div className="events-contents-container">
-        {data?.slice(0, isOpen ? data?.length : 6)?.map((event, index) => {
-          return (
-            <div key={index} className="events-container">
-              <span className="text-of-events">{event.name}</span>
-              <span className="odds-of-events">{event.odd}</span>
-            </div>
-          );
-        })}
-      </div>
-      <div className="more-container-in-events" onClick={toggle}>
-        <span className="more-sidebar-in-events">
-          {isOpen ? "Less" : "More"}
-        </span>
-        <ArrowDownIcon downArrowOFEvents isOpen={isOpen} />
+    <div className="events-table-wrapper">
+      <div className="events-table">
+        {groupedSelections
+          ?.slice(0, isOpen ? groupedSelections?.length : 2)
+          ?.map((selections, index) => {
+            return (
+              <div className="events-contents-container" key={index}>
+                {selections.map((selection, index) => {
+                  return (
+                    <div key={index} className="events-container">
+                      <span className="text-of-events">{selection.name}</span>
+                      <div className="odds-of-events">
+                        <MatchOdds selection={selection} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+
+        {selections.length > 6 && (
+          <div className="more-container-in-events" onClick={toggle}>
+            <span className="more-sidebar-in-events">
+              {isOpen ? "Less" : "More"}
+            </span>
+            <ArrowDownIcon
+              downArrowOFEvents
+              isOpen={isOpen}
+              className="more-container-arrow"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

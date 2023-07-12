@@ -74,6 +74,7 @@ export const ArrowDownIcon = (props) => {
         "rotate(-90)": props?.viewAll,
         "rotate(-180)": props.isOpen,
       })}
+      className={props.className}
     >
       <path
         d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976312 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976317 13.3166 -0.0976317 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.70711 7.70711C7.31658 8.09763 6.68342 8.09763 6.29289 7.70711L0.292893 1.70711C-0.097631 1.31658 -0.0976311 0.683418 0.292893 0.292893Z"
@@ -82,9 +83,10 @@ export const ArrowDownIcon = (props) => {
     </svg>
   );
 };
-export const ArrowIcon = () => {
+export const ArrowIcon = ({ className }) => {
   return (
     <svg
+      className={className}
       width="15"
       height="8"
       viewBox="0 0 15 8"
@@ -323,46 +325,48 @@ export const CheckIcon = () => {
 
 export const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
-
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="7"
-      height="10"
-      viewBox="0 0 7 10"
-      fill="none"
-      id="nextSvg"
-      className={className}
-      onClick={onClick}
-      style={{ ...style }}
-    >
-      <path
-        d="M1.08907 9.73441C0.813408 9.45875 0.813408 9.01181 1.08907 8.73615L4.82523 4.99998L1.08907 1.26382C0.813408 0.98816 0.813408 0.54122 1.08907 0.265555C1.36474 -0.010109 1.81168 -0.010109 2.08734 0.265555L6.32263 4.50085C6.5983 4.77651 6.5983 5.22345 6.32263 5.49912L2.08734 9.73441C1.81168 10.0101 1.36474 10.0101 1.08907 9.73441Z"
-        fill="white"
-      />
-    </svg>
+    onClick && (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="7"
+        height="10"
+        viewBox="0 0 7 10"
+        fill="none"
+        id="nextSvg"
+        className={`nextSvg ${className}`}
+        onClick={onClick}
+        style={{ ...style }}
+      >
+        <path
+          d="M1.08907 9.73441C0.813408 9.45875 0.813408 9.01181 1.08907 8.73615L4.82523 4.99998L1.08907 1.26382C0.813408 0.98816 0.813408 0.54122 1.08907 0.265555C1.36474 -0.010109 1.81168 -0.010109 2.08734 0.265555L6.32263 4.50085C6.5983 4.77651 6.5983 5.22345 6.32263 5.49912L2.08734 9.73441C1.81168 10.0101 1.36474 10.0101 1.08907 9.73441Z"
+          fill="white"
+        />
+      </svg>
+    )
   );
 };
 
 export const SamplePrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="7"
-      height="10"
-      viewBox="0 0 7 10"
-      fill="none"
-      id="previousSvg"
-      className={className}
-      onClick={onClick}
-      style={{ ...style }}
-    >
-      <path
-        d="M5.91087 0.265586C6.18653 0.54125 6.18653 0.98819 5.91087 1.26385L2.17471 5.00002L5.91087 8.73618C6.18653 9.01184 6.18653 9.45878 5.91087 9.73444C5.6352 10.0101 5.18826 10.0101 4.9126 9.73444L0.677304 5.49915C0.401639 5.22349 0.401639 4.77655 0.677304 4.50088L4.9126 0.265586C5.18826 -0.0100782 5.6352 -0.0100782 5.91087 0.265586Z"
-        fill="white"
-      />
-    </svg>
+    onClick && (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="7"
+        height="10"
+        viewBox="0 0 7 10"
+        fill="none"
+        className={`previousSvg ${className}`}
+        onClick={onClick}
+        style={{ ...style }}
+      >
+        <path
+          d="M5.91087 0.265586C6.18653 0.54125 6.18653 0.98819 5.91087 1.26385L2.17471 5.00002L5.91087 8.73618C6.18653 9.01184 6.18653 9.45878 5.91087 9.73444C5.6352 10.0101 5.18826 10.0101 4.9126 9.73444L0.677304 5.49915C0.401639 5.22349 0.401639 4.77655 0.677304 4.50088L4.9126 0.265586C5.18826 -0.0100782 5.6352 -0.0100782 5.91087 0.265586Z"
+          fill="white"
+        />
+      </svg>
+    )
   );
 };
 

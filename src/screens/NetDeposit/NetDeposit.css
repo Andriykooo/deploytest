@@ -1,5 +1,4 @@
 .netDepositValue {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -28,13 +27,11 @@
 .depositText {
   color: var(--global-color-text-primary);
   font-size: 14px;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   margin-bottom: 0px;
 }
 .depositTextDisplay {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

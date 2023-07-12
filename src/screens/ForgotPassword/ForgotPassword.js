@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import { Helmet } from "react-helmet-async";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "../../components/header/Header";
-import { alertToast } from "../../utils/alert";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../../components/button/Button";
+import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
+import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { validateUserPassword } from "../../utils/validation";
+import "../ForgotPassword/ForgotPassword.css";
+import { addLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
 
 const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +30,7 @@ const ForgotPassword = () => {
     newpassword: false,
     confirmpassword: false,
   });
-  const navigate = useNavigate();
+  const router = useRouter();
   const uuid = uuidv4();
 
   const togglePassword = (type) => {
@@ -75,7 +80,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let userPasswordToken = window.location?.search.split(
+    let userPasswordToken = nextWindow.location?.search.split(
       "?user_password_token="
     )[1];
     if (!userPasswordToken) {
@@ -87,13 +92,13 @@ const ForgotPassword = () => {
     setIsLoading(true);
     const body = { new_password: newPassword };
     apiServices
-      .post(`${apiUrl.NEXT_PUBLIC_PASSWORD_RESET}${userPasswordToken}`, body)
+      .post(`${apiUrl.PASSWORD_RESET}${userPasswordToken}`, body)
       .then((result) => {
-        localStorage.setItem("access_token", result?.token);
-        localStorage.setItem("refresh_token", result?.refresh_token);
-        localStorage.setItem("device_id", uuid);
+        addLocalStorageItem("access_token", result?.token);
+        addLocalStorageItem("refresh_token", result?.refresh_token);
+        addLocalStorageItem("device_id", uuid);
         setTimeout(() => {
-          navigate("/");
+          router.push("/");
         }, 500);
         setIsLoading(false);
       })
@@ -104,9 +109,6 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Swifty Gaming | Forgot Password</title>
-      </Helmet>
       <Header />
       <div className="backgroundImage">
         <div className=" loginForm d-grid justify-content-center p-4">
@@ -121,7 +123,7 @@ const ForgotPassword = () => {
                 placeholder="Enter a password"
                 onChange={(e) => handlePassword(e.target.value, "new-password")}
               />
-              <img
+              <Image
                 onClick={() => togglePassword("newpassword")}
                 src={images.showPassIcon}
                 className="showPasswordIcon"
@@ -153,7 +155,7 @@ const ForgotPassword = () => {
                   handlePassword(e.target.value, "confirm-password")
                 }
               />
-              <img
+              <Image
                 onClick={() => togglePassword("confirmpassword")}
                 src={images.showPassIcon}
                 className="showPasswordIconBtm"

@@ -1,5 +1,4 @@
 .enterAmount {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -23,7 +22,6 @@
   text-indent: 10px;
   min-width: 200px;
   width: 19.56rem;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

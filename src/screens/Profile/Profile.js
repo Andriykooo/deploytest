@@ -1,21 +1,24 @@
-import { React, useEffect, useState } from "react";
-import "../Profile/Profile.css";
+"use client";
 
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Header from "../../components/header/Header";
+import { LoaderXs } from "../../components/loaders/Loader";
 import { ChangePassowrd } from "../../components/modal/ChangePassword";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
+import { theme } from "../../utils/config";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { validateUserPassword } from "../../utils/validation";
+import "../Profile/Profile.css";
 import "../Withdraw/Withdraw.css";
-
-import styled from "styled-components";
-import { LoaderXs } from "../../components/loaders/Loader";
-import { theme } from "../../utils/config";
+import { addLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
 
 const InfoDiv = styled.div`
   margin-bottom: 16px;
@@ -62,7 +65,7 @@ const Profile = () => {
   const passwordShown = false;
 
   let active = "active";
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const togglePassword = (type) => {
     switch (type) {
@@ -149,31 +152,31 @@ const Profile = () => {
       setPhoneNumber(false);
     }
     if (!loggedUser) {
-      navigate("/");
+      router.push("/");
     }
   }, []);
 
   function getNewAccessToken() {
     setInitStarted(true);
     return apiServices
-      .get(apiUrl.NEXT_PUBLIC_KYC_TOKEN)
+      .get(apiUrl.KYC_TOKEN)
       .then((result) => {
         const token = result?.token;
-        localStorage.setItem("kyc_access_token", token);
-        navigate("/verification");
+        addLocalStorageItem("kyc_access_token", token);
+        router.push("/verification");
       })
       .catch((error) => {
         if (error?.response?.status === 401) {
-          window.location.href = "/login";
+          nextWindow.location.href = "/login";
         }
       });
   }
   const handleClickRedirect = () => {
-    navigate("/sign_up_with_phone");
+    router.push("/sign_up_with_phone");
   };
 
   const handleEmailClickRedirect = () => {
-    navigate("/verify_email");
+    router.push("/verify_email");
   };
 
   return (
@@ -218,7 +221,7 @@ const Profile = () => {
                       <div className="playerId m-2">
                         {loggedUser?.user_data?.email}
                       </div>
-                      <img
+                      <Image
                         alt="img-validated"
                         src={images.validated}
                         className="profileValidated "
@@ -230,7 +233,7 @@ const Profile = () => {
                         <p className="playerId notVerified m-2 ">
                           Email verification required
                         </p>
-                        <img
+                        <Image
                           alt="img-arrowIcon"
                           src={images.arrowIcon}
                           className="profileArrow"
@@ -256,7 +259,7 @@ const Profile = () => {
                         Mobile Number
                       </p>
                       <p className="notVerified m-2">{phoneNumber}</p>
-                      <img
+                      <Image
                         alt="img-arrowIcon"
                         src={images.arrowIcon}
                         className="profileArrow"
@@ -280,7 +283,7 @@ const Profile = () => {
                         >
                           {phoneNumber}
                         </p>
-                        <img
+                        <Image
                           alt="img-validated"
                           src={images.validated}
                           className="profileValidated "
@@ -310,7 +313,7 @@ const Profile = () => {
                           <LoaderXs />
                         </div>
                       ) : (
-                        <img
+                        <Image
                           alt="img-validated"
                           src={images.validated}
                           className="profileValidated "
@@ -329,7 +332,7 @@ const Profile = () => {
                               <LoaderXs />
                             </div>
                           ) : (
-                            <img
+                            <Image
                               alt="img-arrowIcon"
                               src={images.arrowIcon}
                               className="profileArrow"
@@ -345,7 +348,7 @@ const Profile = () => {
                   onClick={() => setShowChangePassword(true)}
                 >
                   <p className="fieldSubTitle m-3 ms-2">Change Password</p>
-                  <img
+                  <Image
                     alt="img-arrowIcon"
                     src={images.arrowIcon}
                     className="profileArrow"

@@ -1,9 +1,9 @@
 .terms {
-  background: linear-gradient(180deg, #34393f -4.99%, #000000 135.26%);
   color: white;
   overflow-y: hidden;
   max-width: 920px;
   padding-top: 0px;
+  margin: 0 auto;
 }
 
 .termsContent {
@@ -15,7 +15,6 @@
   scrollbar-width: none;
   max-width: 920px;
   text-align: justify;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 1rem;
@@ -37,7 +36,6 @@ li {
 }
 
 .termsTitle {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -51,7 +49,6 @@ li {
   padding-bottom: 40px;
 }
 .termsTitleForMainPage {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -61,7 +58,7 @@ li {
   color: var(--global-color-text-primary);
   margin: 0 auto;
   max-width: 920px;
-  padding-top: 130px;
+  padding-top: 91px;
   padding-bottom: 40px;
 }
 .backgroundImage {
@@ -73,15 +70,11 @@ li {
     url("../../assets/images/loginBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 89vh;
-  overflow-y: hidden;
   padding-top: 0px !important;
-  margin: 0 auto;
   max-width: 100%;
 }
 .backgroundImageLogged {
   background-image: none;
-  min-height: 100vh;
   overflow-y: hidden;
   padding-top: 0px !important;
   margin: 0 auto;
@@ -97,7 +90,6 @@ li {
   background: var(--global-color-button-primary);
   border-radius: 10px;
   color: white;
-  font-family: var(--global-font-bold);
   font-size: 16px;
   line-height: 20px;
   display: flex;

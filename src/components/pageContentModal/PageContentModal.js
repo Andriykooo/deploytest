@@ -1,41 +1,54 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { apiServices } from "../../utils/apiServices";
-import { apiDomain } from "../../utils/constants";
+import { SocketContext } from "../../context/socket";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { HtmlParse } from "../htmlParse/HtmlParse";
 import { Loader } from "../loaders/Loader";
+import "./PageContentModal.css";
+import Image from "next/image";
 
-export const PageContentModal = ({ data, setData }) => {
+export const PageContentModal = () => {
+  const { gamingSocket } = useContext(SocketContext);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const language = useSelector((state) => state.language);
   const isMobile = useSelector((state) => state.setMobile);
 
   const [loader, setLoader] = useState(true);
   const [content, setContent] = useState("");
 
   const close = () => {
-    setData(null);
     setContent("");
+    router.back();
   };
 
   useEffect(() => {
-    if (data) {
-      setLoader(true);
-
-      apiServices
-        .get(`${apiDomain}/v1/page_content?type=${data?.path?.substring(1)}`)
-        .then((res) => {
-          setContent(res.content);
-        })
-        .finally(() => {
+    if (searchParams?.get("page_content")) {
+      gamingSocket?.emit(
+        "page_content",
+        {
+          value: searchParams?.get("page_content"),
+          country: language?.code2 === "all" ? "EN" : language?.code2,
+        },
+        (response) => {
           setLoader(false);
-        });
+          if (response?.data?.content) {
+            setContent(response?.data?.content);
+          } else {
+            close();
+          }
+        }
+      );
     }
-  }, [data]);
+  }, [searchParams, language]);
 
   return (
-    data && (
+    content && (
       <div className="full-screen-modal scrollable-modal">
         <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
           <div className="swifty-gaming">
@@ -52,7 +65,7 @@ export const PageContentModal = ({ data, setData }) => {
           {loader ? (
             <Loader />
           ) : (
-            <HtmlParse html={content} title={data?.name} />
+            <HtmlParse html={content} title={searchParams.get("name")} />
           )}
         </div>
       </div>

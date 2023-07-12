@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
-import { setUser } from "../../store/actions";
-import { apiUrl } from "../../utils/constants";
-import "./SignUp.css";
+import { PhonePrefix } from "../../components/modal/PhonePrefix";
+import { setLoggedUser, setUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../../components/button/Button";
-import { PhonePrefix } from "../../components/modal/PhonePrefix";
-import { setLoggedUser } from "../../store/actions";
+import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import "./SignUp.css";
 
 function SignUpWithPhone() {
   const on_boarding = useSelector((state) => state.on_boarding);
@@ -80,7 +81,7 @@ function SignUpWithPhone() {
   const lastInput = useRef(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   function handle(e, key) {
     let newUser = {};
@@ -116,7 +117,7 @@ function SignUpWithPhone() {
       },
     };
     apiServices
-      .put(apiUrl.PUT_PHONE, body)
+      .put(apiUrl.USER, body)
       .then((result) => {
         SuccesToast({ message: result.message });
         var newUser = {};
@@ -157,13 +158,9 @@ function SignUpWithPhone() {
       .get(url)
       .then((result) => {
         SuccesToast({ message: "You have validated number succesfully" });
-        dispatch(setLoggedUser(result?.user_data));
-        localStorage.setItem("userBalance", result?.user_data?.balance);
-        localStorage.setItem(
-          "userCurrency",
-          result?.user_data?.currency?.abbreviation
-        );
-        navigate("/finish_account_setup");
+        dispatch(setLoggedUser(result));
+
+        router.push("/finish_account_setup");
       })
       .catch(() => {
         setIsLoader(false);
@@ -194,11 +191,7 @@ function SignUpWithPhone() {
 
   return (
     <>
-      <Helmet>
-        <title>Swifty Gaming | Verify Email</title>
-      </Helmet>
       <Header />
-
       <div className="backgroundImage ">
         {!phoneExist ? (
           <div className=" loginForm d-grid justify-content-center GridStyleForPhone">
@@ -236,7 +229,7 @@ function SignUpWithPhone() {
                           <>
                             <div className="d-flex">
                               {countryFlag && (
-                                <img
+                                <Image
                                   src={countryFlag}
                                   alt=""
                                   className="countriesFlags2 mb-1"
@@ -246,7 +239,7 @@ function SignUpWithPhone() {
                                 +{phonePrefix}
                               </p>
                             </div>
-                            <img
+                            <Image
                               src={images.arrowIcon}
                               alt=""
                               className="residenceArrow2"

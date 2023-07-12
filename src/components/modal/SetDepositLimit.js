@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
@@ -7,6 +7,7 @@ import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import Image from "next/image";
 
 export const SetDepositLimit = ({
   depositData,
@@ -47,7 +48,7 @@ export const SetDepositLimit = ({
 
     setIsLoading(true);
     apiServices
-      .put(apiUrl.NEXT_PUBLIC_SETTINGS, body)
+      .put(apiUrl.SETTINGS, body)
       .then(() => {
         if (currentLimit === -1 && selectedLimit > currentLimit - 1) {
           SuccesToast({
@@ -140,7 +141,7 @@ export const SetDepositLimit = ({
           <p className="d-flex justify-content-center depositModalLimit">
             {depositData.title}
           </p>
-          <img
+          <Image
             src={images.closeIcon}
             className="closeIconSus"
             alt="Close"
@@ -182,7 +183,7 @@ export const SetDepositLimit = ({
                   <p className="m-3 decimalText">{value.name}</p>
                 </div>
                 {selectedLimit === value.value && (
-                  <img
+                  <Image
                     src={images.validated}
                     alt="selected"
                     className="oddsSelected"

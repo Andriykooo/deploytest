@@ -25,6 +25,7 @@ export const HeaderDiv = styled.div`
   img {
     height: 15px;
     width: 15px;
+    cursor: pointer;
     filter: ${(props) =>
       props.active
         ? "invert(58%) sepia(55%) saturate(502%) hue-rotate(3deg) brightness(92%) contrast(86%);"
@@ -38,7 +39,7 @@ export const HeaderDiv = styled.div`
     }
   }
 
-  @media (max-width: 991px) {
+  @media (max-width: 600px) {
     img {
       height: 22px;
       width: 22px;

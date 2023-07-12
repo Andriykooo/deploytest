@@ -13,7 +13,6 @@ export const LabelWrapper = styled.div`
 
 export const Label = styled.label`
   color: ${(props) => (props.warning ? "#F5337C" : "#fff")};
-  font-family: Jeko-Regular;
   font-style: normal;
   font-weight: normal;
   font-size: ${pxtorem(16)};

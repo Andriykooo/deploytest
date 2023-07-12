@@ -1,12 +1,5 @@
-import { BaseLayout } from "../../components/baseLayout/BaseLayout";
-import Footer from "../../components/footer/Footer";
-import { PageLayout } from "../../components/pageLayout/PageLayout";
+import { PageLayout } from "../../layouts/pageLayout/PageLayout";
 
-export const Page = ({ name, path }) => {
-  return (
-    <BaseLayout title={name}>
-      <PageLayout type={path.substring(1)} />
-      <Footer />
-    </BaseLayout>
-  );
+export const Page = (props) => {
+  return <PageLayout {...props} />;
 };

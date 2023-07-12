@@ -11,56 +11,69 @@ import {
 } from "./icons";
 import { images } from "./imagesConstant";
 
-export const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
-export const gamingApiDomain = process.env.NEXT_PUBLIC_API_URL;
+export const predictionsApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
+export const gamingApiDomain = process.env.NEXT_PUBLIC_GAMING_SOCKET_URL;
 export const casinoApiDomain = process.env.NEXT_PUBLIC_CASINO_URL;
+
 export const apiUrl = {
-  CHECK_EMAIL: `${apiDomain}/v1/user/check_email`,
-  SIGN_UP: `${apiDomain}/v1/user/full_signup`,
-  ON_BOARDING: `${apiDomain}/v1/onboarding`,
-  FEEDBACK: `${apiDomain}/v1/feedback_website`,
-  TERMS: `${apiDomain}/v1/terms_conditions`,
-  PRIVACY: `${apiDomain}/v1/policies`,
-  VERIFY_EMAIL: `${apiDomain}/v1/user/verify_email_full_profile?code=`,
-  TRANSACTION_HISTORY: `${apiDomain}/v1/user/transaction_history?page=`,
-  PUT_PHONE: `${apiDomain}/v1/user`,
-  PUT_PRIVACY: `${apiDomain}/v1/user`,
-  PUT_TERMS: `${apiDomain}/v1/user`,
-  VERIFY_PHONE: `${apiDomain}/v1/user/verify_phone_number?code=`,
-  CHECK_PASSWORD: `${apiDomain}/v1/user/auth`,
-  RESEND_CODE: `${apiDomain}/v1/user/resend_phone_number_code`,
-  RESEND_EMAIL: `${apiDomain}/v1/user/resend_otp`,
-  RESET_PASSWORD: `${apiDomain}/v1/user/request_reset_password?email=`,
-  SIGNIN_SOCIAL: `${apiDomain}/v1/user/signin_social`,
-  COOKIE_POLICY: `${apiDomain}/v1/page_content?type=cookie-policy`,
-  ABOUT_US: `${apiDomain}/v1/page_content?type=about-us`,
-  NEXT_PUBLIC_URI_REFRESH_TOKEN: `${apiDomain}/v1/user/refresh_token`,
-  NEXT_PUBLIC_SIGNIN_SOCIAL: `${apiDomain}/v1/user/signin_social`,
-  NEXT_PUBLIC_SIGN_OUT: `${apiDomain}/v1/user/sign_out`,
-  NEXT_PUBLIC_CHANGE_PASSWORD: `${apiDomain}/v1/user/change_password`,
-  NEXT_PUBLIC_SETTING_OPTIONS: `${apiDomain}/v1/setting_options`,
-  NEXT_PUBLIC_SETTINGS: `${apiDomain}/v1/user/settings`,
-  NEXT_PUBLIC_PAGE_CONTENT: `${apiDomain}/v1/page_content`,
-  NEXT_PUBLIC_KYC_TOKEN: `${apiDomain}/v1/user/kyc_access_token`,
-  NEXT_PUBLIC_GET_NET_DEPOSIT_AMOUNT: `${apiDomain}/v1/user/net_deposit`,
-  NEXT_PUBLIC_PREDICTIONS_HISTORY: `${apiDomain}/v1/bets/history`,
-  NEXT_PUBLIC_GET_SPORT_TYPES: `${gamingApiDomain}/v1/sports/types`,
-  NEXT_PUBLIC_GET_COMPETITIONS: `${gamingApiDomain}/v1/matches/competitions-matches-odds`,
-  NEXT_PUBLIC_CANCEL_BET: `${apiDomain}/v1/bets/cancel`,
-  NEXT_PUBLIC_MARKETS: `${gamingApiDomain}/v1/markets/details`,
-  NEXT_PUBLIC_MATCH_DETAILS: `${gamingApiDomain}/v1/markets/selections-odds`,
-  NEXT_PUBLIC_GET_PAYMENT_GATEWAY_LINK: `${apiDomain}/v1/deposit/link`,
-  NEXT_PUBLIC_GET_WITHDRAW_GATEWAY_LINK: `${apiDomain}/v1/withdrawal/link`,
-  NEXT_PUBLIC_PASSWORD_RESET: `${apiDomain}/v1/user/reset_password?token=`,
-  NEXT_PUBLIC_EMAIL_SENT: `${apiDomain}/v1/user/request_reset_password?device_type=web&&email=`,
-  NEXT_PUBLIC_USER: `${apiDomain}/v1/user`,
+  // Predictions API
+  CHECK_EMAIL: `${predictionsApiDomain}/v1/user/check_email`,
+  SIGN_UP: `${predictionsApiDomain}/v1/user/full_signup`,
+  ON_BOARDING: `${predictionsApiDomain}/v1/onboarding`,
+  FEEDBACK: `${predictionsApiDomain}/v1/feedback_website`,
+  TERMS: `${predictionsApiDomain}/v1/terms_conditions`,
+  PRIVACY: `${predictionsApiDomain}/v1/policies`,
+  VERIFY_EMAIL: `${predictionsApiDomain}/v1/user/verify_email_full_profile?code=`,
+  TRANSACTION_HISTORY: `${predictionsApiDomain}/v1/user/transaction_history?page=`,
+  USER: `${predictionsApiDomain}/v1/user`,
+  VERIFY_PHONE: `${predictionsApiDomain}/v1/user/verify_phone_number?code=`,
+  CHECK_PASSWORD: `${predictionsApiDomain}/v1/user/auth`,
+  RESEND_CODE: `${predictionsApiDomain}/v1/user/resend_phone_number_code`,
+  RESEND_EMAIL: `${predictionsApiDomain}/v1/user/resend_otp`,
+  RESET_PASSWORD: `${predictionsApiDomain}/v1/user/request_reset_password?email=`,
+  SIGNIN_SOCIAL: `${predictionsApiDomain}/v1/user/signin_social`,
+  COOKIE_POLICY: `${predictionsApiDomain}/v1/page_content?type=cookie-policy`,
+  ABOUT_US: `${predictionsApiDomain}/v1/page_content?type=about-us`,
+  URI_REFRESH_TOKEN: `${predictionsApiDomain}/v1/user/refresh_token`,
+  SIGN_OUT: `${predictionsApiDomain}/v1/user/sign_out`,
+  CHANGE_PASSWORD: `${predictionsApiDomain}/v1/user/change_password`,
+  SETTING_OPTIONS: `${predictionsApiDomain}/v1/setting_options`,
+  SETTINGS: `${predictionsApiDomain}/v1/user/settings`,
+  PAGE_CONTENT: `${predictionsApiDomain}/v1/page_content`,
+  KYC_TOKEN: `${predictionsApiDomain}/v1/user/kyc_access_token`,
+  GET_NET_DEPOSIT_AMOUNT: `${predictionsApiDomain}/v1/user/net_deposit`,
+  PREDICTIONS_HISTORY: `${predictionsApiDomain}/v1/bets/history`,
+  CANCEL_BET: `${predictionsApiDomain}/v1/bets/cancel`,
+  GET_PAYMENT_GATEWAY_LINK: `${predictionsApiDomain}/v1/deposit/link`,
+  GET_WITHDRAW_GATEWAY_LINK: `${predictionsApiDomain}/v1/withdrawal/link`,
+  PASSWORD_RESET: `${predictionsApiDomain}/v1/user/reset_password?token=`,
+  RECONFIRM_DEPOSIT: `${predictionsApiDomain}/v1/user/reconfirm_action`,
+  EMAIL_SENT: `${predictionsApiDomain}/v1/user/request_reset_password?device_type=web&&email=`,
+
+  // Gaming API
+
+  GET_FOOTER: `${gamingApiDomain}/api/v1/page-layout/footer`,
+  GET_SIDEBAR_LEFT: `${gamingApiDomain}/api/v1/page-layout/sidebar-left`,
+  GET_SIDEBAR_RIGHT: `${gamingApiDomain}/api/v1/page-layout/sidebar-right`,
+  GET_GLOBAL_SEO: `${gamingApiDomain}/api/v1/cms/global-seo`,
+  GET_PAGE_LAYOUT: `${gamingApiDomain}/api/v1/page-layout`,
+  GET_MAIN_MENU: `${gamingApiDomain}/api/v1/page-layout/main-menu`,
+  GET_GAME: `${gamingApiDomain}/api/v1/games/details`,
+  ADD_TO_FAVORITE_GAMES: `${gamingApiDomain}/api/v1/games/add-favorite`,
+  REMOVE_FROM_FAVORITE_GAMES: `${gamingApiDomain}/api/v1/games/remove-favorite`,
+  MATCH_DETAILS: `${gamingApiDomain}/api/v1/markets/selections-odds`,
+  GET_SPORT_TYPES: `${gamingApiDomain}/api/v1/sports/types`,
+  GET_COMPETITIONS: `${gamingApiDomain}/api/v1/matches/competitions-matches-odds`,
+  MARKETS: `${gamingApiDomain}/api/v1/markets/details`,
+  GET_BET_SLIP: `${gamingApiDomain}/api/v1/betting/generate-bet-slips`,
+  GET_TRADER_CHAT_SETTINGS: `${gamingApiDomain}/api/v1/cms/trader-chat`,
+  // Casino API
   CASINO_GAMES: `${casinoApiDomain}/api/v1/casino/games`,
   OPEN_CASINO_GAME: `${casinoApiDomain}/api/v1/casino/game/open`,
-  NEXT_PUBLIC_RECONFIRM_DEPOSIT: `${apiDomain}/v1/user/reconfirm_action`,
   CASINO_LAYOUT: `${casinoApiDomain}/api/v1/casino/layout?slug=casino`,
 };
 export const sports = [
-  { icons: images.union, sportsType: "Sports", route: "/sports" },
+  { icons: images.union, sportsType: "Sports", route: "/sport" },
   { icons: images.inPlay, sportsType: "In-Play", route: "/inplay" },
   { icons: images.casino, sportsType: "Casino", route: "/casino" },
   {
@@ -327,12 +340,8 @@ export const sportsTypes = [
 ];
 
 export const casinoMenu = [
-  {
-    name: "Home",
-  },
-  {
-    name: "Favorite Games",
-  },
+  { name: "Home" },
+  { name: "Favorite Games" },
   {
     name: "Popular Games",
   },
@@ -373,18 +382,6 @@ export const horseRacingHomeMenu = [
   },
   {
     name: "Tomorrow",
-  },
-  {
-    name: "Next Off",
-  },
-  {
-    name: "Lingfield",
-  },
-  {
-    name: "Ludlow",
-  },
-  {
-    name: "Newcastle",
   },
 ];
 
@@ -1096,85 +1093,6 @@ export const titlePerRow = [
     id: 4,
     titleRow: "Carlise 14:35",
     underTitle: "2m 1f | EW 1/5 1-2-3",
-    bet: "6/4",
-  },
-];
-
-
-export const matchesPerRow = [
-  {
-    id: 1,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 2,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 3,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 4,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 5,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 6,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 7,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 8,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 9,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 10,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 11,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 12,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 13,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 14,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    bet: "6/4",
-  },
-  {
-    id: 15,
-    matchTitle: "Ismaila Sarr & Joao Pedro - Both to score at any time",
     bet: "6/4",
   },
 ];

@@ -1,14 +1,16 @@
-import { React, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import ProfileMenu from "@/components/profileMenu/ProfileMenu";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { apiServices } from "../../utils/apiServices";
 import { theme } from "../../utils/config";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import Image from "next/image";
+import "../Withdraw/Withdraw.css";
 
 const Withdraw = () => {
   const [selectedLimit, setSelectedLimit] = useState(-1);
@@ -16,7 +18,7 @@ const Withdraw = () => {
   const [getLinkLoading, setGetLinkLoading] = useState(false);
   const [valueOfInput, setValueOfInput] = useState("");
   const [validButton, setValidButton] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const amount = [
     { value: "20", label: "20" },
@@ -29,9 +31,7 @@ const Withdraw = () => {
   const handleGatewayLink = () => {
     setGetLinkLoading(true);
     apiServices
-      .get(
-        `${apiUrl.NEXT_PUBLIC_GET_WITHDRAW_GATEWAY_LINK}?amount=${valueOfInput}`
-      )
+      .get(`${apiUrl.GET_WITHDRAW_GATEWAY_LINK}?amount=${valueOfInput}`)
       .then((data) => {
         if (data?.url) {
           setPaymentUrl(data?.url);
@@ -59,7 +59,6 @@ const Withdraw = () => {
 
   return (
     <>
-      <Header />
       <div className="backgroundLinear">
         <div className="d-none d-lg-block">
           <ProfileMenu sideBarMenu page="withdraw" active={"active"} />
@@ -73,7 +72,7 @@ const Withdraw = () => {
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 mb-3"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>

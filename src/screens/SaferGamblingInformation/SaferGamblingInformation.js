@@ -1,5 +1,8 @@
-import { React, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
@@ -9,11 +12,11 @@ import { images } from "../../utils/imagesConstant";
 
 const SaferGamblingInformation = () => {
   const [pageContent, setPageContent] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const saferGamblingInfo = () => {
     apiServices
-      .get(`${apiUrl.NEXT_PUBLIC_PAGE_CONTENT}?type=more_safer_gambling_info`)
+      .get(`${apiUrl.PAGE_CONTENT}?type=more_safer_gambling_info`)
       .then((data) => {
         setPageContent(data?.content);
       });
@@ -36,11 +39,11 @@ const SaferGamblingInformation = () => {
         </div>
         <div className="depositLimit">
           <div className="d-flex arrow-top">
-            <img
+            <Image
               src={images.goBackArrow}
               alt="Go back"
               className="goBackArrow ms-0 mb-3"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
             />
           </div>
           <p className="menuTitle arrow-title">Safer Gambling Information</p>

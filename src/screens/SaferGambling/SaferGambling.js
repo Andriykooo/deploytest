@@ -1,6 +1,9 @@
-import { React, useEffect } from "react";
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { setUserSettings } from "../../store/actions";
@@ -10,14 +13,15 @@ import { images } from "../../utils/imagesConstant";
 import "../Profile/Profile.css";
 import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
+import Link from "next/link";
 
-const SaferGambling = () => {
+export const SaferGambling = () => {
   const dispatch = useDispatch();
   let active = "active";
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
-    apiServices.get(apiUrl.NEXT_PUBLIC_SETTING_OPTIONS).then((response) => {
+    apiServices.get(apiUrl.SETTING_OPTIONS).then((response) => {
       dispatch(setUserSettings(response));
     });
   }, []);
@@ -61,11 +65,11 @@ const SaferGambling = () => {
           <div className="depositLimit">
             <div className="d-flex d-lg-none">
               <div className="d-flex ">
-                <img
+                <Image
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 mb-3"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>
@@ -77,10 +81,10 @@ const SaferGambling = () => {
               {saferGambling.map((row, index) => {
                 return (
                   <div className="infoDiv mb-3" key={index}>
-                    <Link to={row.link}>
+                    <Link href={row.link}>
                       <p className="saferTitle m-2">{row.title}</p>
                       <p className="saferMessage m-2 ">{row.desc}</p>
-                      <img
+                      <Image
                         alt="img-arrowIcon"
                         src={images.arrowIcon}
                         className="profileArrow"
@@ -90,7 +94,7 @@ const SaferGambling = () => {
                 );
               })}
               <div className="mb-3 yellowDiv d-flex">
-                <img
+                <Image
                   src={images.whenTheFun}
                   alt="Safer Gambling"
                   className="m-auto"
@@ -103,5 +107,3 @@ const SaferGambling = () => {
     </>
   );
 };
-
-export default SaferGambling;

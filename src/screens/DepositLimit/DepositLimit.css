@@ -1,5 +1,4 @@
 .menuTitle {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -12,7 +11,6 @@
   margin: 15px 0;
 }
 .menuText {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -22,7 +20,6 @@
   max-width: 454px;
 }
 .subText {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -70,7 +67,6 @@
   background-color: var(--global-color-secondary) !important;
 }
 .depositModalLimit {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
@@ -185,7 +181,6 @@
 .finishBtn2 {
   height: 35px;
   border-radius: 10px;
-  font-family: var(--global-font-bold);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -256,7 +251,6 @@
 
 .confirmHeader {
   height: 42px;
-  font-family: "Jeko-Black";
   font-style: normal;
   font-weight: 400;
   font-size: 30px;
@@ -272,7 +266,6 @@
 }
 .confirmHeader2 {
   height: unset;
-  font-family: "Jeko-Black";
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
@@ -289,7 +282,6 @@
 
 .secondHeader {
   height: 24px;
-  font-family: "Jeko-Regular";
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -387,7 +379,6 @@
   flex: none;
   order: 0;
   flex-grow: 0;
-  font-family: "Jeko-Bold";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -415,7 +406,6 @@
   flex: none;
   order: 1;
   flex-grow: 0;
-  font-family: "Jeko-Bold";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

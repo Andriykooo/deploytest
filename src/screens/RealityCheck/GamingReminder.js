@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
+import Image from "next/image";
 
 const GamingReminderAlert = ({
   realityGamingReminder,
   setGamingAlert,
   setUsageTime,
 }) => {
-  const isMobile = useSelector((state) => state.setMobile);
-
   const router = useRouter();
+  const isMobile = useSelector((state) => state.setMobile);
 
   return (
     <div
@@ -25,7 +25,7 @@ const GamingReminderAlert = ({
         className={isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog"}
       >
         <div className="modal-content modalCenterContent">
-          <img
+          <Image
             src={images.gamingReminderLogo}
             alt="Reminder"
             className={"gaming-reminder-logo"}
@@ -47,7 +47,7 @@ const GamingReminderAlert = ({
               setUsageTime(new Date());
               sessionStorage.setItem("loggedUserInTime", new Date());
 
-              router.push("open_predictions");
+              router.push("/open_predictions");
             }}
           />
           <Button

@@ -1,10 +1,12 @@
-import { SocketContext } from "../../context/socket";
-import { Skeleton } from "@mui/material";
+"use client";
+
 import classNames from "classnames";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { SocketContext } from "../../context/socket";
 import { setActiveSport, setSidebarLeft } from "../../store/actions";
 import {
   unsubscribeToCompetition,
@@ -13,36 +15,33 @@ import {
   unsubscribeToSport,
 } from "../../utils/socketSubscribers";
 import { Button } from "../button/Button";
+import { Chat } from "../chat/Chat";
 import { ArrowButton } from "../custom/ArrowButton";
 import { Search } from "../profileMenu/SearchSport";
 import { ProfileCard, SidebarProfile } from "../profileMenu/Styled";
 
-const skeletonTitle = new Array(4).fill(0);
-const skeleteInline = new Array(20).fill(0);
-
-export const SidebarLeft = () => {
+export const SidebarLeft = ({ data }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const uuid = uuidv4();
 
-  const { gamingSocket } = useContext(SocketContext);
   const { subscriptionsSocket } = useContext(SocketContext);
+  const loggedUser = useSelector((state) => state.loggedUser);
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
-
-  const isMobile = useSelector((state) => state.setMobile);
+  const isTablet = useSelector((state) => state.isTablet);
   const activeSport = useSelector((state) => state.activeSport);
   const sportsStoredData = useSelector((state) => state.sportsData);
   const activeSocketSubscribe = useSelector(
     (state) => state.activeSocketSubscribe
   );
 
-  const [fileteredData, setFilteredData] = useState(sidebarLeft?.data);
-  const [isLoading, setIsLoading] = useState(true);
+  const [fileteredData, setFilteredData] = useState(data);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleSearch = (value) => {
     setFilteredData(
-      sidebarLeft.data?.filter((item) => {
+      data?.filter((item) => {
         return item.name.toLowerCase().includes(value.toLowerCase());
       })
     );
@@ -85,75 +84,26 @@ export const SidebarLeft = () => {
     handleUnsubscribe();
     dispatch(setActiveSport(item.id));
     router.push(
-      `/${location.pathname.includes("inplay") ? "inplay" : "sports"}/${
-        item.id
-      }`
+      `/${pathname.includes("inplay") ? "inplay" : "sport"}/${item.slug}`
     );
 
-    if (isMobile) {
+    if (isTablet) {
       dispatch(
         setSidebarLeft({
-          ...sidebarLeft,
           isActive: false,
         })
       );
     }
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    gamingSocket?.emit("sidebar_left", {}, (response) => {
-      dispatch(
-        setSidebarLeft({
-          ...sidebarLeft,
-          data: response,
-        })
-      );
-      setFilteredData(response);
-      setIsLoading(false);
-    });
-  }, []);
-
   let timeoutId = null;
 
-  return isLoading && !sidebarLeft.data ? (
+  return (
     <div
-      className={classNames("sidebar-left sidebar-skeleton", {
+      className={classNames("sidebar-left", {
         active: sidebarLeft.isActive,
+        "sidebar-left-chat": loggedUser,
       })}
-    >
-      <div className="p-2 mt-2">
-        <Skeleton
-          variant="text"
-          sx={{ fontSize: "2.5rem", bgcolor: "#212536" }}
-          className="my-2"
-          animation="wave"
-        />
-        {skeletonTitle.map((_, index) => (
-          <Skeleton
-            variant="text"
-            sx={{ fontSize: "1.2rem" }}
-            className="my-2"
-            animation="wave"
-            key={index}
-          />
-        ))}
-
-        {skeleteInline.map((_, index) => (
-          <Skeleton
-            variant="text"
-            sx={{ fontSize: "1.2rem" }}
-            className="my-2"
-            animation="wave"
-            key={index}
-          />
-        ))}
-      </div>
-    </div>
-  ) : (
-    <div
-      className={classNames("sidebar-left", { active: sidebarLeft.isActive })}
       onMouseEnter={() => {
         clearTimeout(timeoutId);
         setIsHovered(true);
@@ -170,14 +120,16 @@ export const SidebarLeft = () => {
           return (
             <div key={item.id}>
               <ProfileCard
-                active={item.id === +location.pathname.split("/").pop()}
+                active={item.slug === pathname.split("/").pop()}
                 onClick={() => handleClick(item)}
               >
                 <div className="sport-d d-flex">
-                  <img
+                  <Image
                     alt="img-minisidebar"
                     src={item?.icon}
                     className="sports-icon-miniSidebar"
+                    height={20}
+                    width={20}
                   />
                   {sidebarLeft.isActive && (
                     <Button
@@ -192,19 +144,19 @@ export const SidebarLeft = () => {
           );
         })}
       </SidebarProfile>
-      {isHovered && (
+      {isHovered && !isTablet && (
         <ArrowButton
           active={sidebarLeft.isActive}
           setActive={(value) => {
             dispatch(
               setSidebarLeft({
-                ...sidebarLeft,
                 isActive: value,
               })
             );
           }}
         />
       )}
+      {loggedUser && <Chat isOpen={sidebarLeft.isActive} />}
     </div>
   );
 };

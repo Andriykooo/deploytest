@@ -1,23 +1,22 @@
+import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
 import { Label, LabelWrapper } from "../../components/inputs/CustomInput";
-import Switch from "@mui/material/Switch";
 
 export const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
-  width: 42,
-  height: 26,
+  width: "45px",
+  height: "21px",
   padding: 0,
   "& .MuiSwitch-switchBase": {
-    width: "50%",
     padding: 0,
-    margin: 2,
+    margin: "3px 2px",
     transitionDuration: "300ms",
     "&.Mui-checked": {
-      transform: "translateX(1rem)",
+      transform: "translateX(26px)",
       color: "#fff",
       "& + .MuiSwitch-track": {
-        backgroundColor: theme.palette.mode === "dark" ? "#1976d2" : "#BC9239",
+        backgroundColor: theme.palette.mode === "dark" ? "#1976d2" : "#BCBFC2",
         opacity: 1,
         border: 0,
       },
@@ -28,6 +27,7 @@ export const IOSSwitch = styled((props) => (
     "&.Mui-focusVisible .MuiSwitch-thumb": {
       color: "#33cf4d",
       border: "6px solid #fff",
+      boxS: "none",
     },
     "&.Mui-disabled .MuiSwitch-thumb": {
       color:
@@ -41,12 +41,15 @@ export const IOSSwitch = styled((props) => (
   },
   "& .MuiSwitch-thumb": {
     boxSizing: "border-box",
-    width: 22,
-    height: 22,
+    width: 15,
+    height: 15,
+    boxShadow: "none",
+    display: "flex",
+    alignItems: "center",
   },
   "& .MuiSwitch-track": {
     borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#1976d2",
+    backgroundColor: theme.palette.mode === "light" ? "#BCBFC2" : "#1976d2",
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {
       duration: 500,
@@ -71,10 +74,10 @@ export const ToggleLabel = ({
       <IOSSwitch
         checked={value}
         defaultValue={value}
-        onChange={() => handleChange(notification.key, type)}
+        onChange={() => handleChange(notification?.key, type)}
       />
       <Label ml={!isMobile} ml0={isMobile} mb0 font="20">
-        {notification.text}
+        {notification?.text}
       </Label>
     </LabelWrapper>
   );

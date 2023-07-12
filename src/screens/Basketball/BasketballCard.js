@@ -1,15 +1,11 @@
-import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { MatchOdds } from "../../components/matches/MatchOdds";
+import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
-import {
-  calculateMatchDayAndHour,
-  calculateMatchTime,
-} from "../../utils/global";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import { MatchOdds } from "../../components/matches/MatchOdds";
-import Image from "next/image";
 
 const BasketballCard = ({
   match,
@@ -21,22 +17,13 @@ const BasketballCard = ({
   let matchSelectionsData = match?.selections;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  let homeTeam = ``,
-    awayTeam = ``;
-  if (match?.match_name) {
-    if (match?.match_name.indexOf(" v ") > -1) {
-      homeTeam = match?.match_name?.split(" v ")[0];
-      awayTeam = match?.match_name?.split(" v ")[1];
-    }
-  }
-  let hourOfMatch = calculateMatchDayAndHour(match, "hour");
-  let dayOfTheMatch = calculateMatchDayAndHour(match, "day");
-  var liveTime = calculateMatchTime(match);
+  let homeTeam = match.participants.home_name,
+    awayTeam = match.participants.away_name;
 
   const handleClickRow = () => {
-    navigate(`/match/${match.match_id}`);
+    router.push(`/match/${match.event_id}`);
     if (inPlay) {
       dispatch(setInPlay(true));
     } else {
@@ -71,18 +58,10 @@ const BasketballCard = ({
               moreMarkets ? "odds col-3 col-lg-3" : "odds col-3 col-lg-4"
             }
           >
-            {selectionTypes.map((row) => {
+            {selectionTypes?.map((row) => {
               return (
-                <div className="matchOddsContainer" key={row?.selection_name}>
-                  <div
-                    className={
-                      selectionTypes.length === 1
-                        ? "matchOdds selectionName firstSelection singleSelection"
-                        : "matchOdds selectionName firstSelection"
-                    }
-                  >
-                    {row.selection_name}
-                  </div>
+                <div key={row?.selection_name} className={"selectionName"}>
+                  {row.selection_name}
                 </div>
               );
             })}
@@ -94,33 +73,13 @@ const BasketballCard = ({
       {isMobile && (
         <div className="mb-match-time">
           <div className="matchCardIcon">
-            <Image src={images.notificationOffIcon} alt="" className="bellIcon" />
+            <Image
+              src={images.notificationOffIcon}
+              alt=""
+              className="bellIcon"
+            />
           </div>
-          <div className="liveGames">
-            {match?.current_phase === "FirstQuarter" ||
-            match?.current_phase === "SecondQuarter" ||
-            match?.current_phase === "ThirdQuarter" ||
-            match?.current_phase === "FourthQuarter" ? (
-              <>
-                <div>{match?.current_phase}</div>
-              </>
-            ) : (
-              <>
-                <div className="matchStartGames">
-                  {match?.current_phase !== "FirstQuarter" ||
-                  match?.current_phase !== "SecondQuarter" ||
-                  match?.current_phase !== "ThirdQuarter" ||
-                  match?.current_phase !== "FourthQuarter"
-                    ? dayOfTheMatch
-                    : liveTime}
-                  {", "}{" "}
-                </div>
-                <div className="matchStartGames mb-match-hour">
-                  {hourOfMatch}
-                </div>
-              </>
-            )}
-          </div>
+          <div className="liveGames">{match?.current_time}</div>
         </div>
       )}
       <div className="matchCard row matchCardRow ">
@@ -138,23 +97,7 @@ const BasketballCard = ({
               />
             </div>
             <div className="liveGames">
-              {liveTime ? (
-                <>
-                  <div>
-                    {match?.current_phase === "FirstQuarter" ||
-                    match?.current_phase === "SecondQuarter" ||
-                    match?.current_phase === "ThirdQuarter" ||
-                    match?.current_phase === "FourthQuarter"
-                      ? liveTime
-                      : match?.current_phase}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="matchStartGames">{dayOfTheMatch}</div>
-                  <div className="matchStartGames mt-1">{hourOfMatch}</div>
-                </>
-              )}
+              <div>{match?.current_time}</div>
             </div>
           </div>
         )}
@@ -173,12 +116,10 @@ const BasketballCard = ({
                 <div className="matchTeam">{awayTeam}</div>
               </div>
               <div className="matchResult">
-                {match?.match_details?.Scores?.Home &&
-                match?.match_details?.Scores?.Away &&
-                match?.current_phase !== "PreMatch" ? (
+                {match?.is_live ? (
                   <>
-                    {match?.match_details?.Scores?.Home} :{" "}
-                    {match?.match_details?.Scores?.Away}
+                    {match?.participants?.home_score} :{" "}
+                    {match?.participants?.away_score}
                   </>
                 ) : (
                   " vs "
@@ -189,12 +130,10 @@ const BasketballCard = ({
             <>
               <div className="matchTeam matchTeamStyle">{homeTeam}</div>
               <div className="matchResult">
-                {match?.match_details?.Scores?.Home &&
-                match?.match_details?.Scores?.Away &&
-                match?.current_phase !== "PreMatch" ? (
+                {match?.is_live ? (
                   <>
-                    {match?.match_details?.Scores?.Home} :{" "}
-                    {match?.match_details?.Scores?.Away}
+                    {match?.participants?.home_score} :{" "}
+                    {match?.participants?.away_score}
                   </>
                 ) : (
                   " vs "
@@ -212,14 +151,10 @@ const BasketballCard = ({
           }
         >
           {matchSelectionsData.slice(0, 3).map((row, index) => {
-            let activeClass = `inActiveOdd`;
             return (
-              <MatchOdds
-                selection={row}
-                key={index}
-                match={match}
-                activeClass={activeClass}
-              />
+              <div className="containerOfSelectionsSports" key={index}>
+                <MatchOdds selection={row} />
+              </div>
             );
           })}
         </div>

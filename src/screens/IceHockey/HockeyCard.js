@@ -1,34 +1,21 @@
-import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
 import { theme } from "../../utils/config";
-import {
-  calculateMatchDayAndHour,
-  calculateMatchTimeOfIceHockeyAndBasketball,
-} from "../../utils/global";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import Image from "next/image";
 
 const HockeyCard = ({ match, firstRow, id, inPlay }) => {
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
-  let homeTeam = ``,
-    awayTeam = ``;
-  if (match?.match_name) {
-    if (match?.match_name.indexOf(" v ") > -1) {
-      homeTeam = match?.match_name?.split(" v ")[0];
-      awayTeam = match?.match_name?.split(" v ")[1];
-    }
-  }
-  let hourOfMatch = calculateMatchDayAndHour(match, "hour");
-  let dayOfTheMatch = calculateMatchDayAndHour(match, "day");
-  var liveTime = calculateMatchTimeOfIceHockeyAndBasketball(match, id);
+  let homeTeam = match.participants.home_name,
+    awayTeam = match.participants.away_name;
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleClickRow = () => {
-    navigate(`/match/${match.match_id}`);
+    router.push(`/match/${match.event_id}`);
     if (inPlay) {
       dispatch(setInPlay(true));
     } else {
@@ -77,21 +64,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
                 className="bellIcon"
               />
             </div>
-            <div className="liveGames">
-              {liveTime ? (
-                <div>{liveTime}</div>
-              ) : (
-                <>
-                  <div className="matchStartGames">
-                    {dayOfTheMatch}
-                    {", "}{" "}
-                  </div>
-                  <div className="matchStartGames mb-match-hour">
-                    {hourOfMatch}
-                  </div>
-                </>
-              )}
-            </div>
+            <div className="liveGames">{match?.current_time}</div>
           </div>
           <div className="d-flex">
             <div className="d-flex justify-content-center align-items-center MarketMenuContainer tempmarketMenu">
@@ -118,16 +91,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
                 className="bellIcon"
               />
             </div>
-            <div className="liveGames">
-              {liveTime ? (
-                <div>{liveTime}</div>
-              ) : (
-                <>
-                  <div className="matchStartGames">{dayOfTheMatch}</div>
-                  <div className="matchStartGames mt-1">{hourOfMatch}</div>
-                </>
-              )}
-            </div>
+            <div className="liveGames">{match?.current_time}</div>
           </div>
         )}
         <div
@@ -156,7 +120,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
               <div className="matchResult">
                 {match?.match_details?.Scores?.Home &&
                 match?.match_details?.Scores?.Away &&
-                match?.current_phase !== "PreMatch" ? (
+                match?.is_live ? (
                   <>
                     {match?.match_details?.Scores?.Home} :{" "}
                     {match?.match_details?.Scores?.Away}
@@ -174,7 +138,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
           className={
             isMobile
               ? "odds col-6 auto-width-container iceHockeyGames"
-              : "odds col-6 auto-width-container "
+              : "odds col-6 auto-width-container iceHockeyOdds"
           }
         >
           {!isMobile ? (

@@ -1,7 +1,7 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
+import Image from "next/image";
 
 const sliderPadding = "0px 30px";
 
@@ -54,7 +54,7 @@ const CasinoTrending = ({ gamesData, title }) => {
 
                 <Slider {...settings}>
                   {gamesData.map((row, index) => (
-                    <img
+                    <Image
                       src={row.gameImages}
                       alt={`Img ${index}`}
                       key={index}
@@ -72,7 +72,7 @@ const CasinoTrending = ({ gamesData, title }) => {
               <div className="recommendedTitle">{title}</div>
               <div className="recommendedImages">
                 {gamesData.map((row, index) => (
-                  <img
+                  <Image
                     className="gamesImages"
                     src={row.gameImages}
                     alt="Game 1"

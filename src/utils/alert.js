@@ -1,6 +1,8 @@
+"use client";
+
+import Image from "next/image";
 import { toast } from "react-toastify";
 import { images } from "./imagesConstant";
-import Image from "next/image";
 
 export const alertToast = ({ message }) => {
   toast.error(message, {

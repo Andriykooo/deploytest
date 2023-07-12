@@ -1,0 +1,66 @@
+.lets-play {
+  width: 100%;
+  background-color: var(--global-color-shade10);
+  padding-bottom: 30px;
+}
+
+.descriptionStyleOfPlay {
+  text-align: center;
+  font-weight: 400;
+  font-size: 32px;
+  color: var(--global-color-text-secondary);
+}
+.descriptionStyleOfPlayFirst {
+  font-weight: 400;
+  font-size: 32px;
+  color: var(--global-color-text-primary);
+  margin-bottom: 30px;
+}
+.home-live-matches-footer {
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  max-width: 920px;
+  background-color: var(--global-color-shade10);
+}
+.containerOfLiveGamesFooter {
+  display: flex;
+  flex-direction: column;
+  width: 33.33%;
+}
+.titleOfLiveGames {
+  margin-top: 10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--global-color-text-primary);
+  margin-bottom: 6px;
+}
+.paragraphOfLiveGame {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 19px;
+  color: var(--global-color-text-primary);
+}
+
+@media (max-width: 1024px) {
+  .descriptionStyleOfPlay {
+    margin-bottom: 22px;
+  }
+
+  .home-live-matches-footer {
+    flex-direction: column;
+    gap: 0px;
+    margin: 0px 60px;
+    display: flex;
+  }
+
+  .containerOfLiveGamesFooter {
+    width: auto;
+  }
+  .containerOfLiveGamesFooter:last-child {
+    margin-bottom: 30px;
+  }
+}

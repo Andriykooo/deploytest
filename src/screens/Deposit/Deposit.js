@@ -1,21 +1,26 @@
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
 import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import "../Deposit/Deposit.css";
+import "../DepositLimit/DepositLimit.css";
 
 const Deposit = () => {
   const [paymentUrl, setPaymentUrl] = useState("");
   const [getLinkLoading, setGetLinkLoading] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleGatewayLink = () => {
     setGetLinkLoading(true);
     apiServices
-      .get(apiUrl.NEXT_PUBLIC_GET_PAYMENT_GATEWAY_LINK)
+      .get(apiUrl.GET_PAYMENT_GATEWAY_LINK)
       .then((data) => {
         if (data?.url) {
           setPaymentUrl(data?.url);
@@ -44,11 +49,11 @@ const Deposit = () => {
               <div className="pageContent">
                 <div className="d-flex d-lg-none">
                   <div className="d-flex ">
-                    <img
+                    <Image
                       src={images.goBackArrow}
                       alt="Go back"
                       className="goBackArrow ms-0 "
-                      onClick={() => navigate("/profile")}
+                      onClick={() => router.push("/profile")}
                     />
                   </div>
                 </div>

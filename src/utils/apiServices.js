@@ -2,23 +2,26 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
 import { apiUrl } from "./constants";
-import { clearLocalStorage, getLocalStorageItem, addLocalStorageItem } from "./localStorage";
+import {
+  addLocalStorageItem,
+  clearLocalStorage,
+  getLocalStorageItem,
+} from "./localStorage";
+import { nextWindow } from "./nextWindow";
 
 const checkError = (code, message) => {
   switch (code) {
     // Suspend Account
     case 487:
-      alertToast({ message: message });
       setTimeout(() => {
-        window.location.href = "/login";
+        nextWindow.location.href = "/login";
       }, 500);
       break;
 
     // Self-Exclude Account
     case 488:
-      alertToast({ message: message });
       setTimeout(() => {
-        window.location.href = "/login";
+        nextWindow.location.href = "/login";
       }, 500);
       break;
 
@@ -29,17 +32,11 @@ const checkError = (code, message) => {
           " There is already an account with this email, please login with email ",
       });
       break;
-
-    // Others
-    default:
-      alertToast({ message: message });
   }
 };
 
 const handleError = (error) => {
   if (error?.message.toLowerCase() === "network error") {
-    alertToast({ message: "Network Error" });
-
     return;
   }
 
@@ -101,7 +98,7 @@ axiosInstance.interceptors.response.use(
 
         const {
           data: { token, refresh_token },
-        } = await axios.post(apiUrl.NEXT_PUBLIC_URI_REFRESH_TOKEN, body, {
+        } = await axios.post(apiUrl.URI_REFRESH_TOKEN, body, {
           headers,
         });
 
@@ -117,7 +114,7 @@ axiosInstance.interceptors.response.use(
       } catch (error) {
         if (error.response.status === 401) {
           clearLocalStorage();
-          window.location.href = "/login";
+          nextWindow.location.href = "/login";
         } else {
           throw error;
         }
@@ -135,8 +132,12 @@ class ApiServices {
     this.#requestInstance = instance;
   }
 
-  get(url) {
-    return this.#requestInstance.get(url).catch(handleError);
+  get(url, body) {
+    return this.#requestInstance
+      .get(url, {
+        params: body,
+      })
+      .catch(handleError);
   }
 
   post(url, body) {
@@ -147,8 +148,8 @@ class ApiServices {
     return this.#requestInstance.put(url, body).catch(handleError);
   }
 
-  delete(url) {
-    return this.#requestInstance.delete(url).catch(handleError);
+  delete(url, body) {
+    return this.#requestInstance.delete(url, { data: body }).catch(handleError);
   }
 }
 

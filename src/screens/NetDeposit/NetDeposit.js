@@ -1,7 +1,10 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
@@ -9,6 +12,9 @@ import ProfileMenu from "../../components/profileMenu/ProfileMenu";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import "../DepositLimit/DepositLimit.css";
+import "../NetDeposit/NetDeposit.css";
+import "../RealityCheck/RealityCheck.css";
 
 const NetDeposit = () => {
   const [loader, setLoader] = useState(true);
@@ -23,7 +29,7 @@ const NetDeposit = () => {
     var days = type ? type : "-1";
     setIsLoading(true);
     apiServices
-      .get(apiUrl.NEXT_PUBLIC_GET_NET_DEPOSIT_AMOUNT + `?days=${days}`)
+      .get(apiUrl.GET_NET_DEPOSIT_AMOUNT + `?days=${days}`)
       .then((result) => {
         setNetAmount(result?.amount);
         setIsLoading(false);
@@ -87,7 +93,7 @@ const NetDeposit = () => {
   } else if (selectedLimit === 365) {
     netDepositText = "Last Year";
   }
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -106,11 +112,11 @@ const NetDeposit = () => {
           <div className="pageContent max-width-container">
             <div className="d-flex d-lg-none">
               <div className="d-flex ">
-                <img
+                <Image
                   src={images.goBackArrow}
                   alt="Go back"
                   className="goBackArrow ms-0 "
-                  onClick={() => navigate("/profile")}
+                  onClick={() => router.push("/profile")}
                 />
               </div>
             </div>
@@ -135,7 +141,7 @@ const NetDeposit = () => {
                     <p className="d-flex justify-content-center depositModalLimit">
                       Net Deposit
                     </p>
-                    <img
+                    <Image
                       src={images.closeIcon}
                       className="closeIconSus"
                       alt="Close"
@@ -168,7 +174,7 @@ const NetDeposit = () => {
                             <p className="m-3 decimalText">{value.name}</p>
                           </div>
                           {selectedLimit === value.value && (
-                            <img
+                            <Image
                               src={images.validated}
                               alt="selected"
                               className="oddsSelected"
@@ -225,7 +231,7 @@ const NetDeposit = () => {
                           {netDepositText}
                         </span>
                       )}
-                      <img
+                      <Image
                         src={images.arrowIcon}
                         className="depositLimitArrow"
                         alt="Click"

@@ -1,11 +1,10 @@
-import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { setActiveSport } from "../../store/actions";
 import { theme } from "../../utils/config";
 import { Button } from "../button/Button";
 import { ProfileCard, SidebarProfile } from "./Styled";
-import Image from "next/image";
 
 export const SportsSidebar = ({
   sports,
@@ -18,7 +17,7 @@ export const SportsSidebar = ({
   const isMobile = useSelector((state) => state.setMobile);
   const activeSport = useSelector((state) => state.activeSport);
   const inPlay = useSelector((state) => state.inPlay);
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const isActive = true;
 
@@ -44,9 +43,9 @@ export const SportsSidebar = ({
                       handleUnsubscribe();
                       dispatch(setActiveSport(value.id));
                       if (inPlay) {
-                        navigate(`/inplay/${value?.id}`);
+                        router.push(`/inplay/${value?.id}`);
                       } else {
-                        navigate(`/sports/${value?.id}`);
+                        router.push(`/sport/${value?.slug}`);
                       }
                     }}
                     style={
@@ -66,8 +65,6 @@ export const SportsSidebar = ({
                     <div className="dropdown sidebarBox d-flex dropdownStyle ">
                       {showImage ? (
                         <Image
-                          height={25}
-                          width={25}
                           alt="img-sports"
                           src={value.icon}
                           className={
@@ -118,9 +115,9 @@ export const SportsSidebar = ({
                         handleUnsubscribe();
                         dispatch(setActiveSport(value.id));
                         if (inPlay) {
-                          navigate(`/inplay/${value?.id}`);
+                          router.push(`/inplay/${value?.id}`);
                         } else {
-                          navigate(`/sports/${value?.id}`);
+                          router.push(`/sport/${value?.slug}`);
                         }
                       }}
                       style={
@@ -150,7 +147,7 @@ export const SportsSidebar = ({
                           <div className="inactive-left-border-miniSideBar"></div>
                         )}
                         {showImage ? (
-                          <img
+                          <Image
                             alt="img-minisidebar"
                             src={value.icon}
                             className={

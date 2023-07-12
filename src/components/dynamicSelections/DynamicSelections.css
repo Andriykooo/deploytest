@@ -1,0 +1,38 @@
+.dynamic-selections {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.dynamic-selections {
+  justify-self: center;
+  width: auto;
+}
+
+.dynamic-selections-button {
+  width: 100%;
+  color: var(--global-color-text-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  line-height: 12px;
+  font-weight: 600;
+  font-size: 10px;
+  white-space: nowrap;
+  height: 22px;
+  overflow: hidden;
+}
+
+.dynamic-selections-button .matchOdds {
+  color: inherit;
+  font-size: inherit;
+  border-radius: 4px;
+  background-color: var(--global-color-button-primary);
+}
+
+.dynamic-selections-button .matchOdds:hover {
+  background-color: var(--global-color-button-primary);
+}

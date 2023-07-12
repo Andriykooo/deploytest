@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { apiServices } from "../../utils/apiServices";
@@ -12,6 +12,7 @@ import {
 } from "../../utils/icons";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 export const CasinoPlayNow = ({ game, setGame }) => {
   const router = useRouter();
@@ -29,7 +30,7 @@ export const CasinoPlayNow = ({ game, setGame }) => {
 
   const playGame = (game, type) => {
     if (!loggedUser) {
-      localStorage.setItem("nextUrlPath", "casino");
+      addLocalStorageItem("nextUrlPath", "casino");
       router.push("/login");
 
       return;

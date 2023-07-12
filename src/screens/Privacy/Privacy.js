@@ -1,14 +1,18 @@
+"use client";
+
 import parse from "html-react-parser";
-import { React, useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
+import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setData, setLoggedUser, setSwiftyId } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import "../Terms/Terms.css";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 const Privacy = () => {
   const privacyDivRef = useRef(null);
@@ -22,7 +26,7 @@ const Privacy = () => {
   const countryPhone = useSelector((state) => state.countryPhone);
   const signup_platform = useSelector((state) => state.signup_platform);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     getPolicy();
@@ -60,14 +64,14 @@ const Privacy = () => {
     apiServices
       .post(url, body)
       .then((result) => {
-        localStorage.setItem("access_token", result?.access_token);
-        localStorage.setItem("refresh_token", result?.refresh_token);
-        localStorage.setItem("swifty_id", result?.swifty_id);
+        addLocalStorageItem("access_token", result?.access_token);
+        addLocalStorageItem("refresh_token", result?.refresh_token);
+        addLocalStorageItem("swifty_id", result?.swifty_id);
         dispatch(setSwiftyId(result?.swifty_id));
         dispatch(setData(result));
         setIsLoading(false);
         setTimeout(() => {
-          navigate("/verify_email");
+          router.push("/verify_email");
         }, 500);
       })
       .catch(() => {
@@ -89,35 +93,30 @@ const Privacy = () => {
     };
     setIsLoading(true);
     apiServices
-      .post(apiUrl.NEXT_PUBLIC_SIGNIN_SOCIAL, body)
+      .post(apiUrl.SIGNIN_SOCIAL, body)
       .then((response) => {
         setIsLoading(false);
-        localStorage.setItem("access_token", response?.token);
-        localStorage.setItem("refresh_token", response?.refresh_token);
-        localStorage.setItem("swifty_id", response?.swifty_id);
-        localStorage.setItem("kyc_access_token", response?.kyc_access_token);
-        localStorage.setItem("user", response);
+        addLocalStorageItem("access_token", response?.token);
+        addLocalStorageItem("refresh_token", response?.refresh_token);
+        addLocalStorageItem("swifty_id", response?.swifty_id);
+        addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
         dispatch(setSwiftyId(response?.swifty_id));
         dispatch(setData(response));
         dispatch(setLoggedUser(response));
-        localStorage.setItem("userBalance", response?.user_data?.balance);
-        localStorage.setItem(
-          "userCurrency",
-          response?.user_data?.currency?.abbreviation
-        );
+
         if (countryPhone && countryPhone.length > 0) {
           if (countryPhone[0].phone_number_required) {
             setTimeout(() => {
-              navigate("/sign_up_with_phone");
+              router.push("/sign_up_with_phone");
             }, 200);
           } else {
             setTimeout(() => {
-              navigate("/finish_account_setup");
+              router.push("/finish_account_setup");
             }, 200);
           }
         } else {
           setTimeout(() => {
-            navigate("/finish_account_setup");
+            router.push("/finish_account_setup");
           }, 200);
         }
       })
@@ -134,17 +133,11 @@ const Privacy = () => {
       setAcceptButtonDisabled(false);
     }
   };
-  const location = useLocation();
+  const pathname = usePathname();
   return (
-    <>
+    <BaseLayout title="Privacy" className="backgroundImage">
       <Header />
-      <div
-        className={
-          loggedUser
-            ? " terms backgroundImageLogged"
-            : "terms backgroundImage backHeight"
-        }
-      >
+      <div className="terms">
         <p className="termsTitleForMainPage">Privacy Policy</p>
         {loader ? (
           <Loader />
@@ -153,7 +146,7 @@ const Privacy = () => {
             <div
               ref={privacyDivRef}
               className={
-                !loggedUser && location.pathname.indexOf("/privacy") > "-1"
+                !loggedUser && pathname.indexOf("/privacy") > "-1"
                   ? "termsContent termsContent-height-50"
                   : "termsContent termsContent-height-60"
               }
@@ -161,7 +154,7 @@ const Privacy = () => {
             >
               {parse(policy.toString())}
             </div>
-            {!loggedUser && location.pathname.indexOf("/privacy") > "-1" ? (
+            {!loggedUser && pathname.indexOf("/privacy") > "-1" ? (
               <Button
                 className={
                   acceptButtonDisabled
@@ -190,7 +183,7 @@ const Privacy = () => {
           </>
         )}
       </div>
-    </>
+    </BaseLayout>
   );
 };
 

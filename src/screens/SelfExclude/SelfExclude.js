@@ -1,7 +1,11 @@
+"use client";
+
+import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
-import { React, useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button/Button";
 import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
@@ -30,7 +34,7 @@ const SelfExclude = () => {
   );
   const user = useSelector((state) => state.loggedUser);
   const user_settings = useSelector((state) => state?.user_settings);
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,7 +51,7 @@ const SelfExclude = () => {
       self_exclude_deactivated: excludePeriod,
     };
     apiServices
-      .put(apiUrl.NEXT_PUBLIC_SETTINGS, body)
+      .put(apiUrl.SETTINGS, body)
       .then(() => {
         SuccesToast({ message: "Successfully updated!" });
         setIsLoading(false);
@@ -61,14 +65,13 @@ const SelfExclude = () => {
         newUser.user_data.settings.safer_gambling.self_exclude.self_exclude_deactivated =
           excludePeriod;
         dispatch(setLoggedUser(newUser));
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("userBalance");
-        localStorage.removeItem("userCurrency");
+        removeLocalStorageItem("access_token");
+        removeLocalStorageItem("refresh_token");
+
         setTimeout(() => {
-          window.location.replace("/login");
+          nextWindow.location.replace("/login");
           setTimeout(() => {
-            window.location.reload();
+            nextWindow.location.reload();
           }, 500);
         }, 500);
       })
@@ -99,11 +102,11 @@ const SelfExclude = () => {
         </div>
         <div className="selfExcludePage">
           <div className="d-flex arrow-top">
-            <img
+            <Image
               src={images.goBackArrow}
               alt="Go back"
               className="goBackArrow ms-0 mb-3"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
             />
           </div>
           <p className="menuTitle arrow-top">Self exclude</p>
@@ -152,7 +155,7 @@ const SelfExclude = () => {
                     ) : (
                       excludeText
                     )}
-                    <img
+                    <Image
                       src={images.arrowIcon}
                       className="depositLimitArrow"
                       alt="Click"

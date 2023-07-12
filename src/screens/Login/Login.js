@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import Header from "../../components/header/Header";
+import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setLoggedUser, setSignUpPlatform, setUser } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -13,8 +15,11 @@ import {
   validateUserEmail,
   validateUserPassword,
 } from "../../utils/validation";
+import "../Login/Login.css";
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
 
 const Login = ({ setShowConfirm }) => {
   const user = useSelector((state) => state.user);
@@ -27,7 +32,7 @@ const Login = ({ setShowConfirm }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -93,10 +98,10 @@ const Login = ({ setShowConfirm }) => {
           Object.assign(newUser, user);
           newUser["email"] = email;
           newUser["device_id"] = device_id;
-          localStorage.setItem("device_id", device_id);
+          addLocalStorageItem("device_id", device_id);
           dispatch(setUser(newUser));
-          localStorage.setItem("IsLogged", "not_logged");
-          navigate("/sign_up");
+          addLocalStorageItem("IsLogged", "not_logged");
+          router.push("/sign_up");
           setIsLoading(true);
         }
       })
@@ -108,7 +113,7 @@ const Login = ({ setShowConfirm }) => {
   const checkPassword = (e) => {
     e.preventDefault();
     let body = {
-      email: newUser.email.toLowerCase(),
+      email: newUser?.email?.toLowerCase(),
       password,
     };
     setIsLoading(true);
@@ -120,22 +125,17 @@ const Login = ({ setShowConfirm }) => {
         Object.assign(userLogged, logged);
         userLogged["player_id"] = response?.user_data.player_id;
         dispatch(setLoggedUser(response));
-        localStorage.setItem("access_token", response?.token);
-        localStorage.setItem("refresh_token", response?.refresh_token);
-        localStorage.setItem("device_id", device_id);
-        localStorage.setItem("kyc_access_token", response?.kyc_access_token);
-        localStorage.setItem("swifty_id", response?.swifty_id);
-        localStorage.setItem("userBalance", response?.user_data?.balance);
-        localStorage.setItem(
-          "userCurrency",
-          response?.user_data?.currency?.abbreviation
-        );
+        addLocalStorageItem("access_token", response?.token);
+        addLocalStorageItem("refresh_token", response?.refresh_token);
+        addLocalStorageItem("device_id", device_id);
+        addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
+        addLocalStorageItem("swifty_id", response?.swifty_id);
         sessionStorage.setItem("loggedUserInTime", new Date());
-        let nextUrlPath = localStorage.getItem("nextUrlPath");
+        let nextUrlPath = getLocalStorageItem("nextUrlPath");
         if (nextUrlPath && nextUrlPath === "casino") {
-          navigate("/casino");
+          router.push("/casino");
         } else {
-          navigate("/sports");
+          router.push("/home");
         }
 
         if (
@@ -147,7 +147,7 @@ const Login = ({ setShowConfirm }) => {
           return;
         }
         setIsLoading(false);
-        window.sessionStorage.setItem("loggedUserInTime", new Date());
+        nextWindow.sessionStorage.setItem("loggedUserInTime", new Date());
       })
       .catch(() => {
         setIsLoading(false);
@@ -155,7 +155,7 @@ const Login = ({ setShowConfirm }) => {
   };
 
   const verifyLink = () => {
-    navigate("/email_sent");
+    router.push("/email_sent");
   };
 
   useEffect(() => {
@@ -180,42 +180,37 @@ const Login = ({ setShowConfirm }) => {
   }, []);
 
   return (
-    <>
-      <Helmet>
-        <title>Swifty Gaming | Log In</title>
-      </Helmet>
-      <div className="backgroundImage ">
-        <Header />
-        {isVerified ? (
-          <>
-            <LoginPassword
-              newUser={newUser}
-              passwordShown={passwordShown}
-              password={password}
-              isValid={isPasswordValid}
-              togglePassword={togglePassword}
-              verifyLink={verifyLink}
-              checkPassword={checkPassword}
-              isLoading={isLoading}
-              validatePassword={validatePassword}
-            />
-          </>
-        ) : (
-          <>
-            <LoginEmail
-              email={email}
-              isValid={isValid}
-              checkEmail={checkEmail}
-              isLoading={isLoading}
-              validateEmail={validateEmail}
-              setEmail={setEmail}
-              setIsLoading={setIsLoading}
-              setIsValid={setIsValid}
-            />
-          </>
-        )}
-      </div>
-    </>
+    <BaseLayout className="backgroundImage">
+      <Header />
+      {isVerified ? (
+        <>
+          <LoginPassword
+            newUser={newUser}
+            passwordShown={passwordShown}
+            password={password}
+            isValid={isPasswordValid}
+            togglePassword={togglePassword}
+            verifyLink={verifyLink}
+            checkPassword={checkPassword}
+            isLoading={isLoading}
+            validatePassword={validatePassword}
+          />
+        </>
+      ) : (
+        <>
+          <LoginEmail
+            email={email}
+            isValid={isValid}
+            checkEmail={checkEmail}
+            isLoading={isLoading}
+            validateEmail={validateEmail}
+            setEmail={setEmail}
+            setIsLoading={setIsLoading}
+            setIsValid={setIsValid}
+          />
+        </>
+      )}
+    </BaseLayout>
   );
 };
 

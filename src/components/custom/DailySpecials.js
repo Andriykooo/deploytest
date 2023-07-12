@@ -78,7 +78,9 @@ export const InPlaySpecials = () => {
                       )}
                       <div className=" matchesContainer col-9 col-lg-6">
                         {isMobile ? (
-                          <div className="eventStyle">Event</div>
+                          <>
+                            <div className="eventStyle">Event</div>
+                          </>
                         ) : (
                           <>
                             <div className="matchTeam"></div>

@@ -1,7 +1,7 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
+import Image from "next/image";
 
 export const States = ({
   states,
@@ -29,7 +29,7 @@ export const States = ({
                 <p className="selectCountryTitle depositModalLimit">
                   Select state or province
                 </p>
-                <img
+                <Image
                   src={images.closeIcon}
                   className="closeIconSus closeFullScreenModal"
                   alt="Close"
@@ -42,7 +42,7 @@ export const States = ({
                 />
               </div>
               <div className="selectDecimal d-flex mb-5">
-                <img
+                <Image
                   src={images.search}
                   alt="Search icon"
                   className="countriesSearch"

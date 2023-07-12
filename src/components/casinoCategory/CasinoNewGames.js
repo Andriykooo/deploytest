@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import nextIcon from "../../assets/images/nextIcon.png";
 import previousIcon from "../../assets/images/previousIcon.png";
@@ -27,7 +27,7 @@ const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
                     // onClick={previousSlide}
                     text={
                       <>
-                        <img src={previousIcon} />
+                        <Image src={previousIcon} />
                       </>
                     }
                   ></Button>
@@ -52,7 +52,7 @@ const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
                     // onClick={nextSlide}
                     text={
                       <>
-                        <img src={nextIcon} />
+                        <Image src={nextIcon} />
                       </>
                     }
                   />
@@ -71,7 +71,7 @@ const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
                   {gamesData.map((row, index) => {
                     let respClass = index === 0 ? "firstNewImg" : "gamesImages";
                     return (
-                      <img
+                      <Image
                         key={index}
                         className={respClass}
                         src={`${baseUrl}${row?.url_188}`}

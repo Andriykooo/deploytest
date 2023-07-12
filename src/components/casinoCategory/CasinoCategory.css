@@ -7,13 +7,14 @@
 .imageContainer {
   position: relative;
   width: 100%;
-  left: 0px;
 }
+
 .imageContainer img {
   padding: 0;
   width: 100%;
+  max-height: 401px;
+  min-height: 80px;
   object-fit: cover;
-  max-height: 230px;
 }
 
 .mainImage {
@@ -25,11 +26,15 @@
 
 .imageText {
   width: 100%;
-  /* padding: 40px; */
 }
 
 .casinoCarousel {
   padding: 15px 15px 0 15px;
+}
+
+.tranding-arrow,
+.casinoCarousel .slick-arrow {
+  transform: translateY(-100%);
 }
 
 .pauseButton {
@@ -47,9 +52,9 @@
   align-items: center;
   justify-content: space-between;
   position: absolute;
-  padding: 0 40px;
+  padding: 0 40px 40px 40px;
   width: 100%;
-  bottom: 40px;
+  bottom: 0;
 }
 
 .firstImageText {
@@ -58,9 +63,8 @@
   align-items: flex-start;
   padding: 0px;
   gap: 6px;
-  font-family: var(--global-font-bold);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 32px;
   line-height: 24px;
   align-items: flex-start;
@@ -69,7 +73,6 @@
 }
 
 .secondImageText {
-  font-family: var(--global-font-semibold);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -97,7 +100,7 @@
   border-radius: 8px;
 }
 
-.btnPrimary.heroBannerButton {
+.btnPrimary.bannerButton {
   position: static;
 }
 
@@ -111,18 +114,19 @@
 .recommendedTitle {
   margin-left: 24px;
   top: -50px;
-  font-family: var(--global-font-semibold);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 24px;
-  line-height: 48px;
+  line-height: 31px;
   display: flex;
   align-items: center;
   color: var(--global-color-text-primary);
   cursor: pointer;
+  margin-bottom: 24px;
 }
 .recommendedViewAll {
   margin-right: 30px;
+  font-weight: 400;
   font-size: 16px;
   color: var(--global-color-text-quaternary);
 }
@@ -209,7 +213,6 @@
 }
 
 .newGamesTitle {
-  font-family: var(--global-font-semibold);
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -317,9 +320,7 @@
 }
 
 .mainGames {
-  margin-top: 50px;
-  margin-bottom: 25px;
-  padding: 0px 20px;
+  padding: 25px 20px;
 }
 
 .mainGamesContainer {
@@ -458,11 +459,9 @@
 
 .casino-modal-header {
   background: #c2a546;
-  border-radius: 0px;
   height: 44px;
-  font-family: var(--global-font-semibold);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
   line-height: 16px;
   justify-content: space-between !important;
@@ -513,6 +512,10 @@
 
 .casino-full-screen .casino-modal-body {
   height: 100%;
+}
+
+.casino-full-screen .casino-modal-body,
+.casino-full-screen .casino-modal-header {
   border-radius: 0;
 }
 
@@ -541,7 +544,6 @@
 
 .casino-game-description {
   padding: 25px 125px;
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -582,6 +584,7 @@
   background: var(--global-color-text-primary);
   border-radius: 5px;
   width: 245px;
+  font-weight: 600;
   padding: 8px;
 }
 
@@ -648,7 +651,7 @@
   font-size: 13px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .slick-slide .numbering {
     top: 102px;
     left: -50px;
@@ -710,9 +713,7 @@
 
   .firstImageText {
     width: 100%;
-    font-family: var(--global-font-semibold);
     font-style: normal;
-    font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     position: unset;
@@ -721,7 +722,6 @@
 
   .secondImageText {
     width: 100%;
-    font-family: var(--global-font-semibold);
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -774,14 +774,16 @@
   .recommendedTitle {
     margin-left: 0px;
     top: -45px;
-    font-family: var(--global-font-semibold);
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: 14px;
     line-height: 48px;
     display: flex;
     align-items: center;
-    color: var(--global-color-text-primary);
+  }
+
+  .recommendedTitle {
+    font-size: 14px;
   }
 
   .recommendedImages {
@@ -838,7 +840,6 @@
     position: absolute;
     margin-left: 0px;
     bottom: unset;
-    font-family: var(--global-font-semibold);
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -951,6 +952,11 @@
 .hero-multi-line {
   height: 390px;
   width: 418px;
+}
+
+.hero-multi-line .gameImageWrapper {
+  height: 100%;
+  width: 100%;
 }
 
 .hero-multi-line-item {

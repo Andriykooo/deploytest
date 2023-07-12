@@ -1,12 +1,11 @@
 .html-parse-title {
-  font-family: Jeko-Black;
   font-size: 34px;
+  line-height: 38px;
 }
 
 .html-parse-content {
   max-height: calc(100vh - 350px);
   overflow: auto;
-  font-family: Jeko-Regular;
   font-size: 12px;
 }
 
@@ -14,7 +13,6 @@
   .html-parse-content {
     max-height: calc(100vh - 220px);
     overflow: auto;
-    font-family: Jeko-Regular;
     font-size: 12px;
   }
 }

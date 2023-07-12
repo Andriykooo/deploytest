@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import Image from "next/image";
 
 export const SetSelfExclude = ({
   excludeData,
@@ -36,7 +37,7 @@ export const SetSelfExclude = ({
           <p className="d-flex justify-content-center depositModalLimit">
             Self Exclude
           </p>
-          <img
+          <Image
             src={images.closeIcon}
             className="closeIconSus"
             alt="Close"
@@ -69,7 +70,7 @@ export const SetSelfExclude = ({
                   <p className="m-3 decimalText">{row.name}</p>
                 </div>
                 {selectedLimit === row.value && (
-                  <img
+                  <Image
                     src={images.selected}
                     alt="selected"
                     className="oddsSelected"

@@ -7,7 +7,6 @@
 }
 
 .cookieTitle {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -19,7 +18,6 @@
 }
 
 .cookieText {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 34rem;
@@ -44,14 +42,12 @@
     url("../../assets/images/loginBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 89vh;
   overflow-y: hidden;
   margin: 0 auto;
   max-width: 100%;
 }
 .backgroundImageLoggedCookie {
   background-image: none;
-  min-height: 66vh;
   overflow-y: hidden;
   margin: 0 auto;
   max-width: 100%;

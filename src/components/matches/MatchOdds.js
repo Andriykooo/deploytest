@@ -1,59 +1,64 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { selectBet } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectBet } from "../../store/actions";
 
-export const MatchOdds = ({ selection, match, activeClass, id }) => {
+export const MatchOdds = ({ selection }) => {
   const dispatch = useDispatch();
+  const selectedPlayerBets = useSelector((state) => state.selectedBets);
+
+  const isSelected = selectedPlayerBets.bets.some((element) => {
+    return element.bet_id === selection?.bet_id;
+  });
+
   let selectionRow = selection;
   let betId = selectionRow?.bet_id;
-  let backgroundColor = false;
+  const betIsOpen = selectionRow?.trading_status?.toLowerCase() === "open";
+  const betIsSuspended = selectionRow?.trading_status?.toLowerCase() === "suspended";
 
-  const handleSelectBet = (element) => {
-    if (element) {
-      if (element.classList.contains("styleOfSelectedOdd")) {
-        element.classList.remove("styleOfSelectedOdd");
-      } else {
-        element.classList.add("styleOfSelectedOdd");
-      }
+  const handlerOnClick = (e) => {
+    if (!betIsOpen) {
+      return;
     }
+    const bet_id = e.target.dataset.id;
+    let tmp = { ...selectedPlayerBets };
+    const new_bet = {
+      bet_id: bet_id,
+      stake: 0,
+    };
+
+    let exist = false;
+    tmp.bets.forEach((item) => {
+      if (item.bet_id === bet_id) {
+        tmp.bets = tmp.bets.filter((item) => item.bet_id !== bet_id);
+        exist = true;
+      }
+    });
+    if (!exist) tmp.bets.push(new_bet);
+
+    dispatch(setSelectBet(tmp));
   };
 
   return (
     <div
       className="matchOddsContainer matchOddsContainerFootball"
-      key={selectionRow?.selection_id}
+      key={selectionRow?.bet_id}
     >
       <div
         className={
-          id !== 15 && backgroundColor
-            ? `matchOdds firstSelection decimalValue valueOfBets valueOddsInBets ${activeClass} styleOfSelectedOdd`
-            : id !== 15
-            ? `matchOdds firstSelection decimalValue valueOfBets valueOddsInBets ${activeClass} `
-            : id === 15 && backgroundColor
-            ? `matchOdds firstSelection decimalValue valueOfBets  valueOddsInBets ${activeClass} styleOfSelectedOdd`
-            : ""
+          isSelected
+            ? `matchOdds firstSelection decimalValue valueOddsInBets styleOfSelectedOdd`
+            : `matchOdds firstSelection decimalValue valueOddsInBets`
         }
-        data-value={
-          selectionRow?.odds_decimal
-            ? selectionRow?.odds_decimal.toFixed(2)
-            : ""
-        }
+        data-value={selectionRow?.odd ? selectionRow?.odd : 1}
         id={"bet_odds_" + betId}
-        onClick={(e) => {
-          handleSelectBet(e.target);
-          let payload = {
-            selection: selection,
-            match_name: match?.match_name,
-            match_id: match?.match_id,
-            selection_id: selection?.selection_id,
-            bet_id: selection?.bet_id,
-          };
-          dispatch(selectBet(payload));
-        }}
+        data-id={betId}
+        onClick={(e) => handlerOnClick(e)}
       >
-        {selectionRow?.odds_decimal
-          ? selectionRow?.odds_decimal.toFixed(2)
-          : ""}
+        {betIsOpen && selectionRow?.odd
+          ? selectionRow?.odd
+          : betIsSuspended
+          ? "S"
+          : "-"}
       </div>
       {false && <div className="odds-changed-triangle"></div>}
     </div>

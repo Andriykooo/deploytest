@@ -1,6 +1,5 @@
 .infoP,
 .infoWithdrawal {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -23,7 +22,6 @@
   width: 15px;
 }
 .withdrawAmount {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -32,7 +30,6 @@
 }
 
 .value {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -42,7 +39,6 @@
   color: #bcbfc2;
 }
 .maxValue {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -69,7 +65,6 @@
   height: 35px;
   background: var(--global-color-button-primary);
   border-radius: 10px;
-  font-family: var(--global-font-bold);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -94,7 +89,6 @@
 }
 
 .modal-title {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -111,7 +105,6 @@
   width: 100%;
 }
 .fundsModal {
-  font-family: var(--global-font-medium);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -121,7 +114,6 @@
   justify-content: center;
 }
 .fundsMsgModal {
-  font-family: var(--global-font-regular);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -168,7 +160,6 @@
 }
 
 .depositTitle {
-  font-family: var(--global-font-black);
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -183,7 +174,6 @@
   position: relative;
 }
 .deposit-input {
-  font-family: var(--global-font-regular);
   margin-bottom: 15px;
   width: 100%;
   max-width: 400px;
@@ -194,6 +184,7 @@
   border: none;
   box-sizing: border-box;
   border-radius: 10px;
+  padding: 0 20px;
 }
 
 .selectDecimalDeposit {
@@ -235,9 +226,9 @@
 }
 
 .submit-button-deposit {
-  font-family: var(--global-font-regular);
   width: 100%;
   max-width: 400px;
+  font-weight: 600;
   height: 50px;
   color: #bcbfc2;
   background: var(--global-color-secondary);
@@ -255,13 +246,13 @@
   padding: 2rem !important;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
   .modal-content {
     margin-top: 0px;
+    height: 100%;
   }
 
   .depositTitle {
-    font-family: var(--global-font-black);
     font-style: normal;
     font-weight: 400;
     font-size: 34px;
@@ -275,7 +266,6 @@
   }
 
   .deposit-input {
-    font-family: var(--global-font-regular);
     margin-bottom: 15px;
     width: 100%;
     max-width: 400px;
@@ -316,7 +306,6 @@
   }
 
   .submit-button-deposit {
-    font-family: var(--global-font-regular);
     width: 100%;
     max-width: 400px;
     height: 50px;

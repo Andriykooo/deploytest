@@ -1,7 +1,7 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
+import Image from "next/image";
 
 const TransactionModals = ({ type }) => {
   const isMobile = useSelector((state) => state.setMobile);
@@ -32,7 +32,11 @@ const TransactionModals = ({ type }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <div className="checkAndTitle">
-                    <img alt="img-modalCheck" src={images.modalCheck} className="mb-4" />
+                    <Image
+                      alt="img-modalCheck"
+                      src={images.modalCheck}
+                      className="mb-4"
+                    />
                     <p className="modal-title mt-3" id="exampleModalLabel">
                       Bet Placed (#3243)
                     </p>
@@ -48,7 +52,11 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal placed">Stake: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <Button type="button" className={"btn finishBtn col-8"} text={"Close"}/>
+                  <Button
+                    type="button"
+                    className={"btn finishBtn col-8"}
+                    text={"Close"}
+                  />
                 </div>
               </div>
             </div>
@@ -83,7 +91,11 @@ const TransactionModals = ({ type }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <div className="checkAndTitle">
-                    <img alt="img-modalCheck" src={images.modalCheck} className="mb-4" />
+                    <Image
+                      alt="img-modalCheck"
+                      src={images.modalCheck}
+                      className="mb-4"
+                    />
                     <p className="modal-title mt-3" id="exampleModalLabel">
                       Bet Pushed (#1223)
                     </p>
@@ -99,7 +111,11 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal placed">Stake: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <Button type="button" className={"btn finishBtn col-8"} text={"Close"}/>
+                  <Button
+                    type="button"
+                    className={"btn finishBtn col-8"}
+                    text={"Close"}
+                  />
                 </div>
               </div>
             </div>
@@ -135,7 +151,11 @@ const TransactionModals = ({ type }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <div className="checkAndTitle">
-                    <img alt="img-modalCheck" src={images.modalCheck} className="mb-4" />
+                    <Image
+                      alt="img-modalCheck"
+                      src={images.modalCheck}
+                      className="mb-4"
+                    />
                     <p className="modal-title mt-3" id="exampleModalLabel">
                       Bet Cancelled (#3243)
                     </p>
@@ -151,7 +171,11 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal placed">Stake: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <Button type="button" className="btn finishBtn col-8" text={"Close"}/>
+                  <Button
+                    type="button"
+                    className="btn finishBtn col-8"
+                    text={"Close"}
+                  />
                 </div>
               </div>
             </div>
@@ -186,7 +210,11 @@ const TransactionModals = ({ type }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <div className="checkAndTitle">
-                    <img alt="img-modalCheck" src={images.modalCheck} className="mb-4" />
+                    <Image
+                      alt="img-modalCheck"
+                      src={images.modalCheck}
+                      className="mb-4"
+                    />
                     <p className="modal-title mt-3" id="exampleModalLabel">
                       Deposit
                     </p>
@@ -197,7 +225,11 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">Has been deposited by card</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <Button type="button" className="btn finishBtn col-8" text={"Close"}/>
+                  <Button
+                    type="button"
+                    className="btn finishBtn col-8"
+                    text={"Close"}
+                  />
                 </div>
               </div>
             </div>
@@ -232,7 +264,11 @@ const TransactionModals = ({ type }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <div className="checkAndTitle">
-                    <img alt="img-modalCheck" src={images.modalCheck} className="mb-4" />
+                    <Image
+                      alt="img-modalCheck"
+                      src={images.modalCheck}
+                      className="mb-4"
+                    />
                     <p className="modal-title mt-3" id="exampleModalLabel">
                       Withdrawal
                     </p>
@@ -243,7 +279,11 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">Has been withdrawned to card</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <Button type="button" className="btn finishBtn col-8" text={"Close"}/>
+                  <Button
+                    type="button"
+                    className="btn finishBtn col-8"
+                    text={"Close"}
+                  />
                 </div>
               </div>
             </div>

@@ -1,34 +1,34 @@
-import React from "react";
 import MatchDetails from "../components/matches/MatchDetails";
-import BonuesesAndPromotions from "../pages/BonuesesAndPromotions/BonuesesAndPromotions";
-import Deposit from "../pages/Deposit/Deposit";
-import DepositLimit from "../pages/DepositLimit/DepositLimit";
-import Email from "../pages/ForgotPassword/Email";
-import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
-import Home from "../pages/Home/Home";
-import InPlay from "../pages/InPlay/InPlay";
-import Kyc from "../pages/Kyc/Kyc";
-import { Verification } from "../pages/Kyc/Verification";
-import NetDeposit from "../pages/NetDeposit/NetDeposit";
-import Notifications from "../pages/Notifications/Notifications";
-import OddsFormat from "../pages/OddsFormat/OddsFormat";
-import OpenPredictions from "../pages/OpenPredictions/OpenPredictions";
-import Privacy from "../pages/Privacy/Privacy";
-import Profile from "../pages/Profile/Profile";
-import RealityCheck from "../pages/RealityCheck/RealityCheck";
-import SaferGambling from "../pages/SaferGambling/SaferGambling";
-import SaferGamblingInformation from "../pages/SaferGamblingInformation/SaferGamblingInformation";
-import SelfExclude from "../pages/SelfExclude/SelfExclude";
-import SettledPredictions from "../pages/SettledPredictions/SettledPredictions";
-import FinishAccountSetup from "../pages/SignUp/FinishAccountSetup";
-import SignUp from "../pages/SignUp/SignUp";
-import SignUpWithPhone from "../pages/SignUp/SignUpWithPhone";
-import VerifyEmail from "../pages/SignUp/verifyEmail";
-import Sports from "../pages/Sports/Sports";
-import SuspendAccount from "../pages/SuspendAccount/SuspendAccount";
-import Terms from "../pages/Terms/Terms";
-import TransactionHistory from "../pages/TransactionHistory/TransactionHistory";
-import Withdraw from "../pages/Withdraw/Withdraw";
+import BonuesesAndPromotions from "../screens/BonuesesAndPromotions/BonuesesAndPromotions";
+import Deposit from "../screens/Deposit/Deposit";
+import DepositLimit from "../screens/DepositLimit/DepositLimit";
+import Email from "../screens/ForgotPassword/Email";
+import ForgotPassword from "../screens/ForgotPassword/ForgotPassword";
+import Home from "../screens/Home/Home";
+import InPlay from "../screens/InPlay/InPlay";
+import Kyc from "../screens/Kyc/Kyc";
+import { Verification } from "../screens/Kyc/Verification";
+import NetDeposit from "../screens/NetDeposit/NetDeposit";
+import Notifications from "../screens/Notifications/Notifications";
+import OddsFormat from "../screens/OddsFormat/OddsFormat";
+import OpenPredictions from "../screens/OpenPredictions/OpenPredictions";
+import Privacy from "../screens/Privacy/Privacy";
+import Profile from "../screens/Profile/Profile";
+import { Racecard } from "../screens/Racecard/Racecard";
+import RealityCheck from "../screens/RealityCheck/RealityCheck";
+import SaferGambling from "../screens/SaferGambling/SaferGambling";
+import SaferGamblingInformation from "../screens/SaferGamblingInformation/SaferGamblingInformation";
+import SelfExclude from "../screens/SelfExclude/SelfExclude";
+import SettledPredictions from "../screens/SettledPredictions/SettledPredictions";
+import FinishAccountSetup from "../screens/SignUp/FinishAccountSetup";
+import SignUp from "../screens/SignUp/SignUp";
+import SignUpWithPhone from "../screens/SignUp/SignUpWithPhone";
+import VerifyEmail from "../screens/SignUp/verifyEmail";
+import Sports from "../screens/Sports/Sports";
+import SuspendAccount from "../screens/SuspendAccount/SuspendAccount";
+import Terms from "../screens/Terms/Terms";
+import TransactionHistory from "../screens/TransactionHistory/TransactionHistory";
+import Withdraw from "../screens/Withdraw/Withdraw";
 
 export const authRoutes = [
   { path: "/home", component: <Home /> },
@@ -37,11 +37,12 @@ export const authRoutes = [
   { path: "/sign_up", component: <SignUp /> },
   { path: "/sign_up_with_phone", component: <SignUpWithPhone /> },
   { path: "/forgot_password", component: <ForgotPassword /> },
-  { path: "/sports/:id", component: <Sports /> },
+  { path: "/sport/:slug", component: <Sports /> },
   { path: "/in-play/:id", component: <InPlay /> },
   { path: "/match/:id", component: <MatchDetails /> },
   { path: "/email_sent", component: <Email /> },
   { path: "/verify_email", component: <VerifyEmail /> },
+  { path: "/racecard/:id", component: <Racecard /> },
   { path: "/", component: <Home /> },
 ];
 

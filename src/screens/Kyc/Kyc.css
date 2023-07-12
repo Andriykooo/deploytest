@@ -8,8 +8,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   overflow: auto;
-  height: 100%;
-  min-height: 95vh;
 }
 
 .photo_buttons {

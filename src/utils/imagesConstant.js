@@ -37,6 +37,7 @@ import debitCard from "../assets/images/debit-card.svg";
 import depositIcon from "../assets/images/depositIcon.svg";
 import depositBlack from "../assets/images/depositIconBlack.svg";
 import emailIcon from "../assets/images/email-icon.svg";
+import emptyState from "../assets/images/emptyState.svg";
 import eventsBoostLogo from "../assets/images/eventsBoostLogo.png";
 import fbIcon from "../assets/images/fbIcon.svg";
 import finalCountdown from "../assets/images/finalCountdown.png";
@@ -104,12 +105,14 @@ import secondLogoTrending from "../assets/images/secondLogoTrending.svg";
 import secondTrending from "../assets/images/secondTrending.png";
 import settledBets from "../assets/images/settledBets.svg";
 import settledDone from "../assets/images/settledDone.svg";
+import shirt from "../assets/images/shirt.png";
 import showPassIcon from "../assets/images/showPassIcon.svg";
 import sinful7 from "../assets/images/sinful7.png";
 import sliderFirstImage from "../assets/images/slider-image-1.png";
 import snooker from "../assets/images/snooker.svg";
 import soccerLogo from "../assets/images/soccerLogo.svg";
 import specialEventMainScreen from "../assets/images/specialEventMainScreen.png";
+import streamVideo from "../assets/images/streamVideo.png";
 import swiftySpecialMobile from "../assets/images/swiftySpecialMobile.png";
 import swiftySpecialsLogo from "../assets/images/swiftySpecialsLogo.png";
 import adOfFooter from "../assets/images/swiftyglobal_ad.png";
@@ -133,10 +136,17 @@ import wishJackpot from "../assets/images/wishJackpot.png";
 import withdrawIcon from "../assets/images/withdrawIcon.svg";
 import withdrawalBlack from "../assets/images/withdrawalBlack.svg";
 import wolfLegend from "../assets/images/wolfLegend.png";
-import streamVideo from "../assets/images/streamVideo.png";
-import shirt from "../assets/images/shirt.png";
+import horseRacingLiveStream from "../assets/images/horseRacingLiveStream.png";
+import silkImage from "../assets/images/silkImage.png";
+import chatIconWhite from "../assets/images/chat-icon-white.svg";
+import rollUpIcon from "../assets/images/roll-up.svg";
+import sendMessageGold from "../assets/images/send-message-gold.svg";
+import sendMessageIcon from "../assets/images/send-message.svg";
 
 export const images = {
+  silkImage,
+  horseRacingLiveStream,
+  emptyState,
   shirt,
   streamVideo,
   soccerLogo,
@@ -272,4 +282,8 @@ export const images = {
   fifthLogoTrending,
   swiftySpecialMobile,
   specialEventMainScreen,
+  chatIconWhite,
+  rollUpIcon,
+  sendMessageIcon,
+  sendMessageGold,
 };
