@@ -1,23 +1,25 @@
 "use client";
 
+import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "swiper/css";
 import { Swiper } from "swiper/react";
-import Header from "../../components/header/Header";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
+import ProfileBack from "@/components/profileBack/ProfileBack";
 import Spiner from "../../utils/Spiner";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CasinoBet, CasinoResult } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
+import { TRANSACTION_HISTORY_STATUSES } from "@/utils/transactionHistory";
 import "../TransactionHistory/TransactionHistory.css";
 import "./TransactionModals";
-import { useRouter } from "next/navigation";
-import { nextWindow } from "@/utils/nextWindow";
+import classNames from "classnames";
+import { useSelector } from "react-redux";
+
 
 const TransactionHistory = () => {
   const skeletonHeader = new Array(4).fill(0);
@@ -26,9 +28,8 @@ const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
-  const router = useRouter();
+  const isTablet = useSelector((state) => state.isTablet);
 
-  let active = "active";
   const getTransactions = () => {
     setShowSpinner(true);
     apiServices
@@ -116,6 +117,7 @@ const TransactionHistory = () => {
         );
         transactionTitle = `Bet Undo (#${item.id})`;
         break;
+      case "deposit_bank_transfer":
       case item?.transaction_type.includes("deposit"):
         icon = (
           <Image
@@ -128,6 +130,7 @@ const TransactionHistory = () => {
         transactionTitle = `Deposit`;
         break;
       case "withdrawal":
+      case "withdrawal_nixxe":
       case item?.transaction_type.includes("withdraw"):
         icon = (
           <Image
@@ -208,15 +211,15 @@ const TransactionHistory = () => {
     justifyContent: "center",
     flexDirection: "column",
     paddingLeft: "0.25rem",
+    paddingRight: "16px"
   };
   const containerStyles = {
     paddingRight: "40px",
     height: "100%",
   };
-
   useEffect(() => {
     getTransactions();
-    const onScroll = () => {};
+    const onScroll = () => { };
     if (document.querySelector("#scrollable")) {
       document
         .querySelector("#scrollable")
@@ -226,132 +229,124 @@ const TransactionHistory = () => {
     return () => nextWindow.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <>
-      <Header />
-      <div className="backgroundLinear linearTransaction">
-        <div className="d-none d-lg-block">
-          <ProfileMenu sideBarMenu active={active} page="transaction_history" />
-        </div>
+    <div className="depositLimit" style={containerStyles} id="scrollable">
+      <div className="depositBodyTransaction">
+        <ProfileBack />
+        <p className="menuTitle">Transaction History </p>
+        <div className="mb-3">
+          <Swiper
+            id="feed-swiper"
+            className="monthsFilter col-12"
+            slidesPerView={"auto"}
+            spaceBetween={1}
+            freeMode={true}
+            loop={false}
+          ></Swiper>
 
-        <div className="depositLimit" style={containerStyles} id="scrollable">
-          <div className="depositBody">
-            <div className="d-flex d-lg-none">
-              <div className="d-flex ">
-                <Image
-                  src={images.goBackArrow}
-                  alt="Go back"
-                  className="goBackArrow ms-0 mb-3"
-                  onClick={() => router.push("/profile")}
-                />
-              </div>
-            </div>
-            <p className="menuTitle">Transaction History </p>
-            <div className="mb-3">
-              <Swiper
-                id="feed-swiper"
-                className="monthsFilter col-12"
-                slidesPerView={"auto"}
-                spaceBetween={1}
-                freeMode={true}
-                loop={false}
-              ></Swiper>
-
-              <div className="infiniteScroll">
-                <InfiniteScroll
-                  dataLength={transactions?.length}
-                  next={getTransactions}
-                  hasMore={hasMore && !isLoading}
-                  scrollableTarget="scrollable"
-                  className="max-container"
-                >
-                  <div className="mt-4 mb-4">
-                    {isLoading ? (
-                      skeletonHeader.map((item, index) => {
-                        return (
-                          <React.Fragment key={index}>
-                            <Skeleton
-                              variant="text"
-                              sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                              className="mt-2"
-                              animation="wave"
-                              width={250}
-                              key={index}
-                            />
-                            {skeletonHeader.map((item, index) => (
-                              <Skeleton
-                                variant="text"
-                                sx={{ fontSize: "1.2rem" }}
-                                className="my-2"
-                                animation="wave"
-                                width={600}
-                                key={index}
-                              />
-                            ))}
-                          </React.Fragment>
-                        );
-                      })
-                    ) : (
-                      <>
-                        {transactions.map((value) => {
-                          return (
-                            <div key={value.date}>
-                              <span className="predictionDates mb-4 mt-4">
-                                {getDate(value.date)}
-                              </span>
-                              {value?.data.map((item) => {
-                                const txDetails = getTxDetails(item);
-                                return (
-                                  <div key={item.id}>
-                                    <div className="mb-2" key={item.date}>
-                                      <div className="transactionCard col-8 d-flex">
+          <div className="infiniteScroll">
+            <InfiniteScroll
+              dataLength={transactions?.length}
+              next={getTransactions}
+              hasMore={hasMore && !isLoading}
+              scrollableTarget="scrollable"
+              className="max-container"
+            >
+              <div className="mt-4 mb-4">
+                {isLoading ? (
+                  skeletonHeader.map((item, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        <Skeleton
+                          variant="text"
+                          sx={{ fontSize: "2rem", bgcolor: "#212536" }}
+                          className="mt-2"
+                          animation="wave"
+                          width={250}
+                          key={index}
+                        />
+                        {skeletonHeader.map((item, index) => (
+                          <Skeleton
+                            variant="text"
+                            sx={{ fontSize: "1.2rem" }}
+                            className="my-2"
+                            animation="wave"
+                            width={600}
+                            key={index}
+                          />
+                        ))}
+                      </React.Fragment>
+                    );
+                  })
+                ) : (
+                  <>
+                    {transactions.map((value) => {
+                      return (
+                        <div key={value.date}>
+                          <span className="predictionDates mb-3 mt-4">
+                            {getDate(value.date)}
+                          </span>
+                          {value?.data.map((item) => {
+                            const txDetails = getTxDetails(item);
+                            return (
+                              <div key={item.id}>
+                                <div className="mb-2" key={item.date}>
+                                  <div>
+                                    <div className="transactionCardWrapper col-8 d-flex">
+                                      <div className="transactionCard">
                                         <div style={betTypeIcon}>
                                           {txDetails.icon}
                                         </div>
-                                        <div className="d-block ms-3 pt-3 col-8">
-                                          <div className="typeDate">
+                                        <div
+                                          className={classNames('transaction-item-title', {
+                                            'title-centered': !item.row2 && item.transaction_status === TRANSACTION_HISTORY_STATUSES.successful
+                                          })}
+                                        >
+                                          <div className={!isTablet && !item.row2 && "transaction-item"}>
                                             <span className="placed">
                                               {txDetails.title}
                                             </span>
-                                            <span className="betDate">
-                                              {txDetails.date}
-                                            </span>
-                                          </div>
-                                          <div className="valuesDiv">
-                                            <div className="col d-flex placed ">
-                                              <span className="typeDate">
+                                            {!!item.row2 ? (
+                                              <span className="typeSubtitle">
                                                 {item.row2}
                                               </span>
-                                            </div>
+                                            ) : item.transaction_status !== TRANSACTION_HISTORY_STATUSES.successful && (
+                                              <div className={`transaction-status ${item.transaction_status}`}>
+                                                <span>{item.transaction_status}</span>
+                                              </div>
+                                            )}
                                           </div>
-                                          <div className="col-2 placed mt-auto mb-auto">
-                                            <span className="m-0 profitValue pt-3">
-                                              {txDetails.amount}
-                                            </span>
-                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="amount-wrapper">
+                                        <span className="typeDate">{txDetails.date}</span>
+                                        <div className="placed">
+                                          <span>
+                                            {txDetails.amount}
+                                          </span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                );
-                              })}
-                            </div>
-                          );
-                        })}
-                        {showSpinner && (
-                          <span className="spinnerStyle">
-                            <Spiner sell />
-                          </span>
-                        )}
-                      </>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                    {showSpinner && (
+                      <span className="spinnerStyle">
+                        <Spiner sell />
+                      </span>
                     )}
-                  </div>
-                </InfiniteScroll>
+                  </>
+                )}
               </div>
-            </div>
+            </InfiniteScroll>
           </div>
         </div>
-      </div>
-    </>
+      </div >
+    </div >
   );
 };
 

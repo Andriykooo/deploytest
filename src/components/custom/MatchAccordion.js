@@ -24,7 +24,9 @@ export const MatchAccordion = ({ row, type, inPlay, number }) => {
       <Accordion.Item eventKey={String(number)}>
         <Accordion.Header>{row.name}</Accordion.Header>
         <Accordion.Body>
-          {!isTablet && <MarketOptions options={selectionTypes} />}
+          {!isTablet && type !== "icehockey" && (
+            <MarketOptions options={selectionTypes} />
+          )}
           <div className="matchContainer">
             {row?.events.map((row, index) => {
               let moreMarkets = false;
@@ -43,29 +45,7 @@ export const MatchAccordion = ({ row, type, inPlay, number }) => {
               moreMarkets = false;
               return (
                 <React.Fragment key={row.event_id}>
-                  {type === "basketball" && (
-                    <BasketballCard
-                      match={row}
-                      key={index}
-                      moreMarkets={moreMarkets}
-                      firstRow={firstRow}
-                      inPlay={inPlay}
-                      competitionName={row.name}
-                    />
-                  )}
-                  {type === "icehockey" && (
-                    <HockeyCard
-                      match={row}
-                      key={index}
-                      moreMarkets={moreMarkets}
-                      firstRow={firstRow}
-                      inPlay={inPlay}
-                    />
-                  )}
-
-                  {!matchTypes.includes(type) && (
-                    <MatchCard match={row} key={index} inPlay={inPlay} />
-                  )}
+                  <MatchCard match={row} key={index} inPlay={inPlay} />
                 </React.Fragment>
               );
             })}

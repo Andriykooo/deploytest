@@ -31,6 +31,7 @@
 .horse-container {
   display: flex;
   background: var(--global-color-shade1);
+  height: 50px;
 }
 
 .text-of-events {
@@ -114,7 +115,8 @@
 .odds-of-horse .matchOdds {
   border-bottom: 1px solid var(--global-color-secondary);
   border-right: 1px solid var(--global-color-secondary);
-  width: 50px;
+  min-width: 50px;
+  width: 100%;
   height: 50px;
   padding: 5px;
 }
@@ -127,9 +129,11 @@
   border-bottom: 1px solid var(--global-color-secondary);
 }
 
-.slick-slide .silk-image img {
-  height: 14px;
-  width: 18px;
+.silk-image img {
+  height: 20px;
+  width: 20px;
+  object-fit: contain;
+  border-radius: 0;
 }
 
 .more-container-in-events {
@@ -157,6 +161,7 @@
   background: var(--global-color-secondary);
   padding-left: 12px;
   cursor: pointer;
+  border-right: 1px solid var(--global-color-shade5);
 }
 
 .more-sidebar-in-events {
@@ -189,22 +194,28 @@
   border-radius: 4px;
 }
 
-.horse-matches .small-arrows,
+.horse-matches .small-arrows svg,
 .horse-matches .slick-arrow {
   width: 20px;
   height: 20px;
-  top: 50%;
-  transform: translateY(-50%);
   padding: 5px;
   margin: 0 11px;
   box-shadow: none;
 }
 
-.horse-matches .nextSvg {
+.horse-matches .arrow-wrapper,
+.horse-matches .slick-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.horse-matches .nextSvg,
+.horse-matches .arrow-wrapper.next {
   right: -20px;
 }
 
-.horse-matches .previousSvg {
+.horse-matches .previousSvg,
+.horse-matches .arrow-wrapper.previous {
   left: -20px;
 }
 
@@ -223,6 +234,13 @@
   transform: rotate(90deg);
 }
 
+@media (max-width: 576px) {
+  .horse-matches .small-arrows svg,
+  .horse-matches .slick-arrow {
+    width: 26px;
+    height: 26px;
+  }
+}
 @media (max-width: 600px) {
   .events-contents-container {
     grid-template-columns: 1fr;

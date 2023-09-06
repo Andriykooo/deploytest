@@ -69,6 +69,7 @@ import iBas from "../assets/images/ibas.svg";
 import iceHockey from "../assets/images/iceHockey.svg";
 import iceHockeyLogo from "../assets/images/icehockeyLogo.svg";
 import closeIcon from "../assets/images/icons8-close.svg";
+import closeRounded from "../assets/images/closeRounded.svg";
 import menuIcon from "../assets/images/icons8-menu.svg";
 import infoIcon from "../assets/images/info.svg";
 import instagramIcon from "../assets/images/instagram-logo.svg";
@@ -139,11 +140,19 @@ import wolfLegend from "../assets/images/wolfLegend.png";
 import horseRacingLiveStream from "../assets/images/horseRacingLiveStream.png";
 import silkImage from "../assets/images/silkImage.png";
 import chatIconWhite from "../assets/images/chat-icon-white.svg";
+import chatIcon from "../assets/images/chat.svg";
 import rollUpIcon from "../assets/images/roll-up.svg";
 import sendMessageGold from "../assets/images/send-message-gold.svg";
 import sendMessageIcon from "../assets/images/send-message.svg";
+import arrowRight from "../assets/images/arrow_right.svg";
+import unnamedFavorite from "../assets/images/unnamedFavorite.png";
+import pointer from "../assets/images/pointer.svg";
+import allPending from "../assets/images/allPending.svg";
 
 export const images = {
+  pointer,
+  unnamedFavorite,
+  arrowRight,
   silkImage,
   horseRacingLiveStream,
   emptyState,
@@ -206,6 +215,7 @@ export const images = {
   inPlay,
   union,
   closeIcon,
+  closeRounded,
   menuIcon,
   GroupSwifty,
   polygon,
@@ -283,7 +293,9 @@ export const images = {
   swiftySpecialMobile,
   specialEventMainScreen,
   chatIconWhite,
+  chatIcon,
   rollUpIcon,
   sendMessageIcon,
   sendMessageGold,
+  allPending,
 };

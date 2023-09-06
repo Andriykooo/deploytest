@@ -5,118 +5,60 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { uuid } from "uuidv4";
 import { SocketContext } from "../../context/socket";
-import { ToggleLabel } from "../../screens/Notifications/ToggleLabel";
-import { setActiveSocketSubscribe, setSportData } from "../../store/actions";
-import { tempArrayForMarkets } from "../../utils/constants";
-import { groupObjectsBySameValue } from "../../utils/global";
-import { ArrowDownIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import {
-  subscribeToMatch,
-  unsubscribeToCompetition,
-  unsubscribeToMarket,
-  unsubscribeToSport,
-} from "../../utils/socketSubscribers";
-import { Button } from "../button/Button";
 import { BetSelectedTypes } from "../custom/BetSelectedTypes";
 import { TabsSelect } from "../tabsSelect/TabsSelect";
 import { MatchOdds } from "./MatchOdds";
+import { setUpdatedSelections } from "@/store/actions";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { EmptyState } from "../emptyState/EmptyState";
+import { GoBackButton } from "../goBackButton/GoBackButton";
+import classNames from "classnames";
 
 const MatchDetails = ({ data, id }) => {
+  const dispatch = useDispatch();
   const [pushNotificationSettings, setPushNotificationSettings] = useState([
     { key: "key1", label: "Notification 1", status: false },
     { key: "key2", label: "Notification 2", status: true },
   ]);
-  const markets =
-    data?.markets.length >= 1 ? groupObjectsBySameValue(data?.markets) : [];
+
+  const markets = data?.markets?.length >= 1 ? data?.markets : []; // groupObjectsBySameValue(data?.markets) : [];
+
+  const [filteredMarkets, setFilteredMarkets] = useState(markets);
+
+  const marketList = data?.market_list.length ? data?.market_list : [];
 
   const teams = {
-    homeTeam: data?.match_name?.split(" v ")[0],
-    awayTeam: data?.match_name?.split(" v ")[1],
+    homeTeam: data?.event_name?.split(" v ")[0],
+    awayTeam: data?.event_name?.split(" v ")[1],
   };
 
-  const inPlay = useSelector((state) => state.inPlay);
   const isTablet = useSelector((state) => state.isTablet);
-  const activeSocketSubscribe = useSelector(
-    (state) => state.activeSocketSubscribe
-  );
-  const { subscriptionsSocket } = useContext(SocketContext);
-  const sportsData = useSelector((state) => state.sportsData);
-  let activeSport = useSelector((state) => state.activeSport);
-  const selectedBets = useSelector((state) => state.selectedBets);
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const uuid = uuidv4();
 
-  const handleClick = () => {
-    router.back();
-  };
-  const selectionLength = [
-    {
-      key: "sports_update_promotions",
-      status: false,
-      text: " ",
-      title: "Push Notifications",
-    },
-  ];
+  const { gamingSocket } = useContext(SocketContext);
+  const selectedBets = useSelector((state) => state.selectedBets);
+  const router = useRouter();
 
   useEffect(() => {
-    setPushNotificationSettings(selectionLength);
-    let payload = {
-      type: "match_id",
+    gamingSocket.emit("subscribe_match", {
       value: id,
+    });
+
+    gamingSocket.on("selection_updated", (response) => {
+      dispatch(setUpdatedSelections(response));
+    });
+
+    return () => {
+      gamingSocket.off("selection_updated");
+
+      gamingSocket.emit("unsubscribe_match", {
+        value: id,
+        action_id: uuid(),
+      });
     };
-    dispatch(setSportData(payload));
-    if (inPlay) {
-      subscriptionsSocket.on("connect", () => {
-        console.log("Connection established");
-        if (activeSocketSubscribe === "SUBSCRIBE_SPORT") {
-          unsubscribeToSport(subscriptionsSocket, activeSport.toString(), uuid);
-        }
-        subscribeToMatch(subscriptionsSocket, id.toString(), "");
-        dispatch(setActiveSocketSubscribe("SUBSCRIBE_MATCH"));
-      });
-      if (subscriptionsSocket?.connected) {
-        if (activeSocketSubscribe === "SUBSCRIBE_SPORT") {
-          unsubscribeToSport(subscriptionsSocket, activeSport.toString(), uuid);
-        } else if (
-          activeSocketSubscribe === "SUBSCRIBE_COMPETITION" &&
-          sportsData?.competition_id
-        ) {
-          unsubscribeToCompetition(
-            subscriptionsSocket,
-            sportsData?.competition_id.toString(),
-            uuid
-          );
-        } else if (
-          activeSocketSubscribe === "SUBSCRIBE_MARKET" &&
-          sportsData?.market_id
-        ) {
-          unsubscribeToMarket(
-            subscriptionsSocket,
-            sportsData?.market_id.toString(),
-            uuid
-          );
-        }
-        subscribeToMatch(subscriptionsSocket, id.toString(), "");
-        dispatch(setActiveSocketSubscribe("SUBSCRIBE_MATCH"));
-      }
-      subscriptionsSocket.on("disconnect", () => {
-        console.log("Connection lost");
-      });
-      subscriptionsSocket.on("pong", () => {
-        console.log("Pong received");
-      });
-      subscriptionsSocket.on("error", (error) => {
-        console.log({ error });
-      });
-      subscriptionsSocket.on("new_selection", (message) => {
-        let data = message;
-        console.log(data);
-      });
-    }
   }, []);
 
   useEffect(() => {
@@ -132,6 +74,7 @@ const MatchDetails = ({ data, id }) => {
       }
     }
   }, [selectedBets, markets]);
+
   function handleToggle(item) {
     setPushNotificationSettings((prevSettings) =>
       prevSettings.map((setting) =>
@@ -141,25 +84,17 @@ const MatchDetails = ({ data, id }) => {
       )
     );
   }
+
   return (
-    <div className="mainArticle">
-      <div className="col-12 sports-body sportsBackground">
+    <div className="mainArticle matchDetails">
+      <div className="col-12 sports-body">
         <div className={"markets-container"}>
-          <>
+          <div>
             {isTablet ? (
               <div>
                 <div className="container-match-details-paragraph">
-                  <Button
-                    className={"goBackButton goBackButtonDetails"}
-                    onClick={handleClick}
-                    text={
-                      <>
-                        <ArrowDownIcon />
-                        <span className="ps-2">Go back</span>
-                      </>
-                    }
-                  />
-                  <div className="stream-container ">
+                  <GoBackButton />
+                  {/* <div className="stream-container ">
                     <Image
                       src={images.playStreamIcon}
                       className="playstreamIcon"
@@ -179,7 +114,7 @@ const MatchDetails = ({ data, id }) => {
                         last={i + 1 === pushNotificationSettings?.length}
                       />
                     ))}
-                  </div>
+                  </div> */}
                 </div>
                 <div style={{ position: "relative" }}>
                   {pushNotificationSettings[0]?.status && (
@@ -205,151 +140,160 @@ const MatchDetails = ({ data, id }) => {
                 </div>
               </div>
             ) : (
-              <>
-                <>
-                  <div
-                    style={{
-                      paddingBottom: "10px",
-                      borderRadius: "6px",
-                    }}
-                  >
-                    <div className="container-match-details-paragraph ">
-                      <Button
-                        className={"goBackButton goBackButtonDetails"}
-                        onClick={handleClick}
-                        text={
-                          <>
-                            <ArrowDownIcon />
-                            <span className="ps-2">Go back</span>
-                          </>
-                        }
-                      />
-                      <div className="stream-container d-flex align-items-center">
-                        <Image
-                          src={images.playStreamIcon}
-                          className="playstreamIcon"
-                          alt="play stream icon"
-                        />
-                        <p className="stream-line ">Stream</p>
-                        {pushNotificationSettings.map((item, i) => (
-                          <ToggleLabel
-                            notification={item}
-                            key={i}
-                            type="push"
-                            value={item.status}
-                            onToggle={() => handleToggle(item)}
-                            isMobile={false}
-                            last={i + 1 === pushNotificationSettings?.length}
+              <div
+                style={{
+                  paddingBottom: "10px",
+                  borderRadius: "6px",
+                }}
+              >
+                <div className="container-match-details-paragraph ">
+                  <GoBackButton />
+                  {/* todo: This can be hidden for now until we get the streams added. */}
+                  {/* <div className="stream-container d-flex align-items-center">
+                          <Image
+                            src={images.playStreamIcon}
+                            className="playstreamIcon"
+                            alt="play stream icon"
                           />
-                        ))}
+                          <p className="stream-line">Stream</p>
+                          {pushNotificationSettings.map((item, i) => (
+                            <ToggleLabel
+                              notification={item}
+                              key={i}
+                              type="push"
+                              value={item.status}
+                              onToggle={() => handleToggle(item)}
+                              isMobile={false}
+                              last={i + 1 === pushNotificationSettings?.length}
+                            />
+                          ))}
+                        </div> */}
+                </div>
+                <div className="position-relative">
+                  {pushNotificationSettings[0]?.status && (
+                    <div className="stream">
+                      <Image
+                        src={images.footbalPitch}
+                        className="pitchField"
+                        alt="Snow"
+                        fill
+                      />
+
+                      <div className="pitch-top">
+                        <div className="live-label" data-type="game">
+                          Live Game
+                        </div>
+                        <div className="live-label" data-type="stats">
+                          Live Stats
+                        </div>
                       </div>
                     </div>
-                    <div className="position-relative">
-                      {pushNotificationSettings[0]?.status && (
-                        <div className="stream">
-                          <Image
-                            src={images.footbalPitch}
-                            className="pitchField"
-                            alt="Snow"
-                            fill
-                          />
-
-                          <div className="pitch-top">
-                            <div className="live-label" data-type="game">
-                              Live Game
-                            </div>
-                            <div className="live-label" data-type="stats">
-                              Live Stats
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      <div className="container-match-details-header ">
-                        <div className="teams-for-matchdetails-container d-flex">
-                          <div className="team-for-matchdetails-mobile match-details-teams-teams">
-                            {teams?.homeTeam}
-                          </div>
-                          <div className="matchResult match-result-soccer-vs">
-                            vs
-                          </div>
-                          <div className="team-for-matchdetails-mobile match-details-teams-teams">
-                            {teams?.awayTeam}
-                          </div>
-                        </div>
+                  )}
+                  <div className="container-match-details-header ">
+                    <div className="teams-for-matchdetails-container d-flex">
+                      <div className="team-for-matchdetails-mobile match-details-teams-teams">
+                        {teams?.homeTeam}
+                      </div>
+                      <div className="matchResult match-result-soccer-vs">
+                        vs
+                      </div>
+                      <div className="team-for-matchdetails-mobile match-details-teams-teams">
+                        {teams?.awayTeam}
                       </div>
                     </div>
                   </div>
-                </>
-              </>
+                </div>
+              </div>
             )}
             <div className="mb-3">
               <TabsSelect
-                data={tempArrayForMarkets.map((market) => ({
-                  label: market.market_name,
-                  id: market.market_id,
-                }))}
+                data={[
+                  { label: "All", id: 0 },
+                  ...marketList.map((currentMarketList) => ({
+                    id: currentMarketList.list_id,
+                    label: currentMarketList.list_title,
+                    marketIds: currentMarketList.markets.map(
+                      (currentMarket) => currentMarket.id
+                    ),
+                  })),
+                ]}
                 placeholder="Select bet"
-                variant="fullWidth"
+                variant={marketList?.length > 7 ? "scrollable" : "fullWidth"}
+                onChange={async (selectedMarketList) => {
+                  if (selectedMarketList.id === 0) {
+                    setFilteredMarkets(markets);
+                  } else {
+                    const url = new URL(apiUrl.MATCH_DETAILS);
+
+                    url.searchParams.append("eventId", id);
+                    url.searchParams.append("listId", selectedMarketList.id);
+
+                    const { markets: responseMarkets } = await apiServices.get(
+                      url
+                    );
+
+                    setFilteredMarkets(responseMarkets);
+                  }
+                }}
               />
             </div>
-            {markets.map((row, index) => {
-              return (
-                <Accordion
-                  defaultActiveKey={["0"]}
-                  key={index}
-                  alwaysOpen
-                  className="accordionContainer "
-                >
-                  <Accordion.Item eventKey={String(index)}>
-                    <Accordion.Header className="accourdHeader">
-                      {row?.label}
-                    </Accordion.Header>
-                    <Accordion.Body
-                      className="match-event-accordion-body "
-                      style={
-                        isTablet
-                          ? { gridTemplateColumns: "1fr 1fr" }
-                          : row?.options.length <= 2
-                          ? { gridTemplateColumns: "1fr 1fr" }
-                          : { gridTemplateColumns: "1fr 1fr 1fr" }
-                      }
-                    >
-                      {row?.options.map((option, index) => {
-                        let selection_name;
-                        selection_name = option?.selection_name
-                          .replace(
-                            new RegExp(`${teams?.homeTeam}`, "gi"),
-                            "Home"
-                          )
-                          .replace(
-                            new RegExp(`${teams?.awayTeam}`, "gi"),
-                            "Away"
-                          );
-                        option.odd = option.odds_decimal;
-
-                        return (
-                          <div className="row headerOfGames" key={index}>
-                            <div className="d-flex position-relative match-event-selection">
-                              {selection_name}
-                            </div>
-
-                            <div
-                              className={
-                                "d-flex position-relative match-event-odds"
-                              }
-                            >
-                              <MatchOdds selection={option} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              );
+          </div>
+          <div
+            className={classNames("markets-container-content", {
+              "markets-container-content-empty": !filteredMarkets.length,
             })}
-          </>
-          <BetSelectedTypes />
+          >
+            {filteredMarkets.length > 0 ? (
+              filteredMarkets.map((row, index) => {
+                return (
+                  <Accordion
+                    defaultActiveKey={["0"]}
+                    key={index}
+                    alwaysOpen
+                    className="accordionContainer "
+                  >
+                    <Accordion.Item eventKey={String(index)}>
+                      <Accordion.Header className="accourdHeader">
+                        {row?.market_name}
+                      </Accordion.Header>
+                      <Accordion.Body
+                        className="match-event-accordion-body "
+                        style={
+                          isTablet
+                            ? { gridTemplateColumns: "1fr 1fr" }
+                            : row?.selections.length <= 2
+                            ? { gridTemplateColumns: "1fr 1fr" }
+                            : { gridTemplateColumns: "1fr 1fr 1fr" }
+                        }
+                      >
+                        {row?.selections.map((option, index) => {
+                          option.odd = option.odds_decimal;
+
+                          return (
+                            <div className="row headerOfGames" key={index}>
+                              <div className="d-flex position-relative match-event-selection">
+                                {option.name}
+                              </div>
+
+                              <div
+                                className={
+                                  "d-flex position-relative match-event-odds"
+                                }
+                              >
+                                <MatchOdds selection={option} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                );
+              })
+            ) : (
+              <EmptyState message="There are no more events!" />
+            )}
+          </div>
         </div>
       </div>
     </div>

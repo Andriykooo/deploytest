@@ -15,9 +15,16 @@ export const ReduxLayout = ({ children }) => {
       "sidebarRight",
       "sidebarLeft",
       "headerData",
-      "on_boarding",
       "tradingChat",
-      "raceCard"
+      "raceCard",
+      "pageLayoutContent",
+      "updatedSelections",
+      "subscriptions",
+      "resultedEvents",
+      "marketOptions",
+      "favouriteGames",
+      "currentTime",
+      "footer"
     ],
   };
 

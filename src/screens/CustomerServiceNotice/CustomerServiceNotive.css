@@ -1,0 +1,51 @@
+.customer-service-notice-wrapper {
+  padding-top: 206px;
+  display: flex;
+  justify-content: center;
+}
+
+.customer-service-notice {
+  max-width: 660px;
+  padding: 0 20px;
+  width: 100%;
+  text-align: center;
+  color: var(--global-color-text-primary);
+}
+
+.customer-service-notice-logo {
+  margin-bottom: 40px;
+  width: 440px;
+  height: 72px;
+}
+
+.customer-service-notice-title {
+  margin-bottom: 24px;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.customer-service-notice-subtitle {
+  font-weight: 600;
+}
+
+.customer-service-notice-description {
+  font-size: 12px;
+}
+
+.customer-service-notice-email {
+  font-size: 14px;
+  color: var(--global-color-tertiary);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1024px) {
+  .customer-service-notice-wrapper {
+    padding-top: 120px;
+  }
+
+  .customer-service-notice-logo {
+    width: 100%;
+  }
+}

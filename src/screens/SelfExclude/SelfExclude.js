@@ -1,22 +1,20 @@
 "use client";
 
 import { nextWindow } from "@/utils/nextWindow";
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
-import { Loader } from "../../components/loaders/Loader";
-import { SetSelfExclude } from "../../components/modal/SetSelfExclude";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
-import { setLoggedUser } from "../../store/actions";
-import { SuccesToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
+import { Button } from "@/components/button/Button";
+import { Loader } from "@/components/loaders/Loader";
+import { setLoggedUser } from "@/store/actions";
+import { SuccesToast } from "@/utils/alert";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { images } from "@/utils/imagesConstant";
 import "./SelfExclude.css";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
+import { removeLocalStorageItem } from "@/utils/localStorage";
 
 const SelfExclude = () => {
   const [excludeData, setExcludeData] = useState({
@@ -93,105 +91,80 @@ const SelfExclude = () => {
     excludeText = "Not Set";
   }
 
+  const handleToggle = () => {
+    setExcludeData({
+      ...excludeData,
+      show: !excludeData.show,
+      data: user_settings?.self_exclude_deactivate_options,
+    });
+  };
+
+  const handleSetSelectedLimit = (value) => {
+    setExcludePeriod(value);
+    setIsLoading(false);
+    handleToggle()
+  };
+
   return (
     <>
-      <Header />
-      <div className="backgroundLinear">
-        <div className="d-none d-lg-block">
-          <ProfileMenu sideBarMenu page="safer_gambling" active={"active"} />
-        </div>
-        <div className="selfExcludePage">
-          <div className="d-flex arrow-top">
-            <Image
-              src={images.goBackArrow}
-              alt="Go back"
-              className="goBackArrow ms-0 mb-3"
-              onClick={() => router.back()}
-            />
-          </div>
-          <p className="menuTitle arrow-top">Self exclude</p>
-          <p className="menuText">
-            If you feel you are spending too much time wagering or are at risk
-            of doing so and developing a gambling problem, please consider
-            self-exclusion.
-          </p>
-          <p className="menuText">
-            If you have any open wagers at the time of excluding, any winnings
-            will be credited to your account in the normal way and you can
-            contact our customer service team to arrange payment.
-          </p>
-          <p className="menuText">
-            For further advice please check the links below. <br />
-            GamCare: www.gamcare.org.uk
-            <br />
-            Gam-Anon: www.gamanon.org.uk
-            <br />
-            GambleAware: www.begambleaware.org
-            <br />
-          </p>
-          <div className="row mb-3 menuText">
-            <div className="col-6 subText">Deactivate account for</div>
-            <div className="col-6 selectDepositDiv selfExcludeStyle">
-              <Button
-                type="button"
-                className={"setLimit"}
-                onClick={() => {
-                  setExcludeData({
-                    ...excludeData,
-                    show: true,
-                    data: user_settings?.self_exclude_deactivate_options,
-                  });
+      <div className="max-width-container selfExcludePage gamblingContainer">
+        <div>
+            <div className="d-flex arrow-top">
+              <Image
+                src={images.goBackArrow}
+                alt="Go back"
+                className="ms-0 mb-3"
+                onClick={() => router.back()}
+              />
+            </div>
+            <p className="menuTitle arrow-top">Self exclude</p>
+            <p className="menuText">
+              If you feel you are spending too much time wagering or are at risk of
+              doing so and developing a gambling problem, please consider
+              self-exclusion.
+            </p>
+            <p className="menuText">
+              If you have any open wagers at the time of excluding, any winnings
+              will be credited to your account in the normal way and you can contact
+              our customer service team to arrange payment.
+            </p>
+            <p className="menuText">
+              For further advice please check the links below. <br />
+              GamCare: www.gamcare.org.uk
+              <br />
+              Gam-Anon: www.gamanon.org.uk
+              <br />
+              GambleAware: www.begambleaware.org
+              <br />
+            </p>
+            <div className="row mb-3">
+              <div className="col-6 subText">Deactivate account for</div>
+              <PreferencesDropdown
+                data={{...excludeData, title: "Self exclude"}}
+                selectedItem={excludeValue}
+                handleToggle={handleToggle}
+                handleSelect={(v) => {
+                  handleSetSelectedLimit(v)
                 }}
-                text={
-                  <>
-                    {loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      excludeText
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
+                placeholder={excludeText}
+                loader={loader}
+                btnTitle="Set limit"
+                modalOnMobile
               />
             </div>
-          </div>
-          <div className="row menuText ps-2">
-            <Button
-              className={
-                "setLimit suspendAccBtn " +
-                (excludePeriod
-                  ? " btnPrimary "
-                  : "btn finishBtn disabled setLimitBtn col-8")
-              }
-              onClick={() => excludePeriod && handleSetLimit()}
-              text={<>{isLoading ? <Loader /> : "Deactivate account"}</>}
-            />
-          </div>
         </div>
-        {excludeData.show && (
-          <>
-            <div className="modal-overlay">
-              <SetSelfExclude
-                excludeData={excludeData}
-                setExcludeData={setExcludeData}
-                selectedLimit={selectedLimit}
-                setSelectedLimit={setSelectedLimit}
-                excludePeriod={excludePeriod}
-                setExcludePeriod={setExcludePeriod}
-              />
-            </div>
-          </>
-        )}
+        <div className="row suspendButton">
+          <Button
+            className={
+              "setLimit suspendAccBtn w-100 " +
+              (excludePeriod
+                ? " btnPrimary "
+                : "btn finishBtn disabled setLimitBtn col-8")
+            }
+            onClick={() => excludePeriod && handleSetLimit()}
+            text={<>{isLoading ? <Loader /> : "Deactivate account"}</>}
+          />
+        </div>
       </div>
     </>
   );

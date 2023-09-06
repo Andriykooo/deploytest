@@ -18,9 +18,11 @@ export const BannerMenu = ({
   return (
     <div
       className="banner-menu"
-      style={{ height: subtitle ? "115px" : "81px" }}
+      style={{ height: subtitle ? "115px" : "91px" }}
     >
-      <Image src={image} alt="banner" className="banner-menu-image" fill />
+      {image && (
+        <Image src={image} alt="banner" className="banner-menu-image" fill />
+      )}
       <div className="banner-menu-content">
         {title && <div className="banner-menu-title">{title}</div>}
         {subtitle && <div className="banner-menu-subtitle">{subtitle}</div>}

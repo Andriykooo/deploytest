@@ -1,21 +1,20 @@
 "use client";
 
+import { addLocalStorageItem } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
 import "../../components/loaders/Loader.css";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import "../Login/Login.css";
-import { addLocalStorageItem } from "@/utils/localStorage";
+import Cookies from "js-cookie";
 
 const VerifyEmail = () => {
   const [OTP, setOTP] = useState("");
@@ -62,6 +61,10 @@ const VerifyEmail = () => {
   };
 
   const verifyCode = () => {
+    if (loader) {
+      return;
+    }
+
     setLoader(true);
     setIsValid(true);
     let code = OTP;
@@ -76,6 +79,7 @@ const VerifyEmail = () => {
           } else {
             router.push("/finish_account_setup");
           }
+          Cookies.set("country", result.user_data.country);
         } else {
           router.push("/");
         }
@@ -96,9 +100,8 @@ const VerifyEmail = () => {
   }, [OTP]);
 
   return (
-    <BaseLayout title="Verify Email" className="backgroundImage">
-      <Header />
-      <div className=" loginForm d-grid justify-content-center px-4">
+    <div className="backgroundImage">
+      <div className="loginForm d-grid justify-content-center px-4">
         <p className="logInTitle">Verify your e-mail address</p>
         <form className="d-grid justify-content-center">
           <div className="codeVerification">
@@ -115,36 +118,38 @@ const VerifyEmail = () => {
           </div>
           <p className="codeSent mb-5">
             We have sent a code to your email at
-            <strong> {user.email}</strong>
+            <strong> {user?.email}</strong>
           </p>
-          {minutes === 0 && seconds === 0 ? (
+          <div className="authButtonsContainer">
+            {minutes === 0 && seconds === 0 ? (
+              <Button
+                className="btnPrimary continueBtn outline"
+                onClick={resetTimer}
+                text={"Resend Code"}
+              />
+            ) : (
+              <Button
+                className={"continueBtn outline"}
+                style={{ cursor: "not-allowed" }}
+                disabled
+                text={
+                  <>
+                    Resend in {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                  </>
+                }
+              />
+            )}
             <Button
-              className="btnPrimary continueBtn outline"
-              onClick={resetTimer}
-              text={"Resend Code"}
-            />
-          ) : (
-            <Button
-              className={"continueBtn outline"}
-              style={{ cursor: "not-allowed" }}
-              disabled
-              text={
-                <>
-                  Resend in {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                </>
+              className={
+                isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
               }
+              onClick={verifyCode}
+              text={loader ? <Loader /> : "Verify"}
             />
-          )}
-          <Button
-            className={
-              isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
-            }
-            onClick={verifyCode}
-            text={loader ? <Loader /> : "Verify"}
-          />
+          </div>
         </form>
       </div>
-    </BaseLayout>
+    </div>
   );
 };
 

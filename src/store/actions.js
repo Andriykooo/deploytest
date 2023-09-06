@@ -144,13 +144,6 @@ export const removeReturnValue = (payload) => {
   };
 };
 
-export const setActiveSocketSubscribe = (payload) => {
-  return {
-    type: constants.ACTIVE_SOCKET_SUBSCRIBE,
-    payload,
-  };
-};
-
 export const setInPlay = (payload) => {
   return {
     type: constants.IN_PLAY,
@@ -193,8 +186,6 @@ export const setActivePage = (payload) => {
   };
 };
 
-;
-
 export const setLanguage = (payload) => {
   return {
     type: constants.SET_LANGUAGE,
@@ -202,9 +193,9 @@ export const setLanguage = (payload) => {
   };
 };
 
-export const setTradingChatSettings = (payload) => {
+export const setSettings = (payload) => {
   return {
-    type: constants.SET_TRADING_CHAT_SETTINGS,
+    type: constants.SET_SETTINGS,
     payload,
   };
 };
@@ -212,6 +203,104 @@ export const setTradingChatSettings = (payload) => {
 export const setRaceCard = (payload) => {
   return {
     type: constants.SET_RACE_CARD,
+    payload,
+  };
+};
+
+export const setCasinoCategory = (payload) => {
+  return {
+    type: constants.SET_CASINO_CATEGORY,
+    payload,
+  };
+};
+
+export const setPageLayoutContent = (payload) => {
+  return {
+    type: constants.SET_PAGE_LAYOUT_CONTENT,
+    payload,
+  };
+};
+
+export const updatePageLayoutContent = (payload) => {
+  return {
+    type: constants.UPDATE_PAGE_LAYOUT_CONTENT,
+    payload,
+  };
+};
+
+export const setUpdatedSelections = (payload) => {
+  return {
+    type: constants.SET_UPDATED_SELECTIONS,
+    payload,
+  };
+};
+
+export const setSubscriptions = (payload) => {
+  return {
+    type: constants.SET_SUBSCRIPTIONS,
+    payload,
+  };
+};
+
+export const addToUpdatedBetslipSelections = (payload) => {
+  return {
+    type: constants.ADD_TO_UPDATED_BETSLIP_SELECTIONS,
+    payload,
+  };
+};
+
+export const setUpdatedBetslipSelections = (payload) => {
+  return {
+    type: constants.SET_UPDATED_BETSLIP_SELECTIONS,
+    payload,
+  };
+};
+
+export const setResultedEvents = (payload) => {
+  return {
+    type: constants.SET_RESULTED_EVENTS,
+    payload,
+  };
+};
+
+export const setMarketOptions = (payload) => {
+  return {
+    type: constants.SET_MARKET_OPTIONS,
+    payload,
+  };
+};
+
+export const setFavouriteGames = (payload) => {
+  return {
+    type: constants.SET_FAVOURITE_GAMES,
+    payload,
+  };
+};
+
+export const addToFavouriteGames = (payload) => {
+  return {
+    type: constants.ADD_TO_FAVOURITE_GAMES,
+    payload,
+  };
+};
+
+export const removeFromFavouriteGames = (payload) => {
+  return {
+    type: constants.REMOVE_FROM_FAVOURITE_GAMES,
+    payload,
+  };
+};
+
+export const setCurrentTime = (payload) => {
+  return {
+    type: constants.SET_CURRENT_TIME,
+    payload,
+  };
+};
+
+export const setFooter = (payload) => {
+  return {
+    type: constants.SET_FOOTER,
     payload,
   };
 };

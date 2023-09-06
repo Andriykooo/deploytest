@@ -1,4 +1,4 @@
-import pointer from "../assets/images/pointer.png";
+import pointer from "../assets/images/pointer.svg";
 import { theme } from "./config";
 import {
   CreditCardLogoOfFooter,
@@ -21,8 +21,6 @@ export const apiUrl = {
   SIGN_UP: `${predictionsApiDomain}/v1/user/full_signup`,
   ON_BOARDING: `${predictionsApiDomain}/v1/onboarding`,
   FEEDBACK: `${predictionsApiDomain}/v1/feedback_website`,
-  TERMS: `${predictionsApiDomain}/v1/terms_conditions`,
-  PRIVACY: `${predictionsApiDomain}/v1/policies`,
   VERIFY_EMAIL: `${predictionsApiDomain}/v1/user/verify_email_full_profile?code=`,
   TRANSACTION_HISTORY: `${predictionsApiDomain}/v1/user/transaction_history?page=`,
   USER: `${predictionsApiDomain}/v1/user`,
@@ -44,34 +42,44 @@ export const apiUrl = {
   GET_NET_DEPOSIT_AMOUNT: `${predictionsApiDomain}/v1/user/net_deposit`,
   PREDICTIONS_HISTORY: `${predictionsApiDomain}/v1/bets/history`,
   CANCEL_BET: `${predictionsApiDomain}/v1/bets/cancel`,
-  GET_PAYMENT_GATEWAY_LINK: `${predictionsApiDomain}/v1/deposit/link`,
-  GET_WITHDRAW_GATEWAY_LINK: `${predictionsApiDomain}/v1/withdrawal/link`,
+  GET_PAYMENT_GATEWAY_LINK: `${predictionsApiDomain}/v1/payment_gateway/nixxe/deposit-link`,
+  GET_WITHDRAW_GATEWAY_LINK: `${predictionsApiDomain}/v1/payment_gateway/nixxe/withdrawal-link`,
   PASSWORD_RESET: `${predictionsApiDomain}/v1/user/reset_password?token=`,
   RECONFIRM_DEPOSIT: `${predictionsApiDomain}/v1/user/reconfirm_action`,
   EMAIL_SENT: `${predictionsApiDomain}/v1/user/request_reset_password?device_type=web&&email=`,
 
   // Gaming API
-
+  TERMS: `${gamingApiDomain}/api/v1/cms/terms-conditions`,
+  PRIVACY: `${gamingApiDomain}/api/v1/cms/privacy-policy`,
   GET_FOOTER: `${gamingApiDomain}/api/v1/page-layout/footer`,
   GET_SIDEBAR_LEFT: `${gamingApiDomain}/api/v1/page-layout/sidebar-left`,
   GET_SIDEBAR_RIGHT: `${gamingApiDomain}/api/v1/page-layout/sidebar-right`,
-  GET_GLOBAL_SEO: `${gamingApiDomain}/api/v1/cms/global-seo`,
   GET_PAGE_LAYOUT: `${gamingApiDomain}/api/v1/page-layout`,
   GET_MAIN_MENU: `${gamingApiDomain}/api/v1/page-layout/main-menu`,
+  GET_RACECARD: `${gamingApiDomain}/api/v1/page-layout/race-card`,
   GET_GAME: `${gamingApiDomain}/api/v1/games/details`,
   ADD_TO_FAVORITE_GAMES: `${gamingApiDomain}/api/v1/games/add-favorite`,
   REMOVE_FROM_FAVORITE_GAMES: `${gamingApiDomain}/api/v1/games/remove-favorite`,
   MATCH_DETAILS: `${gamingApiDomain}/api/v1/markets/selections-odds`,
+  MARKETS: `${gamingApiDomain}/api/v1/markets/details`,
   GET_SPORT_TYPES: `${gamingApiDomain}/api/v1/sports/types`,
   GET_COMPETITIONS: `${gamingApiDomain}/api/v1/matches/competitions-matches-odds`,
-  MARKETS: `${gamingApiDomain}/api/v1/markets/details`,
+  UPDATE_BET_STATUS: `${gamingApiDomain}/api/v1/betting/update-bet-offer-status`,
   GET_BET_SLIP: `${gamingApiDomain}/api/v1/betting/generate-bet-slips`,
-  GET_TRADER_CHAT_SETTINGS: `${gamingApiDomain}/api/v1/cms/trader-chat`,
+  CASH_OUT: `${gamingApiDomain}/api/v1/betting/cash-out`,
+  GET_GLOBAL_SEO: `${gamingApiDomain}/api/v1/cms/global-seo`,
+  GET_CSS_CONTENT: `${gamingApiDomain}/api/v1/cms/css-style`,
+  GET_SETTINGS: `${gamingApiDomain}/api/v1/cms/settings`,
+  GET_MY_BETS: `${gamingApiDomain}/api/v1/betting/my-bets`,
+  GET_VENUE_EVENTS: `${gamingApiDomain}/api/v1/page-layout/venue-events`,
+
+
   // Casino API
   CASINO_GAMES: `${casinoApiDomain}/api/v1/casino/games`,
   OPEN_CASINO_GAME: `${casinoApiDomain}/api/v1/casino/game/open`,
   CASINO_LAYOUT: `${casinoApiDomain}/api/v1/casino/layout?slug=casino`,
 };
+
 export const sports = [
   { icons: images.union, sportsType: "Sports", route: "/sport" },
   { icons: images.inPlay, sportsType: "In-Play", route: "/inplay" },
@@ -101,7 +109,7 @@ export const profileCards = [
   {
     cardName: "Bonuses & Promotions",
     image: images.bonusesAndPromotionsIcon,
-    route: "/bonuses_promotions",
+    route: "/profile/bonuses_promotions",
     text: "bonuses_promotions",
     buttonText: "New",
     arrow: true,
@@ -109,63 +117,63 @@ export const profileCards = [
   {
     cardName: "Deposit",
     image: images.depositIcon,
-    route: "/deposit",
+    route: "/profile/deposit",
     text: "deposit",
     arrow: true,
   },
   {
     cardName: "Withdraw",
     image: images.withdrawIcon,
-    route: "/withdraw",
+    route: "/profile/withdraw",
     text: "withdraw",
     arrow: true,
   },
   {
-    cardName: "Prediction History",
+    cardName: "Bet History",
     image: images.predictionIcon,
-    route: "/open_predictions",
+    route: "/profile/bet_history",
     text: "open_predictions",
     arrow: true,
   },
   {
     cardName: "Transaction History",
     image: images.transactionIcon,
-    route: "/transaction_history",
+    route: "/profile/transaction_history",
     text: "transaction_history",
     arrow: true,
   },
   {
     cardName: "Net Deposit",
     image: images.netDepositIcon,
-    route: "/net_deposit",
+    route: "/profile/net_deposit",
     text: "net_deposit",
     arrow: true,
   },
   {
     cardName: "Profile",
     image: images.profileMenuIcon,
-    route: "/profile",
+    route: "/profile/profile",
     text: "profile",
     arrow: false,
   },
   {
     cardName: "Notifications",
     image: images.notificationsIcon,
-    route: "/notifications",
+    route: "/profile/notifications",
     text: "notifications",
     arrow: false,
   },
   {
     cardName: "Odds Format",
     image: images.oddsIcon,
-    route: "/odds_format",
+    route: "/profile/odds_format",
     text: "odds_format",
     arrow: false,
   },
   {
     cardName: "Safer Gambling",
     image: images.saferGamblingIcon,
-    route: "/safer_gambling",
+    route: "/profile/safer_gambling",
     text: "safer_gambling",
     arrow: false,
   },
@@ -175,13 +183,13 @@ export const predictionPages = [
   {
     cardName: "Open",
     image: images.openBets,
-    route: "/open_predictions",
+    route: "/profile/open_predictions",
     text: "open_predictions",
   },
   {
     cardName: "Settled",
     image: images.settledBets,
-    route: "/settled_predictions",
+    route: "/profile/settled_predictions",
     text: "settled_predictions",
   },
 ];
@@ -220,10 +228,6 @@ export const settledPredictions = [
   },
 ];
 export const oddsFormatTypes = [
-  {
-    format: "Give it to me straight",
-    id: "straight",
-  },
   {
     format: "Decimal",
     id: "decimal",
@@ -441,16 +445,6 @@ export const types = [
   },
 ];
 
-export let tempArrayForMarkets = [
-  { market_id: 1, market_name: "Popular", market_order: 1 },
-  { market_id: 2, market_name: "Build a Bet", market_order: 2 },
-  { market_id: 3, market_name: "All Markets", market_order: 3 },
-  { market_id: 4, market_name: "Goals", market_order: 4 },
-  { market_id: 5, market_name: "Handicaps", market_order: 5 },
-  { market_id: 6, market_name: "Player", market_order: 6 },
-  { market_id: 7, market_name: "Half & Periods", market_order: 7 },
-];
-
 export const subscribePages = ["/inplay", "/match"];
 
 export const ContactList = [
@@ -463,11 +457,11 @@ export const returnSaferBettingRulesList = (loggedUser) => {
   return [
     { route: "#", text: " FAQ " },
     {
-      route: loggedUser ? "/safer_gambling" : "/login",
+      route: loggedUser ? "/profile/safer_gambling" : "/login",
       text: " Safer Gambling ",
     },
     {
-      route: loggedUser ? "/safer_gambling_information" : "/login",
+      route: loggedUser ? "/profile/safer_gambling_information" : "/login",
       text: " Betting Rules ",
     },
   ];
@@ -1195,3 +1189,33 @@ export const countries = [
     ],
   },
 ];
+
+export const multipleBetTypesInfo = {
+  double:
+    "A single bet on two outcomes in different events. Both selections must be successful to have a return.",
+  treble:
+    "A single bet on three outcomes in different events. All three selections must win to guarantee a return.",
+  trixie:
+    "A bet comprising three selections and four bets – three doubles and a treble. A minimum of two selections must win to guarantee a return. For example, a £2.50 Trixie would cost £10. A £2.50 each-way Trixie would cost £20.",
+  patent:
+    "A bet involving three selections and seven bets – three singles, three doubles and one treble. It is the equivalent of a Trixie but with the addition of three singles. For example, a £2.50 Patent would cost £17.50.",
+  accumulator:
+    "An accumulator comprises of four or more selections in one bet. All of the selections must win to guarantee a return.",
+  fold: "An accumulator comprises of four or more selections in one bet. All of the selections must win to guarantee a return.",
+  yankee:
+    "A bet consisting of four selections and 11 bets – six doubles, four trebles and a fourfold. A minimum of two selections must win to guarantee you a return. For example, a £2 Yankee would cost £22.",
+  lucky15:
+    "A popular betting type among punters, it consists of four selections and 15 bets (hence the name) – four singles, six doubles, four trebles and a fourfold. Equivalent to a Yankee but with four singles, and only one selection must win to guarantee you a return. For example, a £2 Lucky 15 would cost £30.",
+  lucky31:
+    "A wager consisting of five selections and 31 bets – five singles, ten doubles, ten trebles, five fourfolds, and one fivefold. Only one selection must win to guarantee you a return. For example, a £1 Lucky 31 would cost £31.",
+  lucky63:
+    "A Lucky 63 is a bet featuring six selections and 63 bets, including: six singles, 15 doubles, 20 trebles, 15 fourfolds, six fivefolds and one sixfold.",
+  canadian:
+    "Also known as a Super Yankee, a Canadian is a bet on five selections consisting of 26 bets – ten doubles, ten trebles, five fourfold’s and a five-fold accumulator.",
+  heinz:
+    "The Heinz bet is a six-selection bet consisting of 57 bets: 15 doubles, 20 trebles, 15 fourfolds, six fivefolds and a one sixfold accumulator. Aptly named after the 57 ‘varieties’ company slogan from Heinz, this 57 bet wager is a unique bet that combines every permutation of the 6 selections into one single wager.",
+  superheinz:
+    "The Super Heinz is a bet on seven selections taking part in various events consisting of 21 doubles, 35 trebles, 35 fourfolds, 21 fivefolds, seven sixfolds, and a sevenfold accumulator which totals a huge 120 bets. Two selections must win to ensure any returns.",
+  goliath:
+    "A Goliath is a bet on eight selections taking part in various events consisting of 28 doubles, 56 trebles, 70 fourfolds, 56 fivefolds, 28 sixfolds, eight sevenfolds and an eightfold accumulator totalling 247 bets. Two selections must win to ensure any returns.",
+};

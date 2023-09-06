@@ -16,11 +16,12 @@ export const Countries = ({
   setShowCountries,
 }) => {
   const user = useSelector((state) => state.user);
+  const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
 
   return (
     <div
-      className="modal show "
+      className="modal show"
       id="limitModal"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
@@ -57,12 +58,14 @@ export const Countries = ({
               />
             </div>
             {choosenCountry?.map((country, index) => {
+              const isActive = country.cca2 === user?.country;
+
               return (
                 <div
                   key={index}
                   data-id={index}
                   className={
-                    country.cca2 === user?.country
+                    isActive
                       ? "selectDecimal-countries selectedOdd d-flex mb-3"
                       : "selectDecimal-countries d-flex mb-3 "
                   }
@@ -96,8 +99,20 @@ export const Countries = ({
                       height={24}
                       width={24}
                     />
-                    <p className="m-3 decimalText">{country.name}</p>
+                    <p className="m-3 decimalText countryModalDecimalText">
+                      {isMobile && !!country.phone_number_prefix && (
+                        <span>+{country.phone_number_prefix}</span>
+                      )}
+                      {country.name}
+                    </p>
                   </div>
+                  {isActive && (
+                    <Image
+                      src={images.validated}
+                      alt="selected"
+                      className="oddsSelected"
+                    />
+                  )}
                 </div>
               );
             })}

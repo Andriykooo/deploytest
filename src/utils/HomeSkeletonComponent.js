@@ -1,3 +1,5 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
 import React, { Fragment } from "react";
 import { Accordion } from "react-bootstrap";

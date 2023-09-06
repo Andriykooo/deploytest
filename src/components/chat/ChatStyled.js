@@ -6,9 +6,12 @@ export const ChatWrapper = styled.div`
   z-index: 1000;
   bottom: 0;
   width: ${(props) => (props.isOpen ? "276px" : "70px")};
+  box-shadow: -2px -2px 4px 0px #00000040;
 
   @media (max-width: 991px) {
     width: 100%;
+    position: static;
+    box-shadow: none;
   }
 `;
 
@@ -21,6 +24,14 @@ export const ChatBottomWrapper = styled.div`
   padding: 17px 26px 17px 18px;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 991px) {
+    padding: 0;
+    background: #d5c08f;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    margin-right: 12px;
+  }
 `;
 
 export const ChatBottomSubWrapper = styled.div`
@@ -62,6 +73,7 @@ export const ChatBox = styled.div`
     border-radius: 0;
     margin-bottom: 0;
   }
+ 
 `;
 
 export const ChatHeader = styled.div`

@@ -5,14 +5,15 @@ import { Label, LabelWrapper } from "../../components/inputs/CustomInput";
 export const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
-  width: "45px",
-  height: "21px",
+  width: "63px",
+  height: "32px",
   padding: 0,
   "& .MuiSwitch-switchBase": {
     padding: 0,
-    margin: "3px 2px",
+    margin: "2px",
     transitionDuration: "300ms",
     "&.Mui-checked": {
+      marginLeft: "7px",
       transform: "translateX(26px)",
       color: "#fff",
       "& + .MuiSwitch-track": {
@@ -41,14 +42,14 @@ export const IOSSwitch = styled((props) => (
   },
   "& .MuiSwitch-thumb": {
     boxSizing: "border-box",
-    width: 15,
-    height: 15,
+    width: 28,
+    height: 28,
     boxShadow: "none",
     display: "flex",
     alignItems: "center",
   },
   "& .MuiSwitch-track": {
-    borderRadius: 26 / 2,
+    borderRadius: 28 / 2,
     backgroundColor: theme.palette.mode === "light" ? "#BCBFC2" : "#1976d2",
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {

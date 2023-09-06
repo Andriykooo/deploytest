@@ -25,6 +25,7 @@
   height: 56px;
 }
 .footerMenuIcon {
+  width: 100%;
   text-align: center;
   justify-content: center;
   display: flex;
@@ -45,6 +46,10 @@
   grid-template-columns: repeat(5, 1fr);
   justify-content: space-between;
   padding: 12px 4px;
+}
+
+.footerIconsDiv.inline {
+  display: flex;
 }
 
 .footerLineWrapper {

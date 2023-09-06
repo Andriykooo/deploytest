@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "../../components/button/Button";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import "../Kyc/Kyc.css";
 import "../Login/Login.css";
 
@@ -10,10 +9,10 @@ function Kyc() {
   const router = useRouter();
 
   return (
-    <BaseLayout title="Sign Up" className="backgroundImage">
+    <div className="backgroundImage">
       <div className="kycDiv">
-        <p className="logInTitle justify-content-center">Verify you identity</p>
-        <p className="oneClick d-flex justify-content-center">
+        <p className="logInTitle">Verify you identity</p>
+        <p className="oneClick d-flex">
           It will take about 2 minutes
         </p>
         <div className="emailValidation d-grid m-auto">
@@ -43,21 +42,23 @@ function Kyc() {
             text={"3. Upload a photo of your Proof of Address"}
           />
         </div>
-        <p className="oneClick d-flex justify-content-center">
+        <p className="oneClick d-flex text-start">
           By tapping Continue, you accept our Terms and Conditions and agree to
           our processing of your personal data, as described in the Consent to
           Personal Data Processing
         </p>
-        <Button
-          className={"btnPrimary continueBtn validBtn"}
-          onClick={() => {
-            router.push("/verification");
-          }}
-          text={"Continue"}
-        />
-        <span className="small-text">Powered by Sumsub</span>
+        <div className="authButtonsContainer">
+          <Button
+            className={"btnPrimary continueBtn validBtn"}
+            onClick={() => {
+              router.push("/verification");
+            }}
+            text={"Continue"}
+          />
+          <p className="small-text text-white text-center" style={{ fontSize: "12px" }}>Powered by Sumsub</p>
+        </div>
       </div>
-    </BaseLayout>
+    </div>
   );
 }
 

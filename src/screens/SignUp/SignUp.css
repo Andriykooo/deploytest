@@ -7,9 +7,7 @@
   text-indent: 10px;
   margin-bottom: 0.5rem;
 }
-.showPasswordIcon.signUp {
-  top: 29%;
-}
+
 .residenceInput,
 .modalTitle-countries {
   position: relative;
@@ -33,7 +31,7 @@
   display: flex;
   align-items: center;
 }
-.phonePrefixName{
+.phonePrefixName {
   color: var(--global-color-text-primary);
 }
 .modal-content-inside {
@@ -52,9 +50,9 @@
 }
 .selectCountryTitle {
   font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
-  line-height: 48px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
   display: flex;
   justify-content: flex-start;
   text-align: start;
@@ -111,6 +109,15 @@ input:focus {
   width: 100%;
   max-width: 383px;
 }
+.authButtonsContainer {
+  max-width: 383px;
+}
+.changePasswordButton {
+  width: 100%;
+}
+.authButtonsContainer .loginbuttons1 {
+  margin: 0;
+}
 .outline {
   border: 1px solid var(--global-color-gold-button);
 }
@@ -124,6 +131,7 @@ input:focus {
   border: 2px solid var(--global-color-secondary);
   box-sizing: border-box;
   border-radius: 10px;
+  text-indent: 0px;
 }
 
 .codeVerification {
@@ -132,7 +140,7 @@ input:focus {
   max-width: 383px;
 }
 
-.codeVerification > div{
+.codeVerification > div {
   display: flex !important;
   justify-content: space-between !important;
 }
@@ -231,12 +239,36 @@ input:-webkit-autofill:active {
   border: 1.5px solid transparent;
 }
 
-.Toastify__toast-body > div:last-child{
+.Toastify__toast-body > div:last-child {
   padding-right: 25px;
   padding-left: 10px;
 }
 
-@media (min-width: 576px){
+.countryModalDecimalText {
+  display: flex;
+  gap: 16px;
+}
+.finishAccountSetup .logInTitle {
+  margin-bottom: 6px;
+}
+.finishAccountSetup .codeSend2 {
+  margin-bottom: 30px;
+}
+.finishSetupInfo {
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 576px) {
+  .modal.show .countriesModalDialog {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 576px) {
   .countriesModalDialog {
     max-width: unset !important;
   }
@@ -255,12 +287,45 @@ input:-webkit-autofill:active {
   }
 }
 
-@media (max-width: 991px){
+@media (max-width: 1024px) {
   .selectCountryTitle {
     font-size: 30px;
-    width: 250px;
+    width: 100%;
+    padding-top: 54px;
+  }
+  .selectDecimal-countries {
+    width: 100%;
+  }
+  .selectDecimal-countries.selectedOdd {
+    border: 1.5px solid var(--global-color-gold-button)
+  }
 }
-.selectDecimal-countries {
-  width: 100%;
-}
+
+@media (max-width: 576px){
+  .codeVerification {
+    margin: 0 auto;
+  }
+  .authButtonsContainer {
+    position: absolute;
+    max-width: 100%;
+    bottom: 35px;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+  .authButtonsContainer .loginbuttons1 {
+    width: 100%;
+  }
+  .inputForPhone {
+    width: 100% !important;
+  }
+  .finishSetupInfo {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  .finishAccountSetup .loginForm  {
+    display: block!important;
+  }
+  .finishAccountSetup .loginForm .loginForm {
+    padding: 0;
+  }
 }

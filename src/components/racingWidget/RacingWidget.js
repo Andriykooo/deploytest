@@ -1,25 +1,16 @@
 import classNames from "classnames";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Accordion } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import Slider from "react-slick";
 import { horseRacingHomeMenu } from "../../utils/constants";
-import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
 import { BannerMenu } from "../bannerMenu/BannerMenu";
-import { Carousel } from "../carousel/Carousel";
-import { EmptyState } from "../emptyState/EmptyState";
-import { RacingItem } from "./RacingItem";
+import moment from 'moment';
 
-export const RacingWidget = ({ data, venue }) => {
-  const isMobile = useSelector((state) => state.setMobile);
-  const [selectedFilter, setSelectedFilter] = useState({ name: venue });
+import { RacingComponent } from "../racingComponent/RacingComponent";
 
-  const filteredData = data?.events?.filter((event) => {
-    if (!selectedFilter?.name || selectedFilter?.name === "Next Races") {
-      return true;
-    }
+export const RacingWidget = ({ data }) => {
+  const [selectedFilter, setSelectedFilter] = useState(horseRacingHomeMenu[0]);
 
+  const filteredData = data.events.filter((event) => {
     if (selectedFilter.name === "Today") {
       return moment(event.event_start_time).isSame(moment(), "day");
     }
@@ -34,12 +25,6 @@ export const RacingWidget = ({ data, venue }) => {
     return selectedFilter.name === event.event_venue;
   });
 
-  useEffect(() => {
-    if (venue) {
-      setSelectedFilter({ name: venue });
-    }
-  }, [venue]);
-
   return data ? (
     <div className="home-live-matches container-swifty-special mainInPlay">
       <Accordion
@@ -53,11 +38,14 @@ export const RacingWidget = ({ data, venue }) => {
         >
           {data?.header_banner && (
             <BannerMenu
-              title={data?.title}
+              title={data?.details?.title}
+              subtitle={data?.details?.subtitle}
               image={data?.header_banner}
               options={[
                 ...horseRacingHomeMenu,
-                ...data.filter_options.map((option) => ({ name: option })),
+                ...data?.market_options?.map((option) => ({
+                  name: option.market_name,
+                })),
               ]}
               selected={selectedFilter}
               setSelected={setSelectedFilter}
@@ -66,47 +54,7 @@ export const RacingWidget = ({ data, venue }) => {
           <Accordion.Body
             className={classNames({ "my-3": data?.header_banner })}
           >
-            {filteredData.length ? (
-              <div className="horse-matches">
-                {isMobile ? (
-                  <Carousel arrowClassName="small-arrows">
-                    {filteredData.map((event, index) => {
-                      return <RacingItem data={event} key={index} />;
-                    })}
-                  </Carousel>
-                ) : (
-                  <Slider
-                    slidesToScroll={3}
-                    slidesToShow={3}
-                    nextArrow={<SampleNextArrow />}
-                    prevArrow={<SamplePrevArrow />}
-                    infinite={false}
-                    responsive={[
-                      {
-                        breakpoint: 800,
-                        settings: {
-                          slidesToShow: 2,
-                          slidesToScroll: 2,
-                        },
-                      },
-                      {
-                        breakpoint: 560,
-                        settings: {
-                          slidesToShow: 1,
-                          slidesToScroll: 1,
-                        },
-                      },
-                    ]}
-                  >
-                    {filteredData.map((event, index) => {
-                      return <RacingItem data={event} key={index} />;
-                    })}
-                  </Slider>
-                )}
-              </div>
-            ) : (
-              <EmptyState message="There are no more races for the day!" />
-            )}
+            <RacingComponent data={filteredData} />
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>

@@ -1,33 +1,39 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
-import { SetRealityCheck } from "../../components/modal/SetRealityCheck";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
+import { useDispatch, useSelector } from "react-redux";
 import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../RealityCheck/RealityCheck.css";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { SuccesToast } from "@/utils/alert";
+import { setLoggedUser } from "@/store/actions";
+import { Button } from "@/components/button/Button";
+import { Loader } from "@/components/loaders/Loader";
 
 const RealityCheck = () => {
   const user_settings = useSelector((state) => state?.user_settings);
+  let user = useSelector((state) => state.loggedUser);
   const realityCheckValue = useSelector(
     (state) =>
       state.loggedUser?.user_data?.settings?.safer_gambling?.reality_check
         ?.reality_check_after
   );
+
   const [loader, setLoader] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const [realityCheck, setRealityCheck] = useState("");
-  const [selectedLimit, setSelectedLimit] = useState(0);
+  const [selectedLimit, setSelectedLimit] = useState(realityCheckValue?.value);
   const [realityCheckData, setRealityCheckData] = useState({
     show: false,
     data: [],
   });
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoader(true);
@@ -50,83 +56,99 @@ const RealityCheck = () => {
   } else {
     realityCheckTxt = `Not Set`;
   }
-  let active = "active";
+
+  const handleToggle = () => {
+    setRealityCheckData({
+      ...realityCheckData,
+      show: !realityCheckData.show,
+      data: user_settings?.reality_check_options,
+    });
+    setSelectedLimit(realityCheckValue?.value)
+    setDisabled(true);
+  };
+
+  const handleSelect = () => {
+    setLoader(true)
+    const body = {
+      reality_check_after: selectedLimit,
+    };
+    apiServices
+      .put(apiUrl.SETTINGS, body)
+      .then(() => {
+        SuccesToast({ message: "Successfully updated!" });
+        setDisabled(true);
+        setRealityCheckData({
+          ...realityCheckData,
+          show: false,
+          data: [],
+        });
+        let newUser = {};
+        Object.assign(newUser, user);
+        newUser.user_data.settings.safer_gambling.reality_check.reality_check_after.value =
+          value;
+        dispatch(setLoggedUser(newUser));
+        setLoader(false)
+      })
+      .catch(() => { setLoader(false)});
+    setRealityCheckData({ ...realityCheckData, show: false });
+  };
 
   return (
     <>
-      <Header />
-      <div className="backgroundLinear ">
-        <div className="d-none d-lg-block ">
-          <ProfileMenu sideBarMenu page="safer_gambling" active={active} />
-        </div>
-        <div className="depositLimit max-width-container">
+      <div className="depositLimit max-width-container gamblingContainer">
+        <div>
           <div className="d-flex arrow-top">
-            <Image
-              src={images.goBackArrow}
-              alt="Go back"
-              className="goBackArrow ms-0 mb-3"
-              onClick={() => router.back()}
-            />
-          </div>
-          <p className="menuTitle arrow-top">Reality Check </p>
-          <p className="menuText">
-            Get notified when you have been on the app for a certain period of
-            time.
-          </p>
-
-          <div className="mb-3 d-flex">
-            <div className="subText me-4 col-6">Reality check after</div>
-
-            <div className="selectDepositDiv col-6">
-              <Button
-                type="button"
-                className={"setLimit"}
-                onClick={() => {
-                  setRealityCheckData({
-                    ...realityCheckData,
-                    show: true,
-                    data: user_settings?.reality_check_options,
-                  });
-                }}
-                text={
-                  <>
-                    {loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      realityCheckTxt
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
+          <Image
+            src={images.goBackArrow}
+            alt="Go back"
+            className="ms-0 mb-3"
+            onClick={() => router.back()}
+          />
         </div>
-        {realityCheckData.show && (
-          <>
-            <div className="modal-overlay">
-              <SetRealityCheck
-                options={realityCheckData.data}
-                selectedLimit={selectedLimit}
-                setSelectedLimit={setSelectedLimit}
-                realityCheck={realityCheck}
-                setRealityCheck={setRealityCheck}
-                setRealityCheckData={setRealityCheckData}
-                realityCheckData={realityCheckData}
-              />
-            </div>
-          </>
-        )}
+        <p className="menuTitle arrow-top">Reality Check </p>
+        <p className="menuText">
+          Get notified when you have been on the app for a certain period of
+          time.
+        </p>
+
+        <div className="mb-3 row">
+          <div className="subText col-6">Reality check after</div>
+
+          <PreferencesDropdown
+            data={{...realityCheckData, title: "Reality Check"}}
+            selectedItem={selectedLimit}
+            handleToggle={handleToggle}
+            handleSelect={(v) => {
+              setSelectedLimit(v);
+              setDisabled(false);
+              setRealityCheckData({
+                ...realityCheckData,
+                show: !realityCheckData.show,
+                data: user_settings?.reality_check_options,
+              });
+            }}
+            placeholder={
+              (selectedLimit ? selectedLimit : realityCheckValue?.value) +
+              " minutes"
+            }
+            loader={loader}
+            modalOnMobile
+            btnTitle="Set limit"
+          />
+        </div>
+        </div>
+        <div className="row suspendButton">
+          <Button
+            className={
+              "setLimit suspendAccBtn w-100 " +
+              (!disabled
+                ? " btnPrimary "
+                : "btn finishBtn disabled setLimitBtn col-8")
+            }
+            onClick={() => selectedLimit && handleSelect()}
+            text={<>{loader ? <Loader /> : "Set limit"}</>}
+          />
+        </div>
       </div>
     </>
   );

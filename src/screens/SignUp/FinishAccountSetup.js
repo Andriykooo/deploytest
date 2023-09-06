@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../../components/button/Button";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 
 function FinishAccountSetup() {
   const [showInformation, setShowInformation] = useState(false);
@@ -20,18 +19,20 @@ function FinishAccountSetup() {
     router.push("/kyc");
   };
   return (
-    <BaseLayout title="Sign Up" className="backgroundImage">
+    <div className="backgroundImage finishAccountSetup">
       <div className=" loginForm d-grid justify-content-center px-4">
         <p className="logInTitle">Finish account setup</p>
         <p className="codeSent codeSend2">
           Your country's laws require us to get some more details before we
-          start. To activate your account and deposit funds please complete the
-          following: 1. Upload identity document 2. Selfie verification (photo
-          time!) 3. Upload proof of address
+          start.
+          <br/>
+          <br />To activate your account and deposit funds please complete the
+          following: <br/><br/>1. Upload identity document <br/>2. Selfie verification (photo
+          time!) <br/>3. Upload proof of address
         </p>
-        <div className=" loginForm d-grid">
+        <div className="loginForm d-grid">
           <Button
-            className="buttontoresendcode"
+            className="buttontoresendcode finishSetupInfo"
             onClick={showInfo}
             text={"Want more information on why this is required?"}
           />
@@ -48,13 +49,15 @@ function FinishAccountSetup() {
             ""
           )}
         </div>
-        <Button
-          onClick={continueToKyc}
-          className={"btnPrimary continueBtn validBtn codeBtn"}
-          text={"Continue"}
-        />
+        <div className="authButtonsContainer">
+          <Button
+            onClick={continueToKyc}
+            className={"btnPrimary continueBtn validBtn codeBtn"}
+            text={"Continue"}
+          />
+        </div>
       </div>
-    </BaseLayout>
+    </div>
   );
 }
 

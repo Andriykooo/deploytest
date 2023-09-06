@@ -22,3 +22,13 @@
   max-width: 383px;
   margin-top: 2rem;
 }
+
+@media screen and (max-width: 576px) {
+  .kycDiv {
+    padding: 0 1.5rem!important;
+    max-width: 100%;
+  }
+  .photo_buttons {
+    padding: 0 16px !important;
+  }
+}

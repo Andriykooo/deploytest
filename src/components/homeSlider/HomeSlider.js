@@ -1,5 +1,8 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
 import classNames from "classnames";
+import Image from "next/image";
 import { Fragment } from "react";
 import Slider from "react-slick";
 import "swiper/css";
@@ -8,7 +11,6 @@ import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { DynamicSelections } from "../dynamicSelections/DynamicSelections";
 import "./HomeSlider.css";
-import Image from "next/image";
 
 const HomeSlider = ({
   data,
@@ -31,7 +33,7 @@ const HomeSlider = ({
     centerMode: true,
     responsive: [
       {
-        breakpoint: 360,
+        breakpoint: 390,
         settings: {
           slidesToShow: 1,
           centerMode: false,
@@ -43,7 +45,7 @@ const HomeSlider = ({
   return (
     <div className={classNames({ recommendedSubtitle: subtitle }, className)}>
       <div className="d-flex justify-content-between">
-        {isLoading ? (
+        {isLoading && (
           <Skeleton
             sx={{
               fontSize: "1.5rem",
@@ -55,10 +57,6 @@ const HomeSlider = ({
             animation="wave"
             variant="rectangular"
           />
-        ) : (
-          <div className="recommendedTitle recommendedTitleTrending">
-            <span className="mx-4">{subtitle}</span>
-          </div>
         )}
       </div>
       <Slider {...settings} className={type ? "casinoTrendingSlider" : ""}>
@@ -77,46 +75,46 @@ const HomeSlider = ({
                   <Skeleton
                     className="my-2"
                     variant="text"
-                    sx={{ width: "209px", height: "190px" }}
+                    sx={{ width: "251px", height: "182px" }}
                   />
                 ) : (
                   <>
                     <Image
                       src={carouselItem?.details?.image}
-                        alt="slider-img"
-                        height={152}
-                        width={209}
+                      alt="slider-img"
+                      height={182}
+                      width={251}
                     />
                     <div className="slider-text">
                       {carouselItem?.details?.title}
                       <p className="sliderTextContent">
-                        {carouselItem?.subtitle}
+                        {carouselItem?.details?.subtitle}
                       </p>
                     </div>
                     <div className="betNowBtnsContainer">
                       {carouselItem?.details.promo_type === "dynamic" && (
                         <DynamicSelections
-                          selections={carouselItem.selections}
+                          selections={carouselItem.button}
                           eventId={carouselItem?.details.event_id}
                         />
                       )}
-
                       {carouselItem?.details.promo_type === "default" &&
-                        carouselItem.details.buttons.map((button) => {
-                          return (
-                            <LinkType
-                              key={button?.id}
-                              path={button.link}
-                              openType={button?.open_type}
-                              type={"default"}
-                            >
-                              <Button
-                                className={"btnPrimary betNowButtonOFSlider"}
-                                text={button?.title}
-                              />
-                            </LinkType>
-                          );
-                        })}
+                        carouselItem?.details?.call_to_action && (
+                          <LinkType
+                            path={carouselItem.details.link}
+                            openType={carouselItem?.details?.open_type}
+                            type={carouselItem.details.link_type}
+                            modalData={{
+                              slug: carouselItem?.details?.link?.substring(1),
+                              title: carouselItem?.details?.title,
+                            }}
+                          >
+                            <Button
+                              className={"btnPrimary betNowButtonOFSlider"}
+                              text={carouselItem?.details?.call_to_action}
+                            />
+                          </LinkType>
+                        )}
                     </div>
                   </>
                 )}

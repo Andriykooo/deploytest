@@ -1,21 +1,19 @@
 "use client";
 
+import { addLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
 import { Countries } from "../../components/modal/Countries";
 import { States } from "../../components/modal/States";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setCountryPhone, setUser } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { images } from "../../utils/imagesConstant";
 import "../Login/Login.css";
 import "../SignUp/SignUp.css";
-import { addLocalStorageItem } from "@/utils/localStorage";
 
 const SignUp = () => {
   const [states, setStates] = useState([]);
@@ -164,8 +162,7 @@ const SignUp = () => {
   });
 
   return (
-    <BaseLayout className="backgroundImage" title="Sign Up">
-      <Header />
+    <div className="backgroundImage">
       <div className=" loginForm d-grid justify-content-center">
         <p className="logInTitle">New here? Let's get you setup</p>
         <div className="emailValidation d-grid">
@@ -220,8 +217,8 @@ const SignUp = () => {
                     src={images.arrowIcon}
                     alt="country-flag"
                     className="residenceArrow"
-                    height={24}
-                    width={24}
+                    height={8}
+                    width={14}
                   />
                 </>
               }
@@ -296,23 +293,27 @@ const SignUp = () => {
                 src={images.showPassIcon}
                 className="showPasswordIcon signUp"
                 alt="Valid"
+                width={20}
+                height={14}
               />
             ) : (
               ""
             )}
           </div>
         )}
-        <Button
-          onClick={(e) => {
-            submitValidate(e);
-          }}
-          className={
-            isValid
-              ? "btnPrimary continueBtn validBtn signUpBtn"
-              : "continueBtn signUpBtn"
-          }
-          text={"Sign Up"}
-        />
+        <div className="authButtonsContainer">
+          <Button
+            onClick={(e) => {
+              submitValidate(e);
+            }}
+            className={
+              isValid
+                ? "btnPrimary continueBtn validBtn signUpBtn"
+                : "continueBtn signUpBtn"
+            }
+            text={"Sign Up"}
+          />
+        </div>
       </div>
       {showCountries && (
         <Countries
@@ -338,7 +339,7 @@ const SignUp = () => {
           setCountryState={setCountryState}
         />
       )}
-    </BaseLayout>
+    </div>
   );
 };
 

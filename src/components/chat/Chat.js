@@ -1,39 +1,74 @@
+"use client";
+
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { SocketContext } from "../../context/socket";
-import { setTradingChatSettings } from "../../store/actions";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   ChatBottomSubWrapper,
   ChatBottomWrapper,
   ChatBox,
   ChatHeader,
   ChatIcon,
-  ChattingBlock,
   ChatTitle,
   ChatWrapper,
+  ChattingBlock,
   MessagesBlock,
   NumberNewMessages,
 } from "./ChatStyled";
 import RenderMessages from "./RenderMessages";
 import TypingArea from "./TypingArea";
+import { setSidebarLeft } from "../../store/actions";
 
 const minHeightTextarea = 16;
 const maxHeightTextarea = 80;
 
-export const Chat = ({ isOpen }) => {
-  const dispatch = useDispatch();
+export const Chat = ({ isOpen, isMobile = false }) => {
   const chatBlockRef = useRef(null);
+  const messagesRef = useRef(null);
+  const dispatch = useDispatch();
+  const sidebarLeft = useSelector((state) => state.sidebarLeft);
+
   const { communicationSocket } = useContext(SocketContext);
-  const tradingChat = useSelector((state) => state.tradingChat);
 
   const [isChatActive, setIsChatActive] = useState(false);
   const [writtenMessage, setWrittenMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [textareaHeight, setTextareaHeight] = useState(minHeightTextarea);
+  const [isFetching, setIsFetching] = useState(false);
+  const [disableScroll, setDisableScroll] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [lastMessageId, setLastMessageId] = useState();
+
+  const fetchNextPage = () => {
+    setIsFetching(true);
+
+    communicationSocket.emit(
+      "last_messages",
+      { page: currentPage + 1 },
+      (messagesHistory) => {
+        setCurrentPage(messagesHistory.data.current_page);
+        setTotalPages(messagesHistory.data.total_pages);
+        setIsFetching(false);
+        setMessages((prev) => [
+          ...messagesHistory?.data?.messages?.reverse(),
+          ...prev,
+        ]);
+      }
+    );
+  };
+
+  const hasNextPage = currentPage < totalPages;
+
+  const scrollHandler = (e) => {
+    if (e.target.scrollTop < 10 && !isFetching && hasNextPage) {
+      fetchNextPage();
+      setDisableScroll(true);
+    }
+  };
 
   const chatCloseHandler = () => {
     setIsChatActive(false);
@@ -67,31 +102,30 @@ export const Chat = ({ isOpen }) => {
   };
 
   useEffect(() => {
-    apiServices.get(apiUrl.GET_TRADER_CHAT_SETTINGS).then((result) => {
-      dispatch(setTradingChatSettings(result));
+    communicationSocket.emit(
+      "last_messages",
+      { page: currentPage },
+      (messagesHistory) => {
+        setMessages(messagesHistory?.data?.messages?.reverse() || []);
+        setCurrentPage(messagesHistory.data.current_page);
+        setTotalPages(messagesHistory.data.total_pages);
+      }
+    );
+
+    communicationSocket.on("new_chat_message", (newMessage) => {
+      if (isChatActive) {
+        communicationSocket.emit("read_messages", {
+          messageIds: [newMessage.message_id],
+          roomId: newMessage?.room_id,
+        });
+
+        newMessage.is_read = true;
+      }
+
+      setMessages((prev) => [...prev, newMessage]);
+      setDisableScroll(false);
     });
   }, []);
-
-  useEffect(() => {
-    if (tradingChat?.isTraderChatEnabled) {
-      communicationSocket.emit("last_messages", {}, (messagesHistory) => {
-        setMessages(messagesHistory?.data?.[0]?.messages.reverse() || []);
-      });
-
-      communicationSocket.on("new_chat_message", (newMessage) => {
-        if (isChatActive) {
-          communicationSocket.emit("read_messages", {
-            messageIds: [newMessage.message_id],
-            roomId: newMessage?.room_id,
-          });
-
-          newMessage.is_read = true;
-        }
-
-        setMessages((prev) => [...prev, newMessage]);
-      });
-    }
-  }, [tradingChat]);
 
   const keyDownHandle = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -119,6 +153,7 @@ export const Chat = ({ isOpen }) => {
               },
             ]);
             setWrittenMessage("");
+            setDisableScroll(false);
           }
         }
       );
@@ -126,9 +161,26 @@ export const Chat = ({ isOpen }) => {
   };
 
   useEffect(() => {
-    scrollMessage();
-
     if (isChatActive) {
+      if (
+        messagesRef.current.scrollHeight <= messagesRef.current.clientHeight &&
+        !isFetching &&
+        hasNextPage
+      ) {
+        fetchNextPage();
+
+        return;
+      }
+
+      if (!disableScroll) {
+        scrollMessage();
+      } else {
+        document.getElementById(lastMessageId).scrollIntoView(true);
+      }
+
+      setLastMessageId(messages[0]?.message_id);
+      setDisableScroll(false);
+
       const readMessagesIds = messages
         ?.filter((message) => !message.is_read && message.from_cms)
         ?.map((message) => message.message_id);
@@ -183,7 +235,7 @@ export const Chat = ({ isOpen }) => {
               textareaHeight + (textareaHeight === minHeightTextarea ? 104 : 90)
             }
           >
-            <MessagesBlock>
+            <MessagesBlock onScroll={scrollHandler} ref={messagesRef}>
               <RenderMessages messages={messages} />
               <div ref={chatBlockRef}></div>
             </MessagesBlock>
@@ -200,34 +252,36 @@ export const Chat = ({ isOpen }) => {
       )}
       <ChatBottomWrapper
         onClick={() => {
-          if (tradingChat) {
-            setIsChatActive((prevState) => !prevState);
+          if (isMobile) {
+            dispatch(
+              setSidebarLeft({
+                ...sidebarLeft,
+                isActive: false,
+              })
+            );
           }
+          setIsChatActive((prevState) => !prevState);
         }}
       >
-        {tradingChat?.isTraderChatEnabled && (
-          <>
-            <ChatBottomSubWrapper>
-              <ChatIcon>
-                <Image src={images.chatIconWhite} alt="chat" />
-              </ChatIcon>
-              {isOpen && <ChatTitle>Chat</ChatTitle>}
-            </ChatBottomSubWrapper>
-            {numberUnreadMessage > 0 && (
-              <NumberNewMessages isOpen={isOpen}>
-                {numberUnreadMessage}
-              </NumberNewMessages>
-            )}
-            {isOpen && (
-              <Image
-                src={images.arrowIcon}
-                className="chat-arrow"
-                alt="chat"
-                width={14}
-                height={8}
-              />
-            )}
-          </>
+        <ChatBottomSubWrapper>
+          <ChatIcon>
+            <Image src={isMobile ? images.chatIcon : images.chatIconWhite} alt="chat" />
+          </ChatIcon>
+          {isOpen && <ChatTitle>Chat</ChatTitle>}
+        </ChatBottomSubWrapper>
+        {numberUnreadMessage > 0 && (
+          <NumberNewMessages isOpen={isOpen}>
+            {numberUnreadMessage}
+          </NumberNewMessages>
+        )}
+        {isOpen && (
+          <Image
+            src={images.arrowIcon}
+            className="chat-arrow"
+            alt="chat"
+            width={14}
+            height={8}
+          />
         )}
       </ChatBottomWrapper>
     </ChatWrapper>

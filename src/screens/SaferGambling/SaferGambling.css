@@ -1,10 +1,7 @@
 .saferTitle {
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
   color: var(--global-color-text-primary);
 }
 .saferMessage {
@@ -22,8 +19,13 @@
 }
 .saferDivs,
 .yellowDiv {
-  max-width: 450px;
+  max-width: 454px;
   width: 100%;
+}
+
+.saferDivs > div {
+  width: 100%;
+  padding: 0;
 }
 .safer-gambling-information {
   font-style: normal;
@@ -39,4 +41,36 @@
 }
 .funlabelPosition {
   margin-bottom: 0px !important;
+}
+.saferInfo {
+  padding: 14px 16px;
+  width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+.saferContainer, 
+.saferDivs {
+  height: 100%;
+  max-width: 100%;
+}
+
+.saferInfo {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 12px 16px; 
+}
+.saferDivs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.yellowDiv {
+  margin: 0 !important;
+}
+
+  .saferTitle {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }

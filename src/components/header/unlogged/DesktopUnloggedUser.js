@@ -1,21 +1,30 @@
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
 
 export const DesktopUnloggedUser = ({ showBetSlip }) => {
   const selectedBets = useSelector((state) => state.selectedBets);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const navigateToLogin = () => {
+    router.push(`/login?redirect=${pathname.replace("/", "")}`);
+  };
 
   return (
     <div
-      className={showBetSlip ? "sing-up-txt between-container" : "sing-up-txt"}
+      className={
+        !!selectedBets?.bets?.length && showBetSlip
+          ? "sing-up-txt between-container"
+          : "sing-up-txt"
+      }
       onClick={() => {
         if (!showBetSlip) {
-          router.push("/login");
+          navigateToLogin();
         }
       }}
     >
-      {showBetSlip && (
+      {!!selectedBets?.bets?.length && showBetSlip && (
         <div
           className="slip-icon"
           onClick={() => {
@@ -40,12 +49,7 @@ export const DesktopUnloggedUser = ({ showBetSlip }) => {
           )}
         </div>
       )}
-      <div
-        className="d-flex"
-        onClick={() => {
-          router.push("/login");
-        }}
-      >
+      <div className="d-flex" onClick={navigateToLogin}>
         <p className="signText">REGISTER</p>
         <p className="signText">&nbsp;OR&nbsp;LOGIN</p>
       </div>

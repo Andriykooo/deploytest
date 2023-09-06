@@ -1,12 +1,9 @@
 .predictionDates {
   font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 19px;
-
+  font-weight: 600;
+  font-size: 16px;
   display: flex;
   align-items: center;
-
   color: var(--global-color-text-primary);
 }
 
@@ -17,6 +14,7 @@
   line-height: 21px;
   color: var(--global-color-text-primary);
 }
+
 .sportLeague {
   font-style: normal;
   font-weight: 400;
@@ -26,6 +24,7 @@
   align-items: center;
   color: var(--global-color-text-primary);
 }
+
 .matchClicked {
   color: black !important;
   background-color: var(--global-color-text-primary);
@@ -38,10 +37,12 @@
 .borderRad {
   border-radius: 10px 10px 0px 0px;
 }
+
 .btn.match {
   padding-left: 1rem !important;
   padding-bottom: 0.5rem !important;
 }
+
 .arrowPrediction {
   margin-right: 1rem;
   width: 16px !important;
@@ -49,9 +50,11 @@
   position: absolute;
   right: 1%;
 }
+
 .fontBlack {
   color: black !important;
 }
+
 .stakeReturn {
   font-style: normal;
   font-weight: 400;
@@ -68,13 +71,16 @@
   color: white !important;
   position: relative;
 }
+
 .betClicked {
   background-color: white !important;
   color: black !important;
 }
+
 .predictionArrow {
   transform: rotate(180deg);
 }
+
 .cancelButton {
   background: var(--global-color-secondary);
   border-radius: 10px;
@@ -93,13 +99,16 @@
   height: 30px;
   color: var(--global-color-text-primary);
 }
+
 .predictionContainer {
   background: var(--global-color-secondary);
   padding: 0 !important;
 }
+
 .predictionValues {
   display: flex;
 }
+
 .predictionWhite {
   background-color: white !important;
   border-radius: 10px;
@@ -112,6 +121,7 @@
 .predictionBody {
   padding-right: 40px;
 }
+
 .prediction-clickable {
   cursor: pointer;
 }
@@ -120,6 +130,7 @@
   .stakeReturn {
     width: 35%;
   }
+
   .predictionBody {
     padding-bottom: 60px;
     padding-right: 0px;
@@ -133,19 +144,23 @@
     display: block;
   }
 }
+
 @media screen and (max-width: 700px) {
   .predictionValues {
     display: grid;
   }
 }
+
 @media screen and (max-width: 400px) {
   .stakeReturn {
     width: 45%;
   }
 }
+
 .inlineStyleOpenPrediction {
   margin-top: 12px;
 }
+
 .sports-icons {
   margin-left: 16px;
 }
@@ -171,12 +186,12 @@
   align-items: center;
 }
 
-.activeButton{
+.activeButton {
   border: 1px solid var(--global-color-text-primary) !important;
 }
 
-@media screen and (max-width: 991px){
-.predictionsTitle {
+@media screen and (max-width: 991px) {
+  .predictionsTitle {
     min-width: auto;
-}
+  }
 }

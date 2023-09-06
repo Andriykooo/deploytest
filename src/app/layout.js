@@ -1,32 +1,27 @@
+import Script from "next/script";
+import { cookies } from "next/headers";
+import { Montserrat } from "next/font/google";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Montserrat } from "next/font/google";
-import Head from "next/head";
-import Script from "next/script";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./globals.css";
-import { Provider } from "./provider";
 
 const montserrat = Montserrat({
-  weight: ["400", "600", "700"],
   subsets: ["latin"],
+  style: "normal",
 });
 
-async function getData() {
-  return await apiServices.get(apiUrl.GET_MAIN_MENU).then((response) => {
-    return response.map((page, index) => ({
-      ...page,
-      id: index + 1,
-      selected: false,
-    }));
-  });
-}
-
 export async function generateMetadata() {
-  const seo = await apiServices.get(apiUrl.GET_GLOBAL_SEO);
+  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
+
+  if (response.status === 483) {
+    return {};
+  }
+
+  const seo = await response.json();
 
   return {
     title: seo.title,
@@ -43,22 +38,14 @@ export async function generateMetadata() {
   };
 }
 
-export default async function RootLayout({ children }) {
-  const header = await getData();
+export default function RootLayout({ children }) {
+  const cookieStore = cookies();
+  const lang = cookieStore.get("language");
 
   return (
-    <html lang="en">
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://backoffice-dev.swifty-api.com/api/v1/settings/css/content.css"
-        />
-      </Head>
+    <html lang={lang?.value === "all" ? "en" : lang?.value.toLowerCase()}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
-      <body className={montserrat.className}>
-        <Provider header={header}>{children}</Provider>
-      </body>
+      <body className={montserrat.className}>{children}</body>
     </html>
   );
 }

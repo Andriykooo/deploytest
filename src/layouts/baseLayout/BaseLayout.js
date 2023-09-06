@@ -6,65 +6,60 @@ import ConfirmDepositLimitModal from "@/screens/DepositLimit/ConfirmDepositLimit
 import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
 import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
 import TermsConfirmModal from "@/screens/Terms/TermsConfirmModal";
-import { CloseButton, SuccesToast, alertToast } from "@/utils/alert";
+import { CloseButton, alertToast } from "@/utils/alert";
 import { theme } from "@/utils/config";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from "uuid";
 import {
   SocketContext,
   communicationSocket,
   gamingSocket,
-  subscriptionsSocket,
 } from "../../context/socket";
 import {
-  setActiveSocketSubscribe,
   setActiveSport,
   setBetTicker,
+  setCurrentTime,
+  setHeaderData,
   setLoggedUser,
   setMobile,
   setOnBoardingData,
+  setResultedEvents,
+  setSettings,
   setSportData,
   setSportTypes,
   setTablet,
+  updatePageLayoutContent,
 } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import {
-  unsubscribeToCompetition,
-  unsubscribeToMarket,
-  unsubscribeToMatch,
-  unsubscribeToSport,
-} from "../../utils/socketSubscribers";
+import Cookies from "js-cookie";
 
 export const BaseLayout = ({ children, header, className }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [gamingAlert, setGamingAlert] = useState(false);
   const [privacyShowModal, setPrivacyShowModal] = useState(false);
   const [termsShowModal, setTermsShowModal] = useState(false);
+  const [usageTime, setUsageTime] = useState(0);
 
   const loggedUser = useSelector((state) => state.loggedUser);
   const activeSport = useSelector((state) => state.activeSport);
-  const activeSocketSubscribe = useSelector(
-    (state) => state.activeSocketSubscribe
-  );
-  const inPlay = useSelector((state) => state.inPlay);
-  const sportData = useSelector((state) => state.sportsData);
-
-  const [usageTime, setUsageTime] = useState(null);
-  const [realityGamingReminder, setRealityGamingReminder] = useState("");
+  const settings = useSelector((state) => state.settings);
 
   const dispatch = useDispatch();
   const pathname = usePathname();
-  const uuid = uuidv4();
+  const router = useRouter();
+  const params = useParams();
+
+  const currentPage = header.find((page) => page.path === pathname);
 
   const getSportTypes = () => {
     axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
@@ -84,8 +79,9 @@ export const BaseLayout = ({ children, header, className }) => {
   const getUserData = () => {
     var newUser = loggedUser;
     apiServices.get(apiUrl.USER).then((result) => {
-      newUser.user_data = result;
-      dispatch(setLoggedUser(newUser));
+      Cookies.set("country", result.country);
+
+      dispatch(setLoggedUser({ ...newUser, user_data: result }));
       if (result.actions && result.actions.length > 0) {
         setShowConfirm(true);
       }
@@ -111,16 +107,18 @@ export const BaseLayout = ({ children, header, className }) => {
     if (loggedUser && accessToken) {
       getUserData();
     }
+
+    apiServices.get(apiUrl.GET_SETTINGS).then((result) => {
+      dispatch(setSettings(result));
+    });
+
     apiServices.get(apiUrl.ON_BOARDING).then((result) => {
       dispatch(
         setOnBoardingData({
           ...result,
           languages: result.languages.map((language) => ({
             ...language,
-            code2:
-              language.language_name === "English"
-                ? "all"
-                : language.code2.toUpperCase(),
+            code2: language.code2.toUpperCase(),
           })),
         })
       );
@@ -153,10 +151,14 @@ export const BaseLayout = ({ children, header, className }) => {
       alertToast({
         message: response.errorMessage,
       });
+
+      if (response.errorMessage == "Page content not found") {
+        router.push(pathname);
+      }
     });
 
     communicationSocket?.on("new_event", (response) => {
-      console.log("new_event");
+      // console.log("new_event", response);
       switch (response?.type) {
         case "bet_ticker":
           dispatch(
@@ -166,18 +168,58 @@ export const BaseLayout = ({ children, header, className }) => {
             })
           );
           break;
+        case "trader_chat_disabled":
+          dispatch(
+            setSettings({
+              ...settings,
+              isTraderChatEnabled: false,
+            })
+          );
+          break;
+
+        case "trader_chat_enabled":
+          dispatch(
+            setSettings({
+              ...settings,
+              isTraderChatEnabled: true,
+            })
+          );
+          break;
+
+        case "component_updated":
+          if (currentPage) {
+            dispatch(
+              updatePageLayoutContent({
+                content: response.updatedComponent,
+                slug: currentPage.slug,
+              })
+            );
+          }
+          break;
+        case "event_resulted":
+          dispatch(setResultedEvents(response.eventId));
+          break;
+        case "new_user_balance":
+          // Update only user balance
+          // loggedUser.user_data.balance = response.value;
+          if (loggedUser && !Number.isNaN(+response.value)) {
+            dispatch(
+              setLoggedUser({
+                ...loggedUser,
+                user_data: { ...loggedUser.user_data, balance: response.value },
+              })
+            );
+          }
+
+          break;
+
         default:
-          console.log("new_event", response);
-          SuccesToast({
-            message: response?.message,
-          });
           break;
       }
     });
 
     communicationSocket?.on("bet_referral_message", (response) => {
       // const message = `Bet ${response.bet_referral_id} - ${response.status}`;
-
       if (response?.status === "approved") {
         dispatch(
           setBetTicker({
@@ -195,166 +237,85 @@ export const BaseLayout = ({ children, header, className }) => {
           })
         );
       }
+
+      if (response?.status === "new_offer") {
+        dispatch(
+          setBetTicker({
+            status: response?.status,
+            bet_referral_id: response?.bet_referral_id,
+            bet_slip: response?.bet_slip,
+          })
+        );
+      }
     });
 
-    return () => nextWindow.removeEventListener("resize", resizeHandler);
+    const interval = setInterval(() => {
+      dispatch(setCurrentTime(new Date()));
+    }, 1 * 60 * 1000);
+
+    return () => {
+      clearInterval(interval);
+      nextWindow.removeEventListener("resize", resizeHandler);
+    };
   }, []);
-
-  useEffect(() => {
-    let pathName = pathname;
-    let checkPath =
-      pathName.indexOf("/inplay") > -1 ||
-      (pathName.indexOf("/match") > -1 && inPlay);
-    dispatch(
-      setSportData({
-        type: "competition_id",
-        value: null,
-      })
-    );
-    dispatch(
-      setSportData({
-        type: "market_id",
-        value: null,
-      })
-    );
-    if (pathName !== "/login") {
-      if (pathName !== "/casino") {
-        addLocalStorageItem("nextUrlPath", "other");
-      }
-    }
-    if (!checkPath) {
-      if (activeSocketSubscribe) {
-        subscriptionsSocket.on("connect", () => {
-          if (activeSocketSubscribe === "SUBSCRIBE_SPORT" && activeSport) {
-            unsubscribeToSport(
-              subscriptionsSocket,
-              activeSport.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_MATCH" &&
-            sportData?.match_id
-          ) {
-            unsubscribeToMatch(
-              subscriptionsSocket,
-              sportData?.match_id.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_MARKET" &&
-            sportData?.market_id
-          ) {
-            unsubscribeToMarket(
-              subscriptionsSocket,
-              sportData?.market_id.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_COMPETITION" &&
-            sportData?.competition_id
-          ) {
-            unsubscribeToCompetition(
-              subscriptionsSocket,
-              sportData?.competition_id.toString(),
-              uuid
-            );
-          }
-          dispatch(setActiveSocketSubscribe(null));
-        });
-
-        if (subscriptionsSocket?.connected) {
-          if (activeSocketSubscribe === "SUBSCRIBE_SPORT" && activeSport) {
-            unsubscribeToSport(
-              subscriptionsSocket,
-              activeSport.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_MATCH" &&
-            sportData?.match_id
-          ) {
-            unsubscribeToMatch(
-              subscriptionsSocket,
-              sportData?.match_id.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_MARKET" &&
-            sportData?.market_id
-          ) {
-            unsubscribeToMarket(
-              subscriptionsSocket,
-              sportData?.market_id.toString(),
-              uuid
-            );
-          } else if (
-            activeSocketSubscribe === "SUBSCRIBE_COMPETITION" &&
-            sportData?.competition_id
-          ) {
-            unsubscribeToCompetition(
-              subscriptionsSocket,
-              sportData?.competition_id.toString(),
-              uuid
-            );
-          }
-          dispatch(setActiveSocketSubscribe(null));
-        }
-      }
-    }
-  }, [pathname]);
 
   const resizeHandler = () => {
     dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
     dispatch(
       setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
     );
+
+    // show/hide bet slip based on document width
+    const betSlipContainer = document.querySelector(".bet-slip-container");
+
+    if (betSlipContainer) {
+      if (nextWindow.document.documentElement.clientWidth > 1400) {
+        betSlipContainer.style.display = "block";
+      } else {
+        betSlipContainer.style.display = "none";
+      }
+    }
   };
 
   useEffect(() => {
-    if (loggedUser) {
-      const storedTime = sessionStorage.getItem("loggedUserInTime");
-      const newTime = storedTime || new Date();
-      setUsageTime(newTime);
-      setRealityGamingReminder(
-        loggedUser?.user_data?.settings?.safer_gambling?.reality_check
-          ?.reality_check_after?.value
-      );
-      sessionStorage.setItem("loggedUserInTime", newTime);
-    }
+    let interval = null;
 
-    if (usageTime && loggedUser) {
+    if (loggedUser?.token) {
       const userRealityCheck =
         loggedUser?.user_data?.settings?.safer_gambling?.reality_check
           ?.reality_check_after;
 
-      const userRealityCheckTimer = userRealityCheck?.value * 60;
-      const interval = setInterval(() => {
-        const currentTime = new Date();
-        const usageTimeDate = new Date(usageTime);
-        const differenceInSeconds = Math.floor(
-          (Number(currentTime) - usageTimeDate) / 1000
-        );
+      interval = setInterval(() => {
+        setUsageTime((prev) => {
+          if (userRealityCheck?.name !== "Not Set") {
+            setGamingAlert(true);
+          }
 
-        if (
-          differenceInSeconds > userRealityCheckTimer &&
-          userRealityCheck?.name !== "Not Set"
-        ) {
-          setGamingAlert(true);
-        }
-      }, 1000);
-
-      return () => {
-        clearInterval(interval);
-      };
+          return prev + userRealityCheck.value;
+        });
+      }, userRealityCheck.value * 60 * 1000);
     }
-  }, [loggedUser, usageTime]);
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [loggedUser?.token]);
+
+  useEffect(() => {
+    dispatch(setHeaderData(header));
+  }, [header]);
+
+  const disableHeader =
+    (params?.path && !header.some((page) => page.path.includes(pathname))) ||
+    pathname === "/customer_service_notice";
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
       <SocketContext.Provider
         value={{
           gamingSocket,
-          subscriptionsSocket,
           communicationSocket,
         }}
       >
@@ -395,9 +356,8 @@ export const BaseLayout = ({ children, header, className }) => {
         )}
         {gamingAlert && (
           <GamingReminderAlert
-            realityGamingReminder={realityGamingReminder}
+            time={usageTime}
             setGamingAlert={setGamingAlert}
-            setUsageTime={setUsageTime}
           />
         )}
         {showConfirm && (
@@ -406,8 +366,19 @@ export const BaseLayout = ({ children, header, className }) => {
             setShowConfirm={setShowConfirm}
           />
         )}
-        <div className={classNames("base-layout", className)}>
-          <Header headerData={header} />
+        <div
+          className={classNames("base-layout", className, {
+            ["not-found"]: disableHeader,
+          })}
+        >
+          <Helmet>
+            <link
+              rel="stylesheet"
+              type="text/css"
+              href="https://backoffice-dev.swifty-api.com/api/v1/settings/css/content.css"
+            />
+          </Helmet>
+          {!disableHeader && <Header headerData={header} />}
           {children}
         </div>
         <PageContentModal />

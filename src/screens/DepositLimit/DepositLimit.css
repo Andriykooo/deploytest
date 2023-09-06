@@ -1,15 +1,17 @@
 .menuTitle {
   font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
-  line-height: 38px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
   display: flex;
   align-items: flex-start;
   color: var(--global-color-text-primary);
 }
+
 .arrow-title {
   margin: 15px 0;
 }
+
 .menuText {
   font-style: normal;
   font-weight: 400;
@@ -19,6 +21,7 @@
   width: 100%;
   max-width: 454px;
 }
+
 .subText {
   font-style: normal;
   font-weight: 400;
@@ -28,6 +31,7 @@
   display: flex;
   align-items: center;
 }
+
 .selectDeposit {
   background: var(--global-color-secondary);
   border-radius: 10px;
@@ -37,21 +41,31 @@
   outline: none;
   border: none;
 }
+
 .arrowDeposit.limit {
   position: absolute;
   right: -10%;
   transform: rotate(180deg);
   top: 50%;
 }
+
 .suspendButton {
-  width: 100%;
+  margin: 0;
+  margin-bottom: 0;
 }
+
+.suspendButton button {
+  border: 0;
+  height: 48px !important;
+}
+
 .selectDepositDiv {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .btn:hover {
   color: white !important;
 }
@@ -63,19 +77,39 @@
 #react-select-3-input:focus {
   background-color: var(--global-color-secondary) !important;
 }
+
 #react-select-3-input:active {
   background-color: var(--global-color-secondary) !important;
 }
+
 .depositModalLimit {
   font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 48px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-block: 28px 32px;
   display: flex;
   align-items: center;
   text-align: center;
   color: var(--global-color-text-primary);
 }
+
+.periodLine {
+  background-color: #fff;
+  width: 37px;
+  height: 4px;
+  border-radius: 4px;
+}
+
+.periodList {
+  height: 40%;
+  overflow-y: scroll;
+}
+
+.depositModal {
+  overflow: hidden;
+}
+
 .depositModalLimitReminder {
   line-height: auto;
   width: 327px;
@@ -92,6 +126,7 @@
   margin-top: 44px;
   margin-bottom: 22px;
 }
+
 .gaming-alert-button {
   border-radius: 10px;
   background-color: #353a40;
@@ -100,17 +135,19 @@
   padding: 5px 10px;
   margin-bottom: 200px;
 }
+
 .setLimit {
   background-color: var(--global-color-secondary);
   border-radius: 10px;
   color: #bcbfc2;
-  width: 200px;
+  width: 100%;
   height: 50px;
   text-indent: 10px;
   position: relative;
   text-align: start;
   padding: 0 !important;
 }
+
 .gaming-reminder-history-button {
   width: 327px;
   background: transparent;
@@ -120,6 +157,7 @@
   height: 48px;
   margin-bottom: 16px;
 }
+
 .gaming-reminder-accept-button {
   width: 327px;
   background: #bc9239;
@@ -128,38 +166,55 @@
   height: 48px;
   margin-bottom: 46px;
 }
+
+.gaming-reminder-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gaming-reminder-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .title-gaming-reminder {
   color: #ffff;
 }
-@media screen and (max-width: 480px) {
-  .setLimit {
-    width: 150px;
-  }
+
+.modal-footer.limit {
+  max-width: 327px;
 }
+
 .setLimit .setLimit:hover {
   background-color: var(--global-color-secondary) !important;
   color: #bcbfc2 !important;
 }
+
 .depositLimitArrow {
   position: absolute;
   right: 5%;
   top: 40%;
   transform: rotate(180deg);
 }
+
 .setLimitBtn {
   height: 50px !important;
-  width: fit-content;
   margin-top: unset !important;
   padding: 0 !important;
   background: var(--global-color-button-primary);
 }
+
 .setLimitBtn.disable {
   background: var(--global-color-secondary);
 }
+
 .setLimitBtn:hover {
   background-color: var(--global-color-tertiary) !important;
   color: #ffff !important;
 }
+
 .modal-footer.limit {
   padding: 0 !important;
   margin-top: 1rem;
@@ -168,9 +223,14 @@
 .depositLimit {
   position: relative;
   margin-left: 450px;
-  padding-top: 110px !important;
+  padding-top: 45px;
 }
+
 .depositBody {
+  max-width: 560px;
+}
+
+.depositBodyTransaction {
   max-width: 560px;
 }
 
@@ -264,6 +324,7 @@
   flex-grow: 0;
   margin-bottom: 0;
 }
+
 .confirmHeader2 {
   height: unset;
   font-style: normal;
@@ -396,11 +457,9 @@
   gap: 10px;
   width: 100%;
   height: 48px;
-  background: linear-gradient(
-      186.6deg,
+  background: linear-gradient(186.6deg,
       rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%
-    ),
+      rgba(255, 255, 255, 0) 69.62%),
     #bc9239;
   border-radius: 10px;
   flex: none;
@@ -414,7 +473,7 @@
 }
 
 .depositSkeleton {
-  width: 200px !important;
+  width: 100% !important;
   height: 50px !important;
   margin-top: 0 !important;
   border-radius: 10px;
@@ -427,28 +486,31 @@
   padding-right: 450px;
 }
 
-.confirm-modalContent{
+.confirm-modalContent {
   height: 550px;
   overflow: auto;
 }
 
-@media screen and (max-width: 991px) {
-  .setLimit {
-    width: 160px;
+@media screen and (max-width: 1024px) {
+  .gaming-alert-button {
+    margin-bottom: 0;
   }
+
   .depositLimit {
-    padding-top: 70px !important;
-    padding-left: 0px;
+    padding-top: 16px !important;
+    padding-left: 450px;
     padding-right: 0px !important;
     margin-left: 0px;
     margin-right: 0px;
   }
+
   .depositBody {
     max-width: 560px;
     width: 100%;
     margin: auto;
     padding-right: 0px;
   }
+
   .menuTitle {
     min-width: 330px;
   }
@@ -505,9 +567,37 @@
     right: 100%;
     padding-top: 0;
     padding-left: 0;
+  }
+
+  .confirm-modalContent {
+    height: unset;
+  }
 }
 
-.confirm-modalContent{
-  height: unset;
-}
+@media screen and (max-width: 991px) {
+  div:has(.gamblingContainer) {
+    height: calc(100vh - 56px);
+  }
+
+  .gamblingContainer {
+    max-width: none;
+    width: 100%;
+    padding-left: 0;
+    padding-block: 0 30px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .depositLimit {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .depositBodyTransaction {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    padding-right: 0px;
+  }
 }

@@ -113,29 +113,29 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                     <PlayIcon className="play-icon" />
                   </div>
                   <div className="casino-game-description">
-                    <p className="m-0">{game?.description}</p>
+                    <p className="m-0">{game?.details?.description}</p>
                   </div>
                   <div className="casino-game-info">
                     <div className="casino-game-bet">
                       <div className="casino-game-amount">
                         <span className="amount-title">Minimum Bet:</span>
                         <span className="amount-value">
-                          {game?.min_bet
-                            ? parseFloat(game?.min_bet).toFixed(2)
-                            : "-"}
                           {loggedUser && game?.min_bet
                             ? loggedUser?.user_data?.currency?.symbol
+                            : "-"}
+                          {game?.min_bet
+                            ? parseFloat(game?.min_bet).toFixed(2)
                             : ""}
                         </span>
                       </div>
                       <div className="casino-game-amount">
                         <span className="amount-title">Maximum Bet:</span>
                         <span className="amount-value">
-                          {game?.max_bet
-                            ? parseFloat(game?.max_bet).toFixed(2)
-                            : "-"}
                           {loggedUser && game?.max_bet
                             ? loggedUser?.user_data?.currency?.symbol
+                            : "-"}
+                          {game?.max_bet
+                            ? parseFloat(game?.max_bet).toFixed(2)
                             : ""}
                         </span>
                       </div>

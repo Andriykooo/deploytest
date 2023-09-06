@@ -15,7 +15,7 @@ const initialState = {
   isTablet: false,
   selectedBets: {
     bets: [],
-    stakes: {},
+    stakes: [],
     action: "check",
   },
   betTicker: {
@@ -24,7 +24,9 @@ const initialState = {
   },
   betAmounts: [],
   returnAmounts: [],
-  activeSocketSubscribe: null,
+  subscriptions: {},
+  updatedSelections: null,
+  updatedBetslipSelections: {},
   inPlay: false,
   sportsData: {
     sport_id: null,
@@ -36,10 +38,21 @@ const initialState = {
     data: null,
     isActive: false,
   },
+  sidebarRight: {
+    data: null,
+  },
+  footer: {
+    data: null,
+  },
   headerData: null,
-  tradingChat: null,
+  settings: null,
   activePage: null,
   raceCard: null,
+  casinoCategory: null,
+  pageLayoutContent: {},
+  resultedEvents: [],
+  favouriteGames: {},
+  currentTime: new Date(),
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -52,7 +65,6 @@ const rootReducer = (appstate = initialState, action) => {
 
   switch (action.type) {
     case constants.BET_TICKER:
-      console.log("BET_TICKER", action.payload);
       return { ...appstate, betTicker: action.payload };
     case constants.SET_USER:
       return { ...appstate, user: action.payload };
@@ -98,7 +110,7 @@ const rootReducer = (appstate = initialState, action) => {
           ...appstate,
           selectedBets: {
             bets: [],
-            stakes: {},
+            stakes: [],
             action: "check",
           },
         };
@@ -165,11 +177,6 @@ const rootReducer = (appstate = initialState, action) => {
         );
         return { ...appstate, returnAmounts: filteredBetAmounts };
       }
-    case constants.ACTIVE_SOCKET_SUBSCRIBE:
-      return {
-        ...appstate,
-        activeSocketSubscribe: action.payload,
-      };
     case constants.IN_PLAY:
       return {
         ...appstate,
@@ -209,10 +216,10 @@ const rootReducer = (appstate = initialState, action) => {
         language: action.payload,
       };
 
-    case constants.SET_TRADING_CHAT_SETTINGS:
+    case constants.SET_SETTINGS:
       return {
         ...appstate,
-        tradingChat: action.payload,
+        settings: action.payload,
       };
 
     case constants.SET_ACTIVE_PAGE:
@@ -225,6 +232,159 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         raceCard: action.payload,
+      };
+
+    case constants.SET_CASINO_CATEGORY:
+      return {
+        ...appstate,
+        casinoCategory: action.payload,
+      };
+
+    case constants.SET_PAGE_LAYOUT_CONTENT:
+      return {
+        ...appstate,
+        pageLayoutContent: action.payload,
+      };
+
+    case constants.SET_FOOTER:
+      return {
+        ...appstate,
+        footer: action.payload,
+      };
+
+    case constants.SET_UPDATED_SELECTIONS:
+      const updatedSelectionsData = {};
+
+      action.payload.forEach((selection) => {
+        updatedSelectionsData[selection.data.bet_id] = selection;
+      });
+
+      return {
+        ...appstate,
+        updatedSelections: updatedSelectionsData,
+      };
+
+    case constants.ADD_TO_UPDATED_BETSLIP_SELECTIONS:
+      return {
+        ...appstate,
+        updatedBetslipSelections: {
+          ...appstate.updatedBetslipSelections,
+          [action.payload.bet_id]: action.payload,
+        },
+      };
+
+    case constants.SET_UPDATED_BETSLIP_SELECTIONS:
+      return {
+        ...appstate,
+        updatedBetslipSelections: action.payload,
+      };
+
+    case constants.UPDATE_PAGE_LAYOUT_CONTENT:
+      return {
+        ...appstate,
+        pageLayoutContent: {
+          ...appstate.pageLayoutContent,
+          [action.payload.slug]: {
+            ...appstate.pageLayoutContent[action.payload.slug],
+            content: appstate.pageLayoutContent[
+              action.payload.slug
+            ]?.content?.map((component) => {
+              if (component.type === "carousel") {
+                return {
+                  ...component,
+                  [component.type]: component[component.type].map((item) => {
+                    if (item.id === action.payload.content.id) {
+                      const details = JSON.parse(
+                        action.payload.content.details
+                      );
+                      return {
+                        ...item,
+                        details: {
+                          ...details,
+                          image: `${
+                            appstate.pageLayoutContent[action.payload.slug]
+                              .media_path
+                          }/${details.image}`,
+                        },
+                      };
+                    }
+
+                    return item;
+                  }),
+                };
+              }
+
+              if (component.type_id === action.payload.content.id) {
+                return {
+                  ...component,
+                  [component.type]: {
+                    ...component[component.type],
+                    details: JSON.parse(action.payload.content.details),
+                  },
+                };
+              }
+
+              return component;
+            }),
+          },
+        },
+      };
+
+    case constants.SET_SUBSCRIPTIONS:
+      return {
+        ...appstate,
+        subscriptions: { ...appstate.subscriptions, ...action.payload },
+      };
+
+    case constants.SET_RESULTED_EVENTS:
+      return {
+        ...appstate,
+        resultedEvents: [...appstate.resultedEvents, action.payload],
+      };
+
+    case constants.SET_FAVOURITE_GAMES:
+      return {
+        ...appstate,
+        favouriteGames: action.payload,
+      };
+
+    case constants.ADD_TO_FAVOURITE_GAMES:
+      if (appstate.favouriteGames[action.payload.id]) {
+        break;
+      }
+
+      return {
+        ...appstate,
+        favouriteGames: {
+          ...appstate.favouriteGames,
+          [action.payload.id]: action.payload,
+        },
+      };
+
+    case constants.REMOVE_FROM_FAVOURITE_GAMES:
+      if (!appstate.favouriteGames[action.payload.id]) {
+        break;
+      }
+
+      const updatedData = { ...appstate.favouriteGames };
+
+      delete updatedData[action.payload.id];
+
+      return {
+        ...appstate,
+        favouriteGames: updatedData,
+      };
+
+    case constants.SET_CURRENT_TIME:
+      return {
+        ...appstate,
+        currentTime: action.payload,
+      };
+
+    case constants.SET_MARKET_OPTIONS:
+      return {
+        ...appstate,
+        marketOptions: action.payload,
       };
 
     default:

@@ -7,13 +7,13 @@ export const MarketOptions = ({ options }) => {
           <div className="eventStyle">Event</div>
         </div>
         <div className="odds">
-          {options?.map((selection) => {
+          {options?.map((selection, index) => {
             return (
               <div
-                key={selection.outcome_id}
+                key={selection?.outcome_id || index}
                 className={"selectionName firstSelection inPlayPlaceBet"}
               >
-                {selection?.name}
+                {selection?.outcome_name || selection.name}
               </div>
             );
           })}

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshCommunicationSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
 import { apiUrl } from "./constants";
@@ -11,27 +12,42 @@ import { nextWindow } from "./nextWindow";
 
 const checkError = (code, message) => {
   switch (code) {
+    case 483:
+      nextWindow.location.href = "/customer_service_notice";
+      break;
     // Suspend Account
     case 487:
-      setTimeout(() => {
-        nextWindow.location.href = "/login";
-      }, 500);
+      nextWindow.location.href = "/login";
       break;
 
     // Self-Exclude Account
     case 488:
-      setTimeout(() => {
-        nextWindow.location.href = "/login";
-      }, 500);
+      nextWindow.location.href = "/login";
       break;
 
+    // Wrong Password
+    case 1003:
+      if (typeof window !== "undefined") {
+        alertToast({
+          message: "Invalid password. Please try again.",
+        });
+      }
+      break;
     // Account Exists
     case 1026:
-      alertToast({
-        message:
-          " There is already an account with this email, please login with email ",
-      });
+      if (typeof window !== "undefined") {
+        alertToast({
+          message:
+            "There is already an account with this email, please login with email.",
+        });
+      }
       break;
+    default:
+      if (typeof window !== "undefined") {
+        alertToast({
+          message,
+        });
+      }
   }
 };
 
@@ -54,6 +70,13 @@ const handleError = (error) => {
     throw error;
   }
 
+  const invalidPasswordStatus = error?.response?.data?.error?.code;
+  if (invalidPasswordStatus) {
+    checkError(invalidPasswordStatus, message);
+
+    throw error;
+  }
+
   checkError(code, message);
 
   throw error;
@@ -61,7 +84,6 @@ const handleError = (error) => {
 
 const axiosInstance = axios.create({
   headers: {
-    Authorization: `Bearer ${getLocalStorageItem("access_token")}`,
     "Content-Type": "application/json",
     Accept: "application/json",
     language: "en",
@@ -85,7 +107,10 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response.data,
   async (error) => {
-    if (error.response?.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      getLocalStorageItem("refresh_token")
+    ) {
       try {
         const headers = {
           "content-type": "application/json",
@@ -104,6 +129,7 @@ axiosInstance.interceptors.response.use(
 
         addLocalStorageItem("access_token", token);
         addLocalStorageItem("refresh_token", refresh_token);
+        refreshCommunicationSocket(token);
 
         error.config.headers = {
           ...error.config.header,
@@ -112,11 +138,9 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance.request(error.config);
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
           clearLocalStorage();
           nextWindow.location.href = "/login";
-        } else {
-          throw error;
         }
       }
     } else {
@@ -132,11 +156,9 @@ class ApiServices {
     this.#requestInstance = instance;
   }
 
-  get(url, body) {
+  get(url, body, options = {}) {
     return this.#requestInstance
-      .get(url, {
-        params: body,
-      })
+      .get(url, { params: body, ...options })
       .catch(handleError);
   }
 

@@ -9,14 +9,12 @@ import { usePathname } from "next/navigation";
 export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   const pathname = usePathname();
   const isTablet = useSelector((state) => state.isTablet);
-
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSelect = (item) => {
     onSelect(item);
     setSelectedItem(item);
   };
-
   useEffect(() => {
     setSelectedItem(null);
     onSelect?.(null);
@@ -53,7 +51,7 @@ export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
     <MobileSelect
       data={data}
       selectedItem={selectedItem}
-      placeholder={selectedItem?.label || placeholder}
+      placeholder={placeholder}
       onSelect={handleSelect}
     />
   );

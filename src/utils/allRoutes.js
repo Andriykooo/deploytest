@@ -1,3 +1,4 @@
+import BetHistory from "@/screens/BetHistory/BetHistory";
 import MatchDetails from "../components/matches/MatchDetails";
 import BonuesesAndPromotions from "../screens/BonuesesAndPromotions/BonuesesAndPromotions";
 import Deposit from "../screens/Deposit/Deposit";
@@ -43,6 +44,7 @@ export const authRoutes = [
   { path: "/email_sent", component: <Email /> },
   { path: "/verify_email", component: <VerifyEmail /> },
   { path: "/racecard/:id", component: <Racecard /> },
+  { path: "/casino/:gameId", component: <CasinoPage /> },
   { path: "/", component: <Home /> },
 ];
 
@@ -61,6 +63,7 @@ export const userRoutes = [
   { path: "/self_exclude", component: <SelfExclude /> },
   { path: "/safer_gambling", component: <SaferGambling /> },
   { path: "/open_predictions", component: <OpenPredictions /> },
+  { path: "/bet_history", component: <BetHistory /> },
   { path: "/reality_check", component: <RealityCheck /> },
   { path: "/suspend_account", component: <SuspendAccount /> },
   { path: "/deposit", component: <Deposit /> },
@@ -69,4 +72,5 @@ export const userRoutes = [
   { path: "/finish_account_setup", component: <FinishAccountSetup /> },
   { path: "/kyc", component: <Kyc /> },
   { path: "/verification", component: <Verification /> },
+  { path: "/change_password", component: <ChangePasswordMobile /> },
 ];

@@ -1,4 +1,5 @@
 .backgroundImage {
+  min-height: calc(100vh - 76px);
   background-image: linear-gradient(
       0deg,
       rgba(37, 40, 44, 0.41),
@@ -35,6 +36,7 @@
   text-align: left;
 }
 
+
 .login-buttons::placeholder {
   color: var(--global-color-text-gray);
 }
@@ -51,6 +53,10 @@
   background: var(--global-color-secondary);
   box-sizing: border-box;
   border-radius: 10px;
+}
+
+.continueBtn:disabled {
+  border: 1px solid var(--global-color-gold-button);
 }
 
 .continueBtn2 {
@@ -167,21 +173,44 @@
   z-index: 999;
 }
 
-@media screen and (max-width: 576px) {
-  .loginForm,
-  .continueBtn,
-  .login-buttons {
-    max-width: 300px;
+@media screen and (max-width: 1024px) {
+  .loginForm {
+    padding-left: 24px;
+    padding-right: 24px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+  }
+  .forgotPassword .loginForm,
+  .loginForm form {
+    justify-content: stretch!important;
+  }
+  .continueBtn,
+  .login-buttons {
+   width: 100%;
+   max-width: 100%;
   }
   .loginIconGoogle,
   .loginIconApple,
   .loginIconFb {
-    left: 10%;
+    left: 16px;
+    width: 24px;
+    object-fit: contain;
   }
   .social-login-title {
-    left: 25%;
+    left: 56px;
+  }
+  .login-buttons {
+    margin-bottom: 16px;
+  }
+  .oneClick {
+    margin-bottom: 24px;
+  }
+  .loginWhiteButtons .continueBtn {
+    margin-bottom: 16px;
+  }
+  .showPasswordIconBtm.welcome {
+    top: 29%;
   }
 }
 .mobile-login-form {
@@ -225,4 +254,15 @@ input:-webkit-autofill:active {
 #email:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px var(--global-color-secondary) inset !important;
   -webkit-text-fill-color: white !important;
+}
+
+@media (max-width: 1024px) {
+  .logInTitle {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    max-width: 100%;
+  }
+  .backgroundImage {
+    min-height: calc(100vh - 56px);
+  }
 }

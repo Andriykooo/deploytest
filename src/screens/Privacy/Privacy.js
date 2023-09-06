@@ -1,18 +1,19 @@
 "use client";
 
+import { addLocalStorageItem } from "@/utils/localStorage";
 import parse from "html-react-parser";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setData, setLoggedUser, setSwiftyId } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import "../Terms/Terms.css";
-import { addLocalStorageItem } from "@/utils/localStorage";
+import { refreshCommunicationSocket } from "@/context/socket";
+import Cookies from "js-cookie";
+import { alertToast } from "@/utils/alert";
 
 const Privacy = () => {
   const privacyDivRef = useRef(null);
@@ -27,25 +28,31 @@ const Privacy = () => {
   const signup_platform = useSelector((state) => state.signup_platform);
   const dispatch = useDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    getPolicy();
-  }, []);
+  const pathname = usePathname();
 
   const getPolicy = () => {
-    const country = loggedUser?.user_data?.country || "US";
+    const language = Cookies.get("language") || "en";
+    const country = loggedUser?.user_data?.country || "all";
+
     setLoader(true);
     apiServices
-      .get(`${apiUrl.PRIVACY}?country=${country}`)
+      .get(apiUrl.PRIVACY, { country, language })
       .then((response) => {
         setLoader(false);
         setPolicy(response.content);
         setPolicyVersion(response.version);
       })
-      .catch(() => {
+      .catch((error) => {
+        alertToast({ message: error?.response?.data?.message });
         setLoader(false);
       });
   };
+
+  useEffect(() => {
+    if (policy) {
+      handleScroll();
+    }
+  }, [policy]);
 
   const continueToVerifyEmail = () => {
     let body = {
@@ -70,6 +77,7 @@ const Privacy = () => {
         dispatch(setSwiftyId(result?.swifty_id));
         dispatch(setData(result));
         setIsLoading(false);
+        refreshCommunicationSocket(result?.access_token);
         setTimeout(() => {
           router.push("/verify_email");
         }, 500);
@@ -103,7 +111,7 @@ const Privacy = () => {
         dispatch(setSwiftyId(response?.swifty_id));
         dispatch(setData(response));
         dispatch(setLoggedUser(response));
-
+        refreshCommunicationSocket(response?.token);
         if (countryPhone && countryPhone.length > 0) {
           if (countryPhone[0].phone_number_required) {
             setTimeout(() => {
@@ -124,66 +132,68 @@ const Privacy = () => {
         setIsLoading(false);
       });
   };
+
   const handleScroll = () => {
-    const privacyDiv = privacyDivRef.current;
+    const privacyDiv = privacyDivRef?.current;
     if (
-      privacyDiv.scrollTop + privacyDiv.clientHeight + 100 >=
-      privacyDiv.scrollHeight
+      privacyDiv?.scrollTop + privacyDiv?.clientHeight + 100 >=
+      privacyDiv?.scrollHeight
     ) {
       setAcceptButtonDisabled(false);
     }
   };
-  const pathname = usePathname();
+
+  useEffect(() => {
+    getPolicy();
+  }, []);
+
   return (
-    <BaseLayout title="Privacy" className="backgroundImage">
-      <Header />
-      <div className="terms">
-        <p className="termsTitleForMainPage">Privacy Policy</p>
-        {loader ? (
-          <Loader />
-        ) : (
-          <>
-            <div
-              ref={privacyDivRef}
+    <div className="terms backgroundImage">
+      <p className="termsTitleForMainPage">Privacy Policy</p>
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <div
+            ref={privacyDivRef}
+            className={
+              !loggedUser && pathname.indexOf("/privacy") > "-1"
+                ? "termsContent termsContent-height-50"
+                : "termsContent termsContent-height-60"
+            }
+            onScroll={handleScroll}
+          >
+            {parse(policy.toString())}
+          </div>
+          {user && !loggedUser && pathname.indexOf("/privacy") > "-1" ? (
+            <Button
               className={
-                !loggedUser && pathname.indexOf("/privacy") > "-1"
-                  ? "termsContent termsContent-height-50"
-                  : "termsContent termsContent-height-60"
+                acceptButtonDisabled
+                  ? "acceptBtn disabled"
+                  : "btnPrimary acceptBtn"
               }
-              onScroll={handleScroll}
-            >
-              {parse(policy.toString())}
-            </div>
-            {!loggedUser && pathname.indexOf("/privacy") > "-1" ? (
-              <Button
-                className={
-                  acceptButtonDisabled
-                    ? "acceptBtn disabled"
-                    : "btnPrimary acceptBtn"
+              onClick={() => {
+                if (
+                  !(
+                    signup_platform === "google" ||
+                    signup_platform === "facebook" ||
+                    signup_platform === "apple"
+                  )
+                ) {
+                  continueToVerifyEmail();
+                } else {
+                  handleAcceptPrivacyWithSocial();
                 }
-                onClick={() => {
-                  if (
-                    !(
-                      signup_platform === "google" ||
-                      signup_platform === "facebook" ||
-                      signup_platform === "apple"
-                    )
-                  ) {
-                    continueToVerifyEmail();
-                  } else {
-                    handleAcceptPrivacyWithSocial();
-                  }
-                }}
-                disabled={acceptButtonDisabled}
-                text={<>{isLoading ? <Loader /> : "Accept"}</>}
-              />
-            ) : (
-              ""
-            )}
-          </>
-        )}
-      </div>
-    </BaseLayout>
+              }}
+              disabled={acceptButtonDisabled}
+              text={<>{isLoading ? <Loader /> : "Accept"}</>}
+            />
+          ) : (
+            ""
+          )}
+        </>
+      )}
+    </div>
   );
 };
 

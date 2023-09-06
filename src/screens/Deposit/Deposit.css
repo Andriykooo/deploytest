@@ -59,13 +59,19 @@
 }
 
 .depositLoader{
-  margin-right: 700px;
   padding-top: 150px;
 }
 
 .withdrawLoader{
   margin-right: 400px;
   padding-top: 150px;
+}
+
+.limitText {
+  font-style: 14px !important;
+  font-weight: 400;
+  color: white;
+  margin: 10px 14px;
 }
 
 @media screen and (min-width: 991px) {

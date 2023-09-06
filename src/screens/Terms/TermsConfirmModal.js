@@ -1,12 +1,12 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import { Loader } from "../../components/loaders/Loader";
-import { setUser } from "../../store/actions";
-import { SuccesToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
+import { Button } from "@/components/button/Button";
+import { Loader } from "@/components/loaders/Loader";
+import { setUser } from "@/store/actions";
+import { SuccesToast } from "@/utils/alert";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
 import { removeLocalStorageItem } from "@/utils/localStorage";
 
 const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
@@ -91,7 +91,7 @@ const TermsConfirmModal = ({ termsShowModal, setTermsShowModal }) => {
             className={
               isMobile
                 ? "modal-dialog modal-fullscreen"
-                : "modal-dialog privacyModal"
+                : "modal-dialog privacyModal top-50"
             }
           >
             <div className="modal-content modalCenterContent terms-modalContent">

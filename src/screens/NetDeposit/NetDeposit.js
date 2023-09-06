@@ -1,28 +1,25 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
-import { Loader } from "../../components/loaders/Loader";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
+import { Loader } from "@/components/loaders/Loader";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
 import "../DepositLimit/DepositLimit.css";
 import "../NetDeposit/NetDeposit.css";
 import "../RealityCheck/RealityCheck.css";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
+import ProfileBack from "@/components/profileBack/ProfileBack";
+import { Button } from "@/components/button/Button";
+
 
 const NetDeposit = () => {
   const [loader, setLoader] = useState(true);
   const [netAmount, setNetAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLimit, setSelectedLimit] = useState(0);
-  const isMobile = useSelector((state) => state.setMobile);
   const onBoarding = useSelector((state) => state.on_boarding);
+  const isTablet = useSelector((state) => state.isTablet);
   const netDepositOptions = onBoarding?.setting_options;
 
   const getNetDepositAmount = (type) => {
@@ -33,6 +30,7 @@ const NetDeposit = () => {
       .then((result) => {
         setNetAmount(result?.amount);
         setIsLoading(false);
+        handleShow(false)
       })
       .catch(() => {
         setIsLoading(false);
@@ -93,164 +91,59 @@ const NetDeposit = () => {
   } else if (selectedLimit === 365) {
     netDepositText = "Last Year";
   }
-  const router = useRouter();
 
   const [modalShow, setModalShow] = useState(false);
 
-  const handleShow = () => {
-    setModalShow(!modalShow);
+  const handleShow = (type) => {
+    if (type !== undefined) {
+      setModalShow(type);
+    } else {
+      setModalShow(!modalShow);
+    }
   };
-
   return (
-    <>
-      <Header />
-      <div className="backgroundLinear ">
-        <div className="d-none d-lg-block">
-          <ProfileMenu sideBarMenu page="net_deposit" active={"active"} />
+    <div className="depositLimit  netDepositLimit">
+      <div className="pageContent max-width-container">
+        <ProfileBack />
+        <p className="menuTitle ">Net Deposit </p>
+        <p className="menuText">
+          Net deposit amount shows the sum of all withdrawals minus deposits
+          over a period of time.
+        </p>
+        <div className="row selectDepositDiv mb-3">
+          <p className="depositText col-6">Net Deposit Period</p>
+          <PreferencesDropdown
+            data={{ data: options, show: modalShow, title: 'Net Deposit' }}
+            selectedItem={selectedLimit}
+            handleToggle={handleShow}
+            handleSelect={setSelectedLimit}
+            placeholder={netDepositText}
+            loader={isLoading}
+            btnTitle="Set period"
+            modalOnMobile
+            handleSubmit={handleSetLimit}
+          />
         </div>
-        <div className="depositLimit  netDepositLimit">
-          <div className="pageContent max-width-container">
-            <div className="d-flex d-lg-none">
-              <div className="d-flex ">
-                <Image
-                  src={images.goBackArrow}
-                  alt="Go back"
-                  className="goBackArrow ms-0 "
-                  onClick={() => router.push("/profile")}
-                />
-              </div>
-            </div>
-            <div className={!modalShow ? "" : "modal-overlay"}>
-              <div
-                className={
-                  !modalShow
-                    ? "modal fade"
-                    : "modal modal-open fade show netShow"
-                }
-                id="limitModal"
-                tabIndex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div
-                  className={
-                    isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog"
-                  }
-                >
-                  <div className="modal-content modalCenterContent">
-                    <p className="d-flex justify-content-center depositModalLimit">
-                      Net Deposit
-                    </p>
-                    <Image
-                      src={images.closeIcon}
-                      className="closeIconSus"
-                      alt="Close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => {
-                        setSelectedLimit(0);
-                        setModalShow(!modalShow);
-                      }}
-                    />
-                    {options.map((value, index) => {
-                      return (
-                        <div
-                          key={index}
-                          data-id={index}
-                          className={
-                            selectedLimit === value.value
-                              ? "selectDecimal selectedOdd d-flex mb-3"
-                              : "selectDecimal d-flex mb-3"
-                          }
-                          onClick={() => {
-                            if (selectedLimit === value.value) {
-                              setSelectedLimit(0);
-                            } else {
-                              setSelectedLimit(value.value);
-                            }
-                          }}
-                        >
-                          <div className="selectDecimal">
-                            <p className="m-3 decimalText">{value.name}</p>
-                          </div>
-                          {selectedLimit === value.value && (
-                            <Image
-                              src={images.validated}
-                              alt="selected"
-                              className="oddsSelected"
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
+        {!isTablet && <div className="row suspendButton">
+          <Button
+            className={
+              "setLimit suspendAccBtn w-100 " +
+              (selectedLimit
+                ? " btnPrimary "
+                : "btn finishBtn disabled setLimitBtn col-8")
+            }
+            onClick={() => selectedLimit && handleSetLimit()}
+            text={isLoading ? <Loader /> : "Set period"}
+          />
+        </div>}
 
-                    <div className="modal-footer limit d-flex justify-content-center">
-                      <Button
-                        type="button"
-                        className={
-                          selectedLimit !== 0
-                            ? "btn btnPrimary finishBtn setLimitBtn col-8"
-                            : "btn finishBtn disabled setLimitBtn col-8"
-                        }
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                        onClick={() => {
-                          handleSetLimit();
-                          setModalShow(!modalShow);
-                        }}
-                        text={"Set Period"}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="menuTitle ">Net Deposit </p>
-            <p className="menuText">
-              Net deposit amount shows the sum of all withdrawals minus deposits
-              over a period of time.
-            </p>
-            <div className="row selectDepositDiv ">
-              <p className="depositText col-6">Net Deposit Period</p>
-              <div className="col-6">
-                <Button
-                  type="button"
-                  className="setLimit"
-                  text={
-                    <>
-                      {loader ? (
-                        <div className="d-flex justify-content-between">
-                          <Skeleton
-                            variant="rectangular"
-                            className="my-2 depositSkeleton"
-                            animation="wave"
-                          />
-                        </div>
-                      ) : (
-                        <span className="depositTextDisplay">
-                          {netDepositText}
-                        </span>
-                      )}
-                      <Image
-                        src={images.arrowIcon}
-                        className="depositLimitArrow"
-                        alt="Click"
-                      />
-                    </>
-                  }
-                  onClick={handleShow}
-                />
-              </div>
-            </div>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <p className="netDepositValue">{netAmount}</p>
-            )}
-          </div>
-        </div>
+        {/* {isLoading ? (
+          <Loader />
+        ) : (
+          <p className="netDepositValue">{netAmount}</p>
+        )} */}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
+import classNames from "classnames";
 
 export const States = ({
   states,
@@ -39,6 +40,7 @@ export const States = ({
                   onClick={() => {
                     setShowStates(false);
                   }}
+
                 />
               </div>
               <div className="selectDecimal d-flex mb-5">
@@ -60,10 +62,11 @@ export const States = ({
                     alt="Close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    className={
+                    className={classNames(
+                      "countryModalText",
                       state.code === user?.state
                         ? "selectDecimal selectedOdd d-flex mb-3"
-                        : "selectDecimal d-flex mb-3 "
+                        : "selectDecimal d-flex mb-3 ")
                     }
                     onClick={() => {
                       setCountryState(state.name);

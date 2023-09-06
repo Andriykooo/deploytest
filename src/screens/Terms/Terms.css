@@ -19,6 +19,7 @@
   font-weight: 400;
   font-size: 1rem;
   line-height: 1rem;
+  padding-bottom: 20px;
 }
 
 .termsContent::-webkit-scrollbar {
@@ -49,10 +50,9 @@ li {
   padding-bottom: 40px;
 }
 .termsTitleForMainPage {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
-  line-height: 48px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
   display: flex;
   align-items: center;
   color: var(--global-color-text-primary);
@@ -113,14 +113,17 @@ li {
   margin: 0px 40px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .termsContent {
-    height: calc(100vh - 310px);
+    height: calc(100vh - 240px);
   }
   .termsTitleForMainPage {
-    justify-content: center;
-    padding-top: 100px;
+    font-family: "Montserrat", sans-serif;
+    justify-content: flex-start;
+    font-weight: 700;
+    line-height: 40px;
     font-size: 32px;
+    padding: 30px 20px 20px;
   }
 
   .privacyModalTitle {
@@ -149,5 +152,15 @@ li {
   .privacyContentModal {
     max-height: 70vh;
     height: auto;
+  }
+}
+
+@media (max-width: 576px){
+  .termsTitleForMainPage {
+    padding: 30px 20px !important;
+    justify-content: flex-start;
+  }
+  .termsContent {
+    height: calc(100vh - 270px);
   }
 }

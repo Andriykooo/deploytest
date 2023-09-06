@@ -8,7 +8,12 @@ export default function NotFound() {
     <div className="error-page">
       <div className="header-of-error-component">
         <Link href="/home">
-          <Image src={images.GroupSwifty} alt="Swifty Gaming" height={35} width={230} />
+          <Image
+            src={images.GroupSwifty}
+            alt="Swifty Gaming"
+            height={35}
+            width={230}
+          />
         </Link>
       </div>
       <div className="error-content">

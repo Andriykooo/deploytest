@@ -104,7 +104,7 @@ export const ChangePassowrd = ({
             </p>
             <div className="emailValidation">
               <label className="newPasswordLabel">Current Password</label>
-              <div className="password-container">
+              <div className="password-container position-relative">
                 <input
                   id="password"
                   type={showPassword["currentpassword"] ? "text" : "password"}
@@ -119,26 +119,30 @@ export const ChangePassowrd = ({
                   src={images.showPassIcon}
                   className="showPasswordIcon"
                   alt="Valid"
+                  width={20}
+                  height={14}
                 />
               </div>
             </div>
             <div className="emailValidation">
               <label className="newPasswordLabel">New Password</label>
-              <div className="password-container">
+              <div className="password-container position-relative">
                 <input
                   id="password"
                   type={showPassword["newpassword"] ? "text" : "password"}
                   className="login-buttons"
                   placeholder="Enter a new password"
                   onChange={(e) =>
-                    handlePassword(e.target.value, "new-password")
+                    handlePassword(e.target.value, "newpassword")
                   }
                 />
                 <Image
                   onClick={() => togglePassword("newpassword")}
                   src={images.showPassIcon}
-                  className="showPasswordIconBtm"
+                  className="showPasswordIcon"
                   alt="Valid"
+                  width={20}
+                  height={14}
                 />
               </div>
               <p className="newPassChecks">
@@ -171,8 +175,10 @@ export const ChangePassowrd = ({
                 <Image
                   onClick={() => togglePassword("confirmpassword")}
                   src={images.showPassIcon}
-                  className="showPasswordIconBtm"
+                  className="showPasswordIconBtm welcome"
                   alt="Valid"
+                  width={20}
+                  height={14}
                 />
               </div>
             </div>

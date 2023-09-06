@@ -2,23 +2,20 @@
 
 import { removeLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
-import { Loader } from "../../components/loaders/Loader";
-import { SetSuspendAccount } from "../../components/modal/SetSuspendAccount";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
-import { setLoggedUser } from "../../store/actions";
-import { SuccesToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
+import { Button } from "@/components/button/Button";
+import { Loader } from "@/components/loaders/Loader";
+import { setLoggedUser } from "@/store/actions";
+import { SuccesToast } from "@/utils/alert";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { images } from "@/utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../SuspendAccount/SuspendAccount.css";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 
 const SuspendAccount = () => {
   const [selectedLimit, setSelectedLimit] = useState(-1);
@@ -29,6 +26,7 @@ const SuspendAccount = () => {
     data: [],
   });
   const user_settings = useSelector((state) => state?.user_settings);
+  const isTablet = useSelector((state) => state?.isTablet)
   const suspendValue = useSelector(
     (state) =>
       state.loggedUser?.user_data?.settings?.safer_gambling?.suspend_account
@@ -49,6 +47,7 @@ const SuspendAccount = () => {
   }, [suspendValue?.value]);
 
   const handleSetLimit = () => {
+    setIsLoading(true)
     let body = {
       suspend_account_for: suspendPeriod,
     };
@@ -100,19 +99,35 @@ const SuspendAccount = () => {
     suspendText = "Not Set";
   }
 
+  const handleToggle = () => {
+    setSuspendData({
+      ...suspendData,
+      show: !suspendData.show,
+      data: user_settings?.suspend_account_options,
+    });
+  };
+
+  const handleSetSelectedLimit = (value) => {
+    if (selectedLimit === value) {
+      setSelectedLimit(-1);
+      setSuspendPeriod(-1);
+    } else {
+      setSelectedLimit(value);
+      setSuspendPeriod(value);
+      handleToggle();
+    }
+    setIsLoading(false);
+  };
+
   return (
     <>
-      <Header />
-      <div className="backgroundLinear">
-        <div className="d-none d-lg-block">
-          <ProfileMenu sideBarMenu page="safer_gambling" active={"active"} />
-        </div>
-        <div className="depositLimit max-width-container">
+      <div className="depositLimit max-width-container gamblingContainer">
+        <div>
           <div className="d-flex arrow-top">
             <Image
               src={images.goBackArrow}
               alt="Go back"
-              className="goBackArrow ms-0 mb-3"
+              className="ms-0 mb-3"
               onClick={() => router.back()}
             />
           </div>
@@ -127,67 +142,30 @@ const SuspendAccount = () => {
           </p>
           <div className="row mb-3 susAccount">
             <div className="col-6 subText">Suspend account for</div>
-            <div className="col-6 selectDepositDiv ">
-              <Button
-                type="button"
-                className={"setLimit"}
-                onClick={() => {
-                  setSuspendData({
-                    ...suspendData,
-                    show: true,
-                    data: user_settings?.suspend_account_options,
-                  });
-                }}
-                text={
-                  <>
-                    {loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      suspendText
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
-          <div className="row suspendButton ps-2">
-            <Button
-              className={
-                "setLimit suspendAccBtn " +
-                (suspendPeriod
-                  ? " btnPrimary "
-                  : "btn finishBtn disabled setLimitBtn col-8")
-              }
-              onClick={() => suspendPeriod && handleSetLimit()}
-              text={<>{isLoading ? <Loader /> : "Suspend Account"}</>}
+            <PreferencesDropdown
+              data={{...suspendData, title: "Suspend account"}}
+              selectedItem={selectedLimit}
+              handleToggle={handleToggle}
+              handleSelect={handleSetSelectedLimit}
+              placeholder={suspendText}
+              loader={isLoading}
+              modalOnMobile
+              btnTitle="Set limit"
             />
           </div>
         </div>
-        {suspendData.show && (
-          <>
-            <div className="modal-overlay">
-              <SetSuspendAccount
-                suspendData={suspendData}
-                setSuspendData={setSuspendData}
-                suspendPeriod={suspendPeriod}
-                setSuspendPeriod={setSuspendPeriod}
-                selectedLimit={selectedLimit}
-                setSelectedLimit={setSelectedLimit}
-              />
-            </div>
-          </>
-        )}
+        <div className="row suspendButton">
+          <Button
+            className={
+              "setLimit suspendAccBtn w-100 " +
+              (suspendPeriod
+                ? " btnPrimary "
+                : "btn finishBtn disabled setLimitBtn col-8")
+            }
+            onClick={() => suspendPeriod && handleSetLimit()}
+            text={<>{isLoading ? <Loader /> : "Suspend Account"}</>}
+          />
+        </div>
       </div>
     </>
   );

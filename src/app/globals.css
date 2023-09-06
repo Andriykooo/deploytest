@@ -24,7 +24,9 @@
 @import url(../screens/OddsFormat/OddsFormat.css);
 @import url(../screens/BonuesesAndPromotions/BonuesesAndPromotions.css);
 @import url(../screens/Error404/Error404.css);
-@import url(../components/sidebarRight/SidebarRight.css);
+@import url(../screens/HorseRacing/HorseRacing.css);
+@import url(../screens/Casino/Casino.css);
+@import url(../screens/Racecard/Racecard.css);
 @import url(../components/sidebarLeft/SedibarLeft.css);
 @import url(../components/sidebar/Sidebar.css);
 @import url(../components/profileMenu/ProfileMenu.css);
@@ -37,23 +39,31 @@
 @import url(../components/footer/Footer.css);
 @import url(../components/eventTable/EventTable.css);
 @import url(../components/casinoMenu/CasinoMenu.css);
-@import url(../screens/Casino/Casino.css);
 @import url(../components/casinoCategory/CasinoCategory.css);
 @import url(../components/carousel/Carousel.css);
-@import url(../layouts/baseLayout/BaseLayout.css);
 @import url(../components/loaders/Loader.css);
 @import url(../components/bannerMenu/BannerMenu.css);
 @import url(../components/emptyState/EmptyState.css);
 @import url(../components/chat/Chat.css);
 @import url(../components/languageDropdown/languageDropdown.css);
+@import url(../components/pageContent/PageContent.css);
+@import url(../components/sidebarRight/BetslipOdds/BetslipOdds.css);
+@import url(../components/selectButtons/SelectButtons.css);
+@import url(../components/dropdown/Dropdown.css);
+@import url(../components/goBackButton/GoBackButton.css);
+@import url(../components/sidebarRight/MyBet/MyBet.css);
+@import url(../layouts/baseLayout/BaseLayout.css);
+@import url(../components/sidebarRight/SidebarRight.css);
 
 :root {
   /* Fonts */
   --global-font-montserrat: "Montserrat";
+  --bs-body-font-family: "Montserrat", sans-serif;
   /* Main Colors */
   --global-color-primary: #1f2225;
   --global-color-secondary: #353a40;
   --global-color-tertiary: #c59e43;
+  --global-color-yellow: #fdc500;
   /* Shade */
   --global-color-shade-dark: #191919;
   --global-color-shade1: #414851;
@@ -69,8 +79,8 @@
 
   /* Odds */
   --global-color-rose: #e434a3;
-  --global-color-price-going-out: #7a2740;
-  --global-color-price-going-in: #186448;
+  --global-color-price-drifting: #7a2740;
+  --global-color-price-shortening: #186448;
   --global-color-blue: #35a8e0;
   --global-color-green: #0f0;
   --global-color-bullet-point: #c59e43;
@@ -93,6 +103,8 @@
       rgba(255, 255, 255, 0) 69.62%
     ),
     #bc9239;
+  --global-color-button-secondary: #808080;
+  --global-color-button-action: #647f98;
   /* Gradients */
   --global-color-swifty-gradient: linear-gradient(
     158.32deg,
@@ -130,13 +142,56 @@ body.opened::after {
 
 /* Button */
 .btnPrimary {
-  background: var(--global-color-button-primary);
+  background: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
+}
+
+.btnSecondary {
+  width: 100%;
+  background: var(--global-color-button-secondary);
+  color: var(--global-color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.btnSecondary.place-bet-button {
+  border-radius: 0 0 6px 6px;
+}
+
+.btnAction {
+  width: 100%;
+  background: var(--global-color-button-action);
+  color: var(--global-color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  height: 50px;
+}
+
+.btnGray {
+  background-color: var(--global-color-shade1);
+  color: var(--global-color-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnBorder {
+  background-color: transparent;
+  border: 1px solid var(--global-color-tertiary);
+  color: var(--global-color-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .containerrWhithSidebar {
@@ -154,8 +209,10 @@ body.opened::after {
   overflow-x: hidden;
 }
 
-.MuiTabs-flexContainer {
+.MuiTabs-flexContainer .MuiButtonBase-root {
   border-bottom: 4px solid var(--global-color-secondary);
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .MuiPaper-root.MuiAutocomplete-paper {
@@ -167,6 +224,12 @@ body.opened::after {
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
+}
+
+.MuiPaper-root.MuiPaper-elevation,
+.MuiInputBase-root.MuiOutlinedInput-root,
+.MuiButtonBase-root.MuiTab-root {
+  font-family: inherit;
 }
 
 .accordion-item {
@@ -181,6 +244,7 @@ body.opened::after {
 .containerr {
   grid-template-columns: 64px calc(100% - 367px) 307px;
 }
+
 .header {
   grid-area: header;
 }
@@ -189,25 +253,31 @@ body.opened::after {
   grid-area: footer;
   margin-top: auto;
 }
+
 .shortContentStyle {
   margin-top: 450px;
 }
+
 .mainArticle {
   grid-area: article;
-  min-height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
+
 .mainNav {
   transition: 0.5;
   grid-area: nav;
 }
+
 .siteAds {
   grid-area: ads;
 }
+
 .bet-slip-container {
   display: block;
 }
+
 .full-screen-modal {
   width: 100%;
   height: 100%;
@@ -236,103 +306,25 @@ body.opened::after {
     linear-gradient(0deg, rgba(106, 47, 47, 0.2), rgba(106, 47, 47, 0.2)),
     linear-gradient(180deg, #f4176a 0%, rgba(255, 3, 98, 0) 100%), #c2034b;
 }
+
 .close-full-modal-container svg {
   height: 30px;
   width: 30px;
 }
+
 .nav-skeleton {
   height: 0 !important;
 }
+
 .home-slider-container-skeleton {
   display: flex;
   justify-content: space-around;
 }
+
 .sportsBackground {
   background: var(--global-color-shade10);
 }
 
-@media screen and (max-width: 1400px) {
-  .mainArticle-skeleton {
-    width: 100vw;
-    padding: 0px;
-  }
-  .nav-skeleton {
-    height: 0 !important;
-  }
-  .sidebar-animation-skeleton {
-    width: 80px !important;
-  }
-  .footballContainer {
-    display: block;
-    margin-top: 56px;
-  }
-  .containerrWhithSidebar {
-    grid-template-areas:
-      "header header header"
-      "nav article article"
-      "nav footer ads";
-    grid-template-rows: 74px calc(100vh - 430px) 356px;
-    grid-template-columns: 265px calc(100% - 265px) 0px;
-    height: 100vh;
-    width: 100vw;
-  }
-  .container-of-skeleton-in-markets {
-    display: contents;
-  }
-  .containerr {
-    grid-template-columns: 60px calc(100% - 60px) 0px;
-  }
-  .bet-slip-container {
-    display: none;
-  }
-}
-@media screen and (max-width: 1024px) {
-  .mainArticle-skeleton {
-    padding: 0 !important;
-  }
-  .sidebar-animation-skeleton {
-    width: 0;
-  }
-  .mainArticle {
-    padding: 0;
-  }
-  .sports-body {
-    padding: 0 12px;
-  }
-  .containerrWhithSidebar {
-    grid-template-areas:
-      "header header header"
-      "article article article";
-    grid-template-rows: 56px calc(100vh - 56px) 0px;
-    grid-template-columns: 0px 100% 0px;
-    width: 100%;
-  }
-  .close-full-modal-container svg {
-    height: 20px;
-    width: 20px;
-  }
-}
-@media screen and (min-width: 1401px) {
-  .sidebar-skeleton {
-    width: 270px;
-  }
-  .skeleton-large-screen {
-    padding: 26px 26px 0px 220px;
-  }
-  .sidebar-animation-skeleton {
-    width: 270px;
-  }
-  .containerrWhithSidebar {
-    grid-template-columns: 200px calc(100% - 507px) 0px;
-  }
-  .containerWithSidebar {
-    grid-template-columns: 0px calc(100% - 307px) 0px;
-  }
-
-  .sports-body {
-    padding-top: 16px;
-  }
-}
 .App-header {
   background: var(--global-color-shade10);
   min-height: 100vh;
@@ -346,15 +338,20 @@ body.opened::after {
 .App {
   overflow: hidden;
 }
+
 button {
   border: none;
 }
+
 #root::-webkit-scrollbar {
   display: none !important;
 }
+
 #root {
-  -ms-overflow-style: none !important; /* IE and Edge */
-  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
 }
 
 /* width */
@@ -371,13 +368,16 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
 .modal {
   background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(2px);
 }
+
 .gaming-reminder-logo {
   margin-top: 46px;
 }
+
 .header-of-error-component {
   padding-top: 38px;
   padding-left: 38px;
@@ -390,4 +390,126 @@ button {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(-50%);
+}
+
+#autocomplete-competition::placeholder,
+#autocomplete-competitionInPlay::placeholder,
+#autocomplete-competition,
+#autocomplete-competitionInPlay {
+  font-family: var(--bs-body-font-family) !important;
+}
+
+@media screen and (max-width: 1400px) {
+  .mainArticle-skeleton {
+    width: 100vw;
+    padding: 0px;
+  }
+
+  .nav-skeleton {
+    height: 0 !important;
+  }
+
+  .sidebar-animation-skeleton {
+    width: 80px !important;
+  }
+
+  .footballContainer {
+    display: block;
+    margin-top: 56px;
+  }
+
+  .containerrWhithSidebar {
+    grid-template-areas:
+      "header header header"
+      "nav article article"
+      "nav footer ads";
+    grid-template-rows: 74px calc(100vh - 430px) 356px;
+    grid-template-columns: 265px calc(100% - 265px) 0px;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .container-of-skeleton-in-markets {
+    display: contents;
+  }
+
+  .containerr {
+    grid-template-columns: 60px calc(100% - 60px) 0px;
+  }
+
+  .bet-slip-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .mainArticle-skeleton {
+    padding: 0 !important;
+  }
+
+  .sidebar-animation-skeleton {
+    width: 0;
+  }
+
+  .mainArticle {
+    padding: 0;
+  }
+
+  .sports-body {
+    padding: 0 12px;
+  }
+
+  .containerrWhithSidebar {
+    grid-template-areas:
+      "header header header"
+      "article article article";
+    grid-template-rows: 56px calc(100vh - 56px) 0px;
+    grid-template-columns: 0px 100% 0px;
+    width: 100%;
+  }
+
+  .close-full-modal-container svg {
+    height: 20px;
+    width: 20px;
+  }
+
+  .modal.show .modal-dialog {
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 1401px) {
+  .sidebar-skeleton {
+    width: 270px;
+  }
+
+  .skeleton-large-screen {
+    padding: 26px;
+  }
+
+  .sidebar-animation-skeleton {
+    width: 270px;
+  }
+
+  .containerrWhithSidebar {
+    grid-template-columns: 200px calc(100% - 507px) 0px;
+  }
+
+  .containerWithSidebar {
+    grid-template-columns: 0px calc(100% - 307px) 0px;
+  }
+
+  .sports-body {
+    padding-top: 16px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .mainArticle {
+    justify-content: space-between;
+  }
 }

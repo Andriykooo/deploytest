@@ -1,11 +1,10 @@
-import axios from "axios";
+"use client";
+
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../../context/socket";
-import { setActiveSport, setSportTypes } from "../../store/actions";
-import { alertToast } from "../../utils/alert";
-import { apiUrl } from "../../utils/constants";
+import { setSportTypes } from "../../store/actions";
 import {
   unsubscribeToCompetition,
   unsubscribeToMarket,
@@ -13,14 +12,13 @@ import {
   unsubscribeToSport,
 } from "../../utils/socketSubscribers";
 import { ArrowButton } from "../custom/ArrowButton";
-import { SpinningLoader } from "../loaders/Loader";
-import "./ProfileMenu.css";
 import { ProfileSidebar } from "./ProfileSidebar";
 import { SportsSidebar } from "./SportsSidebar";
 import { nextWindow } from "@/utils/nextWindow";
+import { usePathname } from "next/navigation";
+import { PageLoader } from "../loaders/Loader";
 
 const ProfileMenu = ({
-  page,
   active,
   version,
   profileMenu,
@@ -32,9 +30,9 @@ const ProfileMenu = ({
   largeScreen,
   setLargeScreen,
   bigScreenSidebarDisplay,
+  children,
 }) => {
-  const dispatch = useDispatch();
-  const { subscriptionsSocket } = useContext(SocketContext);
+  const { gamingSocket } = useContext(SocketContext);
 
   const isMobile = useSelector((state) => state.setMobile);
   const sportTypes = useSelector((state) => state.sports);
@@ -42,36 +40,14 @@ const ProfileMenu = ({
   const activeSocketSubscribe = useSelector(
     (state) => state.activeSocketSubscribe
   );
+  const pathname = usePathname();
+  const page = pathname.split("/").pop();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [sportsData, setSportsData] = useState(sportTypes);
 
   const sportsStoredData = useSelector((state) => state.sportsData);
   const uuid = uuidv4();
-
-  const getSportTypes = () => {
-    axios
-      .get(apiUrl.GET_SPORT_TYPES)
-      .then((result) => {
-        let sportsData = result?.data;
-        if (sportsData && sportsData.length > 0) {
-          setSportsData(sportsData);
-          dispatch(setSportTypes(sportsData));
-          if (!activeSport) {
-            dispatch(setActiveSport(sportsData[0]?.id));
-          }
-        } else {
-          setSportsData([]);
-          dispatch(setSportTypes(sportsData));
-          dispatch(setSportTypes([]));
-          dispatch(setActiveSport(null));
-        }
-      })
-      .catch((err) => {
-        alertToast({ message: err?.message });
-      });
-  };
 
   useEffect(() => {
     const mediaQuery = nextWindow.matchMedia(
@@ -112,12 +88,6 @@ const ProfileMenu = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (sportTypes.length === 0) {
-      getSportTypes();
-    }
-  }, []);
-
   const removeSidebarArrow = () => {
     if (nextWindow?.innerWidth > 1201) {
       setTimeout(() => {
@@ -128,13 +98,13 @@ const ProfileMenu = ({
 
   const handleUnsubscribe = () => {
     if (activeSocketSubscribe === "SUBSCRIBE_SPORT") {
-      unsubscribeToSport(subscriptionsSocket, activeSport.toString(), uuid);
+      unsubscribeToSport(gamingSocket, activeSport.toString(), uuid);
     } else if (
       activeSocketSubscribe === "SUBSCRIBE_COMPETITION" &&
       sportsStoredData?.competition_id
     ) {
       unsubscribeToCompetition(
-        subscriptionsSocket,
+        gamingSocket,
         sportsStoredData?.competition_id.toString(),
         uuid
       );
@@ -143,7 +113,7 @@ const ProfileMenu = ({
       sportsStoredData?.market_id
     ) {
       unsubscribeToMarket(
-        subscriptionsSocket,
+        gamingSocket,
         sportsStoredData?.market_id.toString(),
         uuid
       );
@@ -151,51 +121,53 @@ const ProfileMenu = ({
       activeSocketSubscribe === "SUBSCRIBE_MATCH" &&
       sportsStoredData?.match_id
     ) {
-      unsubscribeToMatch(
-        subscriptionsSocket,
-        sportsStoredData?.market_id,
-        uuid
-      );
+      unsubscribeToMatch(gamingSocket, sportsStoredData?.market_id, uuid);
     }
   };
 
-  return (
-    <div
-      className="row sidebarRow"
-      id="sidebarRow"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={removeSidebarArrow}
-    >
-      {sideBarMenu ? (
-        <ProfileSidebar
-          sideBarMenu={sideBarMenu}
-          version={version}
-          profileMenu={profileMenu}
-          page={page}
-          active={active}
-          setIsLoggingOut={setIsLoggingOut}
-        />
-      ) : (
-        <SportsSidebar
-          sports={sports}
-          bigScreenSidebarDisplay={bigScreenSidebarDisplay}
-          largeScreen={largeScreen}
-          swiftyMenu={swiftyMenu}
-          setSportsData={setSportsData}
-          sportsData={sportsData}
-          handleUnsubscribe={handleUnsubscribe}
-        />
-      )}
-      {!isMobile && activeSport && isHovered && showCollapse && (
-        <ArrowButton
-          swiftyMenu={swiftyMenu}
-          largeScreen={largeScreen}
-          browserName={""}
-          setSwiftyMenu={setSwiftyMenu}
-        />
-      )}
-      {isLoggingOut && <SpinningLoader />}
+  return isLoggingOut ? (
+    <div className="profileMenuLoader">
+      <PageLoader />
     </div>
+  ) : (
+    <>
+      <div
+        className="row sidebarRow"
+        id="sidebarRow"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={removeSidebarArrow}
+      >
+        {sideBarMenu ? (
+          <ProfileSidebar
+            sideBarMenu={sideBarMenu}
+            version={version}
+            profileMenu={profileMenu}
+            page={page}
+            active={active}
+            setIsLoggingOut={setIsLoggingOut}
+          />
+        ) : (
+          <SportsSidebar
+            sports={sports}
+            bigScreenSidebarDisplay={bigScreenSidebarDisplay}
+            largeScreen={largeScreen}
+            swiftyMenu={swiftyMenu}
+            setSportsData={setSportTypes}
+            sportsData={sportTypes}
+            handleUnsubscribe={handleUnsubscribe}
+          />
+        )}
+        {!isMobile && activeSport && isHovered && showCollapse && (
+          <ArrowButton
+            swiftyMenu={swiftyMenu}
+            largeScreen={largeScreen}
+            browserName={""}
+            setSwiftyMenu={setSwiftyMenu}
+          />
+        )}
+      </div>
+      <div>{children}</div>
+    </>
   );
 };
 

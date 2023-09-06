@@ -1,7 +1,8 @@
+import { clearLocalStorage, getLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogOut, setLoggedUser, setUser } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl, profileCards } from "../../utils/constants";
@@ -9,7 +10,6 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
-import { clearLocalStorage, getLocalStorageItem } from "@/utils/localStorage";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -21,24 +21,22 @@ export const ProfileSidebar = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const isMobile = useSelector((state) => state.setMobile);
+  const isTablet = useSelector((state) => state.isTablet);
+
   const onLogOut = () => {
     let body = {
       device_id: getLocalStorageItem("device_id"),
-    };
+    }
     setIsLoggingOut(true);
+    dispatch(setLogOut(null));
+    dispatch(setUser(null));
+    dispatch(setLoggedUser(null));
+    router.replace('/home');
     apiServices
-      .post(apiUrl.SIGN_OUT, body)
-      .then(() => {
-        dispatch(setLogOut(null));
-        dispatch(setUser(null));
-        dispatch(setLoggedUser(null));
+      .post(apiUrl.SIGN_OUT, body).finally(() => {
         clearLocalStorage();
-        router.push("/login");
-        setIsLoggingOut(false);
       })
-      .catch(() => {
-        setIsLoggingOut(false);
-      });
   };
   return (
     <SidebarProfilMenu sideBarMenu version={version}>
@@ -51,7 +49,8 @@ export const ProfileSidebar = ({
               <div key={index} className="borderProfile">
                 {sideBarMenu && (
                   <Link href={value.route} key={index} data-id={index}>
-                    <ProfileCard active={value.text === page ? active : ""}>
+                    {/* In the mobile version there shouldn't be any active menu items */}
+                    <ProfileCard active={!isMobile && !isTablet && value.text === page ? active : ""}>
                       <div
                         className={
                           value.text === page

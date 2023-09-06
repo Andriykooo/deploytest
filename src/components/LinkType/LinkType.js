@@ -1,13 +1,14 @@
 import Link from "next/link";
 
 const redirectTypes = [
-  "generic",
   "page",
   "casino",
   "layout",
   "event",
   "default",
   "same_tab",
+  "sport",
+  "generic",
 ];
 
 const OpenType = ({ openType, children, className, path, onClick }) => {
@@ -52,19 +53,11 @@ export const LinkType = ({
       {type === "modal" && (
         <OpenType
           className={className}
-          openType={openType}
+          openType={type}
           onClick={onClick}
-          path={`?page_content=${modalData.slug}&name=${modalData.title}`}
-        >
-          {children}
-        </OpenType>
-      )}
-      {type === "sport" && (
-        <OpenType
-          openType={openType}
-          className={className}
-          path={`/sport${path}`}
-          onClick={onClick}
+          path={`?content=${modalData?.slug}${
+            modalData?.title ? "&name=" + modalData.title : ""
+          }`}
         >
           {children}
         </OpenType>

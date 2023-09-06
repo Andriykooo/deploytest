@@ -1,20 +1,18 @@
 "use client";
 
+import { Footer } from "@/components/footer/Footer";
 import axios from "axios";
+import { useParams } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AutocompleteSelect } from "../../components/custom/AutocompleteSelect";
-import { BetSelectedTypes } from "../../components/custom/BetSelectedTypes";
 import Matches from "../../components/matches/Matches";
 import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { SidebarLayout } from "../../layouts/sidebarLayout/SidebarLayout";
 import { setCompetitions } from "../../store/actions";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
-import { useParams } from "next/navigation";
-import { Footer } from "@/components/footer/Footer";
 
 const InPlay = () => {
   const [markets, setMarkets] = useState([]);
@@ -91,88 +89,83 @@ const InPlay = () => {
   }, [id]);
 
   return (
-    <BaseLayout title="In Play" className="sportsBackground">
-      <SidebarLayout left right className="sportsBackground">
-        {isLoading ? (
-          <SkeletonComponent />
-        ) : (
-          <>
-            <div className="mainArticle">
-              <div className="row w-100 sports-matches-container m-0 sportsMatchesContainer">
-                <div className="col-12 sports-body">
-                  <div className="sport-competitions">
-                    <label className="sport-name">
-                      {sports
-                        ?.find((sport) => sport.id === +id)
-                        ?.name?.toUpperCase()}
-                    </label>
-                    <div className="autoCompleteMultipleInRow">
-                      <AutocompleteSelect
-                        placeholder={
-                          id !== 15 ? "Select League" : "Competitions"
-                        }
-                        data={competitionsData.map((competition) => ({
-                          label: competition.competition_name,
-                          id: competition.competition_id,
-                        }))}
-                        onSelect={(item) => {
-                          setSelectedCompetition(
-                            competitionsData.find(
-                              (competition) =>
-                                competition?.competition_id === item?.id
-                            )
-                          );
-                        }}
-                      />
-                      {id === 15 && (
-                        <>
-                          <AutocompleteSelect placeholder="Time" data={[]} />
-                          <AutocompleteSelect placeholder="Region" data={[]} />
-                          <AutocompleteSelect placeholder="Country" data={[]} />
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  {id !== 15 && markets.length > 0 && (
-                    <TabsSelect
-                      data={markets.map((market) => ({
-                        label: market.market_name,
-                        id: market.market_id,
+    <SidebarLayout sidebarLeftIsActive sidebarRightIsActive>
+      {isLoading ? (
+        <SkeletonComponent />
+      ) : (
+        <>
+          <div className="mainArticle">
+            <div className="row w-100 sports-matches-container m-0 sportsMatchesContainer">
+              <div className="col-12 sports-body">
+                <div className="sport-competitions mx-3 mt-3">
+                  <label className="sport-name">
+                    {sports
+                      ?.find((sport) => sport.id === +id)
+                      ?.name?.toUpperCase()}
+                  </label>
+                  <div className="autoCompleteMultipleInRow">
+                    <AutocompleteSelect
+                      placeholder={id !== 15 ? "Select League" : "Competitions"}
+                      data={competitionsData.map((competition) => ({
+                        label: competition.competition_name,
+                        id: competition.competition_id,
                       }))}
-                      onChange={(selectedItem) => {
-                        const selectedMarket = markets?.find((market) => {
-                          return market.market_id === selectedItem.id;
-                        });
-                        setSelectionTypes(selectedMarket?.selections);
-                        setMarketId(selectedMarket?.market_id);
+                      onSelect={(item) => {
+                        setSelectedCompetition(
+                          competitionsData.find(
+                            (competition) =>
+                              competition?.competition_id === item?.id
+                          )
+                        );
                       }}
-                      placeholder="Select market"
                     />
-                  )}
-                  {competitionsData.length > 0 && (
-                    <Matches
-                      competitionsData={competitionsData.filter((competition) =>
-                        selectCompetition
-                          ? selectCompetition?.competition_id ===
-                            competition.competition_id
-                          : true
-                      )}
-                      selectionTypes={selectionTypes}
-                      marketId={marketId}
-                      id={id}
-                      inPlay={false}
-                    />
-                  )}
-                  {message && <div className="messageStyle">{message}</div>}
+                    {id === 15 && (
+                      <>
+                        <AutocompleteSelect placeholder="Time" data={[]} />
+                        <AutocompleteSelect placeholder="Region" data={[]} />
+                        <AutocompleteSelect placeholder="Country" data={[]} />
+                      </>
+                    )}
+                  </div>
                 </div>
+                {id !== 15 && markets.length > 0 && (
+                  <TabsSelect
+                    data={markets.map((market) => ({
+                      label: market.market_name,
+                      id: market.market_id,
+                    }))}
+                    onChange={(selectedItem) => {
+                      const selectedMarket = markets?.find((market) => {
+                        return market.market_id === selectedItem.id;
+                      });
+                      setSelectionTypes(selectedMarket?.selections);
+                      setMarketId(selectedMarket?.market_id);
+                    }}
+                    placeholder="Select market"
+                  />
+                )}
+                {competitionsData.length > 0 && (
+                  <Matches
+                    competitionsData={competitionsData.filter((competition) =>
+                      selectCompetition
+                        ? selectCompetition?.competition_id ===
+                          competition.competition_id
+                        : true
+                    )}
+                    selectionTypes={selectionTypes}
+                    marketId={marketId}
+                    id={id}
+                    inPlay={false}
+                  />
+                )}
+                {message && <div className="messageStyle">{message}</div>}
               </div>
-            
             </div>
-          </>
-        )}
-        <Footer />
-      </SidebarLayout>
-    </BaseLayout>
+          </div>
+        </>
+      )}
+      <Footer />
+    </SidebarLayout>
   );
 };
 export default InPlay;

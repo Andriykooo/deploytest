@@ -51,11 +51,13 @@ export const TabsSelect = ({
       </Box>
     </div>
   ) : (
-    <MobileSelect
-      data={data}
-      selectedItem={selectedItem}
-      placeholder={placeholder || selectedItem?.label}
-      onSelect={handleSelect}
-    />
+    <div>
+      <MobileSelect
+        data={data}
+        selectedItem={selectedItem}
+        placeholder={placeholder || selectedItem?.label}
+        onSelect={handleSelect}
+      />
+    </div>
   );
 };

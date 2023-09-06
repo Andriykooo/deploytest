@@ -39,7 +39,7 @@ export const Verification = () => {
   }
 
   return (
-    <BaseLayout title="Sign Up" className="backgroundImage">
+    <div className="backgroundImage">
       <div className="verification-sumsub">
         <SumsubWebSdk
           accessToken={kycAccessToken}
@@ -49,7 +49,8 @@ export const Verification = () => {
           config={{
             lang: "en",
             uiConf: {
-              customCssStr: ".title {\n  color: white !important;\n}",
+              customCssStr:
+                ".title {\n  color: white !important;\n}\n .sumsub-logo > svg {\n fill: white;\n}",
             },
           }}
           options={{ addViewportTag: false, adaptIframeHeight: true }}
@@ -60,6 +61,6 @@ export const Verification = () => {
           onReady={(data) => console.log(data)}
         />
       </div>
-    </BaseLayout>
+    </div>
   );
 };

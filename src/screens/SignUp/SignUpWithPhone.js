@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
 import { Loader } from "../../components/loaders/Loader";
 import { PhonePrefix } from "../../components/modal/PhonePrefix";
 import { setLoggedUser, setUser } from "../../store/actions";
@@ -190,153 +189,151 @@ function SignUpWithPhone() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="backgroundImage ">
-        {!phoneExist ? (
-          <div className=" loginForm d-grid justify-content-center GridStyleForPhone">
-            <p className="logInTitle">Add your mobile number</p>
-            <form
-              onSubmit={validateAndSubmitForm}
-              className="d-grid justify-content-center GridStyleForPhone"
-            >
-              <div className="emailValidation d-grid GridStyleForPhone">
-                <label className="nameLabels">Mobile Number</label>
-                <div className="collectionOfInput collectionOfInput2">
-                  <div className="emailValidation d-grid">
-                    <div className="residenceInput">
-                      <Button
-                        id="country_code"
-                        className="login-buttons p-0 mobile-login-form"
-                        data-bs-toggle={
-                          countryPhone && countryPhone.length > 0
-                            ? countryPhone[0]
-                                ?.phone_number_same_country_required
-                              ? false
-                              : "modal"
+    <div className="backgroundImage ">
+      {!phoneExist ? (
+        <div className=" loginForm d-grid justify-content-center GridStyleForPhone">
+          <p className="logInTitle">Add your mobile number</p>
+          <form
+            onSubmit={validateAndSubmitForm}
+            className="d-grid justify-content-center GridStyleForPhone"
+          >
+            <div className="emailValidation d-grid GridStyleForPhone">
+              <label className="nameLabels">Mobile Number</label>
+              <div className="collectionOfInput collectionOfInput2">
+                <div className="emailValidation d-grid">
+                  <div className="residenceInput">
+                    <Button
+                      id="country_code"
+                      className="login-buttons p-0 mobile-login-form"
+                      data-bs-toggle={
+                        countryPhone && countryPhone.length > 0
+                          ? countryPhone[0]?.phone_number_same_country_required
+                            ? false
                             : "modal"
-                        }
-                        data-bs-target={
-                          countryPhone && countryPhone.length > 0
-                            ? countryPhone[0]
-                                ?.phone_number_same_country_required
-                              ? false
-                              : "#limitModal"
+                          : "modal"
+                      }
+                      data-bs-target={
+                        countryPhone && countryPhone.length > 0
+                          ? countryPhone[0]?.phone_number_same_country_required
+                            ? false
                             : "#limitModal"
-                        }
-                        placeholder="Select your country of residence"
-                        text={
-                          <>
-                            <div className="d-flex">
-                              {countryFlag && (
-                                <Image
-                                  src={countryFlag}
-                                  alt=""
-                                  className="countriesFlags2 mb-1"
-                                />
-                              )}
-                              <p className="ms-2 mb-0  countryName phonePrefixName">
-                                +{phonePrefix}
-                              </p>
-                            </div>
-                            <Image
-                              src={images.arrowIcon}
-                              alt=""
-                              className="residenceArrow2"
-                            />
-                          </>
-                        }
-                      />
-                    </div>
+                          : "#limitModal"
+                      }
+                      placeholder="Select your country of residence"
+                      text={
+                        <>
+                          <div className="d-flex">
+                            {countryFlag && (
+                              <Image
+                                src={countryFlag}
+                                alt=""
+                                className="countriesFlags2 mb-1"
+                              />
+                            )}
+                            <p className="ms-2 mb-0  countryName phonePrefixName">
+                              +{phonePrefix}
+                            </p>
+                          </div>
+                          <Image
+                            src={images.arrowIcon}
+                            alt=""
+                            className="residenceArrow2"
+                          />
+                        </>
+                      }
+                    />
                   </div>
-                  <input
-                    id="call"
-                    type="text"
-                    className="login-buttons inputForPhone"
-                    placeholder="Mobile number"
-                    onChange={(e) => handle(e, "phone")}
-                  />
                 </div>
-                <p className="codeSent mt-5 mb-5 codeSend2">
-                  We will send a verification code to this number. This is
-                  required to comply with local laws and regulations.
-                </p>
-
-                <Button
-                  className={
-                    isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
-                  }
-                  onClick={(e) => {
-                    isValid && verifyPhone(e);
-                  }}
-                  style={{ marginTop: "75px" }}
-                  text={<>{loader ? <Loader /> : "Send Code"}</>}
+                <input
+                  id="call"
+                  type="text"
+                  className="login-buttons inputForPhone"
+                  placeholder="Mobile number"
+                  onChange={(e) => handle(e, "phone")}
                 />
               </div>
-            </form>
-            <PhonePrefix
-              handle={handle}
-              selectedCountry={selectedCountry}
-              choosenCountry={choosenCountry}
-              setCountryFlag={setCountryFlag}
-              setCountryCode={setCountryCode}
-              setphonePrefix={setphonePrefix}
-              setSelectedCountry={setSelectedCountry}
-            />
-          </div>
-        ) : (
-          <>
-            <div className=" loginForm d-grid justify-content-center">
-              <p className="logInTitle">Verify your mobile number</p>
-              <form
-                onSubmit={validateAndSubmitForm}
-                className="d-grid justify-content-center"
-              >
-                <div className="codeVerification">
-                  <input
-                    type="tel"
-                    autoFocus
-                    maxLength={1}
-                    className="codeInput"
-                    onChange={(e) => setFirstValue(e.target.value)}
-                  />
-                  <input
-                    type="tel"
-                    maxLength={1}
-                    className="codeInput"
-                    ref={secondInput}
-                    onChange={(e) => setSecondValue(e.target.value)}
-                  />
-                  <input
-                    type="tel"
-                    maxLength={1}
-                    className="codeInput"
-                    ref={thirdInput}
-                    onChange={(e) => setThirdValue(e.target.value)}
-                  />
-                  <input
-                    type="tel"
-                    maxLength={1}
-                    ref={lastInput}
-                    className="codeInput"
-                    onChange={(e) => setLastValue(e.target.value)}
-                  />
-                </div>
-                <p className="codeSent mb-5">
-                  We have sent a code to the number
-                  <strong>
-                    +{user.phone_number_prefix}
-                    {user.phone_number}
-                  </strong>
-                </p>
-                <p className="codeSent mb-5">
-                  Wrong number?{" "}
-                  <Button
-                    className="buttontoresendcode"
-                    onClick={ResetNumber}
-                    text={"Click here to change ."}
-                  />
-                </p>
+              <p className="codeSent mt-5 mb-5 codeSend2">
+                We will send a verification code to this number. This is
+                required to comply with local laws and regulations.
+              </p>
+            </div>
+            <div className="authButtonsContainer">
+              <Button
+                className={
+                  isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
+                }
+                onClick={(e) => {
+                  isValid && verifyPhone(e);
+                }}
+                style={{ marginTop: "75px" }}
+                text={<>{loader ? <Loader /> : "Send Code"}</>}
+              />
+            </div>
+          </form>
+          <PhonePrefix
+            handle={handle}
+            selectedCountry={selectedCountry}
+            choosenCountry={choosenCountry}
+            setCountryFlag={setCountryFlag}
+            setCountryCode={setCountryCode}
+            setphonePrefix={setphonePrefix}
+            setSelectedCountry={setSelectedCountry}
+          />
+        </div>
+      ) : (
+        <>
+          <div className=" loginForm d-grid justify-content-center">
+            <p className="logInTitle">Verify your mobile number</p>
+            <form
+              onSubmit={validateAndSubmitForm}
+              className="d-grid justify-content-center"
+            >
+              <div className="codeVerification">
+                <input
+                  type="tel"
+                  autoFocus
+                  maxLength={1}
+                  className="codeInput"
+                  onChange={(e) => setFirstValue(e.target.value)}
+                />
+                <input
+                  type="tel"
+                  maxLength={1}
+                  className="codeInput"
+                  ref={secondInput}
+                  onChange={(e) => setSecondValue(e.target.value)}
+                />
+                <input
+                  type="tel"
+                  maxLength={1}
+                  className="codeInput"
+                  ref={thirdInput}
+                  onChange={(e) => setThirdValue(e.target.value)}
+                />
+                <input
+                  type="tel"
+                  maxLength={1}
+                  ref={lastInput}
+                  className="codeInput"
+                  onChange={(e) => setLastValue(e.target.value)}
+                />
+              </div>
+              <p className="codeSent mb-5">
+                We have sent a code to the number
+                <strong>
+                  +{user.phone_number_prefix}
+                  {user.phone_number}
+                </strong>
+              </p>
+              <p className="codeSent mb-5">
+                Wrong number?{" "}
+                <Button
+                  className="buttontoresendcode"
+                  onClick={ResetNumber}
+                  text={"Click here to change ."}
+                />
+              </p>
+              <div className="authButtonsContainer">
                 {minutes === 0 && seconds === 0 ? (
                   <Button
                     className={"btnPrimary continueBtn outline"}
@@ -364,12 +361,12 @@ function SignUpWithPhone() {
                   }}
                   text={<>{isloader ? <Loader /> : "Verify"}</>}
                 />
-              </form>
-            </div>
-          </>
-        )}
-      </div>
-    </>
+              </div>
+            </form>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 

@@ -20,6 +20,7 @@
 }
 .countryModalText {
   font-size: 16px !important;
+  line-height: 20px;
 }
 .selectedOdd {
   border: 1.5px solid var(--global-color-gold-button);
@@ -37,5 +38,8 @@
 @media only screen and (max-width: 991px) {
   .mobilePadding {
     padding-left: 0;
+  }
+  .selectDecimal {
+    width: 100%;
   }
 }

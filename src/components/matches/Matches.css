@@ -2,12 +2,12 @@
   width: 100%;
   background: var(--global-color-shade5);
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 0.5fr 3.5fr 2fr;
   border-bottom: 1px solid var(--global-color-secondary);
   margin: 0;
   font-style: normal;
   font-weight: 400;
-  height: 44px;
+  min-height: 44px;
 }
 
 .matchCard.selections {
@@ -50,7 +50,7 @@
 }
 
 .matchResult {
-  width: 64px;
+  min-width: 64px;
   height: 24px;
   white-space: nowrap;
   display: flex;
@@ -63,7 +63,6 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 17px;
-  color: #ffffff;
   color: #f5c451;
   background: linear-gradient(0deg, #bc9239, #bc9239),
     linear-gradient(0deg, rgba(106, 47, 47, 0.2), rgba(106, 47, 47, 0.2)),
@@ -86,6 +85,7 @@
 }
 
 .matchOdds {
+  position: relative;
   padding: 0 5px;
   border-radius: 0px;
   display: flex;
@@ -97,13 +97,147 @@
   width: 100%;
   line-height: 100%;
   text-align: center;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-tertiary);
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .matchOdds:hover {
   background: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
+}
+
+.matchOdds.suspended {
+  background-color: #6d6d6d;
+  color: #bcbfc2;
+  pointer-events: none;
+}
+
+.tooltip {
+  font-family: inherit;
+  position: relative;
+}
+
+.tooltip .tooltip-inner {
+  position: absolute;
+  left: auto;
+  right: -52px;
+  top: -3px;
+  background-color: var(--global-color-shade10);
+  border-radius: 5px;
+  padding: 5px 7px;
+}
+
+.tooltip .tooltip-arrow::before {
+  border-bottom-color: var(--global-color-shade10);
+  border-width: 10px;
+  bottom: 2px;
+  left: auto;
+  right: -32px;
+}
+
+.matchOddsTipContent {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.matchOdds.driftingAnimation {
+  animation: drifting 5s ease;
+}
+
+.matchOdds.drifting::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-right: 10px solid var(--global-color-price-drifting);
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid var(--global-color-price-drifting);
+  border-top: 10px solid transparent;
+  background-color: transparent;
+}
+
+.matchOdds.shorteningAnimation {
+  animation: shortening 5s ease;
+}
+
+.matchOdds.shortening::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-right: 10px solid var(--global-color-price-shortening);
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid var(--global-color-price-shortening);
+  border-top: 10px solid transparent;
+  background-color: transparent;
+}
+
+.matchOdds.betslip {
+  transition: 0.5s;
+}
+
+.matchDetails {
+  display: flex;
+  flex-direction: row;
+}
+.matchDetails .sports-body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.matchDetails .sports-body .markets-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.matchDetails .sports-body .markets-container .markets-container-content {
+  flex: 1;
+}
+.matchDetails .sports-body .markets-container .markets-container-content.markets-container-content-empty {
+  display: flex;
+}
+
+@keyframes drifting {
+  0% {
+  }
+
+  25% {
+    background-color: var(--global-color-price-drifting);
+    color: var(--global-color-text-primary);
+  }
+
+  75% {
+    background-color: var(--global-color-price-drifting);
+    color: var(--global-color-text-primary);
+  }
+
+  100% {
+  }
+}
+
+@keyframes shortening {
+  0% {
+  }
+
+  25% {
+    background-color: var(--global-color-price-shortening);
+    color: var(--global-color-text-primary);
+  }
+
+  75% {
+    background-color: var(--global-color-price-shortening);
+    color: var(--global-color-text-primary);
+  }
+
+  100% {
+  }
 }
 
 .matchOddsContainerFootball {
@@ -162,15 +296,6 @@
   align-items: center;
 }
 
-.odds-change.up {
-  background: var(--global-color-price-going-in);
-  color: var(--global-color-text-primary) !important;
-}
-.odds-change.down {
-  background: var(--global-color-price-going-out);
-  color: var(--global-color-text-primary) !important;
-}
-
 .accourdHeader button {
   font-style: normal;
   font-weight: 400;
@@ -183,7 +308,7 @@
 }
 
 .match-event-accordion-body {
-  background-color: var(--global-color-shade2);
+  background-color: var(--global-color-shade10);
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -207,7 +332,6 @@
 .sports-types {
   padding-left: 26px;
   padding-right: 26px;
-  background: var(--global-color-shade10);
 }
 
 .match-selected-type {
@@ -263,10 +387,6 @@
   text-align: center;
 }
 
-.decimalValue {
-  color: var(--global-color-gold-button);
-}
-
 .sports-matches-container {
   padding: 0;
 }
@@ -282,6 +402,7 @@
 }
 
 .liveGames {
+  width: 57px;
   display: flex;
   padding-left: 5px;
   flex-direction: column;
@@ -291,8 +412,7 @@
   color: var(--global-color-text-tertiary);
   line-height: 12px;
 }
-
-.in-play-time,
+matchOdds .in-play-time,
 .starting-soon-games {
   width: 57px;
   font-style: normal;
@@ -360,6 +480,7 @@
   justify-content: space-between;
   background-color: var(--global-color-secondary);
   border-radius: 6px 6px 0 0;
+  padding: 10px 16px;
 }
 .teams-match-details--header {
   justify-content: space-around;
@@ -429,13 +550,6 @@
     padding-right: 1rem;
   }
 
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 155%;
-  }
-
   .match-selected-type:nth-child(4) {
     order: 4;
   }
@@ -482,11 +596,6 @@
     margin-left: 10px;
   }
 
-  .matchOdds {
-    width: 40px;
-    font-size: 12px;
-  }
-
   .typeBet {
     width: 40px;
     text-align: center;
@@ -498,13 +607,6 @@
 
   .decimalValue {
     font-size: 12px !important;
-  }
-
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
   }
 
   .match-selected-type:nth-child(4) {
@@ -546,13 +648,6 @@
     padding-left: 2px !important;
   }
 
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
-  }
-
   .match-selected-type {
     width: 100%;
   }
@@ -582,20 +677,12 @@
   }
 
   .matchOdds {
-    width: 35px;
     font-size: 12px;
   }
 
   .typeBet {
     width: 30px;
     text-align: center;
-  }
-
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
   }
 
   .match-selected-type:nth-child(4) {
@@ -680,7 +767,8 @@
   background: var(--global-color-shade10);
   color: var(--global-color-text-primary);
   padding-left: 12px;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
   height: 34px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -943,26 +1031,6 @@
   text-align: end;
 }
 
-.goBackButton {
-  height: 32px;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  background: #373b40;
-  border-radius: 6px;
-  color: #fff;
-  font-style: normal;
-  padding: 0 16px !important;
-}
-
-.goBackButton span {
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 15px;
-}
-
 .pitchCenter {
   display: flex;
   align-items: center;
@@ -991,13 +1059,6 @@
   }
   .accordionContainer {
     margin-bottom: 16px;
-  }
-
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
   }
 
   .match-selected-type:nth-child(4) {
@@ -1100,13 +1161,6 @@
     min-height: 35px;
   }
 
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
-  }
-
   .match-selected-type:nth-child(4) {
     order: 4;
   }
@@ -1183,6 +1237,7 @@
   width: 100%;
   height: 100%;
 }
+
 .teams-for-matchdetails-container {
   display: flex;
   align-items: center;
@@ -1249,6 +1304,9 @@
     font-size: 10px;
     text-align: center;
     padding: 0;
+  }
+  .sport-container .accordionContainer {
+    margin-top: 14px;
   }
   .accordionContainer {
     margin-top: 0;
@@ -1444,6 +1502,7 @@
   .matchTeamMobile {
     font-style: normal;
     font-weight: 400;
+    justify-content: center;
     font-size: 13px;
     line-height: 12px;
     display: flex;
@@ -1469,12 +1528,11 @@
     font-size: 13px;
     height: 32px;
   }
-  .matchTeamStyle:first-of-type {
-    justify-content: right;
-  }
 
   .matchResult {
-    font-size: 11px;
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
     padding: 0;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -1652,9 +1710,8 @@
 
 .matchCardRow2 {
   position: relative;
-  display: flex;
-  align-items: center;
-  width: 33.33%;
+  display: grid;
+  grid-template-columns: 168px 3fr;
   border-radius: 0px;
   cursor: pointer;
   background: var(--global-color-shade8);
@@ -1662,10 +1719,20 @@
 
 .matchTeam2 {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 36px;
+  font-size: 12px;
+  font-weight: 400;
+  border-right: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-secondary);
+}
+
+.matchTeam2 img {
+  transform: rotate(90deg);
 }
 
 .author {
@@ -1757,12 +1824,14 @@
 }
 
 .countriesItem {
-  width: 12.5%;
   display: flex;
-  min-height: 40px;
-  border-left: 2px solid var(--global-color-secondary);
+  height: 36px;
+  border-right: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-secondary);
   justify-content: center;
   align-items: center;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--global-color-text-secondary);
 }
 
@@ -1904,12 +1973,12 @@
   }
   .dropdownFixedStyleComponent {
     position: absolute;
-    top: 56px;
+    bottom: 0;
+    top: 29%;
     left: 0;
-    border-radius: 15px 15px 0px 0px;
+    border-radius: 16px 16px 0px 0px;
     width: 100%;
-    height: calc(100% - 57px);
-    background: #2e3034;
+    background: #25292D;
     z-index: 99;
     font-style: normal;
     font-weight: 400;
@@ -1981,5 +2050,24 @@
 
   .mainInPlay {
     padding: 0px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .matchCardRow2 {
+    grid-template-columns: 1fr;
+  }
+  .selected-types {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-gap: 0.3rem;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .matchTeam.matchTeam2 {
+    background-color: #353A40;
   }
 }

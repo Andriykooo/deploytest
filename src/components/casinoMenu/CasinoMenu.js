@@ -1,12 +1,15 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import "./CasinoMenu.css";
+import { setCasinoCategory } from "@/store/actions";
 
 const skeletonArray = Array(5).fill(null);
 
@@ -15,11 +18,11 @@ const CasinoMenu = ({
   search,
   setSearch,
   category,
-  setCategory,
   isLoading,
 }) => {
   const isTablet = useSelector((state) => state.isTablet);
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
 
   const [activeSearch, setActiveSearch] = useState(false);
 
@@ -61,7 +64,7 @@ const CasinoMenu = ({
       ) : (
         <>
           <div className="categories">
-            <div className="menu" onClick={() => setCategory(null)}>
+            <div className="menu" onClick={() => dispatch(setCasinoCategory(null))}>
               <Button
                 className={classNames("menu-link", {
                   selected: !category,
@@ -78,7 +81,7 @@ const CasinoMenu = ({
                     className="menu"
                     key={item.id}
                     onClick={() => {
-                      setCategory(category?.id !== item?.id ? item : null);
+                      dispatch(setCasinoCategory(category?.id !== item?.id ? item : null));
                     }}
                   >
                     <Button

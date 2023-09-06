@@ -1,3 +1,5 @@
+"use client";
+
 import { Skeleton } from "@mui/material";
 import { LinkType } from "../LinkType/LinkType";
 
@@ -62,9 +64,9 @@ export const Banner = ({ data, isLoading }) => {
           )}
           <div className="textContainer">
             <div className="firstImageText">
-              {data?.title}
-              {data?.subtitle && (
-                <div className="secondImageText">{data?.subtitle}</div>
+              {data?.details?.title}
+              {data?.details?.subtitle && (
+                <div className="secondImageText">{data?.details?.subtitle}</div>
               )}
             </div>
             {data?.link_details?.name && (
@@ -74,7 +76,7 @@ export const Banner = ({ data, isLoading }) => {
                 openType={data?.link_details?.open_type}
                 modalData={{
                   slug: data?.link_details?.path.substring(1),
-                  name: data?.title,
+                  name: data?.details?.title,
                 }}
               >
                 <button className="btnPrimary bannerButton buttonOfSlider">

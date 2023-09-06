@@ -7,13 +7,13 @@ export const DynamicSelections = ({ selections, eventId }) => {
   return (
     <>
       <div className="dynamic-selections">
-        {selections.length > 4 ? (
+        {selections?.length > 4 ? (
           <>
-            {selections.slice(0, 3).map((selection) => {
+            {selections.slice(0, 3).map((selection, index) => {
               return (
                 <div
                   className="btnPrimary dynamic-selections-button"
-                  key={selection.bet_id}
+                  key={selection.bet_id || index}
                 >
                   <MatchOdds selection={selection} />
                 </div>
@@ -27,11 +27,11 @@ export const DynamicSelections = ({ selections, eventId }) => {
             </LinkType>
           </>
         ) : (
-          selections.map((selection) => {
+          selections?.map((selection, index) => {
             return (
               <div
                 className="btnPrimary dynamic-selections-button"
-                key={selection.bet_id}
+                key={selection.bet_id || index}
               >
                 <MatchOdds key={selection.bet_id} selection={selection} />
               </div>

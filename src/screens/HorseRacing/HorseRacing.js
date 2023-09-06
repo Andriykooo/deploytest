@@ -1,28 +1,25 @@
-import moment from "moment";
 import { useState } from "react";
 import { Accordion } from "react-bootstrap";
-import pointer from "../../assets/images/pointer.png";
-import { RacingWidget } from "../../components/racingWidget/RacingWidget";
-import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
-import "./HorseRacing.css";
 import Image from "next/image";
+import { images } from "@/utils/imagesConstant";
+import { SelectButtons } from "@/components/selectButtons/SelectsButtons";
+import { Dropdown } from "@/components/dropdown/Dropdown";
+import { RacingComponent } from "@/components/racingComponent/RacingComponent";
+import Link from "next/link";
+import { EmptyState } from "@/components/emptyState/EmptyState";
+import "./HorseRacing.css";
+import { EventTime } from "@/components/EventTime/EventTime";
+import { useSelector } from "react-redux";
+import classNames from "classnames";
 
-const horseracingMeetingOptions = [
+export const horseracingMeetingOptions = [
   {
     label: "Today",
     id: 1,
   },
   {
-    label: "Quick Pick",
+    label: "Tomorrow",
     id: 2,
-  },
-  {
-    label: "Build a Racecard",
-    id: 3,
-  },
-  {
-    label: "Ante Post",
-    id: 4,
   },
 ];
 
@@ -31,65 +28,139 @@ const horseracingFilterOptions = [
     label: "Next Races",
     id: 1,
   },
-  {
-    label: "Daily Specials",
-    id: 2,
-  },
 ];
 
-export const HorseRacing = ({ sportContent }) => {
-  const [selectedMarket, setSelectedMarket] = useState(null);
-  const [selectedMeet, setSelectedMeet] = useState(null);
+export const HorseRacing = ({ sportContent, slug }) => {
+  const [selectedDay, setSelectedDay] = useState(horseracingMeetingOptions[0]);
+  const [selectedMeet, setSelectedMeet] = useState(
+    horseracingMeetingOptions[0]
+  );
+  const [selectedMarket, setSelectedMarket] = useState(
+    horseracingFilterOptions[0]
+  );
+
+  const isTablet = useSelector((state) => state.isTablet);
+  const eventsDay = selectedDay.label.toLowerCase();
+  const regionsDay = selectedMeet.label.toLowerCase();
+
+  const eventsData = sportContent?.events?.filter((event) => {
+    return event?.availabilities?.includes(eventsDay) && selectedMarket.id === 1
+      ? true
+      : event.event_venue === selectedMarket.label;
+  });
+
+  const regionsData = [];
+
+  for (const region of sportContent?.regions) {
+    const filteredRegion = {
+      name: region.name,
+      availabilities: region.availabilities.filter(
+        (availability) => availability === regionsDay
+      ),
+      meetings: [],
+    };
+
+    for (const meeting of region.meetings) {
+      const filteredMeeting = {
+        name: meeting.name,
+        availabilities: meeting.availabilities.filter(
+          (availability) => availability === regionsDay
+        ),
+        events: meeting.events.filter((event) =>
+          event.availabilities.includes(regionsDay)
+        ),
+      };
+
+      if (
+        filteredMeeting.availabilities.length > 0 ||
+        filteredMeeting.events.length > 0
+      ) {
+        filteredRegion.meetings.push(filteredMeeting);
+      }
+    }
+
+    if (
+      filteredRegion.availabilities.length > 0 ||
+      filteredRegion.meetings.length > 0
+    ) {
+      regionsData.push(filteredRegion);
+    }
+  }
+
+  const marketOptions = sportContent.market_options.filter((market) => {
+    return market.availabilities.includes(eventsDay);
+  });
+
+  const handleSelectDay = (selectedItem) => {
+    setSelectedDay(selectedItem);
+    setSelectedMarket(horseracingFilterOptions[0]);
+  };
 
   return (
     <>
-      <div className="sport-competitions mx-3">
-        <label className="sport-name">HORSE RACING</label>
+      <div className="sport-competitions mx-3 mt-3">
+        <div className={classNames("sport-competitions-head", {
+          "mobile": isTablet
+        })}>
+          <label className="sport-name">
+            {slug === "horseracing" ? "HORSE RACING" : "GREYHOUND RACING"}
+          </label>
+          {isTablet ? (
+            <SelectButtons
+              data={horseracingMeetingOptions}
+              onSelect={handleSelectDay}
+              fullWidth
+            />
+          ) : <Dropdown
+            data={horseracingMeetingOptions}
+            onSelect={handleSelectDay}
+          />}
+
+
+        </div>
+
+        <div className="events-filters">
+          <SelectButtons
+            data={[
+              ...horseracingFilterOptions,
+              ...marketOptions?.map((market, index) => ({
+                label: market.market_name,
+                id: horseracingFilterOptions.length + 1 + index,
+              })),
+            ]}
+            onSelect={setSelectedMarket}
+            selectedId={selectedMarket.id}
+            borders
+          />
+        </div>
       </div>
 
-      {sportContent?.events && (
-        <div className="my-3">
-          <div className="mx-3">
-            <TabsSelect
-              placeholder="Select Horse Bet"
-              variant="fullWidth"
-              data={[
-                ...horseracingFilterOptions,
-                ...sportContent.market_options.map((option, index) => ({
-                  label: option,
-                  id: horseracingFilterOptions.length + 1 + index,
-                })),
-              ]}
-              selectedItemId={selectedMarket?.id}
-              onChange={setSelectedMarket}
-            />
-          </div>
-          <Accordion
-            alwaysOpen
-            className="accordion-wrapper horseracing-accordion"
-          >
-            <Accordion.Item
-              style={{ borderWidth: "0", backgroundColor: "#25292d" }}
+      {eventsData && (
+        <>
+          {eventsData.length > 0 ? (
+            <Accordion
+              alwaysOpen
+              className="accordion-wrapper horseracing-accordion"
             >
-              <Accordion.Header className="mx-3">Next Races</Accordion.Header>
-              <Accordion.Body>
-                <RacingWidget
-                  data={sportContent}
-                  venue={selectedMarket?.label}
-                />
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <div className="mx-3">
-            <TabsSelect
+              <Accordion.Item>
+                <Accordion.Body>
+                  <RacingComponent data={eventsData} />
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          ) : (
+            <div className="horse-racing-empty-state mx-3">
+              <EmptyState message="There are no more races for the day!" />
+            </div>
+          )}
+          <div className="m-3">
+            <SelectButtons
               data={horseracingMeetingOptions}
-              selectedItemId={selectedMeet?.id}
-              onChange={setSelectedMeet}
-              variant="fullWidth"
-              placeholder="Select Bet"
+              onSelect={setSelectedMeet}
+              fullWidth={isTablet}
             />
           </div>
-          {sportContent.regions.map((region, index) => {
+          {regionsData.map((region, index) => {
             return (
               <Accordion
                 alwaysOpen
@@ -101,38 +172,47 @@ export const HorseRacing = ({ sportContent }) => {
                 >
                   <Accordion.Header>{region.name}</Accordion.Header>
                   <Accordion.Body>
-                    <div className="matchCardRowContainer matchCardRowContainer2">
+                    <div className="matchCardRowContainer">
                       {region.meetings.map((meeting, index) => (
                         <div
                           key={index}
-                          className="matchCard row matchCardRow2 matchCardRowWidth"
+                          className="matchCardRow2 matchCardRowWidth"
                         >
-                          <div className="matchTeam matchTeamStyle matchTeam2">
-                            <div className="matchTeam2">{meeting.name}</div>
-                          </div>
-                          {meeting.events && meeting.events.length > 0 ? (
-                            meeting.events.map((date, index) => (
-                              <div
-                                key={index}
-                                className={
-                                  date
-                                    ? "countriesItem whiteTxt"
-                                    : "countriesItem"
-                                }
-                              >
-                                <Image
-                                  alt="pointerImg"
-                                  src={pointer}
-                                  className="pointerImg"
-                                />
-                                {moment(date).format("HH:mm")}
+                          <Link
+                            className="matchTeam matchTeam2"
+                            href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${meeting.events[0].event_id
+                              }&filter=${selectedMeet.label.toLowerCase()}`}
+                          >
+                            {meeting.name}
+                            <Image src={images.arrowIcon} alt="arrow" />
+                          </Link>
+                          <div className="meeting-events">
+                            {meeting.events && meeting.events.length > 0 ? (
+                              (meeting.events.length > 8
+                                ? meeting.events.slice(-8)
+                                : [...meeting.events].concat(
+                                  new Array(8 - meeting.events.length).fill(
+                                    ""
+                                  )
+                                )
+                              ).map((currentEvent, index) => {
+                                return (
+                                  <Link
+                                    key={index}
+                                    className="countriesItem"
+                                    href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${currentEvent.event_id
+                                      }&filter=${selectedMeet.label.toLowerCase()}`}
+                                  >
+                                    <EventTime data={currentEvent} />
+                                  </Link>
+                                );
+                              })
+                            ) : (
+                              <div className="countriesItem">
+                                No time available
                               </div>
-                            ))
-                          ) : (
-                            <div className="countriesItem">
-                              No time available
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -141,7 +221,7 @@ export const HorseRacing = ({ sportContent }) => {
               </Accordion>
             );
           })}
-        </div>
+        </>
       )}
     </>
   );

@@ -8,9 +8,8 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
   const router = useRouter();
   const selectedBets = useSelector((state) => state.selectedBets);
   const user = useSelector((state) => state.loggedUser);
-
   const userBalance = user.user_data.balance;
-  const userCurrency = user.user_data.currency.abbreviation;
+  const userCurrency = user.user_data.currency?.abbreviation || "";
 
   return (
     <div className="sing-up-txt">
@@ -22,7 +21,7 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
               alt="Profile"
               className="profileImage"
               onClick={() => {
-                router.push("/profile");
+                router.push("/profile/bonuses_promotions");
               }}
             />
             {showBetSlip && (

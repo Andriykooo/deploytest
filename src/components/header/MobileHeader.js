@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Link } from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "../../store/actions";
@@ -5,7 +6,6 @@ import { images } from "../../utils/imagesConstant";
 import { MenuIcon } from "./MenuIcon";
 import { MobileLoggedUser } from "./logged/MobileLoggedUser";
 import { MobileUnloggedUser } from "./unlogged/MobileUnloggedUser";
-import Image from "next/image";
 
 export const MobileHeader = ({
   page,
@@ -16,7 +16,6 @@ export const MobileHeader = ({
   const dispatch = useDispatch();
   const loggedUser = useSelector((state) => state.loggedUser);
   const sidebaLeft = useSelector((state) => state.sidebarLeft);
-
   const toggleSidebarLeft = (value) => {
     dispatch(
       setSidebarLeft({
@@ -40,7 +39,7 @@ export const MobileHeader = ({
             <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
           </Link>
         </div>
-        <div className="col-3 sing-up-txt mobileAccInfo">
+        <div className="sing-up-txt mobileAccInfo">
           <div className="d-flex align-items-center">
             {!loggedUser?.user_data ? (
               <MobileUnloggedUser showBetSlip={showBetSlip} />

@@ -1,18 +1,24 @@
+"use client";
+
+import { setLanguage } from "@/store/actions";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { setLanguage } from "../../store/actions";
 import "./languageDropdown.css";
-import Image from "next/image";
+import { LanguageIcon } from "@/utils/icons";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const dropdownLangRef = useRef(null);
 
   const language = useSelector((state) => state.language);
   const onboarding = useSelector((state) => state.on_boarding);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const dropdownLangRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
@@ -21,31 +27,20 @@ const LanguageDropdown = () => {
   const languageSelectHandler = (selectedLanguage) => {
     dispatch(setLanguage(selectedLanguage));
     toggleDropdown();
+    Cookies.set("language", selectedLanguage.code2.toLowerCase());
+    window.location.reload();
   };
 
   useClickOutside(dropdownLangRef, () => {
     setIsOpen(false);
   });
 
+  if (onboarding.languages?.length <= 1) {
+    return null;
+  }
+
   return (
     <div className="dropdown-lang-container" ref={dropdownLangRef}>
-      <button
-        className={`dropdown-lang-btn dropdown-lang-item ${
-          isOpen ? "lang-opened" : ""
-        }`}
-        onClick={toggleDropdown}
-      >
-        <div>
-          <Image
-            className="dropdown-lang-flag"
-            src={language?.flag_url}
-            alt="flag"
-            height={20}
-            width={20}
-          />
-          {language?.language_name}
-        </div>
-      </button>
       <ul className="dropdown-lang-list">
         {isOpen &&
           onboarding.languages
@@ -58,17 +53,22 @@ const LanguageDropdown = () => {
                 key={language?.code2}
                 onClick={() => languageSelectHandler(language)}
               >
-                <Image
-                  className="dropdown-lang-flag"
-                  src={language.flag_url}
-                  alt="flag"
-                  height={20}
-                  width={20}
-                />
+                <LanguageIcon />
                 {language?.language_name}
               </li>
             ))}
       </ul>
+      <button
+        className={`dropdown-lang-btn dropdown-lang-item ${
+          isOpen ? "lang-opened" : ""
+        }`}
+        onClick={toggleDropdown}
+      >
+        <div>
+          <LanguageIcon />
+          {language?.language_name}
+        </div>
+      </button>
     </div>
   );
 };

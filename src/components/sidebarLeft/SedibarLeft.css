@@ -8,6 +8,13 @@
   padding-bottom: 71px;
 }
 
+.content {
+  min-height: calc(100vh - 74px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .sidebar-left ~ .content {
   margin-left: 70px;
 }

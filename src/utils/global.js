@@ -23,7 +23,11 @@ export const groupObjectsBySameValue = (array) => {
       },
       {}
     )
-  ).map(([label, options]) => ({ label, options }));
+  ).map(([label, options]) => ({
+    label,
+    id: options?.[0]?.market_id,
+    options,
+  }));
 };
 
 export const formatToLocalDatetime = (datetime) => {
@@ -185,4 +189,35 @@ export const changeCompetitionsDataOnSportSubscribe = (
     }
   }
   return filteredSelection;
+};
+
+export const formatOdd = (selection, format) => {
+  if (selection?.trading_status === "suspended") {
+    return "SUSP";
+  }
+
+  if (format === "straight") {
+    // Straight don't have a meaning in PlatBook platform, this should be used only for predictions.
+    // Straight is means : Stake * Odds = Return
+    return selection?.odds_decimal || "-";
+  }
+
+  if (format === "decimal") {
+    return selection.odds_decimal || "-";
+  }
+
+  if (format === "fractional") {
+    return selection.odds_fractional || "-";
+  }
+
+  if (format === "american") {
+    return selection.odds_american || "-";
+  }
+
+  return (
+    selection?.odds_decimal ||
+    selection?.odds_fractional ||
+    selection?.odds_american ||
+    "-"
+  );
 };

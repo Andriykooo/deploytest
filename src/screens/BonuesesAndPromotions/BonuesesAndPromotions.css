@@ -17,10 +17,11 @@
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 16px;
   background-color: #353a40;
   color: #ffffff;
   padding: 12px 10px;
+  font-family: var(--bs-body-font-family);
 }
 .selected-bonus button {
   border: 1px solid white !important;

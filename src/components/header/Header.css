@@ -2,7 +2,7 @@
   width: 68px;
   height: 50px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1rem;
   line-height: 24px;
   flex: none;
@@ -14,18 +14,22 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 74px;
   padding: 0 60px;
 }
 
-.navBarLinks .nextSvg {
+.navBarLinks .arrow-wrapper.next {
   right: -43px;
   box-shadow: none;
 }
 
-.navBarLinks .previousSvg {
+.navBarLinks .arrow-wrapper.previous {
   left: -43px;
   box-shadow: none;
+}
+
+.navbar {
+  background: var(--global-color-shade5);
 }
 
 .sports-header-link {
@@ -38,7 +42,7 @@
 .navBarLinks .sports-header-link {
   text-decoration: none;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1rem;
   line-height: 24px;
   flex: none;
@@ -55,6 +59,7 @@
   height: 74px;
   background: var(--global-color-tertiary);
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   width: 305px;
@@ -68,7 +73,7 @@
 
 .container-nav-links {
   height: 100%;
-  max-width: calc(100% - 500px);
+  overflow: hidden;
 }
 
 .slip-icon {
@@ -87,6 +92,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  margin-right: 15px;
   background: #d6c08f;
   display: flex;
   justify-content: center;
@@ -159,7 +165,6 @@
 .mobileAccInfo {
   cursor: pointer;
   width: auto;
-  height: 56px;
   font-size: 12px;
 }
 .header-icon {
@@ -234,7 +239,6 @@
 }
 .signInContainer {
   display: flex;
-  margin-left: 10px;
 }
 
 .logo {
@@ -242,38 +246,43 @@
   width: 100px;
 }
 
+.balanceAmountContainer {
+  min-width: 74px;
+  margin-left: 12px;
+}
+
 @media screen and (max-width: 1024px) {
+  .slip-icon,
+  .profileImage {
+    margin-right: 12px;
+  }
+
   .slip-icon-loggedOut,
   .slip-icon,
   .profileImage {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
   }
-
   .signText {
     font-size: 12px;
   }
 
+  .sing-up-txt,
   .navigation {
     height: 56px;
   }
 
   .mobileAccInfo {
-    width: 167px;
-    padding: 10px;
+    padding: 10px 16px;
   }
 
   .mobileAccInfo.unlogged {
     width: 230px;
-    padding: 10px;
+    padding: 10px 16px;
   }
 
-  .container-nav-links {
-    max-width: calc(100% - 330px);
-  }
-
-  .container-nav-links.unlogged {
-    max-width: calc(100% - 400px);
+  .navBarLinks {
+    height: 56px;
   }
 
   .navBarLinks .sports-header-link span {
@@ -284,24 +293,7 @@
   }
 }
 
-@media (max-width: 700px) {
-  .mobileAccInfo.unlogged {
-    width: 100px;
-  }
-
-  .container-nav-links.unlogged {
-    max-width: calc(100% - 270px);
-  }
-
-  .signInContainer {
-    display: none;
-  }
-}
-
 @media (max-width: 600px) {
-  .swifty-gaming-logo {
-    position: fixed;
-  }
   .header-link {
     flex-direction: column;
     justify-content: center;

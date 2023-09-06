@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import numberEightTrending from "../../assets/images/numberEightTrending.png";
 import numberFiveTrending from "../../assets/images/numberFiveTrending.png";
 import numberFourTrending from "../../assets/images/numberFourTrending.png";
@@ -17,6 +17,7 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { LikeIcon } from "../../utils/icons";
 import { CasinoPlayNow } from "../modal/CasinoPlayNow";
+import { addToFavouriteGames, removeFromFavouriteGames } from "@/store/actions";
 
 const trendingNumbers = {
   0: numberZeroTrending,
@@ -46,53 +47,34 @@ const TrendingNumber = ({ number }) => {
   );
 };
 
-export const Game = ({ game, className, number, onFavoriteToggle }) => {
+export const Game = ({ game, className, number, height, width }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.loggedUser);
-
+  const favoriteGames = useSelector((state) => state.favouriteGames);
   const [isOpen, setIsOpen] = useState(false);
-  const [isFavourite, setIsFavourite] = useState(game.favorite);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const isFavourite = favoriteGames?.[game.id] || game.favorite;
 
   const handleFavoriteGame = (game) => {
-    if (isLoading) {
-      return;
-    }
-
-    setIsLoading(true);
-
     if (!isFavourite) {
-      setIsFavourite(true);
+      dispatch(addToFavouriteGames(game));
 
       apiServices
         .post(apiUrl.ADD_TO_FAVORITE_GAMES, {
           gameId: game.id,
         })
         .then(() => {
-          onFavoriteToggle?.();
-        })
-        .catch(() => {
-          setIsFavourite(false);
-        })
-        .finally(() => {
           SuccesToast({ message: "Game added to favorites!" });
-          setIsLoading(false);
         });
     } else {
-      setIsFavourite(false);
+      dispatch(removeFromFavouriteGames(game));
 
       apiServices
         .delete(apiUrl.REMOVE_FROM_FAVORITE_GAMES, {
           gameId: game.id,
         })
         .then(() => {
-          onFavoriteToggle?.();
-        })
-        .catch(() => {
-          setIsFavourite(true);
-        })
-        .finally(() => {
           SuccesToast({ message: "Game removed from favorites!" });
-          setIsLoading(false);
         });
     }
   };
@@ -104,10 +86,6 @@ export const Game = ({ game, className, number, onFavoriteToggle }) => {
   const closeGame = () => {
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    setIsFavourite(game.favorite);
-  }, [game.favorite]);
 
   return (
     <>
@@ -129,9 +107,10 @@ export const Game = ({ game, className, number, onFavoriteToggle }) => {
             className="casinoGame"
             src={game?.image_url}
             alt={game?.name}
+            quality={40}
             onClick={openGame}
-            width={206}
-            height={190}
+            width={width || 206}
+            height={height || 190}
           />
           <button className="btnPrimary btnPlayNow" onClick={openGame}>
             Play Now

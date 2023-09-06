@@ -8,19 +8,23 @@
   align-items: center;
   color: var(--global-color-text-primary);
 }
+
 .infoP {
   font-size: 14px;
 }
+
 .infoDiv {
   background: var(--global-color-secondary);
   position: relative;
   border-radius: 10px;
   margin-left: 10px;
 }
+
 .arrowDeposit {
   transform: rotate(90deg);
   width: 15px;
 }
+
 .withdrawAmount {
   font-style: normal;
   font-weight: 400;
@@ -38,6 +42,7 @@
   align-items: center;
   color: #bcbfc2;
 }
+
 .maxValue {
   font-style: normal;
   font-weight: 400;
@@ -48,19 +53,23 @@
   text-align: center;
   color: var(--global-color-text-primary);
 }
+
 .debitIcon {
   width: 24px;
 }
+
 .modal-content {
   background: linear-gradient(180.02deg, #34393f 0.02%, #000000 284.75%);
   border-radius: 10px;
   border: none;
   align-items: center;
 }
+
 .modal-header,
 .modal-footer {
   border: none;
 }
+
 .finishBtn {
   height: 35px;
   background: var(--global-color-button-primary);
@@ -79,11 +88,9 @@
 }
 
 .finishBtn.disabled {
-  background: linear-gradient(
-      0deg,
+  background: linear-gradient(0deg,
       var(--global-color-secondary),
-      var(--global-color-secondary)
-    ),
+      var(--global-color-secondary)),
     var(--global-color-secondary);
   color: #bcbfc2;
 }
@@ -95,15 +102,18 @@
   line-height: 42px;
   color: var(--global-color-text-primary);
 }
+
 .modal-header {
   display: flex;
   justify-content: center;
 }
+
 .checkAndTitle {
   justify-content: center;
   text-align: center;
   width: 100%;
 }
+
 .fundsModal {
   font-style: normal;
   font-weight: 400;
@@ -113,6 +123,7 @@
   color: var(--global-color-text-primary);
   justify-content: center;
 }
+
 .fundsMsgModal {
   font-style: normal;
   font-weight: 400;
@@ -123,6 +134,7 @@
   color: var(--global-color-text-primary);
   text-align: center;
 }
+
 .modal-body,
 .modal-content,
 .modal-footer {
@@ -154,6 +166,7 @@
   top: 41%;
   right: 15px;
 }
+
 .modalFullScreen {
   padding: 0;
   display: block;
@@ -173,6 +186,7 @@
   height: 47vh;
   position: relative;
 }
+
 .deposit-input {
   margin-bottom: 15px;
   width: 100%;
@@ -316,6 +330,7 @@
     box-sizing: border-box;
     border-radius: 10px;
   }
+
   .selectedOddDeposit {
     border: 1.5px solid var(--global-color-gold-button);
   }
@@ -324,7 +339,21 @@
     border: 1.5px solid transparent;
   }
 }
+
 .active-button-of-submit {
   background-color: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
+}
+
+@media screen and (max-width: 991px) {
+  .deposit-input,
+  .submit-button-deposit,
+  .button-div {
+    max-width: 100%;
+
+  }
+  .deposit-form{
+    height: auto;
+    flex: 1;
+  }
 }

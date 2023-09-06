@@ -52,7 +52,12 @@ const FooterMenu = ({ data, onClick }) => {
       >
         <div className="footerLine" />
       </div>
-      <div className={classNames("footerIconsDiv", { active: isOpen })}>
+      <div
+        className={classNames("footerIconsDiv", {
+          active: isOpen,
+          inline: data?.length < 5,
+        })}
+      >
         {data?.map((item, index) => {
           return (
             <div

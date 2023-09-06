@@ -1,0 +1,24 @@
+.selected-buttons {
+  width: 100%;
+}
+
+.selected-buttons .selected-button {
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.selected-buttons.fullWidth {
+  display: flex;
+  justify-content: space-between;
+}
+
+button.selected-button֊fullWidth {
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  height: 30px;
+  width: calc(50% - 6px);
+}

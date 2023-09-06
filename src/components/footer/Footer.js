@@ -1,21 +1,56 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import parse from "html-react-parser";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HtmlParse } from "../htmlParse/HtmlParse";
 import LanguageDropdown from "../languageDropdown/languageDropdown";
 import { FooterList } from "./FooterList";
+import Seal from "./Seal";
+import { apiServices } from "@/utils/apiServices";
+import Cookies from "js-cookie";
+import { setFooter } from "@/store/actions";
+import { apiUrl } from "@/utils/constants";
 
-export const Footer = ({ footerData }) => {
+export const Footer = () => {
+  const dispatch = useDispatch();
+
   const isTablet = useSelector((state) => state.isTablet);
+  const footer = useSelector((state) => state.footer);
+  const [isMounted, setIsMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setIsMounted(true);
+
+    if (!footer?.data) {
+      const lang = Cookies.get("language");
+
+      let contentLanguage = "all";
+
+      if (lang) {
+        contentLanguage = lang === "en" ? "all" : lang;
+      }
+
+      apiServices
+        .get(apiUrl.GET_FOOTER, { country: contentLanguage })
+        .then((response) => {
+          dispatch(setFooter({ data: response }));
+        });
+    }
+  }, []);
+
+  return footer?.data ? (
     <>
+      {isMounted && (
+        <Helmet>{parse(footer.data.footer_row2?.header || "")}</Helmet>
+      )}
       <footer className="footer-container-div">
         <div className="pt-5 footerContainerMenu">
           {!isTablet ? (
             <div className="row">
-              {footerData?.columns.map((column, index) => {
+              {footer.data.columns.map((column, index) => {
                 return (
                   <div key={index} className="col-6 col-lg-3 pb-5">
                     <div className="row">
@@ -47,24 +82,24 @@ export const Footer = ({ footerData }) => {
             </div>
           ) : (
             <div className="mobileVersionLinks row">
-              {footerData?.columns.map((column, index) => {
+              {footer.data?.columns.map((column, index) => {
                 return <FooterList data={column} key={index} />;
               })}
             </div>
           )}
           <div className="row footer-images">
-            {footerData?.images.map((row, index) => {
+            {footer.data?.images.map((row, index) => {
               return (
                 <div key={index} className="footer-images-row">
                   {row?.items?.map((image, rowIndex) => {
-                    return image.image ? (
+                    return image?.image ? (
                       <div key={rowIndex} className="footer-image">
                         <LinkType
                           type={image.page_type}
-                          path={image.path}
+                          path={image.url}
                           openType={image?.open_type}
                           modalData={{
-                            slug: image?.path,
+                            slug: image?.url,
                             title: image?.name,
                           }}
                         >
@@ -73,26 +108,19 @@ export const Footer = ({ footerData }) => {
                       </div>
                     ) : null;
                   })}
-                  {index === footerData?.images?.length - 1 && (
-                    <div
-                      className="footer-image seal"
-                      dangerouslySetInnerHTML={{
-                        __html: footerData?.footer_row2.body,
-                      }}
-                    />
+                  {index === footer.data?.images?.length - 1 && (
+                    <Seal html={footer.data?.footer_row2.body} />
                   )}
                 </div>
               );
             })}
           </div>
           <div className="footer">
-            <div>
-              <HtmlParse html={footerData?.footer_row1} />
-            </div>
+            <HtmlParse html={footer.data?.footer_row1} />
             <LanguageDropdown />
           </div>
         </div>
       </footer>
     </>
-  );
+  ) : null;
 };

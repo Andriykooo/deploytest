@@ -29,7 +29,7 @@ export const SportsTable = ({ data, type }) => {
               <Accordion
                 key={sport.slug}
                 defaultActiveKey={["0"]}
-                className="accordion-special-container accordion-wrapper"
+                className="accordion-wrapper"
               >
                 <Accordion.Item eventKey={String(index)}>
                   <div className="firstAccordionItem">
@@ -42,9 +42,9 @@ export const SportsTable = ({ data, type }) => {
                       </span>
                     </Accordion.Header>
                   </div>
-                  <Accordion.Body>
+                  <Accordion.Body className="events">
                     {!isTablet && (
-                      <MarketOptions options={sport?.market_options} />
+                      <MarketOptions options={sport?.market_types} />
                     )}
                     {sport?.competitions?.map((competition, index) => {
                       return (

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { refreshCommunicationSocket } from "@/context/socket";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
+import { nextWindow } from "@/utils/nextWindow";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
-import Header from "../../components/header/Header";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { setLoggedUser, setSignUpPlatform, setUser } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -18,8 +19,7 @@ import {
 import "../Login/Login.css";
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
-import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
-import { nextWindow } from "@/utils/nextWindow";
+import Cookies from "js-cookie";
 
 const Login = ({ setShowConfirm }) => {
   const user = useSelector((state) => state.user);
@@ -32,7 +32,10 @@ const Login = ({ setShowConfirm }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const router = useRouter();
+  const params = useSearchParams();
+
   const dispatch = useDispatch();
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -73,6 +76,9 @@ const Login = ({ setShowConfirm }) => {
       .then((resolve) => {
         if (resolve?.email_exist) {
           if (resolve?.sign_up_platform === "email") {
+            if (!resolve?.email_verified && !params.get("redirect")) {
+              router.push("verify_email");
+            }
             setIsVerified(true);
             let newUser = {};
             Object.assign(newUser, user);
@@ -83,16 +89,18 @@ const Login = ({ setShowConfirm }) => {
             dispatch(setUser(newUser));
             setIsLoading(false);
             sessionStorage.setItem("loggedUserInTime", new Date());
+          } else if (resolve?.sign_up_platform === "google") {
+            alertToast({ message: "Please sign in with Google" });
+          } else if (resolve?.sign_up_platform === "facebook") {
+            alertToast({ message: "Please sign in with Facebook" });
+          } else if (resolve?.sign_up_platform === "apple") {
+            alertToast({ message: "Please sign in with Apple" });
           } else {
-            if (resolve?.sign_up_platform === "google") {
-              alertToast({ message: "Please sign in with Google" });
-            } else if (resolve?.sign_up_platform === "facebook") {
-              alertToast({ message: "Please sign in with Facebook" });
-            } else if (resolve?.sign_up_platform === "apple") {
-              alertToast({ message: "Please sign in with Apple" });
-            }
-            setIsLoading(false);
+            alertToast({
+              message: "Wrong platform! Please sign in with a different one",
+            });
           }
+          setIsLoading(false);
         } else {
           let newUser = {};
           Object.assign(newUser, user);
@@ -124,7 +132,6 @@ const Login = ({ setShowConfirm }) => {
         let device_id = uuidv4();
         Object.assign(userLogged, logged);
         userLogged["player_id"] = response?.user_data.player_id;
-        dispatch(setLoggedUser(response));
         addLocalStorageItem("access_token", response?.token);
         addLocalStorageItem("refresh_token", response?.refresh_token);
         addLocalStorageItem("device_id", device_id);
@@ -132,7 +139,19 @@ const Login = ({ setShowConfirm }) => {
         addLocalStorageItem("swifty_id", response?.swifty_id);
         sessionStorage.setItem("loggedUserInTime", new Date());
         let nextUrlPath = getLocalStorageItem("nextUrlPath");
-        if (nextUrlPath && nextUrlPath === "casino") {
+        refreshCommunicationSocket(response?.token);
+        Cookies.set("country", response.user_data.country);
+
+        setIsLoading(false);
+        nextWindow.sessionStorage.setItem("loggedUserInTime", new Date());
+
+        apiServices.get(apiUrl.USER).then((userData) => {
+          dispatch(setLoggedUser({ ...response, user_data: userData }));
+        });
+
+        if (params.get("redirect")) {
+          router.push("/" + params.get("redirect"));
+        } else if (nextUrlPath && nextUrlPath === "casino") {
           router.push("/casino");
         } else {
           router.push("/home");
@@ -146,16 +165,10 @@ const Login = ({ setShowConfirm }) => {
         } else {
           return;
         }
-        setIsLoading(false);
-        nextWindow.sessionStorage.setItem("loggedUserInTime", new Date());
       })
       .catch(() => {
         setIsLoading(false);
       });
-  };
-
-  const verifyLink = () => {
-    router.push("/email_sent");
   };
 
   useEffect(() => {
@@ -180,8 +193,7 @@ const Login = ({ setShowConfirm }) => {
   }, []);
 
   return (
-    <BaseLayout className="backgroundImage">
-      <Header />
+    <div className="backgroundImage">
       {isVerified ? (
         <>
           <LoginPassword
@@ -190,7 +202,6 @@ const Login = ({ setShowConfirm }) => {
             password={password}
             isValid={isPasswordValid}
             togglePassword={togglePassword}
-            verifyLink={verifyLink}
             checkPassword={checkPassword}
             isLoading={isLoading}
             validatePassword={validatePassword}
@@ -210,7 +221,7 @@ const Login = ({ setShowConfirm }) => {
           />
         </>
       )}
-    </BaseLayout>
+    </div>
   );
 };
 

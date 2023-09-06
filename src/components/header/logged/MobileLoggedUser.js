@@ -1,32 +1,33 @@
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
 import { images } from "../../../utils/imagesConstant";
-import Image from "next/image";
+import Link from "next/link";
+import { Chat } from "@/components/chat/Chat";
 
-export const MobileLoggedUser = ({
-  setSwiftyProfile,
-  swiftyProfile,
-  showBetSlip,
-}) => {
+export const MobileLoggedUser = ({ showBetSlip }) => {
   const selectedBets = useSelector((state) => state.selectedBets);
   const user = useSelector((state) => state.loggedUser);
-
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency.abbreviation;
+  const settings = useSelector((state) => state.settings);
+  const chatIsActive =
+    settings?.isTraderChatEnabled &&
+    user &&
+    user?.user_data?.trader_chat_enabled;
 
   return (
-    <div className="col-3 sing-up-txt mobileAccInfo">
+    <div className="sing-up-txt mobileAccInfo">
       <div className="d-flex align-items-center justify-content-between w-100">
         <div className="d-flex">
-          <Image
-            src={images.profile}
-            alt="Profile"
-            className="profileImage"
-            onClick={() => {
-              setSwiftyProfile(!swiftyProfile);
-            }}
-          />
-          {showBetSlip && (
+          <Link href="/profile">
+            <Image
+              src={images.profile}
+              alt="Profile"
+              className="profileImage"
+            />
+          </Link>
+          {!!selectedBets?.bets?.length && showBetSlip && (
             <div
               className="slip-icon"
               onClick={() => {
@@ -54,13 +55,11 @@ export const MobileLoggedUser = ({
               )}
             </div>
           )}
+          {chatIsActive && <Chat isMobile={true} />}
         </div>
-        <div className="d-flex flex-column justify-content-between">
+        <div className="d-flex flex-column justify-content-between balanceAmountContainer">
           <p className="signText balanceText">Balance</p>
-          <div className="d-flex">
-            <p className="signText balanceAmount ">
-              {userCurrency ? userCurrency : ""}&nbsp;&nbsp;
-            </p>
+          <div className="d-flex justify-content-end">
             <p className="signText balanceAmount">
               {userBalance
                 ? parseFloat(userBalance)
@@ -68,6 +67,9 @@ export const MobileLoggedUser = ({
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 : "0.00"}
+            </p>
+            <p className="signText balanceAmount ms-2">
+              {userCurrency ? userCurrency : ""}
             </p>
           </div>
         </div>

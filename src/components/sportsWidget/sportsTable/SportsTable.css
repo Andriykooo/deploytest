@@ -6,6 +6,10 @@
   padding: 16px;
 }
 
+.sports-table-sports > .accordion {
+  margin-bottom: 0;
+}
+
 .sports-table-sports > .accordion-special-container {
   border-radius: 8px;
 }

@@ -12,6 +12,13 @@
   height: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.carousel-list li {
+  padding-top: 0;
 }
 
 .carousel-list > * {
@@ -22,20 +29,22 @@
   display: none;
 }
 
-.carousel-item:hover .casinoGame {
-  opacity: 0.6;
-}
-
 .carousel-item:hover .btnPrimary,
 .carousel-item:hover .likeGame {
   display: block;
 }
 
-.previousSvg {
+.arrow-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrow-wrapper.previous {
   left: 0;
 }
 
-.nextSvg {
+.arrow-wrapper.next {
   right: 0;
 }
 
@@ -45,9 +54,6 @@
   border-radius: 17px;
   width: 27px;
   height: 27px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   padding: 8px;
   box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
   z-index: 1;

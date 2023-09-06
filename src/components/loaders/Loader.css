@@ -67,6 +67,7 @@ button .dot-flashing {
 
 .page-loader {
   height: 100%;
+  display: flex;
   align-items: center;
 }
 

@@ -1,3 +1,6 @@
+import { refreshCommunicationSocket } from "@/context/socket";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 import { useGoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import Image from "next/image";
@@ -12,7 +15,6 @@ import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 
 export const LoginEmail = ({
   email,
@@ -39,6 +41,7 @@ export const LoginEmail = ({
         addLocalStorageItem("device_id", device_id);
         addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
         addLocalStorageItem("swifty_id", response?.swifty_id);
+        refreshCommunicationSocket(result?.access_token);
         let nextUrlPath = getLocalStorageItem("nextUrlPath");
         if (nextUrlPath && nextUrlPath === "casino") {
           router.push("/casino");
@@ -188,13 +191,13 @@ export const LoginEmail = ({
         <div className="loginWhiteButtons">
           <Image alt="img-fbIcon" src={images.fbIcon} className="loginIconFb" />
           <div className="continueBtn white">
-            {/* <FacebookLogin
+            <FacebookLogin
               appId="255259129680845"
               autoLoad={false}
               fields="name,email"
               callback={responseFacebook}
               className="google-btn"
-            /> */}
+            />
             <span className="social-login-title">Continue with Facebook</span>
           </div>
         </div>

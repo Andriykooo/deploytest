@@ -66,7 +66,7 @@ export const ArrowDownIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={props.downArrowOFEvents ? "10" : "15"}
+      width={props.downArrowOFEvents ? "10" : "14"}
       height={props.downArrowOFEvents ? "5" : "17"}
       viewBox="0 0 14 8"
       fill="none"
@@ -150,7 +150,7 @@ export const SlipIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="13"
+      width="32"
       height="18"
       viewBox="0 0 13 18"
       fill="none"
@@ -288,38 +288,18 @@ export const HorizontalDots = () => {
 
 export const CheckIcon = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="65"
-      height="64"
-      viewBox="0 0 65 64"
-      fill="none"
-    >
-      <path
-        d="M44.0525 23.0038C44.6029 23.493 44.6525 24.3358 44.1632 24.8862L29.941 40.8862C29.688 41.1708 29.3253 41.3337 28.9445 41.3337C28.5636 41.3337 28.2009 41.1708 27.9479 40.8862L20.8368 32.8862C20.3476 32.3358 20.3972 31.493 20.9475 31.0038C21.4979 30.5146 22.3407 30.5641 22.8299 31.1145L28.9445 37.9934L42.1701 23.1145C42.6594 22.5641 43.5021 22.5146 44.0525 23.0038Z"
-        fill="white"
-      />
-      <circle
-        cx="32.5"
-        cy="32"
-        r="30.5"
-        stroke="url(#paint0_linear_900_22071)"
-        strokeWidth="3"
-      />
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M43.5525 23.0035C44.1029 23.4928 44.1525 24.3355 43.6632 24.8859L29.441 40.8859C29.188 41.1706 28.8253 41.3334 28.4445 41.3334C28.0636 41.3334 27.7009 41.1706 27.4479 40.8859L20.3368 32.8859C19.8476 32.3355 19.8972 31.4928 20.4475 31.0036C20.9979 30.5143 21.8407 30.5639 22.3299 31.1143L28.4445 37.9932L41.6701 23.1143C42.1594 22.5639 43.0021 22.5143 43.5525 23.0035Z" fill="white" />
+      <circle cx="32" cy="32" r="30.5" stroke="#BC9239" stroke-width="3" />
+      <circle cx="32" cy="32" r="30.5" stroke="url(#paint0_linear_8_1843)" stroke-opacity="0.2" stroke-width="3" />
       <defs>
-        <linearGradient
-          id="paint0_linear_900_22071"
-          x1="7.87255"
-          y1="6.30571"
-          x2="38.0698"
-          y2="82.2545"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#FF005F" />
-          <stop offset="1" stopColor="#109FF2" />
+        <linearGradient id="paint0_linear_8_1843" x1="32" y1="0" x2="26.7496" y2="45.4025" gradientUnits="userSpaceOnUse">
+          <stop stop-color="white" />
+          <stop offset="1" stop-color="white" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>
+
   );
 };
 
@@ -334,7 +314,7 @@ export const SampleNextArrow = (props) => {
         viewBox="0 0 7 10"
         fill="none"
         id="nextSvg"
-        className={`nextSvg ${className}`}
+        className={classNames("nextSvg", className)}
         onClick={onClick}
         style={{ ...style }}
       >
@@ -357,7 +337,7 @@ export const SamplePrevArrow = (props) => {
         height="10"
         viewBox="0 0 7 10"
         fill="none"
-        className={`previousSvg ${className}`}
+        className={classNames("previousSvg", className)}
         onClick={onClick}
         style={{ ...style }}
       >
@@ -878,6 +858,92 @@ export const CasinoResult = () => {
       <path
         d="M17.7571 18.6243C17.639 18.6632 17.5459 18.7562 17.5071 18.8744C17.4779 18.9837 17.5443 19.0476 17.6608 19.0185C17.7798 18.9804 17.8737 18.8873 17.9125 18.7684C17.9344 18.6575 17.868 18.5952 17.7571 18.6243Z"
         fill={theme?.colors?.colorTextPrimary}
+      />
+    </svg>
+  );
+};
+
+export const ClockIcon = () => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.00851 1.0166H11.9916M10 7.0053V10.9978L11.9916 12.994M17.9661 10.9978C17.9661 15.4077 14.3996 18.9827 10 18.9827C5.60048 18.9827 2.03394 15.4077 2.03394 10.9978C2.03394 6.58781 5.60048 3.01284 10 3.01284C14.3996 3.01284 17.9661 6.58781 17.9661 10.9978Z"
+        stroke="white"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const OkIcon = () => {
+  return (
+    <svg
+      width="31"
+      height="30"
+      viewBox="0 0 31 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20.9152 10.7829C21.1732 11.0122 21.1965 11.4072 20.9671 11.6652L14.3005 19.1652C14.1819 19.2987 14.0119 19.375 13.8333 19.375C13.6548 19.375 13.4848 19.2987 13.3662 19.1652L10.0329 15.4152C9.80355 15.1572 9.82679 14.7622 10.0848 14.5329C10.3428 14.3036 10.7378 14.3268 10.9671 14.5848L13.8333 17.8093L20.0329 10.8348C20.2622 10.5768 20.6572 10.5536 20.9152 10.7829Z"
+        fill="white"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.5 28.5938C23.0076 28.5938 29.0938 22.5076 29.0938 15C29.0938 7.49238 23.0076 1.40625 15.5 1.40625C7.99238 1.40625 1.90625 7.49238 1.90625 15C1.90625 22.5076 7.99238 28.5938 15.5 28.5938ZM15.5 30C23.7843 30 30.5 23.2843 30.5 15C30.5 6.71573 23.7843 0 15.5 0C7.21573 0 0.5 6.71573 0.5 15C0.5 23.2843 7.21573 30 15.5 30Z"
+        fill="#BC9239"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.5 28.5938C23.0076 28.5938 29.0938 22.5076 29.0938 15C29.0938 7.49238 23.0076 1.40625 15.5 1.40625C7.99238 1.40625 1.90625 7.49238 1.90625 15C1.90625 22.5076 7.99238 28.5938 15.5 28.5938ZM15.5 30C23.7843 30 30.5 23.2843 30.5 15C30.5 6.71573 23.7843 0 15.5 0C7.21573 0 0.5 6.71573 0.5 15C0.5 23.2843 7.21573 30 15.5 30Z"
+        fill="url(#paint0_linear_7902_67073)"
+        fillOpacity="0.2"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_7902_67073"
+          x1="15.5"
+          y1="0"
+          x2="13.0389"
+          y2="21.2824"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+};
+
+export const LanguageIcon = () => {
+  return (
+    <svg
+      className="dropdown-lang-flag"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="20" height="20" rx="10" fill="white" />
+      <path
+        d="M3.29138 15.3742L3.54848 15.8449C5.62159 14.7116 7.0746 13.231 8.09504 11.7373L9.6253 12.9755L9.96252 12.5586L8.39005 11.2864C9.97836 8.74969 10.3667 6.27625 10.4528 5.49702H15.7524V4.96082H8.91827V3.2771H8.38208V4.96082H4.66446V5.49702H9.91407C9.82394 6.2772 9.44318 8.57787 7.97252 10.9485L6.33418 9.62293L5.99696 10.0397L7.67897 11.4007C6.69841 12.8437 5.29767 14.2774 3.29138 15.3742Z"
+        fill="#1B1C21"
+      />
+      <path
+        d="M15.5049 15.7125L15.9999 15.5067L12.9541 8.17883L9.9082 15.5067L10.4033 15.7125L11.3497 13.4358H14.5585L15.5049 15.7125ZM11.5726 12.8996L12.9541 9.57587L14.3357 12.8996H11.5726Z"
+        fill="#1B1C21"
       />
     </svg>
   );

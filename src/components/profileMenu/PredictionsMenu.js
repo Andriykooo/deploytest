@@ -3,14 +3,21 @@ import Link from "next/link";
 import { predictionPages } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
-import { GoBackButton } from "../custom/GoBackButton";
+import { GoBackButton } from "../goBackButton/GoBackButton";
 import { ProfileCard } from "./Styled";
 
 export const PredictionsMenu = ({ page, active }) => {
   return (
     <>
-      <GoBackButton />
-      <p className="historyBets">Prediction History</p>
+      <div className="d-flex pb-3">
+        <Image
+          src={images.goBackArrow}
+          alt="Go back"
+          className="ms-0 "
+          onClick={() => router.push("/profile/profile")}
+        />
+      </div>
+      <p className="historyBets">Bet History</p>
       <div className="predictions-menu">
         {predictionPages.map((value, index) => {
           return (

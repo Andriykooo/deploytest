@@ -235,13 +235,14 @@
   position: static;
   width: auto;
 }
+
 .accordion-special-container {
-  margin-bottom: 0 !important;
+  margin-bottom: 1px !important;
 }
 
 .accordion-wrapper {
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .inPlayAccordion {

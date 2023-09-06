@@ -8,6 +8,7 @@ import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
+import moment from "moment";
 
 const MatchCard = ({ match, inPlay }) => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const MatchCard = ({ match, inPlay }) => {
   const [showNotification, setShowNotification] = useState("");
 
   const handleClickRow = () => {
-    router.push(`/match/${match.id}`);
+    router.push(`/match/${match?.id || match?.event_id}`);
     if (inPlay) {
       dispatch(setInPlay(true));
     } else {
@@ -64,11 +65,13 @@ const MatchCard = ({ match, inPlay }) => {
                 />
               )}
             </div>
-            <div>{match?.current_time}</div>
+            <div>
+              {moment.utc(match?.current_time).local().format("DD MMM HH:mm")}
+            </div>
           </div>
-          <span className="more-markets-container">
+          <div className="more-markets-container" onClick={handleClickRow}>
             <HorizontalDots />
-          </span>
+          </div>
         </div>
       )}
       <div className="matchCard row matchCardRow matchCardFootball">
@@ -94,7 +97,7 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
-              {match?.current_time}
+              {moment.utc(match?.current_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
         )}
@@ -150,7 +153,7 @@ const MatchCard = ({ match, inPlay }) => {
               match?.selections.map((selection, index) => {
                 return (
                   <div className="selectionName" key={index}>
-                    {selection?.name}
+                    {selection?.name || selection?.outcome_name}
                   </div>
                 );
               })}

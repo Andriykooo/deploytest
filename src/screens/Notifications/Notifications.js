@@ -1,11 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../components/header/Header";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
+import ProfileBack from "@/components/profileBack/ProfileBack";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast, alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -14,7 +11,6 @@ import {
   emailNotifications,
   pushNotifications,
 } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
 import "../Notifications/Notifications.css";
 import "../Withdraw/Withdraw.css";
 import { ToggleLabel } from "./ToggleLabel";
@@ -28,8 +24,6 @@ const Notifications = () => {
   );
   const isMobile = useSelector((state) => state.setMobile);
   const loggedUser = useSelector((state) => state.loggedUser);
-
-  let active = "active";
 
   useEffect(() => {
     const localPushNotifications = [...pushNotifications];
@@ -86,62 +80,44 @@ const Notifications = () => {
         )
       );
   };
-  const router = useRouter();
   return (
-    <>
-      <Header />
-      <div className=" backgroundLinear ">
-        <div className="d-none d-lg-block ">
-          <ProfileMenu sideBarMenu page="notifications" active={active} />
+    <div className="depositLimit">
+      <div className={isMobile ? "p-4 pt-0" : "depositBody"}>
+        <ProfileBack />
+        <p className="menuTitle">Notifications </p>
+        <div className="row depositLimitContainer">
+          <span className="notificationsSub ">Push Notifications</span>
+          {pushNotificationSettings.map((item, i) => (
+            <ToggleLabel
+              notification={item}
+              key={item.key}
+              type="push"
+              className="notificationTrack"
+              value={item.status}
+              onToggle={onToggle}
+              isMobile={isMobile}
+              last={i + 1 === pushNotificationSettings?.length}
+            />
+          ))}
         </div>
-        <div className="depositLimit">
-          <div className={isMobile ? "p-4 pt-0" : "depositBody"}>
-            <div className="d-flex d-lg-none">
-              <div className="d-flex ">
-                <Image
-                  src={images.goBackArrow}
-                  alt="Go back"
-                  className="goBackArrow ms-0 mb-3"
-                  onClick={() => router.push("/profile")}
-                />
-              </div>
-            </div>
-            <p className="menuTitle">Notifications </p>
-            <div className="row depositLimitContainer">
-              <span className="notificationsSub ">Push Notifications</span>
-              {pushNotificationSettings.map((item, i) => (
-                <ToggleLabel
-                  notification={item}
-                  key={item.key}
-                  type="push"
-                  className="notificationTrack"
-                  value={item.status}
-                  onToggle={onToggle}
-                  isMobile={isMobile}
-                  last={i + 1 === pushNotificationSettings?.length}
-                />
-              ))}
-            </div>
-            <div className="divider" />
-            <div className="row depositLimitContainer">
-              <span className="notificationsSub ">Email Notifications</span>
+        <div className="divider" />
+        <div className="row depositLimitContainer">
+          <span className="notificationsSub ">Email Notifications</span>
 
-              {emailNotificationSettings.map((item, i) => (
-                <ToggleLabel
-                  notification={item}
-                  key={item.key}
-                  type={"email"}
-                  value={item.status}
-                  onToggle={onToggle}
-                  isMobile={isMobile}
-                  first={i === 0}
-                />
-              ))}
-            </div>
-          </div>
+          {emailNotificationSettings.map((item, i) => (
+            <ToggleLabel
+              notification={item}
+              key={item.key}
+              type={"email"}
+              value={item.status}
+              onToggle={onToggle}
+              isMobile={isMobile}
+              first={i === 0}
+            />
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

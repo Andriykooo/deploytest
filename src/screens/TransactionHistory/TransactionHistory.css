@@ -15,6 +15,7 @@
   margin-right: 1rem;
   padding: 1rem;
 }
+
 .monthsFilter {
   display: flex;
   width: 100%;
@@ -28,53 +29,146 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .monthsFilter::-webkit-scrollbar {
   display: none;
 }
-.transactionCard {
+
+.transactionCardWrapper {
   max-width: 35rem;
   width: 100%;
   background: var(--global-color-secondary);
   border-radius: 4px;
   padding-left: 1rem;
   position: relative;
-  height: 4.5rem;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 67px;
+  padding: 8px 14px;
 }
-.transactionCard img {
-  width: 45px;
+
+.transactionCardWrapper img {
+  width: 38px;
 }
+
+.transactionCard {
+  display: flex;
+  width: 100%;
+}
+
+.transaction-date {
+  display: flex;
+  min-width: 220px;
+  width: 220px;
+  justify-content: space-between;
+  height: 28px;
+  align-items: center;
+}
+
+.transaction-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  height: 100%;
+  width: 87px;
+  height: 24px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--global-color-text-primary);
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.transaction-status span::first-letter {
+  text-transform: uppercase;
+}
+
+.pending {
+  background-color: var(--global-color-yellow);
+}
+
+.expired,
+.successful {
+  background-color: var(--global-color-shade4);
+}
+
+.transaction-item-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 47px;
+  width: 100%;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.transaction-item-title.title-centered {
+  justify-content: center;
+}
+
 .placed,
 .typeDate {
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 21px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
   color: var(--global-color-text-primary);
 }
-.typeDate {
-  color: #d3d3d3;
+
+.typeSubtitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--global-color-text-gray);
+  display: flex;
+}
+
+.amount-wrapper .placed {
+  text-align: right;
+}
+
+.amount-wrapper {
+  width: 90px;
+  min-width: 90px;
   padding-right: 0.25rem;
+}
+
+.typeDate {
+  color: var(--global-color-text-gray);
+  display: grid;
+  justify-content: end;
 }
 
 .depositSum {
   font-size: 34px;
   line-height: 24px;
 }
+
 .valuesDiv {
+  padding-top: 10px;
   display: flex;
 }
+
 .profitValue {
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 16px;
+  font-weight: 600;
 }
-.betDate {
-  padding-left: 1rem;
-}
+
 .betIcon {
   width: 20px;
   height: 20px;
 }
+
 .max-container {
   height: 100%;
   overflow: auto;
@@ -82,24 +176,28 @@
   padding-bottom: 30px;
 }
 
+.historyBlock {
+  padding-top: 13px;
+}
+
 @media screen and (max-width: 991px) {
   .betOdd {
     padding-left: unset;
   }
+
+  .transactionCardWrapper {
+    max-width: 100%;
+  }
+
   .profitValue {
     width: auto;
   }
+
   .valuesDiv {
     display: none;
   }
-  .typeDate {
-    display: grid;
-  }
-  .betDate {
-    padding-left: unset;
-  }
 
-  .linearTransaction{
+  .linearTransaction {
     display: block;
   }
 }
@@ -107,6 +205,7 @@
 .swiper-wrapper {
   width: auto !important;
 }
+
 .swiper-pointer-events {
   touch-action: pan-x !important;
 }
@@ -116,9 +215,11 @@
   max-width: 35rem;
   width: 100%;
 }
+
 .spinnerStyle {
   text-align: center;
 }
+
 .spinnerPadding {
   margin-top: 30px;
   margin-bottom: 30px;

@@ -7,11 +7,13 @@ import { theme } from "../../utils/config";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 
-const HockeyCard = ({ match, firstRow, id, inPlay }) => {
+const HockeyCard = (props) => {
+  console.log(props);
+  const { match, firstRow, id, inPlay } = props;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
-  let homeTeam = match.participants.home_name,
-    awayTeam = match.participants.away_name;
+  let homeTeam = match.participants[0].name,
+    awayTeam = match.participants[1].name;
 
   const router = useRouter();
   const handleClickRow = () => {
@@ -35,11 +37,11 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
             <div className="matchCardIcon"></div>
             <div className="ps-2">Time</div>
           </div>
-          <div className="d-flex col-4 matchCardDate justify-content-center ">
+          <div className="d-flex col-4 matchCardDate justify-content-center w-100">
             <div className="matchCardIcon"></div>
             <div className="ps-2">Event</div>
           </div>
-          <div className="d-flex col-6 matchCardDate justify-content-end  p-0">
+          <div className="d-flex col-6 matchCardDate justify-content-end w-100 p-0">
             <div style={{ width: "105px", textAlign: "center" }}>
               Money Line
             </div>
@@ -81,7 +83,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
         {/* Desktop match time */}
         {!isMobile && (
           <div
-            className="d-flex position-relative col-2 matchCardDate auto-width-container"
+            className="matchCardDate"
             onClick={handleClickRow}
           >
             <div className="matchCardIcon">
@@ -98,7 +100,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
           className={
             isMobile
               ? "matchesContainer col-4 auto-width-container teamsIceHockey"
-              : "matchesContainer col-4 auto-width-container"
+              : "matchesContainer col-4 auto-width-container w-100"
           }
           onClick={handleClickRow}
         >
@@ -138,7 +140,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
           className={
             isMobile
               ? "odds col-6 auto-width-container iceHockeyGames"
-              : "odds col-6 auto-width-container iceHockeyOdds"
+              : "odds col-6 auto-width-container iceHockeyOdds w-100"
           }
         >
           {!isMobile ? (
@@ -150,12 +152,12 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
                     borderBottom: `1px solid ${theme?.colors?.mainSecondary}`,
                   }}
                 >
-                  <div className="selectionTeamContainer">Devils</div>
-                  <div>20/22</div>
+                  <div className="selectionTeamContainer">{match.selections[0].name}</div>
+                  <div>{match.selections[0].odd}</div>
                 </div>
                 <div className="ice-hockey-main-container">
-                  <div className="selectionTeamContainer">Wings</div>
-                  <div>20/22</div>
+                  <div className="selectionTeamContainer">{match.selections[1].name}</div>
+                  <div>{match.selections[1].odd}</div>
                 </div>
               </div>
               <div className="betIceHockeyContainer">
@@ -226,7 +228,7 @@ const HockeyCard = ({ match, firstRow, id, inPlay }) => {
               </div>
             </div>
           )}
-          {moreMarket && !isMobile && (
+          {!isMobile && (
             <div className="col-3 more-markets MarketMenuContainer">
               <HorizontalDots />
             </div>

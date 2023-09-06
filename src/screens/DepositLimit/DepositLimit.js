@@ -1,16 +1,18 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Button } from "../../components/button/Button";
-import Header from "../../components/header/Header";
-import { SetDepositLimit } from "../../components/modal/SetDepositLimit";
-import ProfileMenu from "../../components/profileMenu/ProfileMenu";
-import { images } from "../../utils/imagesConstant";
+import { useDispatch, useSelector } from "react-redux";
+import { images } from "@/utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { SuccesToast } from "@/utils/alert";
+import { setLoggedUser } from "@/store/actions";
+import { Button } from "@/components/button/Button";
+import { Loader } from "@/components/loaders/Loader";
 
 const DepositLimit = () => {
   const [dailyLimit, setDailyLimit] = useState(0);
@@ -23,188 +25,214 @@ const DepositLimit = () => {
     title: "",
     data: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const user_settings = useSelector((state) => state?.user_settings);
+  const isTablet = useSelector((state) => state?.isTablet)
+  let user = useSelector((state) => state.loggedUser);
+
   const saferGambling = useSelector(
     (state) =>
       state.loggedUser?.user_data?.settings?.safer_gambling?.deposit_limit
   );
   const router = useRouter();
-  const [loader, setLoader] = useState(true);
-  useEffect(() => {
-    setLoader(true);
+  const dispatch = useDispatch();
 
-    setTimeout(() => {
+  useEffect(() => {
+    if (saferGambling) {
       setDailyLimit(saferGambling?.deposit_limit_daily?.value);
       setWeeklyLimit(saferGambling?.deposit_limit_weekly?.value);
       setMonthlyLimit(saferGambling?.deposit_limit_monthly?.value);
-      setLoader(false);
-    }, 1500);
-  }, [user_settings]);
-  let active = "active";
+    }
+  }, [saferGambling]);
+
+  const handleToggle = (type, title) => {
+    setDepositData({
+      ...depositData,
+      show: !depositData.show,
+      type: type,
+      title: title,
+      data: user_settings?.deposit_limit_options?.[`deposit_limit_${type}`],
+    });
+  };
+
+  const handleSelect = () => {
+    let body = {};
+    let currentLimit;
+    if (depositData.type === "daily") {
+      body.deposit_limit_daily = dailyLimit;
+      currentLimit = saferGambling?.deposit_limit_daily?.value;
+    } else if (depositData.type === "weekly") {
+      body.deposit_limit_weekly = weeklyLimit;
+      currentLimit = saferGambling?.deposit_limit_weekly?.value;
+    } else if (depositData.type === "monthly") {
+      body.deposit_limit_monthly = monthlyLimit;
+      currentLimit = saferGambling?.deposit_limit_monthly?.value;
+    } else {
+      return;
+    }
+
+    setIsLoading(true);
+
+    apiServices
+      .put(apiUrl.SETTINGS, body)
+      .then(() => {
+        if (currentLimit === -1 && selectedLimit > currentLimit - 1) {
+          SuccesToast({
+            message: "Successfully updated!",
+          });
+        } else if (selectedLimit < currentLimit && selectedLimit !== -1) {
+          SuccesToast({
+            message: "Successfully updated!",
+          });
+        } else {
+          SuccesToast({
+            message:
+              "Changes have been requested. There is a 24-hour cooldown period before applying.",
+          });
+        }
+        setDepositData({
+          ...depositData,
+          show: false,
+          title: "",
+          type: "",
+          data: [],
+        });
+        let currency = user?.user_data?.currency?.abbreviation;
+        let newUser = { ...user };
+        if (
+          (selectedLimit < currentLimit && selectedLimit !== -1) ||
+          (currentLimit === -1 && selectedLimit > currentLimit - 1)
+        ) {
+          if (depositData.type === "daily") {
+            newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_daily =
+            {
+              name:
+                dailyLimit !== -1 ? `${dailyLimit} ${currency}` : "No Limit",
+              value: dailyLimit,
+            };
+          } else if (depositData.type === "weekly") {
+            newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_weekly =
+            {
+              name:
+                weeklyLimit !== -1
+                  ? `${weeklyLimit} ${currency}`
+                  : "No Limit",
+              value: weeklyLimit,
+            };
+          } else if (depositData.type === "monthly") {
+            newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_monthly =
+            {
+              name:
+                monthlyLimit !== -1
+                  ? `${monthlyLimit} ${currency}`
+                  : "No Limit",
+              value: monthlyLimit,
+            };
+          }
+        }
+        dispatch(setLoggedUser(newUser));
+        setSelectedLimit(0);
+      })
+      .catch(() => { })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <>
-      <Header />
-      <div className="backgroundLinear ">
-        <div className="d-none d-lg-block">
-          <ProfileMenu sideBarMenu active={active} page="safer_gambling" />
+      <div className="depositLimit max-width-container">
+        <div className="d-flex arrow-top">
+          <Image
+            src={images.goBackArrow}
+            alt="Go back"
+            className="ms-0 mb-3"
+            onClick={() => router.back()}
+          />
         </div>
-        <div className="depositLimit max-width-container">
-          <div className="d-flex arrow-top">
-            <Image
-              src={images.goBackArrow}
-              alt="Go back"
-              className="goBackArrow ms-0 mb-3"
-              onClick={() => router.back()}
-            />
-          </div>
-          <p className="menuTitle arrow-top">Deposit Limit</p>
-          <p className="menuText">
-            Set daily, weekly or monthly limits on how much you can deposit.
-          </p>
-          <div className="row mb-3">
-            <div className="col-6 subText">Daily Limit</div>
-            <div className="col-6 selectDepositDiv ">
-              <Button
-                type="button"
-                className="setLimit"
-                onClick={() => {
-                  setDepositData({
-                    ...depositData,
-                    show: true,
-                    type: "daily",
-                    title: "Daily Limit",
-                    data: user_settings?.deposit_limit_options
-                      ?.deposit_limit_daily,
-                  });
-                }}
-                text={
-                  <>
-                    {dailyLimit === "-1" ? (
-                      "No Limit"
-                    ) : loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      saferGambling?.deposit_limit_daily?.name
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
-          <div className="row  mb-3">
-            <div className="col-6 subText">Weekly Limit</div>
-            <div className="col-6 selectDepositDiv">
-              <Button
-                type="button"
-                className="setLimit"
-                onClick={() => {
-                  setDepositData({
-                    ...depositData,
-                    show: true,
-                    type: "weekly",
-                    title: "Weekly Limit",
-                    data: user_settings?.deposit_limit_options
-                      ?.deposit_limit_weekly,
-                  });
-                }}
-                text={
-                  <>
-                    {weeklyLimit === "-1" ? (
-                      "No Limit"
-                    ) : loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      saferGambling?.deposit_limit_weekly?.name
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
-          <div className="row mb-3">
-            <div className="col-6 subText">Monthly Limit</div>
-            <div className="col-6 selectDepositDiv">
-              <Button
-                type="button"
-                className={"setLimit"}
-                onClick={() => {
-                  setDepositData({
-                    ...depositData,
-                    show: true,
-                    type: "monthly",
-                    title: "Monthly Limit",
-                    data: user_settings?.deposit_limit_options
-                      ?.deposit_limit_monthly,
-                  });
-                }}
-                text={
-                  <>
-                    {monthlyLimit === "-1" ? (
-                      "No Limit"
-                    ) : loader ? (
-                      <div className="d-flex justify-content-between">
-                        <Skeleton
-                          variant="rectangular"
-                          className="my-2 depositSkeleton"
-                          animation="wave"
-                        />
-                      </div>
-                    ) : (
-                      saferGambling?.deposit_limit_monthly?.name
-                    )}
-                    <Image
-                      src={images.arrowIcon}
-                      className="depositLimitArrow"
-                      alt="Click"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
+        <p className="menuTitle arrow-top">Deposit Limit</p>
+        <p className="menuText">
+          Set daily, weekly or monthly limits on how much you can deposit.
+        </p>
+        <div className="row mb-3">
+          <div className="col-6 subText">Daily Limit</div>
+          <PreferencesDropdown
+            data={depositData}
+            selectedItem={dailyLimit}
+            handleToggle={() => handleToggle("daily", "Daily Limit")}
+            handleSelect={(v) => {
+              setDailyLimit(v);
+              setSelectedLimit(v);
+            }}
+            placeholder={
+              dailyLimit > -1
+                ? `${dailyLimit} ${user?.user_data?.currency?.abbreviation}`
+                : "No limit"
+            }
+            handleSubmit={handleSelect}
+            type="daily"
+            modalOnMobile
+            btnTitle="Set limit"
+            loader={isLoading}
+          />
         </div>
-        {depositData.show && (
-          <>
-            <div className="modal-overlay">
-              <SetDepositLimit
-                depositData={depositData}
-                setDepositData={setDepositData}
-                setSelectedLimit={setSelectedLimit}
-                selectedLimit={selectedLimit}
-                dailyLimit={dailyLimit}
-                setDailyLimit={setDailyLimit}
-                weeklyLimit={weeklyLimit}
-                setWeeklyLimit={setWeeklyLimit}
-                monthlyLimit={monthlyLimit}
-                setMonthlyLimit={setMonthlyLimit}
-              />
-            </div>
-          </>
-        )}
+        <div className="row  mb-3">
+          <div className="col-6 subText">Weekly Limit</div>
+          <PreferencesDropdown
+            data={depositData}
+            selectedItem={weeklyLimit}
+            handleToggle={() => handleToggle("weekly", "Weekly Limit")}
+            handleSelect={(v) => {
+              setWeeklyLimit(v);
+              setSelectedLimit(v);
+            }}
+            placeholder={
+              weeklyLimit > -1
+                ? `${weeklyLimit} ${user?.user_data?.currency?.abbreviation}`
+                : "No limit"
+            }
+            handleSubmit={handleSelect}
+            type="weekly"
+            modalOnMobile
+            btnTitle="Set limit"
+            loader={isLoading}
+          />
+        </div>
+        <div className="row mb-3">
+          <div className="col-6 subText">Monthly Limit</div>
+          <PreferencesDropdown
+            data={depositData}
+            selectedItem={monthlyLimit}
+            handleToggle={() => handleToggle("monthly", "Monthly Limit")}
+            handleSelect={(v) => {
+              setMonthlyLimit(v);
+              setSelectedLimit(v);
+            }}
+            placeholder={
+              monthlyLimit > -1
+                ? `${monthlyLimit} ${user?.user_data?.currency?.abbreviation}`
+                : "No limit"
+            }
+            handleSubmit={handleSelect}
+            type="monthly"
+            modalOnMobile
+            btnTitle="Set limit"
+            loader={isLoading}
+          />
+        </div>
+        {!isTablet && <div className="row suspendButton">
+          <Button
+            className={
+              "setLimit suspendAccBtn w-100 " +
+              (selectedLimit
+                ? " btnPrimary "
+                : "btn finishBtn disabled setLimitBtn col-8")
+            }
+            onClick={() => selectedLimit && handleSelect()}
+            text={isLoading ? <Loader /> : "Set limit"}
+          />
+        </div>}
       </div>
     </>
   );

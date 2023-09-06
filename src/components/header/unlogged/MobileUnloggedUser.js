@@ -1,25 +1,20 @@
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
-import { images } from "../../../utils/imagesConstant";
-import Image from "next/image";
 
 export const MobileUnloggedUser = ({ showBetSlip }) => {
   const selectedBets = useSelector((state) => state.selectedBets);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const navigateToLogin = () => {
+    router.push(`/login?redirect=${pathname.replace('/', '')}`);
+  }
 
   return (
-    <div className="col-3 sing-up-txt mobileAccInfo unlogged">
+    <div className="sing-up-txt mobileAccInfo unlogged">
       <div className="d-flex align-items-center">
-        <Image
-          src={images.profile}
-          alt="Profile"
-          className="profileImage"
-          onClick={() => {
-            router.push("/login");
-          }}
-        />
-        {showBetSlip && (
+        {!!selectedBets?.bets?.length && showBetSlip && (
           <div
             className="slip-icon-loggedOut"
             onClick={() => {
@@ -47,9 +42,7 @@ export const MobileUnloggedUser = ({ showBetSlip }) => {
         )}
         <div
           className="signInContainer"
-          onClick={() => {
-            router.push("/login");
-          }}
+          onClick={navigateToLogin}
         >
           <p className="signText">REGISTER</p>
           <p className="signText">&nbsp;OR&nbsp;LOGIN</p>
