@@ -7,16 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const Provider = ({ children, header }) => {
   return (
     <ReduxLayout>
-      <BaseLayout
-        header={header.map((page, index) => {
-          return {
-            ...page,
-            id: index + 1,
-          };
-        })}
-      >
-        {children}
-      </BaseLayout>
+      <BaseLayout header={header}>{children}</BaseLayout>
     </ReduxLayout>
   );
 };
