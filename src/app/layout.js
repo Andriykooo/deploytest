@@ -14,29 +14,29 @@ const montserrat = Montserrat({
   style: "normal",
 });
 
-// export async function generateMetadata() {
-//   const response = await fetch(apiUrl.GET_GLOBAL_SEO);
+export async function generateMetadata() {
+  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
 
-//   if (response.status === 483) {
-//     return;
-//   }
+  if (response.status === 483) {
+    return;
+  }
 
-//   const seo = await response.json();
+  const seo = await response.json();
 
-//   return {
-//     title: seo.title,
-//     description: seo.description,
-//     keywords: seo.keywords,
-//     icons: {
-//       icon: seo.fav_icon,
-//     },
-//     openGraph: {
-//       title: seo.title,
-//       description: seo.description,
-//       images: [seo.image],
-//     },
-//   };
-// }
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    icons: {
+      icon: seo.fav_icon,
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
+    },
+  };
+}
 
 export default async function RootLayout({ children }) {
   const cookieStore = cookies();
