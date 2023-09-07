@@ -48,9 +48,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={lang?.value === "all" ? "en" : lang?.value.toLowerCase()}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
-      <Provider header={header}>
-        <body className={montserrat.className}>{children}</body>
-      </Provider>
+      <body className={montserrat.className}>
+        <Provider header={header}>{children}</Provider>
+      </body>
     </html>
   );
 }
