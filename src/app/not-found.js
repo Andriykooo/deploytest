@@ -1,3 +1,3 @@
-export default function NotFoundCatchAll() {
-  return "asdasdasddsaassad";
+export default function NotFound() {
+  return <h1>"asdasdasddsaassad"</h1>;
 }
