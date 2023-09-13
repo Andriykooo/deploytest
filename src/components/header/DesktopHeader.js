@@ -30,7 +30,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
   };
 
   // hide burger menu in the casino page
-  const showMenuIcon = !pathname.startsWith("/casino");
+  const showMenuIcon = !pathname.startsWith('/casino')
 
   return (
     <>
@@ -93,6 +93,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
                                 alt="page"
                                 height={16}
                                 width={16}
+                                onError={(e) => e.target.style.display = "none"}
                               />
                             )}
 

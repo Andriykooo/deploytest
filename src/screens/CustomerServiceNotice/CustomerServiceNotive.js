@@ -1,4 +1,5 @@
 "use client";
+
 import { images } from "@/utils/imagesConstant";
 import "./CustomerServiceNotive.css";
 import Image from "next/image";
@@ -7,6 +8,7 @@ export const CustomerServiceNotice = () => {
   return (
     <div className="customer-service-notice-wrapper">
       <div className="customer-service-notice">
+        {/* <Logo className="customer-service-notice-logo" /> */}
         <Image
           src={images.GroupSwifty}
           alt="logo"

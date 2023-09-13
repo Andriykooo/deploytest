@@ -31,13 +31,14 @@
 }
 
 .customer-service-notice-description {
+  margin: 0;
   font-size: 12px;
+  margin-top: 16px;
 }
 
 .customer-service-notice-email {
   font-size: 14px;
   color: var(--global-color-tertiary);
-  margin-bottom: 16px;
 }
 
 @media (max-width: 1024px) {

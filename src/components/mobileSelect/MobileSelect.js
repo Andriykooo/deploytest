@@ -62,7 +62,7 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
       </div>
       {isOpened && (
         <div className="dropdownFixedStyleComponent" ref={autoselectRef}>
-          <div className="competitions-select_name">
+          <div className="competitions-select_title competitions-select_name">
             <span>{placeholder}</span>
             <div onClick={close}>
               <CloseIcon />
@@ -83,12 +83,12 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
             </div>
           )}
 
-          {filteredData?.length > 0 ? ( 
+          {filteredData?.length > 0 ? (
             filteredData?.map((item) => {
               return (
                 <span
                   key={item.id}
-                  className={selectedItem?.id ===  item?.id? "competitions-select_item-active" : "competitions-select_item"}
+                  className={selectedItem?.id === item?.id ? "competitions-select_item-active" : "competitions-select_item"}
                   onClick={() => {
                     handleSelect(item);
                   }}

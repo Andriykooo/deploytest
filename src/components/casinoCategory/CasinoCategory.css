@@ -423,7 +423,7 @@
 
 .btnPlayNow {
   display: none;
-  border-radius: 5px;
+  border-radius: 4px;
   position: absolute;
   bottom: 12px;
   font-size: 12px;
@@ -780,10 +780,11 @@
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-    line-height: 48px;
+    line-height: 24px;
     margin-bottom: 0;
     display: flex;
     align-items: center;
+    margin-bottom: 12px;
   }
 
   .recommendedImages {
@@ -1004,7 +1005,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 10px;
+  row-gap: 10px;
+  column-gap: 0.6%;
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -1017,16 +1019,55 @@
 
 .categoryTitle {
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 48px;
   letter-spacing: 0em;
   text-align: left;
   color: #ffffff;
 }
 
+.categoryGrid .casino-item,
+.categoryGrid .casino-item .gameImageWrapper,
+.categoryGrid .casino-item .gameImageWrapper img {
+  width: 100%;
+}
+
+.categoryGrid .hero-multi-line-item {
+  flex: 0 0 16%;
+}
+
+.categoryGrid .hero-multi-line {
+  flex: 0 0 33%;
+}
+
+@media (max-width: 1200px) {
+  .categoryGrid {
+    column-gap: 0.6%;
+  }
+
+  .categoryGrid .hero-multi-line-item {
+    flex: 0 0 19.5%;
+  }
+
+  .categoryGrid .hero-multi-line {
+    flex: 0 0 39.5%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .categoryGrid {
+    column-gap: 0.6%;
+  }
+
+  .categoryGrid .hero-multi-line-item {
+    flex: 0 0 19.4%;
+  }
+}
+
 @media (max-width: 991px) {
   .categoryGrid {
     display: grid;
+    column-gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
   }
 
@@ -1068,9 +1109,22 @@
     width: 100% !important;
   }
 
+  .categoryTitle {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-left: 4px;
+  }
+
   .gameImageWrapper img {
     width: 100%;
-    height: 190px;
     object-fit: cover;
+  }
+
+  .categoryGrid .casino-item,
+  .categoryGrid .casino-item .gameImageWrapper,
+  .categoryGrid .casino-item .gameImageWrapper img {
+    height: 135px;
   }
 }

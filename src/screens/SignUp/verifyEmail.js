@@ -15,15 +15,16 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import "../Login/Login.css";
 import Cookies from "js-cookie";
+import classNames from "classnames";
 
 const VerifyEmail = () => {
   const [OTP, setOTP] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(59);
   const [loader, setLoader] = useState(false);
-  const [isValid, setIsValid] = useState(false);
   const user = useSelector((state) => state.user);
   const router = useRouter();
+  const isValid = OTP.length === 4;
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -66,7 +67,7 @@ const VerifyEmail = () => {
     }
 
     setLoader(true);
-    setIsValid(true);
+
     let code = OTP;
     apiServices
       .get(`${apiUrl.VERIFY_EMAIL + code}`)
@@ -99,6 +100,8 @@ const VerifyEmail = () => {
     }
   }, [OTP]);
 
+  const resendIsActive = seconds === 0 && minutes === 0;
+
   return (
     <div className="backgroundImage">
       <div className="loginForm d-grid justify-content-center px-4">
@@ -121,28 +124,25 @@ const VerifyEmail = () => {
             <strong> {user?.email}</strong>
           </p>
           <div className="authButtonsContainer">
-            {minutes === 0 && seconds === 0 ? (
-              <Button
-                className="btnPrimary continueBtn outline"
-                onClick={resetTimer}
-                text={"Resend Code"}
-              />
-            ) : (
-              <Button
-                className={"continueBtn outline"}
-                style={{ cursor: "not-allowed" }}
-                disabled
-                text={
-                  <>
-                    Resend in {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                  </>
-                }
-              />
-            )}
             <Button
-              className={
-                isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
+              className={classNames("btnPrimary continueBtn outline", {
+                validBtn: resendIsActive,
+              })}
+              onClick={resetTimer}
+              disabled={!resendIsActive}
+              text={
+                <span>
+                  Resend
+                  {!resendIsActive &&
+                    ` in ${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+                </span>
               }
+            />
+            <Button
+              disabled={!isValid}
+              className={classNames("btnPrimary continueBtn", {
+                validBtn: isValid,
+              })}
               onClick={verifyCode}
               text={loader ? <Loader /> : "Verify"}
             />

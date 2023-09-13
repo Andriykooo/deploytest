@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { LoaderXs } from "../../components/loaders/Loader";
 import { ChangePassowrd } from "../../components/modal/ChangePassword";
 import { alertToast } from "../../utils/alert";
@@ -16,6 +15,8 @@ import { theme } from "../../utils/config";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { validateUserPassword } from "../../utils/validation";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+
 import "../Profile/Profile.css";
 import "../Withdraw/Withdraw.css";
 
@@ -93,7 +94,7 @@ const Profile = () => {
 
   const handlePassword = (value, type) => {
     switch (type) {
-      case "current-password":
+      case "currentpassword":
         if (value.length <= 256) {
           setCurrentPassword(value);
         } else {
@@ -102,7 +103,7 @@ const Profile = () => {
           });
         }
         break;
-      case "new-password":
+      case "newpassword":
         if (value.length <= 256) {
           setNewPassword(value);
           setValidation(validateUserPassword(value));
@@ -112,7 +113,7 @@ const Profile = () => {
           });
         }
         break;
-      case "confirm-password":
+      case "confirmpassword":
         if (value.length <= 256) {
           setConfirmPassword(value);
         } else {
@@ -140,9 +141,7 @@ const Profile = () => {
     if (loggedUser?.user_data?.email_verified) {
       setIsEmailVerified(true);
     }
-  }, []);
 
-  useEffect(() => {
     if (loggedUser?.user_data?.required_values?.phone_number === true) {
       if (loggedUser?.user_data?.phone_number_verified === true) {
         setPhoneNumber(
@@ -154,10 +153,7 @@ const Profile = () => {
     } else {
       setPhoneNumber(false);
     }
-    if (!loggedUser) {
-      router.push("/");
-    }
-  }, []);
+  }, [loggedUser]);
 
   function getNewAccessToken() {
     setInitStarted(true);
@@ -185,8 +181,7 @@ const Profile = () => {
   return (
     <div className="depositLimit">
       <div className="pageContent">
-        <ProfileBack />
-        <p className="menuTitle">Profile</p>
+        <PreferencesTitle title="Profile" marginBottomSize="lg" />
 
         <div className="row col-4 mb-3 profileRow">
           <InfoDiv>
@@ -209,7 +204,7 @@ const Profile = () => {
           </InfoDiv>
           <EmailDiv
             clickable={
-              loggedUser?.kyc_status.status === "verified" ? false : true
+              loggedUser?.user_data?.kyc_status === "verified" ? false : true
             }
           >
             <p className="fieldSubTitle m-2">Email Verification</p>
@@ -241,9 +236,7 @@ const Profile = () => {
           </EmailDiv>
 
           {phoneNumber === "Mobile verification required" ? (
-            <InfoDiv
-              clickable={loggedUser?.user_data?.kyc_status === "verified"}
-            >
+            <InfoDiv>
               <div onClick={handleClickRedirect}>
                 <p className="fieldSubTitle m-2" style={{ cursor: "pointer" }}>
                   Mobile Number
@@ -262,9 +255,7 @@ const Profile = () => {
             </InfoDiv>
           ) : (
             phoneNumber && (
-              <InfoDiv
-                clickable={loggedUser?.user_data?.kyc_status === "verified"}
-              >
+              <InfoDiv>
                 <div>
                   <p className="fieldSubTitle m-2">Mobile Number</p>
                   <p className="playerId m-2" style={{ lineHeight: "40px" }}>
@@ -280,16 +271,27 @@ const Profile = () => {
             )
           )}
           <InfoDiv
-            clickable={loggedUser?.user_data?.kyc_status === "verified"}
             onClick={() => {
               !(loggedUser?.user_data?.kyc_status === "verified") &&
                 getNewAccessToken();
             }}
           >
             <p className="fieldSubTitle m-2 cursorPointer">Proof of Identity</p>
-            {loggedUser?.user_data?.kyc_status === "verified" ? (
-              <div className="cursorPointer">
-                <p className="playerId  m-2 ">Account is verified</p>
+            {loggedUser?.user_data?.kyc_status === "verified" && (
+              <div>
+                <p className="playerId m-2">Account is verified</p>
+                <Image
+                  alt="img-validated"
+                  src={images.validated}
+                  className="profileValidated "
+                />
+              </div>
+            )}
+            {loggedUser?.user_data?.kyc_status === "rejected" && (
+              <div className="d-flex">
+                <p className="playerId notVerified m-2">
+                  Account verification rejected
+                </p>
 
                 {initStarted ? (
                   <div>
@@ -297,38 +299,65 @@ const Profile = () => {
                   </div>
                 ) : (
                   <Image
-                    alt="img-validated"
-                    src={images.validated}
-                    className="profileValidated "
+                    alt="img-arrowIcon"
+                    src={images.arrowIcon}
+                    className="profileArrow"
                   />
                 )}
               </div>
-            ) : (
-              <>
-                <div>
-                  <div className="d-flex ">
-                    <p className="playerId notVerified m-2">
-                      Account verification required
-                    </p>
-                    {initStarted ? (
-                      <div>
-                        <LoaderXs />
-                      </div>
-                    ) : (
-                      <Image
-                        alt="img-arrowIcon"
-                        src={images.arrowIcon}
-                        className="profileArrow"
-                      />
-                    )}
+            )}
+            {loggedUser?.user_data?.kyc_status === "pending" && (
+              <div className="cursorPointer">
+                <p className="playerId m-2">Account verification pending</p>
+
+                {initStarted && (
+                  <div>
+                    <LoaderXs />
                   </div>
+                )}
+              </div>
+            )}
+
+            {loggedUser?.user_data?.kyc_status === "init" && (
+              <div className="cursorPointer">
+                <p className="playerId m-2">Account verification started</p>
+
+                {initStarted && (
+                  <div>
+                    <LoaderXs />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {loggedUser?.user_data?.kyc_status === "not_started" && (
+              <div>
+                <div className="d-flex">
+                  <p className="playerId notVerified m-2">
+                    Account verification required
+                  </p>
+                  {initStarted ? (
+                    <div>
+                      <LoaderXs />
+                    </div>
+                  ) : (
+                    <Image
+                      alt="img-arrowIcon"
+                      src={images.arrowIcon}
+                      className="profileArrow"
+                    />
+                  )}
                 </div>
-              </>
+              </div>
             )}
           </InfoDiv>
           <div
             className="col-12 infoDiv profile changePw clickable"
-            onClick={() => isTablet ? router.push('change_password') : setShowChangePassword(true)}
+            onClick={() =>
+              isTablet
+                ? router.push("change_password")
+                : setShowChangePassword(true)
+            }
           >
             <p className="fieldSubTitle m-3 ms-2">Change Password</p>
             <Image
@@ -346,7 +375,7 @@ const Profile = () => {
                 handlePassword={handlePassword}
                 validation={validation}
                 passwordMatch={
-                  newPassword === confirmPassword && confirmPassword
+                  newPassword ? newPassword === confirmPassword : false
                 }
                 setValidation={setValidation}
                 validateForm={validateForm}

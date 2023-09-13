@@ -72,6 +72,7 @@ import closeIcon from "../assets/images/icons8-close.svg";
 import closeRounded from "../assets/images/closeRounded.svg";
 import menuIcon from "../assets/images/icons8-menu.svg";
 import infoIcon from "../assets/images/info.svg";
+import infoIconWhite from "../assets/images/infoWhite.svg";
 import instagramIcon from "../assets/images/instagram-logo.svg";
 import jackpot from "../assets/images/jackpot.svg";
 import jewelTwist from "../assets/images/jewelTwist.png";
@@ -240,6 +241,7 @@ export const images = {
   validated,
   arrowIconBlack,
   infoIcon,
+  infoIconWhite,
   debitCard,
   modalCheck,
   showPassIcon,

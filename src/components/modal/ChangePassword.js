@@ -111,7 +111,7 @@ export const ChangePassowrd = ({
                   className="login-buttons"
                   placeholder="Enter current password"
                   onChange={(e) =>
-                    handlePassword(e.target.value, "current-password")
+                    handlePassword(e.target.value, "currentpassword")
                   }
                 />
                 <Image
@@ -169,7 +169,7 @@ export const ChangePassowrd = ({
                   className="login-buttons"
                   placeholder="Enter a new password"
                   onChange={(e) =>
-                    handlePassword(e.target.value, "confirm-password")
+                    handlePassword(e.target.value, "confirmpassword")
                   }
                 />
                 <Image

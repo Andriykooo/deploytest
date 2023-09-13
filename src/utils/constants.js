@@ -73,7 +73,6 @@ export const apiUrl = {
   GET_MY_BETS: `${gamingApiDomain}/api/v1/betting/my-bets`,
   GET_VENUE_EVENTS: `${gamingApiDomain}/api/v1/page-layout/venue-events`,
 
-
   // Casino API
   CASINO_GAMES: `${casinoApiDomain}/api/v1/casino/games`,
   OPEN_CASINO_GAME: `${casinoApiDomain}/api/v1/casino/game/open`,
@@ -132,7 +131,7 @@ export const profileCards = [
     cardName: "Bet History",
     image: images.predictionIcon,
     route: "/profile/bet_history",
-    text: "open_predictions",
+    text: "bet_history",
     arrow: true,
   },
   {
@@ -236,10 +235,10 @@ export const oddsFormatTypes = [
     format: "Fractional",
     id: "fractional",
   },
-  {
-    format: "American",
-    id: "american",
-  },
+  // {
+  //   format: "American",
+  //   id: "american",
+  // },
 ];
 
 export const sportsTypes = [
@@ -429,19 +428,19 @@ export const emailNotifications = [
 export const types = [
   {
     name: "Selected",
-    color: theme?.colors?.mainTertiary,
+    color: "var(--global-color-tertiary)",
   },
   {
     name: "Price going out (Drifting) ",
-    color: "#7A2740",
+    color: "var(--global-color-price-drifting)",
   },
   {
     name: "Price coming in (Shortening)",
-    color: "#186448",
+    color: "var(--global-color-price-shortening)",
   },
   {
     name: "Suspended",
-    color: "#6D6D6D",
+    color: "var(--global-color-shade4)",
   },
 ];
 

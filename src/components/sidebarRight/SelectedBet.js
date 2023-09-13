@@ -92,7 +92,7 @@ export const SelectedBet = ({ row }) => {
       <div className="selected-bet-title">
         <div className="d-flex align-items-center">
           <div
-            className="selected-bet-remove"
+            className="remove-bet"
             onClick={() => {
               dispatch(removeBet(row));
               dispatch(removeBetAmount(row?.bet_id));

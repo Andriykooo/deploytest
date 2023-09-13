@@ -83,7 +83,13 @@ export const SportsTable = ({ data, type }) => {
           })}
         </div>
       ) : (
-        <EmptyState message="There are no more events for the day!" />
+        <EmptyState
+          message={
+            data.details.widget_type === "in_play"
+              ? "There are no live events right now. Check back again later."
+              : "There are no more events for the day!"
+          }
+        />
       )}
     </div>
   );

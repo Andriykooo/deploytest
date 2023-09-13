@@ -2,15 +2,17 @@
 
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActivePage } from "../../store/actions";
+import { setActivePage, setHeaderData } from "../../store/actions";
 import FooterMenu from "../footerMenu/FooterMenu";
-import "../sidebar/Sidebar.css";
 import { DesktopHeader } from "./DesktopHeader";
-import "./Header.css";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
 import { XIcon } from "@/utils/icons";
-import { nextWindow } from "@/utils/nextWindow";
+import Cookies from "js-cookie";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import "../sidebar/Sidebar.css";
+import "./Header.css";
 
 const modalList = [
   "/privacy",
@@ -27,25 +29,50 @@ const modalList = [
   "/profile/*",
 ];
 
-function Header({ headerData }) {
+function Header() {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);
   const activePage = useSelector((state) => state.activePage);
+  const headerData = useSelector((state) => state.headerData);
+
+  const disableHeader =
+    (params?.path && !headerData?.some((page) => page.path == pathname)) ||
+    pathname === "/not_found" ||
+    pathname === "/customer_service_notice";
 
   useEffect(() => {
-    // Initially, check if the window pathname and the active page path are not the same. If they are different
-    // find and replace with the correct one
-    if (nextWindow && activePage?.path !== nextWindow.location.pathname) {
-      const { pathname } = nextWindow.location;
-      const page = headerData.find((item) => pathname === '/' ? item.path === '/home' : item.path === pathname);
+    if (headerData) {
+      // Initially, check if the window pathname and the active page path are not the same. If they are different
+      // find and replace with the correct one
+      if (activePage?.path !== pathname) {
+        const page = headerData?.find((item) =>
+          pathname === "/" ? item.path === "/home" : item.path === pathname
+        );
 
-      if (page) {
-        dispatch(setActivePage(page));
+        if (page) {
+          dispatch(setActivePage(page));
+        }
       }
     }
-  }, []);
+
+    if (!headerData) {
+      const lang = Cookies.get("language");
+      const defaultLanguage = lang?.toLowerCase() || "en";
+
+      const country = defaultLanguage === "en" ? "all" : defaultLanguage;
+
+      apiServices.get(apiUrl.GET_MAIN_MENU, { country }).then((response) => {
+        dispatch(
+          setHeaderData(
+            response.map((page, index) => ({ ...page, id: index + 1 }))
+          )
+        );
+      });
+    }
+  }, [headerData]);
 
   const isModal = useMemo(() => {
     return modalList.some((modalPath) => {
@@ -70,7 +97,7 @@ function Header({ headerData }) {
       router.push("/");
     }
 
-    const home = headerData.find((item) => item.path === '/home');
+    const home = headerData?.find((item) => item.path === "/home");
 
     if (home) {
       dispatch(setActivePage(home));
@@ -78,28 +105,36 @@ function Header({ headerData }) {
   };
 
   return (
-    <header>
-      {isModal ? (
-        <nav className="navigation navbar-expand-lg p-0 d-flex justify-content-between align-items-center">
-          <div className="swifty-gaming">
-            <Logo handleNavigateHome={handleNavigateHome} />
-          </div>
-          <div
-            className="close-full-modal-container"
-            onClick={handleNavigateHome}
-          >
-            <XIcon />
-          </div>
-        </nav>
-      ) : (
-        <nav className="navigation navbar-expand-lg p-0">
-          <div className="col-12 primary-col">
-            <DesktopHeader data={headerData} onClick={handleClick} handleNavigateHome={handleNavigateHome} />
-            {isMobile && <FooterMenu data={headerData} onClick={handleClick} />}
-          </div>
-        </nav>
-      )}
-    </header>
+    !disableHeader && (
+      <header>
+        {isModal ? (
+          <nav className="navigation navbar-expand-lg p-0 d-flex justify-content-between align-items-center">
+            <div className="swifty-gaming">
+              <Logo handleNavigateHome={handleNavigateHome} />
+            </div>
+            <div
+              className="close-full-modal-container"
+              onClick={handleNavigateHome}
+            >
+              <XIcon />
+            </div>
+          </nav>
+        ) : (
+          <nav className="navigation navbar-expand-lg p-0">
+            <div className="col-12 primary-col">
+              <DesktopHeader
+                data={headerData}
+                onClick={handleClick}
+                handleNavigateHome={handleNavigateHome}
+              />
+              {isMobile && (
+                <FooterMenu data={headerData} onClick={handleClick} />
+              )}
+            </div>
+          </nav>
+        )}
+      </header>
+    )
   );
 }
 

@@ -5,9 +5,23 @@ import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSelector } from "react-redux";
-import { ModalOnMobile } from "../modal/ModalOnMobile";
+import { PreferencesModalMobile } from "../modal/PreferencesModalMobile";
+import classNames from "classnames";
 
-const PreferencesDropdown = ({ handleToggle, handleSubmit, btnTitle, loader, placeholder, data, handleSelect, selectedItem, modalOnMobile, type = undefined }) => {
+import './PreferencesDropdown.css';
+
+const PreferencesDropdown = ({
+  handleToggle,
+  handleSubmit,
+  btnTitle,
+  loader,
+  placeholder,
+  data,
+  handleSelect,
+  selectedItem,
+  modalOnMobile,
+  type = undefined,
+}) => {
   const listRef = useRef(null);
   const isTablet = useSelector((state) => state.isTablet);
 
@@ -39,48 +53,48 @@ const PreferencesDropdown = ({ handleToggle, handleSubmit, btnTitle, loader, pla
           </>
         }
       />
-      {(data.show && type === data.type) && (<div className={modalOnMobile && isTablet ? 'mobileDdWrapper' : "ddWrapper"} ref={listRef}>
-        {modalOnMobile && isTablet ?
-          <ModalOnMobile
-            data={data}
-            selectedLimit={selectedItem}
-            handleSelect={handleSelect}
-            handleToggle={handleToggle}
-            handleSubmit={handleSubmit}
-            loading={loader}
-            btnTitle={btnTitle}
-          />
-          :
-          data.data.map((value, index) => {
-            return (
-              <div
-                key={index}
-                data-id={index}
-                className={
-                  selectedItem === value.value
-                    ? "selectDecimal selectedOdd d-flex w-100"
-                    : "selectDecimal d-flex w-100"
-                }
-                onClick={() => {
-                  handleToggle();
-                  handleSelect(value.value);
-                }}
-              >
-                <div className="selectDecimal">
-                  <p className="mx-2 my-1 ddText">{value.name}</p>
+      {(data.show && type === data.type) && (
+        <div className={modalOnMobile && isTablet ? 'mobileDdWrapper' : "preferencesDropdown-desktop ddWrapper"} ref={listRef}>
+          {modalOnMobile && isTablet ? (
+            <PreferencesModalMobile
+              data={data}
+              selectedLimit={selectedItem}
+              handleSelect={handleSelect}
+              handleToggle={handleToggle}
+              handleSubmit={handleSubmit}
+              loading={loader}
+              btnTitle={btnTitle}
+            />
+          ) : (
+            data.data.map((value, index) => {
+              return (
+                <div
+                  key={index}
+                  data-id={index}
+                  className={classNames("preferencesDropdown-item selectDecimal d-flex w-100", {
+                    selectedOdd: selectedItem === value.value
+                  })}
+                  onClick={() => {
+                    handleToggle();
+                    handleSelect(value.value);
+                  }}
+                >
+                  <p className="ddText">{value.name}</p>
+                  {selectedItem === value.value && (
+                    <Image
+                      src={images.checkIcon}
+                      alt="selected"
+                      className="preferencesDropdown-item-icon"
+                      width={20}
+                      height={20}
+                    />
+                  )}
                 </div>
-                {selectedItem === value.value && (
-                  <Image
-                    src={images.selected}
-                    alt="selected"
-                    className="oddsSelected"
-                    style={{ top: "15%" }}
-                  />
-                )}
-              </div>
-            );
-          })}
-      </div>)}
+              );
+            })
+          )}
+        </div>
+      )}
     </div>
   );
 };

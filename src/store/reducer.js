@@ -53,6 +53,7 @@ const initialState = {
   resultedEvents: [],
   favouriteGames: {},
   currentTime: new Date(),
+  errorCode: null,
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -385,6 +386,12 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         marketOptions: action.payload,
+      };
+
+    case constants.SET_ERROR_CODE:
+      return {
+        ...appstate,
+        errorCode: action.payload,
       };
 
     default:

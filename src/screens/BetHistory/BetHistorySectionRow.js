@@ -21,7 +21,7 @@ const BetHistorySectionRow = ({
         <Odds selection={odds} />
       </p>
     </div>
-    <p className="betHistoryRowResult">{eventResult ? `(${eventResult}` : ''} {market}</p>
+    <p className="betHistoryRowResult">{eventResult ? `(${eventResult})` : ''} {market}</p>
     <p className="betHistoryRowName">{name}</p>
   </div>
 );

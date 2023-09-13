@@ -9,6 +9,7 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
+import { getUserApi } from "@/utils/apiQueries";
 
 const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
             ),
           },
         };
-        apiServices.get(apiUrl.USER).then((response) => {
+        getUserApi(dispatch).then((response) => {
           newUser.user_data = response;
           if (action === "accept") {
             SuccesToast({
@@ -86,21 +87,10 @@ const ConfirmDepositLimitModal = ({ showConfirm, setShowConfirm }) => {
           className={
             isMobile
               ? "modal-dialog modal-fullscreen"
-              : "modal-dialog privacyModal top-50"
+              : "modal-dialog privacyModal top-50 depositModal-dialog"
           }
         >
           <div className="modal-content modalCenterContent confirm-modalContent">
-            <div className="d-flex arrow-top goBackArrowDeposit">
-              <Image
-                src={images.goBackArrow}
-                alt="Go back"
-                className="ms-0 mb-3"
-                onClick={() => {
-                  router.push("/home");
-                  setShowConfirm(false);
-                }}
-              />
-            </div>
             <div className="confirmDepositLimit max-width-confirmContainer">
               {user.user_data.actions.map((row, index) => (
                 <div className="confirmContainer" key={index}>

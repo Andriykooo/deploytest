@@ -48,8 +48,8 @@ export const PageContentModal = () => {
 
   return (
     content && (
-      <div className="full-screen-modal scrollable-modal">
-        <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
+      <div className="scrollable-modal content-modal">
+        <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between content-navBar">
           <div className="swifty-gaming">
             <Logo />
           </div>

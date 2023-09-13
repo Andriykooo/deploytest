@@ -3,13 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogOut, setLoggedUser, setUser } from "../../store/actions";
+import {
+  removeBet,
+  removeBetAmount,
+  setLogOut,
+  setLoggedUser,
+  setUser,
+} from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl, profileCards } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
+import { refreshGamingSocket } from "@/context/socket";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -27,16 +34,18 @@ export const ProfileSidebar = ({
   const onLogOut = () => {
     let body = {
       device_id: getLocalStorageItem("device_id"),
-    }
+    };
     setIsLoggingOut(true);
     dispatch(setLogOut(null));
     dispatch(setUser(null));
     dispatch(setLoggedUser(null));
-    router.replace('/home');
-    apiServices
-      .post(apiUrl.SIGN_OUT, body).finally(() => {
-        clearLocalStorage();
-      })
+    router.replace("/home");
+    dispatch(removeBet("all"));
+    dispatch(removeBetAmount("all"));
+    apiServices.post(apiUrl.SIGN_OUT, body).finally(() => {
+      clearLocalStorage();
+      refreshGamingSocket(null);
+    });
   };
   return (
     <SidebarProfilMenu sideBarMenu version={version}>
@@ -50,7 +59,13 @@ export const ProfileSidebar = ({
                 {sideBarMenu && (
                   <Link href={value.route} key={index} data-id={index}>
                     {/* In the mobile version there shouldn't be any active menu items */}
-                    <ProfileCard active={!isMobile && !isTablet && value.text === page ? active : ""}>
+                    <ProfileCard
+                      active={
+                        !isMobile && !isTablet && value.text === page
+                          ? active
+                          : ""
+                      }
+                    >
                       <div
                         className={
                           value.text === page

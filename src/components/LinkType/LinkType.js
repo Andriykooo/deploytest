@@ -23,7 +23,7 @@ const OpenType = ({ openType, children, className, path, onClick }) => {
       {children}
     </a>
   ) : (
-    <Link className={className} href={path} onClick={onClick}>
+    <Link className={className} href={path || ""} onClick={onClick}>
       {children}
     </Link>
   );

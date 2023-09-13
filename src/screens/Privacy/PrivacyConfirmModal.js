@@ -3,13 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import { setUser } from "@/store/actions";
+import { setErrorCode, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { removeLocalStorageItem } from "@/utils/localStorage";
+import Cookies from "js-cookie";
 
-const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
+const PrivacyConfirmModal = () => {
   const privacyDivRef = useRef(null);
   const [policy, setPolicy] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,26 +18,32 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
   const loggedUser = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
   const user = useSelector((state) => state.user);
+  const errorCode = useSelector((state) => state.errorCode);
   const pathname = usePathname();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getPolicy();
-  }, []);
-
-  const handlePrivacyCloseModal = () => {
-    setPrivacyShowModal(false);
+  const handleScroll = () => {
+    const privacyDiv = privacyDivRef.current;
+    if (
+      privacyDiv.scrollTop + privacyDiv.clientHeight >=
+      privacyDiv.scrollHeight
+    ) {
+      setAcceptButtonDisabled(false);
+    }
   };
 
   const getPolicy = () => {
-    const country = loggedUser.user_data.country || "US";
+    const language = Cookies.get("language") || "en";
+    const country = loggedUser?.user_data?.country || "all";
     setIsLoading(true);
+
     apiServices
-      .get(`${apiUrl.PRIVACY}?country=${country}`)
+      .get(apiUrl.PRIVACY, { country, language })
       .then((response) => {
         setIsLoading(false);
         setPolicy(response.content);
         setPolicyVersion(response.version);
+        handleScroll();
       })
       .catch(() => {
         setIsLoading(false);
@@ -58,10 +64,8 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
 
         const newUser = { ...user };
         newUser.policies_version = policyVersion;
-
         dispatch(setUser(newUser));
-        handlePrivacyCloseModal();
-        removeLocalStorageItem("privacyPolicyChanged");
+        dispatch(setErrorCode(errorCode === 1007 ? 1008 : null));
         SuccesToast({ message: "Privacy Policy Updated Successfully" });
       })
       .catch(() => {
@@ -69,65 +73,57 @@ const PrivacyConfirmModal = ({ privacyShowModal, setPrivacyShowModal }) => {
       });
   };
 
-  const handleScroll = () => {
-    const privacyDiv = privacyDivRef.current;
-    if (
-      privacyDiv.scrollTop + privacyDiv.clientHeight >=
-      privacyDiv.scrollHeight
-    ) {
-      setAcceptButtonDisabled(false);
-    }
-  };
+  useEffect(() => {
+    getPolicy();
+  }, []);
 
   return (
-    <>
-      {privacyShowModal ? (
-        <div
-          className={isMobile ? "modal show modalFullScreen" : "modal"}
-          id="alertGamingReminderModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-          style={{ display: "block" }}
-        >
-          <div
-            className={
-              isMobile
-                ? "modal-dialog modal-fullscreen"
-                : "modal-dialog privacyModal top-50"
-            }
-          >
-            <div className="modal-content modalCenterContent privacy-modalContent">
-              <p className="termsTitleForMainPage privacyModalTitle">
-                New Privacy Policy
-              </p>
-              <div
-                ref={privacyDivRef}
-                className={
-                  !loggedUser && pathname.indexOf("/privacy") > "-1"
-                    ? "termsContent termsContent-height-50"
-                    : "termsContent termsContent-height-60 privacyContentModal"
-                }
-                onScroll={handleScroll}
-                dangerouslySetInnerHTML={{ __html: policy }}
-              ></div>
-              <Button
-                className={
-                  acceptButtonDisabled
-                    ? "acceptBtn disabled"
-                    : "btnPrimary acceptBtn"
-                }
-                onClick={() => {
-                  putConfirmPolicy();
-                }}
-                disabled={acceptButtonDisabled}
-                text={isLoading ? <Loader /> : "Accept Changes"}
-              />
-            </div>
+    <div
+      className={isMobile ? "modal show modalFullScreen" : "modal"}
+      id="alertGamingReminderModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      style={{ display: "block" }}
+    >
+      <div
+        className={
+          isMobile
+            ? "modal-dialog modal-fullscreen"
+            : "modal-dialog privacyModal top-50"
+        }
+      >
+        <div className="modal-content modalCenterContent terms-modalContent">
+          <div>
+            <p className="termsTitleForMainPage privacyModalTitle">
+              New Privacy Policy
+            </p>
+            <div
+              ref={privacyDivRef}
+              className={
+                !loggedUser && pathname.indexOf("/privacy") > "-1"
+                  ? "termsContent termsContent-height-50"
+                  : "termsContent termsContent-height-60 privacyContentModal"
+              }
+              onScroll={handleScroll}
+              dangerouslySetInnerHTML={{ __html: policy }}
+            ></div>
           </div>
+          <Button
+            className={
+              acceptButtonDisabled
+                ? "acceptBtn disabled"
+                : "btnPrimary acceptBtn"
+            }
+            onClick={() => {
+              putConfirmPolicy();
+            }}
+            disabled={acceptButtonDisabled}
+            text={isLoading ? <Loader /> : "Accept Changes"}
+          />
         </div>
-      ) : null}
-    </>
+      </div>
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@
 @import url(../screens/Contact/Contact.css);
 @import url(../screens/OddsFormat/OddsFormat.css);
 @import url(../screens/BonuesesAndPromotions/BonuesesAndPromotions.css);
-@import url(../screens/Error404/Error404.css);
+@import url(../screens/NotFound/NotFound.css);
 @import url(../screens/HorseRacing/HorseRacing.css);
 @import url(../screens/Casino/Casino.css);
 @import url(../screens/Racecard/Racecard.css);
@@ -79,8 +79,8 @@
 
   /* Odds */
   --global-color-rose: #e434a3;
-  --global-color-price-drifting: #7a2740;
-  --global-color-price-shortening: #186448;
+  --global-color-price-drifting: #9D1C43;
+  --global-color-price-shortening: #1A835C;
   --global-color-blue: #35a8e0;
   --global-color-green: #0f0;
   --global-color-bullet-point: #c59e43;

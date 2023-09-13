@@ -8,23 +8,20 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { theme } from "../../utils/config";
 import { apiUrl } from "../../utils/constants";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import Information from "@/components/information/Information";
+
 import "../Withdraw/Withdraw.css";
+import classNames from "classnames";
 
 const Withdraw = () => {
-  const [selectedLimit, setSelectedLimit] = useState(-1);
   const [paymentUrl, setPaymentUrl] = useState("");
   const [getLinkLoading, setGetLinkLoading] = useState(false);
   const [valueOfInput, setValueOfInput] = useState("");
   const [validButton, setValidButton] = useState(false);
+  const userBalance = useSelector((state) => state.loggedUser?.user_data?.balance || 0);
+  const userCurrency = useSelector((state) => state.loggedUser?.user_data.currency?.abbreviation || "");
   const isTablet = useSelector((state) => state.isTablet);
-
-  const amount = [
-    { value: "20", label: "20" },
-    { value: "50", label: "50" },
-    { value: "100", label: "100" },
-    { value: "200", label: "200" },
-    { value: "500", label: "500" },
-  ];
 
   const handleGatewayLink = () => {
     setGetLinkLoading(true);
@@ -47,22 +44,26 @@ const Withdraw = () => {
     } else setValidButton(false);
   }, [valueOfInput]);
 
-  const handleChangeButton = (e) => {
-    let value = e.target.value;
-    if (!value) {
-      setSelectedLimit(-1);
-    }
-    setValueOfInput(value);
+  const handleChangeInput = (e) => {
+    setValueOfInput(e.target.value);
   };
 
   return (
     <div className="depositLimit">
-      <div className="pageContent">
+      <div className={classNames("pageContent", { 'max-width-container': !isTablet })}>
         <ProfileBack />
         {!paymentUrl ? (
           <>
-            <p className="menuTitle d-flex flex-row ">Top up your wallet</p>
+            <PreferencesTitle
+              title="Withdraw"
+              showBack={false}
+              marginBottomSize="sm"
+            />
             <div className="deposit-form span-sm-0">
+              <Information
+                className="withdrawInformation"
+                text="Withdrawals can only be made back to a card or bank a that has made a deposit on this account"
+              />
               <p
                 style={{
                   color: "white",
@@ -72,57 +73,29 @@ const Withdraw = () => {
                   lineHeight: "22.4px",
                 }}
               >
-                Enter or select the amount in GBP
+                Enter the amount to withdraw
               </p>
-              <input
-                type="text"
-                className="deposit-input"
-                onChange={(e) => handleChangeButton(e)}
-                value={valueOfInput}
-                placeholder="0.00"
-              />
-              {
-                !isTablet && (
-                  <div className="price-inputs">
-                    {amount.map((value, index) => {
-                      return (
-                        <div
-                          key={index}
-                          data-id={index}
-                          className={
-                            selectedLimit === value.label
-                              ? "selectDecimalDeposit selectedOddDeposit d-flex mb-3"
-                              : "selectDecimalDeposit selectedOddDeposit2 d-flex mb-3"
-                          }
-                          onClick={() => {
-                            setValueOfInput(value.label);
-                            if (selectedLimit === value.label) {
-                              setSelectedLimit(0);
-                            } else {
-                              setSelectedLimit(value.label);
-                            }
-                          }}
-                        >
-                          <p className="m-3 decimalText">{value.label}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )
-              }
-
+              <div className="withdraw-input-container">
+                <input
+                  type="text"
+                  className="deposit-input"
+                  onChange={(e) => handleChangeInput(e)}
+                  value={valueOfInput}
+                  placeholder="0.00"
+                />
+                <button className="max-button" onClick={() => setValueOfInput(userBalance)}>MAX</button>
+              </div>
+              <p className="user-balance">Balance {userCurrency} {userBalance}</p>
             </div>
-            <div className="button-div">
+            <div className="preferences-button-container">
               <Button
                 type="submit"
                 onClick={() => {
                   handleGatewayLink();
                 }}
-                className={
-                  validButton
-                    ? "submit-button-deposit btnPrimary"
-                    : "submit-button-deposit"
-                }
+                className={classNames("submit-button-deposit", {
+                  btnPrimary: validButton
+                })}
                 text={getLinkLoading ? <Loader /> : "Authorise"}
               />
             </div>

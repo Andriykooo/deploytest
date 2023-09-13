@@ -2,13 +2,14 @@ import { Odds } from "@/components/Odds/Odds";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
 import { alertToast } from "@/utils/alert";
+import { getUserApi } from "@/utils/apiQueries";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
 import Image from "next/image";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Bet = ({ data }) => {
   return (
@@ -37,10 +38,11 @@ const Bet = ({ data }) => {
 
 export const MyBet = ({ data, setData }) => {
   const user = useSelector((state) => state.loggedUser);
-  const userCurrency = user.user_data.currency.abbreviation;
+  const userCurrency = user?.user_data?.currency?.abbreviation;
+  const dispatch = useDispatch();
 
   const getUserData = () => {
-    apiServices.get(apiUrl.USER).then((response) => {
+    getUserApi(dispatch).then((response) => {
       dispatch(setLoggedUser({ ...loggedUser, user_data: response }));
     });
   };

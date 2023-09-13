@@ -1,10 +1,12 @@
 .markets-container {
   margin-bottom: 10px;
 }
+
 .MuiTabs-flexContainer button {
   font-size: 10px;
   font-family: var(--bs-body-font-family);
 }
+
 .market-types {
   font-size: 16px;
   display: flex;
@@ -12,18 +14,22 @@
   align-items: center;
   width: 100%;
 }
+
 .active-market {
   height: 4px;
   width: 100%;
   background: var(--global-color-secondary);
 }
+
 .market-type {
   margin: 0 10px;
 }
+
 .MuiTabs-indicator {
   height: 4px !important;
   background: var(--global-color-button-primary) !important;
 }
+
 .Mui-selected {
   color: #fff !important;
 }
@@ -43,6 +49,7 @@
 .sport-container {
   flex: 1;
 }
+
 .sport-container.sport-container-empty {
   display: flex;
   flex-direction: column;
@@ -67,6 +74,7 @@
   font-weight: 400;
   font-size: 10px;
 }
+
 .competitions-select_name {
   padding: 19px 24px;
   display: flex;
@@ -94,6 +102,7 @@
   font-size: 14px;
   border-bottom: 1px solid #414851
 }
+
 .competitions-select_item-active {
   padding: 19px 24px;
   display: flex;
@@ -109,11 +118,12 @@
   color: var(--global-color-text-primary);
 }
 
-.search_wrapper{
-  display: flex!important;
-  align-items: center!important;
+.search_wrapper {
+  display: flex !important;
+  align-items: center !important;
   width: 100%;
 }
+
 .competitions_search {
   margin-left: 19px;
   text-indent: 0;
@@ -144,9 +154,11 @@
   line-height: 15px;
   position: relative;
 }
+
 .MuiAutocomplete-popupIndicator {
   border: none !important;
 }
+
 .competitions-options {
   width: 100%;
   max-height: 154px;
@@ -159,6 +171,7 @@
   max-width: 310px;
   filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 0.5));
 }
+
 .MuiAutocomplete-input,
 .MuiSvgIcon-root,
 .MuiInputLabel-outlined {
@@ -173,18 +186,23 @@
   line-height: 16px !important;
   color: var(--global-color-text-primary) !important;
 }
+
 .MuiAutocomplete-clearIndicator {
   border: none !important;
 }
+
 div .MuiAutocomplete-popper {
   font-size: 18px !important;
 }
+
 .MuiAutocomplete-noOptions {
   color: white !important;
 }
+
 .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
   background: black;
 }
+
 .competitions-select span {
   word-break: break-word;
   font-style: normal;
@@ -192,9 +210,11 @@ div .MuiAutocomplete-popper {
   font-size: 14px;
   line-height: 14px;
 }
+
 .MuiAutocomplete-endAdornment {
   top: auto !important;
 }
+
 .sport-competitions {
   background-color: var(--global-color-secondary);
   border-radius: 6px;
@@ -251,6 +271,7 @@ div .MuiAutocomplete-popper {
 .competition-option:hover {
   background: var(--global-color-tertiary);
 }
+
 .closeSidebarButton {
   position: absolute;
   transition: opacity 0.1s ease-in-out;
@@ -268,9 +289,11 @@ div .MuiAutocomplete-popper {
 .closeSidebarButton2 {
   left: 50px;
 }
+
 .openSidebarButton {
   margin-left: 4px;
 }
+
 .closeSidebarButton img {
   transform: rotate(270deg);
 }
@@ -278,16 +301,41 @@ div .MuiAutocomplete-popper {
 .openSidebarButtonn img {
   transform: rotate(90deg);
 }
+
 .valueOfBets:hover {
   background: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
   cursor: pointer;
 }
 
+.markets-container .empty-state {
+  min-height: 400px;
+}
+
+@media (max-width: 1024px) {
+  .competitions-select_item {
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+  }
+
+  .competitions-select_name {
+    background-color: var(--global-color-shade10);
+    border-top: 1px solid var(--global-color-shade1);
+  }
+
+  .competitions-select_title {
+    background-color: var(--global-color-shade5);
+    border-top: 0;
+  }
+}
+
 @media (max-width: 991px) {
   .sport-container .sport-competitions {
     margin: 0;
   }
+
   .container-match-details-paragraph {
     display: flex;
     justify-content: space-between;
@@ -296,30 +344,50 @@ div .MuiAutocomplete-popper {
     height: 40px;
   }
 
+  .sport-competitions-head {
+    padding-left: 0;
+  }
+
   .sport-competitions-head.mobile .sport-name {
     font-size: 14px;
     line-height: 24px;
   }
+
   .competitions-select.markets-select:not(.opened) {
     margin-bottom: 10px;
   }
+
   .sportsMatchesContainer {
     padding: 18px;
   }
+
   .sport-competitions {
     background: transparent;
     padding: 0;
     height: auto;
   }
+
+  .horse-sport-competitions {
+    padding-bottom: 16px;
+    background-color: var(--global-color-shade5);
+    border-radius: 0;
+  }
+
+  .horse-sport-competitions .sport-competitions-head {
+    border: none;
+  }
+
   .select-competition-container {
     max-width: 100%;
     margin-bottom: 0;
   }
+
   .competitions-options {
     max-width: 100%;
     height: 100%;
     filter: none;
   }
+
   .competitions-options {
     width: 100%;
     height: calc(100vh - 92px);
@@ -327,18 +395,22 @@ div .MuiAutocomplete-popper {
     position: relative;
     z-index: 10;
   }
+
   .competitions-options.markets-options {
     height: calc(100vh - 260px);
   }
+
   .competition-option {
     padding: 10.5px 24px;
     font-style: normal;
     font-size: 14px;
     font-weight: 400;
   }
+
   .markets-select {
     margin-bottom: 16px;
   }
+
   .competitions-select {
     font-style: normal;
     font-weight: 400;
@@ -348,35 +420,44 @@ div .MuiAutocomplete-popper {
     font-weight: 400;
     padding: 10px 17px 10px 14px;
   }
+
   .competitions-select.opened {
     border-radius: 15px 15px 0 0;
     padding: 9px 24px;
   }
+
   .competitions-options.opened {
     border-radius: 0;
     margin: 0;
   }
+
   .markets-select.opened {
     margin-bottom: 0;
   }
+
   .main-article-static {
     position: fixed;
     top: 56px;
     width: 100%;
   }
 }
+
 .browser-chrome {
   margin-left: 0px;
 }
+
 .browser-chrome2 {
   left: 60px;
 }
+
 .browser-safari2 {
   left: 60px;
 }
+
 .browser-firefox {
   margin-left: 0px;
 }
+
 .browser-safari {
   margin-left: 0px;
 }
@@ -414,6 +495,7 @@ div .MuiAutocomplete-popper {
 .MuiAutocomplete-paper li:hover {
   background-color: var(--global-color-tertiary) !important;
 }
+
 .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
@@ -423,6 +505,7 @@ div .MuiAutocomplete-popper {
   font-weight: 400;
   height: 36px !important;
 }
+
 .MuiInputBase-input {
   font-style: normal !important;
   font-weight: 400 !important;
@@ -432,10 +515,12 @@ div .MuiAutocomplete-popper {
   line-height: 16px !important;
   max-width: 205px !important;
 }
+
 .MuiInputBase-input {
   padding: 0 !important;
   font-size: 14px !important;
 }
+
 #autocomplete-competition::placeholder,
 #autocomplete-competitionInPlay::placeholder {
   color: var(--global-color-text-primary) !important;
@@ -456,16 +541,20 @@ div .MuiAutocomplete-popper {
   gap: 10px;
   padding: 0 12px 10px;
 }
+
 .selectCompetition {
   width: 40% !important;
   max-width: none !important;
 }
+
 .timeCompetition {
   width: 20% !important;
 }
+
 .regionCompetiton {
   width: 20% !important;
 }
+
 .countryCompetition {
   width: 20% !important;
 }
@@ -474,10 +563,12 @@ div .MuiAutocomplete-popper {
   .MuiOutlinedInput-root {
     background-color: var(--global-color-secondary) !important;
   }
+
   .MuiAutocomplete-root {
     margin-bottom: 6px;
     max-width: 100% !important;
   }
+
   .MuiInputBase-root {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -488,8 +579,9 @@ div .MuiAutocomplete-popper {
     grid-template-columns: 1fr;
   }
 }
+
 @media screen and (max-width: 1024px) {
   .autoCompleteMultipleInRow {
-   padding: 0 0 10px;
+    padding: 0 0 10px;
   }
 }

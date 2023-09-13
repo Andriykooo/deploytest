@@ -1,20 +1,18 @@
 "use client";
 
 import { nextWindow } from "@/utils/nextWindow";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
 import { setLoggedUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
-import { apiServices } from "@/utils/apiServices";
-import { apiUrl } from "@/utils/constants";
-import { images } from "@/utils/imagesConstant";
-import "./SelfExclude.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import { removeLocalStorageItem } from "@/utils/localStorage";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { images } from "@/utils/imagesConstant";
+import "./SelfExclude.css";
+import { setSettingsApi } from "@/utils/apiQueries";
 
 const SelfExclude = () => {
   const [excludeData, setExcludeData] = useState({
@@ -23,7 +21,6 @@ const SelfExclude = () => {
   });
   const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedLimit, setSelectedLimit] = useState(-1);
   const [excludePeriod, setExcludePeriod] = useState(false);
   const excludeValue = useSelector(
     (state) =>
@@ -32,7 +29,6 @@ const SelfExclude = () => {
   );
   const user = useSelector((state) => state.loggedUser);
   const user_settings = useSelector((state) => state?.user_settings);
-  const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,8 +44,7 @@ const SelfExclude = () => {
     const body = {
       self_exclude_deactivated: excludePeriod,
     };
-    apiServices
-      .put(apiUrl.SETTINGS, body)
+    setSettingsApi(body, dispatch)
       .then(() => {
         SuccesToast({ message: "Successfully updated!" });
         setIsLoading(false);
@@ -102,56 +97,53 @@ const SelfExclude = () => {
   const handleSetSelectedLimit = (value) => {
     setExcludePeriod(value);
     setIsLoading(false);
-    handleToggle()
+    handleToggle();
   };
 
   return (
     <>
       <div className="max-width-container selfExcludePage gamblingContainer">
         <div>
-            <div className="d-flex arrow-top">
-              <Image
-                src={images.goBackArrow}
-                alt="Go back"
-                className="ms-0 mb-3"
-                onClick={() => router.back()}
-              />
-            </div>
-            <p className="menuTitle arrow-top">Self exclude</p>
-            <p className="menuText">
-              If you feel you are spending too much time wagering or are at risk of
-              doing so and developing a gambling problem, please consider
-              self-exclusion.
-            </p>
-            <p className="menuText">
-              If you have any open wagers at the time of excluding, any winnings
-              will be credited to your account in the normal way and you can contact
-              our customer service team to arrange payment.
-            </p>
-            <p className="menuText">
-              For further advice please check the links below. <br />
-              GamCare: www.gamcare.org.uk
-              <br />
-              Gam-Anon: www.gamanon.org.uk
-              <br />
-              GambleAware: www.begambleaware.org
-              <br />
-            </p>
-            <div className="row mb-3">
-              <div className="col-6 subText">Deactivate account for</div>
-              <PreferencesDropdown
-                data={{...excludeData, title: "Self exclude"}}
-                selectedItem={excludeValue}
-                handleToggle={handleToggle}
-                handleSelect={(v) => {
-                  handleSetSelectedLimit(v)
-                }}
-                placeholder={excludeText}
-                loader={loader}
-                btnTitle="Set limit"
-                modalOnMobile
-              />
-            </div>
+          <PreferencesTitle
+            title="Self exclude"
+            backRoute="/profile/safer_gambling"
+            marginBottomSize="sm"
+            showBackOnDesktop
+          />
+          <p className="menuText">
+            If you feel you are spending too much time wagering or are at risk
+            of doing so and developing a gambling problem, please consider
+            self-exclusion.
+          </p>
+          <p className="menuText">
+            If you have any open wagers at the time of excluding, any winnings
+            will be credited to your account in the normal way and you can
+            contact our customer service team to arrange payment.
+          </p>
+          <p className="menuText">
+            For further advice please check the links below. <br />
+            GamCare: www.gamcare.org.uk
+            <br />
+            Gam-Anon: www.gamanon.org.uk
+            <br />
+            GambleAware: www.begambleaware.org
+            <br />
+          </p>
+          <div className="row mb-3">
+            <div className="col-6 subText">Deactivate account for</div>
+            <PreferencesDropdown
+              data={{ ...excludeData, title: "Self exclude" }}
+              selectedItem={excludeValue}
+              handleToggle={handleToggle}
+              handleSelect={(v) => {
+                handleSetSelectedLimit(v);
+              }}
+              placeholder={excludeText}
+              loader={loader}
+              btnTitle="Set limit"
+              modalOnMobile
+            />
+          </div>
         </div>
         <div className="row suspendButton">
           <Button

@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import rootReducer from "../store/reducer";
 import storage from "../store/storage";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 export const ReduxLayout = ({ children }) => {
   const persistConfig = {
@@ -24,12 +25,15 @@ export const ReduxLayout = ({ children }) => {
       "marketOptions",
       "favouriteGames",
       "currentTime",
-      "footer"
+      "footer",
+      "errorCode",
     ],
   };
 
   const persistedReducer = persistReducer(persistConfig, rootReducer);
-  const store = createStore(persistedReducer);
+
+  const store = createStore(persistedReducer, composeWithDevTools());
+
   const persistor = persistStore(store);
 
   return (

@@ -2,18 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast, alertToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import {
-  apiUrl,
-  emailNotifications,
-  pushNotifications,
-} from "../../utils/constants";
+import { emailNotifications, pushNotifications } from "../../utils/constants";
+import { ToggleLabel } from "./ToggleLabel";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../Notifications/Notifications.css";
 import "../Withdraw/Withdraw.css";
-import { ToggleLabel } from "./ToggleLabel";
+import { setSettingsApi } from "@/utils/apiQueries";
 
 const Notifications = () => {
   const dispatch = useDispatch();
@@ -67,8 +63,7 @@ const Notifications = () => {
   const handleUpdate = (key, currValue) => {
     let body = {};
     body[key] = currValue;
-    apiServices
-      .put(`${apiUrl.SETTINGS}`, body)
+    setSettingsApi(body, dispatch)
       .then((result) => {
         if (Object.keys(result).length < 1) {
           SuccesToast("Notification turned off successfully!");
@@ -83,8 +78,7 @@ const Notifications = () => {
   return (
     <div className="depositLimit">
       <div className={isMobile ? "p-4 pt-0" : "depositBody"}>
-        <ProfileBack />
-        <p className="menuTitle">Notifications </p>
+        <PreferencesTitle title="Notifications" marginBottomSize="lg" />
         <div className="row depositLimitContainer">
           <span className="notificationsSub ">Push Notifications</span>
           {pushNotificationSettings.map((item, i) => (

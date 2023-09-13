@@ -49,9 +49,10 @@
   top: 50%;
 }
 
-.suspendButton {
+.depositLimit .suspendButton {
   margin: 0;
   margin-bottom: 0;
+  margin-top: 24px;
 }
 
 .suspendButton button {
@@ -68,6 +69,10 @@
 
 .btn:hover {
   color: white !important;
+}
+
+.arrow-top > img:hover {
+  cursor: pointer;
 }
 
 .arrow-top {
@@ -265,7 +270,7 @@
 
 .confirmDepositLimit {
   position: relative;
-  padding-top: 0 !important;
+  padding-top: 30px !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -457,9 +462,11 @@
   gap: 10px;
   width: 100%;
   height: 48px;
-  background: linear-gradient(186.6deg,
+  background: linear-gradient(
+      186.6deg,
       rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%),
+      rgba(255, 255, 255, 0) 69.62%
+    ),
     #bc9239;
   border-radius: 10px;
   flex: none;
@@ -491,7 +498,51 @@
   overflow: auto;
 }
 
+.depositLimit-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.depositLimit-input-container {
+  position: relative;
+  min-width: 156px;
+  flex: 0 0 156px;
+  height: 48px;
+}
+
+.depositLimit-input {
+  width: 100%;
+  height: 100%;
+  background-color: var(--global-color-secondary);
+  border-radius: 6px;
+  color: var(--global-color-text-primary);
+  border: none;
+  padding-left: 12px;
+  padding-right: 45px;
+  font-size: 14px;
+  text-indent: 0;
+}
+
+.depositLimit-currency {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--global-color-text-gray);
+  font-size: 14px;
+}
+
+.depositModal-dialog {
+  max-width: 568px;
+}
+
 @media screen and (max-width: 1024px) {
+  .gaming-reminder-accept-button {
+    width: 100%;
+  }
+
   .gaming-alert-button {
     margin-bottom: 0;
   }

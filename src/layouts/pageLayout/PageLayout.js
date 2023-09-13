@@ -19,13 +19,13 @@ import { RacingWidget } from "../../components/racingWidget/RacingWidget";
 import { SportsWidget } from "../../components/sportsWidget/SportsWidget";
 import { SidebarLayout } from "../sidebarLayout/SidebarLayout";
 import { SocketContext } from "@/context/socket";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { PageContent } from "@/components/pageContent/PageContent";
 import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import HomeSkeletonComponent from "@/utils/HomeSkeletonComponent";
 
-export const PageLayout = () => {
+export const PageLayout = ({ children }) => {
   const dispatch = useDispatch();
   const { gamingSocket } = useContext(SocketContext);
 
@@ -34,7 +34,6 @@ export const PageLayout = () => {
   const sports = useSelector((state) => state.sports);
   const subscriptions = useSelector((state) => state.subscriptions);
   const pathname = usePathname();
-
   const page = headerData?.find(
     (page) => page.path === (pathname === "/" ? "/home" : pathname)
   );
@@ -196,7 +195,7 @@ export const PageLayout = () => {
           Object.keys(ids).forEach((id) => {
             gamingSocket.emit("unsubscribe_sport", {
               value: id,
-              action_id: uuid(),
+              action_id: uuidv4(),
             });
           });
         }
@@ -205,7 +204,7 @@ export const PageLayout = () => {
           Object.keys(ids).forEach((id) => {
             gamingSocket.emit("unsubscribe_market", {
               value: id,
-              action_id: uuid(),
+              action_id: uuidv4(),
             });
           });
         }
@@ -295,6 +294,7 @@ export const PageLayout = () => {
 
             return null;
           })}
+          {children}
         </>
       ) : (
         <HomeSkeletonComponent isLoading />

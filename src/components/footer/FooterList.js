@@ -30,7 +30,7 @@ export const FooterList = ({ data }) => {
                 path={link.path}
                 openType={link?.open_type}
                 modalData={{
-                  slug: link.path.substring(1).replaceAll("-", "_"),
+                  slug: link?.path?.substring(1)?.replaceAll("-", "_"),
                   title: link.name,
                 }}
               >

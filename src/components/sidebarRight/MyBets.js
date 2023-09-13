@@ -10,33 +10,35 @@ export const MyBets = () => {
   const [selectedButton, setSelectedButton] = useState(1);
   const [myBets, setMyBets] = useState(null);
 
-  useEffect(() => {
-    gamingSocket.emit("my_bets", {}, (response) => {
+  const getMyBets = (type) => {
+    gamingSocket.emit("my_bets", { value: type }, (response) => {
       if (response?.data?.errorMessage) {
         alertToast({ message: response?.data?.errorMessage });
       } else {
         setMyBets(response.data);
       }
     });
+  };
+
+  useEffect(() => {
+    getMyBets("all");
   }, []);
 
   const handleButtonClick = (buttonNumber) => {
     setSelectedButton(buttonNumber);
+
+    if (buttonNumber === 1) {
+      getMyBets("all");
+    }
+
+    if (buttonNumber === 2) {
+      getMyBets("open");
+    }
+
+    if (buttonNumber === 3) {
+      getMyBets("settled");
+    }
   };
-
-  const filteredBets = myBets?.filter((bet) => {
-    if (selectedButton === 1) {
-      return true;
-    }
-
-    if (selectedButton === 2) {
-      return bet.result === "open";
-    }
-
-    if (selectedButton === 3) {
-      return bet.result !== "open";
-    }
-  });
 
   return (
     <div>
@@ -58,12 +60,12 @@ export const MyBets = () => {
           );
         })}
       </div>
-      {selectedButton === 1 && filteredBets?.length > 0 && (
+      {selectedButton === 1 && myBets?.length > 0 && (
         <div className="my-bets-hint">Showing last 7 days</div>
       )}
-      {filteredBets?.length > 0 ? (
+      {myBets?.length > 0 ? (
         <div className="my-bets">
-          {filteredBets.map((bet) => {
+          {myBets.map((bet) => {
             return <MyBet key={bet.bet_id} data={bet} setData={setMyBets} />;
           })}
         </div>

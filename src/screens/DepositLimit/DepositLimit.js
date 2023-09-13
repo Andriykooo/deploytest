@@ -1,18 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { images } from "@/utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
-import { apiServices } from "@/utils/apiServices";
-import { apiUrl } from "@/utils/constants";
 import { SuccesToast } from "@/utils/alert";
 import { setLoggedUser } from "@/store/actions";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { setSettingsApi } from "@/utils/apiQueries";
 
 const DepositLimit = () => {
   const [dailyLimit, setDailyLimit] = useState(0);
@@ -28,7 +26,7 @@ const DepositLimit = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const user_settings = useSelector((state) => state?.user_settings);
-  const isTablet = useSelector((state) => state?.isTablet)
+  const isTablet = useSelector((state) => state?.isTablet);
   let user = useSelector((state) => state.loggedUser);
 
   const saferGambling = useSelector(
@@ -74,8 +72,7 @@ const DepositLimit = () => {
 
     setIsLoading(true);
 
-    apiServices
-      .put(apiUrl.SETTINGS, body)
+    setSettingsApi(body, dispatch)
       .then(() => {
         if (currentLimit === -1 && selectedLimit > currentLimit - 1) {
           SuccesToast({
@@ -140,99 +137,128 @@ const DepositLimit = () => {
       });
   };
 
+  const handleChangeInput = (e, type) => {
+    if (!/^$|^\d+$/.test(e.target.value)) {
+      return;
+    }
+
+    switch (type) {
+      case 'daily': {
+        setDailyLimit(e.target.value);
+        handleToggle("daily", "Daily Limit")
+        break;
+      }
+      case 'weekly': {
+        setWeeklyLimit(e.target.value);
+        handleToggle("weekly", "Weekly Limit")
+        break;
+      }
+      case 'monthly': {
+        setMonthlyLimit(e.target.value);
+        handleToggle("monthly", "Monthly Limit")
+        break;
+      }
+    }
+    setSelectedLimit(e.target.value);
+  }
+
+  const inputs = [
+    {
+      type: 'daily',
+      title: 'Daily Limit',
+      value: dailyLimit,
+    },
+    {
+      type: 'weekly',
+      title: 'Weekly Limit',
+      value: weeklyLimit,
+    },
+    {
+      type: 'monthly',
+      title: 'Monthly Limit',
+      value: monthlyLimit,
+    },
+  ];
+
   return (
     <>
       <div className="depositLimit max-width-container">
-        <div className="d-flex arrow-top">
-          <Image
-            src={images.goBackArrow}
-            alt="Go back"
-            className="ms-0 mb-3"
-            onClick={() => router.back()}
-          />
-        </div>
-        <p className="menuTitle arrow-top">Deposit Limit</p>
+        <PreferencesTitle
+          title="Deposit Limit"
+          backRoute="/profile/safer_gambling"
+          marginBottomSize="sm"
+          showBackOnDesktop
+        />
         <p className="menuText">
           Set daily, weekly or monthly limits on how much you can deposit.
         </p>
-        <div className="row mb-3">
-          <div className="col-6 subText">Daily Limit</div>
-          <PreferencesDropdown
-            data={depositData}
-            selectedItem={dailyLimit}
-            handleToggle={() => handleToggle("daily", "Daily Limit")}
-            handleSelect={(v) => {
-              setDailyLimit(v);
-              setSelectedLimit(v);
-            }}
-            placeholder={
-              dailyLimit > -1
-                ? `${dailyLimit} ${user?.user_data?.currency?.abbreviation}`
-                : "No limit"
-            }
-            handleSubmit={handleSelect}
-            type="daily"
-            modalOnMobile
-            btnTitle="Set limit"
-            loader={isLoading}
-          />
-        </div>
-        <div className="row  mb-3">
-          <div className="col-6 subText">Weekly Limit</div>
-          <PreferencesDropdown
-            data={depositData}
-            selectedItem={weeklyLimit}
-            handleToggle={() => handleToggle("weekly", "Weekly Limit")}
-            handleSelect={(v) => {
-              setWeeklyLimit(v);
-              setSelectedLimit(v);
-            }}
-            placeholder={
-              weeklyLimit > -1
-                ? `${weeklyLimit} ${user?.user_data?.currency?.abbreviation}`
-                : "No limit"
-            }
-            handleSubmit={handleSelect}
-            type="weekly"
-            modalOnMobile
-            btnTitle="Set limit"
-            loader={isLoading}
-          />
-        </div>
-        <div className="row mb-3">
-          <div className="col-6 subText">Monthly Limit</div>
-          <PreferencesDropdown
-            data={depositData}
-            selectedItem={monthlyLimit}
-            handleToggle={() => handleToggle("monthly", "Monthly Limit")}
-            handleSelect={(v) => {
-              setMonthlyLimit(v);
-              setSelectedLimit(v);
-            }}
-            placeholder={
-              monthlyLimit > -1
-                ? `${monthlyLimit} ${user?.user_data?.currency?.abbreviation}`
-                : "No limit"
-            }
-            handleSubmit={handleSelect}
-            type="monthly"
-            modalOnMobile
-            btnTitle="Set limit"
-            loader={isLoading}
-          />
-        </div>
-        {!isTablet && <div className="row suspendButton">
-          <Button
-            className={
-              "setLimit suspendAccBtn w-100 " +
-              (selectedLimit
-                ? " btnPrimary "
-                : "btn finishBtn disabled setLimitBtn col-8")
-            }
-            onClick={() => selectedLimit && handleSelect()}
-            text={isLoading ? <Loader /> : "Set limit"}
-          />
-        </div>}
+        {inputs.map((item) => isTablet ? (
+          <div className="row mb-3" key={item.type}>
+            <div className="col-6 subText">{item.title}</div>
+            <PreferencesDropdown
+              data={depositData}
+              selectedItem={dailyLimit}
+              handleToggle={() => handleToggle(item.type, item.title)}
+              handleSelect={(v) => {
+                setDailyLimit(v);
+                switch (item.type) {
+                  case 'daily': {
+                    setDailyLimit(e.target.value);
+                    break;
+                  }
+                  case 'weekly': {
+                    setWeeklyLimit(e.target.value);
+                    break;
+                  }
+                  case 'monthly': {
+                    setMonthlyLimit(e.target.value);
+                    break;
+                  }
+                }
+                setSelectedLimit(v);
+              }}
+              placeholder={
+                item.value > -1
+                  ? `${item.value} ${user?.user_data?.currency?.abbreviation}`
+                  : "No limit"
+              }
+              handleSubmit={handleSelect}
+              type="daily"
+              modalOnMobile
+              btnTitle="Set limit"
+              loader={isLoading}
+            />
+          </div>
+        ) : (
+          <div className="depositLimit-item" key={item.type}>
+            <div className="subText">{item.title}</div>
+            <div className="depositLimit-input-container">
+              <input
+                type="text"
+                className="depositLimit-input"
+                onChange={(e) => handleChangeInput(e, item.type)}
+                value={item.value > 0 ? item.value : ''}
+                placeholder="Not set"
+                disabled={isLoading}
+              />
+              <span className="depositLimit-currency">{user?.user_data?.currency?.abbreviation || ''}</span>
+            </div>
+          </div>
+        ))}
+        {!isTablet && (
+          <div className="row suspendButton">
+            <Button
+              className={
+                "setLimit suspendAccBtn w-100 " +
+                (selectedLimit
+                  ? " btnPrimary "
+                  : "btn finishBtn disabled setLimitBtn col-8")
+              }
+              onClick={() => selectedLimit && handleSelect()}
+              text={isLoading ? <Loader /> : "Set limit"}
+            />
+          </div>
+        )}
       </div>
     </>
   );

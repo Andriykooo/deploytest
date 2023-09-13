@@ -1,3 +1,4 @@
+import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
 import Image from "next/image";
@@ -30,10 +31,10 @@ const BetHistorySection = ({
     <div>{children}</div>
     <div className="betHistorySectionFooter d-flex justify-content-between align-items-center">
       <p>
-        Stake: <span>{stake}</span>
+        Stake: <span>{formatNumberWithDecimal(stake)}</span>
       </p>
       <p>
-        Returns: <span>{returns}</span>
+        Returns: <span>{formatNumberWithDecimal(returns)}</span>
       </p>
     </div>
   </div>

@@ -6,6 +6,7 @@ export default function Layout({ children }) {
   return (
     <SidebarLayout sidebarLeftIsActive sidebarRightIsActive>
       {children}
+
       <div>
         <BetSelectedTypes />
         <Footer />

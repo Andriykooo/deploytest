@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import ProfileMenu from "@/components/profileMenu/ProfileMenu";
 import { ProtectedLayout } from "@/layouts/protectedLayout/ProtectedLayout";
@@ -10,12 +10,14 @@ export default function Layout({ children }) {
   const isTablet = useSelector((state) => state.isTablet);
 
   // in the mobile version we have sidebar in full width
-  const hideSidebar = isTablet && pathname !== '/profile';
+  const hideSidebar = isTablet && pathname !== "/profile";
 
   return (
     <ProtectedLayout>
       <div className="backgroundLinear">
-        {hideSidebar ? children : (
+        {hideSidebar ? (
+          children
+        ) : (
           <ProfileMenu sideBarMenu active={"active"}>
             {children}
           </ProfileMenu>

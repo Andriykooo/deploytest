@@ -1,6 +1,9 @@
 "use client";
 
-import { refreshCommunicationSocket } from "@/context/socket";
+import {
+  refreshCommunicationSocket,
+  refreshGamingSocket,
+} from "@/context/socket";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,7 +11,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
-import { setLoggedUser, setSignUpPlatform, setUser } from "../../store/actions";
+import {
+  setErrorCode,
+  setLoggedUser,
+  setSignUpPlatform,
+  setUser,
+} from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
@@ -20,6 +28,8 @@ import "../Login/Login.css";
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import Cookies from "js-cookie";
+import { getUserApi } from "@/utils/apiQueries";
+import moment from "moment";
 
 const Login = ({ setShowConfirm }) => {
   const user = useSelector((state) => state.user);
@@ -76,9 +86,6 @@ const Login = ({ setShowConfirm }) => {
       .then((resolve) => {
         if (resolve?.email_exist) {
           if (resolve?.sign_up_platform === "email") {
-            if (!resolve?.email_verified && !params.get("redirect")) {
-              router.push("verify_email");
-            }
             setIsVerified(true);
             let newUser = {};
             Object.assign(newUser, user);
@@ -88,7 +95,6 @@ const Login = ({ setShowConfirm }) => {
             setNewUser(newUser);
             dispatch(setUser(newUser));
             setIsLoading(false);
-            sessionStorage.setItem("loggedUserInTime", new Date());
           } else if (resolve?.sign_up_platform === "google") {
             alertToast({ message: "Please sign in with Google" });
           } else if (resolve?.sign_up_platform === "facebook") {
@@ -137,36 +143,61 @@ const Login = ({ setShowConfirm }) => {
         addLocalStorageItem("device_id", device_id);
         addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
         addLocalStorageItem("swifty_id", response?.swifty_id);
-        sessionStorage.setItem("loggedUserInTime", new Date());
         let nextUrlPath = getLocalStorageItem("nextUrlPath");
+
         refreshCommunicationSocket(response?.token);
+        refreshGamingSocket(response?.token);
+
         Cookies.set("country", response.user_data.country);
 
         setIsLoading(false);
-        nextWindow.sessionStorage.setItem("loggedUserInTime", new Date());
 
-        apiServices.get(apiUrl.USER).then((userData) => {
+        getUserApi(dispatch).then((userData) => {
           dispatch(setLoggedUser({ ...response, user_data: userData }));
+          if (!userData.email_verified) {
+            router.push("/verify_email");
+          } else if (params.get("redirect")) {
+            router.push("/" + params.get("redirect"));
+          } else if (nextUrlPath && nextUrlPath === "casino") {
+            router.push("/casino");
+          } else {
+            router.push("/home");
+          }
+
+          if (
+            response?.user_data?.actions &&
+            response?.user_data?.actions.length > 0
+          ) {
+            setShowConfirm(true);
+          } else {
+            return;
+          }
         });
-
-        if (params.get("redirect")) {
-          router.push("/" + params.get("redirect"));
-        } else if (nextUrlPath && nextUrlPath === "casino") {
-          router.push("/casino");
-        } else {
-          router.push("/home");
-        }
-
-        if (
-          response?.user_data?.actions &&
-          response?.user_data?.actions.length > 0
-        ) {
-          setShowConfirm(true);
-        } else {
-          return;
-        }
       })
-      .catch(() => {
+      .catch((error) => {
+        const data = error.response.data.error;
+
+        if (data.code === 1104) {
+          dispatch(
+            setErrorCode({
+              code: data.code,
+              message: data.message,
+            })
+          );
+        }
+
+        if (data.code === 1063) {
+          dispatch(
+            setErrorCode({
+              code: data.code,
+              message: data.message.replace(
+                "{date}",
+                moment(data.extra_data.suspended_until).format("DD MMMM YYYY")
+              ),
+            })
+          );
+        }
+
         setIsLoading(false);
       });
   };
@@ -187,10 +218,6 @@ const Login = ({ setShowConfirm }) => {
       document.removeEventListener("keydown", keyDownHandler);
     };
   }, [isValid, email, isVerified, password, isPasswordValid]);
-
-  useEffect(() => {
-    dispatch(setLoggedUser(null));
-  }, []);
 
   return (
     <div className="backgroundImage">

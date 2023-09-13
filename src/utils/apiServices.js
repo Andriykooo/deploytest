@@ -1,5 +1,5 @@
-import axios from "axios";
 import { refreshCommunicationSocket } from "@/context/socket";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
 import { apiUrl } from "./constants";
@@ -12,12 +12,9 @@ import { nextWindow } from "./nextWindow";
 
 const checkError = (code, message) => {
   switch (code) {
+    // Country Block
     case 483:
       nextWindow.location.href = "/customer_service_notice";
-      break;
-    // Suspend Account
-    case 487:
-      nextWindow.location.href = "/login";
       break;
 
     // Self-Exclude Account
@@ -25,14 +22,18 @@ const checkError = (code, message) => {
       nextWindow.location.href = "/login";
       break;
 
-    // Wrong Password
-    case 1003:
-      if (typeof window !== "undefined") {
-        alertToast({
-          message: "Invalid password. Please try again.",
-        });
-      }
+    // Suspended Account
+    case 1104:
       break;
+
+    // Suspended Account
+    case 1063:
+      break;
+
+    // Suspended Account
+    case 487:
+      break;
+
     // Account Exists
     case 1026:
       if (typeof window !== "undefined") {
@@ -42,6 +43,7 @@ const checkError = (code, message) => {
         });
       }
       break;
+
     default:
       if (typeof window !== "undefined") {
         alertToast({
@@ -71,6 +73,7 @@ const handleError = (error) => {
   }
 
   const invalidPasswordStatus = error?.response?.data?.error?.code;
+
   if (invalidPasswordStatus) {
     checkError(invalidPasswordStatus, message);
 

@@ -12,9 +12,10 @@ import "../Profile/Profile.css";
 import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
 import ProfileBack from "@/components/profileBack/ProfileBack";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 export const SaferGambling = () => {
-  const isTablet = useSelector((state) => state.isTablet)
+  const isTablet = useSelector((state) => state.isTablet);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,19 +54,15 @@ export const SaferGambling = () => {
   return (
     <div className="pageContent-safer">
       <div className="depositLimit saferContainer">
-        <ProfileBack showOnDesktop />
-
-        <div>
-          <p className="menuTitle">Safer Gambling </p>
-        </div>
-        <div className="row saferDivs">
+        <PreferencesTitle title="Safer Gambling" marginBottomSize="lg" />
+        <div className="saferDivs">
           <div>
             {saferGambling.map((row, index) => {
               return (
                 <div className="infoDiv saferInfo mb-3" key={index}>
                   <Link href={row.link}>
-                    <p className="saferTitle m-2">{row.title}</p>
-                    {!isTablet && <p className="saferMessage m-2 ">{row.desc}</p>}
+                    <p className="saferTitle">{row.title}</p>
+                    {!isTablet && <p className="saferMessage">{row.desc}</p>}
                     <Image
                       alt="img-arrowIcon"
                       src={images.arrowIcon}

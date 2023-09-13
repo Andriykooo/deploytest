@@ -14,7 +14,8 @@ const CasinoCategory = ({ data, redirect }) => {
 
   const handleViewAll = () => {
     dispatch(setCasinoCategory(data));
-    const casinoItem = headerData.find((h) => h.path === "/casino");
+
+    const casinoItem = headerData?.find((h) => h.path === "/casino");
     if (redirect && casinoItem) {
       dispatch(setActivePage(casinoItem));
       router.push("/casino");

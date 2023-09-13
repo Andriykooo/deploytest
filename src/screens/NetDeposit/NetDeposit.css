@@ -1,12 +1,13 @@
 .netDepositValue {
   font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
+  font-weight: 600;
+  font-size: 32px;
   line-height: 42px;
   color: var(--global-color-text-primary);
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  padding-top: 14px;
+  padding-bottom: 16px;
 }
 .selectField {
   position: relative;
@@ -24,6 +25,11 @@
     align-items: center !important;
   }
 }
+
+.netDepositLimit .ddWrapper {
+  max-height: 512px;
+}
+
 .depositText {
   color: var(--global-color-text-primary);
   font-size: 14px;
@@ -38,6 +44,6 @@
   color: var(--global-color-text-primary);
 }
 
-.netShow{
+.netShow {
   display: block;
 }

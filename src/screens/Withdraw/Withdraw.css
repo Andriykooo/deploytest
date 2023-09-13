@@ -88,9 +88,11 @@
 }
 
 .finishBtn.disabled {
-  background: linear-gradient(0deg,
+  background: linear-gradient(
+      0deg,
       var(--global-color-secondary),
-      var(--global-color-secondary)),
+      var(--global-color-secondary)
+    ),
     var(--global-color-secondary);
   color: #bcbfc2;
 }
@@ -182,23 +184,55 @@
 }
 
 .deposit-form {
-  padding-top: 2.7%;
-  height: 47vh;
+  padding-top: 88px;
   position: relative;
+}
+
+.withdrawInformation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.withdraw-input-container {
+  position: relative;
+  margin-bottom: 12px;
 }
 
 .deposit-input {
   margin-bottom: 15px;
   width: 100%;
-  max-width: 400px;
-  height: 50px;
+  height: 56px;
   color: #bcbfc2;
   background: var(--global-color-secondary);
   outline: none;
   border: none;
   box-sizing: border-box;
   border-radius: 10px;
-  padding: 0 20px;
+  padding-left: 16px;
+  padding-right: 80px;
+  margin: 0;
+}
+
+.max-button {
+  position: absolute;
+  right: 16px;
+  height: 23px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--global-color-text-primary);
+  font-size: 16px;
+}
+
+.user-balance {
+  color: var(--global-color-text-primary);
+  text-align: right;
+  font-size: 14px;
+  margin: 0;
 }
 
 .selectDecimalDeposit {
@@ -232,18 +266,15 @@
   border: 1.5px solid transparent;
 }
 
-.button-div {
-  display: flex;
-  max-width: 400px;
-  width: 100%;
-  align-items: baseline;
+.preferences-button-container {
+  margin-top: 40px;
+  margin-bottom: 16px;
 }
 
 .submit-button-deposit {
   width: 100%;
-  max-width: 400px;
   font-weight: 600;
-  height: 50px;
+  height: 48px;
   color: #bcbfc2;
   background: var(--global-color-secondary);
   outline: none;
@@ -253,17 +284,20 @@
 }
 
 .terms-modalContent {
-  padding: 1rem !important;
-}
-
-.privacy-modalContent {
-  padding: 2rem !important;
+  padding: 30px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 1024px) {
   .modal-content {
     margin-top: 0px;
     height: 100%;
+  }
+
+  .terms-modalContent .acceptBtn {
+    margin: unset;
   }
 
   .depositTitle {
@@ -273,23 +307,6 @@
     line-height: 48px;
     align-items: center;
     color: var(--global-color-text-primary);
-  }
-
-  .deposit-form {
-    padding-top: 2%;
-  }
-
-  .deposit-input {
-    margin-bottom: 15px;
-    width: 100%;
-    max-width: 400px;
-    height: 50px;
-    color: #bcbfc2;
-    background: var(--global-color-secondary);
-    outline: none;
-    border: none;
-    box-sizing: border-box;
-    border-radius: 10px;
   }
 
   .selectDecimalDeposit {
@@ -315,22 +332,6 @@
     margin-left: 5%;
   }
 
-  .button-div {
-    height: 150px;
-  }
-
-  .submit-button-deposit {
-    width: 100%;
-    max-width: 400px;
-    height: 50px;
-    color: #bcbfc2;
-    background: var(--global-color-secondary);
-    outline: none;
-    border: none;
-    box-sizing: border-box;
-    border-radius: 10px;
-  }
-
   .selectedOddDeposit {
     border: 1.5px solid var(--global-color-gold-button);
   }
@@ -343,17 +344,4 @@
 .active-button-of-submit {
   background-color: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
-}
-
-@media screen and (max-width: 991px) {
-  .deposit-input,
-  .submit-button-deposit,
-  .button-div {
-    max-width: 100%;
-
-  }
-  .deposit-form{
-    height: auto;
-    flex: 1;
-  }
 }

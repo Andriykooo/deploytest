@@ -12,7 +12,7 @@ import { setSelectBet, setUpdatedSelections } from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
 import { useSearchParams } from "next/navigation";
 import { gamingSocket } from "@/context/socket";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import moment from "moment";
 
@@ -437,7 +437,7 @@ export const Racecard = () => {
   };
 
   const showPriceHistory =
-    tableData.selections.some((item) => !!item.price_history?.length) &&
+    tableData?.selections?.some((item) => !!item.price_history?.length) &&
     !disablePrice;
 
   const headerItemsWin = [
@@ -557,7 +557,7 @@ export const Racecard = () => {
 
       gamingSocket.emit("unsubscribe_match", {
         value: id,
-        action_id: uuid(),
+        action_id: uuidv4(),
       });
     };
   }, []);

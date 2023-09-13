@@ -1,12 +1,23 @@
 import { Page as GeneratedPage } from "@/screens/Page/Page";
 import { apiUrl } from "@/utils/constants";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
-  const response = await fetch(apiUrl.GET_MAIN_MENU);
+  const cookieStore = cookies();
+  const lang = cookieStore.get("language");
+  const defaultLanguage = lang?.value.toLowerCase() || "en";
+
+  const country = defaultLanguage === "en" ? "all" : defaultLanguage;
+
+  const response = await fetch(`${apiUrl.GET_MAIN_MENU}?country=${country}`, {
+    credentials: "include",
+  });
 
   if (response.status === 483) {
-    return {};
+    return {
+      title: "Customer Service Notice",
+    };
   }
 
   const pages = await response.json();
@@ -31,16 +42,25 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const response = await fetch(apiUrl.GET_MAIN_MENU);
+  const cookieStore = cookies();
+  const lang = cookieStore.get("language");
+  const defaultLanguage = lang?.value.toLowerCase() || "en";
 
-  if (response.status !== 483) {
-    const pages = await response.json();
+  const country = defaultLanguage ? "all" : defaultLanguage;
 
-    const page = pages.find((page) => page.path.substring(1) === params.path);
+  const response = await fetch(`${apiUrl.GET_MAIN_MENU}?country=${country}`, {
+    credentials: "include",
+  });
 
-    if (!page) {
-      notFound();
-    }
+  if (response.status === 483) {
+    return null;
+  }
+
+  const header = await response.json();
+  const page = header.find((page) => page.path.substring(1) === params.path);
+
+  if (!page) {
+    notFound();
   }
 
   return <GeneratedPage />;

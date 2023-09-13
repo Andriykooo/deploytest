@@ -220,7 +220,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
       {isChatActive && (
         <ChatBox isOpen={isOpen}>
           <ChatHeader>
-            <div>Got questions? Our team is ready to help.</div>
+            <div>Live Chat</div>
             <span onClick={chatCloseHandler}>
               <Image
                 height={18}

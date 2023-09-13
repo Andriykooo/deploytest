@@ -186,11 +186,14 @@
   display: flex;
   flex-direction: row;
 }
+
 .matchDetails .sports-body {
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: 667px;
 }
+
 .matchDetails .sports-body .markets-container {
   flex: 1;
   display: flex;
@@ -200,13 +203,13 @@
 .matchDetails .sports-body .markets-container .markets-container-content {
   flex: 1;
 }
+
 .matchDetails .sports-body .markets-container .markets-container-content.markets-container-content-empty {
   display: flex;
 }
 
 @keyframes drifting {
-  0% {
-  }
+  0% {}
 
   25% {
     background-color: var(--global-color-price-drifting);
@@ -218,13 +221,11 @@
     color: var(--global-color-text-primary);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 @keyframes shortening {
-  0% {
-  }
+  0% {}
 
   25% {
     background-color: var(--global-color-price-shortening);
@@ -236,8 +237,7 @@
     color: var(--global-color-text-primary);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 .matchOddsContainerFootball {
@@ -257,7 +257,7 @@
   height: 100%;
 }
 
-.odds > * {
+.odds>* {
   border-left: 1px solid var(--global-color-secondary);
 }
 
@@ -412,6 +412,7 @@
   color: var(--global-color-text-tertiary);
   line-height: 12px;
 }
+
 matchOdds .in-play-time,
 .starting-soon-games {
   width: 57px;
@@ -464,16 +465,19 @@ matchOdds .in-play-time,
   width: fit-content;
   padding-right: 20px;
 }
+
 .stream {
   position: relative;
   height: 312px;
   width: 100%;
 }
+
 .stream-line {
   color: #ffffff;
   margin-bottom: 0;
   margin: 0px 10px;
 }
+
 .container-match-details-paragraph {
   align-items: center;
   display: flex;
@@ -482,9 +486,11 @@ matchOdds .in-play-time,
   border-radius: 6px 6px 0 0;
   padding: 10px 16px;
 }
+
 .teams-match-details--header {
   justify-content: space-around;
 }
+
 .MarketMenuContainer {
   font-size: 12px;
   width: 105px;
@@ -789,6 +795,7 @@ matchOdds .in-play-time,
   justify-content: flex-end;
   gap: 10px;
 }
+
 .homeSportsContainer.accordion-header {
   pointer-events: none;
 }
@@ -870,6 +877,7 @@ matchOdds .in-play-time,
   background: none;
   margin-left: 0;
 }
+
 .homeSportsContainer .accordion-button:not(.collapsed)::after,
 .leagues-accordion .accordion-button:not(.collapsed)::after {
   background: none;
@@ -896,6 +904,7 @@ matchOdds .in-play-time,
   background-position: center;
   transform: rotate(180deg);
 }
+
 .accordion-button:not(.collapsed)::after {
   background: url(../../assets/images/arrow.svg);
   background-repeat: no-repeat;
@@ -973,6 +982,7 @@ matchOdds .in-play-time,
   right: 0;
   cursor: pointer;
 }
+
 .accordion {
   margin-bottom: 10px;
 }
@@ -985,6 +995,7 @@ matchOdds .in-play-time,
 .accordion-button:not(.collapsed):focus {
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px;
 }
+
 .homeSportsContainer .accordion-button:not(.collapsed),
 .homeSportsContainer .accordion-button:not(.collapsed):focus {
   height: 105px;
@@ -1020,6 +1031,7 @@ matchOdds .in-play-time,
   order: 0;
   flex-grow: 0;
 }
+
 .homeSportsContainer button .casinoMenu .menu .selected {
   background: var(--global-color-shade9) !important;
   border: none;
@@ -1044,9 +1056,11 @@ matchOdds .in-play-time,
   margin-bottom: 30px;
   position: relative;
 }
+
 .goBackButtonMatchDetails {
   margin-bottom: 0;
 }
+
 .accordionContainer {
   border-radius: 4px;
   overflow: hidden;
@@ -1057,6 +1071,7 @@ matchOdds .in-play-time,
     margin-bottom: 0;
     height: 195px;
   }
+
   .accordionContainer {
     margin-bottom: 16px;
   }
@@ -1091,6 +1106,7 @@ matchOdds .in-play-time,
   justify-content: center;
   background-position: top right;
 }
+
 .pitch-bottom {
   position: absolute;
   bottom: 10px;
@@ -1138,6 +1154,7 @@ matchOdds .in-play-time,
   .accordionContainer {
     margin-top: 6px;
   }
+
   .pitch-top {
     top: 2px;
     padding-right: 0;
@@ -1168,6 +1185,7 @@ matchOdds .in-play-time,
   .match-selected-type:nth-child(3) {
     order: 3;
   }
+
   .match-selected-type-name {
     margin-left: 10px;
     color: #949495;
@@ -1186,14 +1204,17 @@ matchOdds .in-play-time,
     padding: 6px;
     font-size: 10px;
   }
+
   .pitch-bottom {
     font-size: 12px !important;
     bottom: 15px;
   }
 }
+
 .containerOfSelectionsOthers {
   display: flex;
 }
+
 .more-markets-container {
   display: flex;
   justify-content: center;
@@ -1201,10 +1222,12 @@ matchOdds .in-play-time,
   font: #fff;
   font-size: 11px;
 }
+
 @media screen and(max-width: 1400px) and (min-width: 991px) {
   .pitch-bottom {
     font-size: 16px !important;
   }
+
   .pitch-top {
     width: calc(100% - 298px);
     top: 170px;
@@ -1232,6 +1255,7 @@ matchOdds .in-play-time,
     width: 20px;
   }
 }
+
 .matchOddsContainer {
   display: flex;
   width: 100%;
@@ -1247,6 +1271,7 @@ matchOdds .in-play-time,
   background: var(--global-color-secondary);
   border-radius: 0 0 6px 6px;
 }
+
 .match-details-teams-teams {
   font-style: normal;
   font-weight: 400;
@@ -1258,10 +1283,12 @@ matchOdds .in-play-time,
   padding: 10px 16px 0 16px;
   border-radius: 6px;
 }
+
 .match-details-teams-teams:first-of-type {
   text-align: end;
   padding: 10px 16px 10px 0;
 }
+
 .match-result-soccer-vs {
   width: 6%;
   height: 38px;
@@ -1271,9 +1298,11 @@ matchOdds .in-play-time,
   background: #bc9239;
   margin: 0 1rem 0 1rem;
 }
+
 .match-details-teams-teams:first-of-type {
   margin-left: 12px;
 }
+
 .match-details-teams-teams:last-of-type {
   margin-right: 12px;
   padding: 10px 0 10px 16px;
@@ -1290,24 +1319,30 @@ matchOdds .in-play-time,
     margin-left: 8px;
     margin-right: 0;
   }
+
   .inPlaySectionAccordion .accordion-header,
   .inPlaySectionAccordion .accordion-header .accordion-button {
     background: var(--global-color-shade5);
   }
-  .odds > :not(:first-child) {
+
+  .odds> :not(:first-child) {
     border-left: 1px solid var(--global-color-secondary);
   }
+
   .odds .selectionName {
     border-left: 0;
   }
+
   .ice-hockey-container {
     font-size: 10px;
     text-align: center;
     padding: 0;
   }
+
   .sport-container .accordionContainer {
     margin-top: 14px;
   }
+
   .accordionContainer {
     margin-top: 0;
   }
@@ -1315,13 +1350,16 @@ matchOdds .in-play-time,
   .IOSSwitch:checked {
     background-color: red;
   }
+
   .mobile-container-match-details-content {
     position: static;
   }
+
   .teams-for-matchdetails-container {
     display: flex;
     margin-left: 0;
   }
+
   .teams-container-details {
     display: flex;
     align-items: center;
@@ -1330,18 +1368,21 @@ matchOdds .in-play-time,
     height: 100%;
     width: calc(100% - 46px);
   }
+
   .teams-container-details-vs {
     width: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .container-match-details-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
+
   .goBackButtonDetails {
     margin-bottom: 0;
     background-color: transparent;
@@ -1354,10 +1395,12 @@ matchOdds .in-play-time,
     padding-right: 5px;
     margin: 0px;
   }
+
   .stream-container {
     display: flex;
     align-items: center;
   }
+
   .teams-for-matchdetails-container {
     width: 100%;
     display: flex;
@@ -1389,21 +1432,25 @@ matchOdds .in-play-time,
   .team-for-matchdetails-mobile:last-of-type {
     justify-content: start;
   }
+
   .containerOfSelectionsSports {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
+
   .footballContainerSports {
     margin-bottom: 10px;
   }
+
   .MuiAutocomplete-root {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     height: auto !important;
     margin-bottom: 6px !important;
   }
+
   #autocomplete-competition::placeholder,
   #autocomplete-marketInPlay::placeholder {
     font-style: normal;
@@ -1434,6 +1481,7 @@ matchOdds .in-play-time,
     padding: 10px 14px;
     line-height: 20px;
   }
+
   .accordion-button.collapsed {
     padding-top: 10px;
     height: 40px;
@@ -1454,9 +1502,11 @@ matchOdds .in-play-time,
   .containerOfSelections:first-child {
     border-left: 0px;
   }
+
   .containerOfSelections:last-child {
     border-right: 0;
   }
+
   .selectionTeams {
     font-style: normal;
     font-weight: 400;
@@ -1469,6 +1519,7 @@ matchOdds .in-play-time,
     border-top: 1px solid var(--global-color-secondary);
     border-bottom: 1px solid var(--global-color-secondary);
   }
+
   .valueOddsInBets {
     border-left: 0px;
     color: var(--global-color-text-secondary);
@@ -1476,11 +1527,13 @@ matchOdds .in-play-time,
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .mobileBetsOdds {
     width: 100% !important;
     justify-content: space-around;
     height: 44px;
   }
+
   .matchResultMobile {
     width: 51px;
   }
@@ -1494,11 +1547,13 @@ matchOdds .in-play-time,
     height: 44px;
     border-bottom: 1px solid var(--global-color-secondary);
   }
+
   .mobileMatchRowForTeams {
     width: 100%;
     align-items: center;
     display: flex;
   }
+
   .matchTeamMobile {
     font-style: normal;
     font-weight: 400;
@@ -1511,6 +1566,7 @@ matchOdds .in-play-time,
     color: var(--global-color-text-primary);
     padding: 10px;
   }
+
   .dateandtimeofmatchinfootball {
     height: 32px;
     background-color: var(--global-color-secondary);
@@ -1537,9 +1593,11 @@ matchOdds .in-play-time,
     margin-top: 5px;
     margin-bottom: 5px;
   }
+
   .match-result-ice-hockey {
     height: 23px;
   }
+
   .vs-for-matchdetails {
     width: 20%;
     font-size: 13px;
@@ -1589,12 +1647,15 @@ matchOdds .in-play-time,
   .match-selected-type-color {
     width: 20px;
   }
+
   .accordion {
     margin-bottom: 6px;
   }
+
   .homeSportsMainContainer {
     margin-bottom: 2px;
   }
+
   .match-vs-teams {
     height: 24px;
   }
@@ -1605,10 +1666,12 @@ matchOdds .in-play-time,
   color: var(--global-color-text-secondary);
   padding: 6px;
 }
+
 .ice-hockey-title {
   display: flex;
   justify-content: space-between;
 }
+
 .ice-hockey-sub-container {
   display: flex;
   justify-content: space-between;
@@ -1616,12 +1679,15 @@ matchOdds .in-play-time,
   border-bottom: 1px solid var(--global-color-secondary);
   border-right: 1px solid var(--global-color-secondary);
 }
+
 .ice-hockey-sub-container:last-of-type {
   border-bottom: 0;
 }
+
 .ice-hockey-container:last-of-type .ice-hockey-sub-container {
   border-right: 0;
 }
+
 .ice-hockey-container .ice-hockey-sub-container:last-of-type {
   border-top: 0;
 }
@@ -1857,6 +1923,7 @@ matchOdds .in-play-time,
 .horseHeader {
   padding-top: 0.5rem;
 }
+
 .styleOfSelectedOdd {
   background: var(--global-color-tertiary);
   color: var(--global-color-text-primary);
@@ -1882,9 +1949,11 @@ matchOdds .in-play-time,
 .inPlayPlaceBet {
   width: 85px;
 }
+
 .matchIceHockeyRow:first-of-type {
   border-bottom: 0;
 }
+
 .ice-hockey-main-container {
   width: 100%;
   height: 50%;
@@ -1894,6 +1963,7 @@ matchOdds .in-play-time,
 }
 
 @media screen and (max-width: 1024px) {
+
   .teams-for-matchdetails-container,
   .container-match-details-paragraph {
     background: transparent;
@@ -1971,14 +2041,14 @@ matchOdds .in-play-time,
     line-height: 15px;
     color: #f9f9f9;
   }
+
   .dropdownFixedStyleComponent {
     position: absolute;
     bottom: 0;
-    top: 29%;
     left: 0;
     border-radius: 16px 16px 0px 0px;
     width: 100%;
-    background: #25292D;
+    background: var(--global-color-shade10);
     z-index: 99;
     font-style: normal;
     font-weight: 400;
@@ -1986,7 +2056,12 @@ matchOdds .in-play-time,
     line-height: 15px;
     color: #f9f9f9;
     z-index: 1000;
+    height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid var(--global-color-shade10);
   }
+
   .dropdownFixedStyleComponentMarkets {
     top: 30px;
   }
@@ -2008,6 +2083,7 @@ matchOdds .in-play-time,
     justify-content: space-between;
     padding-left: 12px;
   }
+
   .teamsIceHockey {
     width: 100% !important;
     height: 48px;
@@ -2057,6 +2133,7 @@ matchOdds .in-play-time,
   .matchCardRow2 {
     grid-template-columns: 1fr;
   }
+
   .selected-types {
     width: 100%;
     display: grid;

@@ -55,7 +55,7 @@
   border-radius: 10px;
 }
 
-.continueBtn:disabled {
+.continueBtn.outline {
   border: 1px solid var(--global-color-gold-button);
 }
 

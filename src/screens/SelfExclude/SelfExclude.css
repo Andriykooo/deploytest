@@ -1,7 +1,7 @@
 .selfExcludePage {
   position: relative;
   margin-left: 450px;
-  padding-top: 100px;
+  padding-top: 45px;
   height: 800px;
 }
 
@@ -45,22 +45,21 @@
 }
 
 .privacyModal {
-  padding-top: 4rem !important;
+  max-width: 600px;
 }
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: var(--bs-modal-width);
     margin-right: auto;
     margin-left: auto;
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .selfExcludePage {
     position: relative;
     margin-left: 0px;
-    padding-top: 65px;
+    padding-top: 16px;
     height: 100%;
   }
 
@@ -81,6 +80,6 @@
     width: 100%;
     padding-right: 0;
     padding-top: 0;
-    height: 800px;
+    height: calc(100vh - 56px);
   }
 }

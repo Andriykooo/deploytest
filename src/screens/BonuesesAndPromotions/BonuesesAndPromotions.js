@@ -7,9 +7,12 @@ import ProfileBack from "@/components/profileBack/ProfileBack";
 import { monthDates } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
+import { useSelector } from "react-redux";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 function BonuesesAndPromotions() {
   const [selected, setSelected] = useState(0);
+  const isTablet = useSelector((state) => state.isTablet);
   const handleClick = (index) => {
     setSelected(index);
   };
@@ -44,8 +47,9 @@ function BonuesesAndPromotions() {
   return (
     <div className="depositLimit netDepositLimit">
       <div className=" bonuses-container-menu">
-        <ProfileBack />
-        <p className="menuTitle ">Bonuses & Promotions </p>
+        <PreferencesTitle
+          title={`Bonuses ${isTablet ? "And" : "&"} Promotions`}
+        />
         <div className="promotion-title">
           {monthDates.map((value, index) => {
             const selectedStyle = selected === index ? "selected" : "";
@@ -72,7 +76,11 @@ function BonuesesAndPromotions() {
               }`}
               key={index}
             >
-              <Image src={value?.image} alt="" className="promotion-image" />
+              <Image
+                src={value?.image}
+                alt="Promotion"
+                className="promotion-image"
+              />
               <div className="promotion-details">
                 <p className="promotion-competition fw-bold">
                   {value?.competition}

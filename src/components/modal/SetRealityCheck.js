@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
+import { setSettingsApi } from "@/utils/apiQueries";
 
 export const SetRealityCheck = ({
   options,
@@ -28,8 +27,8 @@ export const SetRealityCheck = ({
       reality_check_after: realityCheck,
     };
     setIsLoading(true);
-    apiServices
-      .put(apiUrl.SETTINGS, body)
+
+    setSettingsApi(body, dispatch)
       .then(() => {
         SuccesToast({ message: "Successfully updated!" });
         setIsLoading(false);

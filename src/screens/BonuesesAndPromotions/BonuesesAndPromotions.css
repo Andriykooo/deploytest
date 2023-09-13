@@ -1,8 +1,9 @@
 .link-in-bonuses-promotions {
   background-color: var(--global-color-text-secondary);
   position: absolute;
-  right: 56px;
+  right: 44px;
   width: 53px;
+  height: 20px;
   top: 24px;
   border-radius: 4px;
   font-style: normal;
@@ -53,7 +54,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 4px;
   background: rgba(14, 183, 236, 0.76);
   margin-bottom: 0px;
   position: absolute;
@@ -97,26 +98,26 @@
   color: #e22727;
 }
 .promotion-title {
-  display: flex;
   gap: 10px;
-  margin-bottom: 24px;
   display: flex;
   flex-wrap: nowrap;
   width: 100%;
-  height: 70px;
+  height: 40px;
   align-items: center;
-  overflow-y: auto;
+  overflow: auto;
   padding-right: 20px;
+  margin-bottom: 40px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.menuTitle {
+  margin-bottom: 24px;
+}
+
 .bonuses-container-menu {
   overflow: auto;
   width: calc(100vw - 448px);
-}
-.promotion-title {
-  width: 100%;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .promotion-title::-webkit-scrollbar {
@@ -133,31 +134,59 @@
   .bonuses-container-menu {
     width: 100%;
   }
+  .menuTitle {
+    margin-bottom: 20px;
+  }
+  .promotion-title {
+    margin-bottom: 20px;
+  }
   .promotions-container {
-    width: 100%;
-    height: 81px;
+    width: 100% !important;
+    height: 92px;
     margin-top: 6px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .promotions-container img {
+    display: none;
   }
   .promotion-info {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    justify-content: center;
+    background-color: var(--global-color-shade1);
+    padding-left: 16px;
+    height: 62px;
+    gap: 6px;
   }
   .promotion-amount,
   .promotion-competition,
   .promotion-valid,
   .promotion-value {
     margin-bottom: 0;
-    font-size: 11px;
+    font-size: 12px;
   }
   .promotion-amount {
+    display: flex;
+    gap: 14px;
     margin-left: 0;
   }
   .promotion-competition {
-    margin-top: 5px;
-    margin-bottom: 6px;
+    line-height: 30px;
+    margin: 0;
+    padding-left: 16px;
   }
   .promotion-duration {
     width: 72px;
     font-size: 10px;
     height: 22px;
+    top: 42px;
+  }
+  .promotion-details {
+    width: 100%;
+    height: 100%;
+  }
+
+  .menu {
+    height: 40px;
   }
 }

@@ -304,3 +304,10 @@ export const setFooter = (payload) => {
     payload,
   };
 };
+
+export const setErrorCode = (payload) => {
+  return {
+    type: constants.SET_ERROR_CODE,
+    payload,
+  };
+};

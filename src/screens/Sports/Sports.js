@@ -6,7 +6,7 @@ import { SocketContext } from "../../context/socket";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { HorseRacing } from "../HorseRacing/HorseRacing";
 import { Sport } from "../Sport/Sport";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { setUpdatedSelections } from "@/store/actions";
 import moment from "moment";
 
@@ -37,7 +37,7 @@ const Sports = ({ slug }) => {
 
         gamingSocket.emit("unsubscribe_sport", {
           value: sport.id,
-          action_id: uuid(),
+          action_id: uuidv4(),
         });
       };
     }

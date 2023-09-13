@@ -30,8 +30,9 @@ import { BetSlipAds } from "./BetSlipAds";
 import { SelectOfMultipleBets } from "./SelectBetOfMultipleBets";
 import { SelectedBet } from "./SelectedBet";
 import { SocketContext } from "@/context/socket";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { MyBets } from "./MyBets";
+import { getUserApi } from "@/utils/apiQueries";
 
 export const SidebarRight = () => {
   const dispatch = useDispatch();
@@ -85,7 +86,7 @@ export const SidebarRight = () => {
         selectedBets.bets.forEach((bet) => {
           gamingSocket.emit("unsubscribe_market", {
             value: bet.bet_id,
-            action_id: uuid(),
+            action_id: uuidv4(),
           });
         });
       }
@@ -155,6 +156,15 @@ export const SidebarRight = () => {
     apiServices
       .post(urlGenerateBetSlips, payload)
       .then((response) => {
+        if (betSlipResponse.singles.length === 0) {
+          dispatch(
+            setBetTicker({
+              status: "",
+              bet_referral_id: "",
+            })
+          );
+        }
+
         setBetSlipResponse(response);
       })
       .catch((err) => {
@@ -165,7 +175,7 @@ export const SidebarRight = () => {
   }, [selectedBets, updatedBetslipSelections]);
 
   const getUserData = () => {
-    apiServices.get(apiUrl.USER).then((response) => {
+    getUserApi(dispatch).then((response) => {
       dispatch(setLoggedUser({ ...loggedUser, user_data: response }));
     });
   };
@@ -200,16 +210,6 @@ export const SidebarRight = () => {
   };
   useEffect(() => {
     if (!betTicker?.status) return;
-    // if (betTicker?.status === "rejected") {
-    //   setBetSlipResponse(emptyBetSlip);
-    //   dispatch(removeBet("all"));
-    //   setTimeout(() => {
-    //     dispatch(setBetTicker({
-    //       status: "",
-    //       bet_referral_id: ""
-    //     }))
-    //   }, 5000)
-    // }
     if (betTicker.status === "pending") return;
     if (betTicker.status === "approved") {
       setBetSlipResponse(emptyBetSlip);

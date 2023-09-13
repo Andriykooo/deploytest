@@ -6,7 +6,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import ProfileBack from "@/components/profileBack/ProfileBack";
 import { gamingSocket } from "@/context/socket";
 import { Button } from "../../components/button/Button";
-import { BET_HISTORY_ALL_TAB, BET_HISTORY_OPEN_TAB, BET_HISTORY_SETTLED_TAB, BET_HISTORY_TABS } from "@/utils/betHistory";
+import {
+  BET_HISTORY_ALL_TAB,
+  BET_HISTORY_OPEN_TAB,
+  BET_HISTORY_SETTLED_TAB,
+  BET_HISTORY_TABS,
+} from "@/utils/betHistory";
 import classNames from "classnames";
 import moment from "moment";
 import BetHistorySection from "./BetHistorySection";
@@ -15,6 +20,7 @@ import { EmptyState } from "@/components/emptyState/EmptyState";
 
 import "../DepositLimit/DepositLimit.css";
 import "./BetHistory.css";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 const skeletonHeader = new Array(4).fill(0);
 
@@ -23,8 +29,8 @@ const BetHistory = () => {
   const [myBets, setMyBets] = useState([]);
   const [activeTab, setActiveTab] = useState(BET_HISTORY_TABS[0].value);
 
-  useEffect(() => {
-    gamingSocket.emit("my_bets", {}, (response) => {
+  const getMyBets = (type) => {
+    gamingSocket.emit("my_bets", { value: type }, (response) => {
       if (response?.data) {
         if (response.data?.errorMessage) {
           alertToast({ message: response.data.errorMessage });
@@ -34,30 +40,20 @@ const BetHistory = () => {
       }
       setIsLoading(false);
     });
+  };
+
+  const handleChangeTab = (value) => {
+    setActiveTab(value);
+    getMyBets(value);
+  };
+
+  useEffect(() => {
+    getMyBets("all");
   }, []);
-
-  const results = useMemo(() => {
-    if (activeTab === BET_HISTORY_ALL_TAB) {
-      return myBets;
-    }
-
-      return myBets.filter((item) => {
-        switch (activeTab) {
-          case BET_HISTORY_OPEN_TAB:
-            return item.result === BET_HISTORY_OPEN_TAB;
-          case BET_HISTORY_SETTLED_TAB:
-            return item.result === 'winner' || item.result === 'loser';
-          default:
-            return false;
-        }
-      });
-    },
-    [myBets, activeTab],
-  );
 
   const tabData = useMemo(
     () =>
-      results.reduce((acc, val) => {
+      myBets.reduce((acc, val) => {
         // TODO: add date
         const date = moment(val.bet_date).format("dddd, Do MMMM YYYY");
 
@@ -66,7 +62,7 @@ const BetHistory = () => {
           [date]: [...(acc[date] || []), val],
         };
       }, {}),
-    [results]
+    [myBets]
   );
 
   const tabDates = useMemo(() => Object.keys(tabData), [tabData]);
@@ -118,8 +114,9 @@ const BetHistory = () => {
   return (
     <div className="depositLimit betHistoryBody">
       <div>
-        <ProfileBack />
-        <p className="menuTitle betHistoryTitle mb-4">Bet History</p>
+        <PreferencesTitle
+          title="Bet History"
+        />
         <div className="betHistoryMenuBar">
           {BET_HISTORY_TABS.map((tab) => (
             <Button
@@ -127,9 +124,7 @@ const BetHistory = () => {
               className={classNames("betHistoryMenu", {
                 activeButton: activeTab === tab.value,
               })}
-              onClick={() => {
-                setActiveTab(tab.value);
-              }}
+              onClick={() => handleChangeTab(tab.value)}
               text={
                 <>
                   <Image src={tab.icon} alt="my-bet-tab" />

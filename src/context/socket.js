@@ -26,4 +26,9 @@ export const refreshCommunicationSocket = (token) => {
   communicationSocket.disconnect().connect();
 };
 
+export const refreshGamingSocket = (token) => {
+  gamingSocket.auth.token = token;
+  gamingSocket.disconnect().connect();
+};
+
 export const SocketContext = React.createContext();

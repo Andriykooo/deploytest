@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../../context/socket";
 import { images } from "../../utils/imagesConstant";
 import { BetSelectedTypes } from "../custom/BetSelectedTypes";
@@ -56,7 +56,7 @@ const MatchDetails = ({ data, id }) => {
 
       gamingSocket.emit("unsubscribe_match", {
         value: id,
-        action_id: uuid(),
+        action_id: uuidv4(),
       });
     };
   }, []);

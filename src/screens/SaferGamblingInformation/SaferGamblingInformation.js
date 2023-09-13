@@ -1,17 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
-import { GoBackButton } from "@/components/goBackButton/GoBackButton";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 const SaferGamblingInformation = () => {
   const [pageContent, setPageContent] = useState("");
-  const router = useRouter();
 
   const saferGamblingInfo = () => {
     apiServices
@@ -31,15 +27,12 @@ const SaferGamblingInformation = () => {
 
   return (
     <div className="depositLimit">
-      <div className="d-flex pb-3">
-        <Image
-          src={images.goBackArrow}
-          alt="Go back"
-          className="ms-0"
-          onClick={() => router.push("/profile/safer_gambling")}
-        />
-      </div>
-      <p className="menuTitle arrow-title">Safer Gambling Information</p>
+      <PreferencesTitle
+        title="Safer Gambling Information"
+        backRoute="/profile/safer_gambling"
+        marginBottomSize="sm"
+        showBackOnDesktop
+      />
       {!pageContent ? (
         <Loader />
       ) : (

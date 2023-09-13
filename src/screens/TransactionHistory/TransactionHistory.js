@@ -19,7 +19,10 @@ import "../TransactionHistory/TransactionHistory.css";
 import "./TransactionModals";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-
+import { monthDates } from "../../utils/constants";
+import { Button } from "../../components/button/Button";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import moment from "moment";
 
 const TransactionHistory = () => {
   const skeletonHeader = new Array(4).fill(0);
@@ -29,13 +32,17 @@ const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const isTablet = useSelector((state) => state.isTablet);
+  const [selected, setSelected] = useState(0);
+
+  const [initialData, setInitialData] = useState([]);
 
   const getTransactions = () => {
     setShowSpinner(true);
     apiServices
       .get(`${apiUrl.TRANSACTION_HISTORY}${currPage}`)
       .then((data) => {
-        setTransactions([...transactions, ...data.data]);
+        setTransactions(data.data);
+        setInitialData(data.data);
         setCurrPage(data.current_page + 1);
         setHasMore(data.current_page < data.total_pages);
         setIsLoading(false);
@@ -46,6 +53,23 @@ const TransactionHistory = () => {
         setShowSpinner(false);
         alertToast({ message: error || "Something went wrong!" });
       });
+  };
+
+  const handleClick = (transaction) => {
+    if (transaction.date === selected?.date) {
+      setTransactions(initialData);
+      setSelected(null);
+
+      return;
+    }
+
+    setTransactions(
+      initialData.filter((currentTransaction) => {
+        return currentTransaction.date === transaction.date;
+      })
+    );
+
+    setSelected(transaction);
   };
 
   const getDate = (date) => {
@@ -211,7 +235,7 @@ const TransactionHistory = () => {
     justifyContent: "center",
     flexDirection: "column",
     paddingLeft: "0.25rem",
-    paddingRight: "16px"
+    paddingRight: "16px",
   };
   const containerStyles = {
     paddingRight: "40px",
@@ -219,7 +243,7 @@ const TransactionHistory = () => {
   };
   useEffect(() => {
     getTransactions();
-    const onScroll = () => { };
+    const onScroll = () => {};
     if (document.querySelector("#scrollable")) {
       document
         .querySelector("#scrollable")
@@ -228,11 +252,36 @@ const TransactionHistory = () => {
 
     return () => nextWindow.removeEventListener("scroll", onScroll);
   }, []);
+
   return (
     <div className="depositLimit" style={containerStyles} id="scrollable">
-      <div className="depositBodyTransaction">
+      <div className="">
         <ProfileBack />
-        <p className="menuTitle">Transaction History </p>
+        <PreferencesTitle title="Transaction History" />
+        <div className="promotion-title">
+          {initialData.map((transaction) => {
+            const isSelected = selected?.date === transaction.date;
+
+            return (
+              <div
+                className={classNames("menu", {
+                  ["selected-bonus"]: isSelected,
+                })}
+                key={transaction.date}
+                onClick={() => handleClick(transaction)}
+              >
+                <Button
+                  className={classNames("menu-link-promotions", {
+                    selected: isSelected,
+                  })}
+                  type="button"
+                  text={moment(transaction.date).format("MMMM YYYY")}
+                />
+              </div>
+            );
+          })}
+        </div>
+
         <div className="mb-3">
           <Swiper
             id="feed-swiper"
@@ -251,7 +300,7 @@ const TransactionHistory = () => {
               scrollableTarget="scrollable"
               className="max-container"
             >
-              <div className="mt-4 mb-4">
+              <div className="mb-4">
                 {isLoading ? (
                   skeletonHeader.map((item, index) => {
                     return (
@@ -279,10 +328,14 @@ const TransactionHistory = () => {
                   })
                 ) : (
                   <>
-                    {transactions.map((value) => {
+                    {transactions.map((value, index) => {
                       return (
                         <div key={value.date}>
-                          <span className="predictionDates mb-3 mt-4">
+                          <span
+                            className={classNames("predictionDates mb-3", {
+                              "mt-4": index !== 0,
+                            })}
+                          >
                             {getDate(value.date)}
                           </span>
                           {value?.data.map((item) => {
@@ -297,11 +350,23 @@ const TransactionHistory = () => {
                                           {txDetails.icon}
                                         </div>
                                         <div
-                                          className={classNames('transaction-item-title', {
-                                            'title-centered': !item.row2 && item.transaction_status === TRANSACTION_HISTORY_STATUSES.successful
-                                          })}
+                                          className={classNames(
+                                            "transaction-item-title",
+                                            {
+                                              "title-centered":
+                                                !item.row2 &&
+                                                item.transaction_status ===
+                                                  TRANSACTION_HISTORY_STATUSES.successful,
+                                            }
+                                          )}
                                         >
-                                          <div className={!isTablet && !item.row2 && "transaction-item"}>
+                                          <div
+                                            className={
+                                              !isTablet &&
+                                              !item.row2 &&
+                                              "transaction-item"
+                                            }
+                                          >
                                             <span className="placed">
                                               {txDetails.title}
                                             </span>
@@ -309,20 +374,27 @@ const TransactionHistory = () => {
                                               <span className="typeSubtitle">
                                                 {item.row2}
                                               </span>
-                                            ) : item.transaction_status !== TRANSACTION_HISTORY_STATUSES.successful && (
-                                              <div className={`transaction-status ${item.transaction_status}`}>
-                                                <span>{item.transaction_status}</span>
-                                              </div>
+                                            ) : (
+                                              item.transaction_status !==
+                                                TRANSACTION_HISTORY_STATUSES.successful && (
+                                                <div
+                                                  className={`transaction-status ${item.transaction_status}`}
+                                                >
+                                                  <span>
+                                                    {item.transaction_status}
+                                                  </span>
+                                                </div>
+                                              )
                                             )}
                                           </div>
                                         </div>
                                       </div>
                                       <div className="amount-wrapper">
-                                        <span className="typeDate">{txDetails.date}</span>
+                                        <span className="typeDate">
+                                          {txDetails.date}
+                                        </span>
                                         <div className="placed">
-                                          <span>
-                                            {txDetails.amount}
-                                          </span>
+                                          <span>{txDetails.amount}</span>
                                         </div>
                                       </div>
                                     </div>
@@ -345,8 +417,8 @@ const TransactionHistory = () => {
             </InfiniteScroll>
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

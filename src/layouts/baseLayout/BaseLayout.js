@@ -13,7 +13,12 @@ import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +33,6 @@ import {
   setActiveSport,
   setBetTicker,
   setCurrentTime,
-  setHeaderData,
   setLoggedUser,
   setMobile,
   setOnBoardingData,
@@ -41,25 +45,29 @@ import {
 } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import Cookies from "js-cookie";
+import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerServiceNotive";
+import { SuspendedAccount } from "@/components/suspendedAccount/SuspendedAccount";
+import { getUserApi } from "@/utils/apiQueries";
 
-export const BaseLayout = ({ children, header, className }) => {
+const Content = ({ children, className }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [gamingAlert, setGamingAlert] = useState(false);
-  const [privacyShowModal, setPrivacyShowModal] = useState(false);
-  const [termsShowModal, setTermsShowModal] = useState(false);
   const [usageTime, setUsageTime] = useState(0);
 
+  const header = useSelector((state) => state.headerData);
   const loggedUser = useSelector((state) => state.loggedUser);
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
+  const errorCode = useSelector((state) => state.errorCode);
 
   const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  const accountStatus = searchParams.get("account");
 
-  const currentPage = header.find((page) => page.path === pathname);
+  const currentPage = header?.find((page) => page.path === pathname);
 
   const getSportTypes = () => {
     axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
@@ -78,9 +86,7 @@ export const BaseLayout = ({ children, header, className }) => {
 
   const getUserData = () => {
     var newUser = loggedUser;
-    apiServices.get(apiUrl.USER).then((result) => {
-      Cookies.set("country", result.country);
-
+    getUserApi(dispatch).then((result) => {
       dispatch(setLoggedUser({ ...newUser, user_data: result }));
       if (result.actions && result.actions.length > 0) {
         setShowConfirm(true);
@@ -88,22 +94,9 @@ export const BaseLayout = ({ children, header, className }) => {
     });
   };
 
-  const termsConditionsChanged = getLocalStorageItem("termsConditionsChanged");
-  useEffect(() => {
-    if (termsConditionsChanged === "true") {
-      setTermsShowModal(true);
-    }
-  }, [termsConditionsChanged]);
-
-  const privacyPolicyChanged = getLocalStorageItem("privacyPolicyChanged");
-  useEffect(() => {
-    if (privacyPolicyChanged === "true") {
-      setPrivacyShowModal(true);
-    }
-  }, [privacyPolicyChanged]);
-
   useEffect(() => {
     let accessToken = getLocalStorageItem("access_token");
+
     if (loggedUser && accessToken) {
       getUserData();
     }
@@ -291,9 +284,9 @@ export const BaseLayout = ({ children, header, className }) => {
             setGamingAlert(true);
           }
 
-          return prev + userRealityCheck.value;
+          return prev + userRealityCheck?.value;
         });
-      }, userRealityCheck.value * 60 * 1000);
+      }, userRealityCheck?.value * 60 * 1000);
     }
 
     return () => {
@@ -303,12 +296,9 @@ export const BaseLayout = ({ children, header, className }) => {
     };
   }, [loggedUser?.token]);
 
-  useEffect(() => {
-    dispatch(setHeaderData(header));
-  }, [header]);
-
   const disableHeader =
-    (params?.path && !header.some((page) => page.path.includes(pathname))) ||
+    (params?.path && !header?.some((page) => page.path == pathname)) ||
+    pathname === "/not_found" ||
     pathname === "/customer_service_notice";
 
   return (
@@ -342,18 +332,11 @@ export const BaseLayout = ({ children, header, className }) => {
             boxShadow: "0px 4px 10px rgba(14, 16, 17, 0.3)",
           }}
         />
-        {privacyShowModal && (
-          <PrivacyConfirmModal
-            privacyShowModal={privacyShowModal}
-            setPrivacyShowModal={setPrivacyShowModal}
-          />
+        {(errorCode?.code === 1104 || errorCode?.code === 1063) && (
+          <SuspendedAccount />
         )}
-        {termsShowModal && (
-          <TermsConfirmModal
-            termsShowModal={termsShowModal}
-            setTermsShowModal={setTermsShowModal}
-          />
-        )}
+        {(errorCode === 1007 || errorCode === 1009) && <PrivacyConfirmModal />}
+        {errorCode === 1008 && <TermsConfirmModal />}
         {gamingAlert && (
           <GamingReminderAlert
             time={usageTime}
@@ -366,6 +349,7 @@ export const BaseLayout = ({ children, header, className }) => {
             setShowConfirm={setShowConfirm}
           />
         )}
+        {accountStatus === "suspended" && <SuspendedAccount />}
         <div
           className={classNames("base-layout", className, {
             ["not-found"]: disableHeader,
@@ -378,11 +362,21 @@ export const BaseLayout = ({ children, header, className }) => {
               href="https://backoffice-dev.swifty-api.com/api/v1/settings/css/content.css"
             />
           </Helmet>
-          {!disableHeader && <Header headerData={header} />}
+          <Header />
           {children}
         </div>
         <PageContentModal />
       </SocketContext.Provider>
     </GoogleOAuthProvider>
+  );
+};
+
+export const BaseLayout = (props) => {
+  const pathname = usePathname();
+
+  return pathname === "/customer_service_notice" ? (
+    <CustomerServiceNotice />
+  ) : (
+    <Content {...props} />
   );
 };

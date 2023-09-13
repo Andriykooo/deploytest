@@ -98,7 +98,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
 
   return (
     <>
-      <div className="sport-competitions mx-3 mt-3">
+      <div className="horse-sport-competitions sport-competitions mx-3 mt-3">
         <div className={classNames("sport-competitions-head", {
           "mobile": isTablet
         })}>

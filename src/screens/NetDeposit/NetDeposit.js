@@ -9,8 +9,8 @@ import "../DepositLimit/DepositLimit.css";
 import "../NetDeposit/NetDeposit.css";
 import "../RealityCheck/RealityCheck.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { Button } from "@/components/button/Button";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 
 const NetDeposit = () => {
@@ -104,8 +104,10 @@ const NetDeposit = () => {
   return (
     <div className="depositLimit  netDepositLimit">
       <div className="pageContent max-width-container">
-        <ProfileBack />
-        <p className="menuTitle ">Net Deposit </p>
+        <PreferencesTitle
+          title="Net Deposit"
+          marginBottomSize="sm"
+        />
         <p className="menuText">
           Net deposit amount shows the sum of all withdrawals minus deposits
           over a period of time.
@@ -124,6 +126,11 @@ const NetDeposit = () => {
             handleSubmit={handleSetLimit}
           />
         </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <p className="netDepositValue">{netAmount}</p>
+        )}
         {!isTablet && <div className="row suspendButton">
           <Button
             className={
@@ -136,12 +143,6 @@ const NetDeposit = () => {
             text={isLoading ? <Loader /> : "Set period"}
           />
         </div>}
-
-        {/* {isLoading ? (
-          <Loader />
-        ) : (
-          <p className="netDepositValue">{netAmount}</p>
-        )} */}
       </div>
     </div>
   );
