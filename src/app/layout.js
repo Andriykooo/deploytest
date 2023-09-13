@@ -1,3 +1,4 @@
+import { Provider } from "./provider";
 import { Montserrat } from "next/font/google";
 import { apiUrl } from "@/utils/constants";
 import Script from "next/script";
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }) {
     <html>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
       <body className={montserrat.className}>
-        <p>{children}</p>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
