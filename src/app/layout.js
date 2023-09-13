@@ -1,4 +1,5 @@
 import { Montserrat } from "next/font/google";
+import { apiUrl } from "@/utils/constants";
 import Script from "next/script";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,31 +12,31 @@ const montserrat = Montserrat({
   style: "normal",
 });
 
-// export async function generateMetadata() {
-//   const response = await fetch(apiUrl.GET_GLOBAL_SEO);
+export async function generateMetadata() {
+  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
 
-//   if (response.status === 483) {
-//     return {
-//       title: "Customer Service Notice",
-//     };
-//   }
+  if (response.status === 483) {
+    return {
+      title: "Customer Service Notice",
+    };
+  }
 
-//   const seo = await response.json();
+  const seo = await response.json();
 
-//   return {
-//     title: seo.title,
-//     description: seo.description,
-//     keywords: seo.keywords,
-//     icons: {
-//       icon: seo.fav_icon,
-//     },
-//     openGraph: {
-//       title: seo.title,
-//       description: seo.description,
-//       images: [seo.image],
-//     },
-//   };
-// }
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    icons: {
+      icon: seo.fav_icon,
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
+    },
+  };
+}
 
 export default async function RootLayout({ children }) {
   return (
