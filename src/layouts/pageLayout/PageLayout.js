@@ -21,7 +21,7 @@ import { SidebarLayout } from "../sidebarLayout/SidebarLayout";
 import { SocketContext } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { PageContent } from "@/components/pageContent/PageContent";
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import HomeSkeletonComponent from "@/utils/HomeSkeletonComponent";
 
@@ -52,7 +52,10 @@ export const PageLayout = ({ children }) => {
       .then((response) => ({
         ...response,
         page,
-      }));
+      }))
+      .catch(() => {
+        notFound();
+      });
 
     return layout;
   };
@@ -69,6 +72,7 @@ export const PageLayout = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log(headerData, data, layout);
     if (headerData && !data && page && !layout[page?.slug]) {
       fetchLayout();
     }
