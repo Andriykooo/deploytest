@@ -1,3 +1,3 @@
 export default function NotFound() {
-  return <h1>"asdasdasddsaassad"</h1>;
+  return <h1>"NOT FOUND"</h1>;
 }
