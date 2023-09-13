@@ -1,4 +1,5 @@
+import { Page as GeneratedPage } from "@/screens/Page/Page";
 
 export default async function Page() {
-  return <p>"Page";</p>;
+  return <GeneratedPage />;
 }
