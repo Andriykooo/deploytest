@@ -47,9 +47,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={lang?.value?.toLowerCase() || "en"}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
-      <body className={montserrat.className}>
-        <Provider>{children}</Provider>
-      </body>
+      <body className={montserrat.className}>asdasd </body>
     </html>
   );
 }
