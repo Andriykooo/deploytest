@@ -1,4 +1,4 @@
 
 export default async function Page() {
-  return <p>"AAaaaaaaaaaa";</p>;
+  return <p>"Page";</p>;
 }
