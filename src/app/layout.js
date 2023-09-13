@@ -1,6 +1,4 @@
 import { Montserrat } from "next/font/google";
-import { apiUrl } from "@/utils/constants";
-import { cookies } from "next/headers";
 import Script from "next/script";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,11 +38,8 @@ const montserrat = Montserrat({
 // }
 
 export default async function RootLayout({ children }) {
-  const cookieStore = cookies();
-  const lang = cookieStore.get("language");
-
   return (
-    <html lang={lang?.value?.toLowerCase() || "en"}>
+    <html>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
       <body className={montserrat.className}>
         <p>{children}</p>
