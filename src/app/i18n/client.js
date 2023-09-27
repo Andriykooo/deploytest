@@ -17,9 +17,6 @@ i18next
   .init({
     ...getOptions(),
     lng: undefined,
-    detection: {
-      order: ['path', 'htmlTag', 'navigator'],
-    },
     preload: runsOnServerSide ? languages : [],
   });
 
