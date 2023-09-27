@@ -16,8 +16,6 @@ i18next
   )
   .init({
     ...getOptions(),
-    lng: undefined,
-    preload: runsOnServerSide ? languages : [],
   });
 
 export function useClientTranslation(ns, options) {
