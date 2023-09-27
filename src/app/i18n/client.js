@@ -4,7 +4,6 @@ import {
   initReactI18next,
   useTranslation as useTranslationOrg,
 } from "react-i18next";
-import resourcesToBackend from "i18next-resources-to-backend";
 import { useClientPathname } from "@/hooks/useClientPathname";
 
 i18next
@@ -13,7 +12,7 @@ i18next
   .init({
     resources: {
       en: {
-        translation: translationEN,
+        translation: "sdas",
       },
     },
     lng: "en",
