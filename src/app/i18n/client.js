@@ -6,26 +6,27 @@ import {
 } from "react-i18next";
 import { useClientPathname } from "@/hooks/useClientPathname";
 
-i18next
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: {
-        translation: "sdas",
-      },
-    },
-    lng: "en",
-  });
+// i18next
+//   .use(initReactI18next)
+//   .init({
+//     resources: {
+//       en: {
+//         translation: "sdas",
+//       },
+//     },
+//     lng: "en",
+//   });
 
 export function useClientTranslation(ns, options) {
-  const { locale: lng } = useClientPathname();
-  const { t, i18n } = useTranslationOrg(ns, options);
+  // const { locale: lng } = useClientPathname();
+  // const { t, i18n } = useTranslationOrg(ns, options);
 
-  useEffect(() => {
-    if (lng !== i18n.language) {
-      i18n.changeLanguage(lng);
-    }
-  }, [lng, i18n]);
+  // useEffect(() => {
+  //   if (lng !== i18n.language) {
+  //     i18n.changeLanguage(lng);
+  //   }
+  // }, [lng, i18n]);
+  const t = () => "dcfvgbhuijkom";
 
-  return { t, i18n };
+  return { t };
 }
