@@ -23,7 +23,6 @@ import { Button } from "../../components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
-import { t } from "i18next";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const TransactionHistory = () => {

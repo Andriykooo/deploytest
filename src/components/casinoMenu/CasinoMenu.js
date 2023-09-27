@@ -10,7 +10,6 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import "./CasinoMenu.css";
 import { setCasinoCategory } from "@/store/actions";
-import { t } from "i18next";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const skeletonArray = Array(5).fill(null);

@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { clearLocalStorage } from "./localStorage";
 import moment from "moment";
 import { refreshGamingSocket } from "@/context/socket";
-import i18next from "i18next";
+// import i18next from "i18next";
 
 export const setSettingsApi = async (body, dispatch, callback) => {
   const request = async () =>
@@ -53,12 +53,12 @@ export const getUserApi = async (dispatch) => {
     const data = error.response.data.error;
 
     if (data?.code === 1104) {
-      dispatch(
-        setAlertModal({
-          title: i18next.t("account_suspended"),
-          message: data.message,
-        })
-      );
+      // dispatch(
+      //   setAlertModal({
+      //     title: i18next.t("account_suspended"),
+      //     message: data.message,
+      //   })
+      // );
     }
 
     if (data?.code === 1063) {
@@ -74,15 +74,15 @@ export const getUserApi = async (dispatch) => {
     }
 
     if (data?.code === 1062) {
-      dispatch(
-        setAlertModal({
-          title: i18next.t("account_excluded"),
-          message: data.message.replace(
-            data.extra_data["{date}"].toString(),
-            moment(data.extra_data["{date}"]).format("DD MMMM YYYY")
-          ),
-        })
-      );
+      // dispatch(
+      //   setAlertModal({
+      //     title: i18next.t("account_excluded"),
+      //     message: data.message.replace(
+      //       data.extra_data["{date}"].toString(),
+      //       moment(data.extra_data["{date}"]).format("DD MMMM YYYY")
+      //     ),
+      //   })
+      // );
     }
 
     clearLocalStorage();
