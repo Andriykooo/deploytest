@@ -1,21 +1,21 @@
-// import { useEffect } from "react";
-// import i18next from "i18next";
-// import {
-//   initReactI18next,
-//   useTranslation as useTranslationOrg,
-// } from "react-i18next";
-// import { useClientPathname } from "@/hooks/useClientPathname";
+import { useEffect } from "react";
+import i18next from "i18next";
+import {
+  initReactI18next,
+  useTranslation as useTranslationOrg,
+} from "react-i18next";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
-// i18next
-//   .use(initReactI18next)
-//   .init({
-//     resources: {
-//       en: {
-//         translation: "sdas",
-//       },
-//     },
-//     lng: "en",
-//   });
+i18next
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: "sdas",
+      },
+    },
+    lng: "en",
+  });
 
 export function useClientTranslation(ns, options) {
   // const { locale: lng } = useClientPathname();
