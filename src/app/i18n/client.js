@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
-import i18next from 'i18next';
-import { initReactI18next, useTranslation as useTranslationOrg } from 'react-i18next';
-import resourcesToBackend from 'i18next-resources-to-backend';
-import { getOptions, languages } from './settings';
-import { useClientPathname } from '@/hooks/useClientPathname';
-
-const runsOnServerSide = typeof window === 'undefined';
+import { useEffect } from "react";
+import i18next from "i18next";
+import {
+  reactI18nextModule,
+  useTranslation as useTranslationOrg,
+} from "react-i18next";
+import resourcesToBackend from "i18next-resources-to-backend";
+import { getOptions } from "./settings";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 i18next
-  .use(initReactI18next)
+  .use(reactI18nextModule)
   .use(
     resourcesToBackend((language, namespace) =>
       import(`./locales/${language}.json`).then((res) => res[namespace])

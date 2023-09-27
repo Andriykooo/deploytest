@@ -5,9 +5,6 @@ export const cookieName = "language";
 
 export function getOptions() {
   return {
-    supportedLngs: languages,
-    fallbackNS: defaultNS,
-    defaultNS,
-    ns: [defaultNS],
+    slng: "en",
   };
 }
