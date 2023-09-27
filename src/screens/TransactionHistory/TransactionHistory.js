@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "swiper/css";
 import { Swiper } from "swiper/react";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import Spiner from "../../utils/Spiner";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
