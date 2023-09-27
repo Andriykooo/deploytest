@@ -5,18 +5,18 @@ import {
   useTranslation as useTranslationOrg,
 } from "react-i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
-import { getOptions } from "./settings";
 import { useClientPathname } from "@/hooks/useClientPathname";
 
 i18next
   .use(initReactI18next)
-  .use(
-    resourcesToBackend((language, namespace) =>
-      import(`./locales/${language}.json`).then((res) => res[namespace])
-    )
-  )
+
   .init({
-    ...getOptions(),
+    resources: {
+      en: {
+        translation: translationEN,
+      },
+    },
+    lng: "en",
   });
 
 export function useClientTranslation(ns, options) {
