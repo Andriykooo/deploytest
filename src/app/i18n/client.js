@@ -23,16 +23,14 @@ i18next
   });
 
 export function useClientTranslation(ns, options) {
-  // const { locale: lng } = useClientPathname();
-  // const { t, i18n } = useTranslationOrg(ns, options);
+  const { locale: lng } = useClientPathname();
+  const { t, i18n } = useTranslationOrg(ns, options);
 
-  // useEffect(() => {
-  //   if (lng !== i18n.language) {
-  //     i18n.changeLanguage(lng);
-  //   }
-  // }, [lng, i18n]);
+  useEffect(() => {
+    if (lng !== i18n.language) {
+      i18n.changeLanguage(lng);
+    }
+  }, [lng, i18n]);
 
-  const t = () => "qweqweqwe";
-
-  return { t };
+  return { t, i18n };
 }
