@@ -3,8 +3,14 @@ export const languages = [fallbackLng, "de"];
 export const defaultNS = "common";
 export const cookieName = "language";
 
-export function getOptions() {
+export function getOptions (lng = fallbackLng, ns = defaultNS) {
   return {
-    lng: "en",
-  };
+    // debug: true,
+    supportedLngs: languages,
+    fallbackLng,
+    lng,
+    fallbackNS: defaultNS,
+    defaultNS,
+    ns
+  }
 }
