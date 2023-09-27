@@ -2,22 +2,22 @@
 
 import SumsubWebSdk from "@sumsub/websdk-react";
 import { useEffect, useState } from "react";
-import { BaseLayout } from "../../layouts/baseLayout/BaseLayout";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
+import { addLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
+import { Loader } from "@/components/loaders/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoggedUser } from "@/store/actions";
 
 export const Verification = () => {
-  const [kycAccessToken, setKycAccessToken] = useState(
-    getLocalStorageItem("kyc_access_token") || ""
-  );
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.loggedUser);
+  const [kycAccessToken, setKycAccessToken] = useState(null);
 
   useEffect(() => {
-    if (!kycAccessToken) {
-      getNewAccessToken();
-    }
+    getNewAccessToken();
   }, []);
 
   function getNewAccessToken() {
@@ -33,6 +33,7 @@ export const Verification = () => {
           alertToast({ message: error?.message });
           nextWindow.location.href = "/login";
         } else {
+          setKycAccessToken("");
           alertToast({ message: error?.message });
         }
       });
@@ -40,27 +41,54 @@ export const Verification = () => {
 
   return (
     <div className="backgroundImage">
-      <div className="verification-sumsub">
-        <SumsubWebSdk
-          accessToken={kycAccessToken}
-          expirationHandler={() => {
-            setKycAccessToken("");
-          }}
-          config={{
-            lang: "en",
-            uiConf: {
-              customCssStr:
-                ".title {\n  color: white !important;\n}\n .sumsub-logo > svg {\n fill: white;\n}",
-            },
-          }}
-          options={{ addViewportTag: false, adaptIframeHeight: true }}
-          onMessage={() => {}}
-          onError={() => {
-            setKycAccessToken("");
-          }}
-          onReady={(data) => console.log(data)}
-        />
-      </div>
+      {kycAccessToken ? (
+        <div className="verification-sumsub">
+          <SumsubWebSdk
+            accessToken={kycAccessToken}
+            expirationHandler={getNewAccessToken}
+            config={{
+              lang: "en",
+              uiConf: {
+                customCssStr:
+                  ".title {\n  color: white !important;\n}\n .sumsub-logo > svg {\n fill: white;\n}",
+              },
+            }}
+            options={{ addViewportTag: false, adaptIframeHeight: true }}
+            onError={() => {
+              setKycAccessToken("");
+            }}
+            onMessage={(idCheck, response) => {
+              if (idCheck === "idCheck.onStepInitiated") {
+                dispatch(
+                  setLoggedUser({
+                    ...user,
+                    user_data: {
+                      ...user.user_data,
+                      kyc_status: "init",
+                    },
+                  })
+                );
+              }
+
+              if (response?.reviewStatus) {
+                dispatch(
+                  setLoggedUser({
+                    ...user,
+                    user_data: {
+                      ...user.user_data,
+                      kyc_status: response?.reviewStatus,
+                    },
+                  })
+                );
+              }
+            }}
+          />
+        </div>
+      ) : (
+        <div className="loader-center">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

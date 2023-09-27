@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActivePage, setHeaderData } from "../../store/actions";
 import FooterMenu from "../footerMenu/FooterMenu";
 import { DesktopHeader } from "./DesktopHeader";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
 import { XIcon } from "@/utils/icons";
 import Cookies from "js-cookie";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
+import { useClientPathname } from "@/hooks/useClientPathname";
 import "../sidebar/Sidebar.css";
 import "./Header.css";
 
@@ -20,10 +21,12 @@ const modalList = [
   "/kyc",
   "/login",
   "/terms",
+  "/affiliates",
   "/sign_up",
   "/sign_up_with_phone",
   "/forgot_password",
   "/verify_email",
+  "/verify_phone",
   "/email_sent",
   "/finish_account_setup",
   "/profile/*",
@@ -31,7 +34,7 @@ const modalList = [
 
 function Header() {
   const dispatch = useDispatch();
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
   const router = useRouter();
   const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);
@@ -39,9 +42,11 @@ function Header() {
   const headerData = useSelector((state) => state.headerData);
 
   const disableHeader =
-    (params?.path && !headerData?.some((page) => page.path == pathname)) ||
+    (params?.path &&
+      !headerData?.some((page) => page.path.substring(1) == params?.path)) ||
     pathname === "/not_found" ||
-    pathname === "/customer_service_notice";
+    pathname === "/customer_service_notice" ||
+    pathname.startsWith("/promo/");
 
   useEffect(() => {
     if (headerData) {
@@ -67,12 +72,12 @@ function Header() {
       apiServices.get(apiUrl.GET_MAIN_MENU, { country }).then((response) => {
         dispatch(
           setHeaderData(
-            response.map((page, index) => ({ ...page, id: index + 1 }))
+            response?.map((page, index) => ({ ...page, id: index + 1 }))
           )
         );
       });
     }
-  }, [headerData]);
+  }, [headerData, pathname]);
 
   const isModal = useMemo(() => {
     return modalList.some((modalPath) => {

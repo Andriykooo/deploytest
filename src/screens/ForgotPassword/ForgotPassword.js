@@ -1,25 +1,19 @@
 "use client";
 
-import { refreshCommunicationSocket } from "@/context/socket";
-import { addLocalStorageItem } from "@/utils/localStorage";
-import { nextWindow } from "@/utils/nextWindow";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from "uuid";
-import { alertToast } from "../../utils/alert";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import "../ForgotPassword/ForgotPassword.css";
+import { useClientTranslation } from "@/app/i18n/client";
+import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
+import "react-toastify/dist/ReactToastify.css";
+import "../ForgotPassword/ForgotPassword.css";
 import '../../components/passwordFields/PasswordFields.css'
 
 const ForgotPassword = () => {
+  const { t } = useClientTranslation("forgot_password");
+  const { onLoginSuccess, onLoginError } = useLoginCallbacks();
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const router = useRouter();
-  const uuid = uuidv4();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,41 +22,39 @@ const ForgotPassword = () => {
     )[1];
     if (!userPasswordToken) {
       alertToast({
-        message: "No reset password token available",
+        message: t("no_reset_password_token_available"),
       });
       return false;
     }
     setIsLoading(true);
+
     const body = { new_password: newPassword };
+
     apiServices
       .post(`${apiUrl.PASSWORD_RESET}${userPasswordToken}`, body)
       .then((result) => {
-        addLocalStorageItem("access_token", result?.token);
-        addLocalStorageItem("refresh_token", result?.refresh_token);
-        addLocalStorageItem("device_id", uuid);
-        refreshCommunicationSocket(result?.token);
-        setTimeout(() => {
-          router.push("/");
-        }, 500);
+        onLoginSuccess(result);
         setIsLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        onLoginError(error);
         setIsLoading(false);
-      });
+      })
   };
+
 
   return (
     <>
       <div className="backgroundImage forgotPassword">
-        <div className=" loginForm d-grid justify-content-center p-4">
-          <p className="logInTitle">Create new password</p>
+        <div className="loginForm p-4">
+          <p className="logInTitle">{t("create_new_password")}</p>
           <PasswordFields 
             isLoading={isLoading}
             handleSubmit={handleSubmit}
-            newPassword={newPassword} 
-            setNewPassword={setNewPassword} 
-            setConfirmPassword={setConfirmPassword} 
-            confirmPassword={confirmPassword} 
+            newPassword={newPassword}
+            setNewPassword={setNewPassword}
+            setConfirmPassword={setConfirmPassword}
+            confirmPassword={confirmPassword}
           />
         </div>
       </div>

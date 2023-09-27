@@ -15,8 +15,8 @@ import { ArrowButton } from "../custom/ArrowButton";
 import { ProfileSidebar } from "./ProfileSidebar";
 import { SportsSidebar } from "./SportsSidebar";
 import { nextWindow } from "@/utils/nextWindow";
-import { usePathname } from "next/navigation";
 import { PageLoader } from "../loaders/Loader";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 const ProfileMenu = ({
   active,
@@ -40,7 +40,7 @@ const ProfileMenu = ({
   const activeSocketSubscribe = useSelector(
     (state) => state.activeSocketSubscribe
   );
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
   const page = pathname.split("/").pop();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);

@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { DesktopLoggedUser } from "../logged/DesktopLoggedUser";
@@ -8,19 +7,21 @@ import { MobileLoggedUser } from "../logged/MobileLoggedUser";
 import { DesktopUnloggedUser } from "../unlogged/DesktopUnloggedUser";
 import { MobileUnloggedUser } from "../unlogged/MobileUnloggedUser";
 import { nextWindow } from "@/utils/nextWindow";
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 export const Profile = () => {
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
   const loggedUser = useSelector((state) => state.loggedUser);
   const isTablet = useSelector((state) => state.isTablet);
+  const accesToken = getLocalStorageItem("access_token");
 
   const isActiveBetslip = () =>
-    (pathname.indexOf("/match") > -1 ||
-      pathname.indexOf("/sport") > -1 ||
-      pathname.indexOf("/home") > -1 ||
-      pathname === "/" ||
-      pathname.indexOf("/inplay") > -1) &&
-    document.documentElement.clientWidth < 1400;
+    pathname.indexOf("/match") > -1 ||
+    pathname.indexOf("/sport") > -1 ||
+    pathname.indexOf("/home") > -1 ||
+    pathname === "/" ||
+    pathname.indexOf("/inplay") > -1;
 
   const [showBetSlip, setSHowBetslip] = useState(isActiveBetslip());
 
@@ -36,7 +37,7 @@ export const Profile = () => {
     };
   });
 
-  return !loggedUser?.user_data ? (
+  return !loggedUser?.user_data || !accesToken ? (
     <>
       {isTablet ? (
         <MobileUnloggedUser showBetSlip={showBetSlip} />

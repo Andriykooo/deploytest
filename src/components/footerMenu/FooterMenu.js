@@ -1,15 +1,17 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HeaderDiv } from "../header/HeaderDiv";
+import { images } from "@/utils/imagesConstant";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const FooterMenu = ({ data, onClick }) => {
+  const { t } = useClientTranslation("common");
   const activePage = useSelector((state) => state.activePage);
-
   const footerLinksRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [swipeStarted, setSwipeStarted] = useState(false);
@@ -59,51 +61,77 @@ const FooterMenu = ({ data, onClick }) => {
         })}
       >
         {data?.map((item, index) => {
-          return (
-            <div
-              key={index}
-              data-id={index}
-              className="footerMenuIcon"
-              onClick={() => {
-                onClick(item);
-              }}
-            >
-              <LinkType
+          if (!isOpen && index === 4) {
+            return (
+              <div
+                key={0}
+                data-id={0}
+                className="footerMenuIcon"
+                onClick={toggleFooterLinks}
+              >
+                <div className="ps-1 sports-header-link">
+                  <HeaderDiv className="header-link">
+                    <div>
+                      <Image src={images.dotVector} alt="more" />
+                    </div>
+                    <span className="footerSport">{t("more")}</span>
+                  </HeaderDiv>
+                </div>
+              </div>
+            );
+          }
+
+          if (item?.path) {
+            return (
+              <div
+                key={item.id}
+                data-id={item.id}
+                className="footerMenuIcon"
                 onClick={() => {
                   onClick(item);
                 }}
-                className="ps-1 sports-header-link"
-                type={item.type}
-                path={item.path}
-                openType={item?.open_type}
-                modalData={{
-                  slug: item.slug,
-                  title: item.name,
-                }}
               >
-                <HeaderDiv
-                  active={item.id === activePage?.id}
-                  className={
-                    (item.id === item.id) === activePage?.id
-                      ? "header-link active"
-                      : "header-link"
-                  }
+                <LinkType
+                  onClick={() => {
+                    onClick(item);
+                  }}
+                  className="ps-1 sports-header-link"
+                  type={item.type}
+                  path={item.path}
+                  openType={item?.open_type}
+                  modalData={{
+                    slug: item.slug,
+                    title: item.name,
+                  }}
                 >
-                  <Image
-                    onError={(e) => {
-                      e.target.style.opacity = "0";
-                    }}
-                    src={item.icon}
-                    alt="page"
-                    height={24}
-                    width={24}
-                  />
-                  <span className="footerSport">{item.name}</span>
-                </HeaderDiv>
-              </LinkType>
-            </div>
-          );
+                  <HeaderDiv
+                    active={item.id === activePage?.id}
+                    className={
+                      (item.id === item.id) === activePage?.id
+                        ? "header-link active"
+                        : "header-link"
+                    }
+                  >
+                    <Image src={item.icon} alt="page" height={24} width={24} />
+                    <span className="footerSport">{item.name}</span>
+                  </HeaderDiv>
+                </LinkType>
+              </div>
+            );
+          }
         })}
+        {isOpen && (
+          <div className="footerMenuIcon" onClick={toggleFooterLinks}>
+            <div className="ps-1 sports-header-link">
+              <HeaderDiv className="header-link">
+                <div>
+                  <Image src={images.dotVector} alt="less" />
+                </div>
+                <span className="footerSport">{t("less")}</span>
+              </HeaderDiv>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -305,9 +305,51 @@ export const setFooter = (payload) => {
   };
 };
 
-export const setErrorCode = (payload) => {
+export const setAlertModal = (payload) => {
   return {
-    type: constants.SET_ERROR_CODE,
+    type: constants.SET_ALERT_MODAL,
+    payload,
+  };
+};
+
+export const setPrivacytModal = (payload) => {
+  return {
+    type: constants.SET_PRIVACY_MODAL,
+    payload,
+  };
+};
+
+export const setTermsModal = (payload) => {
+  return {
+    type: constants.SET_TERMS_MODAL,
+    payload,
+  };
+};
+
+export const setPromo = (payload) => {
+  return {
+    type: constants.SET_PROMO,
+    payload,
+  };
+};
+
+export const destroySession = (payload) => {
+  return {
+    type: constants.DESTROY_SESSION,
+    payload,
+  };
+};
+
+export const setForgotPassword = (payload) => {
+  return {
+    type: constants.SET_FORGOT_PASSWORD,
+    payload,
+  };
+};
+
+export const setBetSlipResponse = (payload) => {
+  return {
+    type: constants.SET_BETSLIP_RESPONSE,
     payload,
   };
 };

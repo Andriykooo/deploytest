@@ -4,6 +4,7 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SetSelfExclude = ({
   excludeData,
@@ -12,6 +13,7 @@ export const SetSelfExclude = ({
   setExcludePeriod,
   setExcludeData,
 }) => {
+  const { t } = useClientTranslation("common");
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useSelector((state) => state.setMobile);
 
@@ -35,7 +37,7 @@ export const SetSelfExclude = ({
       >
         <div className="modal-content modalCenterContent">
           <p className="d-flex justify-content-center depositModalLimit">
-            Self Exclude
+            {t("self_exclude")}
           </p>
           <Image
             src={images.closeIcon}
@@ -88,7 +90,7 @@ export const SetSelfExclude = ({
                   : "btn finishBtn setLimitBtn col-8 disabled"
               }
               onClick={() => selectedLimit !== -1 && handleSetSelectedLimit()}
-              text={<>{isLoading ? <Loader /> : "Set Limit"}</>}
+              text={<>{isLoading ? <Loader /> : t("set_limit")}</>}
             />
           </div>
         </div>

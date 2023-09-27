@@ -71,6 +71,13 @@ button .dot-flashing {
   align-items: center;
 }
 
+.loader-center {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  position: absolute;
+}
+
 @keyframes dotFlashing {
   0% {
     background-color: #fff;

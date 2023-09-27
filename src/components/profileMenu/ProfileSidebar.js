@@ -1,15 +1,7 @@
-import { clearLocalStorage, getLocalStorageItem } from "@/utils/localStorage";
+import { getLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  removeBet,
-  removeBetAmount,
-  setLogOut,
-  setLoggedUser,
-  setUser,
-} from "../../store/actions";
+import { useSelector } from "react-redux";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl, profileCards } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
@@ -17,6 +9,8 @@ import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
 import { refreshGamingSocket } from "@/context/socket";
+import { useClientTranslation } from "@/app/i18n/client";
+import { useLogout } from "@/hooks/useLogout";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -26,27 +20,16 @@ export const ProfileSidebar = ({
   active,
   setIsLoggingOut,
 }) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const { t } = useClientTranslation("common");
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
+  const logout = useLogout();
 
   const onLogOut = () => {
-    let body = {
-      device_id: getLocalStorageItem("device_id"),
-    };
     setIsLoggingOut(true);
-    dispatch(setLogOut(null));
-    dispatch(setUser(null));
-    dispatch(setLoggedUser(null));
-    router.replace("/home");
-    dispatch(removeBet("all"));
-    dispatch(removeBetAmount("all"));
-    apiServices.post(apiUrl.SIGN_OUT, body).finally(() => {
-      clearLocalStorage();
-      refreshGamingSocket(null);
-    });
+    logout();
   };
+
   return (
     <SidebarProfilMenu sideBarMenu version={version}>
       {version ? (
@@ -83,7 +66,7 @@ export const ProfileSidebar = ({
                             "btn dropdown-toggle popularDropdown profile top w-100 "
                           }
                           type="button"
-                          text={value.cardName}
+                          text={t(value.cardName)}
                         />
                         {value?.buttonText && (
                           <button className="link-in-bonuses-promotions">
@@ -116,7 +99,7 @@ export const ProfileSidebar = ({
               className={"btn dropdown-toggle azDropdown profile top w-100"}
               type="button"
               onClick={onLogOut}
-              text={"Log out"}
+              text={t("log_out")}
             />
           </div>
         </ProfileCard>

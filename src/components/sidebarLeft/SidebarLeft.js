@@ -2,18 +2,10 @@
 
 import classNames from "classnames";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import { SocketContext } from "../../context/socket";
 import { setActiveSport, setSidebarLeft } from "../../store/actions";
-import {
-  unsubscribeToCompetition,
-  unsubscribeToMarket,
-  unsubscribeToMatch,
-  unsubscribeToSport,
-} from "../../utils/socketSubscribers";
 import { Button } from "../button/Button";
 import { Chat } from "../chat/Chat";
 import { ArrowButton } from "../custom/ArrowButton";
@@ -21,25 +13,24 @@ import { Search } from "../profileMenu/SearchSport";
 import { ProfileCard, SidebarProfile } from "../profileMenu/Styled";
 import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { useClientTranslation } from "@/app/i18n/client";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 export const SidebarLeft = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const pathname = usePathname();
-  const uuid = uuidv4();
+  const { pathname } = useClientPathname();
+  const { t } = useClientTranslation('common');
 
-  const { gamingSocket } = useContext(SocketContext);
   const loggedUser = useSelector((state) => state.loggedUser);
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
   const isTablet = useSelector((state) => state.isTablet);
   const activeSport = useSelector((state) => state.activeSport);
-  const sportsStoredData = useSelector((state) => state.sportsData);
   const settings = useSelector((state) => state.settings);
-  const activeSocketSubscribe = useSelector(
-    (state) => state.activeSocketSubscribe
-  );
 
   const chatIsActive =
+    getLocalStorageItem("access_token") &&
     settings?.isTraderChatEnabled &&
     loggedUser &&
     loggedUser?.user_data?.trader_chat_enabled;
@@ -54,37 +45,8 @@ export const SidebarLeft = () => {
       })
     );
   };
-  const handleUnsubscribe = () => {
-    if (activeSocketSubscribe === "SUBSCRIBE_SPORT") {
-      unsubscribeToSport(gamingSocket, activeSport.toString(), uuid);
-    } else if (
-      activeSocketSubscribe === "SUBSCRIBE_COMPETITION" &&
-      sportsStoredData?.competition_id
-    ) {
-      unsubscribeToCompetition(
-        gamingSocket,
-        sportsStoredData?.competition_id.toString(),
-        uuid
-      );
-    } else if (
-      activeSocketSubscribe === "SUBSCRIBE_MARKET" &&
-      sportsStoredData?.market_id
-    ) {
-      unsubscribeToMarket(
-        gamingSocket,
-        sportsStoredData?.market_id.toString(),
-        uuid
-      );
-    } else if (
-      activeSocketSubscribe === "SUBSCRIBE_MATCH" &&
-      sportsStoredData?.match_id
-    ) {
-      unsubscribeToMatch(gamingSocket, sportsStoredData?.market_id, uuid);
-    }
-  };
 
   const handleClick = (item) => {
-    handleUnsubscribe();
     dispatch(setActiveSport(item.id));
     router.push(
       `/${pathname.includes("inplay") ? "inplay" : "sport"}/${item.slug}`
@@ -105,6 +67,10 @@ export const SidebarLeft = () => {
       setFilteredData(sidebarLeft.data);
     }
   }, [sidebarLeft.data]);
+
+  useEffect(() => {
+    dispatch(setActiveSport(null));
+  }, [pathname]);
 
   let timeoutId = null;
 
@@ -130,7 +96,11 @@ export const SidebarLeft = () => {
             return (
               <div key={item.id}>
                 <ProfileCard
-                  active={item.slug === pathname.split("/").pop()}
+                  active={
+                    activeSport
+                      ? item.id === activeSport
+                      : item.slug === pathname.split("/").pop()
+                  }
                   onClick={() => handleClick(item)}
                 >
                   <div className="sport-d d-flex">
@@ -154,7 +124,7 @@ export const SidebarLeft = () => {
             );
           })
         ) : (
-          <MenuBarEmpty message="We could not find the sport." />
+          <MenuBarEmpty message={t("sport_not_found")}/>
         )}
       </SidebarProfile>
       {isHovered && !isTablet && (

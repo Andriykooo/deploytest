@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.selected-buttons .nextSvg,
+.selected-buttons .previousSvg {
+  box-shadow: none;
+}
+
 .selected-buttons .selected-button {
   font-size: 12px;
   font-weight: 600;

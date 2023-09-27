@@ -1,8 +1,14 @@
 import React from "react";
 
-export const Button = ({ className, text, onClick, disabled, id }) => {
+export const Button = ({ type, className, text, onClick, disabled, id }) => {
   return (
-    <button className={className} onClick={onClick} disabled={disabled} id={id}>
+    <button
+      type={type || "button"}
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+      id={id}
+    >
       {text}
     </button>
   );

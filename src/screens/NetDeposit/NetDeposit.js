@@ -9,17 +9,15 @@ import "../DepositLimit/DepositLimit.css";
 import "../NetDeposit/NetDeposit.css";
 import "../RealityCheck/RealityCheck.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
-import { Button } from "@/components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-
+import { useClientTranslation } from "@/app/i18n/client";
 
 const NetDeposit = () => {
-  const [loader, setLoader] = useState(true);
+  const { t } = useClientTranslation(["net_deposit", "common"]);
   const [netAmount, setNetAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedLimit, setSelectedLimit] = useState(0);
+  const [selectedLimit, setSelectedLimit] = useState(-1);
   const onBoarding = useSelector((state) => state.on_boarding);
-  const isTablet = useSelector((state) => state.isTablet);
   const netDepositOptions = onBoarding?.setting_options;
 
   const getNetDepositAmount = (type) => {
@@ -30,66 +28,62 @@ const NetDeposit = () => {
       .then((result) => {
         setNetAmount(result?.amount);
         setIsLoading(false);
-        handleShow(false)
+        handleShow(false);
       })
       .catch(() => {
         setIsLoading(false);
       });
   };
 
-  const handleSetLimit = () => {
-    getNetDepositAmount(selectedLimit);
+  const handleSetLimit = (limit) => {
+    getNetDepositAmount(limit);
+    setSelectedLimit(limit);
   };
 
   useEffect(() => {
-    setLoader(true);
-
-    setTimeout(() => {
-      getNetDepositAmount();
-      setLoader(false);
-    }, 1500);
+    getNetDepositAmount();
   }, []);
 
   const options = netDepositOptions?.net_deposit_options || [
     {
-      name: "Today",
+      name: t("common:today"),
       value: "1",
     },
     {
-      name: "Last 7 Days",
+      name: t("last_7_days"),
       value: "7",
     },
     {
-      name: "Last 30 Days",
+      name: t("last_30_days"),
       value: "30",
     },
     {
-      name: "Last 3 Months",
+      name: t("last_3_months"),
       value: "90",
     },
     {
-      name: "Last Year",
+      name: t("last_year"),
       value: "365",
     },
     {
-      name: "All Time",
+      name: t("all_time"),
       value: "-1",
     },
   ];
 
-  var netDepositText = "All time";
+  var netDepositText = t("all_time");
   if (selectedLimit === -1) {
-    netDepositText = "All time";
+    netDepositText = t("all_time");
   } else if (selectedLimit === 1) {
-    netDepositText = "Today";
+    netDepositText = t("common:today");
   } else if (selectedLimit === 7) {
-    netDepositText = "Last 7 Days";
+    netDepositText = t("last_7_days");
   } else if (selectedLimit === 30) {
-    netDepositText = "Last 30 Days";
+    netDepositText = t("last_30_days");
   } else if (selectedLimit === 90) {
-    netDepositText = "Last 3 Months";
+    netDepositText = t("last_3_months");
   } else if (selectedLimit === 365) {
-    netDepositText = "Last Year";
+    netDepositText = t("last_year");
   }
 
   const [modalShow, setModalShow] = useState(false);
@@ -101,27 +95,21 @@ const NetDeposit = () => {
       setModalShow(!modalShow);
     }
   };
+
   return (
-    <div className="depositLimit  netDepositLimit">
+    <div className="depositLimit netDepositLimit">
       <div className="pageContent max-width-container">
-        <PreferencesTitle
-          title="Net Deposit"
-          marginBottomSize="sm"
-        />
-        <p className="menuText">
-          Net deposit amount shows the sum of all withdrawals minus deposits
-          over a period of time.
-        </p>
+        <PreferencesTitle title={t("common:net_deposit")} marginBottomSize="sm" />
+        <p className="menuText">{t("net_deposit_description")}</p>
         <div className="row selectDepositDiv mb-3">
-          <p className="depositText col-6">Net Deposit Period</p>
+          <p className="depositText col-6">{t("net_deposit_period")}</p>
           <PreferencesDropdown
-            data={{ data: options, show: modalShow, title: 'Net Deposit' }}
+            data={{ data: options, show: modalShow, title: t("common:net_deposit") }}
             selectedItem={selectedLimit}
             handleToggle={handleShow}
-            handleSelect={setSelectedLimit}
+            handleSelect={(limit) => handleSetLimit(limit)}
             placeholder={netDepositText}
-            loader={isLoading}
-            btnTitle="Set period"
+            btnTitle={t("set_period")}
             modalOnMobile
             handleSubmit={handleSetLimit}
           />
@@ -131,18 +119,6 @@ const NetDeposit = () => {
         ) : (
           <p className="netDepositValue">{netAmount}</p>
         )}
-        {!isTablet && <div className="row suspendButton">
-          <Button
-            className={
-              "setLimit suspendAccBtn w-100 " +
-              (selectedLimit
-                ? " btnPrimary "
-                : "btn finishBtn disabled setLimitBtn col-8")
-            }
-            onClick={() => selectedLimit && handleSetLimit()}
-            text={isLoading ? <Loader /> : "Set period"}
-          />
-        </div>}
       </div>
     </div>
   );

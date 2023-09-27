@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const BetslipOdds = ({ selection, className }) => {
+export const BetslipOdds = ({ selection, className, children, sp }) => {
   const updatedBetslipSelections = useSelector(
     (state) => state.updatedBetslipSelections
   );
@@ -46,6 +46,7 @@ export const BetslipOdds = ({ selection, className }) => {
       })}
     >
       <Odds selection={odd || previousSelection} />
+      {!odd && children}
     </div>
   );
 };

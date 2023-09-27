@@ -46,6 +46,7 @@ import fisrtLogoTrending from "../assets/images/fisrtLogoTrending.svg";
 import footbalPitch from "../assets/images/football-pitch.svg";
 import football from "../assets/images/football.svg";
 import footballCashCollect from "../assets/images/footballCashCollect.png";
+import dotVector from "../assets/images/dotVector.svg";
 import fourthLogoTrending from "../assets/images/fourthLogoTrending.svg";
 import fourthTrending from "../assets/images/fourthTrending.png";
 import gamCare from "../assets/images/gamcare.svg";
@@ -149,8 +150,12 @@ import arrowRight from "../assets/images/arrow_right.svg";
 import unnamedFavorite from "../assets/images/unnamedFavorite.png";
 import pointer from "../assets/images/pointer.svg";
 import allPending from "../assets/images/allPending.svg";
+import tickIcon from "../assets/images/tickIcon.svg";
+import priceBoost from "../assets/images/priceBoost.svg";
 
 export const images = {
+  priceBoost,
+  tickIcon,
   pointer,
   unnamedFavorite,
   arrowRight,
@@ -181,6 +186,7 @@ export const images = {
   thirdTrending,
   fourthTrending,
   footballCashCollect,
+  dotVector,
   bigBass,
   finalCountdown,
   catKing,

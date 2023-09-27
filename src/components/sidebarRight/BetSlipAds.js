@@ -1,35 +1,41 @@
 import Image from "next/image";
 import { LinkType } from "../LinkType/LinkType";
 import { DynamicSelections } from "../dynamicSelections/DynamicSelections";
-import { useDispatch, useSelector } from "react-redux";
-import { setSubscriptions } from "@/store/actions";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { gamingSocket } from "@/context/socket";
+import { v4 as uuidv4 } from "uuid";
 
 export const BetSlipAds = () => {
-  const dispatch = useDispatch();
   const sidebarRight = useSelector((state) => state.sidebarRight);
-
-  const subscribe = () => {
-    sidebarRight?.data?.betslips?.forEach((betslip) => {
-      if (betslip.promo_type === "dynamic") {
-        dispatch(
-          setSubscriptions(
-            betslip.buttons.reduce((accum, value) => {
-              return {
-                ...accum,
-                [value.bet_id]: value,
-              };
-            }, {})
-          )
-        );
-      }
-    });
-  };
 
   useEffect(() => {
     if (sidebarRight?.data) {
-      subscribe();
+      sidebarRight?.data?.betslips.forEach((betslipAdd) => {
+        if (betslipAdd.promo_type === "dynamic") {
+          betslipAdd.buttons.forEach((selection) => {
+            gamingSocket.emit("subscribe_market", {
+              value: selection.bet_id,
+            });
+          });
+        }
+      });
     }
+
+    return () => {
+      if (sidebarRight?.data) {
+        sidebarRight?.data?.betslips.forEach((betslipAdd) => {
+          if (betslipAdd.promo_type === "dynamic") {
+            betslipAdd.buttons.forEach((selection) => {
+              gamingSocket.emit("unsubscribe_market", {
+                value: selection.bet_id,
+                action_id: uuidv4(),
+              });
+            });
+          }
+        });
+      }
+    };
   }, [sidebarRight?.data]);
 
   return sidebarRight?.data?.show_bet_holder ? (
@@ -41,6 +47,7 @@ export const BetSlipAds = () => {
               <Image
                 src={betslip.media.path}
                 alt={betslip.media.path}
+                quality={50}
                 height={305}
                 width={301}
               />
@@ -70,6 +77,7 @@ export const BetSlipAds = () => {
                 className="betslip-add"
                 src={betslip.media.path}
                 alt={betslip.media.path}
+                quality={50}
                 height={305}
                 width={301}
               />

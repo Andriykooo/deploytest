@@ -13,14 +13,17 @@ import Information from "@/components/information/Information";
 
 import "../Withdraw/Withdraw.css";
 import classNames from "classnames";
+import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const Withdraw = () => {
+  const { t } = useClientTranslation(["withdraw", "common"]);
   const [paymentUrl, setPaymentUrl] = useState("");
   const [getLinkLoading, setGetLinkLoading] = useState(false);
   const [valueOfInput, setValueOfInput] = useState("");
   const [validButton, setValidButton] = useState(false);
   const userBalance = useSelector((state) => state.loggedUser?.user_data?.balance || 0);
-  const userCurrency = useSelector((state) => state.loggedUser?.user_data.currency?.abbreviation || "");
+  const userCurrency = useSelector((state) => state.loggedUser?.user_data.currency?.symbol || "");
   const isTablet = useSelector((state) => state.isTablet);
 
   const handleGatewayLink = () => {
@@ -55,49 +58,44 @@ const Withdraw = () => {
         {!paymentUrl ? (
           <>
             <PreferencesTitle
-              title="Withdraw"
+              title={t("common:withdraw")}
               showBack={false}
               marginBottomSize="sm"
             />
+            <Information
+              className="withdrawInformation"
+              text={t("withdrawal_restrictions_message")}
+            />
             <div className="deposit-form span-sm-0">
-              <Information
-                className="withdrawInformation"
-                text="Withdrawals can only be made back to a card or bank a that has made a deposit on this account"
-              />
-              <p
-                style={{
-                  color: "white",
-                  fontFamily: theme?.fonts?.fontRegular,
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  lineHeight: "22.4px",
-                }}
-              >
-                Enter the amount to withdraw
-              </p>
-              <div className="withdraw-input-container">
-                <input
-                  type="text"
-                  className="deposit-input"
-                  onChange={(e) => handleChangeInput(e)}
-                  value={valueOfInput}
-                  placeholder="0.00"
-                />
-                <button className="max-button" onClick={() => setValueOfInput(userBalance)}>MAX</button>
+              <div>
+                <p className="withdraw-enter-text">
+                  {t("withdrawal_amount_prompt")}
+                </p>
+                <div className="withdraw-input-container">
+                  <input
+                    type="text"
+                    className="deposit-input"
+                    onChange={(e) => handleChangeInput(e)}
+                    value={valueOfInput}
+                    placeholder="0.00"
+                  />
+                  <button className="max-button" onClick={() => setValueOfInput(userBalance)}>{t("max")}</button>
+                </div>
+                <p className="user-balance">{t("balance")} {userCurrency} {formatNumberWithDecimal(userBalance)}</p>
               </div>
-              <p className="user-balance">Balance {userCurrency} {userBalance}</p>
-            </div>
-            <div className="preferences-button-container">
-              <Button
-                type="submit"
-                onClick={() => {
-                  handleGatewayLink();
-                }}
-                className={classNames("submit-button-deposit", {
-                  btnPrimary: validButton
-                })}
-                text={getLinkLoading ? <Loader /> : "Authorise"}
-              />
+              <div className="preferences-button-container">
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    handleGatewayLink();
+                  }}
+                  className={classNames("submit-button-deposit", {
+                    "btnPrimary": validButton,
+                    "btn finishBtn disabled setLimitBtn col-8": !validButton
+                  })}
+                  text={getLinkLoading ? <Loader /> : t("common:authorise")}
+                />
+              </div>
             </div>
           </>
         ) : (

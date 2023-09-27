@@ -9,8 +9,9 @@ import { images } from "../../utils/imagesConstant";
 import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
 import moment from "moment";
-
+import { useClientTranslation } from "@/app/i18n/client";
 const MatchCard = ({ match, inPlay }) => {
+  const { t } = useClientTranslation(["sports", "common"]);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -32,11 +33,11 @@ const MatchCard = ({ match, inPlay }) => {
     setShowNotification(!showNotification);
     if (!showNotification) {
       SuccesToast({
-        message: `Notifications for ${matchName} are on!`,
+        message: t("notifications_for_match_are_on", { matchName }),
       });
     } else {
       alertToast({
-        message: `Notifications for ${matchName} are off!`,
+        message: t("notifications_for_match_are_off", { matchName }),
       });
     }
   };
@@ -50,7 +51,7 @@ const MatchCard = ({ match, inPlay }) => {
               {showNotification ? (
                 <Image
                   src={images.notificationOnIcon}
-                  alt="bell"
+                  alt={t("bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -58,7 +59,7 @@ const MatchCard = ({ match, inPlay }) => {
               ) : (
                 <Image
                   src={images.notificationOffIcon}
-                  alt="bell"
+                  alt={t("bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -66,7 +67,7 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div>
-              {moment.utc(match?.current_time).local().format("DD MMM HH:mm")}
+              {moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
           <div className="more-markets-container" onClick={handleClickRow}>
@@ -81,7 +82,7 @@ const MatchCard = ({ match, inPlay }) => {
               {showNotification ? (
                 <Image
                   src={images.notificationOnIcon}
-                  alt="bell"
+                  alt={t("bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -89,7 +90,7 @@ const MatchCard = ({ match, inPlay }) => {
               ) : (
                 <Image
                   src={images.notificationOffIcon}
-                  alt="bell"
+                  alt={t("bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -97,7 +98,12 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
-              {moment.utc(match?.current_time).local().format("DD MMM HH:mm")}
+              {inPlay
+                ? match?.start_time
+                : moment
+                    .utc(match?.start_time)
+                    .local()
+                    .format("DD MMM HH:mm")}
             </div>
           </div>
         )}
@@ -113,14 +119,15 @@ const MatchCard = ({ match, inPlay }) => {
                 </div>
                 <div className="matchResult matchResultMobile match-vs-teams">
                   {match?.participants[0].score &&
-                  match?.participants[1].score &&
-                  match?.is_live ? (
+                    match?.participants[1].score &&
+                    match?.is_live ? (
                     <>
                       {match?.participants[0].score} :{" "}
                       {match?.participants[1].score}
                     </>
                   ) : (
-                    " vs "
+                    t("common:vs")
+
                   )}
                 </div>
                 <div className="matchTeam matchTeamMobile">
@@ -140,7 +147,7 @@ const MatchCard = ({ match, inPlay }) => {
                     {match?.participants[1].score}
                   </>
                 ) : (
-                  " vs "
+                  t("common:vs")
                 )}
               </div>
               <div className="matchTeam">{match?.participants[1].name}</div>

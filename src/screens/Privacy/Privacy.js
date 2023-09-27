@@ -1,6 +1,6 @@
 "use client";
 
-import { addLocalStorageItem } from "@/utils/localStorage";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import parse from "html-react-parser";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -14,8 +14,10 @@ import "../Terms/Terms.css";
 import { refreshCommunicationSocket } from "@/context/socket";
 import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const Privacy = () => {
+  const { t } = useClientTranslation(["privacy", "common"]);
   const privacyDivRef = useRef(null);
   const [policy, setPolicy] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -23,6 +25,7 @@ const Privacy = () => {
   const [policyVersion, setPolicyVersion] = useState("");
   const [acceptButtonDisabled, setAcceptButtonDisabled] = useState(true);
   const user = useSelector((state) => state.user);
+  const promo = useSelector((state) => state.promo);
   const loggedUser = useSelector((state) => state.loggedUser);
   const countryPhone = useSelector((state) => state.countryPhone);
   const signup_platform = useSelector((state) => state.signup_platform);
@@ -66,6 +69,11 @@ const Privacy = () => {
       policy_version: policyVersion,
       device_id: user.device_id,
     };
+
+    if (promo) {
+      body.promo_code = promo;
+    }
+
     let url = apiUrl.SIGN_UP;
     setIsLoading(true);
     apiServices
@@ -147,9 +155,11 @@ const Privacy = () => {
     getPolicy();
   }, []);
 
+  const acceptIsActive = !getLocalStorageItem("access_token");
+
   return (
     <div className="terms backgroundImage">
-      <p className="termsTitleForMainPage">Privacy Policy</p>
+      <p className="termsTitleForMainPage">{t("privacy_policy")}</p>
       {loader ? (
         <Loader />
       ) : (
@@ -165,7 +175,7 @@ const Privacy = () => {
           >
             {parse(policy.toString())}
           </div>
-          {user && !loggedUser && pathname.indexOf("/privacy") > "-1" ? (
+          {acceptIsActive ? (
             <Button
               className={
                 acceptButtonDisabled
@@ -186,11 +196,9 @@ const Privacy = () => {
                 }
               }}
               disabled={acceptButtonDisabled}
-              text={<>{isLoading ? <Loader /> : "Accept"}</>}
+              text={<>{isLoading ? <Loader /> : t("common:accept")}</>}
             />
-          ) : (
-            ""
-          )}
+          ) : null}
         </>
       )}
     </div>

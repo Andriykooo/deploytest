@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSportData } from "../../store/actions";
 import { ArrowDownIcon } from "../../utils/icons";
+import { useClientTranslation } from "@/app/i18n/client";
 function SearchSport({
   id,
   isLoading,
@@ -17,6 +18,7 @@ function SearchSport({
   setValue,
   setOpenedMarkets,
 }) {
+  const { t } = useClientTranslation(["sports", "common"]);
   let activeSport = useSelector((state) => state.activeSport);
   let isMobile = useSelector((state) => state.isMobile);
   const dispatch = useDispatch();
@@ -55,7 +57,7 @@ function SearchSport({
                     placeholder={
                       competition?.competition_name
                         ? competition?.competition_name
-                        : "Select League"
+                        : t("select_league")
                     }
                     {...params}
                     variant="outlined"
@@ -104,7 +106,7 @@ function SearchSport({
                     getOptionLabel={(option) => option.market_name}
                     renderInput={(params) => (
                       <TextField
-                        placeholder="Select bet"
+                        placeholder={t("common:select_bet")}
                         {...params}
                         variant="outlined"
                       />
@@ -184,7 +186,7 @@ function SearchSport({
               getOptionLabel={(option) => option.market_name}
               renderInput={(params) => (
                 <TextField
-                  placeholder="Competetion"
+                  placeholder={t("competetion")}
                   {...params}
                   variant="outlined"
                 />
@@ -225,7 +227,7 @@ function SearchSport({
               sx={{ maxWidth: 350, height: "50px", color: "white" }}
               getOptionLabel={(option) => option.market_name}
               renderInput={(params) => (
-                <TextField placeholder="Time" {...params} variant="outlined" />
+                <TextField placeholder={t("time")} {...params} variant="outlined" />
               )}
               onChange={(event, newValue, reason) => {
                 if (reason === "clear") {
@@ -252,7 +254,7 @@ function SearchSport({
               getOptionLabel={(option) => option.market_name}
               renderInput={(params) => (
                 <TextField
-                  placeholder="Region"
+                  placeholder={t("common:region")}
                   {...params}
                   variant="outlined"
                 />
@@ -282,7 +284,7 @@ function SearchSport({
               getOptionLabel={(option) => option.market_name}
               renderInput={(params) => (
                 <TextField
-                  placeholder="Country"
+                  placeholder={t("common:country")}
                   {...params}
                   variant="outlined"
                 />

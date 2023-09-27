@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InPlay } from "./inPlay/InPlay";
 import { StandartWidget } from "./standart/StandartWidget";
 import { StartingSoon } from "./startingSoon/StartingSoon";
+import { gamingSocket } from "@/context/socket";
+import { v4 as uuidv4 } from "uuid";
 
 export const SportsWidget = ({ data }) => {
+  useEffect(() => {
+    data.sports.forEach((sport) => {
+      gamingSocket.emit("subscribe_sport", {
+        value: sport.slug,
+      });
+    });
+
+    return () => {
+      data.sports.forEach((sport) => {
+        gamingSocket.emit("unsubscribe_sport", {
+          value: sport.slug,
+          action_id: uuidv4(),
+        });
+      });
+    };
+  }, []);
+
   return (
     <>
       {data.widget_type === "sport_widget_starting_soon" && (

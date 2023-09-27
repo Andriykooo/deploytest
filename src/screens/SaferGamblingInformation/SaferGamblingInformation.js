@@ -5,8 +5,10 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const SaferGamblingInformation = () => {
+  const { t } = useClientTranslation("safer_gambling_information");
   const [pageContent, setPageContent] = useState("");
 
   const saferGamblingInfo = () => {
@@ -28,7 +30,7 @@ const SaferGamblingInformation = () => {
   return (
     <div className="depositLimit">
       <PreferencesTitle
-        title="Safer Gambling Information"
+        title={t("safer_gambling_information")}
         backRoute="/profile/safer_gambling"
         marginBottomSize="sm"
         showBackOnDesktop

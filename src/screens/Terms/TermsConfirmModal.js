@@ -3,23 +3,28 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import { setErrorCode, setUser } from "@/store/actions";
+import { setTermsModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const TermsConfirmModal = () => {
+  const { t } = useClientTranslation("terms");
+  const dispatch = useDispatch();
+  const pathname = usePathname();
   const termsDivRef = useRef(null);
+
   const [terms, setTerms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [termsVersion, setTermsVersion] = useState("");
   const [acceptButtonDisabled, setAcceptButtonDisabled] = useState(true);
+
   const user = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.setMobile);
   const loggedUser = useSelector((state) => state.loggedUser);
-  const pathname = usePathname();
-  const dispatch = useDispatch();
+  const termsModal = useSelector((state) => state.termsModal);
 
   const handleScroll = () => {
     const termsDiv = termsDivRef.current;
@@ -29,8 +34,10 @@ const TermsConfirmModal = () => {
   };
 
   useEffect(() => {
-    getTerms();
-  }, []);
+    if (termsModal?.isOpen) {
+      getTerms();
+    }
+  }, [termsModal]);
 
   const getTerms = () => {
     const language = Cookies.get("language") || "en";
@@ -57,26 +64,20 @@ const TermsConfirmModal = () => {
       },
     };
     setIsLoading(true);
-    apiServices
-      .put(apiUrl.USER, body)
-      .then(() => {
+    apiServices.put(apiUrl.USER, body).then(() => {
+      setIsLoading(false);
+      const newUser = { ...user };
+      newUser.terms_conditions_version = termsVersion;
+      dispatch(setUser(newUser));
+      SuccesToast({ message: t("terms_conditions_update_success") });
+      termsModal.callback().then(() => {
+        dispatch(setTermsModal({ isOpen: false, callback: () => {} }));
         setIsLoading(false);
-
-        const newUser = { ...user };
-        newUser.terms_conditions_version = termsVersion;
-
-        dispatch(setUser(newUser));
-        SuccesToast({ message: "Terms and Conditions Updated Successfully" });
-      })
-      .catch(() => {
-        setIsLoading(false);
-      })
-      .finally(() => {
-        dispatch(setErrorCode(null));
       });
+    });
   };
 
-  return (
+  return termsModal?.isOpen ? (
     <div
       className={isMobile ? "modal show modalFullScreen" : "modal"}
       id="alertGamingReminderModal"
@@ -94,7 +95,7 @@ const TermsConfirmModal = () => {
       >
         <div className="modal-content modalCenterContent terms-modalContent">
           <p className="termsTitleForMainPage privacyModalTitle">
-            New Terms And Conditions
+            {t("new_terms_conditions")}
           </p>
           <div
             ref={termsDivRef}
@@ -116,12 +117,12 @@ const TermsConfirmModal = () => {
               putConfirmTerms();
             }}
             disabled={acceptButtonDisabled}
-            text={isLoading ? <Loader /> : "Accept Changes"}
+            text={isLoading ? <Loader /> : t("accept_changes")}
           />
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default TermsConfirmModal;

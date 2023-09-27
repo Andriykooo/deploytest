@@ -4,8 +4,10 @@ import classNames from "classnames";
 import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const Dropdown = ({ data, onSelect, selectedItem }) => {
+  const { t } = useClientTranslation("common");
   const dropdownRef = useRef(null);
 
   const [activeItem, setActiveItem] = useState(data[0]);
@@ -41,7 +43,7 @@ export const Dropdown = ({ data, onSelect, selectedItem }) => {
         {activeItem?.label}
         <Image
           src={images.arrowIcon}
-          alt="arrow"
+          alt={t("arrow")}
           width={14}
           height={14}
           className={classNames("dropdown-arrow", { active: isOpen })}

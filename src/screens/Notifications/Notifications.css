@@ -26,10 +26,10 @@
   padding-bottom: 0.5rem;
 }
 .divider {
-  width: 65vw;
+  width: 100%;
   margin-left: 0;
   margin-right: 49px;
-  border: 1px solid #bcbfc2;
+  border: 1px solid var(--global-color-shade1);
   margin-bottom: 19px;
 }
 #flexSwitchCheckChecked {
@@ -54,10 +54,4 @@
   .MuiSwitch-switchBase.Mui-checked
   + .MuiSwitch-track {
   background-color: var(--global-color-notification-success) !important;
-}
-
-@media screen and (max-width: 1024px) {
-  .divider {
-    width: 45vh;
-  }
 }

@@ -1,20 +1,18 @@
 "use client";
 
-import { nextWindow } from "@/utils/nextWindow";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import { setLoggedUser } from "@/store/actions";
-import { SuccesToast } from "@/utils/alert";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
-import { removeLocalStorageItem } from "@/utils/localStorage";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { images } from "@/utils/imagesConstant";
-import "./SelfExclude.css";
 import { setSettingsApi } from "@/utils/apiQueries";
+import { useLogout } from "@/hooks/useLogout";
+import "./SelfExclude.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const SelfExclude = () => {
+  const { t } = useClientTranslation(["self_exclude", "common"]);
   const [excludeData, setExcludeData] = useState({
     show: false,
     data: [],
@@ -27,63 +25,44 @@ const SelfExclude = () => {
       state.loggedUser?.user_data?.settings?.safer_gambling?.self_exclude
         ?.self_exclude_deactivated
   );
-  const user = useSelector((state) => state.loggedUser);
   const user_settings = useSelector((state) => state?.user_settings);
   const dispatch = useDispatch();
+  const logout = useLogout();
 
   useEffect(() => {
     setLoader(true);
-
-    setTimeout(() => {
-      setExcludePeriod(excludeValue);
-      setLoader(false);
-    }, 1500);
+    setExcludePeriod(excludeValue);
+    setLoader(false);
   }, [excludeValue]);
 
   const handleSetLimit = () => {
     const body = {
       self_exclude_deactivated: excludePeriod,
     };
-    setSettingsApi(body, dispatch)
-      .then(() => {
-        SuccesToast({ message: "Successfully updated!" });
-        setIsLoading(false);
-        setExcludeData({
-          ...excludeData,
-          show: false,
-          data: [],
-        });
-        let newUser = {};
-        Object.assign(newUser, user);
-        newUser.user_data.settings.safer_gambling.self_exclude.self_exclude_deactivated =
-          excludePeriod;
-        dispatch(setLoggedUser(newUser));
-        removeLocalStorageItem("access_token");
-        removeLocalStorageItem("refresh_token");
 
-        setTimeout(() => {
-          nextWindow.location.replace("/login");
-          setTimeout(() => {
-            nextWindow.location.reload();
-          }, 500);
-        }, 500);
-      })
-      .catch(() => {
+    setSettingsApi(body, dispatch, {
+      onSuccess: (response) => {
+        if (!response?.error) {
+          logout();
+        }
+      },
+      onError: () => {
         setIsLoading(false);
-      });
+      },
+    });
   };
 
   var excludeText = "";
   if (excludePeriod === 6) {
-    excludeText = "6 Months";
+    excludeText = `6 ${t("months")}`;
   } else if (excludePeriod === 12) {
-    excludeText = "1 Year";
+    excludeText = `1 ${t("year")}`;
   } else if (excludePeriod === 24) {
-    excludeText = "2 Years";
+    excludeText = `2 ${t("years")}`;
   } else if (excludePeriod === 60) {
-    excludeText = "5 Years";
+    excludeText = `5 ${t("years")}`;
   } else {
-    excludeText = "Not Set";
+    excludeText = t("common:not_set");
   }
 
   const handleToggle = () => {
@@ -101,27 +80,19 @@ const SelfExclude = () => {
   };
 
   return (
-    <>
-      <div className="max-width-container selfExcludePage gamblingContainer">
+    <div className="depositLimit">
+      <div className="max-width-container">
         <div>
           <PreferencesTitle
-            title="Self exclude"
+            title={t("common:self_exclude")}
             backRoute="/profile/safer_gambling"
             marginBottomSize="sm"
             showBackOnDesktop
           />
+          <p className="menuText">{t("self_exclusion_prompt")}</p>
+          <p className="menuText">{t("open_wagers_exclusion_message")}</p>
           <p className="menuText">
-            If you feel you are spending too much time wagering or are at risk
-            of doing so and developing a gambling problem, please consider
-            self-exclusion.
-          </p>
-          <p className="menuText">
-            If you have any open wagers at the time of excluding, any winnings
-            will be credited to your account in the normal way and you can
-            contact our customer service team to arrange payment.
-          </p>
-          <p className="menuText">
-            For further advice please check the links below. <br />
+            {t("further_advice_links_message")} <br />
             GamCare: www.gamcare.org.uk
             <br />
             Gam-Anon: www.gamanon.org.uk
@@ -129,10 +100,10 @@ const SelfExclude = () => {
             GambleAware: www.begambleaware.org
             <br />
           </p>
-          <div className="row mb-3">
-            <div className="col-6 subText">Deactivate account for</div>
+          <div className="mb-3 d-flex">
+            <div className="col-6 subText">{t("deactivate_account_for")}</div>
             <PreferencesDropdown
-              data={{ ...excludeData, title: "Self exclude" }}
+              data={{ ...excludeData, title: t("common:self_exclude") }}
               selectedItem={excludeValue}
               handleToggle={handleToggle}
               handleSelect={(v) => {
@@ -140,12 +111,12 @@ const SelfExclude = () => {
               }}
               placeholder={excludeText}
               loader={loader}
-              btnTitle="Set limit"
+              btnTitle={t("common:set_limit")}
               modalOnMobile
             />
           </div>
         </div>
-        <div className="row suspendButton">
+        <div className="suspendButton">
           <Button
             className={
               "setLimit suspendAccBtn w-100 " +
@@ -154,11 +125,11 @@ const SelfExclude = () => {
                 : "btn finishBtn disabled setLimitBtn col-8")
             }
             onClick={() => excludePeriod && handleSetLimit()}
-            text={<>{isLoading ? <Loader /> : "Deactivate account"}</>}
+            text={<>{isLoading ? <Loader /> : t("deactivate_account")}</>}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

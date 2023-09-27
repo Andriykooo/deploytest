@@ -5,8 +5,11 @@ import { ArrowDownIcon } from "../../utils/icons";
 import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
 import "./CasinoCategory.css";
+import { t } from "i18next";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const CasinoCategory = ({ data, redirect }) => {
+  const { t } = useClientTranslation("casino");
   const router = useRouter();
   const dispatch = useDispatch();
   const headerData = useSelector((state) => state.headerData);
@@ -31,7 +34,7 @@ const CasinoCategory = ({ data, redirect }) => {
             {data.view_style !== "trending" && (
               <div className="recommendedTitle recommendedViewAll">
                 <span className="me-2" onClick={handleViewAll}>
-                  View All
+                  {t("view_all")}
                 </span>
                 <ArrowDownIcon viewAll />
               </div>
@@ -70,11 +73,18 @@ const CasinoCategory = ({ data, redirect }) => {
                       };
                     })
                   : data.games
-                      .reduce((acc, val, index) => {
-                        if (index % 2 === 0) {
-                          acc.push([val, data.games[index + 2]]);
+                      .reduce((accum, currentGame, index) => {
+                        if (index === 0) {
+                          return [[currentGame]];
                         }
-                        return acc;
+
+                        if (index % 2 === 0) {
+                          accum[accum?.length - 1]?.push(currentGame);
+                        } else {
+                          accum?.push([currentGame]);
+                        }
+
+                        return accum;
                       }, [])
                       .map((row, rowIndex) => {
                         return {

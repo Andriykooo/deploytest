@@ -4,10 +4,12 @@ import { setSelectBet } from "../../store/actions";
 import { InfoInformationIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import CombinationInfo from "@/components/modal/CombinationInfo";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const prohibitedCharacters = ["e", "+", " "];
 
 export const SelectOfMultipleBets = ({ row }) => {
+  const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const userSelectedBets = useSelector((state) => state.selectedBets);
   const [input, setInput] = useState(row.stake);
@@ -102,7 +104,7 @@ export const SelectOfMultipleBets = ({ row }) => {
             </div>
             <div className="slip-amount">
               <span className="styleOfReturnValues styleOfReturnedValuesInline">
-                Returns:{" "}
+                {t("returns")}:{" "}
                 <span className="stakes amount">{payoutAmountFormatted}</span>
               </span>
             </div>

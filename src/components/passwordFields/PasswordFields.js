@@ -9,6 +9,7 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import './PasswordFields.css'
+import { useClientTranslation } from "@/app/i18n/client";
 
 const PasswordFields = ({
   changePassword,
@@ -20,6 +21,7 @@ const PasswordFields = ({
   handleSubmit,
   isLoading,
 }) => {
+  const { t } = useClientTranslation("common");
   const [validation, setValidation] = useState({
     length: false,
     specialChar: false,
@@ -63,7 +65,7 @@ const PasswordFields = ({
           setCurrentPassword(value);
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("max_password_length_256_chars"),
           });
         }
         break;
@@ -73,7 +75,7 @@ const PasswordFields = ({
           setValidation(validateUserPassword(value));
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("max_password_length_256_chars"),
           });
         }
         break;
@@ -82,7 +84,7 @@ const PasswordFields = ({
           setConfirmPassword(value);
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("max_password_length_256_chars"),
           });
         }
         break;
@@ -95,13 +97,13 @@ const PasswordFields = ({
     <>
       {changePassword && (
         <div className="emailValidation">
-          <label className="newPasswordLabel">Current Password</label>
+          <label className="newPasswordLabel">{t("current_password")}</label>
           <div className="password-container position-relative">
             <input
               id="password"
               type={showPassword["currentpassword"] ? "text" : "password"}
               className="password_input"
-              placeholder="Enter current password"
+              placeholder={t("enter_current_password")}
               onChange={(e) =>
                 handlePassword(e.target.value, "current-password")
               }
@@ -118,7 +120,7 @@ const PasswordFields = ({
         </div>
       )}
       <div className="emailValidation">
-        <label className="newPasswordLabel">Password</label>
+        <label className="newPasswordLabel">{t("password")}</label>
         <div className="password-container">
           <input
             id="password"
@@ -138,25 +140,25 @@ const PasswordFields = ({
         </div>
         <p className="newPassChecks">
           <span className={validation.length ? "dot valid" : "dot"} />
-          Must be at least 8 characters
+          {t("password_length_requirement")}
         </p>
         <p className="newPassChecks">
           <span className={validation.specialChar ? "dot valid" : "dot"} />
-          Must include a special character
+          {t("password_character_requirement")}
         </p>
         <p className="newPassChecks">
           <span className={validation.numeric ? "dot valid" : "dot"} />
-          Must include a number
+          {t("password_number_requirement")}
         </p>
       </div>
       <div className="emailValidation">
-        <label className="newPasswordLabel">Confirm Password</label>
+        <label className="newPasswordLabel">{t("confirm_password")}</label>
         <div className="password-container">
           <input
             id="config_password"
             type={showPassword["confirmpassword"] ? "text" : "password"}
             className="password_input"
-            placeholder="Enter a password"
+            placeholder={t("enter_password")}
             onChange={(e) =>
               handlePassword(e.target.value, "confirm-password")
             }
@@ -179,7 +181,7 @@ const PasswordFields = ({
               : "dot"
           }
         />
-        Both passwords must match
+        {t("passwords_must_match")}
       </p>
       <div className="authButtonsContainer">
         <Button
@@ -195,7 +197,7 @@ const PasswordFields = ({
           onClick={(e) => {
             handleSubmit(e);
           }}
-          text={<>{isLoading ? <Loader /> : "Confirm"}</>}
+          text={<>{isLoading ? <Loader /> : t("confirm")}</>}
         />
       </div>
     </>

@@ -3,6 +3,7 @@ import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import classNames from "classnames";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const States = ({
   states,
@@ -11,6 +12,7 @@ export const States = ({
   setShowStates,
   handle,
 }) => {
+  const { t } = useClientTranslation(["sign_up", "common"]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   return (
@@ -28,7 +30,7 @@ export const States = ({
             <div className="modal-content-inside">
               <div className="modalTitle">
                 <p className="selectCountryTitle depositModalLimit">
-                  Select state or province
+                  {t("select_state_province")}
                 </p>
                 <Image
                   src={images.closeIcon}
@@ -50,8 +52,8 @@ export const States = ({
                   className="countriesSearch"
                 />
                 <input
-                  className=" decimalText searchField"
-                  placeholder="Search"
+                  className="decimalText searchField"
+                  placeholder={t("common:search")}
                   onChange={(e) => handle(e, "state")}
                 />
               </div>

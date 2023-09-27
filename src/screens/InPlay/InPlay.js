@@ -13,8 +13,10 @@ import { setCompetitions } from "../../store/actions";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const InPlay = () => {
+  const { t } = useClientTranslation("in_play");
   const [markets, setMarkets] = useState([]);
   const [message, setMessage] = useState("");
   const [marketId, setMarketId] = useState("");
@@ -42,7 +44,7 @@ const InPlay = () => {
         dispatch(setCompetitions(data));
 
         if (data.length < 1) {
-          setMessage("There are no games available at the moment!");
+          setMessage(t("no_games_available_message"));
         } else if (data.length < 3) {
           setShortContent(true);
           setMessage("");
@@ -105,7 +107,7 @@ const InPlay = () => {
                   </label>
                   <div className="autoCompleteMultipleInRow">
                     <AutocompleteSelect
-                      placeholder={id !== 15 ? "Select League" : "Competitions"}
+                      placeholder={id !== 15 ? t("select_league") : t("competitions")}
                       data={competitionsData.map((competition) => ({
                         label: competition.competition_name,
                         id: competition.competition_id,
@@ -121,9 +123,9 @@ const InPlay = () => {
                     />
                     {id === 15 && (
                       <>
-                        <AutocompleteSelect placeholder="Time" data={[]} />
-                        <AutocompleteSelect placeholder="Region" data={[]} />
-                        <AutocompleteSelect placeholder="Country" data={[]} />
+                        <AutocompleteSelect placeholder={t("common:time")} data={[]} />
+                        <AutocompleteSelect placeholder={t("common:region")} data={[]} />
+                        <AutocompleteSelect placeholder={t("common:country")} data={[]} />
                       </>
                     )}
                   </div>
@@ -141,7 +143,7 @@ const InPlay = () => {
                       setSelectionTypes(selectedMarket?.selections);
                       setMarketId(selectedMarket?.market_id);
                     }}
-                    placeholder="Select market"
+                    placeholder={t("select_market")}
                   />
                 )}
                 {competitionsData.length > 0 && (

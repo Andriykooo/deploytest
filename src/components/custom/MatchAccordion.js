@@ -44,7 +44,7 @@ export const MatchAccordion = ({ row, type, inPlay, number }) => {
 
               moreMarkets = false;
               return (
-                <React.Fragment key={row.event_id}>
+                <React.Fragment key={row.id}>
                   <MatchCard match={row} key={index} inPlay={inPlay} />
                 </React.Fragment>
               );

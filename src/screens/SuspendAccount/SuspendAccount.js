@@ -1,25 +1,22 @@
 "use client";
 
-import { clearLocalStorage } from "@/utils/localStorage";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import {
-  setErrorCode,
-  setLogOut,
-  setLoggedUser,
-  setUser,
-} from "@/store/actions";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { setSettingsApi } from "@/utils/apiQueries";
+import { useLogout } from "@/hooks/useLogout";
 import "../DepositLimit/DepositLimit.css";
 import "../SuspendAccount/SuspendAccount.css";
-import { setSettingsApi } from "@/utils/apiQueries";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const SuspendAccount = () => {
+  const { t } = useClientTranslation(["suspend_account", "common"]);
   const dispatch = useDispatch();
   const user_settings = useSelector((state) => state?.user_settings);
+  const logout = useLogout();
 
   const [selectedLimit, setSelectedLimit] = useState(-1);
   const [suspendPeriod, setSuspendPeriod] = useState(false);
@@ -34,44 +31,37 @@ const SuspendAccount = () => {
     let body = {
       suspend_account_for: suspendPeriod,
     };
-    setSettingsApi(body, dispatch)
-      .then(() => {
+    setSettingsApi(body, dispatch, {
+      onSuccess: (response) => {
         setIsLoading(false);
 
-        dispatch(setLogOut(null));
-        dispatch(setUser(null));
-        dispatch(setLoggedUser(null));
-        dispatch(
-          setErrorCode({
-            code: 1063,
-            message: `Your account has been suspended for ${suspendPeriod}
-                ${suspendPeriod === 1 ? "day" : "days"}.`,
-          })
-        );
-        clearLocalStorage();
-      })
-      .catch(() => {
+        if (!response?.error) {
+          logout();
+        }
+      },
+      onError: () => {
         setIsLoading(false);
-      });
+      },
+    });
   };
 
   var suspendText = "";
   if (suspendPeriod === 1) {
-    suspendText = "1 Day";
+    suspendText = `1 ${t("day")}`;
   } else if (suspendPeriod === 3) {
-    suspendText = "3 Days";
+    suspendText = `3 ${t("days")}`;
   } else if (suspendPeriod === 5) {
-    suspendText = "5 Days";
+    suspendText = `5 ${t("days")}`;
   } else if (suspendPeriod === 7) {
-    suspendText = "7 Days";
+    suspendText = `7 ${t("days")}`;
   } else if (suspendPeriod === 14) {
-    suspendText = "14 Days";
+    suspendText = `14 ${t("days")}`;
   } else if (suspendPeriod === 30) {
-    suspendText = "30 Days";
+    suspendText = `30 ${t("days")}`;
   } else if (suspendPeriod === 45) {
-    suspendText = "45 Days";
+    suspendText = `45 ${t("days")}`;
   } else {
-    suspendText = "Not Set";
+    suspendText = t("common:not_set");
   }
 
   const handleToggle = () => {
@@ -96,32 +86,30 @@ const SuspendAccount = () => {
 
   return (
     <>
-      <div className="depositLimit max-width-container gamblingContainer">
+      <div className="depositLimit max-width-container">
         <div>
           <PreferencesTitle
-            title="Suspend account"
+            title={t("common:suspend_account")}
             backRoute="/profile/safer_gambling"
             marginBottomSize="sm"
             showBackOnDesktop
           />
           <p className="menuText">
-            If you want to take a break from Swifty Predictions, we offer the
-            following options.
+            {t('break_options_message')}
           </p>
           <p className="menuText">
-            Once a timeout has been applied you will be logged out and you won't
-            be able to log in for the chosen duration.
+            {t('timeout_logout_message')}
           </p>
           <div className="row mb-3 susAccount">
-            <div className="col-6 subText">Suspend account for</div>
+            <div className="col-6 subText">{t("suspend_account_for")}</div>
             <PreferencesDropdown
-              data={{ ...suspendData, title: "Suspend account" }}
+              data={{ ...suspendData, title: t("common:suspend_account") }}
               selectedItem={selectedLimit}
               handleToggle={handleToggle}
               handleSelect={handleSetSelectedLimit}
               placeholder={suspendText}
               modalOnMobile
-              btnTitle="Set limit"
+              btnTitle={t("common:set_limit")}
             />
           </div>
         </div>
@@ -134,7 +122,7 @@ const SuspendAccount = () => {
                 : "btn finishBtn disabled setLimitBtn col-8")
             }
             onClick={() => suspendPeriod && handleSetLimit()}
-            text={<>{isLoading ? <Loader /> : "Suspend Account"}</>}
+            text={<>{isLoading ? <Loader /> : t("common:suspend_account")}</>}
           />
         </div>
       </div>

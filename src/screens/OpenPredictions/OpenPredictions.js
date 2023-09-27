@@ -15,8 +15,10 @@ import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const OpenPredictions = () => {
+  const { t } = useClientTranslation("common")
   const isMobile = useSelector((state) => state.setMobile);
   const [hasMore, setHasMore] = useState(false);
   const [activeBet, setActiveBet] = useState(-1);
@@ -27,13 +29,13 @@ const OpenPredictions = () => {
 
   const getDate = (date) => {
     const weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
+    weekday[0] = t("sunday");
+    weekday[1] = t("monday");
+    weekday[2] = t("tuesday");
+    weekday[3] = t("wednesday");
+    weekday[4] = t("thursday");
+    weekday[5] = t("friday");
+    weekday[6] = t("saturday");
     const currDate = new Date(date);
     let dateNow = currDate.getDate();
     dateNow > 30 ? (dateNow = dateNow + "st") : (dateNow = dateNow + "th");
@@ -97,7 +99,7 @@ const OpenPredictions = () => {
     >
       <div className="infiniteScroll">
         <ProfileBack />
-        <p className="menuTitle predictionsTitle mb-4">Bet History</p>
+        <p className="menuTitle predictionsTitle mb-4">{t("bet_history")}</p>
         {isMobile && (
           <div className="predictionsMobileMenuBar">
             <Button
@@ -108,7 +110,7 @@ const OpenPredictions = () => {
               text={
                 <>
                   <Image src={images.openPending} />
-                  &nbsp; Open
+                  &nbsp; {t("open")}
                 </>
               }
             />
@@ -121,7 +123,7 @@ const OpenPredictions = () => {
               text={
                 <>
                   <Image src={images.settledDone} />
-                  &nbsp; Settled
+                  &nbsp; {t("settled")}
                 </>
               }
             />
@@ -263,19 +265,19 @@ const OpenPredictions = () => {
                                                   <div className="col-8 predictionValues">
                                                     <div className="col stakeValue d-flex">
                                                       <span className="stakeReturn ">
-                                                        Stake:
+                                                        {t("stake")}:
                                                       </span>
                                                       {value.stake}
                                                     </div>
                                                     <div className="col stakeValue d-flex">
                                                       <span className="stakeReturn">
-                                                        Returns:
+                                                      {t("returns")}:
                                                       </span>
                                                       &nbsp;{value.returns}
                                                     </div>
                                                     <div className="col stakeValue  d-flex">
                                                       <span className="stakeReturn">
-                                                        Odds:
+                                                        {t("odds")}:
                                                       </span>
                                                       {value.odds}
                                                     </div>
@@ -297,7 +299,7 @@ const OpenPredictions = () => {
                                                       value?.user_bet_id ? (
                                                         <Loader />
                                                       ) : (
-                                                        "Cancel"
+                                                        t("cancel")
                                                       )}
                                                     </>
                                                   }

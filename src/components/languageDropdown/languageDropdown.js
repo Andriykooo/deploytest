@@ -1,17 +1,17 @@
 "use client";
 
 import { setLanguage } from "@/store/actions";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import "./languageDropdown.css";
 import { LanguageIcon } from "@/utils/icons";
+import { useClientPathname } from "@/hooks/useClientPathname";
+
+import "./languageDropdown.css";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const { pathname } = useClientPathname();
 
   const dropdownLangRef = useRef(null);
 
@@ -27,8 +27,7 @@ const LanguageDropdown = () => {
   const languageSelectHandler = (selectedLanguage) => {
     dispatch(setLanguage(selectedLanguage));
     toggleDropdown();
-    Cookies.set("language", selectedLanguage.code2.toLowerCase());
-    window.location.reload();
+    window.location.href = `/${selectedLanguage.code2.toLowerCase()}${pathname}`
   };
 
   useClickOutside(dropdownLangRef, () => {
@@ -49,12 +48,14 @@ const LanguageDropdown = () => {
             )
             ?.map((language) => (
               <li
-                className="dropdown-lang-item"
                 key={language?.code2}
+                className="dropdown-lang-item"
                 onClick={() => languageSelectHandler(language)}
               >
-                <LanguageIcon />
-                {language?.language_name}
+                <div className="dropdown-lang-item-link">
+                  <LanguageIcon />
+                  {language?.language_name}
+                </div>
               </li>
             ))}
       </ul>

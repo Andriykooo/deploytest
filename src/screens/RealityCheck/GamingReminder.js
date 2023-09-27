@@ -3,10 +3,27 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getTimeDifference } from "@/utils/global";
+import { useClientTranslation } from "@/app/i18n/client";
 
-const GamingReminderAlert = ({ time, setGamingAlert }) => {
+const GamingReminderAlert = ({ setGamingAlert }) => {
+  const { t } = useClientTranslation("common");
   const router = useRouter();
   const isMobile = useSelector((state) => state.setMobile);
+  const usageStartTime = useSelector((state) => state.usageStartTime);
+
+  const [time, setTime] = useState(getTimeDifference(usageStartTime));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(getTimeDifference(usageStartTime));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div
@@ -30,17 +47,14 @@ const GamingReminderAlert = ({ time, setGamingAlert }) => {
               className={"gaming-reminder-logo"}
             />
             <p className=" depositModalLimitReminder">
-              Hey! Here’s a friendly reminder
+              {t("friendly_reminder")}
             </p>
-            <p className="text-light">You’ve been using the app for</p>
-            <Button
-              className={"gaming-alert-button"}
-              text={`${time} minutes`}
-            />
+            <p className="text-light">{t("app_usage_duration_message")}</p>
+            {time && <Button className={"gaming-alert-button"} text={time} />}
           </div>
-          <div className="d-flex align-items-center flex-column">
+          <div className="d-flex align-items-center flex-column w-100">
             <Button
-              text={"Bet History"}
+              text={t("bet_history")}
               className={"gaming-reminder-history-button"}
               onClick={() => {
                 setGamingAlert(false);
@@ -48,7 +62,7 @@ const GamingReminderAlert = ({ time, setGamingAlert }) => {
               }}
             />
             <Button
-              text={"Ok, I get it"}
+              text={t("ok_i_get_it")}
               className={"gaming-reminder-accept-button"}
               onClick={() => {
                 setGamingAlert(false);

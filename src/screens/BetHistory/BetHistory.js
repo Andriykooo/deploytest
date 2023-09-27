@@ -21,10 +21,12 @@ import { EmptyState } from "@/components/emptyState/EmptyState";
 import "../DepositLimit/DepositLimit.css";
 import "./BetHistory.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const skeletonHeader = new Array(4).fill(0);
 
 const BetHistory = () => {
+  const { t } = useClientTranslation(["bet_history", "common"]);
   const [isLoading, setIsLoading] = useState(true);
   const [myBets, setMyBets] = useState([]);
   const [activeTab, setActiveTab] = useState(BET_HISTORY_TABS[0].value);
@@ -71,7 +73,7 @@ const BetHistory = () => {
     if (!tabDates.length) {
       const text = activeTab === BET_HISTORY_ALL_TAB ? "" : `${activeTab} `;
 
-      return <EmptyState message={`There are no ${text}bets !`} />;
+      return <EmptyState message={t("no_bets_message", { text })} />;
     }
 
     return tabDates.map((date) => {
@@ -115,7 +117,7 @@ const BetHistory = () => {
     <div className="depositLimit betHistoryBody">
       <div>
         <PreferencesTitle
-          title="Bet History"
+          title={t("common:bet_history")}
         />
         <div className="betHistoryMenuBar">
           {BET_HISTORY_TABS.map((tab) => (
@@ -128,7 +130,7 @@ const BetHistory = () => {
               text={
                 <>
                   <Image src={tab.icon} alt="my-bet-tab" />
-                  &nbsp; {tab.label}
+                  &nbsp; {t(`common:${tab.label}`)}
                 </>
               }
             />

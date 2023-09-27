@@ -19,6 +19,7 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 import "../Profile/Profile.css";
 import "../Withdraw/Withdraw.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const InfoDiv = styled.div`
   margin-bottom: 16px;
@@ -43,14 +44,13 @@ const EmailDiv = styled.div`
 `;
 
 const Profile = () => {
+  const { t } = useClientTranslation(["profile", "common"]);
   const loggedUser = useSelector((state) => state.loggedUser);
   const isTablet = useSelector((state) => state.isTablet);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [initStarted, setInitStarted] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [validation, setValidation] = useState({
     length: false,
@@ -99,7 +99,7 @@ const Profile = () => {
           setCurrentPassword(value);
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("password_max_length_requirement"),
           });
         }
         break;
@@ -109,7 +109,7 @@ const Profile = () => {
           setValidation(validateUserPassword(value));
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("password_max_length_requirement"),
           });
         }
         break;
@@ -118,7 +118,7 @@ const Profile = () => {
           setConfirmPassword(value);
         } else {
           alertToast({
-            message: "Maximum length of password must be 256 characters",
+            message: t("password_max_length_requirement"),
           });
         }
         break;
@@ -137,24 +137,6 @@ const Profile = () => {
     );
   };
 
-  useEffect(() => {
-    if (loggedUser?.user_data?.email_verified) {
-      setIsEmailVerified(true);
-    }
-
-    if (loggedUser?.user_data?.required_values?.phone_number === true) {
-      if (loggedUser?.user_data?.phone_number_verified === true) {
-        setPhoneNumber(
-          `${loggedUser?.user_data?.phone_prefix} ${loggedUser?.user_data?.phone_number}`
-        );
-      } else {
-        setPhoneNumber("Mobile verification required");
-      }
-    } else {
-      setPhoneNumber(false);
-    }
-  }, [loggedUser]);
-
   function getNewAccessToken() {
     setInitStarted(true);
     return apiServices
@@ -170,45 +152,40 @@ const Profile = () => {
         }
       });
   }
+
   const handleClickRedirect = () => {
     router.push("/sign_up_with_phone");
   };
 
   const handleEmailClickRedirect = () => {
-    router.push("/verify_email");
+    apiServices.get(apiUrl.RESEND_EMAIL).then(() => {
+      router.push("/verify_email");
+    });
   };
 
   return (
     <div className="depositLimit">
       <div className="pageContent">
-        <PreferencesTitle title="Profile" marginBottomSize="lg" />
+        <PreferencesTitle title={t("common:profile")} marginBottomSize="lg" />
 
         <div className="row col-4 mb-3 profileRow">
-          <InfoDiv>
-            <p className="fieldSubTitle m-2">Player ID</p>
-            <div className="playerId m-2">
-              {isEmailVerified ? (
-                <>
-                  <p className="playerId mb-0">
-                    {loggedUser?.user_data?.player_id}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="playerId notVerified mb-0">
-                    Email verification required
-                  </p>
-                </>
-              )}
-            </div>
-          </InfoDiv>
+          {loggedUser?.user_data?.player_id && (
+            <InfoDiv>
+              <p className="fieldSubTitle m-2">{t("player_id")}</p>
+              <div className="playerId m-2">
+                <p className="playerId mb-0">
+                  {loggedUser?.user_data?.player_id}
+                </p>
+              </div>
+            </InfoDiv>
+          )}
           <EmailDiv
             clickable={
               loggedUser?.user_data?.kyc_status === "verified" ? false : true
             }
           >
-            <p className="fieldSubTitle m-2">Email Verification</p>
-            {isEmailVerified ? (
+            <p className="fieldSubTitle m-2">{t("email_verification")}</p>
+            {loggedUser?.user_data?.email_verified ? (
               <>
                 <div className="playerId m-2">
                   {loggedUser?.user_data?.email}
@@ -223,7 +200,7 @@ const Profile = () => {
               <>
                 <div onClick={handleEmailClickRedirect}>
                   <p className="playerId notVerified m-2 ">
-                    Email verification required
+                    {t("email_verify_required")}
                   </p>
                   <Image
                     alt="img-arrowIcon"
@@ -234,41 +211,42 @@ const Profile = () => {
               </>
             )}
           </EmailDiv>
-
-          {phoneNumber === "Mobile verification required" ? (
-            <InfoDiv>
-              <div onClick={handleClickRedirect}>
-                <p className="fieldSubTitle m-2" style={{ cursor: "pointer" }}>
-                  Mobile Number
-                </p>
-                <div>
-                  <div className="d-flex ">
-                    <p className="playerId notVerified m-2">{phoneNumber}</p>
+          {loggedUser?.user_data?.required_values?.phone_number && (
+            <>
+              {loggedUser?.user_data?.phone_number_verified ? (
+                <InfoDiv>
+                  <p className="fieldSubTitle m-2">{t("common:mobile_number")}</p>
+                  <p className="playerId m-2" style={{ lineHeight: "40px" }}>
+                    {loggedUser?.user_data?.phone_prefix}{" "}
+                    {loggedUser?.user_data?.phone_number}
+                  </p>
+                  <Image
+                    alt="img-validated"
+                    src={images.validated}
+                    className="profileValidated"
+                  />
+                </InfoDiv>
+              ) : (
+                <InfoDiv>
+                  <div onClick={handleClickRedirect}>
+                    <p
+                      className="fieldSubTitle m-2"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {t("common:mobile_number")}
+                    </p>
+                    <p className="playerId notVerified m-2">
+                      {t("mobile_verification_required")}
+                    </p>
                     <Image
                       alt="img-arrowIcon"
                       src={images.arrowIcon}
                       className="profileArrow"
                     />
                   </div>
-                </div>
-              </div>
-            </InfoDiv>
-          ) : (
-            phoneNumber && (
-              <InfoDiv>
-                <div>
-                  <p className="fieldSubTitle m-2">Mobile Number</p>
-                  <p className="playerId m-2" style={{ lineHeight: "40px" }}>
-                    {phoneNumber}
-                  </p>
-                  <Image
-                    alt="img-validated"
-                    src={images.validated}
-                    className="profileValidated "
-                  />
-                </div>
-              </InfoDiv>
-            )
+                </InfoDiv>
+              )}
+            </>
           )}
           <InfoDiv
             onClick={() => {
@@ -276,10 +254,10 @@ const Profile = () => {
                 getNewAccessToken();
             }}
           >
-            <p className="fieldSubTitle m-2 cursorPointer">Proof of Identity</p>
+            <p className="fieldSubTitle m-2 cursorPointer">{t("proof_of_identify")}</p>
             {loggedUser?.user_data?.kyc_status === "verified" && (
               <div>
-                <p className="playerId m-2">Account is verified</p>
+                <p className="playerId m-2">{t("account_is_verified")}</p>
                 <Image
                   alt="img-validated"
                   src={images.validated}
@@ -290,7 +268,7 @@ const Profile = () => {
             {loggedUser?.user_data?.kyc_status === "rejected" && (
               <div className="d-flex">
                 <p className="playerId notVerified m-2">
-                  Account verification rejected
+                  {t("account_verify_rejected")}
                 </p>
 
                 {initStarted ? (
@@ -308,7 +286,7 @@ const Profile = () => {
             )}
             {loggedUser?.user_data?.kyc_status === "pending" && (
               <div className="cursorPointer">
-                <p className="playerId m-2">Account verification pending</p>
+                <p className="playerId m-2">{t("account_verify_pending")}</p>
 
                 {initStarted && (
                   <div>
@@ -320,7 +298,7 @@ const Profile = () => {
 
             {loggedUser?.user_data?.kyc_status === "init" && (
               <div className="cursorPointer">
-                <p className="playerId m-2">Account verification started</p>
+                <p className="playerId m-2">{t("account_verify_started")}</p>
 
                 {initStarted && (
                   <div>
@@ -334,7 +312,7 @@ const Profile = () => {
               <div>
                 <div className="d-flex">
                   <p className="playerId notVerified m-2">
-                    Account verification required
+                    {t("account_verify_required")}
                   </p>
                   {initStarted ? (
                     <div>
@@ -359,7 +337,7 @@ const Profile = () => {
                 : setShowChangePassword(true)
             }
           >
-            <p className="fieldSubTitle m-3 ms-2">Change Password</p>
+            <p className="fieldSubTitle m-3 ms-2">{t("common:change_password")}</p>
             <Image
               alt="img-arrowIcon"
               src={images.arrowIcon}

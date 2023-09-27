@@ -3,10 +3,12 @@ import { EmptyFolder } from "@/utils/icons";
 import { useEffect, useState } from "react";
 import { MyBet } from "./MyBet/MyBet";
 import { alertToast } from "@/utils/alert";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const myBetsArray = ["All", "Open", "Settled"];
 
 export const MyBets = () => {
+  const { t } = useClientTranslation("common");
   const [selectedButton, setSelectedButton] = useState(1);
   const [myBets, setMyBets] = useState(null);
 
@@ -61,7 +63,7 @@ export const MyBets = () => {
         })}
       </div>
       {selectedButton === 1 && myBets?.length > 0 && (
-        <div className="my-bets-hint">Showing last 7 days</div>
+        <div className="my-bets-hint">{t("showing_last_7_days")}</div>
       )}
       {myBets?.length > 0 ? (
         <div className="my-bets">
@@ -71,10 +73,10 @@ export const MyBets = () => {
         </div>
       ) : (
         <div className="empty-slip">
-          <span className="empty-slip-text mb">Your bet slip is empty!</span>
+          <span className="empty-slip-text mb">{t("empty_bet_slip")}</span>
           <EmptyFolder />
           <span className="empty-slip-text mt">
-            Make some selections and they will show up here
+            {t("selections_description")}
           </span>
         </div>
       )}

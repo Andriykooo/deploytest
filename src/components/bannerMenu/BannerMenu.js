@@ -21,7 +21,7 @@ export const BannerMenu = ({
       style={{ height: subtitle ? "115px" : "91px" }}
     >
       {image && (
-        <Image src={image} alt="banner" className="banner-menu-image" fill />
+        <Image src={image} alt="banner" className="banner-menu-image" fill priority />
       )}
       <div className="banner-menu-content">
         {title && <div className="banner-menu-title">{title}</div>}

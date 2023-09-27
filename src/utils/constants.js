@@ -90,23 +90,23 @@ export const sports = [
   },
 ];
 export const monthDates = [
-  { month: "March", year: "2023" },
-  { month: "February", year: "2023" },
-  { month: "January", year: "2023" },
-  { month: "December", year: "2023" },
-  { month: "November", year: "2022" },
-  { month: "October", year: "2022" },
-  { month: "September", year: "2022" },
-  { month: "August", year: "2022" },
-  { month: "July", year: "2022" },
-  { month: "June", year: "2022" },
-  { month: "May", year: "2022" },
-  { month: "April", year: "2022" },
+  { month: "march", year: "2023" },
+  { month: "february", year: "2023" },
+  { month: "january", year: "2023" },
+  { month: "december", year: "2023" },
+  { month: "november", year: "2022" },
+  { month: "october", year: "2022" },
+  { month: "september", year: "2022" },
+  { month: "august", year: "2022" },
+  { month: "july", year: "2022" },
+  { month: "june", year: "2022" },
+  { month: "may", year: "2022" },
+  { month: "april", year: "2022" },
 ];
 
 export const profileCards = [
   {
-    cardName: "Bonuses & Promotions",
+    cardName: "bonuses_promotions",
     image: images.bonusesAndPromotionsIcon,
     route: "/profile/bonuses_promotions",
     text: "bonuses_promotions",
@@ -114,63 +114,63 @@ export const profileCards = [
     arrow: true,
   },
   {
-    cardName: "Deposit",
+    cardName: "deposit",
     image: images.depositIcon,
     route: "/profile/deposit",
     text: "deposit",
     arrow: true,
   },
   {
-    cardName: "Withdraw",
+    cardName: "withdraw",
     image: images.withdrawIcon,
     route: "/profile/withdraw",
     text: "withdraw",
     arrow: true,
   },
   {
-    cardName: "Bet History",
+    cardName: "bet_history",
     image: images.predictionIcon,
     route: "/profile/bet_history",
     text: "bet_history",
     arrow: true,
   },
   {
-    cardName: "Transaction History",
+    cardName: "transaction_history",
     image: images.transactionIcon,
     route: "/profile/transaction_history",
     text: "transaction_history",
     arrow: true,
   },
   {
-    cardName: "Net Deposit",
+    cardName: "net_deposit",
     image: images.netDepositIcon,
     route: "/profile/net_deposit",
     text: "net_deposit",
     arrow: true,
   },
   {
-    cardName: "Profile",
+    cardName: "profile",
     image: images.profileMenuIcon,
     route: "/profile/profile",
     text: "profile",
     arrow: false,
   },
   {
-    cardName: "Notifications",
+    cardName: "notifications",
     image: images.notificationsIcon,
     route: "/profile/notifications",
     text: "notifications",
     arrow: false,
   },
   {
-    cardName: "Odds Format",
+    cardName: "odds_format",
     image: images.oddsIcon,
     route: "/profile/odds_format",
     text: "odds_format",
     arrow: false,
   },
   {
-    cardName: "Safer Gambling",
+    cardName: "safer_gambling",
     image: images.saferGamblingIcon,
     route: "/profile/safer_gambling",
     text: "safer_gambling",
@@ -180,13 +180,13 @@ export const profileCards = [
 
 export const predictionPages = [
   {
-    cardName: "Open",
+    cardName: "open",
     image: images.openBets,
     route: "/profile/open_predictions",
     text: "open_predictions",
   },
   {
-    cardName: "Settled",
+    cardName: "settled",
     image: images.settledBets,
     route: "/profile/settled_predictions",
     text: "settled_predictions",
@@ -228,11 +228,11 @@ export const settledPredictions = [
 ];
 export const oddsFormatTypes = [
   {
-    format: "Decimal",
+    format: "decimal",
     id: "decimal",
   },
   {
-    format: "Fractional",
+    format: "fractional",
     id: "fractional",
   },
   // {
@@ -381,68 +381,80 @@ export const swiftyMenuSpecial = [
 
 export const horseRacingHomeMenu = [
   {
-    name: "Today",
+    name: "today",
   },
   {
-    name: "Tomorrow",
+    name: "tomorrow",
   },
 ];
 
 export const inPlayHomeMenu = [
   {
-    name: "Football",
+    name: "football",
   },
   {
-    name: "Golf",
+    name: "golf",
   },
   {
-    name: "Cricket",
+    name: "cricket",
   },
   {
-    name: "Darts",
+    name: "darts",
   },
   {
-    name: "Snooker",
+    name: "snooker",
   },
 ];
 
 export const pushNotifications = [
   {
-    title: "Push Notifications",
+    title: "push_notifications",
     status: true,
-    text: "Sport updates and promotions",
+    text: "sports_update_promotions",
     key: "sports_update_promotions",
   },
-  { status: false, text: "Bet updates", key: "bet_updates" },
+  { status: false, text: "bet_updates", key: "bet_updates" },
 ];
 export const emailNotifications = [
   {
-    title: "Email Notifications",
+    title: "email_notifications",
     status: false,
-    text: "Marketing and promotional",
+    text: "marketing_promotional",
     key: "marketing_promotional",
   },
-  { status: true, text: "News and updates", key: "news_and_updates" },
+  { status: true, text: "news_and_updates", key: "news_and_updates" },
+  { status: true, text: "bet_updates", key: "email_bet_updates" },
+
 ];
 
 export const types = [
   {
-    name: "Selected",
+    name: "selected",
     color: "var(--global-color-tertiary)",
   },
   {
-    name: "Price going out (Drifting) ",
+    name: "price_going_out",
     color: "var(--global-color-price-drifting)",
   },
   {
-    name: "Price coming in (Shortening)",
+    name: "price_coming_in",
     color: "var(--global-color-price-shortening)",
   },
   {
-    name: "Suspended",
+    name: "suspended",
     color: "var(--global-color-shade4)",
   },
 ];
+
+export const depositAmounts = [10, 20, 50, 100, 200, 500]
+
+export const depositAmountsOnMobile = [10, 20, 30, 40, 50]
+
+export const depositSteps = {
+  limit: 'limit',
+  amount: 'amount',
+  deposit: 'deposit'
+}
 
 export const subscribePages = ["/inplay", "/match"];
 
@@ -499,19 +511,19 @@ export const homeEvents = [
 
 export const betGroupLinks = [
   {
-    name: "LIVE-BETTING",
+    name: "live_betting",
     icon: <LiveBettingIcon />,
   },
   {
-    name: "ODDS BOOST",
+    name: "odds_boost",
     icon: <OddsBoostIcon />,
   },
   {
-    name: "FASTEST PAYOUTS",
+    name: "fastest_payouts",
     icon: <FastestPayoutsIcon />,
   },
   {
-    name: "ONLINE CASINO",
+    name: "online_casino",
     icon: <Games background={theme?.colors?.mainTertiary} />,
   },
 ];
@@ -1190,31 +1202,18 @@ export const countries = [
 ];
 
 export const multipleBetTypesInfo = {
-  double:
-    "A single bet on two outcomes in different events. Both selections must be successful to have a return.",
-  treble:
-    "A single bet on three outcomes in different events. All three selections must win to guarantee a return.",
-  trixie:
-    "A bet comprising three selections and four bets – three doubles and a treble. A minimum of two selections must win to guarantee a return. For example, a £2.50 Trixie would cost £10. A £2.50 each-way Trixie would cost £20.",
-  patent:
-    "A bet involving three selections and seven bets – three singles, three doubles and one treble. It is the equivalent of a Trixie but with the addition of three singles. For example, a £2.50 Patent would cost £17.50.",
-  accumulator:
-    "An accumulator comprises of four or more selections in one bet. All of the selections must win to guarantee a return.",
-  fold: "An accumulator comprises of four or more selections in one bet. All of the selections must win to guarantee a return.",
-  yankee:
-    "A bet consisting of four selections and 11 bets – six doubles, four trebles and a fourfold. A minimum of two selections must win to guarantee you a return. For example, a £2 Yankee would cost £22.",
-  lucky15:
-    "A popular betting type among punters, it consists of four selections and 15 bets (hence the name) – four singles, six doubles, four trebles and a fourfold. Equivalent to a Yankee but with four singles, and only one selection must win to guarantee you a return. For example, a £2 Lucky 15 would cost £30.",
-  lucky31:
-    "A wager consisting of five selections and 31 bets – five singles, ten doubles, ten trebles, five fourfolds, and one fivefold. Only one selection must win to guarantee you a return. For example, a £1 Lucky 31 would cost £31.",
-  lucky63:
-    "A Lucky 63 is a bet featuring six selections and 63 bets, including: six singles, 15 doubles, 20 trebles, 15 fourfolds, six fivefolds and one sixfold.",
-  canadian:
-    "Also known as a Super Yankee, a Canadian is a bet on five selections consisting of 26 bets – ten doubles, ten trebles, five fourfold’s and a five-fold accumulator.",
-  heinz:
-    "The Heinz bet is a six-selection bet consisting of 57 bets: 15 doubles, 20 trebles, 15 fourfolds, six fivefolds and a one sixfold accumulator. Aptly named after the 57 ‘varieties’ company slogan from Heinz, this 57 bet wager is a unique bet that combines every permutation of the 6 selections into one single wager.",
-  superheinz:
-    "The Super Heinz is a bet on seven selections taking part in various events consisting of 21 doubles, 35 trebles, 35 fourfolds, 21 fivefolds, seven sixfolds, and a sevenfold accumulator which totals a huge 120 bets. Two selections must win to ensure any returns.",
-  goliath:
-    "A Goliath is a bet on eight selections taking part in various events consisting of 28 doubles, 56 trebles, 70 fourfolds, 56 fivefolds, 28 sixfolds, eight sevenfolds and an eightfold accumulator totalling 247 bets. Two selections must win to ensure any returns.",
+  double: "double_bet_description",
+  treble: "triple_bet_description",
+  trixie: "trixie_bet_description",
+  patent: "patent_bet_description",
+  accumulator: "accumulator_bet_description",
+  fold: "accumulator_bet_description",
+  yankee: "yankee_bet_description",
+  lucky15: "lucky_15_bet_description",
+  lucky31: "lucky_31_bet_description",
+  lucky63: "lucky_63_bet_description",
+  canadian: "canadian_bet_description",
+  heinz: "heinz_bet_description",
+  superheinz: "super_heinz_bet_description",
+  goliath: "goliath_bet_description",
 };

@@ -2,8 +2,10 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const TransactionModals = ({ type }) => {
+  const { t } = useClientTranslation(["transaction_history", "common"]);
   const isMobile = useSelector((state) => state.setMobile);
   return (
     <div>
@@ -15,7 +17,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#betPlacedModal"
-            text={"Placed"}
+            text={t("placed")}
           />
           <div
             className="modal fade"
@@ -38,7 +40,7 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      Bet Placed (#3243)
+                      {t("bet_placed")} (#3243)
                     </p>
                   </div>
                 </div>
@@ -49,13 +51,13 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">Stake: 50.00</p>
+                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className={"btn finishBtn col-8"}
-                    text={"Close"}
+                    text={t("common:close")}
                   />
                 </div>
               </div>
@@ -74,7 +76,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#betPushedModal"
-            text={"Pushed"}
+            text={t("pushed")}
           />
           <div
             className="modal fade"
@@ -97,7 +99,7 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      Bet Pushed (#1223)
+                      {t("bet_pushed")} (#1223)
                     </p>
                   </div>
                 </div>
@@ -108,13 +110,13 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">Stake: 50.00</p>
+                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className={"btn finishBtn col-8"}
-                    text={"Close"}
+                    text={t("common:close")}
                   />
                 </div>
               </div>
@@ -134,7 +136,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#betCancelledModal"
-            text={"Cancelled"}
+            text={t("cancelled")}
           />
           <div
             className="modal fade"
@@ -157,7 +159,7 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      Bet Cancelled (#3243)
+                      {t("bet_cancelled")} (#3243)
                     </p>
                   </div>
                 </div>
@@ -168,13 +170,13 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">Stake: 50.00</p>
+                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={"Close"}
+                    text={t("common:close")}
                   />
                 </div>
               </div>
@@ -193,7 +195,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#depositModal"
-            text={"Deposit"}
+            text={t("common:deposit")}
           />
           <div
             className="modal fade"
@@ -216,19 +218,19 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      Deposit
+                      {t("common:deposit")}
                     </p>
                   </div>
                 </div>
                 <div className="modal-body">
                   <p className="fundsMsgModal placed depositSum ">$ 100</p>
-                  <p className="fundsMsgModal">Has been deposited by card</p>
+                  <p className="fundsMsgModal">{t("deposited_by_card")}</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={"Close"}
+                    text={t("common:close")}
                   />
                 </div>
               </div>
@@ -247,7 +249,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#withdrawalModal"
-            text={"Withdraw"}
+            text={t("common:withdraw")}
           />
           <div
             className="modal fade"
@@ -270,19 +272,19 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      Withdrawal
+                      {t("withdrawal")}
                     </p>
                   </div>
                 </div>
                 <div className="modal-body">
                   <p className="fundsMsgModal placed depositSum ">$ 57</p>
-                  <p className="fundsMsgModal">Has been withdrawned to card</p>
+                  <p className="fundsMsgModal">{t("withdrawn_to_card")}</p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={"Close"}
+                    text={t("common:close")}
                   />
                 </div>
               </div>

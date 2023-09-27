@@ -24,7 +24,6 @@ const PreferencesDropdown = ({
 }) => {
   const listRef = useRef(null);
   const isTablet = useSelector((state) => state.isTablet);
-
   useClickOutside(listRef, handleToggle)
   return (
     <div className="col-6 selectDepositDiv ">

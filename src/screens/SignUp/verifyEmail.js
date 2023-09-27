@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
-import "../../components/loaders/Loader.css";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -16,8 +14,10 @@ import { apiUrl } from "../../utils/constants";
 import "../Login/Login.css";
 import Cookies from "js-cookie";
 import classNames from "classnames";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const VerifyEmail = () => {
+  const { t } = useClientTranslation(["verify_email", "common"]);
   const [OTP, setOTP] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(59);
@@ -27,8 +27,8 @@ const VerifyEmail = () => {
   const isValid = OTP.length === 4;
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    addLocalStorageItem("tempHome", false);
     let myInterval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -42,6 +42,7 @@ const VerifyEmail = () => {
         }
       }
     }, 1000);
+
     return () => {
       clearInterval(myInterval);
     };
@@ -50,11 +51,11 @@ const VerifyEmail = () => {
   const resetTimer = (e) => {
     e.preventDefault();
     setMinutes(1);
-    let url = apiUrl.RESEND_EMAIL;
+
     apiServices
-      .get(url)
+      .get(apiUrl.RESEND_EMAIL)
       .then(() => {
-        SuccesToast({ message: "Resend code succesfully" });
+        SuccesToast({ message: t("common:resend_code_success") });
       })
       .catch(() => {
         setLoader(false);
@@ -104,8 +105,8 @@ const VerifyEmail = () => {
 
   return (
     <div className="backgroundImage">
-      <div className="loginForm d-grid justify-content-center px-4">
-        <p className="logInTitle">Verify your e-mail address</p>
+      <div className="loginForm px-4">
+        <p className="logInTitle">{t("verify_email_address")}</p>
         <form className="d-grid justify-content-center">
           <div className="codeVerification">
             <OTPInput
@@ -120,7 +121,7 @@ const VerifyEmail = () => {
             />
           </div>
           <p className="codeSent mb-5">
-            We have sent a code to your email at
+            {t("code_sent_to_email_at")}
             <strong> {user?.email}</strong>
           </p>
           <div className="authButtonsContainer">
@@ -132,9 +133,8 @@ const VerifyEmail = () => {
               disabled={!resendIsActive}
               text={
                 <span>
-                  Resend
-                  {!resendIsActive &&
-                    ` in ${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+                  {resendIsActive ? t("common:resend") : `${t("common:resend_in")} ${minutes}:${seconds < 10 ? `0${seconds}` : seconds
+                    }`}
                 </span>
               }
             />
@@ -144,7 +144,7 @@ const VerifyEmail = () => {
                 validBtn: isValid,
               })}
               onClick={verifyCode}
-              text={loader ? <Loader /> : "Verify"}
+              text={loader ? <Loader /> : t("common:verify")}
             />
           </div>
         </form>

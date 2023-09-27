@@ -1,58 +1,108 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
+import { apiUrl, depositSteps } from "../../utils/constants";
 import ProfileBack from "@/components/profileBack/ProfileBack";
 import "../Deposit/Deposit.css";
 import "../DepositLimit/DepositLimit.css";
+import DepositLimitComponent from "@/components/DepositLimitComponent/DepositLimitComponent";
+import DepositAmountForm from "@/components/DepositAmountForm/DepositAmountForm";
 
 const Deposit = () => {
   const [paymentUrl, setPaymentUrl] = useState("");
-  const [getLinkLoading, setGetLinkLoading] = useState(false);
+  const [getLinkLoading, setGetLinkLoading] = useState(true);
+  const [step, setStep] = useState();
+  const [amount, setAmount] = useState(0);
+  const [isLodaing, setIsLoading] = useState(true);
 
-  const handleGatewayLink = () => {
-    setGetLinkLoading(true);
+  const getGatewayLink = useCallback((value) => {
     apiServices
-      .post(apiUrl.GET_PAYMENT_GATEWAY_LINK, { amount: 10 })
+      .post(apiUrl.GET_PAYMENT_GATEWAY_LINK, { amount: value }, !!value)
       .then((data) => {
         if (data?.link) {
+          setStep(depositSteps.deposit);
           setPaymentUrl(data?.link);
         }
         setGetLinkLoading(false);
       })
-      .catch(() => {
+      .catch((e) => {
+        if (e.response.data.error.code === 1015) {
+          setStep(depositSteps.limit);
+        } else {
+          setStep(depositSteps.amount);
+        }
         setGetLinkLoading(false);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
+  }, []);
+
+  const onSetAmount = () => {
+    setGetLinkLoading(true);
+    getGatewayLink(amount);
   };
 
   useEffect(() => {
-    handleGatewayLink();
+    getGatewayLink();
   }, []);
 
-  return (
-    <div className="depositLimit">
-      <div className="contentPosition secondContentPosition">
-        <div className="pageContent">
-          <ProfileBack />
-        </div>
+  if (isLodaing) {
+    return (
+      <div className="depositLimit">
+        <Loader />
       </div>
-      {!getLinkLoading && paymentUrl ? (
-        <iframe
-          src={paymentUrl}
-          height="80%"
-          width="100%"
-          title="Gateway Iframe"
-          className="gateway-iframe"
-        ></iframe>
-      ) : (
-        <div className="depositLoader">
-          <Loader />
+    );
+  }
+
+  switch (step) {
+    case depositSteps.limit:
+      return (
+        <DepositLimitComponent
+          onSetLimit={() => setStep(depositSteps.amount)}
+          backRoute="/profile"
+        />
+      );
+
+    case depositSteps.amount:
+      return (
+        <DepositAmountForm
+          onSetAmount={() => onSetAmount()}
+          isLoading={getLinkLoading}
+          setAmount={setAmount}
+          amount={amount}
+        />
+      );
+
+    case depositSteps.deposit:
+      return (
+        <div className="depositLimit">
+          <div className="contentPosition secondContentPosition">
+            <div className="pageContent">
+              <ProfileBack />
+            </div>
+          </div>
+          {getLinkLoading ? (
+            <div className="depositLoader">
+              <Loader />
+            </div>
+          ) : (
+            <iframe
+              src={paymentUrl}
+              height="80%"
+              width="100%"
+              title="Gateway Iframe"
+              className="gateway-iframe"
+            ></iframe>
+          )}
         </div>
-      )}
-    </div>
-  );
+      );
+
+    default:
+      return null;
+  }
 };
 
 export default Deposit;

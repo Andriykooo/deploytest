@@ -11,30 +11,36 @@ import "../OddsFormat/OddsFormat.css";
 import classNames from "classnames";
 import { useState } from "react";
 import { setSettingsApi } from "@/utils/apiQueries";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const OddsFormat = () => {
+  const { t } = useClientTranslation(["odds_format", "common"]);
   const loggedUser = useSelector((state) => state.loggedUser);
   const isTablet = useSelector((state) => state.isTablet);
-  const [activeOdd, setActiveOdd] = useState(loggedUser?.user_data?.settings?.odds_format)
+  const [activeOdd, setActiveOdd] = useState(
+    loggedUser?.user_data?.settings?.odds_format
+  );
 
   const dispatch = useDispatch();
   const handleClick = (key) => {
-    setActiveOdd(key)
+    setActiveOdd(key);
     const body = {
       odds_format: key,
     };
 
-    setSettingsApi(body, dispatch).then((result) => {
-      if (Object.keys(result).length < 1) {
-        let newUser = {};
-        Object.assign(newUser, loggedUser);
-        newUser.user_data.settings.odds_format = key;
-        dispatch(setLoggedUser(newUser));
-      }
+    setSettingsApi(body, dispatch, {
+      onSuccess: (result) => {
+        if (Object.keys(result).length < 1) {
+          let newUser = {};
+          Object.assign(newUser, loggedUser);
+          newUser.user_data.settings.odds_format = key;
+          dispatch(setLoggedUser(newUser));
+        }
 
-      if (!result?.error) {
-        SuccesToast({ message: "Odds format updated!" });
-      }
+        if (!result?.error) {
+          SuccesToast({ message: t("odds_format_updated") });
+        }
+      },
     });
   };
 
@@ -44,7 +50,7 @@ const OddsFormat = () => {
         "max-width-container": !isTablet,
       })}
     >
-      <PreferencesTitle title="Odds Format" marginBottomSize="lg" />
+      <PreferencesTitle title={t("common:odds_format")} marginBottomSize="lg" />
       {oddsFormatTypes.map((value, index) => {
         return (
           <div
@@ -56,7 +62,7 @@ const OddsFormat = () => {
             })}
           >
             <span className="">
-              <p className="decimalText">{value.format}</p>
+              <p className="decimalText">{t(value.format)}</p>
             </span>
             {activeOdd === value.id ? (
               <Image

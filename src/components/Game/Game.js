@@ -18,6 +18,7 @@ import { apiUrl } from "../../utils/constants";
 import { LikeIcon } from "../../utils/icons";
 import { CasinoPlayNow } from "../modal/CasinoPlayNow";
 import { addToFavouriteGames, removeFromFavouriteGames } from "@/store/actions";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const trendingNumbers = {
   0: numberZeroTrending,
@@ -48,6 +49,7 @@ const TrendingNumber = ({ number }) => {
 };
 
 export const Game = ({ game, className, number, height, width }) => {
+  const { t } = useClientTranslation(["casino", "common"])
   const dispatch = useDispatch();
   const user = useSelector((state) => state.loggedUser);
   const favoriteGames = useSelector((state) => state.favouriteGames);
@@ -64,7 +66,7 @@ export const Game = ({ game, className, number, height, width }) => {
           gameId: game.id,
         })
         .then(() => {
-          SuccesToast({ message: "Game added to favorites!" });
+          SuccesToast({ message: t("game_added_to_favorites") });
         });
     } else {
       dispatch(removeFromFavouriteGames(game));
@@ -74,7 +76,7 @@ export const Game = ({ game, className, number, height, width }) => {
           gameId: game.id,
         })
         .then(() => {
-          SuccesToast({ message: "Game removed from favorites!" });
+          SuccesToast({ message: t("game_removed_from_favorites") });
         });
     }
   };
@@ -108,12 +110,13 @@ export const Game = ({ game, className, number, height, width }) => {
             src={game?.image_url}
             alt={game?.name}
             quality={40}
+            priority
             onClick={openGame}
             width={width || 206}
             height={height || 190}
           />
           <button className="btnPrimary btnPlayNow" onClick={openGame}>
-            Play Now
+            {t("common:play_now")}
           </button>
         </div>
       </div>

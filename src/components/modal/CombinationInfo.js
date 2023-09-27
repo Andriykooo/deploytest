@@ -2,12 +2,14 @@ import { useSelector } from "react-redux";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { multipleBetTypesInfo } from "@/utils/constants";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const CombinationInfo = ({
   name,
   type,
   setShowModal,
 }) => {
+  const { t } = useClientTranslation("common")
   const isMobile = useSelector((state) => state.setMobile);
   return (
     <div
@@ -39,7 +41,7 @@ const CombinationInfo = ({
           <p className=" depositModalLimitReminder">
             {name}
           </p>
-          <p className="text-light m-3 text-center">{multipleBetTypesInfo[type]}</p>
+          <p className="text-light m-3 text-center">{t(multipleBetTypesInfo[type])}</p>
         </div>
       </div>
     </div>

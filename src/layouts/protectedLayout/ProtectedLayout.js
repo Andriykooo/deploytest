@@ -11,7 +11,7 @@ export const ProtectedLayout = ({ children }) => {
 
   useEffect(() => {
     if (!accessToken) {
-      redirect("/login");
+      redirect("/");
     }
   }, [loggedUser]);
 

@@ -1,5 +1,6 @@
 .error-page {
   position: relative;
+  background-color: var(--global-color-shade2);
 }
 
 .error-page::after {

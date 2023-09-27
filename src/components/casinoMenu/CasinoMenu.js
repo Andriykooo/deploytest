@@ -10,6 +10,8 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import "./CasinoMenu.css";
 import { setCasinoCategory } from "@/store/actions";
+import { t } from "i18next";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const skeletonArray = Array(5).fill(null);
 
@@ -20,6 +22,7 @@ const CasinoMenu = ({
   category,
   isLoading,
 }) => {
+  const { t } = useClientTranslation("common");
   const isTablet = useSelector((state) => state.isTablet);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
@@ -70,7 +73,7 @@ const CasinoMenu = ({
                   selected: !category,
                 })}
                 type="button"
-                text="Home"
+                text={t("home")}
               />
             </div>
             {data
@@ -107,7 +110,7 @@ const CasinoMenu = ({
               ref={inputRef}
               className={classNames("searchInput", { active: activeSearch })}
               type="text"
-              placeholder={!isTablet ? "Search" : ""}
+              placeholder={!isTablet ? t("search") : ""}
               value={search}
               onChange={handleSearch}
             />

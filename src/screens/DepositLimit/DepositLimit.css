@@ -51,7 +51,7 @@
 
 .depositLimit .suspendButton {
   margin: 0;
-  margin-bottom: 0;
+  margin-bottom: 20px;
   margin-top: 24px;
 }
 
@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 34px;
   line-height: 38px;
   color: var(--global-color-text-primary);
@@ -153,22 +153,25 @@
   padding: 0 !important;
 }
 
+.gaming-reminder-accept-button,
 .gaming-reminder-history-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 327px;
   background: transparent;
-  color: #ffff;
   border-radius: 10px;
-  border: 1px solid #bc9239 !important;
+  color: #ffff;
   height: 48px;
+}
+
+.gaming-reminder-history-button {
+  border: 1px solid #bc9239 !important;
   margin-bottom: 16px;
 }
 
 .gaming-reminder-accept-button {
-  width: 327px;
   background: #bc9239;
-  color: #ffff;
-  border-radius: 10px;
-  height: 48px;
   margin-bottom: 46px;
 }
 
@@ -270,14 +273,13 @@
 
 .confirmDepositLimit {
   position: relative;
-  padding-top: 30px !important;
+  padding-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
   flex-direction: column;
   gap: 40px;
-  width: 90%;
+  width: 100%;
 }
 
 .confirmContainer {
@@ -420,14 +422,10 @@
 .confirmDepositButtons {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   padding: 0px;
-  gap: 15px;
   width: 100%;
-  height: 111px;
-  flex: none;
-  order: 3;
-  flex-grow: 0;
 }
 
 .confirmFirstDepositButton {
@@ -494,7 +492,6 @@
 }
 
 .confirm-modalContent {
-  height: 550px;
   overflow: auto;
 }
 
@@ -539,6 +536,7 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .gaming-reminder-history-button,
   .gaming-reminder-accept-button {
     width: 100%;
   }
@@ -547,16 +545,8 @@
     margin-bottom: 0;
   }
 
-  .depositLimit {
-    padding-top: 16px !important;
-    padding-left: 450px;
-    padding-right: 0px !important;
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
   .depositBody {
-    max-width: 560px;
+    max-width: 100%;
     width: 100%;
     margin: auto;
     padding-right: 0px;
@@ -571,7 +561,9 @@
   }
 
   .confirmDepositLimit {
-    padding-top: 30px !important;
+    height: 100%;
+    justify-content: space-between;
+    padding-top: 30px;
   }
 
   .max-width-confirmContainer {
@@ -588,11 +580,6 @@
 
   .confirmButtonsContainer {
     width: 100%;
-  }
-
-  .confirmDepositButtons {
-    width: 100%;
-    padding-bottom: 200px;
   }
 
   .confirmHeader {
@@ -623,18 +610,15 @@
   .confirm-modalContent {
     height: unset;
   }
-}
 
-@media screen and (max-width: 991px) {
   div:has(.gamblingContainer) {
     height: calc(100vh - 56px);
   }
 
+  .depositModal-dialog,
   .gamblingContainer {
     max-width: none;
     width: 100%;
-    padding-left: 0;
-    padding-block: 0 30px !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -643,6 +627,7 @@
   .depositLimit {
     width: 100%;
     padding-left: 0;
+    margin: 0;
   }
 
   .depositBodyTransaction {

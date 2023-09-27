@@ -71,13 +71,13 @@ export const ToggleLabel = ({
     onToggle(key, evtType);
   };
   return (
-    <LabelWrapper flexStart={!isMobile} last={last} first={first} type={type}>
+    <LabelWrapper last={last} first={first} type={type}>
       <IOSSwitch
         checked={value}
         defaultValue={value}
         onChange={() => handleChange(notification?.key, type)}
       />
-      <Label ml={!isMobile} ml0={isMobile} mb0 font="20">
+      <Label mb0 font="20">
         {notification?.text}
       </Label>
     </LabelWrapper>

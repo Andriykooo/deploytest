@@ -13,12 +13,7 @@ import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,31 +36,31 @@ import {
   setSportData,
   setSportTypes,
   setTablet,
+  setUpdatedSelections,
   updatePageLayoutContent,
 } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerServiceNotive";
-import { SuspendedAccount } from "@/components/suspendedAccount/SuspendedAccount";
 import { getUserApi } from "@/utils/apiQueries";
+import { AlertModal } from "@/components/alertModal/AlertModal";
+import { useClientTranslation } from "@/app/i18n/client";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 const Content = ({ children, className }) => {
-  const [showConfirm, setShowConfirm] = useState(false);
+  const { t } = useClientTranslation("common");
   const [gamingAlert, setGamingAlert] = useState(false);
-  const [usageTime, setUsageTime] = useState(0);
 
   const header = useSelector((state) => state.headerData);
   const loggedUser = useSelector((state) => state.loggedUser);
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
-  const errorCode = useSelector((state) => state.errorCode);
+  const accessToken = getLocalStorageItem("access_token");
 
   const dispatch = useDispatch();
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
   const router = useRouter();
   const params = useParams();
-  const searchParams = useSearchParams();
-  const accountStatus = searchParams.get("account");
 
   const currentPage = header?.find((page) => page.path === pathname);
 
@@ -88,22 +83,20 @@ const Content = ({ children, className }) => {
     var newUser = loggedUser;
     getUserApi(dispatch).then((result) => {
       dispatch(setLoggedUser({ ...newUser, user_data: result }));
-      if (result.actions && result.actions.length > 0) {
-        setShowConfirm(true);
-      }
     });
   };
 
   useEffect(() => {
-    let accessToken = getLocalStorageItem("access_token");
-
     if (loggedUser && accessToken) {
       getUserData();
     }
 
-    apiServices.get(apiUrl.GET_SETTINGS).then((result) => {
-      dispatch(setSettings(result));
-    });
+    apiServices
+      .get(apiUrl.GET_SETTINGS)
+      .then((result) => {
+        dispatch(setSettings(result));
+      })
+      .catch();
 
     apiServices.get(apiUrl.ON_BOARDING).then((result) => {
       dispatch(
@@ -145,13 +138,12 @@ const Content = ({ children, className }) => {
         message: response.errorMessage,
       });
 
-      if (response.errorMessage == "Page content not found") {
+      if (response.errorMessage == t("page_content_not_found")) {
         router.push(pathname);
       }
     });
 
     communicationSocket?.on("new_event", (response) => {
-      // console.log("new_event", response);
       switch (response?.type) {
         case "bet_ticker":
           dispatch(
@@ -211,6 +203,10 @@ const Content = ({ children, className }) => {
       }
     });
 
+    gamingSocket.on("selection_updated", (response) => {
+      dispatch(setUpdatedSelections(response));
+    });
+
     communicationSocket?.on("bet_referral_message", (response) => {
       // const message = `Bet ${response.bet_referral_id} - ${response.status}`;
       if (response?.status === "approved") {
@@ -247,6 +243,7 @@ const Content = ({ children, className }) => {
     }, 1 * 60 * 1000);
 
     return () => {
+      gamingSocket.off("selection_updated")
       clearInterval(interval);
       nextWindow.removeEventListener("resize", resizeHandler);
     };
@@ -272,21 +269,14 @@ const Content = ({ children, className }) => {
 
   useEffect(() => {
     let interval = null;
+    const userRealityCheck =
+      loggedUser?.user_data?.settings?.safer_gambling?.reality_check
+        ?.reality_check_after?.value || 15;
 
-    if (loggedUser?.token) {
-      const userRealityCheck =
-        loggedUser?.user_data?.settings?.safer_gambling?.reality_check
-          ?.reality_check_after;
-
+    if (loggedUser?.token && userRealityCheck > 0) {
       interval = setInterval(() => {
-        setUsageTime((prev) => {
-          if (userRealityCheck?.name !== "Not Set") {
-            setGamingAlert(true);
-          }
-
-          return prev + userRealityCheck?.value;
-        });
-      }, userRealityCheck?.value * 60 * 1000);
+        setGamingAlert(true);
+      }, userRealityCheck * 60 * 1000);
     }
 
     return () => {
@@ -297,7 +287,8 @@ const Content = ({ children, className }) => {
   }, [loggedUser?.token]);
 
   const disableHeader =
-    (params?.path && !header?.some((page) => page.path == pathname)) ||
+    (params?.path &&
+      !header?.some((page) => page.path.substring(1) == params?.path)) ||
     pathname === "/not_found" ||
     pathname === "/customer_service_notice";
 
@@ -332,24 +323,14 @@ const Content = ({ children, className }) => {
             boxShadow: "0px 4px 10px rgba(14, 16, 17, 0.3)",
           }}
         />
-        {(errorCode?.code === 1104 || errorCode?.code === 1063) && (
-          <SuspendedAccount />
-        )}
-        {(errorCode === 1007 || errorCode === 1009) && <PrivacyConfirmModal />}
-        {errorCode === 1008 && <TermsConfirmModal />}
-        {gamingAlert && (
-          <GamingReminderAlert
-            time={usageTime}
-            setGamingAlert={setGamingAlert}
-          />
-        )}
-        {showConfirm && (
-          <ConfirmDepositLimitModal
-            showConfirm={showConfirm}
-            setShowConfirm={setShowConfirm}
-          />
-        )}
-        {accountStatus === "suspended" && <SuspendedAccount />}
+        <AlertModal />
+        <PrivacyConfirmModal />
+        <TermsConfirmModal />
+        {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
+        {accessToken &&
+          loggedUser?.user_data?.actions?.map((action) => {
+            return <ConfirmDepositLimitModal data={action} key={action.id} />;
+          })}
         <div
           className={classNames("base-layout", className, {
             ["not-found"]: disableHeader,
@@ -359,7 +340,7 @@ const Content = ({ children, className }) => {
             <link
               rel="stylesheet"
               type="text/css"
-              href="https://backoffice-dev.swifty-api.com/api/v1/settings/css/content.css"
+              href={process.env.NEXT_PUBLIC_CSS}
             />
           </Helmet>
           <Header />
@@ -372,7 +353,7 @@ const Content = ({ children, className }) => {
 };
 
 export const BaseLayout = (props) => {
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
 
   return pathname === "/customer_service_notice" ? (
     <CustomerServiceNotice />

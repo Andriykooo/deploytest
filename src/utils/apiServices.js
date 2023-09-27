@@ -1,4 +1,7 @@
-import { refreshCommunicationSocket } from "@/context/socket";
+import {
+  refreshCommunicationSocket,
+  refreshGamingSocket,
+} from "@/context/socket";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
@@ -9,6 +12,7 @@ import {
   getLocalStorageItem,
 } from "./localStorage";
 import { nextWindow } from "./nextWindow";
+import i18next from "i18next";
 
 const checkError = (code, message) => {
   switch (code) {
@@ -30,6 +34,10 @@ const checkError = (code, message) => {
     case 1063:
       break;
 
+    // Excluded Account
+    case 1062:
+      break;
+
     // Suspended Account
     case 487:
       break;
@@ -38,8 +46,7 @@ const checkError = (code, message) => {
     case 1026:
       if (typeof window !== "undefined") {
         alertToast({
-          message:
-            "There is already an account with this email, please login with email.",
+          message: i18next.t("email_already_registered_message")
         });
       }
       break;
@@ -53,7 +60,10 @@ const checkError = (code, message) => {
   }
 };
 
-const handleError = (error) => {
+const handleError = (error, showError = true) => {
+  if (!showError) {
+    throw error;
+  }
   if (error?.message.toLowerCase() === "network error") {
     return;
   }
@@ -110,10 +120,16 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response.data,
   async (error) => {
+    const originalRequest = error.config;
+
     if (
-      error.response?.status === 401 &&
+      error.response.status == 401 &&
+      error.config &&
+      !error.config._isRetry &&
       getLocalStorageItem("refresh_token")
     ) {
+      originalRequest._isRetry = true;
+
       try {
         const headers = {
           "content-type": "application/json",
@@ -133,19 +149,21 @@ axiosInstance.interceptors.response.use(
         addLocalStorageItem("access_token", token);
         addLocalStorageItem("refresh_token", refresh_token);
         refreshCommunicationSocket(token);
+        refreshGamingSocket(token);
 
-        error.config.headers = {
-          ...error.config.header,
+        originalRequest.headers = {
+          ...originalRequest.header,
           Authorization: `Bearer ${token}`,
         };
 
-        return axiosInstance.request(error.config);
+        return axiosInstance.request(originalRequest);
       } catch (error) {
-        if (error?.response?.status === 401) {
-          clearLocalStorage();
-          nextWindow.location.href = "/login";
-        }
+        clearLocalStorage();
+        nextWindow.location.href = "/login";
       }
+    } else if (error.config._isRetry) {
+      clearLocalStorage();
+      nextWindow.location.href = "/login";
     } else {
       throw error;
     }
@@ -165,8 +183,10 @@ class ApiServices {
       .catch(handleError);
   }
 
-  post(url, body) {
-    return this.#requestInstance.post(url, body).catch(handleError);
+  post(url, body, showError = true) {
+    return this.#requestInstance
+      .post(url, body)
+      .catch((error) => handleError(error, showError));
   }
 
   put(url, body) {

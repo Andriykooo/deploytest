@@ -9,6 +9,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .logInTitle {
   font-style: normal;
   font-weight: 700;
@@ -19,9 +20,10 @@
   color: var(--global-color-text-primary);
   max-width: 383px;
   width: 100%;
-  margin-top: 100px;
+  margin-top: 36px;
   margin-bottom: 42px;
 }
+
 .login-buttons {
   margin-bottom: 24px;
   width: 24rem;
@@ -36,15 +38,19 @@
   text-align: left;
 }
 
-
 .login-buttons::placeholder {
   color: var(--global-color-text-gray);
 }
+
 .photo_buttons {
   padding: 12px 16px;
 }
+
 .continueBtn {
-  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
   width: 24rem;
   height: 50px;
   font-weight: 600;
@@ -75,14 +81,17 @@
   border-radius: 10px;
   color: var(--global-color-text-primary);
 }
+
 .emailValidation {
   position: relative;
 }
+
 .validatedIcon {
   position: absolute;
   top: 13px;
   right: 5%;
 }
+
 .Toastify__toast {
   border-radius: 10px;
   border-left: 10px solid #e20b5c;
@@ -91,6 +100,7 @@
   width: auto;
   padding: 0 20px;
 }
+
 .Toastify__close-button {
   color: white;
   opacity: 1;
@@ -99,13 +109,35 @@
   right: 13px;
   position: absolute;
 }
+
 .Toastify__toast-body {
   padding: 0;
+}
+
+.loginForm {
+  display: grid;
+  justify-content: center;
+  padding-top: 100px;
 }
 
 .loginForm form {
   width: 100% !important;
 }
+
+.loginForm .go-back {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.loginForm .go-back span {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--global-color-text-primary);
+}
+
 .oneClick {
   font-style: normal;
   font-weight: 400;
@@ -116,41 +148,50 @@
   text-align: center;
   color: var(--global-color-text-primary);
 }
+
 .continueBtn.white {
   background: var(--global-color-text-primary);
 }
+
 .continueBtn.white {
   font-style: normal;
   font-weight: 400;
   border-radius: 10px;
+  height: 48px;
   font-size: 16px;
   line-height: 20px;
-  color: #000000;
+  color: var(--global-color-shade5);
 }
+
 .loginIconApple {
   position: absolute;
   left: 20%;
   top: 15%;
 }
+
 .loginIconFb {
   position: absolute;
   left: 20%;
   top: 15%;
 }
+
 .loginIconGoogle {
   position: absolute;
   left: 20%;
   top: 15%;
 }
+
 .loginWhiteButtons {
   position: relative;
 }
+
 .newPasswordLabel.welcomeBack {
   display: flex;
   justify-content: flex-end;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
 .showPasswordIconBtm.welcome {
   top: 25%;
 }
@@ -166,7 +207,7 @@
 .kep-login-facebook {
   opacity: 0 !important;
   width: 100%;
-  height: 50px;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -181,15 +222,18 @@
     margin-left: auto;
     margin-right: auto;
   }
+
   .forgotPassword .loginForm,
   .loginForm form {
-    justify-content: stretch!important;
+    justify-content: stretch !important;
   }
+
   .continueBtn,
   .login-buttons {
-   width: 100%;
-   max-width: 100%;
+    width: 100%;
+    max-width: 100%;
   }
+
   .loginIconGoogle,
   .loginIconApple,
   .loginIconFb {
@@ -197,36 +241,46 @@
     width: 24px;
     object-fit: contain;
   }
+
   .social-login-title {
     left: 56px;
   }
+
   .login-buttons {
     margin-bottom: 16px;
   }
+
   .oneClick {
     margin-bottom: 24px;
   }
+
   .loginWhiteButtons .continueBtn {
     margin-bottom: 16px;
   }
+
   .showPasswordIconBtm.welcome {
     top: 29%;
   }
 }
+
 .mobile-login-form {
-  width: 114px;
+  width: auto;
+  padding: 0 20px;
   margin-bottom: 0;
   margin-right: 12px;
 }
+
 .Toastify__toast--success {
   border-left: 10px solid var(--global-color-notification-success);
   width: auto;
 }
+
 .Toastify__toast-container--top-right {
   top: 1em;
   right: 0em !important;
   width: var(--toastify-toast-width);
 }
+
 .button1 {
   background-color: transparent;
   color: white;
@@ -257,11 +311,17 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 1024px) {
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+  }
+
   .logInTitle {
     margin-top: 30px;
     margin-bottom: 30px;
     max-width: 100%;
   }
+
   .backgroundImage {
     min-height: calc(100vh - 56px);
   }

@@ -1,8 +1,10 @@
 import { Skeleton } from "@mui/material";
 import React from "react";
 import { betGroupLinks } from "../../utils/constants";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const BetGroup = ({ isLoading, isMobile }) => {
+  const { t } = useClientTranslation("home");
   let counter = 0;
   const maxCounter = betGroupLinks.length - 1;
 
@@ -39,7 +41,7 @@ export const BetGroup = ({ isLoading, isMobile }) => {
               <>
                 <div className="bet-group" key={row.name}>
                   {row.icon}
-                  <span className="bet-group-text">{row.name}</span>
+                  <span className="bet-group-text">{t(row.name)}</span>
                 </div>
                 {counter <= maxCounter && (
                   <span className="borderOfLeftSideOFBetGroup"></span>

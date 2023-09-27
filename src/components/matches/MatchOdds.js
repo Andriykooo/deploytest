@@ -10,8 +10,10 @@ import { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const MatchOdds = ({ selection, disable }) => {
+  const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const updatedSelections = useSelector((state) => state.updatedSelections);
@@ -107,6 +109,13 @@ export const MatchOdds = ({ selection, disable }) => {
     }
   }, [odd]);
 
+  const priceBoost = {
+    ...selectionRow,
+    odds_american: selection?.price_boost_odds?.american,
+    odds_decimal: selection?.price_boost_odds?.decimal,
+    odds_fractional: selection?.price_boost_odds?.fractional,
+  };
+
   return (
     <div
       className={classNames("matchOddsContainer matchOddsContainerFootball", {
@@ -125,7 +134,7 @@ export const MatchOdds = ({ selection, disable }) => {
                 src={images.arrowRight}
                 height={8}
                 width={10}
-                alt="arrow"
+                alt={t("arrow")}
               />
               <Odds selection={selectionRow} />
             </div>
@@ -134,6 +143,7 @@ export const MatchOdds = ({ selection, disable }) => {
       >
         <div
           className={classNames("matchOdds", {
+            selectionPriceBoost: selection?.price_boost,
             styleOfSelectedOdd: isSelected,
             suspended: selectionRow?.trading_status === "suspended",
             drifting: priceChangeType === "drifting",
@@ -149,17 +159,26 @@ export const MatchOdds = ({ selection, disable }) => {
           id={"bet_odds_" + selectionRow?.bet_id}
           data-id={selectionRow?.bet_id}
           onClick={handlerOnClick}
-          onAnimationEnd={() => {
-            dispatch(
-              setUpdatedSelections(
-                Object.values(updatedSelections).filter((currentSelection) => {
-                  return currentSelection.data.bet_id !== selectionRow.bet_id;
-                })
-              )
-            );
-          }}
         >
-          <Odds selection={selectionRow} />
+          <Odds
+            selection={selection?.price_boost ? priceBoost : selectionRow}
+          />
+          {selection?.price_boost &&
+            selectionRow?.trading_status !== "suspended" && (
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={classNames("priceBoostIcon", { active: isSelected })}
+              >
+                <path
+                  d="M2.77003 14L3.61941 8.39639H0L5.22997 0L4.38059 5.60361H8L2.77003 14Z"
+                  fill="neno"
+                />
+              </svg>
+            )}
         </div>
       </OverlayTrigger>
     </div>

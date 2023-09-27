@@ -4,7 +4,6 @@
   font-size: 16px;
   color: var(--global-color-text-primary);
   margin-bottom: 12px;
-
 }
 
 .saferMessage {
@@ -28,7 +27,7 @@
   width: 100%;
 }
 
-.saferDivs>div {
+.saferDivs > div {
   width: 100%;
   padding: 0;
 }
@@ -46,7 +45,7 @@
   cursor: pointer;
 }
 
-.arrow-top>img:hover {
+.arrow-top > img:hover {
   cursor: pointer;
 }
 
@@ -66,9 +65,7 @@
 }
 
 @media screen and (max-width: 991px) {
-
-  .saferContainer,
-  .saferDivs {
+  .saferContainer {
     height: 100%;
     max-width: 100%;
   }
@@ -81,17 +78,15 @@
   }
 
   .saferDivs {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    max-width: 100%;
   }
 
-  .saferDivs .yellowDiv {
+  .yellowDiv {
     position: absolute;
     bottom: 0;
     left: -24px;
-    margin: 0!important;
-    width: calc(100% + 48px);
+    margin: 0 !important;
+    width: calc(100% + 48px) !important;
     max-width: unset;
   }
 

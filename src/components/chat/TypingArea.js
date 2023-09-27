@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import "./Chat.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const TypingArea = ({
   onSubmit,
@@ -10,6 +11,7 @@ const TypingArea = ({
   keyDownHandle,
   textareaHeight,
 }) => {
+  const { t } = useClientTranslation("common");
   return (
     <form className="typing-area-form" onSubmit={onSubmit}>
       <textarea
@@ -20,7 +22,7 @@ const TypingArea = ({
         onChange={(e) => {
           onChange(e);
         }}
-        placeholder="Send a message..."
+        placeholder={t("send_message")}
         onKeyDown={keyDownHandle}
       />
       <button className="chat-send-btn" type="submit">

@@ -252,11 +252,8 @@
 
   .horse-links,
   .horse-container {
-    width: 240px;
-  }
-
-  .text-of-horse {
-    width: 160px;
+    min-width: 240px;
+    width: 100%;
   }
 
   .selection-description {

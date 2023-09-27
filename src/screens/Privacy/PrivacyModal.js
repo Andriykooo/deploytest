@@ -8,8 +8,10 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Terms/Terms.css";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const PrivacyModal = ({ setPageModal }) => {
+  const { t } = useClientTranslation(["terms", "common"]);
   const privacyDivRef = useRef(null);
   const [policy, setPolicy] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -44,9 +46,9 @@ const PrivacyModal = ({ setPageModal }) => {
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
           {isMobile ? (
-            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
+            <Image src={images.gamingMobile} alt={t("common:swifty_gaming_logo")} />
           ) : (
-            <Image src={images.GroupSwifty} alt="Swifty Gaming Logo" />
+            <Image src={images.GroupSwifty} alt={t("common:swifty_gaming_logo")} />
           )}
         </div>
         <div
@@ -57,7 +59,7 @@ const PrivacyModal = ({ setPageModal }) => {
         </div>
       </nav>
       <div className="terms backgroundImageLogged backHeight">
-        <p className="termsTitle">Privacy Policy</p>
+        <p className="termsTitle">{t("privacy_policy")}</p>
         {loader ? (
           <Loader />
         ) : (

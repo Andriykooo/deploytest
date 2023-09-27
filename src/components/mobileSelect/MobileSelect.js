@@ -4,8 +4,10 @@ import { images } from "@/utils/imagesConstant";
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { CloseIcon } from "../../utils/icons";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
+  const { t } = useClientTranslation("common")
   const autoselectRef = useRef(null);
 
   const [isOpened, setIsOpened] = useState(false);
@@ -52,7 +54,7 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
           <div className="dropdown-toggler">
             <Image
               src={images.arrowIcon}
-              alt="arrow"
+              alt={t("arrow")}
               width={14}
               height={14}
               className={classNames("dropdown-arrow", { active: isOpened })}
@@ -68,14 +70,14 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
               <CloseIcon />
             </div>
           </div>
-          {placeholder !== 'Region' && (
+          {placeholder !== t("region") && (
             <div className="competitions-select_item">
               <label className="search_wrapper">
-                <Image alt="img-sports" width={20} height={20} src={images.search} />
+                <Image alt={t("sports")} width={20} height={20} src={images.search} />
                 <input
                   type={"text"}
                   className="competitions_search"
-                  placeholder="Search"
+                  placeholder={t("search")}
                   value={searchQuery}
                   onChange={handleSearch}
                 />
@@ -98,7 +100,9 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
               );
             })
           ) : (
-            <div className="relative"><span className="competition-no-option">No options</span></div>
+            <div className="relative">
+              <span className="competition-no-option">{t("no_options")}</span>
+            </div>
           )}
         </div>
       )}

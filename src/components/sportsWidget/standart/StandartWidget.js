@@ -4,8 +4,10 @@ import { EventTable } from "../../eventTable/EventTable";
 import { MatchOdds } from "../../matches/MatchOdds";
 import { SportsBanner } from "../SportsBanner";
 import "./StandartWidget.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const StandartWidget = ({ data }) => {
+  const { t } = useClientTranslation("common");
   const isTablet = useSelector((state) => state.isTablet);
 
   return data?.selections?.length > 0 || data.header_banner !== "blank" ? (
@@ -38,7 +40,7 @@ export const StandartWidget = ({ data }) => {
           )}
         </div>
       ) : (
-        <EmptyState message="There are no more events for the day!" />
+        <EmptyState message={t("no_more_events_today_message")} />
       )}
     </div>
   ) : null;

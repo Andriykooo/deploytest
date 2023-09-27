@@ -13,8 +13,10 @@ import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
 import ProfileBack from "@/components/profileBack/ProfileBack";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SaferGambling = () => {
+  const { t } = useClientTranslation(["safer_gambling", "common"]);
   const isTablet = useSelector((state) => state.isTablet);
   const dispatch = useDispatch();
 
@@ -25,36 +27,36 @@ export const SaferGambling = () => {
   }, []);
   const saferGambling = [
     {
-      title: "Deposit Limits",
+      title: t("deposit_limits"),
       link: "/profile/deposit_limit",
-      desc: "Set deposit limits to control your spending",
+      desc: t("deposit_limit_desc"),
     },
     {
-      title: "Gaming Reminders",
+      title: t("gaming_reminders"),
       link: "/profile/reality_check",
-      desc: "Control your game time with reminders",
+      desc: t("gaming_reminders_desc"),
     },
     {
-      title: "Suspend Account",
+      title: t("common:suspend_account"),
       link: "/profile/suspend_account",
-      desc: "Take a break from Swifty Gaming",
+      desc: t("suspend_account_desc"),
     },
     {
-      title: "Self Exclude",
+      title: t("common:self_exclude"),
       link: "/profile/self_exclude",
-      desc: "Excluded yourself from Swifty Gaming",
+      desc: t("self_exclude_desc"),
     },
     {
-      title: "More information",
+      title: t("more_information"),
       link: "/profile/safer_gambling_information",
-      desc: "Read about Safer Gambling",
+      desc: t("more_information_desc"),
     },
   ];
 
   return (
     <div className="pageContent-safer">
       <div className="depositLimit saferContainer">
-        <PreferencesTitle title="Safer Gambling" marginBottomSize="lg" />
+        <PreferencesTitle title={t("common:safer_gambling")} marginBottomSize="lg" />
         <div className="saferDivs">
           <div>
             {saferGambling.map((row, index) => {

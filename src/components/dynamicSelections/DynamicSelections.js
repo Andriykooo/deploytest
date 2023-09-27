@@ -1,9 +1,11 @@
+import { useClientTranslation } from "@/app/i18n/client";
 import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { MatchOdds } from "../matches/MatchOdds";
 import "./DynamicSelections.css";
 
 export const DynamicSelections = ({ selections, eventId }) => {
+  const { t } = useClientTranslation("common");
   return (
     <>
       <div className="dynamic-selections">
@@ -22,7 +24,7 @@ export const DynamicSelections = ({ selections, eventId }) => {
             <LinkType type="default" path={`/match/${eventId}`}>
               <Button
                 className="btnPrimary dynamic-selections-button"
-                text="MORE"
+                text={t("more")}
               />
             </LinkType>
           </>

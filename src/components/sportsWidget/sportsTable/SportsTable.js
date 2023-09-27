@@ -6,8 +6,10 @@ import { MarketOptions } from "../../matches/MarketOptions";
 import MatchCard from "../../matches/MatchCard";
 import { SportsBanner } from "../SportsBanner";
 import "./SportsTable.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SportsTable = ({ data, type }) => {
+  const { t } = useClientTranslation("common");
   const isTablet = useSelector((state) => state.isTablet);
   const [sports, setSports] = useState(data.sports);
 
@@ -86,8 +88,8 @@ export const SportsTable = ({ data, type }) => {
         <EmptyState
           message={
             data.details.widget_type === "in_play"
-              ? "There are no live events right now. Check back again later."
-              : "There are no more events for the day!"
+              ? t("no_live_events_message")
+              : t("no_more_events_today_message")
           }
         />
       )}

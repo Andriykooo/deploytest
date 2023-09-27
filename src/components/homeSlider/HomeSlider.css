@@ -17,7 +17,7 @@
   width: 290px;
 }
 
-.slick-slide > div {
+.slick-slide>div {
   height: 100%;
   width: 100%;
 }
@@ -76,6 +76,7 @@
   border-radius: 50%;
   background: #c2ae82;
   box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  -webkit-box-shadow: none;
 }
 
 .slick-prev:before {
@@ -112,16 +113,19 @@
 .slick-next:hover {
   background: #c2ae82;
 }
+
 .betting-in-home-slider {
   position: relative;
   padding: 0;
 }
+
 .handballLogoImage {
   padding: 0;
   width: 100%;
   object-fit: cover;
   max-height: 230px;
 }
+
 .slider-title-in-homepage {
   position: absolute;
   top: 16px;
@@ -132,6 +136,7 @@
   line-height: 24px;
   color: var(--global-color-text-primary);
 }
+
 .slider-title-in-homepage-description {
   position: absolute;
   top: 48px;
@@ -142,6 +147,7 @@
   color: var(--global-color-text-primary);
   font-style: normal;
 }
+
 .buttonOfSlider {
   position: absolute;
   top: 16px;
@@ -151,6 +157,7 @@
   font-size: 12px;
   padding: 5px 20px;
 }
+
 .buttonOfEventsHomepage {
   top: 0;
 }
@@ -169,6 +176,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .container-of-bets-in-row {
   flex-basis: calc(33.33% - 4px);
   margin-right: 10px;
@@ -181,6 +189,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .small-hero-widget-container {
   flex-basis: calc(50% - 4px);
 }
@@ -188,6 +197,7 @@
 .container-of-bets-in-row:last-child {
   margin-right: 0;
 }
+
 .markets-slider-page {
   font-style: normal;
   font-weight: 400;
@@ -195,6 +205,7 @@
   line-height: 15px;
   color: #dcdcdc;
 }
+
 .bets-of-markets-slider {
   font-style: normal;
   font-weight: 400;
@@ -207,9 +218,11 @@
   border-left: 1px solid #414851;
   padding-left: 10px;
 }
+
 .recommendedSubtitle {
   margin: 0 50px;
 }
+
 .recommendedTitleTrending {
   margin-left: 0;
 }
@@ -225,15 +238,18 @@
     margin-left: 15px;
     margin-right: 15px;
   }
+
   .container-of-bets-in-row {
     padding-left: 5px;
     padding-right: 5px;
   }
+
   .Toastify__toast {
     border-radius: 8px;
     margin: 1rem;
   }
 }
+
 @media screen and (max-width: 991px) {
   .recommendedSubtitle {
     margin: 0;
@@ -242,18 +258,22 @@
   .container-of-bets-in-slider {
     flex-direction: column;
   }
+
   .container-of-bets-in-row {
     margin-right: 0;
     border-bottom: 1px solid #414851;
     border-radius: 0;
   }
+
   .markets-slider-page,
   .bets-of-markets-slider {
     line-height: 40px;
   }
+
   .container-of-bets-in-row:first-of-type {
     border-radius: 4px 4px 0 0;
   }
+
   .container-of-bets-in-row:last-of-type {
     border-radius: 0 0 4px 4px;
   }
@@ -267,6 +287,7 @@
     padding: 5px 20px;
     width: fit-content;
   }
+
   .bannerButton {
     top: 0;
   }
@@ -279,31 +300,39 @@
     font-size: 12px;
     top: 40px;
   }
+
   .slider-title-in-homepage-description-skeleton {
     top: 45px;
   }
+
   .slider-text {
     width: auto;
     margin-right: 5px;
   }
+
   .sliderTextContent {
     margin-bottom: 5px;
   }
+
   .slick-slider {
     margin-left: 0px;
     margin-right: 0px;
   }
+
   .betNowButtonOFSlider {
     padding: 5px 8px;
   }
 }
+
 @media only screen and (max-width: 345px) {
   .slider-title-in-homepage-description {
     left: 5px;
   }
+
   .container-of-bets-in-slider {
     left: 5px;
   }
+
   .slider-title-in-homepage {
     left: 5px;
   }

@@ -14,7 +14,9 @@ import Cookies from "js-cookie";
 import { setFooter } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
 
-export const Footer = () => {
+const preselectedColumns = ["/terms", "/privacy"];
+
+export const Footer = ({ noMenu }) => {
   const dispatch = useDispatch();
 
   const isTablet = useSelector((state) => state.isTablet);
@@ -48,7 +50,13 @@ export const Footer = () => {
       )}
       <footer className="footer-container-div">
         <div className="pt-5 footerContainerMenu">
-          {!isTablet ? (
+          {isTablet ? (
+            <div className="mobileVersionLinks row">
+              {footer.data?.columns.map((column, index) => {
+                return <FooterList data={column} key={index} />;
+              })}
+            </div>
+          ) : !noMenu ? (
             <div className="row">
               {footer.data.columns.map((column, index) => {
                 return (
@@ -58,10 +66,16 @@ export const Footer = () => {
                         <strong>{column.name}</strong>
                       </div>
                       {column.links.map((link, index) => {
+                        const isPreselectedLink = preselectedColumns.includes(
+                          link.path
+                        );
+
                         return (
                           <div className="col-12 mb-2" key={index}>
                             <LinkType
-                              type={link.page_type}
+                              type={
+                                isPreselectedLink ? "default" : link.page_type
+                              }
                               path={link.path}
                               openType={link?.open_type}
                               modalData={{
@@ -80,13 +94,7 @@ export const Footer = () => {
                 );
               })}
             </div>
-          ) : (
-            <div className="mobileVersionLinks row">
-              {footer.data?.columns.map((column, index) => {
-                return <FooterList data={column} key={index} />;
-              })}
-            </div>
-          )}
+          ) : null}
           <div className="row footer-images">
             {footer.data?.images.map((row, index) => {
               return (

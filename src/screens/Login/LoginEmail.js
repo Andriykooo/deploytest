@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import { Loader } from "../../components/loaders/Loader";
@@ -15,6 +15,7 @@ import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const LoginEmail = ({
   email,
@@ -26,12 +27,19 @@ export const LoginEmail = ({
   setIsLoading,
   setIsValid,
 }) => {
+  const { t } = useClientTranslation(["login", "common"])
   const router = useRouter();
+  const promo = useSelector((state) => state.promo);
   const dispatch = useDispatch();
   const [showConfirmDepositLimit, setShowConfirmDepositLimit] = useState(true);
 
   const handleSocialSubmit = (body) => {
     let device_id = uuidv4();
+
+    if (promo) {
+      body.promo_code = promo;
+    }
+
     apiServices
       .post(apiUrl.SIGNIN_SOCIAL, body)
       .then((response) => {
@@ -83,6 +91,7 @@ export const LoginEmail = ({
               login_platform: "google",
               social_token: tokenResponse.credential,
             };
+
             googleResponse && handleSocialSubmit(body);
           } else {
             let newUser = {
@@ -118,6 +127,7 @@ export const LoginEmail = ({
               login_platform: "facebook",
               social_token: response?.accessToken,
             };
+
             handleSocialSubmit(body);
           } else {
             let newUser = {
@@ -138,13 +148,11 @@ export const LoginEmail = ({
           setEmail("");
           if (response.status !== "unknown" && !response.email) {
             alertToast({
-              message:
-                "No e-mail associated with this Facebook Account, Please Register with Email",
+              message: t("no_email_facebook_register"),
             });
           } else {
             alertToast({
-              message:
-                "Facebook login failed, please try again or contact our support",
+              message: t("facebook_login_failed"),
             });
           }
         });
@@ -152,15 +160,15 @@ export const LoginEmail = ({
   };
 
   return (
-    <div className=" loginForm d-grid justify-content-center">
-      <p className="logInTitle">Let's start with your email</p>
-      <form className="d-grid justify-content-center">
+    <div className="loginForm">
+      <p className="logInTitle">{t("start_with_email")}</p>
+      <form className="d-grid justify-content-center mb-2">
         <div className="emailValidation">
           <input
             id="email"
             type="email"
             className="login-buttons"
-            placeholder="Enter your e-mail"
+            placeholder={t("enter_email")}
             value={email}
             onChange={(e) => validateEmail(e)}
             autoFocus
@@ -181,13 +189,13 @@ export const LoginEmail = ({
             isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
           }
         >
-          {isLoading ? <Loader /> : "Continue"}
+          {isLoading ? <Loader /> : t("common:continue")}
         </button>
       </form>
       <p className="oneClick d-flex justify-content-center">
-        Or sign in with one click
+        {t("sign_in_one_click")}
       </p>
-      <div className="whiteButtonsGroup d-grid">
+      <div className="whiteButtonsGroup d-grid mt-2">
         <div className="loginWhiteButtons">
           <Image alt="img-fbIcon" src={images.fbIcon} className="loginIconFb" />
           <div className="continueBtn white">
@@ -198,7 +206,7 @@ export const LoginEmail = ({
               callback={responseFacebook}
               className="google-btn"
             />
-            <span className="social-login-title">Continue with Facebook</span>
+            <span className="social-login-title">{t("continue_with_facebook")}</span>
           </div>
         </div>
         <div className="loginWhiteButtons">
@@ -209,7 +217,7 @@ export const LoginEmail = ({
           />
           <div className="continueBtn white">
             <button onClick={responseGoogle} className="google-btn" />
-            <span className="social-login-title">Continue with Google</span>
+            <span className="social-login-title">{t("continue_with_google")}</span>
           </div>
         </div>
       </div>

@@ -3,8 +3,10 @@
 import { images } from "@/utils/imagesConstant";
 import "./CustomerServiceNotive.css";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const CustomerServiceNotice = () => {
+  const { t } = useClientTranslation(["customer_service_notice", "common"])
   return (
     <div className="customer-service-notice-wrapper">
       <div className="customer-service-notice">
@@ -15,17 +17,15 @@ export const CustomerServiceNotice = () => {
           className="customer-service-notice-logo"
         />
         <h1 className="customer-service-notice-title">
-          Customer Service Notice
+          {t("common:customer_service_notice")}
         </h1>
         <p className="customer-service-notice-subtitle">
-          Thank you for visiting Swifty Gaming.
-          <br /> This site blocks access from users accessing from certain
-          territories.
+          {t("thank_you_for_visiting")}
+          <br />
+          {t("site_blocks_access_from_certain_territories")}
         </p>
         <p className="customer-service-notice-description">
-          Our monitoring software has detected your IP is from a restricted
-          country so you are unable to access the site. If this is incorrect or
-          you require further information, please contact
+          {t("restricted_country_access_notice")}
         </p>
         <a
           href="mailto:customer.services@swiftygaming.com"
@@ -34,7 +34,7 @@ export const CustomerServiceNotice = () => {
           customer.services@swiftygaming.com
         </a>
         <p className="customer-service-notice-description">
-          We apologize for any inconvenience that this may have caused.
+          {t("apology_for_inconvenience")}
         </p>
       </div>
     </div>

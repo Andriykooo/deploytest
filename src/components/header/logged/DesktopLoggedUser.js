@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 import { SlipIcon } from "../../../utils/icons";
 import { images } from "../../../utils/imagesConstant";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const DesktopLoggedUser = ({ showBetSlip }) => {
   const router = useRouter();
-  const selectedBets = useSelector((state) => state.selectedBets);
+  const betslipResponse = useSelector((state) => state.betslipResponse);
   const user = useSelector((state) => state.loggedUser);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency?.abbreviation || "";
+  const { t } = useClientTranslation("header");
 
   return (
     <div className="sing-up-txt">
@@ -23,38 +25,43 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
               onClick={() => {
                 router.push("/profile/bonuses_promotions");
               }}
+              height={40}
+              width={40}
+              priority
             />
             {showBetSlip && (
               <div
                 className="slip-icon"
                 onClick={() => {
-                  if (document.querySelector(".bet-slip-container")) {
-                    let actualDisplay = document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display;
-                    if (actualDisplay === "block") {
-                      document.querySelector(
+                  if (document.documentElement.clientWidth < 1400) {
+                    if (document.querySelector(".bet-slip-container")) {
+                      let actualDisplay = document.querySelector(
                         ".bet-slip-container"
-                      ).style.display = "none";
-                    } else {
-                      document.querySelector(
-                        ".bet-slip-container"
-                      ).style.display = "block";
+                      ).style.display;
+                      if (actualDisplay === "block") {
+                        document.querySelector(
+                          ".bet-slip-container"
+                        ).style.display = "none";
+                      } else {
+                        document.querySelector(
+                          ".bet-slip-container"
+                        ).style.display = "block";
+                      }
                     }
                   }
                 }}
               >
                 <SlipIcon />
-                {selectedBets && selectedBets?.bets?.length > 0 && (
+                {betslipResponse && betslipResponse?.singles?.length > 0 && (
                   <span className="total-slip-bets">
-                    {selectedBets?.bets.length}
+                    {betslipResponse?.singles?.length}
                   </span>
                 )}
               </div>
             )}
           </div>
           <div className="d-flex flex-column justify-content-between">
-            <p className="signText balanceText">Balance</p>
+            <p className="signText balanceText">{t("balance")}</p>
             <div className="d-flex">
               <p className="signText balanceAmount">
                 {userBalance

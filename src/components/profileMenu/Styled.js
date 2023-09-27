@@ -47,7 +47,7 @@ export const SidebarProfilMenu = styled.div`
   scrollbar-width: none;
   border-bottom: 1px solid rgb(37, 41, 45) !important;
   top: 74px;
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width: 1024px) {
     height: calc(100% - 56px);
     position: fixed;
     width: 100%;

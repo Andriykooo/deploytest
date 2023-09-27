@@ -8,8 +8,10 @@ import { apiUrl } from "../../utils/constants";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Cookie/Cookie.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const CookieModal = ({ setPageModal }) => {
+  const { t } = useClientTranslation("common");
   const [loader, setLoader] = useState(true);
   const [cookieContent, setCookieContent] = useState("");
 
@@ -52,7 +54,7 @@ const CookieModal = ({ setPageModal }) => {
       </nav>
       <div className="cookiePolicy">
         <div>
-          <p className="cookieTitle  pb-3">Cookie Policy</p>
+          <p className="cookieTitle  pb-3">{t("cookie_policy")}</p>
           {loader ? (
             <Loader />
           ) : (

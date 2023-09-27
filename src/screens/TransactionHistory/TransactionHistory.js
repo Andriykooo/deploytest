@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
@@ -19,22 +19,26 @@ import "../TransactionHistory/TransactionHistory.css";
 import "./TransactionModals";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { monthDates } from "../../utils/constants";
 import { Button } from "../../components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
+import { TransactionDetails } from "./TransactionsDetails";
+import { t } from "i18next";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const TransactionHistory = () => {
+  const { t } = useClientTranslation(["transaction_history", "common"]);
   const skeletonHeader = new Array(4).fill(0);
+  const isTablet = useSelector((state) => state.isTablet);
+
+  const [initialData, setInitialData] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [currPage, setCurrPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [transactions, setTransactions] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
-  const isTablet = useSelector((state) => state.isTablet);
   const [selected, setSelected] = useState(0);
-
-  const [initialData, setInitialData] = useState([]);
+  const [transactionDetails, setTransactionDetails] = useState(null);
 
   const getTransactions = () => {
     setShowSpinner(true);
@@ -51,7 +55,7 @@ const TransactionHistory = () => {
       .catch((error) => {
         setIsLoading(false);
         setShowSpinner(false);
-        alertToast({ message: error || "Something went wrong!" });
+        alertToast({ message: error || t("something_went_wrong") });
       });
   };
 
@@ -74,13 +78,13 @@ const TransactionHistory = () => {
 
   const getDate = (date) => {
     const weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
+    weekday[0] = t("common:sunday");
+    weekday[1] = t("common:monday");
+    weekday[2] = t("common:tuesday");
+    weekday[3] = t("common:wednesday");
+    weekday[4] = t("common:thursday");
+    weekday[5] = t("common:friday");
+    weekday[6] = t("common:saturday");
     const currDate = new Date(date);
     let dateNow = currDate.getDate();
     dateNow > 30 ? (dateNow = dateNow + "st") : (dateNow = dateNow + "th");
@@ -106,7 +110,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Bet Cancelled (#${item.id})`;
+        transactionTitle = `${t("bet_cancelled")} (#${item.id})`;
         break;
       case "bet_place":
         icon = (
@@ -117,7 +121,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Bet Placed (#${item.id})`;
+        transactionTitle = `${t("bet_placed")} (#${item.id})`;
         break;
       case "bet_pushed":
         icon = (
@@ -128,7 +132,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Bet Pushed (#${item.id})`;
+        transactionTitle = `${t("bet_pushed")} (#${item.id})`;
         break;
       case "bet_undo":
         icon = (
@@ -139,7 +143,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Bet Undo (#${item.id})`;
+        transactionTitle = `${t("bet_undo")} (#${item.id})`;
         break;
       case "deposit_bank_transfer":
       case item?.transaction_type.includes("deposit"):
@@ -151,7 +155,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Deposit`;
+        transactionTitle = t("common:deposit");
         break;
       case "withdrawal":
       case "withdrawal_nixxe":
@@ -164,7 +168,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Withdrawal`;
+        transactionTitle = t("withdrawal");
         break;
       case "user_balance_adjustment":
         icon = (
@@ -175,15 +179,15 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `Balance Adjustment`;
+        transactionTitle = t("balance_adjustment");
         break;
       case "casino_bet":
         icon = <CasinoBet />;
-        transactionTitle = "Casino";
+        transactionTitle = t("casino");
         break;
       case "casino_result":
         icon = <CasinoResult />;
-        transactionTitle = "Casino";
+        transactionTitle = t("casino");
         break;
       default:
         // Place Bet
@@ -206,9 +210,7 @@ const TransactionHistory = () => {
               height="40px"
             />
           );
-          transactionTitle = `Bet Won (#${item.id})`;
-        } else {
-          console.log("type", item?.transaction_type);
+          transactionTitle = `${t("bet_won")} (#${item.id})`;
         }
 
         break;
@@ -256,8 +258,7 @@ const TransactionHistory = () => {
   return (
     <div className="depositLimit" style={containerStyles} id="scrollable">
       <div className="">
-        <ProfileBack />
-        <PreferencesTitle title="Transaction History" />
+        <PreferencesTitle title={t("common:transaction_history")} />
         <div className="promotion-title">
           {initialData.map((transaction) => {
             const isSelected = selected?.date === transaction.date;
@@ -341,7 +342,15 @@ const TransactionHistory = () => {
                           {value?.data.map((item) => {
                             const txDetails = getTxDetails(item);
                             return (
-                              <div key={item.id}>
+                              <div
+                                key={item.id}
+                                onClick={() => {
+                                  setTransactionDetails({
+                                    ...item,
+                                    ...txDetails,
+                                  });
+                                }}
+                              >
                                 <div className="mb-2" key={item.date}>
                                   <div>
                                     <div className="transactionCardWrapper col-8 d-flex">
@@ -361,11 +370,10 @@ const TransactionHistory = () => {
                                           )}
                                         >
                                           <div
-                                            className={
-                                              !isTablet &&
-                                              !item.row2 &&
-                                              "transaction-item"
-                                            }
+                                            className={classNames({
+                                              "transaction-item":
+                                                !isTablet && !item.row2,
+                                            })}
                                           >
                                             <span className="placed">
                                               {txDetails.title}
@@ -378,7 +386,10 @@ const TransactionHistory = () => {
                                               item.transaction_status !==
                                                 TRANSACTION_HISTORY_STATUSES.successful && (
                                                 <div
-                                                  className={`transaction-status ${item.transaction_status}`}
+                                                  className={classNames(
+                                                    "transaction-status",
+                                                    item.transaction_status
+                                                  )}
                                                 >
                                                   <span>
                                                     {item.transaction_status}
@@ -418,6 +429,14 @@ const TransactionHistory = () => {
           </div>
         </div>
       </div>
+      {transactionDetails && (
+        <TransactionDetails
+          data={transactionDetails}
+          close={() => {
+            setTransactionDetails(null);
+          }}
+        />
+      )}
     </div>
   );
 };

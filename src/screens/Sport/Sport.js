@@ -9,8 +9,10 @@ import SkeletonComponent from "../../utils/SkeletonComponent";
 import "../Home/Home.css";
 import "../Sports/Sports.css";
 import classNames from "classnames";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const Sport = ({ sportContent, setSportContent, slug }) => {
+  const { t } = useClientTranslation(["sports, common"])
   const { gamingSocket } = useContext(SocketContext);
   const isMobile = useSelector((state) => state.setMobile);
   const language = useSelector((state) => state.language);
@@ -23,7 +25,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
 
   const name = useMemo(() => sportContent?.name, []);
   const marketOptions = useMemo(() => sportContent?.market_options, []);
-  
+
   useEffect(() => {
     setFilterIsLoading(true);
 
@@ -57,7 +59,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
           <div className="autoCompleteMultipleInRow mt-2">
             {sportContent?.competitions && (
               <AutocompleteSelect
-                placeholder={"Competitions"}
+                placeholder={t("competitions")}
                 data={sportContent?.competitions?.map((competition) => ({
                   label: competition.name,
                   id: competition.id,
@@ -73,7 +75,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
             )}
             {slug !== "horseracing" && (
               <>
-                <AutocompleteSelect placeholder="Region" data={[]} />
+                <AutocompleteSelect placeholder={t("common:region")} data={[]} />
               </>
             )}
           </div>
@@ -93,7 +95,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
               });
               setSelectedMarket(foundMarket);
             }}
-            placeholder="Select market"
+            placeholder={t("select_market")}
             variant={marketOptions?.length > 7 ? "scrollable" : "fullWidth"}
           />
         </div>
@@ -115,7 +117,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
             />
           ) : (
             <EmptyState
-              message={"There are no games available at the moment!"}
+              message={t("no_games_available")}
 
             />
           )}

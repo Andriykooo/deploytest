@@ -70,6 +70,7 @@
   align-items: center;
   margin-bottom: 2px;
 }
+
 .betsStyle {
   line-height: 18px;
   margin-left: 5px;
@@ -77,6 +78,7 @@
   font-weight: 600;
   align-items: center;
 }
+
 .bet-slip-description {
   display: flex;
   justify-content: center;
@@ -91,6 +93,7 @@
 .bet-slip-description.active {
   background: var(--global-color-secondary);
 }
+
 .my-bets-container {
   display: flex;
   justify-content: space-between;
@@ -122,10 +125,12 @@
   align-items: center;
   border-right: 1px solid var(--global-color-shade7) !important;
 }
+
 .selected-myBets {
   color: var(--global-color-text-primary);
   background-color: var(--global-color-shade7);
 }
+
 .empty-slip {
   width: 100%;
   display: flex;
@@ -134,7 +139,7 @@
   justify-content: center;
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 16px;
   padding: 35px;
   text-align: center;
@@ -162,6 +167,7 @@
   display: flex;
   align-items: flex-start;
 }
+
 .remove-text {
   margin-left: 7px;
   display: inline-block;
@@ -174,6 +180,7 @@
   background: var(--global-color-shade6);
   padding: 12px;
 }
+
 .selectMultipleBets {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -182,6 +189,7 @@
 .selected-market-selection {
   margin-left: 5px;
 }
+
 .selected-bet-body {
   padding-left: 20px;
 }
@@ -199,10 +207,12 @@
   font-size: 14px;
   margin-bottom: 8px;
 }
+
 .containerOfMultiBets {
   border-left: 3px solid var(--global-color-text-secondary);
   background: var(--global-color-shade3);
 }
+
 .betAmountMultiBets {
   max-width: 160px;
 }
@@ -227,6 +237,7 @@
 .styleOfReturnValues {
   width: 88px;
 }
+
 .selected-bet-title {
   font-size: 14px;
   display: flex;
@@ -263,6 +274,7 @@
   margin-top: 2px;
   cursor: pointer;
 }
+
 .showOrHideTextOfMultiples {
   font-style: normal;
   font-weight: 400;
@@ -271,21 +283,19 @@
 }
 
 .racing-bet-odds {
-  background: var(--global-color-tertiary);
-  border-radius: 0px 2px 2px 0px;
-  padding: 7px 11px;
+  background: var(--global-color-text-sp);
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
   font-size: 12px;
+  cursor: pointer;
+  color: #25292d;
 }
 
-.racing-bet-odds {
-  background: #e2e9f0;
-  color: #25292d;
-  border-radius: 0;
-  cursor: pointer;
+.starting-price-arrows {
+  margin-left: 5px;
 }
 
 .slip-amount {
@@ -314,16 +324,19 @@
   align-items: center;
   color: var(--global-color-shade6);
 }
+
 .styleOfReturnValues {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
 }
+
 .styleOfReturnedValuesInline {
   width: 120px;
   text-align: right;
 }
+
 .totals-container {
   padding: 6px 16px;
   background: var(--global-color-shade7);
@@ -368,13 +381,12 @@
   .slips-bets-title-container {
     padding: 9px 13px;
   }
+
   .betslip-add {
     width: 100% !important;
     height: 100% !important;
   }
-  .bet-slip-container {
-    overflow-y: auto !important;
-  }
+
   .bet-slip-container {
     top: 0;
     width: 100%;
@@ -387,6 +399,7 @@
   .place-bet-button {
     border-radius: 0;
   }
+
   .slip-bets-title {
     justify-content: space-between;
     align-items: center;
@@ -400,6 +413,7 @@
     width: 100%;
   }
 }
+
 .numberOfBetsStyle {
   color: var(--global-color-shade6);
   background-color: #fff;
@@ -490,20 +504,25 @@
 @media (max-width: 1024px) {
   #bet-holder {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .betslip-add {
     width: 100%;
   }
+
   .selected-bet-body {
     justify-self: flex-end;
   }
+
   .slips-bets-title-container {
     padding: 9px 13px;
   }
+
   .bet-slip-container {
     top: 0;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     z-index: 10002;
     height: 100%;
@@ -513,6 +532,7 @@
   .place-bet-button {
     border-radius: 0;
   }
+
   .slip-bets-title {
     justify-content: space-between;
     align-items: center;
@@ -527,6 +547,21 @@
   }
 }
 
+@media (min-width: 600px) and (max-width: 1024px) {
+  .bet-slip-container {
+    background-color: rgba(31, 31, 32, 0.5);
+  }
+  .sidebar-right {
+    max-width: 305px;
+    width: 100%;
+    background: #1B1C21;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
 @media (max-width: 600px) {
   #bet-holder {
     display: grid;
@@ -535,5 +570,13 @@
 
   .slip-input {
     font-size: 16px;
+  }
+
+  .bet-holder {
+    overflow-y: auto;
+  }
+
+  .bet-slip-container {
+    overflow: auto !important;
   }
 }

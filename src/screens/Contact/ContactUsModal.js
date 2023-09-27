@@ -10,15 +10,17 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Contact/Contact.css";
 import Image from "next/image";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const ContactUsModal = ({ setPageModal }) => {
+  const { t } = useClientTranslation("contact_us");
   const isMobile = useSelector((state) => state.setMobile);
   const [showSubmitMessage, setShowSubmitMessage] = useState(false);
 
   function submittedData(e) {
     e.preventDefault();
     if (!data.email || !data.message || !data.name || !data.subject) {
-      alertToast({ message: "Please fill in all of the fields!" });
+      alertToast({ message: t("fill_in_all_fields") });
     } else {
       submit();
     }
@@ -72,12 +74,11 @@ const ContactUsModal = ({ setPageModal }) => {
                 <div className="container">
                   <div className="row contact mt-2">
                     <div className="col-md-6 span-sm-0" id="contact-banner">
-                      <h2 className="banner-title-contact">Contact Us</h2>
+                      <h2 className="banner-title-contact">{t("contact_us")}</h2>
                       <span className="banner-text-contact">
-                        Need help, support or just want to drop us a message?
+                        {t("need_help_or_support")}
                         <br /> <br />
-                        Fill out the form or write to us on one of the <br />{" "}
-                        channels listed below.
+                        {t("fill_out_form_or_contact_channels")}
                       </span>
                     </div>
                     <div className="col-md-6"></div>
@@ -95,15 +96,13 @@ const ContactUsModal = ({ setPageModal }) => {
                                 className="submit-icon"
                               />
                               <span className="submit-message">
-                                Thank you for your message. Someone from the
-                                Swifty Team will aim to come back to you within
-                                72 hours.
+                                {t("thank_you_message_swifty_team")}
                               </span>
                             </>
                           ) : (
                             <>
                               <span className="contact-title mb-4">
-                                Drop us a line...
+                                {t("drop_us_a_line")}
                               </span>
                               <form
                                 onSubmit={(e) => submittedData(e)}
@@ -116,7 +115,7 @@ const ContactUsModal = ({ setPageModal }) => {
                                     value={data.name}
                                     type="text"
                                     className="contact-buttons"
-                                    placeholder="Full Name"
+                                    placeholder={t("full_name")}
                                   />
                                 </div>
                                 <div>
@@ -126,7 +125,7 @@ const ContactUsModal = ({ setPageModal }) => {
                                     value={data.email}
                                     type="email"
                                     className="contact-buttons"
-                                    placeholder="Email address"
+                                    placeholder={t("email_address")}
                                   />
                                 </div>
                                 <div className="topic-button">
@@ -136,19 +135,19 @@ const ContactUsModal = ({ setPageModal }) => {
                                     value={data.subject}
                                     name="topics"
                                     className="contact-buttons select"
-                                    placeholder="Select Link topic"
+                                    placeholder={t("select_link_topic")}
                                   >
-                                    <option value>Topic</option>
+                                    <option value>{t("topic")}</option>
                                     <option value="Topic 1">
-                                      General Feedback
+                                      {t("general_feedback")}
                                     </option>
                                     <option value="Topic 2">
-                                      Bug or issue
+                                      {t("bug_or_issue")}
                                     </option>
                                     <option value="Topic 3">
-                                      Marketing or media
+                                      {t("marketing_or_media")}
                                     </option>
-                                    <option value="Topic 4">Complaint</option>
+                                    <option value="Topic 4">{t("complaint")}</option>
                                   </select>
                                 </div>
                                 <div>
@@ -160,7 +159,7 @@ const ContactUsModal = ({ setPageModal }) => {
                                     value={data.message}
                                     type="text"
                                     className="contact-buttons"
-                                    placeholder="Message"
+                                    placeholder={t("message")}
                                   />
                                 </div>
                                 <div className="submit-button-span">
@@ -169,7 +168,7 @@ const ContactUsModal = ({ setPageModal }) => {
                                     value="Submit"
                                     className={"btnPrimary submit-button"}
                                     onClick={submittedData}
-                                    text={"Submit"}
+                                    text={t("submit")}
                                   />
                                 </div>
                               </form>
@@ -182,7 +181,7 @@ const ContactUsModal = ({ setPageModal }) => {
                       className="col-md-5 col-sm-4 col-lg-4 social-form span-sm-0"
                       id="reach-us-form"
                     >
-                      <span className="social-media-title">Reach us</span>
+                      <span className="social-media-title">{t("reach_us")}</span>
                       <span className="social-divider" />
                       <div className="social-media-form">
                         <div className="social-media-accounts">

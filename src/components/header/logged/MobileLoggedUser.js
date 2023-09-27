@@ -4,14 +4,19 @@ import { SlipIcon } from "../../../utils/icons";
 import { images } from "../../../utils/imagesConstant";
 import Link from "next/link";
 import { Chat } from "@/components/chat/Chat";
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const MobileLoggedUser = ({ showBetSlip }) => {
-  const selectedBets = useSelector((state) => state.selectedBets);
+  const betslipResponse = useSelector((state) => state.betslipResponse);
   const user = useSelector((state) => state.loggedUser);
+  const isMobile = useSelector((state) => state.setMobile);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency.abbreviation;
+  const { t } = useClientTranslation("header");
   const settings = useSelector((state) => state.settings);
   const chatIsActive =
+    getLocalStorageItem("access_token") &&
     settings?.isTraderChatEnabled &&
     user &&
     user?.user_data?.trader_chat_enabled;
@@ -25,9 +30,12 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
               src={images.profile}
               alt="Profile"
               className="profileImage"
+              height={32}
+              width={32}
+              priority
             />
           </Link>
-          {!!selectedBets?.bets?.length && showBetSlip && (
+          {!!betslipResponse?.singles?.length && showBetSlip && (
             <div
               className="slip-icon"
               onClick={() => {
@@ -40,17 +48,17 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
                       ".bet-slip-container"
                     ).style.display = "none";
                   } else {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "block";
+                      document.querySelector(
+                        ".bet-slip-container"
+                      ).style.display = "block";
                   }
                 }
               }}
             >
               <SlipIcon />
-              {selectedBets && selectedBets?.bets?.length > 0 && (
+              {betslipResponse && betslipResponse?.singles?.length > 0 && (
                 <span className="total-slip-bets">
-                  {selectedBets?.bets?.length}
+                  {betslipResponse?.singles?.length}
                 </span>
               )}
             </div>
@@ -58,14 +66,14 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
           {chatIsActive && <Chat isMobile={true} />}
         </div>
         <div className="d-flex flex-column justify-content-between balanceAmountContainer">
-          <p className="signText balanceText">Balance</p>
+          <p className="signText balanceText">{t("balance")}</p>
           <div className="d-flex justify-content-end">
             <p className="signText balanceAmount">
               {userBalance
                 ? parseFloat(userBalance)
-                    .toFixed(2)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  .toFixed(2)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 : "0.00"}
             </p>
             <p className="signText balanceAmount ms-2">

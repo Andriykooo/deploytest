@@ -116,12 +116,14 @@
   margin-top: 22px;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
   .backgroundLinear {
-    height: auto;
+    min-height: calc(100vh - 56px);
+    height: 100%;
     margin-left: 24px;
     margin-right: 24px;
     display: flex;
+    position: relative;
     justify-content: center !important;
   }
   .sidebarProfile {

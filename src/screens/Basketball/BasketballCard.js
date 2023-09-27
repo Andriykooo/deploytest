@@ -6,6 +6,7 @@ import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const BasketballCard = ({
   match,
@@ -14,6 +15,7 @@ const BasketballCard = ({
   selectionTypes,
   inPlay,
 }) => {
+  const { t } = useClientTranslation("common");
   let matchSelectionsData = match?.selections;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
@@ -37,18 +39,18 @@ const BasketballCard = ({
           {!isMobile && (
             <div className="d-flex position-relative col-2 matchCardDate">
               <div className="matchCardIcon"></div>
-              <div className="ps-2">Time</div>
+              <div className="ps-2">{t("time")}</div>
             </div>
           )}
           <div className=" matchesContainer col-9 col-lg-6">
             {isMobile ? (
               <>
-                <div className="eventStyle">Event</div>
+                <div className="eventStyle">{t("event")}</div>
               </>
             ) : (
               <>
                 <div className="matchTeam"></div>
-                <div className="eventStyle">Event</div>
+                <div className="eventStyle">{t("event")}</div>
                 <div className="matchTeam"></div>
               </>
             )}
@@ -66,7 +68,7 @@ const BasketballCard = ({
               );
             })}
           </div>
-          {moreMarkets && <div className="col-1">More Markets</div>}
+          {moreMarkets && <div className="col-1">{t("more_markets")}</div>}
         </div>
       )}
       {/* Mobile match time */}

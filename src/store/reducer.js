@@ -1,11 +1,13 @@
+import Cookies from "js-cookie";
 import * as constants from "./actionTypes";
+import { cookieName } from "@/app/i18n/settings";
 
-const initialState = {
+export const initialState = {
   user: null,
   loggedUser: null,
   on_boarding: {},
   swifty_id: null,
-  signup_platform: "",
+  signup_platform: null,
   user_settings: null,
   language: null,
   sports: [],
@@ -13,6 +15,12 @@ const initialState = {
   competitionsData: [],
   setMobile: false,
   isTablet: false,
+  betslipResponse: {
+    singles: [],
+    combinations: [],
+    total_stakes: 0,
+    total_payout: 0,
+  },
   selectedBets: {
     bets: [],
     stakes: [],
@@ -53,7 +61,12 @@ const initialState = {
   resultedEvents: [],
   favouriteGames: {},
   currentTime: new Date(),
-  errorCode: null,
+  alertModal: null,
+  privacyModal: { isOpen: false, callback: () => {} },
+  termsModal: { isOpen: false, callback: () => {} },
+  usageStartTime: new Date(),
+  promo: null,
+  forgotPassword: false,
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -82,12 +95,16 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, loggedUser: action.payload };
     case constants.SET_LOGOUT:
       return { ...appstate, loggedUser: action.payload };
-    case constants.ON_BOARDING:
+    case constants.ON_BOARDING: {
+      const cookieLang = Cookies.get(cookieName);
+      const selectedLanguage = action.payload.languages?.find((item) => item.code2.toLowerCase() === cookieLang);
+
       return {
         ...appstate,
         on_boarding: action.payload,
-        language: appstate.language || action.payload.languages[0],
+        language: selectedLanguage || action.payload.languages[0],
       };
+    }
     case constants.SWIFTY_ID:
       return { ...appstate, swifty_id: action.payload };
     case constants.SIGNUP_PLATFORM:
@@ -202,7 +219,8 @@ const rootReducer = (appstate = initialState, action) => {
         headerData: action.payload,
         activePage:
           appstate.activePage ||
-          action.payload.find((page) => page.path === "/home"),
+          action?.payload?.find((page) => page.path === "/home") ||
+          "/home",
       };
 
     case constants.SET_SIDEBAR_RIGHT:
@@ -254,7 +272,7 @@ const rootReducer = (appstate = initialState, action) => {
       };
 
     case constants.SET_UPDATED_SELECTIONS:
-      const updatedSelectionsData = {};
+      const updatedSelectionsData = { ...appstate.updatedSelections };
 
       action.payload.forEach((selection) => {
         updatedSelectionsData[selection.data.bet_id] = selection;
@@ -388,10 +406,75 @@ const rootReducer = (appstate = initialState, action) => {
         marketOptions: action.payload,
       };
 
-    case constants.SET_ERROR_CODE:
+    case constants.SET_ALERT_MODAL:
       return {
         ...appstate,
-        errorCode: action.payload,
+        alertModal: action.payload,
+      };
+
+    case constants.SET_PRIVACY_MODAL:
+      return {
+        ...appstate,
+        privacyModal: action.payload,
+      };
+
+    case constants.SET_TERMS_MODAL:
+      return {
+        ...appstate,
+        termsModal: action.payload,
+      };
+
+    case constants.SET_PROMO:
+      return {
+        ...appstate,
+        promo: action.payload,
+      };
+
+    case constants.SET_BETSLIP_RESPONSE:
+      return {
+        ...appstate,
+        betslipResponse: action.payload,
+      };
+
+    case constants.DESTROY_SESSION:
+      return {
+        ...appstate,
+        user: null,
+        loggedUser: null,
+        swifty_id: null,
+        signup_platform: null,
+        user_settings: null,
+        language: null,
+        betslipResponse: {
+          singles: [],
+          combinations: [],
+          total_stakes: 0,
+          total_payout: 0,
+        },
+        selectedBets: {
+          bets: [],
+          stakes: [],
+          action: "check",
+        },
+        betTicker: {
+          status: "",
+          bet_referral_id: "",
+        },
+        betAmounts: [],
+        returnAmounts: [],
+        updatedSelections: null,
+        updatedBetslipSelections: {},
+        pageLayoutContent: {},
+        favouriteGames: {},
+        usageStartTime: new Date(),
+        promo: null,
+        forgotPassword: false,
+      };
+
+    case constants.SET_FORGOT_PASSWORD:
+      return {
+        ...appstate,
+        forgotPassword: action.payload,
       };
 
     default:

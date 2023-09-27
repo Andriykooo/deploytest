@@ -15,8 +15,10 @@ import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
 import "../SettledPredictions/SettledPredictions.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const SettledPredictions = () => {
+  const { t } = useClientTranslation("common")
   const skeletonHeader = new Array(4).fill(0);
   const [hasMore, setHasMore] = useState(false);
   const [activeBet, setActiveBet] = useState(-1);
@@ -27,13 +29,13 @@ const SettledPredictions = () => {
 
   const getDate = (date) => {
     const weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
+    weekday[0] = t("sunday");
+    weekday[1] = t("monday");
+    weekday[2] = t("tuesday");
+    weekday[3] = t("wednesday");
+    weekday[4] = t("thursday");
+    weekday[5] = t("friday");
+    weekday[6] = t("saturday");
     const currDate = new Date(date);
     let dateNow = currDate.getDate();
     dateNow > 30 ? (dateNow = dateNow + "st") : (dateNow = dateNow + "th");
@@ -96,7 +98,7 @@ const SettledPredictions = () => {
             />
           </div>
         </div>
-        <p className="menuTitle predictionsTitle mb-4">Bet History</p>
+        <p className="menuTitle predictionsTitle mb-4">{t("bet_history")}</p>
         {isMobile && (
           <div className="predictionsMobileMenuBar">
             <Button
@@ -107,7 +109,7 @@ const SettledPredictions = () => {
               text={
                 <>
                   <Image src={images.openPending} />
-                  &nbsp; Open
+                  &nbsp; {t("open")}
                 </>
               }
             />
@@ -120,7 +122,7 @@ const SettledPredictions = () => {
               text={
                 <>
                   <Image src={images.settledDone} />
-                  &nbsp; Settled
+                  &nbsp; {t("settled")}
                 </>
               }
             />
@@ -135,30 +137,30 @@ const SettledPredictions = () => {
         >
           {isLoading
             ? skeletonHeader.map((item, index) => {
-                return (
-                  <React.Fragment key={index}>
+              return (
+                <React.Fragment key={index}>
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: "2rem", bgcolor: "#212536" }}
+                    className="mt-2"
+                    animation="wave"
+                    width={250}
+                    key={index}
+                  />
+                  {skeletonHeader.map((item, index) => (
                     <Skeleton
                       variant="text"
-                      sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                      className="mt-2"
+                      sx={{ fontSize: "1.2rem" }}
+                      className="my-2"
                       animation="wave"
-                      width={250}
                       key={index}
                     />
-                    {skeletonHeader.map((item, index) => (
-                      <Skeleton
-                        variant="text"
-                        sx={{ fontSize: "1.2rem" }}
-                        className="my-2"
-                        animation="wave"
-                        key={index}
-                      />
-                    ))}
-                  </React.Fragment>
-                );
-              })
+                  ))}
+                </React.Fragment>
+              );
+            })
             : closedPredictions?.length > 0
-            ? closedPredictions.map((row, index) => {
+              ? closedPredictions.map((row, index) => {
                 return (
                   <React.Fragment key={index}>
                     <p className="predictionDates">{getDate(row?.date)}</p>
@@ -262,38 +264,38 @@ const SettledPredictions = () => {
                                                 <div className="col-8 predictionValues">
                                                   <div className="col stakeValue d-flex">
                                                     <span className="stakeReturn ">
-                                                      Stake:
+                                                      {t("stake")}:
                                                     </span>
                                                     {value.stake}
                                                   </div>
                                                   <div className="col stakeValue d-flex">
                                                     <span className="stakeReturn">
-                                                      Returns:
+                                                      {t("returns")}:
                                                     </span>
                                                     &nbsp;{value.returns}
                                                   </div>
                                                   <div className="col stakeValue  d-flex">
                                                     <span className="stakeReturn">
-                                                      Odds:
+                                                      {t("odds")}:
                                                     </span>
                                                     {value.odds}
                                                   </div>
                                                 </div>
                                               </div>
                                               {value.win_lose_status ===
-                                              "loss" ? (
+                                                "loss" ? (
                                                 <div className="loss cancelButton ">
-                                                  {"Loss"}
+                                                  {t("loss")}
                                                 </div>
                                               ) : value.win_lose_status ===
                                                 "win" ? (
                                                 <div className="win cancelButton ">
-                                                  {"Win"}
+                                                  {t("win")}
                                                 </div>
                                               ) : value.win_lose_status ===
                                                 "partial" ? (
                                                 <div className="partial cancelButton ">
-                                                  {"Partial"}
+                                                  {t("partial")}
                                                 </div>
                                               ) : value.win_lose_status ===
                                                 "Void" ? (
@@ -319,7 +321,7 @@ const SettledPredictions = () => {
                   </React.Fragment>
                 );
               })
-            : ""}
+              : ""}
           {isLoading ? (
             <div className="spinnerStyle">
               <Spiner />

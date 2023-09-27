@@ -24,15 +24,13 @@ export const SidebarLayout = ({
   useEffect(() => {
     const lang = Cookies.get("language");
 
-    if (!sidebarLeft.data) {
-      apiServices
-        .get(apiUrl.GET_SIDEBAR_LEFT, {
-          country: loggedUser?.user_data?.country?.toLowerCase() || "all",
-        })
-        .then((response) => {
-          dispatch(setSidebarLeft({ ...sidebarLeft, data: response }));
-        });
-    }
+    apiServices
+      .get(apiUrl.GET_SIDEBAR_LEFT, {
+        country: loggedUser?.user_data?.country?.toLowerCase() || "all",
+      })
+      .then((response) => {
+        dispatch(setSidebarLeft({ ...sidebarLeft, data: response }));
+      });
 
     if (!sidebarRight.data) {
       const contentLanguage = lang === "en" ? "all" : lang;

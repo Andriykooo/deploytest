@@ -3,24 +3,29 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import { setErrorCode, setUser } from "@/store/actions";
+import { setPrivacytModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const PrivacyConfirmModal = () => {
+  const { t } = useClientTranslation("privacy");
+  const dispatch = useDispatch();
+  const pathname = usePathname();
+
   const privacyDivRef = useRef(null);
+
+  const loggedUser = useSelector((state) => state.loggedUser);
+  const isMobile = useSelector((state) => state.setMobile);
+  const user = useSelector((state) => state.user);
+  const privacyModal = useSelector((state) => state.privacyModal);
+
   const [policy, setPolicy] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [policyVersion, setPolicyVersion] = useState("");
   const [acceptButtonDisabled, setAcceptButtonDisabled] = useState(true);
-  const loggedUser = useSelector((state) => state.loggedUser);
-  const isMobile = useSelector((state) => state.setMobile);
-  const user = useSelector((state) => state.user);
-  const errorCode = useSelector((state) => state.errorCode);
-  const pathname = usePathname();
-  const dispatch = useDispatch();
 
   const handleScroll = () => {
     const privacyDiv = privacyDivRef.current;
@@ -57,27 +62,26 @@ const PrivacyConfirmModal = () => {
       },
     };
     setIsLoading(true);
-    apiServices
-      .put(apiUrl.USER, body)
-      .then(() => {
-        setIsLoading(false);
-
-        const newUser = { ...user };
-        newUser.policies_version = policyVersion;
-        dispatch(setUser(newUser));
-        dispatch(setErrorCode(errorCode === 1007 ? 1008 : null));
-        SuccesToast({ message: "Privacy Policy Updated Successfully" });
-      })
-      .catch(() => {
+    apiServices.put(apiUrl.USER, body).then(() => {
+      setIsLoading(false);
+      const newUser = { ...user };
+      newUser.policies_version = policyVersion;
+      dispatch(setUser(newUser));
+      SuccesToast({ message: t("privacy_policy_update_success") });
+      privacyModal.callback().then(() => {
+        dispatch(setPrivacytModal({ isOpen: false, callback: () => {} }));
         setIsLoading(false);
       });
+    });
   };
 
   useEffect(() => {
-    getPolicy();
-  }, []);
+    if (privacyModal?.isOpen) {
+      getPolicy();
+    }
+  }, [privacyModal]);
 
-  return (
+  return privacyModal?.isOpen ? (
     <div
       className={isMobile ? "modal show modalFullScreen" : "modal"}
       id="alertGamingReminderModal"
@@ -96,7 +100,7 @@ const PrivacyConfirmModal = () => {
         <div className="modal-content modalCenterContent terms-modalContent">
           <div>
             <p className="termsTitleForMainPage privacyModalTitle">
-              New Privacy Policy
+              {t("new_privacy_policy")}
             </p>
             <div
               ref={privacyDivRef}
@@ -119,12 +123,12 @@ const PrivacyConfirmModal = () => {
               putConfirmPolicy();
             }}
             disabled={acceptButtonDisabled}
-            text={isLoading ? <Loader /> : "Accept Changes"}
+            text={isLoading ? <Loader /> : t("accept_changes")}
           />
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default PrivacyConfirmModal;

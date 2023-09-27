@@ -7,6 +7,7 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { setSettingsApi } from "@/utils/apiQueries";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SetRealityCheck = ({
   options,
@@ -17,6 +18,7 @@ export const SetRealityCheck = ({
   realityCheckData,
   setRealityCheckData,
 }) => {
+  const { t } = useClientTranslation(["reality_check", "common"]);
   const [isLoading, setIsLoading] = useState(false);
   let user = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
@@ -28,9 +30,9 @@ export const SetRealityCheck = ({
     };
     setIsLoading(true);
 
-    setSettingsApi(body, dispatch)
-      .then(() => {
-        SuccesToast({ message: "Successfully updated!" });
+    setSettingsApi(body, dispatch, {
+      onSucces: () => {
+        SuccesToast({ message: t("common:successfully_updated") });
         setIsLoading(false);
         setRealityCheckData({
           ...realityCheckData,
@@ -42,10 +44,11 @@ export const SetRealityCheck = ({
         newUser.user_data.settings.safer_gambling.reality_check.reality_check_after.value =
           realityCheck;
         dispatch(setLoggedUser(newUser));
-      })
-      .catch(() => {
+      },
+      onError: () => {
         setIsLoading(false);
-      });
+      },
+    });
   };
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export const SetRealityCheck = ({
       >
         <div className="modal-content modalCenterContent">
           <p className="d-flex justify-content-center depositModalLimit">
-            Reality check
+            {t("reality_check")}
           </p>
           <Image
             src={images.closeIcon}
@@ -123,7 +126,7 @@ export const SetRealityCheck = ({
                   : "btn finishBtn setLimitBtn col-8 disabled"
               }
               onClick={() => selectedLimit !== 0 && handleSetLimit()}
-              text={<>{isLoading ? <Loader /> : "Set Limit"}</>}
+              text={<>{isLoading ? <Loader /> : t("common:set_limit")}</>}
             />
           </div>
         </div>

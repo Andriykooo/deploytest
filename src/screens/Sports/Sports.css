@@ -56,6 +56,10 @@
   justify-content: center;
 }
 
+.sport-container  .empty-state {
+  min-height: 400px !important;
+}
+
 .competition-name {
   padding-left: 16px;
 }
@@ -331,7 +335,7 @@ div .MuiAutocomplete-popper {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .sport-container .sport-competitions {
     margin: 0;
   }
@@ -368,9 +372,9 @@ div .MuiAutocomplete-popper {
   }
 
   .horse-sport-competitions {
-    padding-bottom: 16px;
+    padding: 16px;
     background-color: var(--global-color-shade5);
-    border-radius: 0;
+
   }
 
   .horse-sport-competitions .sport-competitions-head {
@@ -583,5 +587,9 @@ div .MuiAutocomplete-popper {
 @media screen and (max-width: 1024px) {
   .autoCompleteMultipleInRow {
     padding: 0 0 10px;
+  }
+
+  .sport-events-filter {
+    margin-bottom: 16px;
   }
 }

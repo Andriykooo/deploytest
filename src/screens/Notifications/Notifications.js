@@ -10,8 +10,10 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../Notifications/Notifications.css";
 import "../Withdraw/Withdraw.css";
 import { setSettingsApi } from "@/utils/apiQueries";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const Notifications = () => {
+  const { t } = useClientTranslation(["notifications","common"]);
   const dispatch = useDispatch();
 
   const [pushNotificationSettings, setPushNotificationSettings] = useState([]);
@@ -63,27 +65,27 @@ const Notifications = () => {
   const handleUpdate = (key, currValue) => {
     let body = {};
     body[key] = currValue;
-    setSettingsApi(body, dispatch)
-      .then((result) => {
+    setSettingsApi(body, dispatch, {
+      onSuccess: (result) => {
         if (Object.keys(result).length < 1) {
-          SuccesToast("Notification turned off successfully!");
+          SuccesToast(t("notification_turned_off_success"));
         }
-      })
-      .catch((error) =>
+      },
+      onError: (error) =>
         alertToast(
-          error?.message || "Error saving your settings, please try again"
+          error?.message || t("settings_save_error_message")
         )
-      );
+        });
   };
   return (
     <div className="depositLimit">
-      <div className={isMobile ? "p-4 pt-0" : "depositBody"}>
-        <PreferencesTitle title="Notifications" marginBottomSize="lg" />
+      <div className="depositBody">
+        <PreferencesTitle title={t("common:notifications")} marginBottomSize="lg" />
         <div className="row depositLimitContainer">
-          <span className="notificationsSub ">Push Notifications</span>
+          <span className="notificationsSub ">{t("push_notifications")}</span>
           {pushNotificationSettings.map((item, i) => (
             <ToggleLabel
-              notification={item}
+              notification={{...item, text: t(item.text)}}
               key={item.key}
               type="push"
               className="notificationTrack"
@@ -96,13 +98,13 @@ const Notifications = () => {
         </div>
         <div className="divider" />
         <div className="row depositLimitContainer">
-          <span className="notificationsSub ">Email Notifications</span>
+          <span className="notificationsSub ">{t("email_notifications")}</span>
 
           {emailNotificationSettings.map((item, i) => (
             <ToggleLabel
-              notification={item}
+              notification={{...item, text: t(item.text)}}
               key={item.key}
-              type={"email"}
+              type="email"
               value={item.status}
               onToggle={onToggle}
               isMobile={isMobile}

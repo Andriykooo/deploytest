@@ -1,11 +1,15 @@
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { useClientPathname } from "@/hooks/useClientPathname";
 import { SlipIcon } from "../../../utils/icons";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const DesktopUnloggedUser = ({ showBetSlip }) => {
-  const selectedBets = useSelector((state) => state.selectedBets);
   const router = useRouter();
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
+  const { t } = useClientTranslation("header")
+
+  const betslipResponse = useSelector((state) => state.betslipResponse);
 
   const navigateToLogin = () => {
     router.push(`/login?redirect=${pathname.replace("/", "")}`);
@@ -14,7 +18,7 @@ export const DesktopUnloggedUser = ({ showBetSlip }) => {
   return (
     <div
       className={
-        !!selectedBets?.bets?.length && showBetSlip
+        !!betslipResponse?.singles?.length && showBetSlip
           ? "sing-up-txt between-container"
           : "sing-up-txt"
       }
@@ -24,34 +28,36 @@ export const DesktopUnloggedUser = ({ showBetSlip }) => {
         }
       }}
     >
-      {!!selectedBets?.bets?.length && showBetSlip && (
+      {!!betslipResponse?.singles?.length && showBetSlip && (
         <div
           className="slip-icon"
           onClick={() => {
-            if (document.querySelector(".bet-slip-container")) {
-              let actualDisplay = document.querySelector(".bet-slip-container")
-                .style.display;
-              if (actualDisplay === "block") {
-                document.querySelector(".bet-slip-container").style.display =
-                  "none";
-              } else {
-                document.querySelector(".bet-slip-container").style.display =
-                  "block";
+            if (document.documentElement.clientWidth < 1400) {
+              if (document.querySelector(".bet-slip-container")) {
+                let actualDisplay = document.querySelector(
+                  ".bet-slip-container"
+                ).style.display;
+                if (actualDisplay === "block") {
+                  document.querySelector(".bet-slip-container").style.display =
+                    "none";
+                } else {
+                  document.querySelector(".bet-slip-container").style.display =
+                    "block";
+                }
               }
             }
           }}
         >
           <SlipIcon />
-          {selectedBets && selectedBets?.bets?.length > 0 && (
+          {betslipResponse && betslipResponse?.singles?.length > 0 && (
             <span className="total-slip-bets">
-              {selectedBets?.bets?.length}
+              {betslipResponse?.singles?.length}
             </span>
           )}
         </div>
       )}
       <div className="d-flex" onClick={navigateToLogin}>
-        <p className="signText">REGISTER</p>
-        <p className="signText">&nbsp;OR&nbsp;LOGIN</p>
+        <p className="signText">{t("register_or_login")}</p>
       </div>
     </div>
   );

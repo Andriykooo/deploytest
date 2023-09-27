@@ -11,26 +11,28 @@ import "./HorseRacing.css";
 import { EventTime } from "@/components/EventTime/EventTime";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
-
-export const horseracingMeetingOptions = [
-  {
-    label: "Today",
-    id: 1,
-  },
-  {
-    label: "Tomorrow",
-    id: 2,
-  },
-];
-
-const horseracingFilterOptions = [
-  {
-    label: "Next Races",
-    id: 1,
-  },
-];
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const HorseRacing = ({ sportContent, slug }) => {
+  const { t } = useClientTranslation("common");
+
+  const horseracingMeetingOptions = [
+    {
+      label: t("today"),
+      id: 1,
+    },
+    {
+      label: t("tomorrow"),
+      id: 2,
+    },
+  ];
+
+  const horseracingFilterOptions = [
+    {
+      label: t("next_races"),
+      id: 1,
+    },
+  ];
   const [selectedDay, setSelectedDay] = useState(horseracingMeetingOptions[0]);
   const [selectedMeet, setSelectedMeet] = useState(
     horseracingMeetingOptions[0]
@@ -103,7 +105,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
           "mobile": isTablet
         })}>
           <label className="sport-name">
-            {slug === "horseracing" ? "HORSE RACING" : "GREYHOUND RACING"}
+            {slug === "horseracing" ? t("horse_racing") : t("greyhound_racing")}
           </label>
           {isTablet ? (
             <SelectButtons
@@ -144,13 +146,13 @@ export const HorseRacing = ({ sportContent, slug }) => {
             >
               <Accordion.Item>
                 <Accordion.Body>
-                  <RacingComponent data={eventsData} />
+                  <RacingComponent data={eventsData} slug={slug} />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
           ) : (
             <div className="horse-racing-empty-state mx-3">
-              <EmptyState message="There are no more races for the day!" />
+              <EmptyState message={t("no_more_races_for_the_day")} />
             </div>
           )}
           <div className="m-3">
@@ -209,7 +211,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                               })
                             ) : (
                               <div className="countriesItem">
-                                No time available
+                                {t("no_time_available")}
                               </div>
                             )}
                           </div>

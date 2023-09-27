@@ -4,8 +4,10 @@ import { RacingItem } from "../racingWidget/RacingItem";
 import Slider from "react-slick";
 import { SampleNextArrow, SamplePrevArrow } from "@/utils/icons";
 import { EmptyState } from "../emptyState/EmptyState";
+import { useClientTranslation } from "@/app/i18n/client";
 
-export const RacingComponent = ({ data }) => {
+export const RacingComponent = ({ data, slug }) => {
+  const { t } = useClientTranslation("common");
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const isMobile = useSelector((state) => state.setMobile);
 
@@ -23,7 +25,7 @@ export const RacingComponent = ({ data }) => {
           data={events?.map((event, index) => {
             return {
               id: event.event_id,
-              render: <RacingItem data={event} key={index} />,
+              render: <RacingItem data={event} slug={slug} key={index} />,
             };
           })}
         />
@@ -52,12 +54,12 @@ export const RacingComponent = ({ data }) => {
           ]}
         >
           {events?.map((event, index) => {
-            return <RacingItem data={event} key={index} />;
+            return <RacingItem data={event} slug={slug} key={index} />;
           })}
         </Slider>
       )}
     </div>
   ) : (
-    <EmptyState message="There are no more races for the day!" />
+    <EmptyState message={t("no_more_races_for_the_day")} />
   );
 };

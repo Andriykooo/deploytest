@@ -6,9 +6,10 @@ import { setInPlay } from "../../store/actions";
 import { theme } from "../../utils/config";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const HockeyCard = (props) => {
-  console.log(props);
+  const { t } = useClientTranslation("common");
   const { match, firstRow, id, inPlay } = props;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
@@ -35,22 +36,22 @@ const HockeyCard = (props) => {
         <div className="matchCard row">
           <div className="d-flex col-2 matchCardDate">
             <div className="matchCardIcon"></div>
-            <div className="ps-2">Time</div>
+            <div className="ps-2">{t("time")}</div>
           </div>
           <div className="d-flex col-4 matchCardDate justify-content-center w-100">
             <div className="matchCardIcon"></div>
-            <div className="ps-2">Event</div>
+            <div className="ps-2">{t("event")}</div>
           </div>
           <div className="d-flex col-6 matchCardDate justify-content-end w-100 p-0">
             <div style={{ width: "105px", textAlign: "center" }}>
-              Money Line
+              {t("money_line")}
             </div>
-            <div style={{ width: "105px", textAlign: "center" }}>Spread</div>
+            <div style={{ width: "105px", textAlign: "center" }}>{t("spread")}</div>
             <div style={{ width: "105px", textAlign: "center" }}>
-              Total Goals
+              {t("total_goals")}
             </div>
             <div style={{ width: "105px", textAlign: "center" }}>
-              More Markets
+              {t("more_markets")}
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@ const HockeyCard = (props) => {
           </div>
           <div className="d-flex">
             <div className="d-flex justify-content-center align-items-center MarketMenuContainer tempmarketMenu">
-              More Markets
+              {t("more_markets")}
             </div>
 
             <div className="col-3 more-markets MarketMenuContainer">
@@ -182,11 +183,11 @@ const HockeyCard = (props) => {
                     borderBottom: `1px solid ${theme?.colors?.mainSecondary}`,
                   }}
                 >
-                  <div className="selectionTeamContainer">Over 6.5</div>
+                  <div className="selectionTeamContainer">{t("over")} 6.5</div>
                   <div>11/6</div>
                 </div>
                 <div className="ice-hockey-main-container">
-                  <div className="selectionTeamContainer">Under 6.5</div>
+                  <div className="selectionTeamContainer">{t("under")} 6.5</div>
                   <div>4/6</div>
                 </div>
               </div>
@@ -194,35 +195,35 @@ const HockeyCard = (props) => {
           ) : (
             <div className="row w-100">
               <div className="col-4 ice-hockey-container ">
-                <div className="betAmountIcehockey">Money Line</div>
+                <div className="betAmountIcehockey">{t("money_line")}</div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Sabres</span>
+                  <span className="betAmountIcehockey">{t("sabres")}</span>
                   <span className="betAmountsIceHockey">20/22</span>
                 </div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Horricane</span>
+                  <span className="betAmountIcehockey">{t("horricane")}</span>
                   <span className="betAmountsIceHockey">21/22</span>
                 </div>
               </div>
               <div className="col-4 ice-hockey-container ">
-                <div className="betAmountIcehockey">Spread</div>
+                <div className="betAmountIcehockey">{t("spread")}</div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Sabres</span>
+                  <span className="betAmountIcehockey">{t("sabres")}</span>
                   <span className="betAmountsIceHockey">20/22</span>
                 </div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Horricane</span>
+                  <span className="betAmountIcehockey">{t("horricane")}</span>
                   <span className="betAmountsIceHockey">21/22</span>
                 </div>
               </div>
               <div className="col-4 ice-hockey-container ">
-                <div className="betAmountIcehockey">Total Goals</div>
+                <div className="betAmountIcehockey">{t("total_goals")}</div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Sabres</span>
+                  <span className="betAmountIcehockey">{t("sabres")}</span>
                   <span className="betAmountsIceHockey">20/22</span>
                 </div>
                 <div className="ice-hockey-sub-container">
-                  <span className="betAmountIcehockey">Horricane</span>
+                  <span className="betAmountIcehockey">{t("horricane")}</span>
                   <span className="betAmountsIceHockey">21/22</span>
                 </div>
               </div>

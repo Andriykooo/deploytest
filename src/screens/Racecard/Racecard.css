@@ -69,11 +69,6 @@
   border-right: 1px solid var(--global-color-secondary);
 }
 
-.race-table-row > :nth-child(1),
-.race-table-row > :nth-child(2) {
-  border-right: 0;
-}
-
 .race-table-row-item {
   display: flex;
   align-items: center;
@@ -217,6 +212,10 @@
   font-style: normal;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+.finish-num {
+  font-size: 20px;
 }
 
 @media (max-width: 1024px) {

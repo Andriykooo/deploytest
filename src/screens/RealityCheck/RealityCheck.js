@@ -1,58 +1,54 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../DepositLimit/DepositLimit.css";
-import "../RealityCheck/RealityCheck.css";
-import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import { SuccesToast } from "@/utils/alert";
 import { setLoggedUser } from "@/store/actions";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
+import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import "../DepositLimit/DepositLimit.css";
+import "../RealityCheck/RealityCheck.css";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const RealityCheck = () => {
+  const { t } = useClientTranslation(["reality_check", "common"]);
+  const dispatch = useDispatch();
   const user_settings = useSelector((state) => state?.user_settings);
-  let user = useSelector((state) => state.loggedUser);
-  const realityCheckValue = useSelector(
-    (state) =>
-      state.loggedUser?.user_data?.settings?.safer_gambling?.reality_check
-        ?.reality_check_after
-  );
+  const user = useSelector((state) => state.loggedUser);
 
   const [loader, setLoader] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [realityCheck, setRealityCheck] = useState("");
-  const [selectedLimit, setSelectedLimit] = useState(realityCheckValue?.value);
+  const [selectedLimit, setSelectedLimit] = useState(-1);
   const [realityCheckData, setRealityCheckData] = useState({
     show: false,
     data: [],
   });
-  const router = useRouter();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoader(true);
-
-    setTimeout(() => {
-      setRealityCheck(realityCheckValue?.value);
+    if (user?.user_data) {
+      setSelectedLimit(
+        user?.user_data?.settings?.safer_gambling?.reality_check
+          ?.reality_check_after?.value
+      );
       setLoader(false);
-    }, 1500);
-  }, [user_settings]);
+    }
+  }, [user]);
 
-  let realityCheckTxt = ``;
-  if (realityCheckValue?.value === 15) {
-    realityCheckTxt = `15 minutes`;
-  } else if (realityCheckValue?.value === 30) {
-    realityCheckTxt = `30 minutes`;
-  } else if (realityCheckValue?.value === 45) {
-    realityCheckTxt = `45 minutes`;
-  } else if (realityCheckValue?.value === 60) {
-    realityCheckTxt = `1 hour`;
+  let realityCheckTxt = "";
+
+  if (selectedLimit === 15) {
+    realityCheckTxt = `15 ${t("common:minutes")}`;
+  } else if (selectedLimit === 30) {
+    realityCheckTxt = `30 ${t("common:minutes")}`;
+  } else if (selectedLimit === 45) {
+    realityCheckTxt = `45 ${t("common:minutes")}`;
+  } else if (selectedLimit === 60) {
+    realityCheckTxt = `1 ${t("common:hour")}`;
   } else {
-    realityCheckTxt = `Not Set`;
+    realityCheckTxt = t("common:not_set");
   }
 
   const handleToggle = () => {
@@ -61,7 +57,6 @@ const RealityCheck = () => {
       show: !realityCheckData.show,
       data: user_settings?.reality_check_options,
     });
-    setSelectedLimit(realityCheckValue?.value);
     setDisabled(true);
   };
 
@@ -70,9 +65,12 @@ const RealityCheck = () => {
     const body = {
       reality_check_after: selectedLimit,
     };
-    setSettingsApi(body, dispatch)
-      .then(() => {
-        SuccesToast({ message: "Successfully updated!" });
+    setSettingsApi(body, dispatch, {
+      onSuccess: (response) => {
+        if (response?.error) {
+          return;
+        }
+        SuccesToast({ message: t("common:successfully_updated") });
         setDisabled(true);
         setRealityCheckData({
           ...realityCheckData,
@@ -82,38 +80,39 @@ const RealityCheck = () => {
         let newUser = {};
         Object.assign(newUser, user);
         newUser.user_data.settings.safer_gambling.reality_check.reality_check_after.value =
-          value;
+          selectedLimit;
         dispatch(setLoggedUser(newUser));
         setLoader(false);
-      })
-      .catch(() => { setLoader(false) });
+      },
+      onError: () => {
+        setLoader(false);
+      },
+    });
+
     setRealityCheckData({ ...realityCheckData, show: false });
   };
 
   return (
     <>
-      <div className="depositLimit max-width-container gamblingContainer">
+      <div className="depositLimit max-width-container">
         <div>
           <PreferencesTitle
-            title="Reality Check"
+            title={t("reality_check")}
             backRoute="/profile/safer_gambling"
             marginBottomSize="sm"
             showBackOnDesktop
           />
-          <p className="menuText">
-            Get notified when you have been on the app for a certain period of
-            time.
-          </p>
+          <p className="menuText">{t("reality_check_description")}</p>
 
           <div className="mb-3 row">
-            <div className="subText col-6">Reality check after</div>
+            <div className="subText col-6">{t("reality_check_after")}</div>
 
             <PreferencesDropdown
-              data={{ ...realityCheckData, title: "Reality Check" }}
+              data={{ ...realityCheckData, title: t("reality_check") }}
               selectedItem={selectedLimit}
               handleToggle={handleToggle}
-              handleSelect={(v) => {
-                setSelectedLimit(v);
+              handleSelect={(value) => {
+                setSelectedLimit(value);
                 setDisabled(false);
                 setRealityCheckData({
                   ...realityCheckData,
@@ -121,13 +120,9 @@ const RealityCheck = () => {
                   data: user_settings?.reality_check_options,
                 });
               }}
-              placeholder={
-                (selectedLimit ? selectedLimit : realityCheckValue?.value) +
-                " minutes"
-              }
-              loader={loader}
               modalOnMobile
-              btnTitle="Set limit"
+              btnTitle={t("common:set_limit")}
+              placeholder={realityCheckTxt}
             />
           </div>
         </div>
@@ -139,8 +134,8 @@ const RealityCheck = () => {
                 ? " btnPrimary "
                 : "btn finishBtn disabled setLimitBtn col-8")
             }
-            onClick={() => selectedLimit && handleSelect()}
-            text={<>{loader ? <Loader /> : "Set limit"}</>}
+            onClick={handleSelect}
+            text={loader ? <Loader /> : t("common:set_limit")}
           />
         </div>
       </div>

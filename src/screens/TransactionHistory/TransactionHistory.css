@@ -45,6 +45,7 @@
   align-items: center;
   min-height: 67px;
   padding: 8px 14px;
+  cursor: pointer;
 }
 
 .transactionCardWrapper img {
@@ -225,4 +226,14 @@
   margin-bottom: 30px;
   max-width: 35rem;
   width: 100%;
+}
+
+.transactionDetailsContent {
+  margin-bottom: 150px;
+}
+
+@media (max-width: 1024px) {
+  .transactionDetailsContent {
+    margin-bottom: 0;
+  }
 }

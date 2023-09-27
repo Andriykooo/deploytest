@@ -1,20 +1,43 @@
 import {
-  setErrorCode,
-  setLogOut,
-  setLoggedUser,
-  setUser,
+  destroySession,
+  setAlertModal,
+  setPrivacytModal,
+  setTermsModal,
 } from "@/store/actions";
 import { apiServices } from "./apiServices";
 import { apiUrl } from "./constants";
 import Cookies from "js-cookie";
 import { clearLocalStorage } from "./localStorage";
 import moment from "moment";
+import { refreshGamingSocket } from "@/context/socket";
+import i18next from "i18next";
 
-export const setSettingsApi = async (body, dispatch) => {
-  const response = await apiServices.put(apiUrl.SETTINGS, body);
+export const setSettingsApi = async (body, dispatch, callback) => {
+  const request = async () =>
+    apiServices
+      .put(apiUrl.SETTINGS, body)
+      .then((response) => {
+        callback?.onSuccess(response);
+        return response;
+      })
+      .catch((error) => {
+        callback?.onError(error);
+      });
 
-  if (response?.error?.code) {
-    dispatch(setErrorCode(response.error.code));
+
+  const response = await request();
+
+  if (response?.error?.code === 1007) {
+    dispatch(setTermsModal({ isOpen: true, callback: request }));
+    dispatch(setPrivacytModal({ isOpen: true, callback: request }));
+  }
+
+  if (response?.error?.code === 1008) {
+    dispatch(setTermsModal({ isOpen: true, callback: request }));
+  }
+
+  if (response?.error?.code === 1009) {
+    dispatch(setPrivacytModal({ isOpen: true, callback: request }));
   }
 
   return response;
@@ -29,26 +52,18 @@ export const getUserApi = async (dispatch) => {
   } catch (error) {
     const data = error.response.data.error;
 
-    if (data.code === 1104) {
-      dispatch(setLogOut(null));
-      dispatch(setUser(null));
-      dispatch(setLoggedUser(null));
+    if (data?.code === 1104) {
       dispatch(
-        setErrorCode({
-          code: data.code,
+        setAlertModal({
+          title: i18next.t("account_suspended"),
           message: data.message,
         })
       );
-      clearLocalStorage();
-      throw error;
     }
 
-    if (data.code === 1063) {
-      dispatch(setLogOut(null));
-      dispatch(setUser(null));
-      dispatch(setLoggedUser(null));
+    if (data?.code === 1063) {
       dispatch(
-        setErrorCode({
+        setAlertModal({
           code: data.code,
           message: data.message.replace(
             "{date}",
@@ -56,9 +71,30 @@ export const getUserApi = async (dispatch) => {
           ),
         })
       );
-
-      clearLocalStorage();
-      throw error;
     }
+
+    if (data?.code === 1062) {
+      dispatch(
+        setAlertModal({
+          title: i18next.t("account_excluded"),
+          message: data.message.replace(
+            data.extra_data["{date}"].toString(),
+            moment(data.extra_data["{date}"]).format("DD MMMM YYYY")
+          ),
+        })
+      );
+    }
+
+    clearLocalStorage();
+    refreshGamingSocket(null);
+    dispatch(destroySession());
+
+    const cookieKeys = Object.keys(Cookies.get());
+
+    cookieKeys.forEach((cookieKey) => {
+      Cookies.remove(cookieKey);
+    });
+
+    throw error;
   }
 };

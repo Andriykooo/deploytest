@@ -1,15 +1,10 @@
 "use client";
 
 import { Footer } from "@/components/footer/Footer";
-import {
-  setFavouriteGames,
-  setPageLayoutContent,
-  setSubscriptions,
-  setUpdatedSelections,
-} from "@/store/actions";
+import { setFavouriteGames, setPageLayoutContent } from "@/store/actions";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Banner } from "../../components/Banner/Banner";
 import CasinoCategory from "../../components/casinoCategory/CasinoCategory";
@@ -18,24 +13,20 @@ import HomeSlider from "../../components/homeSlider/HomeSlider";
 import { RacingWidget } from "../../components/racingWidget/RacingWidget";
 import { SportsWidget } from "../../components/sportsWidget/SportsWidget";
 import { SidebarLayout } from "../sidebarLayout/SidebarLayout";
-import { SocketContext } from "@/context/socket";
-import { v4 as uuidv4 } from "uuid";
 import { PageContent } from "@/components/pageContent/PageContent";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
 import HomeSkeletonComponent from "@/utils/HomeSkeletonComponent";
 
 export const PageLayout = ({ children }) => {
   const dispatch = useDispatch();
-  const { gamingSocket } = useContext(SocketContext);
 
   const layout = useSelector((state) => state.pageLayoutContent);
   const headerData = useSelector((state) => state.headerData);
-  const sports = useSelector((state) => state.sports);
-  const subscriptions = useSelector((state) => state.subscriptions);
-  const pathname = usePathname();
+  const params = useParams();
+
   const page = headerData?.find(
-    (page) => page.path === (pathname === "/" ? "/home" : pathname)
+    (page) => page?.path?.substring(1) === (params?.path || "home")
   );
 
   const data = layout?.[page?.slug];
@@ -78,139 +69,29 @@ export const PageLayout = ({ children }) => {
     if (data?.content) {
       const favouriteGames = {};
 
-      dispatch(
-        setSubscriptions(
-          data?.content?.reduce((subscriptionsAccum, component) => {
-            if (component.type === "casino_category") {
-              component.casino_category.games.forEach((game) => {
-                if (game.favorite) {
-                  favouriteGames[game.id] = game;
-                }
-              });
+      data?.content?.forEach((component) => {
+        if (component.type === "casino_category") {
+          component.casino_category.games.forEach((game) => {
+            if (game.favorite) {
+              favouriteGames[game.id] = game;
             }
-
-            if (component.type === "casino") {
-              component.casino.forEach((category) => {
-                category.games.forEach((game) => {
-                  if (game.favorite) {
-                    favouriteGames[game.id] = game;
-                  }
-                });
-              });
-            }
-
-            if (component.type === "racing_widget") {
-              const sportId = sports.find(
-                (sport) => sport.slug === "horseracing"
-              )?.id;
-
-              return {
-                ...subscriptionsAccum,
-                [sportId]: true,
-              };
-            }
-
-            if (component.type === "sport_widget") {
-              return {
-                ...subscriptionsAccum,
-                sports: {
-                  ...subscriptionsAccum.sports,
-                  ...component?.sport_widget?.sports?.reduce(
-                    (sportsSubscriptions, currentSport) => {
-                      const sportId = sports.find(
-                        (sport) => sport.slug === currentSport.slug
-                      )?.id;
-
-                      return {
-                        ...sportsSubscriptions,
-                        [sportId]: currentSport,
-                      };
-                    },
-                    {}
-                  ),
-                },
-              };
-            }
-
-            if (component.type === "carousel") {
-              return {
-                ...subscriptionsAccum,
-                markets: {
-                  ...subscriptionsAccum.markets,
-                  ...component.carousel.reduce((markets, carouselItem) => {
-                    return {
-                      ...markets,
-                      ...carouselItem.buttons.reduce(
-                        (selections, selection) => {
-                          return {
-                            ...selections,
-                            [selection.bet_id]: selection,
-                          };
-                        },
-                        {}
-                      ),
-                    };
-                  }, {}),
-                },
-              };
-            }
-
-            return subscriptionsAccum;
-          }, {})
-        )
-      );
-
-      dispatch(setFavouriteGames(favouriteGames));
-    }
-  }, [data]);
-
-  useEffect(() => {
-    Object.entries(subscriptions).forEach(([entity, ids]) => {
-      if (entity === "sports") {
-        Object.keys(ids).forEach((id) => {
-          gamingSocket.emit("subscribe_sport", {
-            value: id,
-          });
-        });
-      }
-
-      if (entity === "markets") {
-        Object.keys(ids).forEach((id) => {
-          gamingSocket.emit("subscribe_market", {
-            value: id,
-          });
-        });
-      }
-    });
-
-    gamingSocket.on("selection_updated", (response) => {
-      dispatch(setUpdatedSelections(response));
-    });
-
-    return () => {
-      gamingSocket.off("selection_updated");
-
-      Object.entries(subscriptions).forEach(([entity, ids]) => {
-        if (entity === "sports") {
-          Object.keys(ids).forEach((id) => {
-            gamingSocket.emit("unsubscribe_sport", {
-              value: id,
-              action_id: uuidv4(),
-            });
           });
         }
 
-        if (entity === "markets") {
-          Object.keys(ids).forEach((id) => {
-            gamingSocket.emit("unsubscribe_market", {
-              value: id,
-              action_id: uuidv4(),
+        if (component.type === "casino") {
+          component.casino.forEach((category) => {
+            category.games.forEach((game) => {
+              if (game.favorite) {
+                favouriteGames[game.id] = game;
+              }
             });
           });
         }
       });
-    };
-  }, [subscriptions]);
+
+      dispatch(setFavouriteGames(favouriteGames));
+    }
+  }, [data]);
 
   return (
     <SidebarLayout
@@ -218,7 +99,7 @@ export const PageLayout = ({ children }) => {
       sidebarRightIsActive={!!data?.show_betslip}
     >
       {data ? (
-        <>
+        <div>
           {data?.content?.map((component) => {
             if (component.type === "banner") {
               return (
@@ -295,7 +176,7 @@ export const PageLayout = ({ children }) => {
             return null;
           })}
           {children}
-        </>
+        </div>
       ) : (
         <HomeSkeletonComponent isLoading />
       )}

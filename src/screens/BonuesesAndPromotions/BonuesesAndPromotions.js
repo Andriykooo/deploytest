@@ -9,8 +9,10 @@ import { images } from "../../utils/imagesConstant";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
 import { useSelector } from "react-redux";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { useClientTranslation } from "@/app/i18n/client";
 
 function BonuesesAndPromotions() {
+  const { t } = useClientTranslation(["bonuses_promotions", "common"]);
   const [selected, setSelected] = useState(0);
   const isTablet = useSelector((state) => state.isTablet);
   const handleClick = (index) => {
@@ -48,7 +50,7 @@ function BonuesesAndPromotions() {
     <div className="depositLimit netDepositLimit">
       <div className=" bonuses-container-menu">
         <PreferencesTitle
-          title={`Bonuses ${isTablet ? "And" : "&"} Promotions`}
+          title={t(isTablet ? "bonuses_and_promotions" : "common:bonuses_promotions")}
         />
         <div className="promotion-title">
           {monthDates.map((value, index) => {
@@ -62,7 +64,7 @@ function BonuesesAndPromotions() {
                 <Button
                   className={`menu-link-promotions ${selectedStyle}`}
                   type="button"
-                  text={value?.month + " " + value?.year}
+                  text={t(`common:${value?.month}`) + " " + value?.year}
                 />
               </div>
             );
@@ -93,13 +95,13 @@ function BonuesesAndPromotions() {
                 </p>
                 <div className="promotion-info">
                   <div className="promotion-values-container">
-                    <p className="promotion-valid">Valid until:</p> &nbsp;
+                    <p className="promotion-valid">{t("valid_until")}:</p> &nbsp;
                     <p className="promotion-value fw-bold">
                       {value?.validDate}
                     </p>
                   </div>
                   <p className="promotion-amount">
-                    Amount:{" "}
+                    {t("amount")}{" "}
                     <span className="promotion-value fw-bold">
                       {value?.amount}
                     </span>

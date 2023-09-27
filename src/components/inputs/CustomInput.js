@@ -19,7 +19,6 @@ export const Label = styled.label`
   line-height: ${pxtorem(24)};
   margin-bottom: ${(props) => (props.mb0 ? 0 : pxtorem(5))};
   margin-top: ${(props) => (props.mt ? pxtorem(15) : 0)};
-  margin-left: ${(props) => (props.ml0 ? "0" : pxtorem(12))};
   margin-right: ${(props) => (props.mr ? pxtorem(12) : "0")};
   text-align: ${(props) =>
     props.center ? "center" : props.right ? "right" : "left"};

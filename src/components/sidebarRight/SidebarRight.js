@@ -2,14 +2,16 @@
 
 import classNames from "classnames";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeBet,
   removeBetAmount,
   removeReturnValue,
+  setBetSlipResponse,
   setBetTicker,
   setLoggedUser,
+  setSelectBet,
   setUpdatedBetslipSelections,
   setUpdatedSelections,
 } from "../../store/actions";
@@ -33,10 +35,15 @@ import { SocketContext } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { MyBets } from "./MyBets";
 import { getUserApi } from "@/utils/apiQueries";
+import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SidebarRight = () => {
+  const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const isTablet = useSelector((state) => state.isTablet);
+  const isMobile = useSelector((state) => state.setMobile);
   const loggedUser = useSelector((state) => state.loggedUser);
   const selectedBets = useSelector((state) => state.selectedBets);
   const betTicker = useSelector((state) => state.betTicker);
@@ -48,14 +55,21 @@ export const SidebarRight = () => {
   const [myBets, setMyBets] = useState(false);
   const [placeBetIsLoading, setPlaceBetIsLoading] = useState(false);
   const [timer, setTimer] = useState(-1);
-
   const emptyBetSlip = {
     singles: [],
     combinations: [],
     total_stakes: 0,
     total_payout: 0,
   };
-  const [betSlipResponse, setBetSlipResponse] = useState(emptyBetSlip);
+  const betSlipResponse = useSelector((state) => state.betslipResponse);
+
+  const betSlipContainerRef = useRef(null);
+
+  const hideBetSlip = () => {
+    if (betSlipContainerRef.current) {
+      betSlipContainerRef.current.style.display = "none";
+    }
+  };
 
   const handleClickBets = (type) => {
     if (type === "betslip") {
@@ -73,15 +87,9 @@ export const SidebarRight = () => {
           value: bet.bet_id,
         });
       });
-
-      gamingSocket.on("selection_updated", (response) => {
-        dispatch(setUpdatedSelections(response));
-      });
     }
 
     return () => {
-      gamingSocket.off("selection_updated");
-
       if (selectedBets.bets.length > 0) {
         selectedBets.bets.forEach((bet) => {
           gamingSocket.emit("unsubscribe_market", {
@@ -97,7 +105,7 @@ export const SidebarRight = () => {
 
   useEffect(() => {
     if (selectedBets?.bets?.length === 0) {
-      setBetSlipResponse({ ...emptyBetSlip });
+      dispatch(setBetSlipResponse({ ...emptyBetSlip }));
 
       return;
     }
@@ -133,7 +141,7 @@ export const SidebarRight = () => {
     });
 
     tmp.action = "check";
-    setBetSlipResponse(tmp);
+    dispatch(setBetSlipResponse(tmp));
 
     const payload = {
       stakes: selectedBets.stakes,
@@ -156,6 +164,20 @@ export const SidebarRight = () => {
     apiServices
       .post(urlGenerateBetSlips, payload)
       .then((response) => {
+        if (selectedBets.bets.length !== response.singles.length) {
+          dispatch(
+            setSelectBet({
+              ...selectedBets,
+              bets: selectedBets.bets.filter((bet) =>
+                response.singles.some(
+                  (single) =>
+                    `${single.bet_provider}-${single.bet_id}` !== bet.bet_id
+                )
+              ),
+            })
+          );
+        }
+
         if (betSlipResponse.singles.length === 0) {
           dispatch(
             setBetTicker({
@@ -165,12 +187,23 @@ export const SidebarRight = () => {
           );
         }
 
-        setBetSlipResponse(response);
+        dispatch(setBetSlipResponse(response));
       })
       .catch((err) => {
         alertToast({
           message: err?.response?.data?.message,
         });
+        dispatch(
+          setSelectBet({
+            ...selectedBets,
+            bets: selectedBets.bets.filter((bet) =>
+              betSlipResponse.singles.some(
+                (single) =>
+                  `${single.bet_provider}-${single.bet_id}` === bet.bet_id
+              )
+            ),
+          })
+        );
       });
   }, [selectedBets, updatedBetslipSelections]);
 
@@ -202,7 +235,7 @@ export const SidebarRight = () => {
       })
       .finally(() => {
         if (status === "accepted") {
-          setBetSlipResponse(emptyBetSlip);
+          dispatch(setBetSlipResponse(emptyBetSlip));
           dispatch(removeBet("all"));
           dispatch(removeBetAmount("all"));
         }
@@ -212,7 +245,7 @@ export const SidebarRight = () => {
     if (!betTicker?.status) return;
     if (betTicker.status === "pending") return;
     if (betTicker.status === "approved") {
-      setBetSlipResponse(emptyBetSlip);
+      dispatch(setBetSlipResponse(emptyBetSlip));
       dispatch(removeBet("all"));
       dispatch(removeBetAmount("all"));
       getUserData();
@@ -220,7 +253,7 @@ export const SidebarRight = () => {
     let rejectInterval;
 
     if (betTicker.status === "new_offer" && betTicker.bet_slip) {
-      setBetSlipResponse(betTicker.bet_slip);
+      dispatch(setBetSlipResponse(betTicker.bet_slip));
       setTimer(betTicker.bet_slip.expireSeconds);
       rejectInterval = setInterval(() => {
         setTimer((prev) => {
@@ -265,7 +298,7 @@ export const SidebarRight = () => {
               message: data.message,
             });
           } else if (data.data.mode == "accepted") {
-            setBetSlipResponse(emptyBetSlip);
+            dispatch(setBetSlipResponse(emptyBetSlip));
             dispatch(removeBet("all"));
             dispatch(removeBetAmount("all"));
             getUserData();
@@ -282,10 +315,7 @@ export const SidebarRight = () => {
           });
         }
       })
-      .catch((err) => {
-        alertToast({
-          message: err?.response?.data?.message,
-        });
+      .catch(() => {
         setPlaceBetIsLoading(false);
       });
   };
@@ -298,7 +328,10 @@ export const SidebarRight = () => {
       ? betSlipResponse?.total_stakes - loggedUser?.user_data?.balance
       : 0;
 
-  const priseChanged = Object.values(updatedBetslipSelections).length > 0;
+  const priseChanged = betSlipResponse?.singles?.some(
+    (single) =>
+      updatedBetslipSelections[`${single.bet_provider}-${single.bet_id}`]
+  );
 
   const renderBetButtons = () => {
     if (betTicker?.status === "new_offer") {
@@ -306,12 +339,12 @@ export const SidebarRight = () => {
         <div className="btnsGroup">
           <Button
             className={"btnPrimary place-bet-button rounded-0"}
-            text={placeBetIsLoading ? <Loader /> : "ACCEPT"}
+            text={placeBetIsLoading ? <Loader /> : t("accept")}
             onClick={() => updateBetStatus("accepted")}
           />
           <Button
             className={"btnSecondary place-bet-button rounded-0"}
-            text={placeBetIsLoading ? <Loader /> : "REJECT"}
+            text={placeBetIsLoading ? <Loader /> : t("reject")}
             onClick={() => updateBetStatus("rejected")}
           />
         </div>
@@ -322,12 +355,13 @@ export const SidebarRight = () => {
         <div className="place-bet-container">
           <Button
             className={"btnPrimary place-bet-button"}
-            text="PENDING TRADER REVIEW"
+            text={t("pending_trader_review")}
             disabled
           />
         </div>
       );
     }
+
     if (
       betSlipResponse?.singles?.length > 0 &&
       betSlipResponse?.total_stakes === 0
@@ -336,7 +370,7 @@ export const SidebarRight = () => {
         <div className="place-bet-container">
           <Button
             className={"btnAction"}
-            text="PLEASE ENTER A STAKE"
+            text={t("please_enter_stake")}
             disabled
           />
         </div>
@@ -348,7 +382,7 @@ export const SidebarRight = () => {
         <div className="place-bet-container">
           <Button
             className={"btnAction"}
-            text="ACCEPT PRICE CHANGES"
+            text={t("accept_price_changes")}
             onClick={() => {
               dispatch(setUpdatedBetslipSelections({}));
             }}
@@ -363,260 +397,271 @@ export const SidebarRight = () => {
           <Link href="/profile/deposit">
             <Button
               className={"btnPrimary place-bet-button"}
-              text="PLEASE DEPOSIT"
+              text={t("please_deposit")}
             />
           </Link>
         </div>
       );
     }
 
-    return (
-      <div className="place-bet-container">
-        <Button
-          className={"btnPrimary place-bet-button"}
-          text={
-            placeBetIsLoading ? (
-              <Loader />
-            ) : (
-              "PLACE " +
-              Number(
-                betSlipResponse?.new_total_stakes ||
+    if (
+      betSlipResponse?.singles?.length > 0 &&
+      betSlipResponse?.total_stakes > 0
+    ) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            className={"btnPrimary place-bet-button"}
+            text={
+              placeBetIsLoading ? (
+                <Loader />
+              ) : (
+                `${t("place")} ` +
+                Number(
+                  betSlipResponse?.new_total_stakes ||
                   betSlipResponse?.total_stakes
-              ).toFixed(2) +
-              ` ${
-                loggedUser?.user_data?.currency?.abbreviation ||
+                ).toFixed(2) +
+                ` ${loggedUser?.user_data?.currency?.abbreviation ||
                 settings?.defaultCurrency
-              }`
-            )
-          }
-          onClick={placeBetsHandler}
-        />
-      </div>
-    );
+                }`
+              )
+            }
+            onClick={placeBetsHandler}
+          />
+        </div>
+      );
+    }
   };
 
   const stakesAndReturns = () => (
     <>
       <div className="totals-container">
         {/* Total Stakes */}
-        <span>Total stakes: </span>
-        <span style={{ color: "#FDC500" }}>
-          {betSlipResponse?.new_total_stakes
-            ? Number(betSlipResponse?.new_total_stakes).toFixed(2)
-            : betSlipResponse?.total_stakes
-            ? Number(betSlipResponse?.total_stakes).toFixed(2)
-            : "0.00"}
+        <span>{t("total_stakes")}: </span>
+        <span className="stakes amount">
+          {formatNumberWithDecimal(
+            betSlipResponse?.new_total_stakes ||
+            betSlipResponse?.total_stakes ||
+            0
+          )}
         </span>
       </div>
 
       <div className="totals-container">
         {/* Total Returns */}
-        <span>Total returns:</span>
-        <span>
-          {betSlipResponse?.new_total_payout
-            ? Number(betSlipResponse?.new_total_payout).toFixed(2)
-            : betSlipResponse?.total_payout
-            ? Number(betSlipResponse?.total_payout).toFixed(2)
-            : "0.00"}
+        <span>{t("total_returns")}:</span>
+        <span className="amount">
+          {formatNumberWithDecimal(
+            betSlipResponse?.new_total_payout ||
+            betSlipResponse?.total_payout ||
+            0
+          )}
         </span>
       </div>
     </>
   );
 
   return (
-    <div className={"bet-slip-container"}>
-      <div className="bet-slip-content">
-        <div className="slip-bets-title slips-bets-title-container">
-          {betSlipResponse?.singles?.length > 0 ? (
-            <span className="numberOfBetsStyle">
-              {betSlipResponse?.singles?.length}
-            </span>
-          ) : null}
-          <span
-            className={
-              selectedBets?.bets?.length < 1 && isTablet
-                ? "betsStyle betStyleEmpty"
-                : "betsStyle"
-            }
-          >
-            Bets
-          </span>
-          {isTablet && (
+    <div
+      className={"bet-slip-container"}
+      onClick={hideBetSlip}
+      ref={betSlipContainerRef}
+    >
+      <div className="sidebar-right" onClick={(e) => e.stopPropagation()}>
+        <div className="bet-slip-content">
+          <div className="slip-bets-title slips-bets-title-container">
             <span
-              className="betsClose"
-              onClick={() => {
-                if (document.querySelector(".bet-slip-container")) {
-                  let actualDisplay = document.querySelector(
-                    ".bet-slip-container"
-                  ).style.display;
-                  if (actualDisplay === "block") {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "none";
-                  } else {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "block";
-                  }
-                }
-              }}
+              className={
+                selectedBets?.bets?.length < 1 && !isTablet
+                  ? "betsStyle betStyleEmpty"
+                  : "betsStyle"
+              }
             >
-              <CloseIcon />
+              {t("bets")}
             </span>
-          )}
-        </div>
-        <div className="slip-bets-title">
-          <button
-            className={classNames("bet-slip-description", { active: !myBets })}
-            onClick={() => handleClickBets("betslip")}
-          >
-            <span
-              className={classNames({
-                betStyleEmpty: selectedBets?.length < 1 && isTablet,
-              })}
-            >
-              BETSLIP
-            </span>
-          </button>
-          <button
-            className={classNames("bet-slip-description", { active: myBets })}
-            onClick={() => handleClickBets("mybets")}
-          >
-            MY BETS
-          </button>
-        </div>
-        {!myBets ? (
-          <>
-            {selectedBets?.bets?.length > 0 &&
-            betSlipResponse?.singles?.length > 0 ? (
-              <>
-                <div
-                  className="remove-all-bets"
-                  onClick={() => {
-                    dispatch(
-                      setBetTicker({
-                        status: "",
-                        bet_referral_id: "",
-                      })
-                    );
+            {isTablet && (
+              <span
+                className="betsClose"
+                onClick={() => {
+                  if (document.querySelector(".bet-slip-container")) {
+                    let actualDisplay = document.querySelector(
+                      ".bet-slip-container"
+                    ).style.display;
+                    if (actualDisplay === "block") {
+                      document.querySelector(
+                        ".bet-slip-container"
+                      ).style.display = "none";
+                    } else {
+                      document.querySelector(
+                        ".bet-slip-container"
+                      ).style.display = "block";
 
-                    setBetSlipResponse({ ...emptyBetSlip });
-                    dispatch(removeBet("all"));
-                    dispatch(removeBetAmount("all"));
-                  }}
-                >
-                  <XIcon marginTop={2} />
-                  <span className="remove-text">Remove all bets</span>
-                </div>
-                <div className="selected-bets">
-                  {betTicker.status === "new_offer" &&
-                    betTicker?.bet_slip.expireSeconds &&
-                    timer >
-                      0(
+                    }
+                  }
+                }}
+              >
+                <CloseIcon />
+              </span>
+            )}
+          </div>
+          <div className="slip-bets-title">
+            <button
+              className={classNames("bet-slip-description", { active: !myBets })}
+              onClick={() => handleClickBets("betslip")}
+            >
+              <span
+                className={classNames({
+                  betStyleEmpty: selectedBets?.length < 1 && isTablet,
+                })}
+              >
+                {t("betslip")}
+              </span>
+            </button>
+            <button
+              className={classNames("bet-slip-description", { active: myBets })}
+              onClick={() => handleClickBets("mybets")}
+            >
+              {t("my_bets")}
+            </button>
+          </div>
+          {!myBets ? (
+            <>
+              {selectedBets?.bets?.length > 0 &&
+                betSlipResponse?.singles?.length > 0 ? (
+                <>
+                  <div
+                    className="remove-all-bets"
+                    onClick={() => {
+                      dispatch(
+                        setBetTicker({
+                          status: "",
+                          bet_referral_id: "",
+                        })
+                      );
+
+                      dispatch(setBetSlipResponse({ ...emptyBetSlip }));
+                      dispatch(removeBet("all"));
+                      dispatch(removeBetAmount("all"));
+                    }}
+                  >
+                    <XIcon marginTop={2} />
+                    <span className="remove-text">{t("remove_all_bets")}</span>
+                  </div>
+                  <div className="selected-bets">
+                    {betTicker.status === "new_offer" &&
+                      betTicker?.bet_slip.expireSeconds &&
+                      timer > 0 && (
                         <div className="offer-timer">
                           <div className="offer-icon">
                             <ClockIcon />
                           </div>
                           <span className="offer-message">
-                            New Trader Offer <br />
-                            This offer will expire in {timer}s
+                            {t("new_trader_offer")} <br />
+                            {t("offer_will_expire_in", { timer })}
                           </span>
                         </div>
                       )}
-                  {/* Generate Singles  */}
-                  {betSlipResponse?.singles?.length > 0 &&
-                    betSlipResponse?.singles?.map((row) => {
-                      return <SelectedBet row={row} key={row.bet_id} />;
-                    })}
-                  {/* Generate Multiples  */}
-                  {betSlipResponse?.combinations?.length > 0 &&
-                    betSlipResponse?.combinations.map((row, index) => {
-                      return <SelectOfMultipleBets row={row} key={index} />;
-                    })}
-                </div>
-              </>
-            ) : (
-              <>
-                {betTicker.status === "accepted" ||
-                betTicker.status === "approved" ? (
-                  <>
+                    {/* Generate Singles  */}
+                    {betSlipResponse?.singles?.length > 0 &&
+                      betSlipResponse?.singles?.map((row) => {
+                        return <SelectedBet row={row} key={row.bet_id} />;
+                      })}
+                    {/* Generate Multiples  */}
+                    {betSlipResponse?.combinations?.length > 0 &&
+                      betSlipResponse?.combinations.map((row, index) => {
+                        return <SelectOfMultipleBets row={row} key={index} />;
+                      })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {betTicker.status === "accepted" ||
+                    betTicker.status === "approved" ? (
+                    <>
+                      <div className="empty-slip">
+                        <span className="empty-slip-text mb">
+                          {t("bet_receipt")}
+                        </span>
+                        <OkIcon />
+                        <span className="empty-slip-text mt">
+                          {t("bets_placed_success")}
+                        </span>
+                      </div>
+                      <Button
+                        onClick={() => handleClickBets("mybets")}
+                        className={"btnPrimary place-bet-button"}
+                        text={t("open_bets")}
+                      />
+                    </>
+                  ) : (
                     <div className="empty-slip">
-                      <span className="empty-slip-text mb">BET RECEIPT</span>
-                      <OkIcon />
+                      <span className="empty-slip-text mb">
+                        {t("empty_bet_slip")}
+                      </span>
+                      <EmptyFolder />
                       <span className="empty-slip-text mt">
-                        Your bets have been successfully placed
+                        {t("selections_description")}
                       </span>
                     </div>
-                    <Button
-                      onClick={() => handleClickBets("mybets")}
-                      className={"btnPrimary place-bet-button"}
-                      text="OPEN BETS"
-                    />
-                  </>
-                ) : (
-                  <div className="empty-slip">
-                    <span className="empty-slip-text mb">
-                      Your bet slip is empty!
-                    </span>
-                    <EmptyFolder />
-                    <span className="empty-slip-text mt">
-                      Make some selections and they will show up here
-                    </span>
-                  </div>
-                )}
-              </>
-            )}
-            <div className="totalsWrapper">
-              {!!balanceInequality && insufficientBalance && (
-                <div className="balanceNotification">
-                  <span>{`You need ${balanceInequality.toFixed(
-                    2
-                  )} more to place this bet`}</span>
-                  <Link href="/profile/deposit">
-                    <span className="depositLink">Click here to deposit</span>
-                  </Link>
-                </div>
-              )}
-              {stakesAndReturns()}
-              {betTicker.status === "new_offer" && (
-                <Warning text="The odds or availability of your selections have changed" />
-              )}
-              {betTicker.status === "rejected" && (
-                <Warning text="Your bet has been rejected by the trader" />
-              )}
-              {priseChanged && (
-                <Warning text="Selection prices have changed. Please review!" />
-              )}
-              {betTicker.status
-                ? betTicker?.message?.map((text, index) => (
-                    <Warning text={text} key={index} />
-                  ))
-                : betSlipResponse?.message?.map((text, index) => (
-                    <Warning text={text} key={index} />
-                  ))}
-              {betSlipResponse?.singles?.length > 0 && (
-                <>
-                  {!loggedUser?.user_data ? (
-                    <div className="place-bet-container">
-                      <Link href="/login">
-                        <Button
-                          className={"btnPrimary place-bet-button"}
-                          text={"LOG IN TO PLACE BET"}
-                        />
-                      </Link>
-                    </div>
-                  ) : (
-                    renderBetButtons()
                   )}
                 </>
               )}
-            </div>
-          </>
-        ) : (
-          <MyBets />
-        )}
+              <div className="totalsWrapper">
+                {!!balanceInequality && insufficientBalance && (
+                  <div className="balanceNotification">
+                    <span>
+                      {t("insufficient_balance_message", {
+                        balance: balanceInequality.toFixed(2),
+                      })}
+                    </span>
+                    <Link href="/profile/deposit">
+                      <span className="depositLink">
+                        {t("click_here_to_deposit")}
+                      </span>
+                    </Link>
+                  </div>
+                )}
+                {stakesAndReturns()}
+                {betTicker.status === "new_offer" && (
+                  <Warning text={t("odds_availability_changed_message")} />
+                )}
+                {betTicker.status === "rejected" && (
+                  <Warning text={t("bet_rejected_message")} />
+                )}
+                {priseChanged && (
+                  <Warning text={t("price_change_review_message")} />
+                )}
+                {betTicker.status &&
+                  betSlipResponse?.singles?.length > 0 &&
+                  betTicker?.message?.map((text, index) => (
+                    <Warning text={text} key={index} />
+                  ))}
+                {!betTicker.status &&
+                  betSlipResponse?.singles?.length > 0 &&
+                  betSlipResponse?.message?.map((text, index) => (
+                    <Warning text={text} key={index} />
+                  ))}
+                {!loggedUser?.user_data ||
+                  !getLocalStorageItem("access_token") ? (
+                  <div className="place-bet-container">
+                    <Link href="/login">
+                      <Button
+                        className={"btnPrimary place-bet-button"}
+                        text={t("login_to_place_bet")}
+                      />
+                    </Link>
+                  </div>
+                ) : (
+                  renderBetButtons()
+                )}
+              </div>
+            </>
+          ) : (
+            <MyBets />
+          )}
+        </div>
+        <BetSlipAds />
       </div>
-      <BetSlipAds />
     </div>
   );
 };

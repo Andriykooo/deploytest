@@ -2,16 +2,6 @@
   border-radius: 4px;
 }
 
-.horseracing-accordion .accordion-header,
-.horseracing-accordion .accordion-header .accordion-button {
-  border-radius: 4px 4px 0 0;
-}
-
-.horseracing-accordion .slick-list,
-.horseracing-accordion .carousel-wrapper .carousel-list {
-  border-radius: 0 0 4px 4px;
-}
-
 .meeting-events {
   display: grid;
   width: 100%;

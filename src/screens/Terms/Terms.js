@@ -1,6 +1,5 @@
 "use client";
 
-import { removeLocalStorageItem } from "@/utils/localStorage";
 import parse from "html-react-parser";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -12,8 +11,11 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
+import { useClientTranslation } from "@/app/i18n/client";
+import { getLocalStorageItem } from "@/utils/localStorage";
 
 const Terms = () => {
+  const { t } = useClientTranslation(["terms", "common"]);
   const termsDivRef = useRef(null);
   const [terms, setTerms] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -49,7 +51,6 @@ const Terms = () => {
     newUser["terms_version"] = termsVersion;
     dispatch(setUser(newUser));
     router.push("/privacy");
-    removeLocalStorageItem("IsLogged");
   };
 
   const handleScroll = () => {
@@ -72,9 +73,11 @@ const Terms = () => {
     }
   }, [terms]);
 
+  const acceptIsActive = !getLocalStorageItem("access_token");
+
   return (
     <div className="terms backgroundImage">
-      <p className="termsTitleForMainPage">Terms and Conditions</p>
+      <p className="termsTitleForMainPage">{t("common:terms_and_conditions")}</p>
       {loader ? (
         <Loader />
       ) : (
@@ -91,18 +94,16 @@ const Terms = () => {
             {parse(terms.toString())}
           </div>
 
-          {user && !loggedUser && pathname.indexOf("/terms") > "-1" ? (
+          {acceptIsActive ? (
             <Button
               className={
-                acceptButtonDisabled ? "acceptBtn disabled" : "acceptBtn"
+                acceptButtonDisabled ? "acceptBtn disabled" : "btnPrimary acceptBtn"
               }
               onClick={continueToPrivacy}
               disabled={acceptButtonDisabled}
-              text={"Accept"}
+              text={t("common:accept")}
             />
-          ) : (
-            ""
-          )}
+          ) : null}
         </>
       )}
     </div>

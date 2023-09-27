@@ -23,9 +23,9 @@
   margin-top: 2rem;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 1024px) {
   .kycDiv {
-    padding: 0 1.5rem!important;
+    padding: 0 1.5rem !important;
     max-width: 100%;
   }
   .photo_buttons {

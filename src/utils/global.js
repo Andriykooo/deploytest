@@ -1,3 +1,4 @@
+import { useClientTranslation } from "@/app/i18n/client";
 import moment from "moment";
 
 export const groupObjectsBySameValue = (array) => {
@@ -37,18 +38,19 @@ export const formatToLocalDatetime = (datetime) => {
   return "-";
 };
 export const formatTime = (seconds) => {
+  const { t } = useClientTranslation("common");
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
   let formattedTime = "";
   if (hours > 0) {
-    formattedTime += `${hours} hour${hours !== 1 ? "s" : ""}, `;
+    formattedTime += `${hours} ${hours !== 1 ? t("hours") : t("hour")}} `;
   }
   if (minutes > 0) {
-    formattedTime += `${minutes} minute${minutes !== 1 ? "s" : ""}, `;
+    formattedTime += `${minutes} ${minutes !== 1 ? t("minutes") : t("minute")}, `;
   }
-  formattedTime += `${remainingSeconds} second${
-    remainingSeconds !== 1 ? "s" : ""
+  formattedTime += `${remainingSeconds} ${
+    remainingSeconds !== 1 ? t("seconds") : t("second")
   }`;
   return formattedTime;
 };
@@ -220,4 +222,43 @@ export const formatOdd = (selection, format) => {
     selection?.odds_american ||
     "-"
   );
+};
+
+export const getTimeDifference = (date) => {
+  const { t } = useClientTranslation("common");
+  const date1 = moment(date);
+  const date2 = moment(new Date());
+  const duration = moment.duration(date2.diff(date1));
+
+  const usageTime = [];
+
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  if (hours > 0) {
+    if (hours > 1) {
+      usageTime.push(`${hours} ${t("hours")}`);
+    } else {
+      usageTime.push(`${hours} ${t("hour")}`);
+    }
+  }
+
+  if (minutes > 0) {
+    if (minutes > 1) {
+      usageTime.push(`${minutes} ${t("minutes")}`);
+    } else {
+      usageTime.push(`${minutes} ${t("minute")}`);
+    }
+  }
+
+  if (seconds > 0) {
+    if (seconds > 1) {
+      usageTime.push(`${seconds} ${t("seconds")}`);
+    } else {
+      usageTime.push(`${seconds} ${t("second")}`);
+    }
+  }
+
+  return usageTime.join(", ");
 };

@@ -1,10 +1,13 @@
+import { useClientTranslation } from "@/app/i18n/client";
+
 export const MarketOptions = ({ options }) => {
+  const { t } = useClientTranslation("sports")
   return (
     <div className="matchCardRowContainer">
       <div className="matchCard selections">
-        <div className="matchCardDate">Time</div>
+        <div className="matchCardDate">{t("time")}</div>
         <div className="matchesContainer">
-          <div className="eventStyle">Event</div>
+          <div className="eventStyle">{t("event")}</div>
         </div>
         <div className="odds">
           {options?.map((selection, index) => {

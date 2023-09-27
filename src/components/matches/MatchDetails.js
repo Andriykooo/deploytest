@@ -1,28 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../../context/socket";
 import { images } from "../../utils/imagesConstant";
-import { BetSelectedTypes } from "../custom/BetSelectedTypes";
 import { TabsSelect } from "../tabsSelect/TabsSelect";
 import { MatchOdds } from "./MatchOdds";
-import { setUpdatedSelections } from "@/store/actions";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { EmptyState } from "../emptyState/EmptyState";
 import { GoBackButton } from "../goBackButton/GoBackButton";
 import classNames from "classnames";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const MatchDetails = ({ data, id }) => {
-  const dispatch = useDispatch();
+  const { t } = useClientTranslation(["match", "common"]);
+
   const [pushNotificationSettings, setPushNotificationSettings] = useState([
-    { key: "key1", label: "Notification 1", status: false },
-    { key: "key2", label: "Notification 2", status: true },
+    { key: "key1", label: `${t("common:notification")} 1`, status: false },
+    { key: "key2", label: `${t("common:notification")} 2`, status: true },
   ]);
 
   const markets = data?.markets?.length >= 1 ? data?.markets : []; // groupObjectsBySameValue(data?.markets) : [];
@@ -40,20 +39,13 @@ const MatchDetails = ({ data, id }) => {
 
   const { gamingSocket } = useContext(SocketContext);
   const selectedBets = useSelector((state) => state.selectedBets);
-  const router = useRouter();
 
   useEffect(() => {
     gamingSocket.emit("subscribe_match", {
       value: id,
     });
 
-    gamingSocket.on("selection_updated", (response) => {
-      dispatch(setUpdatedSelections(response));
-    });
-
     return () => {
-      gamingSocket.off("selection_updated");
-
       gamingSocket.emit("unsubscribe_match", {
         value: id,
         action_id: uuidv4(),
@@ -135,7 +127,9 @@ const MatchDetails = ({ data, id }) => {
                         {teams?.awayTeam}
                       </div>
                     </div>{" "}
-                    <div className="matchResult match-result-soccer-vs">vs</div>
+                    <div className="matchResult match-result-soccer-vs">
+                      {t("common:vs")}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -181,10 +175,10 @@ const MatchDetails = ({ data, id }) => {
 
                       <div className="pitch-top">
                         <div className="live-label" data-type="game">
-                          Live Game
+                          {t("live_game")}
                         </div>
                         <div className="live-label" data-type="stats">
-                          Live Stats
+                          {t("live_stats")}
                         </div>
                       </div>
                     </div>
@@ -195,7 +189,7 @@ const MatchDetails = ({ data, id }) => {
                         {teams?.homeTeam}
                       </div>
                       <div className="matchResult match-result-soccer-vs">
-                        vs
+                        {t("common:vs")}
                       </div>
                       <div className="team-for-matchdetails-mobile match-details-teams-teams">
                         {teams?.awayTeam}
@@ -217,7 +211,7 @@ const MatchDetails = ({ data, id }) => {
                     ),
                   })),
                 ]}
-                placeholder="Select bet"
+                placeholder={t("select_bet")}
                 variant={marketList?.length > 7 ? "scrollable" : "fullWidth"}
                 onChange={async (selectedMarketList) => {
                   if (selectedMarketList.id === 0) {
@@ -270,7 +264,7 @@ const MatchDetails = ({ data, id }) => {
                           option.odd = option.odds_decimal;
 
                           return (
-                            <div className="row headerOfGames" key={index}>
+                            <div className="headerOfGames" key={index}>
                               <div className="d-flex position-relative match-event-selection">
                                 {option.name}
                               </div>
@@ -291,7 +285,7 @@ const MatchDetails = ({ data, id }) => {
                 );
               })
             ) : (
-              <EmptyState message="There are no more events!" />
+              <EmptyState message={t("no_more_events")} />
             )}
           </div>
         </div>

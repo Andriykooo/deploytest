@@ -21,11 +21,13 @@ import {
 import RenderMessages from "./RenderMessages";
 import TypingArea from "./TypingArea";
 import { setSidebarLeft } from "../../store/actions";
+import { useClientTranslation } from "@/app/i18n/client";
 
 const minHeightTextarea = 16;
 const maxHeightTextarea = 80;
 
 export const Chat = ({ isOpen, isMobile = false }) => {
+  const { t } = useClientTranslation("common");
   const chatBlockRef = useRef(null);
   const messagesRef = useRef(null);
   const dispatch = useDispatch();
@@ -267,7 +269,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
           <ChatIcon>
             <Image src={isMobile ? images.chatIcon : images.chatIconWhite} alt="chat" />
           </ChatIcon>
-          {isOpen && <ChatTitle>Chat</ChatTitle>}
+          {isOpen && <ChatTitle>{t("chat")}</ChatTitle>}
         </ChatBottomSubWrapper>
         {numberUnreadMessage > 0 && (
           <NumberNewMessages isOpen={isOpen}>

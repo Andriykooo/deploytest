@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
+import { useClientPathname } from "@/hooks/useClientPathname";
 import { setSidebarLeft } from "../../store/actions";
 import { LinkType } from "../LinkType/LinkType";
 import { Carousel } from "../carousel/Carousel";
@@ -18,7 +18,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
 
   const loggedUser = useSelector((state) => state.loggedUser);
   const activePage = useSelector((state) => state.activePage);
-  const pathname = usePathname();
+  const {pathname} = useClientPathname();
 
   const toggleSidebarLeft = (value) => {
     dispatch(

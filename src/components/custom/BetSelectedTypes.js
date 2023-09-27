@@ -1,6 +1,11 @@
+"use client";
+
 import { types } from "../../utils/constants";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const BetSelectedTypes = () => {
+  const { t } = useClientTranslation("common");
+
   return (
     <div className="row w-100 m-0">
       <div className="col-12 sports-types">
@@ -12,7 +17,7 @@ export const BetSelectedTypes = () => {
                   className="match-selected-type-color"
                   style={{ background: row.color }}
                 ></span>
-                <span className="match-selected-type-name">{row.name}</span>
+                <span className="match-selected-type-name">{t(row.name)}</span>
               </div>
             );
           })}
