@@ -11,6 +11,7 @@ import { Button } from "../button/Button";
 import "./CasinoMenu.css";
 import { setCasinoCategory } from "@/store/actions";
 import { useClientTranslation } from "@/app/i18n/client";
+import { t } from "i18next";
 
 const skeletonArray = Array(5).fill(null);
 
