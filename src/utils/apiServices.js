@@ -12,7 +12,7 @@ import {
   getLocalStorageItem,
 } from "./localStorage";
 import { nextWindow } from "./nextWindow";
-// import i18next from "i18next";
+import i18next from "i18next";
 
 const checkError = (code, message) => {
   switch (code) {
@@ -46,7 +46,7 @@ const checkError = (code, message) => {
     case 1026:
       if (typeof window !== "undefined") {
         alertToast({
-          // message: i18next.t("email_already_registered_message")
+          message: i18next.t("email_already_registered_message")
         });
       }
       break;
