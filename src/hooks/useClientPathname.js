@@ -5,13 +5,13 @@ export const useClientPathname = () => {
   const pathname = usePathname();
 
   const data = useMemo(() => {
-    const [, locale, ...rest] = pathname.split('/');
+    const [_, locale, ...rest] = pathname.split("/");
 
     return {
       locale,
-      pathname: `/${rest.join('/')}`,
-    }
+      pathname: `/${rest.join("/")}`,
+    };
   }, [pathname]);
 
   return data;
-}
+};

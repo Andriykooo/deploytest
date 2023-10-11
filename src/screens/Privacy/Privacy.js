@@ -15,6 +15,7 @@ import { refreshCommunicationSocket } from "@/context/socket";
 import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
 import { useClientTranslation } from "@/app/i18n/client";
+import classNames from "classnames";
 
 const Privacy = () => {
   const { t } = useClientTranslation(["privacy", "common"]);
@@ -177,11 +178,9 @@ const Privacy = () => {
           </div>
           {acceptIsActive ? (
             <Button
-              className={
-                acceptButtonDisabled
-                  ? "acceptBtn disabled"
-                  : "btnPrimary acceptBtn"
-              }
+              className={classNames("acceptBtn", {
+                disabled: acceptButtonDisabled,
+              })}
               onClick={() => {
                 if (
                   !(

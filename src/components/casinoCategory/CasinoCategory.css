@@ -30,6 +30,7 @@
 
 .casinoCarousel {
   padding: 15px;
+  background: var(--global-main-color-background);
 }
 
 .tranding-arrow {
@@ -75,7 +76,7 @@
   line-height: 24px;
   align-items: flex-start;
   justify-content: center;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-casino-text1);
 }
 
 .secondImageText {
@@ -84,7 +85,7 @@
   font-size: 20px;
   line-height: 24px;
   text-transform: capitalize;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-casino-text1);
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -93,6 +94,8 @@
 
 .playButton {
   display: flex;
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -125,7 +128,7 @@
   line-height: 31px;
   display: flex;
   align-items: center;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-casino-text1);
   cursor: pointer;
   margin-bottom: 12px;
 }
@@ -134,7 +137,7 @@
   margin-right: 30px;
   font-weight: 400;
   font-size: 16px;
-  color: var(--global-color-text-quaternary);
+  color: var(--global-color-casino-text2);
 }
 
 .slider {
@@ -278,7 +281,7 @@
 
 .previousButton:hover,
 .nextButton:hover {
-  background: #c2ae82;
+  background: var(--global-color-primary);
   box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
   color: var(--global-color-text-primary);
 }
@@ -426,6 +429,8 @@
 }
 
 button.btnPlayNow {
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
   display: none;
   border-radius: 4px;
   position: absolute;
@@ -499,7 +504,7 @@ button.btnPlayNow {
   display: flex;
   flex-direction: column;
   min-height: 604px;
-  background: var(--global-color-shade5);
+  background: var(--global-color-background-tertiary);
 }
 
 .compress-icon {
@@ -517,7 +522,7 @@ button.btnPlayNow {
 
 .casino-full-screen .casino-modal-content {
   height: 100%;
-  background: var(--global-color-shade5);
+  background: var(--global-color-background-tertiary);
 }
 
 .casino-full-screen .casino-modal-body {
@@ -581,7 +586,7 @@ button.btnPlayNow {
 }
 
 .amount-value {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-primary);
 }
 
 .casino-play-now {
@@ -595,7 +600,7 @@ button.btnPlayNow {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--global-color-secondary);
+  color: var(--global-color-background-quaternary);
   background: var(--global-color-text-primary);
   border-radius: 5px;
   width: 245px;
@@ -676,8 +681,6 @@ button.btnPlayNow {
   .slick-slide .numbering {
     top: 102px;
     left: -50px;
-    height: 145px;
-    width: auto;
   }
 
   .trendingSlider .slick-slide {
@@ -915,7 +918,7 @@ button.btnPlayNow {
   .casino-modal-content {
     padding: 0;
     margin-top: 0rem;
-    background: var(--global-color-shade5);
+    background: var(--global-color-background-tertiary);
   }
 
   .casino-modal-dialog {
@@ -1002,8 +1005,6 @@ button.btnPlayNow {
   position: absolute;
   top: 110px;
   left: 0;
-  width: auto;
-  height: 133px;
   display: flex;
   justify-content: center;
   align-items: stretch;

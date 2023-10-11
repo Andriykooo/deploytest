@@ -34,8 +34,8 @@
   width: 100%;
   font-weight: 400;
   font-size: 12px;
-  color: #ffffff;
-  background: #333539;
+  color: var(--global-color-footer-text-primary);
+  background: var(--global-color-language-selector);
   text-transform: capitalize;
   border-bottom: 1px solid #1b1c21;
   line-height: 24px;

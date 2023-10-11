@@ -82,7 +82,7 @@
 }
 
 .cancelButton {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border-radius: 10px;
   position: absolute;
   top: 35%;
@@ -101,7 +101,7 @@
 }
 
 .predictionContainer {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   padding: 0 !important;
 }
 

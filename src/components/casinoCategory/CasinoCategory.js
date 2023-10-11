@@ -5,7 +5,6 @@ import { ArrowDownIcon } from "../../utils/icons";
 import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
 import "./CasinoCategory.css";
-import { t } from "i18next";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const CasinoCategory = ({ data, redirect }) => {

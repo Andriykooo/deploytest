@@ -1,8 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { SlipIcon } from "../../../utils/icons";
-import { images } from "../../../utils/imagesConstant";
-import Image from "next/image";
+import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import { useClientTranslation } from "@/app/i18n/client";
 
 export const DesktopLoggedUser = ({ showBetSlip }) => {
@@ -18,16 +16,10 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
       <div className="d-grid user-profile-grid">
         <div className="d-flex user-profile-flex">
           <div className="d-flex align-items-center">
-            <Image
-              src={images.profile}
-              alt="Profile"
-              className="profileImage"
+            <ProfileIcon
               onClick={() => {
                 router.push("/profile/bonuses_promotions");
               }}
-              height={40}
-              width={40}
-              priority
             />
             {showBetSlip && (
               <div
@@ -66,9 +58,9 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
               <p className="signText balanceAmount">
                 {userBalance
                   ? parseFloat(userBalance)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "0.00"}
               </p>
               <p className="signText balanceAmount ms-2">

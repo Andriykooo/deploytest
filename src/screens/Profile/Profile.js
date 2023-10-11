@@ -211,7 +211,7 @@ const Profile = () => {
               </>
             )}
           </EmailDiv>
-          {loggedUser?.user_data?.required_values?.phone_number && (
+          {
             <>
               {loggedUser?.user_data?.phone_number_verified ? (
                 <InfoDiv>
@@ -247,7 +247,7 @@ const Profile = () => {
                 </InfoDiv>
               )}
             </>
-          )}
+          }
           <InfoDiv
             onClick={() => {
               !(loggedUser?.user_data?.kyc_status === "verified") &&

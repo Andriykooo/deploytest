@@ -1,7 +1,6 @@
 .dynamic-selections {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 5px;
   justify-self: center;
 }
@@ -22,13 +21,35 @@
   overflow: hidden;
 }
 
+.dynamic-selections-button .matchOdds.styleOfSelectedOdd,
+.dynamic-selections-button .matchOdds.selectionPriceBoost {
+  font-size: 10px;
+  background: transparent;
+}
+
+.dynamic-selections-button .priceBoostIcon {
+  fill: var(--global-main-color-icon);
+}
+
+.btnPrimary.betNowButtonOFSlider.dynamic-selections-button {
+  padding: 0;
+}
+
+.dynamic-selections-name {
+  width: max-content;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .dynamic-selections-button .matchOdds {
   color: inherit;
   font-size: inherit;
   border-radius: 4px;
-  background-color: var(--global-color-button-primary);
+  padding: 0 5px;
+  background-color: var(--global-color-links-background);
 }
 
 .dynamic-selections-button .matchOdds:hover {
-  background-color: var(--global-color-button-primary);
+  background-color: var(--global-color-links-background);
 }

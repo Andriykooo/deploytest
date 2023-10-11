@@ -1,5 +1,5 @@
 .monthData {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border-radius: 40px;
   font-style: normal;
   font-weight: 400;
@@ -37,7 +37,7 @@
 .transactionCardWrapper {
   max-width: 35rem;
   width: 100%;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border-radius: 4px;
   padding-left: 1rem;
   position: relative;
@@ -87,7 +87,7 @@
 }
 
 .pending {
-  background-color: var(--global-color-yellow);
+  background-color: var(--global-color-text-tertiary);
 }
 
 .expired,
@@ -128,7 +128,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 16px;
-  color: var(--global-color-text-gray);
+  color: var(--global-color-text-secondary);
   display: flex;
 }
 
@@ -143,7 +143,7 @@
 }
 
 .typeDate {
-  color: var(--global-color-text-gray);
+  color: var(--global-color-text-secondary);
   display: grid;
   justify-content: end;
 }

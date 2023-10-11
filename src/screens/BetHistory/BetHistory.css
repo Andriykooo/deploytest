@@ -48,7 +48,7 @@
 }
 
 .betHistorySection {
-  background-color: var(--global-color-shade5);
+  background-color: var(--global-color-background-tertiary);
   border-radius: 4px;
   padding: 0 14px;
   margin-bottom: 6px;
@@ -96,12 +96,12 @@
 
 .betHistorySectionFooter span {
   font-weight: 600;
-  color: var(--global-color-yellow);
+  color: var(--global-color-text-tertiary);
 }
 
 .betHistoryRow {
   padding: 12px 26px 12px 20px;
-  border-bottom: 1px solid var(--global-color-shade1);
+  border-bottom: 1px solid var(--global-color-background-quinary);
 }
 
 .betHistoryRowHeader {
@@ -144,7 +144,7 @@
 
 .betHistoryRowResult {
   margin: 4px 0;
-  color: var(--global-color-yellow);
+  color: var(--global-color-text-tertiary);
   font-weight: 600;
   font-size: 12px;
 }

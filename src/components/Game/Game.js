@@ -40,8 +40,16 @@ const TrendingNumber = ({ number }) => {
         .toString()
         .split("")
         .map((element, index) => {
+          const image = trendingNumbers[element];
+
           return (
-            <Image key={index} src={trendingNumbers[element]} alt="number" />
+            <Image
+              key={index}
+              src={image}
+              height={133}
+              width={"auto"}
+              alt="number"
+            />
           );
         })}
     </div>
@@ -49,7 +57,7 @@ const TrendingNumber = ({ number }) => {
 };
 
 export const Game = ({ game, className, number, height, width }) => {
-  const { t } = useClientTranslation(["casino", "common"])
+  const { t } = useClientTranslation(["casino", "common"]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.loggedUser);
   const favoriteGames = useSelector((state) => state.favouriteGames);
@@ -109,7 +117,7 @@ export const Game = ({ game, className, number, height, width }) => {
             className="casinoGame"
             src={game?.image_url}
             alt={game?.name}
-            quality={40}
+            quality={50}
             priority
             onClick={openGame}
             width={width || 206}

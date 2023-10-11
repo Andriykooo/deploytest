@@ -60,10 +60,22 @@ export const RacingWidget = ({ data }) => {
               image={data?.header_banner}
               options={[
                 ...horseRacingHomeMenu.map((item) => ({ name: t(item.name) })),
-                ...data?.market_options?.map((option) => ({ name: option.market_name })),
+                ...data?.market_options?.map((option) => ({
+                  name: option.market_name,
+                })),
               ]}
               selected={{ name: t(selectedFilter.name) }}
               setSelected={setSelectedFilter}
+              callToActinButton={{
+                name: data?.details?.call_to_action,
+                type: data?.details?.link_type,
+                path: data?.details?.link,
+                openType: data?.details?.open_type,
+                modalData: {
+                  slug: data?.details?.link,
+                  name: data?.details?.call_to_actio,
+                },
+              }}
             />
           )}
           <Accordion.Body

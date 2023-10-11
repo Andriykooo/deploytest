@@ -11,7 +11,7 @@ import {
   ChatBottomWrapper,
   ChatBox,
   ChatHeader,
-  ChatIcon,
+  ChatIconStyled,
   ChatTitle,
   ChatWrapper,
   ChattingBlock,
@@ -22,6 +22,7 @@ import RenderMessages from "./RenderMessages";
 import TypingArea from "./TypingArea";
 import { setSidebarLeft } from "../../store/actions";
 import { useClientTranslation } from "@/app/i18n/client";
+import { ChatIcon } from "@/utils/icons";
 
 const minHeightTextarea = 16;
 const maxHeightTextarea = 80;
@@ -266,9 +267,9 @@ export const Chat = ({ isOpen, isMobile = false }) => {
         }}
       >
         <ChatBottomSubWrapper>
-          <ChatIcon>
-            <Image src={isMobile ? images.chatIcon : images.chatIconWhite} alt="chat" />
-          </ChatIcon>
+          <ChatIconStyled>
+            <ChatIcon isMobile={isMobile}/>
+          </ChatIconStyled>
           {isOpen && <ChatTitle>{t("chat")}</ChatTitle>}
         </ChatBottomSubWrapper>
         {numberUnreadMessage > 0 && (

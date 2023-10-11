@@ -5,7 +5,7 @@
 }
 
 .typing-area-form {
-  border: 1px solid #c59e43;
+  border: 1px solid var(--global-color-trader-chat-primary);
   position: relative;
   height: auto;
   width: 100%;
@@ -25,6 +25,7 @@
   height: 100%;
   width: 100%;
   padding: 0;
+  color: var(--global-color-trader-chat-secondary-text);
 }
 
 .chat-textarea::placeholder {

@@ -36,7 +36,7 @@ export const SportsSidebar = ({
                 showImage = false;
               }
               return (
-                <div style={{ borderBottom: "1px solid #25292d" }} key={index}>
+                <div style={{ borderBottom: "1px solid var(--global-color-sidebar-background)" }} key={index}>
                   <ProfileCard
                     active={value.id === activeSport ? true : false}
                     onClick={() => {
@@ -51,13 +51,13 @@ export const SportsSidebar = ({
                     style={
                       value.id === activeSport
                         ? {
-                            paddingRight: "1rem",
-                            background: "rgba(188, 146, 57, 0.07)",
-                          }
+                          paddingRight: "1rem",
+                          background: "var(--global-color-sidebar-field-selected)",
+                        }
                         : {
-                            paddingRight: "1rem",
-                            background: theme?.colors?.mainSecondary,
-                          }
+                          paddingRight: "1rem",
+                          background: "var(--global-color-sidebar-selection",
+                        }
                     }
                     key={Math.random()}
                     sports={sports}
@@ -86,8 +86,8 @@ export const SportsSidebar = ({
                             {isMobile ? value.name + "" : ""}
                             {!(isMobile && largeScreen) ? "" : value.name}
                             {!bigScreenSidebarDisplay &&
-                            largeScreen &&
-                            !isMobile
+                              largeScreen &&
+                              !isMobile
                               ? value.name
                               : ""}
                           </>
@@ -107,7 +107,7 @@ export const SportsSidebar = ({
                 showImage = false;
               }
               return (
-                <div style={{ borderBottom: "1px solid #25292d" }} key={index}>
+                <div style={{ borderBottom: "1px solid var(--global-color-sidebar-background)" }} key={index}>
                   {
                     <ProfileCard
                       active={value.id === activeSport ? true : false}
@@ -123,13 +123,13 @@ export const SportsSidebar = ({
                       style={
                         swiftyMenu !== true && value?.id === activeSport
                           ? {
-                              paddingRight: "1rem",
-                              background: "rgba(188, 146, 57, 0.07)",
-                              borderLeft: `4px solid ${theme?.colors?.mainTertiary}`,
-                            }
+                            paddingRight: "1rem",
+                            background: "var(--global-color-sidebar-field-selected)",
+                            borderLeft: `4px solid var(--global-color-sidebar-selection)`,
+                          }
                           : {
-                              paddingRight: "1rem",
-                            }
+                            paddingRight: "1rem",
+                          }
                       }
                       key={Math.random()}
                       sports={sports}
@@ -170,8 +170,8 @@ export const SportsSidebar = ({
                                 ? value.name
                                 : ""}
                               {bigScreenSidebarDisplay &&
-                              largeScreen &&
-                              !isMobile
+                                largeScreen &&
+                                !isMobile
                                 ? ""
                                 : value.name}
                             </>

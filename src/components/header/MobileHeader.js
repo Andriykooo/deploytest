@@ -35,7 +35,7 @@ export const MobileHeader = ({
           />
         </div>
         <div>
-          <Link href="/home">
+          <Link href="/">
             <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
           </Link>
         </div>

@@ -1,5 +1,5 @@
 .terms {
-  color: white;
+  color: var(--global-color-text-primary);
   overflow-y: hidden;
   max-width: 920px;
   padding-top: 0px;
@@ -82,15 +82,17 @@ li {
 }
 
 .acceptBtn.disabled {
-  background: var(--global-color-secondary);
+  background: var(--global-color-buttons-background-disabled);
+  color: var(--global-color-buttons-text-disabled);
   margin-top: 20px;
 }
 
 .acceptBtn {
-  background: var(--global-color-button-primary);
+  background: var(--global-color-buttons-background);
   border-radius: 10px;
-  color: white;
+  color: var(--global-color-buttons-text);
   font-size: 16px;
+  font-weight: 600;
   line-height: 20px;
   display: flex;
   justify-content: center;
@@ -109,7 +111,7 @@ li {
 }
 
 .privacyContentModal {
-  color: white;
+  color: var(--global-color-text-primary);
 }
 
 @media (max-width: 1024px) {

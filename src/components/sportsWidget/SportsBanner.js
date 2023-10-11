@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { BannerMenu } from "../bannerMenu/BannerMenu";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const SportsBanner = ({ data, title, subtitle, setData, image }) => {
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const { t } = useClientTranslation("sports");
+  const [selectedFilter, setSelectedFilter] = useState({
+    name: t("all_sports"),
+    slug: "all",
+  });
 
   const handleFilter = (selectedItem) => {
-    setSelectedFilter(selectedItem);
-    setData(
-      data.sports.filter((sport) => {
-        return selectedItem ? selectedItem.slug === sport.slug : true;
-      })
-    );
+    if (selectedItem) {
+      setSelectedFilter(selectedItem);
+      setData?.(
+        selectedItem?.slug === "all"
+          ? data.sports
+          : data.sports.filter((sport) => {
+              return selectedItem ? selectedItem.slug === sport.slug : true;
+            })
+      );
+    }
   };
 
   const options = data?.sports?.map((sport) => ({
@@ -26,10 +35,24 @@ export const SportsBanner = ({ data, title, subtitle, setData, image }) => {
 
   return (
     <BannerMenu
+      callToActinButton={{
+        name: data?.details?.call_to_action,
+        type: data?.details?.link_type,
+        path: data?.details?.link,
+        openType: data?.details?.open_type,
+        modalData: {
+          slug: data?.details?.link,
+          name: data?.details?.call_to_actio,
+        },
+      }}
       title={title}
       subtitle={subtitle}
       image={image}
-      options={options}
+      options={
+        options?.length > 0
+          ? [{ name: t("all_sports"), slug: "all" }, ...options]
+          : []
+      }
       setSelected={handleFilter}
       selected={selectedFilter}
     />

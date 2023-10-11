@@ -64,9 +64,9 @@ export const Banner = ({ data, isLoading }) => {
           )}
           <div className="textContainer">
             <div className="firstImageText">
-              {data?.details?.title}
-              {data?.details?.subtitle && (
-                <div className="secondImageText">{data?.details?.subtitle}</div>
+              {data?.title}
+              {data?.subtitle && (
+                <div className="secondImageText">{data?.subtitle}</div>
               )}
             </div>
             {data?.link_details?.name && (
@@ -76,7 +76,7 @@ export const Banner = ({ data, isLoading }) => {
                 openType={data?.link_details?.open_type}
                 modalData={{
                   slug: data?.link_details?.path.substring(1),
-                  name: data?.details?.title,
+                  name: data?.title,
                 }}
               >
                 <button className="btnPrimary bannerButton buttonOfSlider">

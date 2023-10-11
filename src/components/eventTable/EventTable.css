@@ -10,9 +10,9 @@
 .events-container {
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 50px;
+  grid-template-columns: 1fr minmax(50px, auto);
   height: 44px;
-  background: var(--global-color-shade1);
+  background: var(--global-color-background-quinary);
 }
 
 .horse-matches {
@@ -30,8 +30,10 @@
 
 .horse-container {
   display: flex;
-  background: var(--global-color-shade1);
+  background: var(--global-color-background-quinary);
   height: 50px;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .text-of-events {
@@ -43,8 +45,8 @@
   align-items: center;
   color: #ffffff;
   padding: 10px;
-  border-right: 1px solid var(--global-color-secondary);
-  border-bottom: 1px solid var(--global-color-secondary);
+  border-right: 1px solid var(--global-color-background-quaternary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
   width: 100%;
 }
 
@@ -53,8 +55,8 @@
   align-items: center;
   text-align: center;
   color: #bc9239;
-  border-bottom: 1px solid var(--global-color-secondary);
-  border-right: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
+  border-right: 1px solid var(--global-color-background-quaternary);
   justify-content: center;
 }
 
@@ -74,8 +76,8 @@
   align-items: center;
   color: #bcbfc2;
   padding: 10px;
-  border-right: 1px solid var(--global-color-secondary);
-  border-bottom: 1px solid var(--global-color-secondary);
+  border-right: 1px solid var(--global-color-background-quaternary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
   width: 100%;
   min-height: 49px;
   display: flex;
@@ -88,7 +90,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
-  color: #ffffff;
+  color: var(--global-color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -99,8 +101,7 @@
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-  color: #bcbfc2;
-  white-space: nowrap;
+  color: var(--global-color-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -113,8 +114,8 @@
 }
 
 .odds-of-horse .matchOdds {
-  border-bottom: 1px solid var(--global-color-secondary);
-  border-right: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
+  border-right: 1px solid var(--global-color-background-quaternary);
   min-width: 50px;
   width: 100%;
   height: 50px;
@@ -126,7 +127,7 @@
   align-items: center;
   justify-content: center;
   padding-left: 12px;
-  border-bottom: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
 }
 
 .silk-image img {
@@ -141,7 +142,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   cursor: pointer;
 }
 
@@ -151,17 +152,17 @@
 }
 
 .more-container-arrow path {
-  fill: var(--global-color-tertiary);
+  fill: var(--global-color-primary);
 }
 
 .more-container-in-horse {
   height: 32px;
   display: flex;
   align-items: center;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   padding-left: 12px;
   cursor: pointer;
-  border-right: 1px solid var(--global-color-shade5);
+  border-right: 1px solid var(--global-color-background-tertiary);
 }
 
 .more-sidebar-in-events {
@@ -170,13 +171,13 @@
   font-size: 12px;
   line-height: 16px;
   margin-right: 8px;
-  color: var(--global-color-tertiary);
+  color: var(--global-color-primary);
 }
 
 .horse-links {
   height: 50px;
   display: flex;
-  background: var(--global-color-shade5);
+  background: var(--global-color-background-tertiary);
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;

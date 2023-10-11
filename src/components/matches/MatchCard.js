@@ -10,6 +10,7 @@ import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
 import moment from "moment";
 import { useClientTranslation } from "@/app/i18n/client";
+
 const MatchCard = ({ match, inPlay }) => {
   const { t } = useClientTranslation(["sports", "common"]);
   const dispatch = useDispatch();
@@ -41,7 +42,6 @@ const MatchCard = ({ match, inPlay }) => {
       });
     }
   };
-
   return (
     <div className="matchCardRowContainer">
       {isTablet && (
@@ -66,8 +66,8 @@ const MatchCard = ({ match, inPlay }) => {
                 />
               )}
             </div>
-            <div>
-              {moment.utc(match.start_time).local().format("DD MMM HH:mm")}
+            <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
+              {match?.is_live && inPlay ? match?.current_time : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
           <div className="more-markets-container" onClick={handleClickRow}>
@@ -98,12 +98,7 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
-              {inPlay
-                ? match?.start_time
-                : moment
-                    .utc(match?.start_time)
-                    .local()
-                    .format("DD MMM HH:mm")}
+              {match?.is_live && inPlay ? match?.current_time : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
         )}
@@ -166,7 +161,7 @@ const MatchCard = ({ match, inPlay }) => {
               })}
           </div>
         )}
-        <div className="odds mobileBetsOdds">
+        <div className="odds mobileBetsOdds rowBetsOdds">
           {match.selections.map((row, index) => {
             return (
               <div

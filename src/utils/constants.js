@@ -1,13 +1,23 @@
 import pointer from "../assets/images/pointer.svg";
 import { theme } from "./config";
 import {
+  BetHistoryIcon,
+  BonusesAndPromotionsIcon,
   CreditCardLogoOfFooter,
+  DepositIcon,
   FastestPayoutsIcon,
   Games,
   LiveBettingIcon,
   LiveIconOfFooter,
+  NetDepositIcon,
+  NotificationsIcon,
   OddsBoostIcon,
+  OddsFormatIcon,
+  ProfileMenuIcon,
+  SaferGamblingIcon,
   SpeedLogoOfFooter,
+  TransactionIcon,
+  WithdrawIcon,
 } from "./icons";
 import { images } from "./imagesConstant";
 
@@ -107,7 +117,7 @@ export const monthDates = [
 export const profileCards = [
   {
     cardName: "bonuses_promotions",
-    image: images.bonusesAndPromotionsIcon,
+    icon: <BonusesAndPromotionsIcon />,
     route: "/profile/bonuses_promotions",
     text: "bonuses_promotions",
     buttonText: "New",
@@ -115,63 +125,63 @@ export const profileCards = [
   },
   {
     cardName: "deposit",
-    image: images.depositIcon,
+    icon: <DepositIcon />,
     route: "/profile/deposit",
     text: "deposit",
     arrow: true,
   },
   {
     cardName: "withdraw",
-    image: images.withdrawIcon,
+    icon: <WithdrawIcon />,
     route: "/profile/withdraw",
     text: "withdraw",
     arrow: true,
   },
   {
     cardName: "bet_history",
-    image: images.predictionIcon,
+    icon: <BetHistoryIcon />,
     route: "/profile/bet_history",
     text: "bet_history",
     arrow: true,
   },
   {
     cardName: "transaction_history",
-    image: images.transactionIcon,
+    icon: <TransactionIcon />,
     route: "/profile/transaction_history",
     text: "transaction_history",
     arrow: true,
   },
   {
     cardName: "net_deposit",
-    image: images.netDepositIcon,
+    icon: <NetDepositIcon />,
     route: "/profile/net_deposit",
     text: "net_deposit",
     arrow: true,
   },
   {
     cardName: "profile",
-    image: images.profileMenuIcon,
+    icon: <ProfileMenuIcon />,
     route: "/profile/profile",
     text: "profile",
     arrow: false,
   },
   {
     cardName: "notifications",
-    image: images.notificationsIcon,
+    icon: <NotificationsIcon />,
     route: "/profile/notifications",
     text: "notifications",
     arrow: false,
   },
   {
     cardName: "odds_format",
-    image: images.oddsIcon,
+    icon: <OddsFormatIcon />,
     route: "/profile/odds_format",
     text: "odds_format",
     arrow: false,
   },
   {
     cardName: "safer_gambling",
-    image: images.saferGamblingIcon,
+    icon: <SaferGamblingIcon />,
     route: "/profile/safer_gambling",
     text: "safer_gambling",
     arrow: false,
@@ -241,106 +251,6 @@ export const oddsFormatTypes = [
   // },
 ];
 
-export const sportsTypes = [
-  {
-    cardLabel: "Search",
-    image: images.search,
-    route: "",
-    text: "search",
-    arrow: false,
-  },
-  {
-    cardLabel: "American Football",
-    image: images.americanFootball,
-    route: "",
-    text: "american_football",
-    arrow: false,
-  },
-  {
-    cardLabel: "Basketball",
-    image: images.basketball,
-    route: "",
-    text: "basketball",
-    arrow: false,
-  },
-  {
-    cardLabel: "Boxing",
-    image: images.boxing,
-    route: "",
-    text: "boxing",
-    arrow: false,
-  },
-  {
-    cardLabel: "Cricket",
-    image: images.cricket,
-    route: "",
-    text: "cricket",
-    arrow: false,
-  },
-  {
-    cardLabel: "Darts",
-    image: images.darts,
-    route: "",
-    text: "darts",
-    arrow: false,
-  },
-  {
-    cardLabel: "Football",
-    image: images.football,
-    route: "",
-    text: "football",
-    arrow: false,
-  },
-  {
-    cardLabel: "Golf",
-    image: images.golf,
-    route: "",
-    text: "golf",
-    arrow: false,
-  },
-  {
-    cardLabel: "Greyhound Racing",
-    image: images.greyHound,
-    route: "",
-    text: "greyhound",
-    arrow: false,
-  },
-  {
-    cardLabel: "Horse Racing",
-    image: images.horseRacing,
-    route: "",
-    text: "horse_racing",
-    arrow: false,
-  },
-  {
-    cardLabel: "Ice Hockey",
-    image: images.iceHockey,
-    route: "/ice_hockey",
-    text: "ice_hockey",
-    arrow: false,
-  },
-  {
-    cardLabel: "Mixed Martial Arts",
-    image: images.martialArts,
-    route: "",
-    text: "martial_arts",
-    arrow: false,
-  },
-  {
-    cardLabel: "Snooker",
-    image: images.snooker,
-    route: "",
-    text: "snooker",
-    arrow: false,
-  },
-  {
-    cardLabel: "Tennis",
-    image: images.tennis,
-    route: "",
-    text: "tennis",
-    arrow: false,
-  },
-];
 
 export const casinoMenu = [
   { name: "Home" },
@@ -430,15 +340,15 @@ export const emailNotifications = [
 export const types = [
   {
     name: "selected",
-    color: "var(--global-color-tertiary)",
+    color: "var(--global-color-primary)",
   },
   {
     name: "price_going_out",
-    color: "var(--global-color-price-drifting)",
+    color: "var(--global-color-price-primary)",
   },
   {
     name: "price_coming_in",
-    color: "var(--global-color-price-shortening)",
+    color: "var(--global-color-price-secondary)",
   },
   {
     name: "suspended",
@@ -1013,192 +923,6 @@ export const popularCasinoGames = [
   images.gorillaGold,
   images.jackpot,
   images.bigcatkino,
-];
-
-export const eventsOfHomepage = [
-  {
-    text: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-    odds: "11/1",
-  },
-  {
-    text: "Event 2",
-    odds: "9/1",
-  },
-  {
-    text: "Event 3",
-    odds: "7/1",
-  },
-  {
-    text: "Event 4",
-    odds: "5/1",
-  },
-  {
-    text: "Event 5",
-    odds: "3/1",
-  },
-];
-export const eventsData = [
-  {
-    title: "Watford vs West Brom Price Boost",
-    time: "16:45",
-    specials: [
-      {
-        text: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-        odds: "11/1",
-      },
-      {
-        text: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-        odds: "11/1",
-      },
-      {
-        text: "Ismaila Sarr & Joao Pedro - Both to score at any time",
-        odds: "11/1",
-      },
-    ],
-  },
-  {
-    title: "Eintracht Frankfurt vs Napoli Price Boosts",
-    time: "13:20",
-    specials: [
-      {
-        text: "Over 3.5 goals in the game",
-        odds: "11/1",
-      },
-      {
-        text: "Randal Kolo Muani to asisst a goal",
-        odds: "15/1",
-      },
-      {
-        text: "A goal scored in the first 10 minutes ",
-        odds: "20/1",
-      },
-    ],
-  },
-];
-export const titlePerRow = [
-  {
-    id: 1,
-    titleRow: "Carlise 14:35",
-    underTitle: "2m 1f | EW 1/5 1-2-3",
-    bet: "6/4",
-  },
-  {
-    id: 2,
-    titleRow: "Carlise 14:35",
-    underTitle: "2m 1f | EW 1/5 1-2-3",
-    bet: "6/4",
-  },
-  {
-    id: 3,
-    titleRow: "Carlise 14:35",
-    underTitle: "2m 1f | EW 1/5 1-2-3",
-    bet: "6/4",
-  },
-  {
-    id: 4,
-    titleRow: "Carlise 14:35",
-    underTitle: "2m 1f | EW 1/5 1-2-3",
-    bet: "6/4",
-  },
-];
-
-export const matches = [
-  {
-    homeTeam: "Home Team 1",
-    author: "Tristan Durell / D Skelton",
-    bet: "6/4",
-  },
-  {
-    homeTeam: "Home Team 2",
-    author: "J E Moore / G L Moore",
-    bet: "9/2",
-  },
-  {
-    homeTeam: "Home Team 3",
-    author: "Nick Scholfield / R Hobson",
-    bet: "16/1",
-  },
-  {
-    homeTeam: "Home Team 4",
-    author: "Author 4",
-    bet: "6/4",
-  },
-  {
-    homeTeam: "Home Team 5",
-    author: "Author 5",
-    bet: "9/2",
-  },
-  {
-    homeTeam: "Home Team 6",
-    author: "Author 6",
-    bet: "16/1",
-  },
-  {
-    homeTeam: "Home Team 7",
-    author: "Author 7",
-    bet: "6/4",
-  },
-  {
-    homeTeam: "Home Team 8",
-    author: "Author 8",
-    bet: "9/2",
-  },
-  {
-    homeTeam: "Home Team 9",
-    author: "Author 9",
-    bet: "16/1",
-  },
-];
-
-export const countries = [
-  {
-    city: "Limerick",
-    countryItem: [
-      { time: "04:00" },
-      { time: "05:00" },
-      { time: "06:00" },
-      { time: "07:00" },
-      { time: "08:00" },
-      { time: "09:00" },
-      { time: "" },
-    ],
-  },
-  {
-    city: "Newcastle",
-    countryItem: [
-      { time: "10:00" },
-      { time: "11:00" },
-      { time: "12:00" },
-      { time: "13:00" },
-      { time: "14:00" },
-      { time: "" },
-      { time: "" },
-    ],
-  },
-  {
-    city: "Ffos Las",
-    countryItem: [
-      { time: "16:00", pointer: pointer },
-      { time: "17:00", pointer: pointer },
-      { time: "18:00", pointer: null },
-      { time: "19:00" },
-      { time: "20:00" },
-      { time: "" },
-      { time: "" },
-    ],
-  },
-  {
-    city: "Southwell",
-    countryItem: [
-      { time: "22:00" },
-      { time: "23:00" },
-      { time: "00:00" },
-      { time: "01:00" },
-      { time: "02:00" },
-      { time: "" },
-      { time: "" },
-    ],
-  },
 ];
 
 export const multipleBetTypesInfo = {

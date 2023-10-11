@@ -1,3 +1,4 @@
+
 import { getLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,7 @@ import { ProfileCard, SidebarProfilMenu } from "./Styled";
 import { refreshGamingSocket } from "@/context/socket";
 import { useClientTranslation } from "@/app/i18n/client";
 import { useLogout } from "@/hooks/useLogout";
+import { Logout } from "@/utils/icons";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -56,11 +58,7 @@ export const ProfileSidebar = ({
                             : "dropdown sidebarBox d-flex profileMenuDisplay"
                         }
                       >
-                        <Image
-                          alt="img-img"
-                          src={value.image}
-                          className="m-2"
-                        />
+                        {value.icon}
                         <Button
                           className={
                             "btn dropdown-toggle popularDropdown profile top w-100 "
@@ -94,7 +92,7 @@ export const ProfileSidebar = ({
       {!version && (
         <ProfileCard>
           <div className="dropdown sidebarBox profileMenuDisplay">
-            <Image alt="logoutIcon" src={images.logoutIcon} className="m-2" />
+            <Logout />
             <Button
               className={"btn dropdown-toggle azDropdown profile top w-100"}
               type="button"
@@ -107,3 +105,4 @@ export const ProfileSidebar = ({
     </SidebarProfilMenu>
   );
 };
+

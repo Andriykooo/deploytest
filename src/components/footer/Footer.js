@@ -2,7 +2,7 @@
 
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HtmlParse } from "../htmlParse/HtmlParse";
@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 import { setFooter } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
 
-const preselectedColumns = ["/terms", "/privacy"];
+export const preselectedColumns = ["/terms", "/privacy"];
 
 export const Footer = ({ noMenu }) => {
   const dispatch = useDispatch();
@@ -65,18 +65,21 @@ export const Footer = ({ noMenu }) => {
                       <div className="col-12 mb-2">
                         <strong>{column.name}</strong>
                       </div>
-                      {column.links.map((link, index) => {
+                      {column.links.map((link) => {
                         const isPreselectedLink = preselectedColumns.includes(
                           link.path
                         );
 
                         return (
-                          <div className="col-12 mb-2" key={index}>
+                          <div
+                            className="col-12 mb-2"
+                            key={`${link?.name}-${link?.page_type}-${link?.path}`}
+                          >
                             <LinkType
                               type={
-                                isPreselectedLink ? "default" : link.page_type
+                                isPreselectedLink ? "default" : link?.page_type
                               }
-                              path={link.path}
+                              path={link?.path}
                               openType={link?.open_type}
                               modalData={{
                                 slug: link?.path,

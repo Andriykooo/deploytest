@@ -57,62 +57,178 @@
 
 :root {
   /* Fonts */
+
   --global-font-montserrat: "Montserrat";
   --bs-body-font-family: "Montserrat", sans-serif;
+
   /* Main Colors */
-  --global-color-primary: #1f2225;
-  --global-color-secondary: #353a40;
-  --global-color-tertiary: #c59e43;
-  --global-color-yellow: #fdc500;
+
+  --global-main-color-icon-background: #D6C08F; /* arrows, betslip and profile icons */
+  --global-main-color-icon: #FFFFFF; /* arrows, betslip, profile, close icons */
+  --global-main-color-text: #FFFFFF; /* carousel, side-text */
+  --global-main-color-background: #1B1C21; /* carousel background, collapsed button, preferences */
+
+  /* Header / Nav Bar */
+
+  --global-color-header-text: #FFFFFF;
+  --global-color-header-text-active: #C59E43;
+  --global-color-header-side-text: #C59E43;
+  --global-color-header-background: #2B2F34;
+  --global-color-header-background_side_bacground: #C59E43;
+
+  /* Sidebar */
+
+  --global-color-sidebar-background: #1B1C21;
+  --global-color-sidebar-selection: #353A40;
+  --global-color-sidebar-text: #FFFFFF;
+  --global-color-sidebar-field-selected: rgba(199, 146, 57, 7%);
+  --global-color-sidebar-field-selected-sideline: #BC9239;
+  --global-color-sidebar-icons: #FFFFFF;
+  --global-color-sidebar-icons-background: #414851;
+  --global-color-sidebar-chat_icon-background: #C59E43;
+
+  /* Trader Chat */
+
+  --global-color-trader-chat-primary: #C59E43;
+  --global-color-trader-chat-primary-text: #FFFFFF;
+  --global-color-trader-chat-background: #FFFFFF;
+  --global-color-trader-chat-bubble1: #EBE1D2;
+  --global-color-trader-chat-bubble1-text: #2B2F34;
+  --global-color-trader-chat-bubble2: #EBEBEB;
+  --global-color-trader-chat-bubble2-text: #2B2F34;
+  --global-color-trader-chat-secondary-text: #414851;
+
+  /* Footer */
+
+  --global-color-footer-background: #25292D;
+  --global-color-footer-text-primary: #FFFFFF;
+  --global-color-footer-text-secondary: #BCBFC2;
+  --global-color-language-selector: #353A40;
+
+  /* Carousel */
+
+  --global-color-carousel-dots-active: #C59E43;
+  --global-color-carousel-dots-inactive: #FFFFFF;
+
+  /* Links */
+
+  --global-color-links-background: linear-gradient(180deg, #DBB86D 0%, #BC9239 100%); /*carousel - casino, main page*/
+  --global-color-links-text: #FFFFFF;
   
-  --global-color-text-sp: #e2e9f0;
+  /* Casino */
+
+  --global-color-casino-background: #25292D; /* background */
+  --global-color-casino-text1: #FFFFFF;
+  --global-color-casino-text2: #D6C08F;
+  
+  /* Buttons */
+
+  --global-color-buttons-background: linear-gradient(180deg, #C8A65C 0%, #BC9239 100%);
+  --global-color-buttons-text: #FFFFFF;
+  --global-color-buttons-background-disabled: #353A40;
+  --global-color-buttons-text-disabled: #BCBFC2;
+
+  /* Chips */
+
+  --global-color-chip-round-background: #414851;
+  --global-color-chip-round-text: #FFFFFF;
+  --global-color-chip-round-background-disabled: #2B2F34;
+  --global-color-chip-round-text-disabled: #BCBFC2;
+  --global-color-chip-cube-background: #C59E43;
+  --global-color-chip-cube-text: #FFFFFF; /* live race, selected race, horse racing, greyhound */
+  --global-color-chip-cube-background-disabled: #414851; /* time race, race name */
+  --global-color-chip-cube-text-disabled: #C59E43; /* time race, race name */
+  --global-color-chip-cube1-text: #C59E43;
+  --global-color-chip-cube1-background: #353A40;
+  --global-color-chip-cube1-stroke-background: #C59E43;
+
+  /* Bet Slip */
+
+  --global-color-betslip-border: #1B1C21;
+  --global-color-betslip-header: #25292D;
+  --global-color-betslip-selector: #2B2F34;
+  --global-color-betslip-selector-active: #353A40;
+  --global-color-betslip-background: #1B1C21;
+  --global-color-betslip-shade-primary: #353A40; /* remove bets */
+  --global-color-betslip-shade-secondary: #414851; /* return and balance */
+  --global-color-betslip-shade-tertiary: #414851; /* alert */
+  --global-color-betslip-shade-quaternary: #647F98; /*button alternative*/
+  --global-color-betslip-text-primary: #FFFFFF; /* header, buttons */
+  --global-color-betslip-text-secondary: #BCBFC2; /*non active selector text*/
+  --global-color-betslip-text-tertiary: #FFFFFF; /*body*/
+  --global-color-betslip-text-quaternary: #C59E43; /*match*/
+  --global-color-betslip-text-quinary: #FDC500; /*returns*/
+
+  /* //// */
+
+  /* Main Colors */
+  --global-color-primary: #c59e43;
+  --global-color-secondary: #d6c08f;
+
+  /* Background */
+  --global-color-background-quaternary: #353a40;
+  --global-color-background-tertiary: #2b2f34;
+  --global-color-background-primary: #1b1c21;
+  --global-color-background-secondary: #25292d;
+  --global-color-background-quinary: #414851;
+  --global-color-background-senary: #ffffff;
 
   /* Shade */
   --global-color-shade-dark: #191919;
-  --global-color-shade1: #414851;
-  --global-color-shade2: #1b1c21;
   --global-color-shade3: #282626;
   --global-color-shade4: #6d6d6d;
-  --global-color-shade5: #2b2f34;
   --global-color-shade6: #2e3034;
   --global-color-shade7: #404246;
   --global-color-shade8: #45494f;
   --global-color-shade9: #676767;
-  --global-color-shade10: #25292d;
+
+  /* Prices */
+  --global-color-price-primary: #ad0e3e;
+  --global-color-price-secondary: #1a835c;
+  --global-color-price-tertiary: #6d6d6d;
+  --global-color-price-quaternary: #647f98;
+  --global-color-price-quinary: #e2e9f0;
+  --global-color-price-senary: #f6afaf;
+  --global-color-price-septenary: #bbd8f3;
+  --global-color-price-octonary: #bbf3c7;
+  --global-color-price-nonary: #33b281;
+  --global-color-price-denary: #1a9cc7;
 
   /* Odds */
   --global-color-rose: #e434a3;
-  --global-color-price-drifting: #9D1C43;
-  --global-color-price-shortening: #1A835C;
   --global-color-blue: #35a8e0;
-  --global-color-green: #0f0;
   --global-color-bullet-point: #c59e43;
   --global-color-win-button: #34b280;
   --global-color-suspended-button: #faff00;
   --global-color-suspended: #e22727;
   --global-color-gold-button: #bc9239;
-  --global-color-price-boost: rgba(245, 196, 81, 0.10);
+  --global-color-price-boost: rgba(245, 196, 81, 0.1);
 
   /* Text */
   --global-color-text-primary: #ffffff;
-  --global-color-text-secondary: #bc9239;
-  --global-color-text-tertiary: #e434a3;
-  --global-color-text-quaternary: #c2ae82;
-  --global-color-text-gray: #bcbfc2;
+  --global-color-text-tertiary: #fdc500;
+  --global-color-text-secondary: #bcbfc2;
+  --global-color-text-quinary: #2b2f34;
+  --global-color-text-quaternary: #00ff00;
+
   /* Notifications */
   --global-color-notification-success: #036fee;
+
   /* Buttons */
-  --global-color-button-primary: linear-gradient(186.6deg,
+  --global-color-button-secondary: #808080;
+
+  /* Gradients */
+  --global-color-linear-primary: linear-gradient(186.6deg,
       rgba(255, 255, 255, 0.2) 5.18%,
       rgba(255, 255, 255, 0) 69.62%),
     #bc9239;
-  --global-color-button-secondary: #808080;
-  --global-color-button-action: #647f98;
-  /* Gradients */
   --global-color-swifty-gradient: linear-gradient(158.32deg,
       #ff005f 10.33%,
       #109ff2 108.66%);
-  --global-color-logo-gradient: linear-gradient(135.53deg,
+  --global-color-linear-secondary: linear-gradient(180.02deg,
+      #34393f 0.02%,
+      #000000 284.75%);
+  --global-color-linear-tertiary: linear-gradient(135.53deg,
       #ff3364 19.83%,
       #bb34ff 50.53%,
       #3586ff 80.25%);
@@ -123,7 +239,7 @@
 html,
 body {
   overflow-x: hidden;
-  background: var(--global-color-shade2);
+  background: var(--global-color-background-primary);
   height: 100%;
 }
 
@@ -141,8 +257,8 @@ body.opened::after {
 
 /* Button */
 .btnPrimary {
-  background: var(--global-color-tertiary);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-buttons-background);
+  color: var(--global-color-buttons-text);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -151,18 +267,18 @@ body.opened::after {
 }
 
 .borderedButton {
-  background: var(--global-color-secondary);
-  color: var(--global-color-text-gray);
+  background: var(--global-color-background-quaternary);
+  color: var(--global-color-text-secondary);
   border-radius: 8px;
-  border: 1px solid var(--global-color-tertiary)!important;
+  border: 1px solid var(--global-color-primary) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   line-height: 24px;
-  background-color: var(--global-color-secondary);
-
+  background-color: var(--global-color-background-quaternary);
 }
+
 .btnSecondary {
   width: 100%;
   background: var(--global-color-button-secondary);
@@ -175,11 +291,13 @@ body.opened::after {
 
 .btnSecondary.place-bet-button {
   border-radius: 0 0 6px 6px;
+  color: var(--global-color-text-primary);
+  font-size: 14px;
 }
 
 .btnAction {
   width: 100%;
-  background: var(--global-color-button-action);
+  background: var(--global-color-price-quaternary);
   color: var(--global-color-text-primary);
   display: flex;
   align-items: center;
@@ -190,17 +308,17 @@ body.opened::after {
 }
 
 .btnGray {
-  background-color: var(--global-color-shade1);
-  color: var(--global-color-tertiary);
+  background-color: var(--global-color-chip-cube-background-disabled);
+  color: var(--global-color-chip-cube-text-disabled);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .btnBorder {
-  background-color: transparent;
-  border: 1px solid var(--global-color-tertiary);
-  color: var(--global-color-tertiary);
+  background-color: var(--global-color-chip-cube1-background);
+  border: 1px solid var(--global-color-chip-cube1-stroke-background);
+  color: var(--global-color-chip-cube1-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,12 +335,12 @@ body.opened::after {
   height: 100vh;
   width: 100vw;
   margin: 0;
-  color: white;
+  color: var(--global-color-text-primary);
   overflow-x: hidden;
 }
 
 .MuiTabs-flexContainer .MuiButtonBase-root {
-  border-bottom: 4px solid var(--global-color-secondary);
+  border-bottom: 4px solid var(--global-color-background-quaternary);
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -297,15 +415,15 @@ body.opened::after {
   position: fixed;
   top: 0;
   left: 0;
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   z-index: 1000;
   overflow-y: hidden;
   padding-right: 0;
 }
 
 .full-screen-modal body {
-  background: var(--global-color-shade10);
-  color: white;
+  background: var(--global-color-background-secondary);
+  color: var(--global-color-text-primary);
 }
 
 .close-full-modal-container {
@@ -335,11 +453,11 @@ body.opened::after {
 }
 
 .sportsBackground {
-  background: var(--global-color-shade10);
+  background: var(--global-color-casino-background);
 }
 
 .App-header {
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -489,10 +607,6 @@ button {
 }
 
 @media screen and (min-width: 1401px) {
-  .sidebar-skeleton {
-    width: 270px;
-  }
-
   .skeleton-large-screen {
     padding: 26px;
   }

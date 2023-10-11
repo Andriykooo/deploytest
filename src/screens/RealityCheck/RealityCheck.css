@@ -1,6 +1,6 @@
 .activeTime {
   border-radius: 10px;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   padding: 5px;
   color: white;
   display: flex;

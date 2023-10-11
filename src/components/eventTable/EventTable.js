@@ -2,12 +2,13 @@ import { useState } from "react";
 import { ArrowDownIcon } from "../../utils/icons";
 import { MatchOdds } from "../matches/MatchOdds";
 import "./EventTable.css";
+import { useSelector } from "react-redux";
 
-function groupByThree(array) {
+function groupSelections(array, number) {
   const result = [];
 
-  for (let i = 0; i < array.length; i += 3) {
-    const group = array.slice(i, i + 3);
+  for (let i = 0; i < array.length; i += number) {
+    const group = array.slice(i, i + number);
     result.push(group);
   }
 
@@ -15,13 +16,14 @@ function groupByThree(array) {
 }
 
 export const EventTable = ({ selections }) => {
+  const isMobile = useSelector((state) => state.setMobile);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const groupedSelections = groupByThree(selections);
+  const groupedSelections = groupSelections(selections, isMobile ? 1 : 3);
 
   return (
     <div className="events-table-wrapper">

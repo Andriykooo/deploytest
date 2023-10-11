@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
@@ -22,8 +22,6 @@ import { Button } from "../../components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
-import { t } from "i18next";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const TransactionHistory = () => {
@@ -344,6 +342,7 @@ const TransactionHistory = () => {
                             return (
                               <div
                                 key={item.id}
+                                className="transactionCardWrapper col-8 mb-2 d-flex"
                                 onClick={() => {
                                   setTransactionDetails({
                                     ...item,
@@ -351,64 +350,58 @@ const TransactionHistory = () => {
                                   });
                                 }}
                               >
-                                <div className="mb-2" key={item.date}>
-                                  <div>
-                                    <div className="transactionCardWrapper col-8 d-flex">
-                                      <div className="transactionCard">
-                                        <div style={betTypeIcon}>
-                                          {txDetails.icon}
-                                        </div>
-                                        <div
-                                          className={classNames(
-                                            "transaction-item-title",
-                                            {
-                                              "title-centered":
-                                                !item.row2 &&
-                                                item.transaction_status ===
-                                                  TRANSACTION_HISTORY_STATUSES.successful,
-                                            }
-                                          )}
-                                        >
-                                          <div
-                                            className={classNames({
-                                              "transaction-item":
-                                                !isTablet && !item.row2,
-                                            })}
-                                          >
-                                            <span className="placed">
-                                              {txDetails.title}
-                                            </span>
-                                            {!!item.row2 ? (
-                                              <span className="typeSubtitle">
-                                                {item.row2}
-                                              </span>
-                                            ) : (
-                                              item.transaction_status !==
-                                                TRANSACTION_HISTORY_STATUSES.successful && (
-                                                <div
-                                                  className={classNames(
-                                                    "transaction-status",
-                                                    item.transaction_status
-                                                  )}
-                                                >
-                                                  <span>
-                                                    {item.transaction_status}
-                                                  </span>
-                                                </div>
-                                              )
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="amount-wrapper">
-                                        <span className="typeDate">
-                                          {txDetails.date}
+                                <div className="transactionCard">
+                                  <div style={betTypeIcon}>
+                                    {txDetails.icon}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      "transaction-item-title",
+                                      {
+                                        "title-centered":
+                                          !item.row2 &&
+                                          item.transaction_status ===
+                                            TRANSACTION_HISTORY_STATUSES.successful,
+                                      }
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames({
+                                        "transaction-item":
+                                          !isTablet && !item.row2,
+                                      })}
+                                    >
+                                      <span className="placed">
+                                        {txDetails.title}
+                                      </span>
+                                      {!!item.row2 ? (
+                                        <span className="typeSubtitle">
+                                          {item.row2}
                                         </span>
-                                        <div className="placed">
-                                          <span>{txDetails.amount}</span>
-                                        </div>
-                                      </div>
+                                      ) : (
+                                        item.transaction_status !==
+                                          TRANSACTION_HISTORY_STATUSES.successful && (
+                                          <div
+                                            className={classNames(
+                                              "transaction-status",
+                                              item.transaction_status
+                                            )}
+                                          >
+                                            <span>
+                                              {item.transaction_status}
+                                            </span>
+                                          </div>
+                                        )
+                                      )}
                                     </div>
+                                  </div>
+                                </div>
+                                <div className="amount-wrapper">
+                                  <span className="typeDate">
+                                    {txDetails.date}
+                                  </span>
+                                  <div className="placed">
+                                    <span>{txDetails.amount}</span>
                                   </div>
                                 </div>
                               </div>

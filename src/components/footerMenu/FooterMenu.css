@@ -3,7 +3,7 @@
   bottom: 0%;
   left: 0%;
   right: 0%;
-  background: var(--global-color-shade5);
+  background: var(--global-color-header-background);
   z-index: 999;
   box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.75);
   transform: translateY(calc(100% - 72px));
@@ -21,7 +21,7 @@
   bottom: 0%;
   left: 0%;
   right: 0%;
-  background: var(--global-color-shade5);
+  background: var(--global-color-header-background);
   height: 56px;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .footerSport {
-  color: white;
+  color: var(--global-color-header-text);
   font-size: 12px;
   margin-bottom: 0.25rem;
   margin-top: 0.25rem;
@@ -67,9 +67,9 @@
   width: 75px;
   height: 2px;
   border-radius: 6px;
-  background: var(--global-color-text-primary);
+  background: var(--global-color-header-icons);
 }
 
 .activeFooter {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-header-text-active);
 }

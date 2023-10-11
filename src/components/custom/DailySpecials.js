@@ -44,7 +44,7 @@ export const InPlaySpecials = () => {
         </Accordion.Header>
 
         <Accordion.Body>
-          {showMenu && <InPlayHomeMenu />}
+          {!showMenu && <InPlayHomeMenu />}
           {Object.entries(sportsData).map(([sport, data], index) => {
             return (
               <Accordion

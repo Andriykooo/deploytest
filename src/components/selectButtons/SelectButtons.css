@@ -15,6 +15,11 @@
   padding: 0 10px;
 }
 
+.active-button {
+  color: var(--global-color-chip-cube-text) !important;
+  background: var(--global-color-chip-cube-background) !important;
+}
+
 .selected-buttons.fullWidth {
   display: flex;
   justify-content: space-between;

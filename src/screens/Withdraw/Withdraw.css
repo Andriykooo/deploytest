@@ -14,7 +14,7 @@
 }
 
 .infoDiv {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   position: relative;
   border-radius: 10px;
   margin-left: 10px;
@@ -59,7 +59,7 @@
 }
 
 .modal-content {
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   border-radius: 10px;
   border: none;
   align-items: center;
@@ -72,7 +72,7 @@
 
 .finishBtn {
   height: 35px;
-  background: var(--global-color-button-primary);
+  background: var(--global-color-buttons-background);
   border-radius: 10px;
   font-style: normal;
   font-weight: 400;
@@ -82,17 +82,14 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-buttons-text);
   margin-top: 4rem;
   width: 327px;
 }
 
 .finishBtn.disabled {
-  background: linear-gradient(0deg,
-      var(--global-color-secondary),
-      var(--global-color-secondary)),
-    var(--global-color-secondary);
-  color: #bcbfc2;
+  background: var(--global-color-buttons-background-disabled) !important;
+  color: var(--global-color-buttons-text-disabled);
 }
 
 .modal-title {
@@ -148,7 +145,7 @@
   display: flex;
   flex-direction: column;
   min-height: 604px;
-  background: var(--global-color-shade5);
+  background: var(--global-color-background-tertiary);
 }
 
 .casino-modal-content {
@@ -203,7 +200,7 @@
   width: 100%;
   height: 56px;
   color: #bcbfc2;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -234,7 +231,7 @@
 }
 
 .selectDecimalDeposit {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border-radius: 10px;
   border: none;
   position: relative;
@@ -274,7 +271,7 @@
   font-weight: 600;
   height: 48px;
   /* color: #bcbfc2; */
-  /* background: var(--global-color-secondary); */
+  /* background: var(--global-color-background-quaternary); */
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -289,7 +286,7 @@
 }
 
 .active-button-of-submit {
-  background-color: var(--global-color-tertiary);
+  background-color: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
 
@@ -313,7 +310,7 @@
   }
 
   .selectDecimalDeposit {
-    background: var(--global-color-secondary);
+    background: var(--global-color-background-quaternary);
     border-radius: 10px;
     border: none;
     position: relative;
@@ -345,7 +342,7 @@
 }
 
 .active-button-of-submit {
-  background-color: var(--global-color-tertiary);
+  background-color: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
 @media screen and (max-width: 991px) {

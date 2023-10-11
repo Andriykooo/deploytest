@@ -51,7 +51,7 @@
   width: 550px;
   height: 50px;
   color: #bcbfc2;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   outline: none;
   border: none;
   box-sizing: border-box;
@@ -62,7 +62,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px var(--global-color-secondary) inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--global-color-background-quaternary) inset !important;
 }
 
 input:-webkit-autofill {

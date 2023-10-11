@@ -1,6 +1,5 @@
 .betslip-odds {
-  background: var(--global-color-tertiary);
-  border-radius: 0px 2px 2px 0px;
+  background: var(--global-color-primary);
   padding: 7px 11px;
   display: flex;
   align-items: center;
@@ -13,12 +12,20 @@
   max-width: max-content;
 }
 
+.betslip-odds.suspended {
+  background-color: var(--global-color-shade4);
+  color: var(--global-color-text-secondary);
+  pointer-events: none;
+}
+
 .betslip-odds.drifting {
-  background-color: var(--global-color-price-drifting);
+  color: var(--global-color-text-primary);
+  background-color: var(--global-color-price-primary);
 }
 
 .betslip-odds.shortening {
-  background-color: var(--global-color-price-shortening);
+  color: var(--global-color-text-primary);
+  background-color: var(--global-color-price-secondary);
 }
 
 .betslip-odds .matchOdds {

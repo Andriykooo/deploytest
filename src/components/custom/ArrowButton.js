@@ -2,6 +2,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
+import { ArrowIconSidebarLeft } from "@/utils/icons";
 
 export const ArrowButton = ({ active, setActive }) => {
   return (
@@ -10,7 +11,7 @@ export const ArrowButton = ({ active, setActive }) => {
         openSidebarButtonn: !active,
       })}
       onClick={() => setActive(!active)}
-      text={<Image src={images.arrowIcon} alt="arrow" height={24} width={12} />}
+      text={<div className="arrowImgSidebar"><ArrowIconSidebarLeft /></div>}
     />
   );
 };

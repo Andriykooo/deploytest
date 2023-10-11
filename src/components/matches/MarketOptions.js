@@ -9,7 +9,7 @@ export const MarketOptions = ({ options }) => {
         <div className="matchesContainer">
           <div className="eventStyle">{t("event")}</div>
         </div>
-        <div className="odds">
+        <div className="odds rowOdds">
           {options?.map((selection, index) => {
             return (
               <div

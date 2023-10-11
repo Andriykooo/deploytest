@@ -11,9 +11,8 @@ import {
   setBetSlipResponse,
   setBetTicker,
   setLoggedUser,
+  setPriceIsChanged,
   setSelectBet,
-  setUpdatedBetslipSelections,
-  setUpdatedSelections,
 } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -43,11 +42,13 @@ export const SidebarRight = () => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const isTablet = useSelector((state) => state.isTablet);
-  const isMobile = useSelector((state) => state.setMobile);
   const loggedUser = useSelector((state) => state.loggedUser);
   const selectedBets = useSelector((state) => state.selectedBets);
   const betTicker = useSelector((state) => state.betTicker);
   const settings = useSelector((state) => state.settings);
+  const betSlipResponse = useSelector((state) => state.betslipResponse);
+  const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
+
   const updatedBetslipSelections = useSelector(
     (state) => state.updatedBetslipSelections
   );
@@ -55,14 +56,23 @@ export const SidebarRight = () => {
   const [myBets, setMyBets] = useState(false);
   const [placeBetIsLoading, setPlaceBetIsLoading] = useState(false);
   const [timer, setTimer] = useState(-1);
+  const [compireBets, setCompireBets] = useState(false);
+  const [isPendingReview, setIsPendingReview] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
   const emptyBetSlip = {
     singles: [],
     combinations: [],
     total_stakes: 0,
     total_payout: 0,
   };
-  const betSlipResponse = useSelector((state) => state.betslipResponse);
 
+  const suspendedSelection =
+    Object.values(updatedBetslipSelections).some(
+      (bet) => bet.trading_status?.toLowerCase() === "suspended"
+    ) ||
+    betSlipResponse?.singles?.some(
+      (bet) => bet.trading_status?.toLowerCase() === "suspended"
+    );
   const betSlipContainerRef = useRef(null);
 
   const hideBetSlip = () => {
@@ -105,10 +115,9 @@ export const SidebarRight = () => {
 
   useEffect(() => {
     if (selectedBets?.bets?.length === 0) {
-      dispatch(setBetSlipResponse({ ...emptyBetSlip }));
-
       return;
     }
+
     setMyBets(false);
     // Stake
     let tmp = { ...betSlipResponse };
@@ -129,11 +138,15 @@ export const SidebarRight = () => {
       });
       const { place, trading_status, ...bet } = selected_row;
 
-      if (selected_row.trading_status.toLowerCase() === "open") {
+      if (selected_row?.trading_status?.toLowerCase() === "suspended") {
         bets.push(bet);
       }
 
-      if (selected_row.trading_status === "unnamed_favorite") {
+      if (selected_row?.trading_status?.toLowerCase() === "open") {
+        bets.push(bet);
+      }
+
+      if (selected_row?.trading_status?.toLowerCase() === "unnamed_favorite") {
         const { bet_id, ...unnamedFavoriteBet } = bet;
 
         unnamed_favorite.push({ event_id: bet_id, ...unnamedFavoriteBet });
@@ -164,30 +177,59 @@ export const SidebarRight = () => {
     apiServices
       .post(urlGenerateBetSlips, payload)
       .then((response) => {
-        if (selectedBets.bets.length !== response.singles.length) {
+        const formatedResponse = { ...response };
+        const unnamed_favorites = [];
+
+        formatedResponse.combinations = formatedResponse.combinations.filter(
+          (combination) => {
+            const isUnnamedFavorite = combination.type === "unnamed_favorite";
+
+            if (isUnnamedFavorite) {
+              unnamed_favorites.push({
+                ...combination,
+                bet_id: combination.event_id,
+                odds_decimal: 0,
+              });
+            }
+
+            return !isUnnamedFavorite;
+          }
+        );
+
+        formatedResponse.singles = [
+          ...formatedResponse.singles,
+          ...unnamed_favorites,
+        ];
+
+        if (
+          selectedBets.bets.length !== formatedResponse.singles.length &&
+          !compireBets
+        ) {
+          setCompireBets(true);
           dispatch(
             setSelectBet({
               ...selectedBets,
               bets: selectedBets.bets.filter((bet) =>
-                response.singles.some(
+                formatedResponse.singles.some(
                   (single) =>
-                    `${single.bet_provider}-${single.bet_id}` !== bet.bet_id
+                    `${single.bet_provider}-${single.bet_id}` === bet.bet_id
                 )
               ),
             })
           );
+        } else {
+          setCompireBets(false);
         }
 
-        if (betSlipResponse.singles.length === 0) {
-          dispatch(
-            setBetTicker({
-              status: "",
-              bet_referral_id: "",
-            })
-          );
+        if (isPendingReview) {
+          setIsPendingReview(false);
         }
 
-        dispatch(setBetSlipResponse(response));
+        if (betTicker.status !== "rejected") {
+          setIsRejected(false);
+        }
+
+        dispatch(setBetSlipResponse(formatedResponse));
       })
       .catch((err) => {
         alertToast({
@@ -205,7 +247,7 @@ export const SidebarRight = () => {
           })
         );
       });
-  }, [selectedBets, updatedBetslipSelections]);
+  }, [selectedBets]);
 
   const getUserData = () => {
     getUserApi(dispatch).then((response) => {
@@ -221,40 +263,69 @@ export const SidebarRight = () => {
       })
       .then(() => {
         getUserData();
+
         dispatch(
           setBetTicker({
             status,
             bet_referral_id: "",
           })
         );
-      })
-      .catch((err) => {
-        alertToast({
-          message: err?.response?.data?.message,
-        });
-      })
-      .finally(() => {
+
+        if (status === "rejected") {
+          setIsRejected(true);
+        }
+
         if (status === "accepted") {
           dispatch(setBetSlipResponse(emptyBetSlip));
           dispatch(removeBet("all"));
           dispatch(removeBetAmount("all"));
         }
+      })
+      .catch((err) => {
+        alertToast({
+          message: err?.response?.data?.message,
+        });
       });
   };
+
   useEffect(() => {
-    if (!betTicker?.status) return;
-    if (betTicker.status === "pending") return;
+    if (betTicker.status === "pending" || !betTicker?.status) {
+      return;
+    }
+
     if (betTicker.status === "approved") {
       dispatch(setBetSlipResponse(emptyBetSlip));
       dispatch(removeBet("all"));
       dispatch(removeBetAmount("all"));
       getUserData();
     }
+
     let rejectInterval;
 
     if (betTicker.status === "new_offer" && betTicker.bet_slip) {
       dispatch(setBetSlipResponse(betTicker.bet_slip));
+
+      dispatch(
+        setSelectBet({
+          bets: betTicker.bet_slip.singles.map((single) => {
+            return {
+              bet_id: `${single.bet_provider}-${single.bet_id}`,
+              stake: single.new_stake,
+              trading_status: "open",
+            };
+          }),
+          stakes: betTicker.bet_slip.combinations.map((combination) => {
+            return {
+              combination: combination.type,
+              stake: combination.new_stake,
+            };
+          }),
+          action: "check",
+        })
+      );
+
       setTimer(betTicker.bet_slip.expireSeconds);
+
       rejectInterval = setInterval(() => {
         setTimer((prev) => {
           return prev - 1;
@@ -279,8 +350,32 @@ export const SidebarRight = () => {
 
   const placeBetsHandler = () => {
     if (selectedBets?.bets?.length == 0) return;
+
+    const bets = [];
+    const unnamed_favorite = [];
+
+    selectedBets?.bets?.forEach((selected_row) => {
+      const { place, trading_status, ...bet } = selected_row;
+
+      if (selected_row?.trading_status?.toLowerCase() === "open") {
+        bets.push(bet);
+      }
+
+      if (selected_row?.trading_status?.toLowerCase() === "unnamed_favorite") {
+        const { bet_id, ...unnamedFavoriteBet } = bet;
+
+        unnamed_favorite.push({ event_id: bet_id, ...unnamedFavoriteBet });
+      }
+    });
+
     setPlaceBetIsLoading(true);
-    let tmp = { ...selectedBets };
+
+    const tmp = { ...selectedBets, bets: bets };
+
+    if (unnamed_favorite.length > 0) {
+      tmp.unnamed_favorite = unnamed_favorite;
+    }
+
     tmp.action = "place";
     placeBetRequest(tmp);
   };
@@ -292,11 +387,15 @@ export const SidebarRight = () => {
         setPlaceBetIsLoading(false);
         if (data.status == "success") {
           if (data.data.mode == "pending") {
+            setIsPendingReview(true);
             dispatch(setBetTicker(data));
           } else if (data.data.mode == "rejected") {
-            alertToast({
-              message: data.message,
-            });
+            dispatch(
+              setBetTicker({
+                status: "rejected",
+                bet_referral_id: "",
+              })
+            );
           } else if (data.data.mode == "accepted") {
             dispatch(setBetSlipResponse(emptyBetSlip));
             dispatch(removeBet("all"));
@@ -315,7 +414,12 @@ export const SidebarRight = () => {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error?.response?.data?.message) {
+          alertToast({
+            message: error?.response?.data?.message,
+          });
+        }
         setPlaceBetIsLoading(false);
       });
   };
@@ -328,35 +432,46 @@ export const SidebarRight = () => {
       ? betSlipResponse?.total_stakes - loggedUser?.user_data?.balance
       : 0;
 
-  const priseChanged = betSlipResponse?.singles?.some(
-    (single) =>
-      updatedBetslipSelections[`${single.bet_provider}-${single.bet_id}`]
-  );
+  const priseChanged = useSelector((state) => state.priceIsChanged);
 
   const renderBetButtons = () => {
     if (betTicker?.status === "new_offer") {
       return (
         <div className="btnsGroup">
           <Button
-            className={"btnPrimary place-bet-button rounded-0"}
-            text={placeBetIsLoading ? <Loader /> : t("accept")}
-            onClick={() => updateBetStatus("accepted")}
-          />
-          <Button
             className={"btnSecondary place-bet-button rounded-0"}
             text={placeBetIsLoading ? <Loader /> : t("reject")}
             onClick={() => updateBetStatus("rejected")}
           />
+          <Button
+            className={"btnPrimary place-bet-button rounded-0"}
+            text={placeBetIsLoading ? <Loader /> : t("accept")}
+            onClick={() => updateBetStatus("accepted")}
+          />
         </div>
       );
     }
-    if (betTicker?.data?.mode === "pending") {
+    if (betTicker?.data?.mode === "pending" && isPendingReview) {
       return (
         <div className="place-bet-container">
           <Button
             className={"btnPrimary place-bet-button"}
             text={t("pending_trader_review")}
             disabled
+          />
+        </div>
+      );
+    }
+
+    if (priseChanged) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            className={"btnAction"}
+            text={t("accept_price_changes")}
+            onClick={() => {
+              dispatch(setPriceIsChanged(false));
+            }}
           />
         </div>
       );
@@ -377,15 +492,23 @@ export const SidebarRight = () => {
       );
     }
 
-    if (priseChanged) {
+    if (suspendedSelection) {
       return (
         <div className="place-bet-container">
           <Button
-            className={"btnAction"}
-            text={t("accept_price_changes")}
-            onClick={() => {
-              dispatch(setUpdatedBetslipSelections({}));
-            }}
+            disabled
+            className={"btnPrimary place-bet-button"}
+            text={
+              `${t("place_bet")} ` +
+              Number(
+                betSlipResponse?.new_total_stakes ||
+                  betSlipResponse?.total_stakes
+              ).toFixed(2) +
+              ` ${
+                loggedUser?.user_data?.currency?.abbreviation ||
+                settings?.defaultCurrency
+              }`
+            }
           />
         </div>
       );
@@ -416,13 +539,14 @@ export const SidebarRight = () => {
               placeBetIsLoading ? (
                 <Loader />
               ) : (
-                `${t("place")} ` +
+                `${t("place_bet")} ` +
                 Number(
                   betSlipResponse?.new_total_stakes ||
-                  betSlipResponse?.total_stakes
+                    betSlipResponse?.total_stakes
                 ).toFixed(2) +
-                ` ${loggedUser?.user_data?.currency?.abbreviation ||
-                settings?.defaultCurrency
+                ` ${
+                  loggedUser?.user_data?.currency?.abbreviation ||
+                  settings?.defaultCurrency
                 }`
               )
             }
@@ -441,8 +565,8 @@ export const SidebarRight = () => {
         <span className="stakes amount">
           {formatNumberWithDecimal(
             betSlipResponse?.new_total_stakes ||
-            betSlipResponse?.total_stakes ||
-            0
+              betSlipResponse?.total_stakes ||
+              0
           )}
         </span>
       </div>
@@ -451,11 +575,13 @@ export const SidebarRight = () => {
         {/* Total Returns */}
         <span>{t("total_returns")}:</span>
         <span className="amount">
-          {formatNumberWithDecimal(
-            betSlipResponse?.new_total_payout ||
-            betSlipResponse?.total_payout ||
-            0
-          )}
+          {betSlipResponse.total_payout == "?"
+            ? "[?]"
+            : formatNumberWithDecimal(
+                betSlipResponse?.new_total_payout ||
+                  betSlipResponse?.total_payout ||
+                  0
+              )}
         </span>
       </div>
     </>
@@ -463,7 +589,9 @@ export const SidebarRight = () => {
 
   return (
     <div
-      className={"bet-slip-container"}
+      className={classNames("bet-slip-container", {
+        noVerified: isVerifyMessage,
+      })}
       onClick={hideBetSlip}
       ref={betSlipContainerRef}
     >
@@ -495,7 +623,6 @@ export const SidebarRight = () => {
                       document.querySelector(
                         ".bet-slip-container"
                       ).style.display = "block";
-
                     }
                   }
                 }}
@@ -506,7 +633,9 @@ export const SidebarRight = () => {
           </div>
           <div className="slip-bets-title">
             <button
-              className={classNames("bet-slip-description", { active: !myBets })}
+              className={classNames("bet-slip-description", {
+                active: !myBets,
+              })}
               onClick={() => handleClickBets("betslip")}
             >
               <span
@@ -526,8 +655,7 @@ export const SidebarRight = () => {
           </div>
           {!myBets ? (
             <>
-              {selectedBets?.bets?.length > 0 &&
-                betSlipResponse?.singles?.length > 0 ? (
+              {betSlipResponse?.singles?.length > 0 ? (
                 <>
                   <div
                     className="remove-all-bets"
@@ -548,6 +676,17 @@ export const SidebarRight = () => {
                     <span className="remove-text">{t("remove_all_bets")}</span>
                   </div>
                   <div className="selected-bets">
+                    {/* {betTicker.status === "approved" && (
+                      <div className="approvedBetslip">
+                        <Image
+                          alt="approved"
+                          src={images.checkIcon}
+                          height={20}
+                          width={20}
+                        />
+                        {t("bet_slip_approved")}
+                      </div>
+                    )} */}
                     {betTicker.status === "new_offer" &&
                       betTicker?.bet_slip.expireSeconds &&
                       timer > 0 && (
@@ -576,7 +715,7 @@ export const SidebarRight = () => {
               ) : (
                 <>
                   {betTicker.status === "accepted" ||
-                    betTicker.status === "approved" ? (
+                  betTicker.status === "approved" ? (
                     <>
                       <div className="empty-slip">
                         <span className="empty-slip-text mb">
@@ -622,14 +761,16 @@ export const SidebarRight = () => {
                   </div>
                 )}
                 {stakesAndReturns()}
-                {betTicker.status === "new_offer" && (
+                {(betTicker.status === "new_offer" ||
+                  suspendedSelection ||
+                  priseChanged) && (
                   <Warning text={t("odds_availability_changed_message")} />
                 )}
-                {betTicker.status === "rejected" && (
-                  <Warning text={t("bet_rejected_message")} />
+                {isRejected && (
+                  <Warning text={t("bet_user_rejected_message")} />
                 )}
-                {priseChanged && (
-                  <Warning text={t("price_change_review_message")} />
+                {betTicker.status === "rejected" && !isRejected && (
+                  <Warning text={t("bet_rejected_message")} />
                 )}
                 {betTicker.status &&
                   betSlipResponse?.singles?.length > 0 &&
@@ -642,7 +783,7 @@ export const SidebarRight = () => {
                     <Warning text={text} key={index} />
                   ))}
                 {!loggedUser?.user_data ||
-                  !getLocalStorageItem("access_token") ? (
+                !getLocalStorageItem("access_token") ? (
                   <div className="place-bet-container">
                     <Link href="/login">
                       <Button

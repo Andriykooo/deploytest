@@ -1,6 +1,7 @@
 import {
   destroySession,
   setAlertModal,
+  setLoggedUser,
   setPrivacytModal,
   setTermsModal,
 } from "@/store/actions";
@@ -16,14 +17,16 @@ export const setSettingsApi = async (body, dispatch, callback) => {
   const request = async () =>
     apiServices
       .put(apiUrl.SETTINGS, body)
-      .then((response) => {
-        callback?.onSuccess(response);
+      .then(async (response) => {
+        if (!response?.error) {
+          callback?.onSuccess(response);
+        }
+
         return response;
       })
       .catch((error) => {
         callback?.onError(error);
       });
-
 
   const response = await request();
 
@@ -78,8 +81,8 @@ export const getUserApi = async (dispatch) => {
         setAlertModal({
           title: i18next.t("account_excluded"),
           message: data.message.replace(
-            data.extra_data["{date}"].toString(),
-            moment(data.extra_data["{date}"]).format("DD MMMM YYYY")
+            data?.extra_data?.["{date}"]?.toString(),
+            moment(data?.extra_data?.["{date}"])?.format("DD MMMM YYYY")
           ),
         })
       );

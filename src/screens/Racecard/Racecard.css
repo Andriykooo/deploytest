@@ -13,7 +13,7 @@
   justify-content: center;
   width: 100%;
   height: 36px;
-  background-color: var(--global-color-text-gray);
+  background-color: var(--global-color-text-secondary);
   border-radius: 6px;
   margin: 0 12px;
   font-style: normal;
@@ -39,7 +39,7 @@
 }
 
 .race-table-head {
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   height: 44px;
   width: 100%;
   display: flex;
@@ -54,19 +54,19 @@
 
 .race-table-head-items {
   height: 32px;
-  background: var(--global-color-secondary);
-  border-bottom: 1px solid var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
   min-width: 650px;
 }
 
 .race-table-row {
   min-height: 44px;
-  background: var(--global-color-shade1);
+  background: var(--global-color-background-quinary);
   min-width: 650px;
 }
 
 .race-table-row > :not(:last-child) {
-  border-right: 1px solid var(--global-color-secondary);
+  border-right: 1px solid var(--global-color-background-quaternary);
 }
 
 .race-table-row-item {
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  border-bottom: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
 }
 
 .silk {
@@ -82,12 +82,24 @@
   width: 18px;
 }
 
+.racing-item-runner {
+  border-bottom: 1px solid var(--global-color-background-quaternary);
+  border-right: 1px solid var(--global-color-background-quaternary);
+}
+
 .runner {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 6px;
   width: 100%;
-  margin-left: 12px;
+  padding-left: 12px;
+}
+
+.runner-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .price {
@@ -103,11 +115,11 @@
 
 .price.disable {
   pointer-events: none;
-  background: var(--global-color-text-gray);
+  background: var(--global-color-text-secondary);
 }
 
 .price.active {
-  background: var(--global-color-tertiary);
+  background: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
 
@@ -130,7 +142,7 @@
 }
 
 .price:hover {
-  background: var(--global-color-tertiary);
+  background: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
 
@@ -187,14 +199,15 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  text-transform: capitalize;
 }
 
 .race-table-non-runner {
   display: flex;
   align-items: center;
   height: 32px;
-  border-right: 1px solid var(--global-color-secondary);
-  background: var(--global-color-secondary);
+  border-right: 1px solid var(--global-color-background-quaternary);
+  background: var(--global-color-background-quaternary);
   color: var(--global-color-text-primary);
   padding-left: 16px;
   min-width: 650px;

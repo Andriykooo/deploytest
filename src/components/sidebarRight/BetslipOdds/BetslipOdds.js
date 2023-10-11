@@ -3,7 +3,8 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const BetslipOdds = ({ selection, className, children, sp }) => {
+export const BetslipOdds = ({ selection, className, children }) => {
+  const priseChanged = useSelector((state) => state.priceIsChanged);
   const updatedBetslipSelections = useSelector(
     (state) => state.updatedBetslipSelections
   );
@@ -12,6 +13,10 @@ export const BetslipOdds = ({ selection, className, children, sp }) => {
     updatedBetslipSelections?.[
       `${selection?.bet_provider}-${selection?.bet_id}`
     ];
+
+  const isSuspended =
+    odd?.trading_status === "suspended" ||
+    selection.trading_status === "suspended";
 
   const [previousSelection, setPreviousSelection] = useState(selection);
   const [priceChangeType, setPriceChangeType] = useState(null);
@@ -41,8 +46,11 @@ export const BetslipOdds = ({ selection, className, children, sp }) => {
   return (
     <div
       className={classNames("betslip-odds", className, {
-        drifting: priceChangeType === "drifting",
-        shortening: priceChangeType === "shortening",
+        suspended: isSuspended,
+        drifting:
+          priceChangeType === "drifting" && !isSuspended && priseChanged,
+        shortening:
+          priceChangeType === "shortening" && !isSuspended && priseChanged,
       })}
     >
       <Odds selection={odd || previousSelection} />

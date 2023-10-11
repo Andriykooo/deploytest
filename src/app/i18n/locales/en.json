@@ -93,7 +93,7 @@
     "country": "Country",
     "try_for_free": "Try For Free",
     "swifty_gaming_logo": "Swifty Gaming Logo",
-    "accept": "Accept",
+    "accept": "ACCEPT",
     "select_bet": "Select bet",
     "warning": "warning",
     "resend": "Resend",
@@ -156,18 +156,20 @@
     "new_trader_offer": "New Trader Offer",
     "offer_will_expire_in": "This offer will expire in {{ timer }}s",
     "bet_receipt": "BET RECEIPT",
+    "bet_slip_approved": "Bet Slip was Approved",
     "bets_placed_success": "Your bets have been successfully placed",
     "open_bets": "OPEN BETS",
     "click_here_to_deposit": "Click here to deposit",
     "odds_availability_changed_message": "The odds or availability of your selections have changed",
+    "bet_user_rejected_message": "You rejected the trader offer",
     "bet_rejected_message": "Your bet has been rejected by the trader",
-    "price_change_review_message": "Selection prices have changed. Please review!",
     "login_to_place_bet": "LOG IN TO PLACE BET",
     "insufficient_balance_message": "You need {{ balance }} more to place this bet",
     "please_enter_stake": "PLEASE ENTER A STAKE",
     "accept_price_changes": "ACCEPT PRICE CHANGES",
     "please_deposit": "PLEASE DEPOSIT",
     "place": "PLACE",
+    "place_bet": "PLACE BET",
     "pending_trader_review": "PENDING TRADER REVIEW",
     "no_live_events_message": "There are no live events right now. Check back again later.",
     "no_more_events_today_message": "There are no more events for the day!",
@@ -186,8 +188,10 @@
     "sabres": "Sabres",
     "horricane": "Horricane",
     "withdraw": "Withdraw",
-    "account_suspended": "Account suspended",
+    "account_excluded_message": "Your profile is exclude until {{ date }}",
     "account_excluded": "Account excluded",
+    "account_suspended": "Your account is suspended",
+    "account_closed": "Your account is closed",
     "email_already_registered_message": "There is already an account with this email, please login with email.",
     "march": "March",
     "february": "February",
@@ -234,6 +238,7 @@
     "email_address": "Email address",
     "select_link_topic": "Select Link topic",
     "topic": "Topic",
+    "customer_service": "If you believe this is a mistake or have any questions, please don't hesitate to reach out to our Customer Service team at:",
     "complaint": "Complaint",
     "message": "Message",
     "submit": "Submit",
@@ -380,6 +385,7 @@
   },
   "racecard": {
     "win_ew": "Win / Ew",
+    "sp": "SP",
     "1st": "1st",
     "2nd": "2nd",
     "3rd": "3rd",
@@ -465,7 +471,8 @@
     "notifications_for_match_are_on": "Notifications for {{matchName}} are on!",
     "notifications_for_match_are_off": "Notifications for {{matchName}} are off!",
     "view_racecard": "View Racecard",
-    "select_league": "Select League"
+    "select_league": "Select League",
+    "all_sports": "All Sports"
   },
   "suspend_account": {
     "suspend_account_for": "Suspend account for",
@@ -514,6 +521,7 @@
   },
   "header": {
     "register_or_login": "REGISTER OR LOGIN",
-    "balance": "Balance"
+    "balance": "Balance",
+    "please_verify_your_identity": "Please verify your identity"
   }
 }

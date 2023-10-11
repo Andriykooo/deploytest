@@ -6,12 +6,14 @@ export const setUser = (payload) => {
     payload,
   };
 };
+
 export const setData = (payload) => {
   return {
     type: constants.SET_DATA,
     payload,
   };
 };
+
 export const setCountryPhone = (payload) => {
   return {
     type: constants.SET_COUNTRY_PHONE,
@@ -133,6 +135,13 @@ export const removeBetAmount = (payload) => {
 export const setReturnValue = (payload) => {
   return {
     type: constants.SET_RETURN_AMOUNT,
+    payload,
+  };
+};
+
+export const setLogos = (payload) => {
+  return {
+    type: constants.SET_LOGOS,
     payload,
   };
 };
@@ -333,6 +342,13 @@ export const setPromo = (payload) => {
   };
 };
 
+export const setPriceIsChanged = (payload) => {
+  return {
+    type: constants.SET_PRICE_IS_CHANGED,
+    payload,
+  };
+};
+
 export const destroySession = (payload) => {
   return {
     type: constants.DESTROY_SESSION,
@@ -350,6 +366,20 @@ export const setForgotPassword = (payload) => {
 export const setBetSlipResponse = (payload) => {
   return {
     type: constants.SET_BETSLIP_RESPONSE,
+    payload,
+  };
+};
+
+export const setTooltip = (payload) => {
+  return {
+    type: constants.SET_TOOLTIP,
+    payload,
+  };
+};
+
+export const setIsVerifyMessage = (payload) => {
+  return {
+    type: constants.SET_IS_VERIFY_MESSAGE,
     payload,
   };
 };

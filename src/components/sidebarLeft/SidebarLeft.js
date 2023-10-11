@@ -21,13 +21,14 @@ export const SidebarLeft = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { pathname } = useClientPathname();
-  const { t } = useClientTranslation('common');
+  const { t } = useClientTranslation("common");
 
   const loggedUser = useSelector((state) => state.loggedUser);
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
   const isTablet = useSelector((state) => state.isTablet);
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
+  const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
 
   const chatIsActive =
     getLocalStorageItem("access_token") &&
@@ -89,8 +90,14 @@ export const SidebarLeft = () => {
         }, 2000);
       }}
     >
-      <SidebarProfile isOpen={sidebarLeft.isActive} chatIsActive={chatIsActive}>
-        <Search handleSearch={handleSearch} />
+      <SidebarProfile
+        isOpen={sidebarLeft.isActive}
+        chatIsActive={chatIsActive}
+        noVerified={isVerifyMessage}
+      >
+        <div>
+          <Search handleSearch={handleSearch} />
+        </div>
         {fileteredData?.length > 0 ? (
           fileteredData?.map((item) => {
             return (
@@ -107,6 +114,7 @@ export const SidebarLeft = () => {
                     <Image
                       alt="img-minisidebar"
                       src={item?.icon}
+                      style={{ color: "#516ae9" }}
                       className="sports-icon-miniSidebar"
                       height={20}
                       width={20}
@@ -124,7 +132,7 @@ export const SidebarLeft = () => {
             );
           })
         ) : (
-          <MenuBarEmpty message={t("sport_not_found")}/>
+          <MenuBarEmpty message={t("sport_not_found")} />
         )}
       </SidebarProfile>
       {isHovered && !isTablet && (

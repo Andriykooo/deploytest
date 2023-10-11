@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectBet } from "../../store/actions";
 import { InfoInformationIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import CombinationInfo from "@/components/modal/CombinationInfo";
 import { useClientTranslation } from "@/app/i18n/client";
+import { Checkbox } from "@mui/material";
+import classNames from "classnames";
 
 const prohibitedCharacters = ["e", "+", " "];
 
@@ -12,10 +14,14 @@ export const SelectOfMultipleBets = ({ row }) => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const userSelectedBets = useSelector((state) => state.selectedBets);
+
   const [input, setInput] = useState(row.stake);
   const [rowType, setRowType] = useState();
-  const debouncedValue = useDebounce(input, 500);
   const [showModal, setShowModal] = useState(false);
+  const [isEW, setIsEW] = useState(false);
+
+  const allowEachWay = useMemo(() => row.each_way, []);
+  const debouncedValue = useDebounce(input, 500);
 
   const hanldeChangeInput = (e, type) => {
     const nativeIventData = e.nativeEvent.data || "";
@@ -36,6 +42,19 @@ export const SelectOfMultipleBets = ({ row }) => {
     setRowType(type);
   };
 
+  const handleEw = () => {
+    let tmp = { ...userSelectedBets };
+    tmp.stakes.forEach((element) => {
+      if (element.type === row.type) {
+        element.each_way = !isEW;
+      }
+    });
+
+    tmp.action = "check";
+    setIsEW(!isEW);
+    dispatch(setSelectBet(tmp));
+  };
+
   const handlerSetMultipleStake = () => {
     const temp = { ...userSelectedBets };
 
@@ -45,11 +64,21 @@ export const SelectOfMultipleBets = ({ row }) => {
 
     if (existStake) {
       existStake.stake = input;
+
+      if (allowEachWay) {
+        existStake.each_way = isEW;
+      }
     } else {
-      temp.stakes.push({
+      const newStake = {
         type: rowType,
         stake: input,
-      });
+      };
+
+      if (allowEachWay) {
+        newStake.each_way = isEW;
+      }
+
+      temp.stakes.push(newStake);
     }
 
     dispatch(setSelectBet(temp));
@@ -81,9 +110,9 @@ export const SelectOfMultipleBets = ({ row }) => {
   return (
     <>
       <div className="selected-bet-container containerOfMultiBets">
-        <div className="selected-bet-title selectMultipleBets">
+        <div className={classNames("selected-bet-title selectMultipleBets", { eachWay: allowEachWay })}>
           <div className="ContainerOfMultipleBets">
-            <div onClick={() => setShowModal((prev) => !prev)}>
+            <div onClick={() => setShowModal((prev) => !prev)} className="infoIcon">
               <InfoInformationIcon />
             </div>
             <span className="selected-market-selection"></span>
@@ -91,7 +120,7 @@ export const SelectOfMultipleBets = ({ row }) => {
             <span>{row?.name || ""}</span>
           </div>
 
-          <div className="selected-bet-body ps-2 pe-1 ">
+          <div className="selected-bet-body">
             <div className="bet-amount-container betAmountMultiBets">
               <input
                 placeholder="0.00"
@@ -101,6 +130,24 @@ export const SelectOfMultipleBets = ({ row }) => {
                 onChange={(e) => hanldeChangeInput(e, row.type)}
               />
               <div className="betslip-odds">{returnAmountFormatted}</div>
+              {allowEachWay && (
+                <div className="betslip-odds rounded-end-1">
+                  <span className="me-1">{t("ew")}</span>
+                  <Checkbox
+                    onChange={handleEw}
+                    sx={{
+                      padding: 0,
+                      color: "#FFFFFF",
+                      "&.Mui-checked": {
+                        color: "#BC9239",
+                      },
+                      "& .MuiSvgIcon-root": {
+                        fontSize: 16,
+                      },
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <div className="slip-amount">
               <span className="styleOfReturnValues styleOfReturnedValuesInline">

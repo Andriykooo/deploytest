@@ -5,6 +5,7 @@ import { ArrowIcon } from "../../utils/icons";
 import { MatchOdds } from "../matches/MatchOdds";
 import { capitalize } from "@mui/material";
 import { useClientTranslation } from "@/app/i18n/client";
+import { Runner } from "./Runner";
 
 export const RacingItem = ({ data, slug }) => {
   const { t } = useClientTranslation(["sports"]);
@@ -34,10 +35,6 @@ export const RacingItem = ({ data, slug }) => {
               new Array(6 - data.selections.length).fill("")
             )
         )?.map((selection, index) => {
-          if (selection?.odd) {
-            selection.odd = selection?.odds;
-          }
-
           return (
             <div
               className="events-row-container"
@@ -51,20 +48,16 @@ export const RacingItem = ({ data, slug }) => {
                         src={selection.silk_image}
                         alt="slik"
                         loading="lazy"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
                         quality={50}
                         height={14}
                         width={18}
                       />
                     )}
                   </div>
-                  <div className="text-of-horse">
-                    <div>
-                      <div className="selection-name">{selection.name}</div>
-                      <div className="selection-description">
-                        {selection.description}
-                      </div>
-                    </div>
-                  </div>
+                  <Runner data={selection} className="racing-item-runner" />
                   {selection && (
                     <div className="odds-of-horse">
                       <MatchOdds selection={selection} />

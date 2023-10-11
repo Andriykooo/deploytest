@@ -31,27 +31,25 @@
   width: 56px;
   height: 56px;
   border-radius: 10px;
-  background-color: var(--global-color-secondary);
-  color: var(--global-color-text-primary);
+  background-color: var(--global-color-buttons-background-disabled);
+  color: var(--global-color-buttons-text-disabled);
   padding: 0;
   font-size: 14px;
   font-weight: 400;
 }
 
 .active-amount {
-  background: linear-gradient(0deg, #bc9239, #bc9239),
-    linear-gradient(186.6deg,
-      rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%);
+  background: var(--global-color-buttons-background);
+  color: var(--global-color-buttons-text);
 }
 
 .select-amount-submit {
   width: 100%;
   border-radius: 10px;
   height: 48px;
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-buttons-background-disabled);
   margin-top: 40px;
-  color: #bcbfc2;
+  color: var(--global-color-buttons-text-disabled);
   font-weight: 600;
   font-size: 16px;
 }
@@ -61,11 +59,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, #bc9239, #bc9239),
-    linear-gradient(186.6deg,
-      rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-buttons-background);
+  color: var(--global-color-buttons-text);
 }
 
 @media screen and (max-width: 1024px) {

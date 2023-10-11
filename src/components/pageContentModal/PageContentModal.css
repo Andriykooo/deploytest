@@ -11,7 +11,7 @@
   position: absolute;
   top: 60px;
   left: 0;
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   z-index: 1000;
   overflow-y: scroll;
   padding-right: 0;

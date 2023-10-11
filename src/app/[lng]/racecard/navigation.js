@@ -4,7 +4,6 @@ import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 import { SelectButtons } from "@/components/selectButtons/SelectsButtons";
 import { setRaceCard } from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
-import { capitalize } from "@mui/material";
 import moment from "moment";
 import Image from "next/image";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
@@ -19,7 +18,7 @@ import { EventTime } from "@/components/EventTime/EventTime";
 import { useClientTranslation } from "@/app/i18n/client";
 
 export const RacecardNavigation = ({ children }) => {
-  const { t } = useClientTranslation("common")
+  const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
 
   const horseracingMeetingOptions = [
@@ -74,14 +73,14 @@ export const RacecardNavigation = ({ children }) => {
 
   const filterByTime = (time) => {
     router.push(
-      `/racecard/${params.slug}/${params.venue.toLowerCase()}?id=${time.event_id
+      `/racecard/${params.slug}/${params.venue.toLowerCase()}?id=${
+        time.event_id
       }&filter=${filter}`
     );
   };
 
   useEffect(() => {
     setIsLoading(true);
-
     apiServices
       .get(apiUrl.GET_VENUE_EVENTS, {
         value: decodeURI(params.venue),
@@ -102,8 +101,7 @@ export const RacecardNavigation = ({ children }) => {
         <div className="sport-competitions-head">
           <GoBackButton link="/sport/horseracing" />
           <div className="race-date">
-            {capitalize(filter)}{" "}
-            {moment(event?.event_start_time).format("D MMM, HH:mm")}
+            {filter} {moment(event?.event_start_time).format("D MMM, HH:mm")}
           </div>
           {/* todo: This can be hidden for now until we get the streams added. */}
           {/* <div className="stream-container d-flex align-items-center">

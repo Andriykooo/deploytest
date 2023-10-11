@@ -3,6 +3,11 @@
   min-height: calc(100vh - 74px);
 }
 
+.kyc-status {
+  margin-top: 108px;
+  min-height: calc(100vh - 108px);
+}
+
 .base-layout.not-found {
   margin-top: 0;
 }
@@ -11,5 +16,10 @@
   .base-layout {
     margin-top: 56px;
     min-height: calc(100vh - 56px);
+  }
+
+  .kyc-status {
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
   }
 }

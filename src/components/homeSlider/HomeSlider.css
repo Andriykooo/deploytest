@@ -6,7 +6,7 @@
   display: block;
   width: 172px;
   height: 50%;
-  color: var(--global-color-text-primary);
+  color: var(--global-main-color-text);
   top: 14px;
   left: 14px;
   bottom: 0;
@@ -17,7 +17,7 @@
   width: 290px;
 }
 
-.slick-slide>div {
+.slick-slide > div {
   height: 100%;
   width: 100%;
 }
@@ -26,11 +26,6 @@
   width: 100%;
   height: 100%;
   border-radius: 6px;
-}
-
-.numbering img {
-  width: auto;
-  height: 133px;
 }
 
 .gameImageWrapper {
@@ -44,17 +39,18 @@
 }
 
 .btnPrimary.betNowButtonOFSlider {
-  color: white;
-  width: auto;
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
+  width: 100%;
   border-radius: 4px;
   height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-style: normal;
-  line-height: 12px;
+  line-height: 10px;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 10px;
   padding: 0 15px;
   white-space: nowrap;
 }
@@ -99,12 +95,12 @@
 }
 
 .slick-dots li.slick-active button:before {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-carousel-dots-active);
   opacity: 1;
 }
 
 .slick-dots li button:before {
-  color: #d9d9d9;
+  color: var(--global-color-carousel-dots-inactive);
   opacity: 1;
   font-size: 8px;
 }
@@ -149,6 +145,8 @@
 }
 
 .buttonOfSlider {
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
   position: absolute;
   top: 16px;
   right: 16px;
@@ -211,7 +209,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-primary);
   height: 100%;
   display: flex;
   align-items: center;
@@ -234,6 +232,10 @@
 }
 
 @media only screen and (max-width: 480px) {
+  .casinoCarousel .slick-track {
+    display: flex;
+  }
+
   .slick-slider {
     margin-left: 15px;
     margin-right: 15px;

@@ -1,26 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToUpdatedBetslipSelections,
+  setBetSlipResponse,
+  setBetTicker,
   setSelectBet,
-  setUpdatedSelections,
 } from "../../store/actions";
 import { Odds } from "../Odds/Odds";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
+import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
 
-export const MatchOdds = ({ selection, disable }) => {
+export const MatchOdds = ({ selection, disable, children }) => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const updatedSelections = useSelector((state) => state.updatedSelections);
+  const betTicker = useSelector((state) => state.betTicker);
 
   const [selectionRow, setSelectionRow] = useState(selection);
   const [previousSelection, prevoiusSelection] = useState(selection);
-  const [priceChangeType, setPriceChangeType] = useState();
+  const [priceChangeType, setPriceChangeType] = useState("");
+
+  const isSuspended = selectionRow?.trading_status === "suspended";
 
   const betIsOpen =
     selectionRow?.trading_status?.toLowerCase() === "open" ||
@@ -36,14 +40,32 @@ export const MatchOdds = ({ selection, disable }) => {
     if (!betIsOpen) {
       return;
     }
+
     const bet_id = e.target.dataset.id;
     let tmp = { ...selectedPlayerBets };
+
+    if (betTicker?.status) {
+      dispatch(
+        setBetTicker({
+          status: "",
+          bet_referral_id: "",
+        })
+      );
+    }
+
+    if (betTicker?.data?.mode === "pending") {
+      tmp = { bets: [], stakes: [], action: "check" };
+    }
 
     const new_bet = {
       bet_id: selection?.bet_id,
       stake: 0,
       trading_status: selection.trading_status,
     };
+
+    if (selection?.event_id) {
+      new_bet.event_id = selection?.event_id;
+    }
 
     if (selection?.odds_decimal === "SP") {
       new_bet.starting_price = true;
@@ -52,7 +74,7 @@ export const MatchOdds = ({ selection, disable }) => {
     let exist = false;
 
     tmp.bets = tmp.bets.reduce((accum, item) => {
-      if (item.bet_id === bet_id) {
+      if (item.bet_id == bet_id) {
         exist = true;
 
         if (!!item.starting_price !== (selection.odds_decimal === "SP")) {
@@ -65,16 +87,36 @@ export const MatchOdds = ({ selection, disable }) => {
       return [...accum, item];
     }, []);
 
-    if (!exist) tmp.bets.push(new_bet);
+    if (!exist) {
+      tmp.bets.push(new_bet);
+    }
+
+    if (tmp.bets.length === 0) {
+      dispatch(
+        setBetTicker({
+          status: "",
+          bet_referral_id: "",
+        })
+      );
+      dispatch(
+        setBetSlipResponse({
+          singles: [],
+          combinations: [],
+          total_stakes: 0,
+          total_payout: 0,
+        })
+      );
+    }
+
     dispatch(setSelectBet(tmp));
   };
 
   useEffect(() => {
-    if (
-      selectionRow?.odds_decimal !== "SP" &&
-      odd &&
-      +odd?.data?.odds_decimal !== +selectionRow.odds_decimal
-    ) {
+    if (selectionRow?.odds_decimal !== "SP" && odd) {
+      const isBetslipOdd = selectedPlayerBets.bets.some(
+        (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
+      );
+
       const type =
         +odd?.data?.odds_decimal > +selectionRow.odds_decimal
           ? "drifting"
@@ -83,25 +125,13 @@ export const MatchOdds = ({ selection, disable }) => {
       setPriceChangeType(type);
       prevoiusSelection(selectionRow);
       setSelectionRow((prev) => {
-        const updatedSelection = {
+        return {
           ...prev,
-          odds_decimal: odd?.data?.odds_decimal,
-          odds_fractional: odd?.data?.odds_fractional,
-          odds_american: odd?.data?.odds_american,
+          ...odd?.data,
         };
-
-        if (odd?.data?.trading_status) {
-          updatedSelection.trading_status = odd?.data?.trading_status;
-        }
-
-        return updatedSelection;
       });
 
-      if (
-        selectedPlayerBets.bets.find(
-          (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
-        )
-      ) {
+      if (isBetslipOdd) {
         dispatch(
           addToUpdatedBetslipSelections({ ...odd?.data, priceChangeType: type })
         );
@@ -123,43 +153,43 @@ export const MatchOdds = ({ selection, disable }) => {
       })}
       key={selectionRow?.bet_id}
     >
-      <OverlayTrigger
-        placement="bottom"
-        show={!priceChangeType ? false : undefined}
-        overlay={
-          <Tooltip id="tooltip" className="matchOddsTip opacity-100 pe-none">
-            <div className="matchOddsTipContent">
-              <Odds selection={previousSelection} />
-              <Image
-                src={images.arrowRight}
-                height={8}
-                width={10}
-                alt={t("arrow")}
-              />
-              <Odds selection={selectionRow} />
-            </div>
-          </Tooltip>
+      <TooltipWrapper
+        show={priceChangeType && !isSuspended}
+        message={
+          <div className="matchOddsTipContent">
+            <Odds selection={previousSelection} />
+            <Image
+              src={images.arrowRight}
+              height={8}
+              width={10}
+              alt={t("arrow")}
+            />
+            <Odds selection={selectionRow} />
+          </div>
         }
       >
         <div
           className={classNames("matchOdds", {
-            selectionPriceBoost: selection?.price_boost,
-            styleOfSelectedOdd: isSelected,
-            suspended: selectionRow?.trading_status === "suspended",
-            drifting: priceChangeType === "drifting",
-            shortening: priceChangeType === "shortening",
+            selectionPriceBoost: selection?.price_boost && !isSuspended,
+            styleOfSelectedOdd: isSelected && !isSuspended,
+            suspended: isSuspended,
+            drifting: priceChangeType === "drifting" && !isSuspended,
+            shortening: priceChangeType === "shortening" && !isSuspended,
             driftingAnimation:
               odd?.data?.odds_decimal === selectionRow.odds_decimal &&
-              priceChangeType === "drifting",
+              priceChangeType === "drifting" &&
+              !isSuspended,
             shorteningAnimation:
               odd?.data?.odds_decimal === selectionRow.odds_decimal &&
-              priceChangeType === "shortening",
+              priceChangeType === "shortening" &&
+              !isSuspended,
           })}
           data-value={selectionRow?.odd ? selectionRow?.odd : 1}
           id={"bet_odds_" + selectionRow?.bet_id}
           data-id={selectionRow?.bet_id}
           onClick={handlerOnClick}
         >
+          {children}
           <Odds
             selection={selection?.price_boost ? priceBoost : selectionRow}
           />
@@ -180,7 +210,7 @@ export const MatchOdds = ({ selection, disable }) => {
               </svg>
             )}
         </div>
-      </OverlayTrigger>
+      </TooltipWrapper>
     </div>
   );
 };

@@ -7,19 +7,23 @@ import { v4 as uuidv4 } from "uuid";
 
 export const SportsWidget = ({ data }) => {
   useEffect(() => {
-    data.sports.forEach((sport) => {
-      gamingSocket.emit("subscribe_sport", {
-        value: sport.slug,
-      });
-    });
-
-    return () => {
+    if (data?.sports) {
       data.sports.forEach((sport) => {
-        gamingSocket.emit("unsubscribe_sport", {
+        gamingSocket.emit("subscribe_sport", {
           value: sport.slug,
-          action_id: uuidv4(),
         });
       });
+    }
+
+    return () => {
+      if (data?.sports) {
+        data.sports.forEach((sport) => {
+          gamingSocket.emit("unsubscribe_sport", {
+            value: sport.slug,
+            action_id: uuidv4(),
+          });
+        });
+      }
     };
   }, []);
 

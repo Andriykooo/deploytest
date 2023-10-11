@@ -10,7 +10,7 @@
   height: 36px;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 4px;
   border: 1px solid transparent;
   padding-left: 16px;
@@ -19,7 +19,7 @@
 }
 
 .preferencesDropdown-desktop .preferencesDropdown-item.selectedOdd {
-  border-color: var(--global-color-text-secondary);
+  border-color: var(--global-color-primary);
 }
 
 .preferencesDropdown-desktop .preferencesDropdown-item .ddText {
@@ -55,7 +55,7 @@
 .preferencesModalMobile-item {
   margin: 0;
   height: 48px;
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 8px;
   margin-bottom: 16px;
 }

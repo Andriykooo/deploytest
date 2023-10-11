@@ -1,7 +1,5 @@
-import Image from "next/image";
 import { useSelector } from "react-redux";
-import { SlipIcon } from "../../../utils/icons";
-import { images } from "../../../utils/imagesConstant";
+import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import Link from "next/link";
 import { Chat } from "@/components/chat/Chat";
 import { getLocalStorageItem } from "@/utils/localStorage";
@@ -10,7 +8,6 @@ import { useClientTranslation } from "@/app/i18n/client";
 export const MobileLoggedUser = ({ showBetSlip }) => {
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const user = useSelector((state) => state.loggedUser);
-  const isMobile = useSelector((state) => state.setMobile);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency.abbreviation;
   const { t } = useClientTranslation("header");
@@ -26,14 +23,7 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
       <div className="d-flex align-items-center justify-content-between w-100">
         <div className="d-flex">
           <Link href="/profile">
-            <Image
-              src={images.profile}
-              alt="Profile"
-              className="profileImage"
-              height={32}
-              width={32}
-              priority
-            />
+            <ProfileIcon />
           </Link>
           {!!betslipResponse?.singles?.length && showBetSlip && (
             <div
@@ -48,9 +38,9 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
                       ".bet-slip-container"
                     ).style.display = "none";
                   } else {
-                      document.querySelector(
-                        ".bet-slip-container"
-                      ).style.display = "block";
+                    document.querySelector(
+                      ".bet-slip-container"
+                    ).style.display = "block";
                   }
                 }
               }}

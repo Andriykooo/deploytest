@@ -4,8 +4,8 @@
   align-items: center;
   width: 100%;
   text-indent: unset;
-  background-color: var(--global-color-gold-button) !important;
-  color: white !important;
+  background-color: var(--global-color-buttons-background) !important;
+  color: var(--global-color-buttons-text) !important;
 }
 
 .closeIconSus {
@@ -17,7 +17,7 @@
   top: 2rem;
 }
 .activeSuspend {
-  background: var(--global-color-button-primary);
+  background: var(--global-color-linear-primary);
   color: white;
 }
 
@@ -25,7 +25,7 @@
   position: absolute;
   top: 55px;
   left: -32px;
-  background-color: var(--global-color-shade10);
+  background-color: var(--global-color-background-secondary);
   padding: 1.5rem;
   border-radius: 8px;
   z-index: 1000;

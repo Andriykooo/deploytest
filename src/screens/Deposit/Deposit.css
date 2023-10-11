@@ -7,7 +7,7 @@
   margin-left: 16px;
 }
 .setValue {
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 10px;
   color: #bcbfc2;
   border-color: transparent;
@@ -15,7 +15,7 @@
   padding: 12px !important;
 }
 .setAmount {
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 10px;
   border-color: transparent;
   height: 50px;
@@ -195,11 +195,11 @@
   align-items: center;
 }
 .clickedSum {
-  background: var(--global-color-tertiary) !important;
+  background: var(--global-color-primary) !important;
 }
 .btnPosition {
   bottom: 77px;
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 10px;
   color: #bcbfc2;
   border-color: transparent;

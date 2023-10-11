@@ -1,24 +1,13 @@
-import Image from "next/image";
-import { images } from "../../utils/imagesConstant";
+import { CloseMenu, BurgerMenu } from "@/utils/icons";
 
 export const MenuIcon = ({ swiftyMenu, setSwiftyMenu }) => {
   return swiftyMenu ? (
-    <Image
-      src={images.closeIcon}
+    <CloseMenu
       onClick={() => setSwiftyMenu(!swiftyMenu)}
-      alt=""
-      height={"30"}
-      width={"30"}
-      className="header-icon"
     />
   ) : (
-    <Image
-      src={images.menuIcon}
+    <BurgerMenu
       onClick={() => setSwiftyMenu(!swiftyMenu)}
-      alt=""
-      height={"30"}
-      width={"30"}
-      className="header-icon"
     />
   );
 };

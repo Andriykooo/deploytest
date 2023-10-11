@@ -4,6 +4,7 @@ import { Button } from "../button/Button";
 import { images } from "@/utils/imagesConstant";
 import { setAlertModal } from "@/store/actions";
 import { useClientTranslation } from "@/app/i18n/client";
+import "./AlertModal.css";
 
 export const AlertModal = () => {
   const { t } = useClientTranslation("common");
@@ -21,30 +22,26 @@ export const AlertModal = () => {
       aria-hidden="true"
       style={{ display: "block" }}
     >
-      <div
-        className={
-          isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog  top-50"
-        }
-      >
-        <div className="modal-content modalCenterContent justify-content-between">
-          <div className="d-flex align-items-center flex-column">
-            <Image
-              src={images.gamingReminderLogo}
-              alt="Reminder"
-              className={"gaming-reminder-logo"}
-            />
-            <p className=" depositModalLimitReminder">{alertModal?.title}</p>
-            <p className="text-light">{alertModal?.message}</p>
-          </div>
-          <div className="d-flex align-items-center flex-column mt-5 w-100">
-            <Button
-              text={t("ok_i_get_it")}
-              className={"gaming-reminder-accept-button"}
-              onClick={() => {
-                dispatch(setAlertModal(null));
-              }}
-            />
-          </div>
+      <div className="modal-content modalCenterContent alert-modal">
+        <div className="d-flex align-items-center flex-column">
+          <Image
+            src={images.gamingReminderLogo}
+            alt="Reminder"
+            className={"gaming-reminder-logo"}
+            height={56}
+            width={56}
+          />
+          <p className="depositModalLimitReminder">{alertModal?.title}</p>
+          <p className="text-light alert-modal-description">{alertModal?.message}</p>
+        </div>
+        <div className="d-flex align-items-center flex-column mt-5 w-100">
+          <Button
+            text={t("ok_i_get_it")}
+            className={"gaming-reminder-accept-button"}
+            onClick={() => {
+              dispatch(setAlertModal(null));
+            }}
+          />
         </div>
       </div>
     </div>

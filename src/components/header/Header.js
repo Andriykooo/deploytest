@@ -1,45 +1,38 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActivePage, setHeaderData } from "../../store/actions";
+import {
+  setActivePage,
+  setHeaderData,
+  setIsVerifyMessage,
+} from "../../store/actions";
 import FooterMenu from "../footerMenu/FooterMenu";
 import { DesktopHeader } from "./DesktopHeader";
 import { useParams, useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
-import { XIcon } from "@/utils/icons";
+import { CloseIcon, XIcon } from "@/utils/icons";
 import Cookies from "js-cookie";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import "../sidebar/Sidebar.css";
 import "./Header.css";
+import classNames from "classnames";
+import Link from "next/link";
+import { useClientTranslation } from "@/app/i18n/client";
 
-const modalList = [
-  "/privacy",
-  "/verification",
-  "/kyc",
-  "/login",
-  "/terms",
-  "/affiliates",
-  "/sign_up",
-  "/sign_up_with_phone",
-  "/forgot_password",
-  "/verify_email",
-  "/verify_phone",
-  "/email_sent",
-  "/finish_account_setup",
-  "/profile/*",
-];
-
-function Header() {
+function Header({ isModal }) {
   const dispatch = useDispatch();
-  const {pathname} = useClientPathname();
+  const { pathname } = useClientPathname();
+  const { t } = useClientTranslation("header");
   const router = useRouter();
   const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);
   const activePage = useSelector((state) => state.activePage);
   const headerData = useSelector((state) => state.headerData);
+  const loggedUser = useSelector((state) => state.loggedUser);
+  const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
 
   const disableHeader =
     (params?.path &&
@@ -54,7 +47,7 @@ function Header() {
       // find and replace with the correct one
       if (activePage?.path !== pathname) {
         const page = headerData?.find((item) =>
-          pathname === "/" ? item.path === "/home" : item.path === pathname
+          pathname === "/" ? item.path === "/home-page" : item.path === pathname
         );
 
         if (page) {
@@ -79,16 +72,6 @@ function Header() {
     }
   }, [headerData, pathname]);
 
-  const isModal = useMemo(() => {
-    return modalList.some((modalPath) => {
-      if (modalPath.endsWith("/*")) {
-        const prefix = modalPath.slice(0, -2);
-        return pathname.startsWith(prefix);
-      }
-      return pathname === modalPath;
-    });
-  }, [pathname]);
-
   const handleClick = (item) => {
     if (item.type === "casino") {
       return;
@@ -102,13 +85,12 @@ function Header() {
       router.push("/");
     }
 
-    const home = headerData?.find((item) => item.path === "/home");
+    const home = headerData?.find((item) => item.path === "/home-page");
 
     if (home) {
       dispatch(setActivePage(home));
     }
   };
-
   return (
     !disableHeader && (
       <header>
@@ -125,17 +107,28 @@ function Header() {
             </div>
           </nav>
         ) : (
-          <nav className="navigation navbar-expand-lg p-0">
-            <div className="col-12 primary-col">
-              <DesktopHeader
-                data={headerData}
-                onClick={handleClick}
-                handleNavigateHome={handleNavigateHome}
-              />
-              {isMobile && (
-                <FooterMenu data={headerData} onClick={handleClick} />
-              )}
+          <nav
+            className={classNames("navigation navbar-expand-lg p-0", {
+              noVerified: loggedUser && !isModal && isVerifyMessage,
+            })}
+          >
+            <div className="noVerifiedMsg">
+              <Link href="/verification">
+                {t("please_verify_your_identity")}
+              </Link>
+              <div
+                className="close-noVerifiedMsg"
+                onClick={() => dispatch(setIsVerifyMessage(false))}
+              >
+                <CloseIcon width={16} height={16} />
+              </div>
             </div>
+            <DesktopHeader
+              data={headerData}
+              onClick={handleClick}
+              handleNavigateHome={handleNavigateHome}
+            />
+            {isMobile && <FooterMenu data={headerData} onClick={handleClick} />}
           </nav>
         )}
       </header>

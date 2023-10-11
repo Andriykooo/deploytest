@@ -93,7 +93,7 @@
     "country": "Land",
     "try_for_free": "Kostenlos testen",
     "swifty_gaming_logo": "Swifty Gaming Logo",
-    "accept": "Akzeptieren",
+    "accept": "AKZEPTIEREN",
     "select_bet": "Wette auswählen",
     "warning": "Warnung",
     "resend": "Erneut senden",
@@ -156,23 +156,25 @@
     "new_trader_offer": "Neues Händlerangebot",
     "offer_will_expire_in": "Dieses Angebot läuft in {{ timer }}s ab",
     "bet_receipt": "WETTBELEGE",
+    "bet_slip_approved": "Wettschein wurde genehmigt",
     "bets_placed_success": "Ihre Wetten wurden erfolgreich platziert",
     "open_bets": "OFFENE WETTEN",
     "click_here_to_deposit": "Klicken Sie hier, um einzuzahlen",
     "odds_availability_changed_message": "Die Quoten oder die Verfügbarkeit Ihrer Auswahl haben sich geändert",
+    "bet_user_rejected_message": "Sie haben das Händlerangebot abgelehnt",
     "bet_rejected_message": "Ihre Wette wurde vom Händler abgelehnt",
-    "price_change_review_message": "Die Preise für Ihre Auswahlmöglichkeiten haben sich geändert. Bitte überprüfen Sie diese!",
     "login_to_place_bet": "ANMELDEN, UM EINE WETTE ABZUGEBEN",
     "insufficient_balance_message": "Sie benötigen {{ balance }} mehr, um diese Wette abzugeben",
     "please_enter_stake": "BITTE EINSATZ EINGEBEN",
     "accept_price_changes": "PREISÄNDERUNGEN AKZEPTIEREN",
     "please_deposit": "BITTE EINZAHLEN",
     "place": "PLATZIEREN",
+    "place_bet": "WETTEINSATZ FESTLEGEN",
     "pending_trader_review": "AUSSTEHENDE HÄNDLERÜBERPRÜFUNG",
     "no_live_events_message": "Es gibt derzeit keine Live-Veranstaltungen. Bitte kommen Sie später wieder.",
     "no_more_events_today_message": "Es gibt keine weiteren Veranstaltungen für den Tag!",
     "home": "Startseite",
-    "ok_i_get_it": "OK, ICH HABE ES VERSTANDEN",
+    "ok_i_get_it": "Ok, Ich habe es verstanden",
     "app_usage_duration_message": "Sie verwenden die App seit",
     "friendly_reminder": "Hey! Hier ist eine freundliche Erinnerung",
     "event": "Veranstaltung",
@@ -186,8 +188,10 @@
     "sabres": "Sabres",
     "horricane": "Horricane",
     "withdraw": "Auszahlen",
-    "account_suspended": "Konto gesperrt",
+    "account_excluded_message": "Ihr Profil ist ausgeschlossen bis {{ date }}",
     "account_excluded": "Konto ausgeschlossen",
+    "account_suspended": "Ihr Account wurde gesperrt",
+    "account_closed": "Ihr Konto ist geschlossen",
     "email_already_registered_message": "Es gibt bereits ein Konto mit dieser E-Mail. Bitte melden Sie sich mit Ihrer E-Mail an.",
     "march": "März",
     "february": "Februar",
@@ -234,6 +238,7 @@
     "email_address": "E-Mail-Adresse",
     "select_link_topic": "Thema auswählen",
     "topic": "Thema",
+    "customer_service": "Wenn Sie glauben, dass es sich hierbei um einen Fehler handelt, oder Fragen haben, wenden Sie sich bitte an unser Kundendienstteam unter:",
     "complaint": "Beschwerde",
     "message": "Nachricht",
     "submit": "Senden",
@@ -380,6 +385,7 @@
   },
   "racecard": {
     "win_ew": "Gewinn / EW",
+    "sp": "SP",
     "1st": "1.",
     "2nd": "2.",
     "3rd": "3.",
@@ -465,7 +471,8 @@
     "notifications_for_match_are_on": "Benachrichtigungen für {{matchName}} sind aktiviert!",
     "notifications_for_match_are_off": "Benachrichtigungen für {{matchName}} sind deaktiviert!",
     "view_racecard": "Rennkarte anzeigen",
-    "select_league": "Liga auswählen"
+    "select_league": "Liga auswählen",
+    "all_sports": "Alle Sportarten"
   },
   "suspend_account": {
     "suspend_account_for": "Konto für sperren",
@@ -514,6 +521,7 @@
   },
   "header": {
     "register_or_login": "REGISTRIEREN ODER ANMELDEN",
-    "balance": "Gleichgewicht"
+    "balance": "Gleichgewicht",
+    "please_verify_your_identity": "Please verify your identity"
   }
 }

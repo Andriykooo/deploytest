@@ -18,7 +18,7 @@
 .active-market {
   height: 4px;
   width: 100%;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
 }
 
 .market-type {
@@ -27,7 +27,7 @@
 
 .MuiTabs-indicator {
   height: 4px !important;
-  background: var(--global-color-button-primary) !important;
+  background: var(--global-color-linear-primary) !important;
 }
 
 .Mui-selected {
@@ -56,7 +56,7 @@
   justify-content: center;
 }
 
-.sport-container  .empty-state {
+.sport-container .empty-state {
   min-height: 400px !important;
 }
 
@@ -72,7 +72,7 @@
   justify-content: space-between;
   cursor: pointer;
   color: var(--global-color-text-primary);
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border-radius: 4px;
   font-style: normal;
   font-weight: 400;
@@ -118,7 +118,7 @@
   font-weight: 400;
   font-size: 14px;
   border-bottom: 1px solid #414851;
-  background: var(--global-color-tertiary);
+  background: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
 
@@ -167,7 +167,7 @@
   width: 100%;
   max-height: 154px;
   overflow: auto;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -183,7 +183,7 @@
 }
 
 .MuiOutlinedInput-root {
-  background: var(--global-color-shade1) !important;
+  background: var(--global-color-background-quinary) !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -220,7 +220,7 @@ div .MuiAutocomplete-popper {
 }
 
 .sport-competitions {
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   border-radius: 6px;
   font-style: normal;
   font-weight: 700;
@@ -234,7 +234,7 @@ div .MuiAutocomplete-popper {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-bottom: 1px solid var(--global-color-shade2);
+  border-bottom: 1px solid var(--global-color-background-primary);
   padding: 10px 12px;
 }
 
@@ -273,7 +273,7 @@ div .MuiAutocomplete-popper {
 }
 
 .competition-option:hover {
-  background: var(--global-color-tertiary);
+  background: var(--global-color-primary);
 }
 
 .closeSidebarButton {
@@ -283,11 +283,10 @@ div .MuiAutocomplete-popper {
   left: 100%;
   width: 20px;
   height: 42px;
-  background: var(--global-color-shade2);
+  background: var(--global-main-color-background);
   border-radius: 0px 5px 5px 0px;
   transform: translateY(-100%);
   padding: 0;
-  box-shadow: 5px 5px 25px 1px black;
 }
 
 .closeSidebarButton2 {
@@ -298,16 +297,16 @@ div .MuiAutocomplete-popper {
   margin-left: 4px;
 }
 
-.closeSidebarButton img {
+.closeSidebarButton .arrowImgSidebar {
   transform: rotate(270deg);
 }
 
-.openSidebarButtonn img {
+.openSidebarButtonn .arrowImgSidebar {
   transform: rotate(90deg);
 }
 
 .valueOfBets:hover {
-  background: var(--global-color-tertiary);
+  background: var(--global-color-primary);
   color: var(--global-color-text-primary);
   cursor: pointer;
 }
@@ -325,12 +324,12 @@ div .MuiAutocomplete-popper {
   }
 
   .competitions-select_name {
-    background-color: var(--global-color-shade10);
-    border-top: 1px solid var(--global-color-shade1);
+    background-color: var(--global-color-background-secondary);
+    border-top: 1px solid var(--global-color-background-quinary);
   }
 
   .competitions-select_title {
-    background-color: var(--global-color-shade5);
+    background-color: var(--global-color-background-tertiary);
     border-top: 0;
   }
 }
@@ -373,7 +372,7 @@ div .MuiAutocomplete-popper {
 
   .horse-sport-competitions {
     padding: 16px;
-    background-color: var(--global-color-shade5);
+    background-color: var(--global-color-background-tertiary);
 
   }
 
@@ -467,11 +466,11 @@ div .MuiAutocomplete-popper {
 }
 
 .MuiAutocomplete-option[aria-selected="true"] {
-  background-color: var(--global-color-secondary) !important;
+  background-color: var(--global-color-background-quaternary) !important;
 }
 
 .MuiAutocomplete-paper {
-  background-color: var(--global-color-shade1) !important;
+  background-color: var(--global-color-background-quinary) !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -493,11 +492,11 @@ div .MuiAutocomplete-popper {
 }
 
 .MuiAutocomplete-listbox :not(:last-child) {
-  border-bottom: 1px solid var(--global-color-shade2);
+  border-bottom: 1px solid var(--global-color-background-primary);
 }
 
 .MuiAutocomplete-paper li:hover {
-  background-color: var(--global-color-tertiary) !important;
+  background-color: var(--global-color-primary) !important;
 }
 
 .MuiOutlinedInput-notchedOutline {
@@ -565,7 +564,7 @@ div .MuiAutocomplete-popper {
 
 @media screen and (max-width: 1024px) {
   .MuiOutlinedInput-root {
-    background-color: var(--global-color-secondary) !important;
+    background-color: var(--global-color-background-quaternary) !important;
   }
 
   .MuiAutocomplete-root {

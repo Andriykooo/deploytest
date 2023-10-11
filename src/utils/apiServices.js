@@ -34,19 +34,23 @@ const checkError = (code, message) => {
     case 1063:
       break;
 
-    // Excluded Account
-    case 1062:
-      break;
-
     // Suspended Account
     case 487:
+      break;
+
+    // Suspended Closed
+    case 2280:
+      break;
+
+    // Excluded Account
+    case 1062:
       break;
 
     // Account Exists
     case 1026:
       if (typeof window !== "undefined") {
         alertToast({
-          message: i18next.t("email_already_registered_message")
+          message: i18next.t("email_already_registered_message"),
         });
       }
       break;
@@ -98,6 +102,8 @@ const handleError = (error, showError = true) => {
 const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
+    // Get browser timezone offset in minutes
+    "browser-timezone-offset": new Date().getTimezoneOffset(),
     Accept: "application/json",
     language: "en",
     platform: "web",

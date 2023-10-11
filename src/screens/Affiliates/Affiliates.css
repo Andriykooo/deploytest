@@ -1,5 +1,5 @@
 .affiliates {
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   padding-bottom: 50px;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .customerWelcomeGet .goldGet {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-primary);
   font-size: 100px;
   line-height: 75px;
   font-weight: 600;
@@ -65,7 +65,7 @@
 }
 
 .customerWelcomePlus .goldPlus {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-primary);
   font-size: 44px;
   font-weight: 600;
   line-height: 18px;
@@ -122,7 +122,7 @@
 .infoForCostumers>p {
   font-size: 14px;
   line-height: 16px;
-  color: var(--global-color-text-gray);
+  color: var(--global-color-text-secondary);
   margin: 0;
 }
 
@@ -366,7 +366,7 @@ p {
   }
 
   .affiliatesFooter>footer {
-    background-color: var(--global-color-shade2);
+    background-color: var(--global-color-background-primary);
   }
 }
 

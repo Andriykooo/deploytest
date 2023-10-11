@@ -50,7 +50,7 @@
 
 .previousSvg,
 .nextSvg {
-  background: #c2ae82;
+  background: var(--global-main-color-icon-background);
   border-radius: 50%;
   width: 27px;
   height: 27px;

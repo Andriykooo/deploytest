@@ -8,7 +8,7 @@ import { Loader } from "../../components/loaders/Loader";
 import { useClientTranslation } from "@/app/i18n/client";
 
 function FinishAccountSetup() {
-  const { t } = useClientTranslation(["finish_account_setup", "common"]);
+  const { t } = useClientTranslation(["finish_account_setup", "common", "sign_up"]);
   const [showInformation, setShowInformation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -40,7 +40,7 @@ function FinishAccountSetup() {
     return () => setIsLoading(false);
   }, []);
 
-  if (isLoading)
+  if (isLoading || !onBoarding)
     return (
       <div className="finishAccountLoader">
         <Loader />
@@ -50,26 +50,26 @@ function FinishAccountSetup() {
   return (
     <div className="backgroundImage finishAccountSetup">
       <div className=" loginForm px-4">
-        <p className="logInTitle">{t("finish_account_setup")}</p>
+        <p className="logInTitle">{t("finish_account_setup:finish_account_setup")}</p>
         <p className="codeSent codeSend2">
-          {t("country_laws_require_details")}
+          {t("finish_account_setup:country_laws_require_details")}
           <br />
           <br />
-          {t("activate_account_deposit_funds_instructions")} <br />
+          {t("finish_account_setup:activate_account_deposit_funds_instructions")} <br />
           <br />
-          {`1. ${t("upload_identity_document")}`} <br />
-          {`2. ${t("selfie_verification")}`} <br />
-          {`3. ${t("upload_proof_of_address")}`}
+          {`1. ${t("finish_account_setup:upload_identity_document")}`} <br />
+          {`2. ${t("finish_account_setup:selfie_verification")}`} <br />
+          {`3. ${t("finish_account_setup:upload_proof_of_address")}`}
         </p>
         <div className="loginForm d-grid">
           <Button
             className="buttontoresendcode finishSetupInfo"
             onClick={showInfo}
-            text={t("more_information_required_question")}
+            text={t("sign_up:more_information_required_question")}
           />
           {showInformation ? (
             <p className="codeSent codeSend3">
-              {t("swifty_app_identity_confirmation")}
+              {t("finish_account_setup:swifty_app_identity_confirmation")}
             </p>
           ) : (
             ""

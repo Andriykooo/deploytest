@@ -37,5 +37,5 @@
   background: rgba(14, 183, 236, 0.76);
 }
 .cancel {
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
 }

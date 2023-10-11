@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Line, LineChart, XAxis } from "recharts";
 import { MatchOdds } from "../../components/matches/MatchOdds";
 import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { formatOdd } from "@/utils/global";
-import { setSelectBet } from "@/store/actions";
+import {
+  setBetSlipResponse,
+  setBetTicker,
+  setSelectBet,
+} from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
 import { useSearchParams } from "next/navigation";
 import { gamingSocket } from "@/context/socket";
@@ -16,265 +18,16 @@ import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import moment from "moment";
 import { useClientTranslation } from "@/app/i18n/client";
-
-const PriceHistory = ({ item }) => {
-  const user = useSelector((state) => state.loggedUser);
-  const format = user?.user_data?.settings?.odds_format;
-
-  const data = item?.price_history?.slice(-3)?.map((price) => {
-    const odd = formatOdd(price, format);
-
-    return {
-      value: +price?.value,
-      name: odd,
-    };
-  });
-
-  return (
-    <div className="price-history">
-      {item?.price_history && (
-        <LineChart
-          data={data}
-          height={32}
-          width={107}
-          margin={{
-            top: 5,
-            right: 12,
-            left: 12,
-            bottom: -16,
-          }}
-        >
-          <XAxis
-            interval={0}
-            axisLine={false}
-            tickLine={false}
-            dataKey={"name"}
-            tick={{ fill: "#ffffff", fontSize: 8 }}
-          />
-          <Line
-            isAnimationActive={false}
-            type="linear"
-            dataKey="value"
-            stroke="#BC9239"
-            strokeWidth={1}
-            r={4}
-            fill="#BC9239"
-          />
-        </LineChart>
-      )}
-    </div>
-  );
-};
-
-const RacecardTable = ({ headerData, data }) => {
-  const { t } = useClientTranslation("racecard")
-  const gridColumns = headerData.map((item) => item.width).join(" ");
-  const currentTime = useSelector((state) => state.currentTime);
-  const resultedEvents = useSelector((state) => state.resultedEvents);
-  const isResulted = resultedEvents?.includes(data?.event_id) || data?.resulted;
-
-  const activeRunners = [];
-  const nonRunners = [];
-
-  const selections = isResulted
-    ? data.selections.sort((a, b) => {
-        if (!a.finish_num && b.finish_num) {
-          return 1;
-        }
-
-        if (a.finish_num && !b.finish_num) {
-          return -1;
-        }
-
-        if (!a.finish_num && !b.finish_num) {
-          return 0;
-        }
-
-        return a.finish_num - b.finish_num;
-      })
-    : data.selections;
-
-  selections?.forEach((selection) => {
-    if (
-      selection.status === "active" ||
-      selection.status === "jocky_change" ||
-      selection.status === "reserve_runner"
-    ) {
-      activeRunners.push(selection);
-    }
-
-    if (
-      selection.status == "norunner" ||
-      selection.status == "withdrawn" ||
-      selection.status == "vacant_trap"
-    ) {
-      nonRunners.push(selection);
-    }
-  });
-
-  return data ? (
-    <div className="race-table">
-      <div className="race-table-head">
-        <div className="race-table-head-title">{data?.event_venue}</div>
-        <div className="race-table-head-subtitle">
-          <span className="race-table-head-subtitle-event">
-            {data?.event_name}
-          </span>
-          <span className="race-table-head-subtitle-description">
-            {data?.event_description}
-          </span>
-        </div>
-      </div>
-      {isResulted && <div className="race-status">{t("race_result")}</div>}
-      {!isResulted && moment(data.event_start_time).isBefore(currentTime) && (
-        <div className="race-status">{t("race_in_progress")}</div>
-      )}
-      <div className="race-table-head-items-container">
-        <div
-          className="race-table-head-items"
-          style={{
-            gridTemplateColumns: headerData.map((item) => item.width).join(" "),
-          }}
-        >
-          {headerData?.map((item, index) => {
-            return (
-              <div key={index}>
-                {item.renderHead ? item.renderHead(item) : item.head}
-              </div>
-            );
-          })}
-        </div>
-        {activeRunners?.map((selection) => {
-          const innerGridColumns = headerData
-            .filter((item) => selection[item.dataKey])
-            .map((item) => item.width)
-            .join(" ");
-
-          return (
-            <div
-              key={selection.bet_id}
-              className="race-table-row"
-              style={{ gridTemplateColumns: innerGridColumns }}
-            >
-              {headerData.map((headItem, index) => {
-                return selection[headItem.dataKey] ? (
-                  <div
-                    key={index}
-                    className={classNames(
-                      "race-table-row-item",
-                      headItem?.className
-                    )}
-                  >
-                    {headItem?.render(selection)}
-                  </div>
-                ) : null;
-              })}
-            </div>
-          );
-        })}
-        {nonRunners.length > 0 && (
-          <>
-            <div className="race-table-non-runner">{t("non_runner")}</div>
-            {nonRunners?.map((selection) => {
-              return (
-                <div
-                  key={selection.bet_id}
-                  className="race-table-row disabled"
-                  style={{ gridTemplateColumns: gridColumns }}
-                >
-                  {headerData.map((headItem, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={classNames(
-                          "race-table-row-item",
-                          headItem?.className
-                        )}
-                      >
-                        {headItem.render
-                          ? headItem.render(selection)
-                          : selection[headItem.dataKey]}
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </>
-        )}
-      </div>
-    </div>
-  ) : null;
-};
-
-
-const Price = ({ item, place, onClick, disable, eventId }) => {
-  const { t } = useClientTranslation(["racecard", "common"])
-  const selectedPlayerBets = useSelector((state) => state.selectedBets);
-
-  const places = {
-    1: t("1st"),
-    2: t("2nd"),
-    3: t("3rd"),
-    any: t("common:any"),
-  };
-
-  let selectionType;
-  let eventIdInBetslip;
-
-  const selectedItem = selectedPlayerBets.bets.find((element) => {
-    if (!eventIdInBetslip) {
-      eventIdInBetslip = element.event_id;
-    }
-
-    if (element.place === "any") {
-      selectionType = "any";
-      return element.bet_id === item.bet_id && element.place === place;
-    }
-
-    if (element.place === 1 || element.place === 2 || element.place === 3) {
-      selectionType = "place";
-      return element.bet_id === item.bet_id || element.place === place;
-    }
-
-    selectionType = "place";
-    return element.bet_id === item.bet_id;
-  });
-
-  const currentPlaceIsSelected =
-    selectedItem?.place === place && selectedItem?.bet_id !== item.bet_id;
-
-  const currentRunnerIsSelected =
-    selectedItem?.place !== place && selectedItem?.bet_id === item.bet_id;
-
-  const selectionIsAny = selectionType === "place" && place === "any";
-  const selectionsIsNotAny = selectionType === "any" && place !== "any";
-
-  return (
-    <div
-      className={classNames("price", {
-        ["pe-none"]: disable,
-        disable:
-          (eventIdInBetslip ? eventIdInBetslip !== eventId : false) ||
-          (selectionType === "place"
-            ? currentPlaceIsSelected ||
-              currentRunnerIsSelected ||
-              selectionIsAny
-            : selectionsIsNotAny),
-        active:
-          selectedItem?.place === place && selectedItem?.bet_id === item.bet_id,
-      })}
-      onClick={() => onClick(item, place)}
-    >
-      {places[place]}
-    </div>
-  );
-};
+import { Runner } from "@/components/racingWidget/Runner";
+import { PriceHistory } from "./PriceHistory";
+import { Place } from "./Place";
+import { RacecardTable } from "./RaceCardTable";
 
 export const Racecard = () => {
-  const { t } = useClientTranslation(["racecard", "common"])
+  const { t } = useClientTranslation(["racecard", "common"]);
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
+  const betTicker = useSelector((state) => state.betTicker);
 
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
@@ -292,12 +45,24 @@ export const Racecard = () => {
     ) || raceCard?.events[0];
 
   const disablePrice =
-    resultedEvents?.includes(event?.event_id) ||
+    resultedEvents[event?.event_id] ||
     event?.resulted ||
     moment(event?.event_start_time)?.isBefore(currentTime);
 
   const hanldeSelect = (item, place) => {
-    const { tricast, forecast, ...temp } = { ...selectedPlayerBets };
+    const { tricast, forecast, ...selectedBets } = { ...selectedPlayerBets };
+    let temp = { ...selectedBets };
+
+    if (betTicker?.data?.mode === "pending") {
+      temp = { bets: [], stakes: [], action: "check" };
+
+      dispatch(
+        setBetTicker({
+          status: "",
+          bet_referral_id: "",
+        })
+      );
+    }
 
     let exist = false;
     let racingBetsCounter = 0;
@@ -313,6 +78,23 @@ export const Racecard = () => {
         exist = true;
       }
     });
+
+    if (temp.bets.length === 0) {
+      dispatch(
+        setBetTicker({
+          status: "",
+          bet_referral_id: "",
+        })
+      );
+      dispatch(
+        setBetSlipResponse({
+          singles: [],
+          combinations: [],
+          total_stakes: 0,
+          total_payout: 0,
+        })
+      );
+    }
 
     const new_bet = {
       bet_id: item?.bet_id,
@@ -344,7 +126,7 @@ export const Racecard = () => {
       width: "70px",
       render: (item) => {
         return (
-          <Price
+          <Place
             item={item}
             place={1}
             onClick={hanldeSelect}
@@ -360,7 +142,7 @@ export const Racecard = () => {
       width: "70px",
       render: (item) => {
         return (
-          <Price
+          <Place
             item={item}
             place={2}
             onClick={hanldeSelect}
@@ -379,7 +161,7 @@ export const Racecard = () => {
       width: "70px",
       render: (item) => {
         return (
-          <Price
+          <Place
             item={item}
             place={3}
             onClick={hanldeSelect}
@@ -405,18 +187,6 @@ export const Racecard = () => {
           },
         ]
       : []),
-    {
-      head: "#",
-      dataKey: "runner_num",
-      width: "40px",
-      className: "border-end-0",
-      render: (item) => (
-        <div>
-          <div>{item.runner_num}</div>
-          {item.stale_num && <div>({item.stale_num})</div>}
-        </div>
-      ),
-    },
     {
       head: t("silk"),
       dataKey: "silk_image",
@@ -444,9 +214,15 @@ export const Racecard = () => {
       render: (item) => {
         return (
           <div className="runner">
-            <div className="race-table-head-title row-title">{item.name}</div>
-            <div className="race-table-head-subtitle-description">
-              {item.description}
+            <div>
+              <div>{item.runner_num}</div>
+              {item.stale_num && <div>({item.stale_num})</div>}
+            </div>
+            <div className="d-flex align-items-start flex-column">
+              <div className="race-table-head-title row-title">{item.name}</div>
+              <div className="race-table-head-subtitle-description">
+                {item.description}
+              </div>
             </div>
           </div>
         );
@@ -459,7 +235,7 @@ export const Racecard = () => {
       width: "70px",
       render: (item) => {
         return (
-          <Price
+          <Place
             item={item}
             place={"any"}
             onClick={hanldeSelect}
@@ -492,10 +268,11 @@ export const Racecard = () => {
           selections: [
             ...event?.selections,
             {
-              bet_id: id,
+              bet_id: event?.event_id,
               name: t("unnamed_favorite"),
               description: "-",
-              odds_decimal: "SP",
+              odds_decimal: t("sp"),
+              odds_fractional: t("sp"),
               runner_num: "?",
               silk_image: images.unnamedFavorite,
               status: "active",
@@ -524,20 +301,6 @@ export const Racecard = () => {
         ]
       : []),
     {
-      head: "#",
-      dataKey: "runner_num",
-      width: "40px",
-      className: "border-end-0",
-      render: (item) => {
-        return (
-          <div>
-            <div>{item.runner_num}</div>
-            {item.stale_num && <div>({item.stale_num})</div>}
-          </div>
-        );
-      },
-    },
-    {
       head: t("silk"),
       dataKey: "silk_image",
       width: "50px",
@@ -562,14 +325,7 @@ export const Racecard = () => {
       dataKey: "name",
       width: "1fr",
       render: (item) => {
-        return (
-          <div className="runner">
-            <div className="race-table-head-title row-title">{item.name}</div>
-            <div className="race-table-head-subtitle-description">
-              {item.description}
-            </div>
-          </div>
-        );
+        return <Runner data={item} />;
       },
     },
     {
@@ -603,7 +359,7 @@ export const Racecard = () => {
               ["pe-none"]: disablePrice,
             })}
           >
-            <MatchOdds selection={item} disable={disablePrice} />
+            <MatchOdds selection={{ ...item, event_id: event.event_id }} />
           </div>
         );
       },
@@ -625,7 +381,8 @@ export const Racecard = () => {
                     disable={disablePrice}
                     selection={{
                       ...item,
-                      odds_decimal: "SP",
+                      odds_decimal: t("sp"),
+                      odds_fractional: t("sp"),
                     }}
                   />
                 </div>

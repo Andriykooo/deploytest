@@ -32,7 +32,7 @@
   padding-right: 50px;
 }
 .validBtn {
-  background: var(--global-color-button-primary);
+  background: var(--global-color-linear-primary);
   border-radius: 10px;
 }
 
@@ -51,7 +51,7 @@
   margin-bottom: 25px;
   width: 24rem;
   height: 50px;
-  border: 2px solid var(--global-color-secondary);
+  border: 2px solid var(--global-color-background-quaternary);
   box-sizing: border-box;
   border-radius: 10px;
   border-radius: 10px;

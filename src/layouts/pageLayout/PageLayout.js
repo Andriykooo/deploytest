@@ -26,7 +26,7 @@ export const PageLayout = ({ children }) => {
   const params = useParams();
 
   const page = headerData?.find(
-    (page) => page?.path?.substring(1) === (params?.path || "home")
+    (page) => page?.path?.substring(1) === (params?.path || "home-page")
   );
 
   const data = layout?.[page?.slug];

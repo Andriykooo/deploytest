@@ -14,8 +14,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { useEffect, useMemo, useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,7 @@ import {
   setActiveSport,
   setBetTicker,
   setCurrentTime,
+  setIsVerifyMessage,
   setLoggedUser,
   setMobile,
   setOnBoardingData,
@@ -46,6 +47,24 @@ import { getUserApi } from "@/utils/apiQueries";
 import { AlertModal } from "@/components/alertModal/AlertModal";
 import { useClientTranslation } from "@/app/i18n/client";
 import { useClientPathname } from "@/hooks/useClientPathname";
+import { Tooltip } from "@/components/Tooltip/Tooltip";
+
+const modalList = [
+  "/privacy",
+  "/verification",
+  "/kyc",
+  "/login",
+  "/terms",
+  "/affiliates",
+  "/sign_up",
+  "/sign_up_with_phone",
+  "/forgot_password",
+  "/verify_email",
+  "/verify_phone",
+  "/email_sent",
+  "/finish_account_setup",
+  "/profile/*",
+];
 
 const Content = ({ children, className }) => {
   const { t } = useClientTranslation("common");
@@ -55,14 +74,25 @@ const Content = ({ children, className }) => {
   const loggedUser = useSelector((state) => state.loggedUser);
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
+  const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
   const accessToken = getLocalStorageItem("access_token");
 
   const dispatch = useDispatch();
-  const {pathname} = useClientPathname();
+  const { pathname } = useClientPathname();
   const router = useRouter();
   const params = useParams();
 
   const currentPage = header?.find((page) => page.path === pathname);
+
+  const isModal = useMemo(() => {
+    return modalList.some((modalPath) => {
+      if (modalPath.endsWith("/*")) {
+        const prefix = modalPath.slice(0, -2);
+        return pathname.startsWith(prefix);
+      }
+      return pathname === modalPath;
+    });
+  }, [pathname]);
 
   const getSportTypes = () => {
     axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
@@ -145,6 +175,14 @@ const Content = ({ children, className }) => {
 
     communicationSocket?.on("new_event", (response) => {
       switch (response?.type) {
+        case "bet_ticker_update":
+          dispatch(
+            setBetTicker({
+              ...response,
+              status: response?.new_status,
+            })
+          );
+          break;
         case "bet_ticker":
           dispatch(
             setBetTicker({
@@ -216,6 +254,13 @@ const Content = ({ children, className }) => {
             bet_referral_id: response?.bet_referral_id,
           })
         );
+
+        apiServices.post(apiUrl.GET_BET_SLIP, {
+          bets: [],
+          stakes: [],
+          action: "place",
+          bet_referral_id: response?.bet_referral_id,
+        });
       }
 
       if (response?.status === "rejected") {
@@ -243,7 +288,7 @@ const Content = ({ children, className }) => {
     }, 1 * 60 * 1000);
 
     return () => {
-      gamingSocket.off("selection_updated")
+      gamingSocket.off("selection_updated");
       clearInterval(interval);
       nextWindow.removeEventListener("resize", resizeHandler);
     };
@@ -272,6 +317,15 @@ const Content = ({ children, className }) => {
     const userRealityCheck =
       loggedUser?.user_data?.settings?.safer_gambling?.reality_check
         ?.reality_check_after?.value || 15;
+
+    if (loggedUser) {
+      dispatch(
+        setIsVerifyMessage(
+          loggedUser?.user_data?.kyc_status === "not_started" ||
+            loggedUser?.user_data?.kyc_status === "rejected"
+        )
+      );
+    }
 
     if (loggedUser?.token && userRealityCheck > 0) {
       interval = setInterval(() => {
@@ -326,6 +380,7 @@ const Content = ({ children, className }) => {
         <AlertModal />
         <PrivacyConfirmModal />
         <TermsConfirmModal />
+        <Tooltip />
         {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
         {accessToken &&
           loggedUser?.user_data?.actions?.map((action) => {
@@ -334,17 +389,21 @@ const Content = ({ children, className }) => {
         <div
           className={classNames("base-layout", className, {
             ["not-found"]: disableHeader,
+            "kyc-status":
+              loggedUser && isVerifyMessage && !disableHeader && !isModal,
           })}
         >
-          <Helmet>
-            <link
-              rel="stylesheet"
-              type="text/css"
-              href={process.env.NEXT_PUBLIC_CSS}
-            />
-          </Helmet>
-          <Header />
-          {children}
+          <HelmetProvider>
+            <Helmet>
+              <link
+                rel="stylesheet"
+                type="text/css"
+                href={process.env.NEXT_PUBLIC_CSS}
+              />
+            </Helmet>
+            <Header isModal={isModal} />
+            {children}
+          </HelmetProvider>
         </div>
         <PageContentModal />
       </SocketContext.Provider>
@@ -353,7 +412,7 @@ const Content = ({ children, className }) => {
 };
 
 export const BaseLayout = (props) => {
-  const {pathname} = useClientPathname();
+  const { pathname } = useClientPathname();
 
   return pathname === "/customer_service_notice" ? (
     <CustomerServiceNotice />

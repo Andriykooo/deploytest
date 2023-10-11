@@ -9,6 +9,7 @@
   order: 1;
   flex-grow: 0;
 }
+
 .navBarLinks {
   display: flex;
   justify-content: center;
@@ -29,13 +30,13 @@
 }
 
 .navbar {
-  background: var(--global-color-shade5);
+  background: var(--global-color-header-background);
 }
 
 .sports-header-link {
   cursor: pointer;
   background-color: initial;
-  color: #fff;
+  color: var(--global-color-header-text);
   text-decoration: none;
 }
 
@@ -57,7 +58,7 @@
 
 .sing-up-txt {
   height: 74px;
-  background: var(--global-color-tertiary);
+  background: var(--global-color-header-background_side_bacground);
   display: flex;
   flex-shrink: 0;
   justify-content: center;
@@ -80,7 +81,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #d6c08f;
+  background: var(--global-main-color-icon-background);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,7 +94,7 @@
   height: 40px;
   border-radius: 50%;
   margin-right: 15px;
-  background: #d6c08f;
+  background: var(--global-main-color-icon-background);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,14 +111,13 @@
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 24px !important;
-  color: #fff;
   width: 18px;
   height: 18px;
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  background: var(--global-color-text-primary);
-  color: var(--global-color-text-secondary) !important;
+  background: var(--global-color-header-text);
+  color: var(--global-color-header-text-active) !important;
 }
 
 .sing-up-txt span {
@@ -126,7 +126,7 @@
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-header-text);
 }
 
 .swifty-gaming-logo img {
@@ -139,7 +139,7 @@
 }
 
 .navigation {
-  background: var(--global-color-shade5);
+  background: var(--global-color-header-background);
   height: 74px;
   position: fixed;
   top: 0;
@@ -147,12 +147,43 @@
   right: 0;
   z-index: 999;
 }
+
+.noVerified {
+  height: 108px;
+}
+
+.navigation>.noVerifiedMsg {
+  display: none;
+}
+
+.noVerified>.noVerifiedMsg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  background-color: #F5C4511A;
+  position: relative;
+}
+
+.noVerifiedMsg>a {
+  text-decoration: underline !important;
+  font-size: 14px;
+  color: #FFFFFF;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.close-noVerifiedMsg {
+  position: absolute;
+  right: 28px;
+}
+
 .primary-col {
   height: inherit;
 }
 
 .signText {
-  color: white;
+  color: var(--global-color-header-text);
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -167,9 +198,13 @@
   width: auto;
   font-size: 12px;
 }
+
 .header-icon {
   cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
+
 .balanceText {
   font-style: normal;
   font-weight: 400;
@@ -177,6 +212,7 @@
   line-height: 14px;
   text-align: right;
 }
+
 .balanceAmount {
   font-style: normal;
   font-weight: 700;
@@ -184,20 +220,24 @@
   line-height: 24px;
   text-align: right;
 }
+
 .profileImage {
   width: 40px;
   height: 40px;
   margin-right: 10px;
   cursor: pointer;
 }
+
 .gamingMobile {
   position: absolute;
   left: 8%;
   top: 25%;
 }
+
 .headerContent {
   height: 48px;
 }
+
 .menuIcon {
   margin-right: 12px;
   cursor: pointer;
@@ -206,7 +246,7 @@
 .profileMenuMobile {
   height: max-content;
   overflow-y: hidden;
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
 }
 
 .header-link {
@@ -214,18 +254,18 @@
   align-items: center;
 }
 
-.header-link:hover svg {
-  fill: var(--global-color-tertiary);
+.header-link:hover img {
+  fill: var(--global-color-header-icons-active);
   cursor: pointer;
 }
 
-.header-link:hover svg path {
-  fill: var(--global-color-tertiary);
-  stroke: var(--global-color-tertiary);
+.header-link:hover img {
+  fill: var(--global-color-header-icons-active);
+  stroke: var(--global-color-header-icons-active);
 }
 
 .header-link:hover span {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-header-text-active);
 }
 
 .user-profile-grid {
@@ -237,6 +277,7 @@
 .user-profile-flex {
   justify-content: space-between;
 }
+
 .signInContainer {
   display: flex;
 }
@@ -252,6 +293,10 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .noVerified {
+    height: 90px !important;
+  }
+
   .slip-icon,
   .profileImage {
     margin-right: 12px;
@@ -263,6 +308,7 @@
     height: 32px;
     width: 32px;
   }
+
   .signText {
     font-size: 12px;
   }
@@ -288,6 +334,7 @@
   .navBarLinks .sports-header-link span {
     font-size: 12px;
   }
+
   .navBarLinks .sports-header-link {
     margin-right: 20px;
   }
@@ -301,7 +348,7 @@
   }
 
   .navBarLinks {
-    background-color: var(--global-color-shade5);
+    background-color: var(--global-color-header-background);
     padding: 0px !important;
     margin-top: 2.6rem !important;
     padding-top: 20px !important;
@@ -310,6 +357,7 @@
   .navBarLinks .col-12 {
     height: 1.9rem;
   }
+
   .navBarLinks {
     height: 100%;
     width: 100%;
@@ -318,6 +366,7 @@
     margin-top: 0rem !important;
     left: 0;
   }
+
   .balanceAmount {
     font-size: 12px;
   }

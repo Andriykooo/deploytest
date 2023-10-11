@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { theme } from "../../utils/config";
 
 export const ChatWrapper = styled.div`
   position: fixed;
@@ -8,8 +7,8 @@ export const ChatWrapper = styled.div`
   width: ${(props) => (props.isOpen ? "276px" : "70px")};
   box-shadow: -2px -2px 4px 0px #00000040;
 
-  @media (max-width: 991px) {
-    width: 100%;
+  @media (max-width: 1024px) {
+    width: auto;
     position: static;
     box-shadow: none;
   }
@@ -20,17 +19,16 @@ export const ChatBottomWrapper = styled.div`
   cursor: pointer;
   width: 100%;
   height: 71px;
-  background: ${theme?.colors?.mainSecondary};
+  background: var(--global-color-sidebar-selection);
   padding: 17px 26px 17px 18px;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 991px) {
+
+  @media (max-width: 1024px) {
     padding: 0;
-    background: #d5c08f;
     border-radius: 50%;
     height: 32px;
     width: 32px;
-    margin-right: 12px;
   }
 `;
 
@@ -38,13 +36,10 @@ export const ChatBottomSubWrapper = styled.div`
   display: flex;
   gap: 12px;
 `;
-export const ChatIcon = styled.div`
+export const ChatIconStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
-  background: #c59e43;
   border-radius: 100%;
 `;
 
@@ -53,13 +48,14 @@ export const ChatBox = styled.div`
   max-height: 563px;
   height: 100%;
   margin-bottom: 3px;
-  background: #ffffff;
+  background: var(--global-color-trader-chat-background);
   font-weight: 400;
   font-size: 16px;
   border-radius: 8px 8px 0px 0px;
   position: fixed;
   bottom: 0;
   left: ${(props) => (props.isOpen ? "279px" : "73px")};
+  border: 1px solid var(--global-color-trader-chat-primary);
 
   @media (max-width: 1024px) {
     position: fixed;
@@ -78,20 +74,20 @@ export const ChatBox = styled.div`
 
 export const ChatHeader = styled.div`
   width: 100%;
-  background: #c59e43;
+  background: var(--global-color-trader-chat-primary);
   display: flex;
   justify-content: space-between;
   padding: 19px 18px;
   border-radius: 8px 8px 0px 0px;
   font-weight: 500;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--global-color-trader-chat-primary-text);
 
   & > span {
     cursor: pointer;
   }
 
-  @media (max-width: 991px) {
+  @media (max-width: 1024px) {
     border-radius: 0;
   }
 `;
@@ -104,7 +100,7 @@ export const ChattingBlock = styled.div`
   justify-content: space-between;
   gap: 14px;
 
-  @media (max-width: 991px) {
+  @media (max-width: 1024px) {
     height: calc(100% - 169px);
   }
 
@@ -117,13 +113,13 @@ export const ChatMessage = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  color: #191919;
+  color: ${(props) => (props.isRight ? "var(--global-color-trader-chat-bubble2-text)" : "var(--global-color-trader-chat-bubble1-text)")};
   padding: 6px;
   overflow: hidden;
   display: flex;
   text-overflow: ellipsis;
   margin-bottom: 20px;
-  background: ${(props) => (props.isRight ? "#EBEBEB" : "#EBE1D2")};
+  background: ${(props) => (props.isRight ? "var(--global-color-trader-chat-bubble2)" : "var(--global-color-trader-chat-bubble1)")};
   white-space: pre-line;
   border-radius: 6px;
 `;
@@ -134,14 +130,14 @@ export const ChatTitle = styled.div`
   line-height: 20px;
   display: flex;
   align-items: center;
-  color: #ffffff;
+  color: var(--global-color-trader-chat-primary-text);
 `;
 
 export const MessagesBlock = styled.div`
   height: 100%;
   overflow: scroll;
 
-  @media (max-width: 991px) {
+  @media (max-width: 1024px) {
     height: calc(100vh - 163px);
   }
 
@@ -156,7 +152,7 @@ export const NumberNewMessages = styled.div`
   bottom: ${(props) => (props.isOpen ? "25px" : "40px")};
   width: 20px;
   height: 20px;
-  background: ${(props) => (props.isOpen ? "#C59E43" : "#FFFFFF")};
+  background: ${(props) => (props.isOpen ? "--global-color-sidebar-chat_icon-background" : "var(--global-color-trader-chat-background)")};
   border-radius: 100%;
   display: flex;
   align-items: center;
@@ -164,5 +160,5 @@ export const NumberNewMessages = styled.div`
   font-weight: 400;
   font-size: 14px;
   text-align: center;
-  color: ${(props) => (props.isOpen ? "#FFFFFF" : "#C59E43")};
+  color: ${(props) => (props.isOpen ? "var(--global-color-trader-chat-primary-text)" : "var(--global-color-trader-chat-primary)")};
 `;

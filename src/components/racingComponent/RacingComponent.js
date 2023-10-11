@@ -11,8 +11,8 @@ export const RacingComponent = ({ data, slug }) => {
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const isMobile = useSelector((state) => state.setMobile);
 
-  const events = data.filter((event) => {
-    return !resultedEvents.includes(event.event_id);
+  const events = data?.filter((event) => {
+    return !resultedEvents[event.event_id];
   });
 
   const slidesToShow = events?.length > 3 ? 3 : events?.length;
@@ -22,10 +22,12 @@ export const RacingComponent = ({ data, slug }) => {
       {isMobile ? (
         <Carousel
           arrowClassName="small-arrows"
-          data={events?.map((event, index) => {
+          data={events?.map((event) => {
             return {
               id: event.event_id,
-              render: <RacingItem data={event} slug={slug} key={index} />,
+              render: (
+                <RacingItem data={event} slug={slug} key={event.event_id} />
+              ),
             };
           })}
         />
@@ -53,8 +55,8 @@ export const RacingComponent = ({ data, slug }) => {
             },
           ]}
         >
-          {events?.map((event, index) => {
-            return <RacingItem data={event} slug={slug} key={index} />;
+          {events?.map((event) => {
+            return <RacingItem data={event} slug={slug} key={event.event_id} />;
           })}
         </Slider>
       )}

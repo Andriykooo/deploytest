@@ -3,27 +3,15 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { getTimeDifference } from "@/utils/global";
 import { useClientTranslation } from "@/app/i18n/client";
+import { useUsageTime } from "@/hooks/useUsageTime";
 
 const GamingReminderAlert = ({ setGamingAlert }) => {
   const { t } = useClientTranslation("common");
+
   const router = useRouter();
   const isMobile = useSelector((state) => state.setMobile);
-  const usageStartTime = useSelector((state) => state.usageStartTime);
-
-  const [time, setTime] = useState(getTimeDifference(usageStartTime));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(getTimeDifference(usageStartTime));
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const timdeDifference = useUsageTime();
 
   return (
     <div
@@ -50,7 +38,12 @@ const GamingReminderAlert = ({ setGamingAlert }) => {
               {t("friendly_reminder")}
             </p>
             <p className="text-light">{t("app_usage_duration_message")}</p>
-            {time && <Button className={"gaming-alert-button"} text={time} />}
+            {timdeDifference && (
+              <Button
+                className={"gaming-alert-button"}
+                text={timdeDifference}
+              />
+            )}
           </div>
           <div className="d-flex align-items-center flex-column w-100">
             <Button

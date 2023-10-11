@@ -1,30 +1,43 @@
 import styled from "styled-components";
-import { theme } from "../../utils/config";
 
 export const ProfileCard = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   background: ${(props) =>
-    props.active ? "rgba(188, 146, 57, 0.07)" : "#353A40"};
-  margin-left:${(props) => (props.active ? "0" : "8px")}
+    props.active
+      ? "var(--global-color-sidebar-field-selected)"
+      : "var(--global-color-sidebar-selection)"};
   box-sizing: border-box;
   padding-right: 1rem;
   border-left: ${(props) =>
     props.active
-      ? `6px solid ${theme?.colors?.mainTertiary}`
+      ? `6px solid var(--global-color-sidebar-field-selected-sideline)`
       : "6px solid transparent"};
 `;
 export const SidebarProfile = styled.div`
-  background: ${theme?.colors?.mainSecondary};
+  background: var(--global-color-sidebar-selection);
   width: ${(props) => (props.isOpen ? "276px" : "70px")};
-  height: ${(props) => (props.chatIsActive ? "calc(100% - 145px)" : "calc(100% - 74px)")};
+  height: ${(props) => {
+    let height = 74;
+
+    if (props.chatIsActive) {
+      height = height + 71;
+    }
+
+    if (props.noVerified) {
+      height = height + 34;
+    }
+
+    return `calc(100% - ${height}px);`;
+  }}
+    
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   & > div {
-    border-bottom: 1px solid #25292d;
+    border-bottom: 1px solid var(--global-color-sidebar-background);
   }
 
   @media (max-width: 1024px) {
@@ -36,7 +49,7 @@ export const SidebarProfilMenu = styled.div`
   background: ${(props) => (props.version ? " transparent !important" : "")};
   position: fixed;
   z-index: 10;
-  background: ${theme?.colors?.mainSecondary};
+  background: var(--global-color-sidebar-selection);
   padding-right: 0 !important;
   width: ${(props) => (props.sideBarMenu ? " 402px" : "402px")};
   height: calc(100% - 74px);
@@ -45,7 +58,7 @@ export const SidebarProfilMenu = styled.div`
   -webkit-scrollbar: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  border-bottom: 1px solid rgb(37, 41, 45) !important;
+  border-bottom: 1px solid var(--global-color-sidebar-background) !important;
   top: 74px;
   @media screen and (max-width: 1024px) {
     height: calc(100% - 56px);

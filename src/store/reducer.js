@@ -15,6 +15,9 @@ export const initialState = {
   competitionsData: [],
   setMobile: false,
   isTablet: false,
+  tooltip: null,
+  priceIsChanged: false,
+  logos: null,
   betslipResponse: {
     singles: [],
     combinations: [],
@@ -35,6 +38,7 @@ export const initialState = {
   subscriptions: {},
   updatedSelections: null,
   updatedBetslipSelections: {},
+  suspendedBets: {},
   inPlay: false,
   sportsData: {
     sport_id: null,
@@ -58,7 +62,7 @@ export const initialState = {
   raceCard: null,
   casinoCategory: null,
   pageLayoutContent: {},
-  resultedEvents: [],
+  resultedEvents: {},
   favouriteGames: {},
   currentTime: new Date(),
   alertModal: null,
@@ -67,6 +71,7 @@ export const initialState = {
   usageStartTime: new Date(),
   promo: null,
   forgotPassword: false,
+  isVerifyMessage: false,
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -97,7 +102,9 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, loggedUser: action.payload };
     case constants.ON_BOARDING: {
       const cookieLang = Cookies.get(cookieName);
-      const selectedLanguage = action.payload.languages?.find((item) => item.code2.toLowerCase() === cookieLang);
+      const selectedLanguage = action.payload.languages?.find(
+        (item) => item.code2.toLowerCase() === cookieLang
+      );
 
       return {
         ...appstate,
@@ -115,6 +122,8 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, sports: action.payload };
     case constants.ACTIVE_SPORT:
       return { ...appstate, activeSport: action.payload };
+    case constants.SET_LOGOS:
+      return { ...appstate, logos: action.payload };
     case constants.COMPETITIONS_DATA:
       return { ...appstate, competitionsData: action.payload };
     case constants.SELECT_BET:
@@ -133,11 +142,12 @@ const rootReducer = (appstate = initialState, action) => {
           },
         };
       } else {
-        let filteredBets = appstate.selectedBets.bets.filter(
-          (row) =>
-            row.bet_id !==
-            `${action.payload.bet_provider}-${action.payload.bet_id}`
-        );
+        let filteredBets = appstate.selectedBets.bets.filter((row) => {
+          return action?.payload?.type === "unnamed_favorite"
+            ? +action.payload.bet_id !== +row.bet_id
+            : row.bet_id !==
+                `${action.payload.bet_provider}-${action.payload.bet_id}`;
+        });
         return {
           ...appstate,
           selectedBets: { ...appstate.selectedBets, bets: filteredBets },
@@ -219,8 +229,8 @@ const rootReducer = (appstate = initialState, action) => {
         headerData: action.payload,
         activePage:
           appstate.activePage ||
-          action?.payload?.find((page) => page.path === "/home") ||
-          "/home",
+          action?.payload?.find((page) => page.path === "/home-page") ||
+          "/home-page",
       };
 
     case constants.SET_SIDEBAR_RIGHT:
@@ -271,6 +281,12 @@ const rootReducer = (appstate = initialState, action) => {
         footer: action.payload,
       };
 
+    case constants.SET_IS_VERIFY_MESSAGE:
+      return {
+        ...appstate,
+        isVerifyMessage: action.payload,
+      };
+
     case constants.SET_UPDATED_SELECTIONS:
       const updatedSelectionsData = { ...appstate.updatedSelections };
 
@@ -286,6 +302,7 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.ADD_TO_UPDATED_BETSLIP_SELECTIONS:
       return {
         ...appstate,
+        priceIsChanged: action?.payload?.trading_status !== "suspended",
         updatedBetslipSelections: {
           ...appstate.updatedBetslipSelections,
           [action.payload.bet_id]: action.payload,
@@ -295,6 +312,7 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.SET_UPDATED_BETSLIP_SELECTIONS:
       return {
         ...appstate,
+        priceIsChanged: true,
         updatedBetslipSelections: action.payload,
       };
 
@@ -358,7 +376,13 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.SET_RESULTED_EVENTS:
       return {
         ...appstate,
-        resultedEvents: [...appstate.resultedEvents, action.payload],
+        resultedEvents: { ...appstate.resultedEvents, [action.payload]: true },
+      };
+
+    case constants.SET_PRICE_IS_CHANGED:
+      return {
+        ...appstate,
+        priceIsChanged: action.payload,
       };
 
     case constants.SET_FAVOURITE_GAMES:
@@ -434,6 +458,12 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         betslipResponse: action.payload,
+      };
+
+    case constants.SET_TOOLTIP:
+      return {
+        ...appstate,
+        tooltip: action.payload,
       };
 
     case constants.DESTROY_SESSION:

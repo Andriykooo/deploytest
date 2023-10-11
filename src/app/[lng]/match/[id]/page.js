@@ -8,13 +8,14 @@ async function getData(id) {
     if (typeof id === "string") {
       return await apiServices.get(`${apiUrl.MATCH_DETAILS}?eventId=${id}`);
     }
-  } catch {
+  } catch (e) {
     notFound();
   }
 }
 
 export default async function Page({ params }) {
   const data = await getData(params.id);
+  
 
   return <MatchDetails data={data} id={params.id} />;
 }

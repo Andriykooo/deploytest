@@ -1,5 +1,5 @@
 .link-in-bonuses-promotions {
-  background-color: var(--global-color-text-secondary);
+  background-color: var(--global-color-primary);
   position: absolute;
   right: 44px;
   width: 53px;
@@ -10,8 +10,9 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #ffffff;
+  color: var(--global-color-sidebar-text);
 }
+
 .menu-link-promotions {
   height: 40px;
   border-radius: 40px;
@@ -24,11 +25,13 @@
   padding: 12px 10px;
   font-family: var(--bs-body-font-family);
 }
+
 .selected-bonus button {
   border: 1px solid white !important;
   padding: 11px 9px;
   background: #45494f;
 }
+
 .promotions-container {
   position: relative;
   color: #ffffff;
@@ -40,9 +43,11 @@
   align-items: center;
   border-radius: 4px;
 }
+
 .promotions-container:first-of-type {
   margin-top: 24px;
 }
+
 .promotion-duration {
   width: 98px;
   font-size: 14px;
@@ -60,20 +65,25 @@
   position: absolute;
   right: 16px;
 }
+
 .available-promotion {
-  background-color: var(--global-color-text-secondary);
+  background-color: var(--global-color-primary);
 }
+
 .promotion-info {
   display: flex;
 }
+
 .promotion-details {
   line-height: 100%;
   height: 64px;
 }
+
 .promotion-image {
   margin-left: 16px;
   margin-right: 12px;
 }
+
 .promotion-amount {
   margin-left: 20px;
   font-style: normal;
@@ -81,12 +91,15 @@
   font-size: 14px;
   color: #ffffff;
 }
+
 .promotion-value {
   font-size: 14px;
 }
+
 .promotion-valid {
   font-size: 14px;
 }
+
 .promotion-competition {
   font-style: normal;
   font-weight: 400;
@@ -94,9 +107,11 @@
   margin-bottom: 8px;
   margin-top: 12px;
 }
+
 .promotion-expiring {
   color: #e22727;
 }
+
 .promotion-title {
   gap: 10px;
   display: flex;
@@ -127,19 +142,24 @@
 .bonuses-container-menu::-webkit-scrollbar {
   display: none;
 }
+
 .promotion-values-container {
   display: flex;
 }
+
 @media screen and (max-width: 991px) {
   .bonuses-container-menu {
     width: 100%;
   }
+
   .menuTitle {
     margin-bottom: 20px;
   }
+
   .promotion-title {
     margin-bottom: 20px;
   }
+
   .promotions-container {
     width: 100% !important;
     height: 92px;
@@ -147,17 +167,20 @@
     overflow: hidden;
     border-radius: 8px;
   }
+
   .promotions-container img {
     display: none;
   }
+
   .promotion-info {
     flex-direction: column-reverse;
     justify-content: center;
-    background-color: var(--global-color-shade1);
+    background-color: var(--global-color-background-quinary);
     padding-left: 16px;
     height: 62px;
     gap: 6px;
   }
+
   .promotion-amount,
   .promotion-competition,
   .promotion-valid,
@@ -165,22 +188,26 @@
     margin-bottom: 0;
     font-size: 12px;
   }
+
   .promotion-amount {
     display: flex;
     gap: 14px;
     margin-left: 0;
   }
+
   .promotion-competition {
     line-height: 30px;
     margin: 0;
     padding-left: 16px;
   }
+
   .promotion-duration {
     width: 72px;
     font-size: 10px;
     height: 22px;
     top: 42px;
   }
+
   .promotion-details {
     width: 100%;
     height: 100%;

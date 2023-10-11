@@ -29,7 +29,7 @@
   width: 100%;
   margin-left: 0;
   margin-right: 49px;
-  border: 1px solid var(--global-color-shade1);
+  border: 1px solid var(--global-color-background-quinary);
   margin-bottom: 19px;
 }
 #flexSwitchCheckChecked {
@@ -46,7 +46,7 @@
 }
 
 .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
-  background-color: var(--global-color-tertiary) !important;
+  background-color: var(--global-color-primary) !important;
 }
 .depositLimitContainer
   div

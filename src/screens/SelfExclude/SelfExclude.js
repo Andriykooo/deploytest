@@ -40,6 +40,8 @@ const SelfExclude = () => {
       self_exclude_deactivated: excludePeriod,
     };
 
+    setIsLoading(true);
+
     setSettingsApi(body, dispatch, {
       onSuccess: (response) => {
         if (!response?.error) {

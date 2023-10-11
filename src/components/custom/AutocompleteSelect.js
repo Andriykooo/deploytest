@@ -5,11 +5,13 @@ import { theme } from "../../utils/config";
 import { ArrowDownIcon } from "../../utils/icons";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
 import { usePathname } from "next/navigation";
+import { useClientTranslation } from "@/app/i18n/client";
 
 export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   const pathname = usePathname();
   const isTablet = useSelector((state) => state.isTablet);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { t } = useClientTranslation("common");
 
   const handleSelect = (item) => {
     onSelect(item);
@@ -23,6 +25,7 @@ export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   return !isTablet ? (
     <Autocomplete
       popupIcon={<ArrowDownIcon />}
+      noOptionsText={t("no_options")}
       id="autocomplete-competition"
       options={data}
       value={selectedItem}

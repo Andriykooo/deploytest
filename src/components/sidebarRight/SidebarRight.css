@@ -1,8 +1,8 @@
 .bet-slip-container {
-  background: var(--global-color-shade2);
-  border: 1px solid var(--global-color-shade10);
-  color: var(--global-color-text-primary);
-  position: absolute;
+  background: var(--global-color-betslip-background);
+  border: 1px solid var(--global-color-betslip-border);
+  color: var(--global-color-betslip-text-tertiary);
+  position: fixed;
   width: 305px;
   height: calc(100% - 74px);
   overflow: auto;
@@ -13,9 +13,26 @@
   overflow-y: auto;
 }
 
+.bet-slip-container.noVerified {
+  height: calc(100% - 108px);
+}
+
+.approvedBetslip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 28px;
+  width: 100%;
+  padding: 6px 12px;
+  background-color: var(--global-color-price-secondary);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+
 .offer-timer {
   display: flex;
-  background-color: #ad0e3e;
+  background-color: var(--global-color-price-primary);
 }
 
 .offer-icon {
@@ -62,8 +79,9 @@
 }
 
 .slip-bets-title {
-  background: var(--global-color-shade5);
+  background: var(--global-color-betslip-header);
   display: flex;
+  gap: 2px;
   justify-content: center;
   text-transform: uppercase;
   height: 35px;
@@ -72,6 +90,7 @@
 }
 
 .betsStyle {
+  color: var(--global-color-betslip-text-primary);
   line-height: 18px;
   margin-left: 5px;
   font-size: 14px;
@@ -85,13 +104,14 @@
   align-items: center;
   width: 50%;
   height: 100%;
-  background-color: var(--global-color-shade10);
-  color: var(--global-color-text-primary);
+  background-color: var(--global-color-betslip-selector);
+  color: var(--global-color-betslip-text-secondary);
   font-size: 14px;
 }
 
 .bet-slip-description.active {
-  background: var(--global-color-secondary);
+  color: var(--global-color-betslip-text-primary);
+  background: var(--global-color-betslip-selector-active);
 }
 
 .my-bets-container {
@@ -104,7 +124,7 @@
 .my-bets-hint {
   padding: 6px 12px;
   background-color: var(--global-color-shade6);
-  color: var(--global-color-text-gray);
+  color: var(--global-color-text-secondary);
   font-size: 12px;
   font-weight: 400;
   margin-bottom: 2px;
@@ -116,7 +136,7 @@
 
 .buttons-of-bets {
   width: 100%;
-  background: var(--global-color-shade10);
+  background: var(--global-color-background-secondary);
   color: var(--global-color-text-primary);
   font-size: 12px;
   padding: 12px 0px;
@@ -160,8 +180,7 @@
 }
 
 .remove-all-bets {
-  background: var(--global-color-shade7);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-betslip-shade-primary);
   padding: 9px 13px;
   cursor: pointer;
   display: flex;
@@ -169,6 +188,7 @@
 }
 
 .remove-text {
+  color: var(--global-color-betslip-text-primary);
   margin-left: 7px;
   display: inline-block;
   height: 15px;
@@ -177,13 +197,40 @@
 }
 
 .selected-bet-container {
-  background: var(--global-color-shade6);
+  background: var(--global-color-betslip-selector);
   padding: 12px;
 }
 
 .selectMultipleBets {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
+}
+
+.infoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.selectMultipleBets.eachWay {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.selectMultipleBets .selected-bet-body {
+  padding-left: 0;
+  margin-left: 20px;
+  max-width: 125px;
+  width: 100%;
+}
+
+.selectMultipleBets.eachWay .selected-bet-body {
+  padding-left: 0;
+  margin-left: 20px;
+  max-width: unset;
+  width: auto;
 }
 
 .selected-market-selection {
@@ -196,7 +243,7 @@
 
 .selected-market {
   display: block;
-  color: #dbb86d;
+  color: var(--global-color-betslip-text-quaternary);
   font-size: 14px;
 }
 
@@ -209,12 +256,8 @@
 }
 
 .containerOfMultiBets {
-  border-left: 3px solid var(--global-color-text-secondary);
+  border-left: 3px solid var(--global-color-primary);
   background: var(--global-color-shade3);
-}
-
-.betAmountMultiBets {
-  max-width: 160px;
 }
 
 .slip-input {
@@ -223,10 +266,9 @@
   border: none;
   width: 100%;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  padding: 0 10px;
 }
 
 .slip-input::placeholder {
@@ -252,7 +294,7 @@
   width: 40px;
   height: 20px;
   border-radius: 2px;
-  background-color: var(--global-color-tertiary);
+  background-color: var(--global-color-primary);
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -283,7 +325,7 @@
 }
 
 .racing-bet-odds {
-  background: var(--global-color-text-sp);
+  background: var(--global-color-price-quinary);
   border-radius: 0;
   display: flex;
   align-items: center;
@@ -291,7 +333,7 @@
   font-weight: 600;
   font-size: 12px;
   cursor: pointer;
-  color: #25292d;
+  color: var(--global-color-shade6);
 }
 
 .starting-price-arrows {
@@ -339,7 +381,7 @@
 
 .totals-container {
   padding: 6px 16px;
-  background: var(--global-color-shade7);
+  background: var(--global-color-betslip-shade-secondary);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -348,26 +390,27 @@
 
 .amount {
   font-weight: 600;
+  color: var(--global-color-betslip-text-quinary);
 }
 
 .stakes {
-  color: var(--global-color-yellow);
+  color: var(--global-color-betslip-text-quinary);
 }
 
 .btnPrimary.place-bet-button {
   border-radius: 0px 0px 6px 6px;
   width: 100%;
   height: 50px;
-  color: #fff;
+  color: var(--global-color-text-primary);
   font-size: 14px;
 }
 
 .place-bet-button:disabled {
-  background-color: var(--global-color-shade4);
+  background: var(--global-color-shade4);
 }
 
 .bet-holder {
-  background-color: var(--global-color-shade10);
+  background-color: var(--global-color-background-secondary);
   padding: 2px;
 }
 
@@ -375,6 +418,14 @@
   background-color: transparent;
   padding: 0;
   min-width: unset;
+}
+
+.totalsWrapper .warning {
+  background-color: var(--global-color-betslip-shade-tertiary);
+}
+
+.place-bet-container .btnAction {
+  background: var(--global-color-betslip-shade-quaternary);
 }
 
 @media (max-width: 1024px) {
@@ -464,7 +515,7 @@
   line-height: 16px;
   text-align: center;
   color: #ffffff;
-  background-color: var(--global-color-button-action);
+  background-color: var(--global-color-price-quaternary);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -483,7 +534,7 @@
 .totalsWrapper {
   position: sticky;
   bottom: 0;
-  background-color: black;
+  background-color: var(--global-color-betslip-background);
 }
 
 .totalsWrapper > :not(:last-child) {
@@ -554,7 +605,7 @@
   .sidebar-right {
     max-width: 305px;
     width: 100%;
-    background: #1B1C21;
+    background: var(--global-color-betslip-background);
     overflow-y: auto;
     position: fixed;
     right: 0;

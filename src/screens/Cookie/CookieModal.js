@@ -36,7 +36,7 @@ const CookieModal = ({ setPageModal }) => {
     <div className="full-screen-modal">
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
-          <Link href="/home">
+          <Link href="/">
             <Image
               alt="img-GroupSwifty"
               src={isMobile ? images.gamingMobile : images.GroupSwifty}

@@ -2,6 +2,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Button } from "../button/Button";
 import "./BannerMenu.css";
+import { LinkType } from "../LinkType/LinkType";
 
 export const BannerMenu = ({
   title,
@@ -10,6 +11,7 @@ export const BannerMenu = ({
   options,
   selected,
   setSelected,
+  callToActinButton,
 }) => {
   const handleClick = (item) => {
     setSelected(selected?.name === item.name ? null : item);
@@ -18,10 +20,16 @@ export const BannerMenu = ({
   return (
     <div
       className="banner-menu"
-      style={{ height: subtitle ? "115px" : "91px" }}
+      style={{ height: subtitle && options ? "115px" : "91px" }}
     >
       {image && (
-        <Image src={image} alt="banner" className="banner-menu-image" fill priority />
+        <Image
+          src={image}
+          alt="banner"
+          className="banner-menu-image"
+          fill
+          priority
+        />
       )}
       <div className="banner-menu-content">
         {title && <div className="banner-menu-title">{title}</div>}
@@ -41,6 +49,20 @@ export const BannerMenu = ({
             );
           })}
         </div>
+        {callToActinButton?.name && (
+          <LinkType
+            type={callToActinButton?.type}
+            path={callToActinButton?.path}
+            openType={callToActinButton?.open_type}
+            modalData={callToActinButton?.modalData}
+          >
+            <Button
+              type="button"
+              className="btnPrimary bannerButton buttonOfSlider cta"
+              text={callToActinButton?.name}
+            />
+          </LinkType>
+        )}
       </div>
     </div>
   );

@@ -38,7 +38,7 @@
 
 .customer-service-notice-email {
   font-size: 14px;
-  color: var(--global-color-tertiary);
+  color: var(--global-color-primary);
 }
 
 @media (max-width: 1024px) {

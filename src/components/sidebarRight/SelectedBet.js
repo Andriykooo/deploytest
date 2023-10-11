@@ -4,6 +4,8 @@ import {
   removeBet,
   removeBetAmount,
   removeReturnValue,
+  setBetSlipResponse,
+  setBetTicker,
   setSelectBet,
 } from "../../store/actions";
 import { XIcon } from "../../utils/icons";
@@ -25,12 +27,15 @@ export const SelectedBet = ({ row }) => {
   const [selectioHasOdds, setselectioHasOdds] = useState(false);
 
   const debouncedValue = useDebounce(input, 500);
-  const bet_id = row?.bet_provider + "-" + row?.bet_id;
+  const bet_id =
+    row.type === "unnamed_favorite"
+      ? +row?.bet_id
+      : row?.bet_provider + "-" + row?.bet_id;
   const isRacing =
     row.sport_slug === "horseracing" || row.sport_slug === "greyhoundracing";
 
   const handlerSetSingleStake = (sp, ew) => {
-    let tmp = { ...userSelectedBets };
+    const tmp = { ...userSelectedBets };
 
     tmp.bets.forEach((element) => {
       if (element.bet_id === bet_id) {
@@ -64,7 +69,7 @@ export const SelectedBet = ({ row }) => {
   };
 
   useEffect(() => {
-    const hasOdds = Number(row?.return) !== 0;
+    const hasOdds = Number(row?.odds_decimal) !== 0;
     setselectioHasOdds(hasOdds);
 
     if (!hasOdds || row.starting_price) {
@@ -84,7 +89,7 @@ export const SelectedBet = ({ row }) => {
   }, [row]);
 
   useEffect(() => {
-    if (debouncedValue) {
+    if (debouncedValue && userSelectedBets.bets.length > 0) {
       handlerSetSingleStake(isSP, isEW);
     }
   }, [debouncedValue]);
@@ -99,6 +104,25 @@ export const SelectedBet = ({ row }) => {
               dispatch(removeBet(row));
               dispatch(removeBetAmount(row?.bet_id));
               dispatch(removeReturnValue(row?.bet_id));
+
+              if (userSelectedBets?.bets?.length - 1 === 0) {
+                dispatch(
+                  setBetTicker({
+                    status: "",
+                    bet_referral_id: "",
+                  })
+                );
+                dispatch(
+                  setBetSlipResponse({
+                    singles: [],
+                    combinations: [],
+                    total_stakes: 0,
+                    total_payout: 0,
+                  })
+                );
+
+                return;
+              }
             }}
           >
             <XIcon />
@@ -137,7 +161,6 @@ export const SelectedBet = ({ row }) => {
                     if (selectioHasOdds) {
                       setIsSP((prev) => {
                         handlerSetSingleStake(!prev, isEW);
-
                         return !prev;
                       });
                     }

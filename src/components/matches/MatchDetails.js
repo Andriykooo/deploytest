@@ -17,7 +17,7 @@ import classNames from "classnames";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const MatchDetails = ({ data, id }) => {
-  const { t } = useClientTranslation(["match", "common"]);
+  const { t } = useClientTranslation(["common", "match"]);
 
   const [pushNotificationSettings, setPushNotificationSettings] = useState([
     { key: "key1", label: `${t("common:notification")} 1`, status: false },
@@ -31,8 +31,8 @@ const MatchDetails = ({ data, id }) => {
   const marketList = data?.market_list.length ? data?.market_list : [];
 
   const teams = {
-    homeTeam: data?.event_name?.split(" v ")[0],
-    awayTeam: data?.event_name?.split(" v ")[1],
+    homeTeam: data.participants[0],
+    awayTeam: data.participants[1],
   };
 
   const isTablet = useSelector((state) => state.isTablet);
@@ -121,14 +121,17 @@ const MatchDetails = ({ data, id }) => {
                   <div className="teams-for-matchdetails-container teams-match-details-container">
                     <div className="teams-container-details">
                       <div className="team-for-matchdetails-mobile">
-                        {teams?.homeTeam}
+                        {teams?.homeTeam?.name}
                       </div>
                       <div className="team-for-matchdetails-mobile">
-                        {teams?.awayTeam}
+                        {teams?.awayTeam?.name}
                       </div>
-                    </div>{" "}
+                    </div>
+
                     <div className="matchResult match-result-soccer-vs">
-                      {t("common:vs")}
+                      {data?.is_live
+                        ? `${teams?.homeTeam?.score} : ${teams?.awayTeam?.score}`
+                        : t("common:vs")}
                     </div>
                   </div>
                 </div>
@@ -175,10 +178,10 @@ const MatchDetails = ({ data, id }) => {
 
                       <div className="pitch-top">
                         <div className="live-label" data-type="game">
-                          {t("live_game")}
+                          {t("match:live_game")}
                         </div>
                         <div className="live-label" data-type="stats">
-                          {t("live_stats")}
+                          {t("match:live_stats")}
                         </div>
                       </div>
                     </div>
@@ -186,13 +189,15 @@ const MatchDetails = ({ data, id }) => {
                   <div className="container-match-details-header ">
                     <div className="teams-for-matchdetails-container d-flex">
                       <div className="team-for-matchdetails-mobile match-details-teams-teams">
-                        {teams?.homeTeam}
+                        {teams?.homeTeam?.name}
                       </div>
                       <div className="matchResult match-result-soccer-vs">
-                        {t("common:vs")}
+                        {data?.is_live
+                          ? `${teams?.homeTeam?.score} : ${teams?.awayTeam?.score}`
+                          : t("common:vs")}
                       </div>
                       <div className="team-for-matchdetails-mobile match-details-teams-teams">
-                        {teams?.awayTeam}
+                        {teams?.awayTeam?.name}
                       </div>
                     </div>
                   </div>
@@ -211,7 +216,7 @@ const MatchDetails = ({ data, id }) => {
                     ),
                   })),
                 ]}
-                placeholder={t("select_bet")}
+                placeholder={t("common:select_bet")}
                 variant={marketList?.length > 7 ? "scrollable" : "fullWidth"}
                 onChange={async (selectedMarketList) => {
                   if (selectedMarketList.id === 0) {
@@ -285,7 +290,7 @@ const MatchDetails = ({ data, id }) => {
                 );
               })
             ) : (
-              <EmptyState message={t("no_more_events")} />
+              <EmptyState message={t("match:no_more_events")} />
             )}
           </div>
         </div>

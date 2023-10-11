@@ -201,9 +201,8 @@ export const HorseRacing = ({ sportContent, slug }) => {
                                 return (
                                   <Link
                                     key={index}
-                                    className="countriesItem"
-                                    href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${currentEvent.event_id
-                                      }&filter=${selectedMeet.label.toLowerCase()}`}
+                                    className={classNames("countriesItem", { "pe-none":  !currentEvent?.event_id})}
+                                    href={currentEvent?.event_id ? `/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${currentEvent.event_id}&filter=${selectedMeet.label.toLowerCase()}` : ''}
                                   >
                                     <EventTime data={currentEvent} />
                                   </Link>

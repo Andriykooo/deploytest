@@ -41,7 +41,7 @@
 }
 .home-events {
   padding: 0;
-  border-bottom: 1px solid var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-background-quaternary);
   display: flex;
   justify-content: center;
   height: 49px;
@@ -60,7 +60,7 @@
 
 .home-slider-container {
   padding: 15px 15px 30px 15px;
-  background: var(--global-color-shade2);
+  background: var(--global-main-color-background);
 }
 
 .messageStyle {
@@ -91,7 +91,7 @@
 }
 
 .bet-group-text {
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-primary);
   margin-left: 10px;
   text-align: center;
   font-size: 16px;

@@ -4,22 +4,24 @@ import { theme } from "../../utils/config";
 export const HeaderDiv = styled.div`
   span {
     color: ${(props) =>
-      props.active
-        ? `${theme?.colors?.mainTertiary} !important`
-        : theme?.colors?.colorTextPrimary};
+    props.active
+      ? `var(--global-color-header-text-active) !important`
+      : `var(--global-color-header-text)`};
     text-align: center;
   }
   svg {
+    display: none;
+
     fill: ${(props) =>
-      props.active
-        ? `${theme?.colors?.mainTertiary} !important`
-        : theme?.colors?.colorTextPrimary};
+    props.active
+      ? `var(--global-color-header-icons-active) !important`
+      : `var(--global-color-header-icons)`};
   }
   path {
     fill: ${(props) =>
-      props.active
-        ? `${theme?.colors?.mainTertiary} !important`
-        : theme?.colors?.colorTextPrimary};
+    props.active
+      ? `var(--global-color-header-icons-active) !important`
+      : `var(--global-color-header-icons)`};
   }
 
   img {
@@ -27,9 +29,9 @@ export const HeaderDiv = styled.div`
     width: 15px;
     cursor: pointer;
     filter: ${(props) =>
-      props.active
-        ? "invert(58%) sepia(55%) saturate(502%) hue-rotate(3deg) brightness(92%) contrast(86%);"
-        : ""};
+    props.active
+      ? "invert(58%) sepia(55%) saturate(502%) hue-rotate(3deg) brightness(92%) contrast(86%);"
+      : ""};
   }
 
   &:hover {

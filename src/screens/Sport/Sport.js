@@ -12,13 +12,14 @@ import classNames from "classnames";
 import { useClientTranslation } from "@/app/i18n/client";
 
 export const Sport = ({ sportContent, setSportContent, slug }) => {
-  const { t } = useClientTranslation(["sports, common"])
+  const { t } = useClientTranslation("sports");
   const { gamingSocket } = useContext(SocketContext);
   const isMobile = useSelector((state) => state.setMobile);
   const language = useSelector((state) => state.language);
 
   const [filterIsLoading, setFilterIsLoading] = useState(true);
   const [selectedCompetition, setSelectedCompetition] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedMarket, setSelectedMarket] = useState(
     sportContent?.market_options?.[0]
   );
@@ -48,7 +49,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
   return (
     <div
       className={classNames("sport-container", {
-        'sport-container-empty': isEmpty,
+        "sport-container-empty": isEmpty,
       })}
     >
       {name && (
@@ -57,26 +58,32 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
             <label className="sport-name">{name?.toUpperCase()}</label>
           </div>
           <div className="autoCompleteMultipleInRow mt-2">
-            {sportContent?.competitions && (
-              <AutocompleteSelect
-                placeholder={t("competitions")}
-                data={sportContent?.competitions?.map((competition) => ({
+            <AutocompleteSelect
+              placeholder={t("sports:competitions")}
+              data={
+                sportContent?.competitions?.map((competition) => ({
                   label: competition.name,
                   id: competition.id,
-                }))}
+                })) || []
+              }
+              onSelect={(item) => {
+                setSelectedCompetition(item?.id);
+              }}
+            />
+
+            {slug !== "horseracing" && (
+              <AutocompleteSelect
+                placeholder={t("common:region")}
+                data={
+                  sportContent?.regions?.map((region, index) => ({
+                    label: region,
+                    id: index,
+                  })) || []
+                }
                 onSelect={(item) => {
-                  setSelectedCompetition(
-                    sportContent?.competitions?.find(
-                      (competition) => competition?.id === item?.id
-                    )
-                  );
+                  setSelectedRegion(item?.label);
                 }}
               />
-            )}
-            {slug !== "horseracing" && (
-              <>
-                <AutocompleteSelect placeholder={t("common:region")} data={[]} />
-              </>
             )}
           </div>
         </div>
@@ -106,20 +113,23 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
           {sportContent?.competitions?.length > 0 ? (
             <Matches
               competitionsData={sportContent?.competitions.filter(
-                (competition) =>
-                  selectedCompetition
-                    ? selectedCompetition.id === competition.id
-                    : true
+                (competition) => {
+                  if (selectedCompetition || selectedRegion) {
+                    return (
+                      selectedCompetition === competition.id ||
+                      competition.region === selectedRegion
+                    );
+                  }
+
+                  return true;
+                }
               )}
               marketOptions={sportContent?.market_options}
               inPlay={false}
               type={slug}
             />
           ) : (
-            <EmptyState
-              message={t("no_games_available")}
-
-            />
+            <EmptyState message={t("no_games_available")} />
           )}
         </>
       )}

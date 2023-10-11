@@ -29,7 +29,7 @@
   width: 24rem;
   height: 50px;
   color: var(--global-color-text-primary);
-  background: var(--global-color-secondary);
+  background: var(--global-color-background-quaternary);
   border: 0;
   padding: 0 16px;
   box-sizing: border-box;
@@ -39,7 +39,7 @@
 }
 
 .login-buttons::placeholder {
-  color: var(--global-color-text-gray);
+  color: var(--global-color-text-secondary);
 }
 
 .photo_buttons {
@@ -54,9 +54,9 @@
   width: 24rem;
   height: 50px;
   font-weight: 600;
-  border: 0px solid var(--global-color-secondary);
-  color: var(--global-color-text-gray);
-  background: var(--global-color-secondary);
+  border: 0px solid var(--global-color-background-quaternary);
+  color: var(--global-color-buttons-text-disabled);
+  background: var(--global-color-buttons-background-disabled);
   box-sizing: border-box;
   border-radius: 10px;
 }
@@ -70,14 +70,14 @@
   width: 24rem;
   height: 50px;
   font-weight: 600;
-  color: var(--global-color-text-gray);
-  border: 0px solid var(--global-color-secondary);
+  color: var(--global-color-text-secondary);
+  border: 0px solid var(--global-color-background-quaternary);
   box-sizing: border-box;
   border-radius: 10px;
 }
 
 .validBtn {
-  background: var(--global-color-button-primary);
+  background: var(--global-color-linear-primary);
   border-radius: 10px;
   color: var(--global-color-text-primary);
 }
@@ -160,7 +160,7 @@
   height: 48px;
   font-size: 16px;
   line-height: 20px;
-  color: var(--global-color-shade5);
+  color: var(--global-color-background-tertiary);
 }
 
 .loginIconApple {
@@ -298,7 +298,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px var(--global-color-secondary) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--global-color-background-quaternary) inset !important;
   -webkit-text-fill-color: white !important;
 }
 
@@ -306,7 +306,7 @@ input:-webkit-autofill:active {
 #email:-webkit-autofill:hover,
 #email:-webkit-autofill:focus,
 #email:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px var(--global-color-secondary) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--global-color-background-quaternary) inset !important;
   -webkit-text-fill-color: white !important;
 }
 

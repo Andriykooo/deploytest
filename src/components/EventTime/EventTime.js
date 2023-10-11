@@ -9,7 +9,7 @@ export const EventTime = ({ data }) => {
   const { t } = useClientTranslation("common");
   const currentTime = useSelector((state) => state.currentTime);
   const resultedEvents = useSelector((state) => state.resultedEvents);
-  const isResulted = resultedEvents?.includes(data.event_id) || data.resulted;
+  const isResulted = resultedEvents[data.event_id] || data.resulted;
 
   return (
     <div
@@ -19,7 +19,12 @@ export const EventTime = ({ data }) => {
       })}
     >
       {isResulted ? (
-        <Image alt={t("pointer_img")} src={images.pointer} height={13} width={13} />
+        <Image
+          alt={t("pointer_img")}
+          src={images.pointer}
+          height={13}
+          width={13}
+        />
       ) : null}
       {data?.event_start_time && moment(data.event_start_time).format("HH:mm")}
     </div>

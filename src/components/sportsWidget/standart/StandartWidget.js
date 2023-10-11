@@ -5,15 +5,36 @@ import { MatchOdds } from "../../matches/MatchOdds";
 import { SportsBanner } from "../SportsBanner";
 import "./StandartWidget.css";
 import { useClientTranslation } from "@/app/i18n/client";
+import { v4 as uuidv4 } from "uuid";
+import { gamingSocket } from "@/context/socket";
+import { useEffect } from "react";
 
 export const StandartWidget = ({ data }) => {
   const { t } = useClientTranslation("common");
   const isTablet = useSelector((state) => state.isTablet);
 
+  useEffect(() => {
+    data.selections.forEach((selection) => {
+      gamingSocket.emit("subscribe_market", {
+        value: selection?.bet_id,
+      });
+    });
+
+    return () => {
+      data.selections.forEach((selection) => {
+        gamingSocket.emit("unsubscribe_market", {
+          value: selection?.bet_id,
+          action_id: uuidv4(),
+        });
+      });
+    };
+  }, []);
+
   return data?.selections?.length > 0 || data.header_banner !== "blank" ? (
     <div className="betting-in-home-slider">
       {data.header_banner && (
         <SportsBanner
+          data={data}
           title={data?.title}
           subtitle={data?.subtitle}
           image={data?.header_banner}

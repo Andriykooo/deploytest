@@ -32,7 +32,7 @@ import TransactionHistory from "../screens/TransactionHistory/TransactionHistory
 import Withdraw from "../screens/Withdraw/Withdraw";
 
 export const authRoutes = [
-  { path: "/home", component: <Home /> },
+  { path: "/home-page", component: <Home /> },
   { path: "/privacy", component: <Privacy /> },
   { path: "/terms", component: <Terms /> },
   { path: "/sign_up", component: <SignUp /> },

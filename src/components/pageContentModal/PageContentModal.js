@@ -1,10 +1,8 @@
-import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../../context/socket";
 import { XIcon } from "../../utils/icons";
-import { images } from "../../utils/imagesConstant";
 import { HtmlParse } from "../htmlParse/HtmlParse";
 import { Loader } from "../loaders/Loader";
 import "./PageContentModal.css";
@@ -16,7 +14,6 @@ export const PageContentModal = () => {
   const router = useRouter();
   const pathname = usePathname();
   const language = useSelector((state) => state.language);
-  const isMobile = useSelector((state) => state.setMobile);
 
   const [loader, setLoader] = useState(true);
   const [content, setContent] = useState("");

@@ -1,9 +1,8 @@
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "@/store/actions";
-import { images } from "../../utils/imagesConstant";
 import { ProfileCard } from "./Styled";
 import { useClientTranslation } from "@/app/i18n/client";
+import { SearchIcon } from "@/utils/icons";
 
 export const Search = ({ handleSearch }) => {
   const { t } = useClientTranslation("common");
@@ -22,7 +21,7 @@ export const Search = ({ handleSearch }) => {
   return (
     <ProfileCard className="search-profile-card" sports>
       <label className="d-flex align-items-center" onClick={onClickSearch}>
-        <Image alt="img-sports" src={images.search} className={"sports-icon"} />
+        <SearchIcon />
         <input
           type={"text"}
           className="input-search-sports dropdown-toggle popularDropdown profile top w-100"

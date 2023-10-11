@@ -2,6 +2,7 @@ import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import "./Chat.css";
 import { useClientTranslation } from "@/app/i18n/client";
+import { SendMessage } from "@/utils/icons";
 
 const TypingArea = ({
   onSubmit,
@@ -26,15 +27,8 @@ const TypingArea = ({
         onKeyDown={keyDownHandle}
       />
       <button className="chat-send-btn" type="submit">
-        <Image
-          height={30}
-          width={30}
-          src={
-            value.trim().length > 0
-              ? images.sendMessageGold
-              : images.sendMessageIcon
-          }
-          alt="send"
+        <SendMessage
+          color={value.trim().length > 0 && "var(--global-color-trader-chat-primary)"}
         />
       </button>
     </form>

@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
 import { useClientTranslation } from "@/app/i18n/client";
 import { getLocalStorageItem } from "@/utils/localStorage";
+import classNames from "classnames";
 
 const Terms = () => {
   const { t } = useClientTranslation(["terms", "common"]);
@@ -77,7 +78,9 @@ const Terms = () => {
 
   return (
     <div className="terms backgroundImage">
-      <p className="termsTitleForMainPage">{t("common:terms_and_conditions")}</p>
+      <p className="termsTitleForMainPage">
+        {t("common:terms_and_conditions")}
+      </p>
       {loader ? (
         <Loader />
       ) : (
@@ -96,9 +99,9 @@ const Terms = () => {
 
           {acceptIsActive ? (
             <Button
-              className={
-                acceptButtonDisabled ? "acceptBtn disabled" : "btnPrimary acceptBtn"
-              }
+              className={classNames("acceptBtn", {
+                disabled: acceptButtonDisabled,
+              })}
               onClick={continueToPrivacy}
               disabled={acceptButtonDisabled}
               text={t("common:accept")}

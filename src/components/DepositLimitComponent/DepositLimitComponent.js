@@ -13,6 +13,7 @@ import { Loader } from "@/components/loaders/Loader";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
 import { useClientTranslation } from "@/app/i18n/client";
+import { setSettingsApi } from "@/utils/apiQueries";
 
 const DepositLimitComponent = ({
   backRoute,
@@ -76,10 +77,8 @@ const DepositLimitComponent = ({
     }
 
     setIsLoading(true);
-
-    apiServices
-      .put(apiUrl.SETTINGS, body)
-      .then(() => {
+    setSettingsApi(body, dispatch, {
+      onSuccess: () => {
         if (currentLimit === -1 && selectedLimit > currentLimit - 1) {
           SuccesToast({
             message: t("successfully_updated"),
@@ -90,7 +89,7 @@ const DepositLimitComponent = ({
           });
         } else {
           SuccesToast({
-            message: t("change_request_cooldown_message")
+            message: t("change_request_cooldown_message"),
           });
         }
         setDepositData({
@@ -108,39 +107,43 @@ const DepositLimitComponent = ({
         ) {
           if (depositData.type === "daily") {
             newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_daily =
-            {
-              name:
-                dailyLimit !== -1 ? `${dailyLimit} ${currency}` : t("no_limit"),
-              value: dailyLimit,
-            };
+              {
+                name:
+                  dailyLimit !== -1
+                    ? `${dailyLimit} ${currency}`
+                    : t("no_limit"),
+                value: dailyLimit,
+              };
           } else if (depositData.type === "weekly") {
             newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_weekly =
-            {
-              name:
-                weeklyLimit !== -1
-                  ? `${weeklyLimit} ${currency}`
-                  : t("no_limit"),
-              value: weeklyLimit,
-            };
+              {
+                name:
+                  weeklyLimit !== -1
+                    ? `${weeklyLimit} ${currency}`
+                    : t("no_limit"),
+                value: weeklyLimit,
+              };
           } else if (depositData.type === "monthly") {
             newUser.user_data.settings.safer_gambling.deposit_limit.deposit_limit_monthly =
-            {
-              name:
-                monthlyLimit !== -1
-                  ? `${monthlyLimit} ${currency}`
-                  : t("no_limit"),
-              value: monthlyLimit,
-            };
+              {
+                name:
+                  monthlyLimit !== -1
+                    ? `${monthlyLimit} ${currency}`
+                    : t("no_limit"),
+                value: monthlyLimit,
+              };
           }
+          newUser.user_data.deposit_limit_initiated = true;
         }
         dispatch(setLoggedUser(newUser));
         onSetLimit();
         setSelectedLimit(0);
-      })
-      .catch(() => { })
-      .finally(() => {
         setIsLoading(false);
-      });
+      },
+      onError: () => {
+        setIsLoading(false);
+      },
+    });
   };
 
   const handleChangeInput = (e, type) => {
@@ -198,9 +201,7 @@ const DepositLimitComponent = ({
         marginBottomSize="sm"
         showBackOnDesktop={showBackOnDesktop}
       />
-      <p className="menuText">
-        {t("deposit_limit_settings_description")}
-      </p>
+      <p className="menuText">{t("deposit_limit_settings_description")}</p>
       {inputs.map((item) =>
         isTablet ? (
           <div className="row mb-3" key={item.type}>

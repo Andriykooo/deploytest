@@ -2,8 +2,27 @@ import { applyMiddleware, createStore } from "redux";
 import { persistReducer } from "redux-persist";
 import rootReducer from "../store/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-import storage from "redux-persist/lib/storage";
 import { useMemo } from "react";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+const createNoopStorage = () => {
+  return {
+    getItem(_key) {
+      return Promise.resolve(null);
+    },
+    setItem(_key, value) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key) {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 
 let store;
 
@@ -21,6 +40,7 @@ const persistConfig = {
     "pageLayoutContent",
     "updatedSelections",
     "updatedBetslipSelections",
+    "priceIsChanged",
     "subscriptions",
     "resultedEvents",
     "marketOptions",
@@ -31,6 +51,8 @@ const persistConfig = {
     "privacyModal",
     "termsModal",
     "forgotPassword",
+    "tooltip",
+    "isVerifyMessage",
   ],
 };
 

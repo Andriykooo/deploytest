@@ -3,7 +3,7 @@
 import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import Slider from "react-slick";
 import "swiper/css";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
@@ -11,8 +11,6 @@ import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { DynamicSelections } from "../dynamicSelections/DynamicSelections";
 import "./HomeSlider.css";
-import { gamingSocket } from "@/context/socket";
-import { v4 as uuidv4 } from "uuid";
 
 const HomeSlider = ({
   data,
@@ -43,31 +41,6 @@ const HomeSlider = ({
       },
     ],
   };
-
-  useEffect(() => {
-    data.forEach((carousel) => {
-      if (carousel.details.promo_type === "dynamic") {
-        carousel.buttons.forEach((selection) => {
-          gamingSocket.emit("subscribe_market", {
-            value: selection.bet_id,
-          });
-        });
-      }
-    });
-
-    return () => {
-      data.forEach((carousel) => {
-        if (carousel.details.promo_type === "dynamic") {
-          carousel.buttons.forEach((selection) => {
-            gamingSocket.emit("unsubscribe_market", {
-              value: selection.bet_id,
-              action_id: uuidv4(),
-            });
-          });
-        }
-      });
-    };
-  }, []);
 
   return (
     <div className={classNames({ recommendedSubtitle: subtitle }, className)}>
@@ -111,8 +84,8 @@ const HomeSlider = ({
                       alt="slider-img"
                       priority
                       quality={70}
-                      height={182}
-                      width={251}
+                      height={190}
+                      width={280}
                     />
                     <div className="slider-text">
                       {carouselItem?.details?.title}

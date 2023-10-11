@@ -4,9 +4,28 @@ import { images } from "@/utils/imagesConstant";
 import "./CustomerServiceNotive.css";
 import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
+import { useEffect } from "react";
+import { apiUrl } from "@/utils/constants";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setSettings } from "@/store/actions";
 
 export const CustomerServiceNotice = () => {
-  const { t } = useClientTranslation(["customer_service_notice", "common"])
+  const { t } = useClientTranslation(["customer_service_notice", "common"]);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    axios.get(apiUrl.GET_SETTINGS).then((result) => {
+      dispatch(setSettings(result));
+
+      if (!result?.data?.isCountryBlocked) {
+        router.replace("/");
+      }
+    });
+  }, []);
+
   return (
     <div className="customer-service-notice-wrapper">
       <div className="customer-service-notice">

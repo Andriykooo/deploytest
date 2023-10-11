@@ -26,7 +26,7 @@ export const NotFoundScreen = () => {
   return (
     <div className={classNames("error-page", montserrat.className)}>
       <div className="header-of-error-component">
-        <Link href="/home">
+        <Link href="/">
           <Image
             src={images.GroupSwifty}
             alt="Swifty Gaming"
@@ -43,7 +43,7 @@ export const NotFoundScreen = () => {
             {t("page_not_found")}
           </p>
           <div className="error-page-navigation">
-            <Link href="/home">
+            <Link href="/">
               <button className="btnPrimary error-page-navigation-button">
                 {t("go_to_homepage")}
                 <Image

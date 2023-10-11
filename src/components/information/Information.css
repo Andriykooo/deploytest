@@ -3,7 +3,7 @@
   align-items: center;
   width: 100%;
   min-height: 48px;
-  background-color: var(--global-color-secondary);
+  background-color: var(--global-color-background-quaternary);
   padding: 6px 16px;
   gap: 16px;
   border-radius: 10px;

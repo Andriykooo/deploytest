@@ -2,41 +2,9 @@ import Image from "next/image";
 import { LinkType } from "../LinkType/LinkType";
 import { DynamicSelections } from "../dynamicSelections/DynamicSelections";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { gamingSocket } from "@/context/socket";
-import { v4 as uuidv4 } from "uuid";
 
 export const BetSlipAds = () => {
   const sidebarRight = useSelector((state) => state.sidebarRight);
-
-  useEffect(() => {
-    if (sidebarRight?.data) {
-      sidebarRight?.data?.betslips.forEach((betslipAdd) => {
-        if (betslipAdd.promo_type === "dynamic") {
-          betslipAdd.buttons.forEach((selection) => {
-            gamingSocket.emit("subscribe_market", {
-              value: selection.bet_id,
-            });
-          });
-        }
-      });
-    }
-
-    return () => {
-      if (sidebarRight?.data) {
-        sidebarRight?.data?.betslips.forEach((betslipAdd) => {
-          if (betslipAdd.promo_type === "dynamic") {
-            betslipAdd.buttons.forEach((selection) => {
-              gamingSocket.emit("unsubscribe_market", {
-                value: selection.bet_id,
-                action_id: uuidv4(),
-              });
-            });
-          }
-        });
-      }
-    };
-  }, [sidebarRight?.data]);
 
   return sidebarRight?.data?.show_bet_holder ? (
     <div id="bet-holder" className="bet-holder">
@@ -50,6 +18,7 @@ export const BetSlipAds = () => {
                 quality={50}
                 height={305}
                 width={301}
+                priority
               />
               <div className="dynamic-betslip">
                 <DynamicSelections
@@ -68,7 +37,7 @@ export const BetSlipAds = () => {
               path={betslip.link_details.path}
               openType={betslip.link_details?.open_type}
               modalData={{
-                slug: betslip.link_details.path.substring(1),
+                slug: betslip?.link_details?.path?.substring(1),
                 title: betslip.title,
               }}
               key={index}
@@ -80,6 +49,7 @@ export const BetSlipAds = () => {
                 quality={50}
                 height={305}
                 width={301}
+                priority
               />
             </LinkType>
           );

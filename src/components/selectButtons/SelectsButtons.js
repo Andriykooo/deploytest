@@ -54,6 +54,7 @@ export const SelectButtons = ({ data, onSelect, selectedId, borders, fullWidth }
                       btnPrimary: active === item.id && !borders,
                       btnBorder: active === item.id && borders,
                       btnGray: active !== item.id,
+                      "active-button": active === item.id && !borders,
                     },
                     "selected-button"
                   )}

@@ -4,7 +4,7 @@
   gap: 10px;
   padding: 15px;
   padding-bottom: 0;
-  background-color: var(--global-color-shade5);
+  background-color: var(--global-color-background-tertiary);
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -16,19 +16,19 @@
 
 .my-bet {
   color: var(--global-color-text-primary);
-  background-color: var(--global-color-shade5);
-  border-left: 3px solid var(--global-color-shade5);
+  background-color: var(--global-color-background-tertiary);
+  border-left: 3px solid var(--global-color-background-tertiary);
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
 }
 
 .my-bet.winner {
-  border-left: 3px solid var(--global-color-price-shortening);
+  border-left: 3px solid var(--global-color-price-secondary);
 }
 
 .my-bet.loser {
-  border-left: 3px solid var(--global-color-price-drifting);
+  border-left: 3px solid var(--global-color-price-primary);
 }
 
 .my-bet-competition {
@@ -55,20 +55,20 @@
   width: 6px;
   flex-shrink: 0;
   border-radius: 50%;
-  background-color: var(--global-color-shade5);
+  background-color: var(--global-color-background-tertiary);
   margin: 5px;
 }
 
 .my-bet-result-dot.winner {
-  background-color: var(--global-color-price-shortening);
+  background-color: var(--global-color-price-secondary);
 }
 
 .my-bet-result-dot.loser {
-  background-color: var(--global-color-price-drifting);
+  background-color: var(--global-color-price-primary);
 }
 
 .my-bet-relust {
-  color: var(--global-color-yellow);
+  color: var(--global-color-text-tertiary);
 }
 
 .my-bet-market-name {

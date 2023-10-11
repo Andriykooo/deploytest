@@ -54,7 +54,7 @@ export const LoginEmail = ({
         if (nextUrlPath && nextUrlPath === "casino") {
           router.push("/casino");
         } else {
-          router.push("/home");
+          router.push("/");
         }
         if (
           response?.user_data?.actions &&

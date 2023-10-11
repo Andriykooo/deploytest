@@ -19,7 +19,7 @@ export const Profile = () => {
   const isActiveBetslip = () =>
     pathname.indexOf("/match") > -1 ||
     pathname.indexOf("/sport") > -1 ||
-    pathname.indexOf("/home") > -1 ||
+    pathname.indexOf("/home-page") > -1 ||
     pathname === "/" ||
     pathname.indexOf("/inplay") > -1;
 
