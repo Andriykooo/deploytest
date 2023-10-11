@@ -407,6 +407,6 @@ export const BaseLayout = (props) => {
   return pathname === "/customer_service_notice" ? (
     <CustomerServiceNotice />
   ) : (
-    <Content />
+    <Content {...props} />
   );
 };
