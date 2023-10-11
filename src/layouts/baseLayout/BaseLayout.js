@@ -15,7 +15,6 @@ import axios from "axios";
 import classNames from "classnames";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -393,17 +392,8 @@ const Content = ({ children, className }) => {
               loggedUser && isVerifyMessage && !disableHeader && !isModal,
           })}
         >
-          <HelmetProvider>
-            <Helmet>
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href={process.env.NEXT_PUBLIC_CSS}
-              />
-            </Helmet>
-            <Header isModal={isModal} />
-            {children}
-          </HelmetProvider>
+          <Header isModal={isModal} />
+          {children}
         </div>
         <PageContentModal />
       </SocketContext.Provider>
@@ -417,6 +407,6 @@ export const BaseLayout = (props) => {
   return pathname === "/customer_service_notice" ? (
     <CustomerServiceNotice />
   ) : (
-    "HELLO WORLD!!!!!!"
+    <Content />
   );
 };
