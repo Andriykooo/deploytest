@@ -45,9 +45,9 @@ export const Footer = ({ noMenu }) => {
 
   return footer?.data ? (
     <>
-      {isMounted && (
+      {/* {isMounted && (
         <Helmet>{parse(footer.data.footer_row2?.header || "")}</Helmet>
-      )}
+      )} */}
       <footer className="footer-container-div">
         <div className="pt-5 footerContainerMenu">
           {isTablet ? (
