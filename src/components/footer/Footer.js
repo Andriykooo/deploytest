@@ -2,7 +2,7 @@
 
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HtmlParse } from "../htmlParse/HtmlParse";

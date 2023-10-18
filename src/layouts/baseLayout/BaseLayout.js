@@ -15,7 +15,7 @@ import axios from "axios";
 import classNames from "classnames";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -450,7 +450,7 @@ export const BaseLayout = (props) => {
   const { pathname } = useClientPathname();
 
   return (
-    <HelmetProvider>
+    <>
       <Helmet>
         <link
           rel="stylesheet"
@@ -464,6 +464,6 @@ export const BaseLayout = (props) => {
       ) : (
         <Content {...props} />
       )}
-    </HelmetProvider>
+    </>
   );
 };
