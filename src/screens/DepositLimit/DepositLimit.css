@@ -71,6 +71,10 @@
   color: var(--global-color-text-primary) !important;
 }
 
+.limitBtn.btn.disabled {
+  opacity: 1;
+}
+
 .arrow-top > img:hover {
   cursor: pointer;
 }
@@ -528,6 +532,10 @@
 
 .depositModal-dialog {
   max-width: 568px;
+}
+
+.skipBtn {
+  background: var(--global-color-buttons-background-disabled);
 }
 
 @media screen and (max-width: 1024px) {

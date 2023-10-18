@@ -41,7 +41,7 @@ export const Racecard = () => {
 
   const event =
     raceCard?.events?.find(
-      (event) => event.event_id === +id && event?.availabilities?.includes(day)
+      (event) => event.event_id === id && event?.availabilities?.includes(day)
     ) || raceCard?.events[0];
 
   const disablePrice =
@@ -55,13 +55,6 @@ export const Racecard = () => {
 
     if (betTicker?.data?.mode === "pending") {
       temp = { bets: [], stakes: [], action: "check" };
-
-      dispatch(
-        setBetTicker({
-          status: "",
-          bet_referral_id: "",
-        })
-      );
     }
 
     let exist = false;
@@ -80,12 +73,6 @@ export const Racecard = () => {
     });
 
     if (temp.bets.length === 0) {
-      dispatch(
-        setBetTicker({
-          status: "",
-          bet_referral_id: "",
-        })
-      );
       dispatch(
         setBetSlipResponse({
           singles: [],

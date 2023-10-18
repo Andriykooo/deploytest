@@ -19,6 +19,7 @@ const Deposit = () => {
   const [step, setStep] = useState("amount");
   const [amount, setAmount] = useState(0);
   const [isLodaing, setIsLoading] = useState(false);
+  const [skip, setSkip] = useState(!user?.user_data?.deposit_limit_initiated);
 
   const getGatewayLink = useCallback((value) => {
     setGetLinkLoading(true);
@@ -58,11 +59,13 @@ const Deposit = () => {
     );
   }
 
-  if (!user?.user_data?.deposit_limit_initiated) {
+  if (skip) {
     return (
       <DepositLimitComponent
         onSetLimit={() => setStep("amount")}
         backRoute="/profile"
+        skipBtn
+        onSkip={() => setSkip(false)}
       />
     );
   }

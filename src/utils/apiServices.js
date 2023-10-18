@@ -36,6 +36,7 @@ const checkError = (code, message) => {
 
     // Suspended Account
     case 487:
+      nextWindow.location.href = "/login";
       break;
 
     // Suspended Closed

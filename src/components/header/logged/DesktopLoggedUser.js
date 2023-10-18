@@ -1,11 +1,15 @@
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import { useClientTranslation } from "@/app/i18n/client";
+import { setSidebarRight } from "@/store/actions";
 
 export const DesktopLoggedUser = ({ showBetSlip }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const betslipResponse = useSelector((state) => state.betslipResponse);
+  const sidebarRight = useSelector((state) => state.sidebarRight);
+
   const user = useSelector((state) => state.loggedUser);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency?.abbreviation || "";
@@ -25,22 +29,11 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
               <div
                 className="slip-icon"
                 onClick={() => {
-                  if (document.documentElement.clientWidth < 1400) {
-                    if (document.querySelector(".bet-slip-container")) {
-                      let actualDisplay = document.querySelector(
-                        ".bet-slip-container"
-                      ).style.display;
-                      if (actualDisplay === "block") {
-                        document.querySelector(
-                          ".bet-slip-container"
-                        ).style.display = "none";
-                      } else {
-                        document.querySelector(
-                          ".bet-slip-container"
-                        ).style.display = "block";
-                      }
-                    }
-                  }
+                  dispatch(
+                    setSidebarRight({
+                      isActive: !sidebarRight.isActive,
+                    })
+                  );
                 }}
               >
                 <SlipIcon />
@@ -58,9 +51,9 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
               <p className="signText balanceAmount">
                 {userBalance
                   ? parseFloat(userBalance)
-                    .toFixed(2)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      .toFixed(2)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "0.00"}
               </p>
               <p className="signText balanceAmount ms-2">

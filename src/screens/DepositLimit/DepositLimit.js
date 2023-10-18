@@ -6,6 +6,7 @@ const DepositLimit = () => {
     <DepositLimitComponent
       backRoute="/profile/safer_gambling"
       showBackOnDesktop
+      removeLimit
     />
   );
 };

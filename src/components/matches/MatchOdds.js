@@ -2,28 +2,26 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToUpdatedBetslipSelections,
   setBetSlipResponse,
-  setBetTicker,
   setSelectBet,
 } from "../../store/actions";
 import { Odds } from "../Odds/Odds";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
 
-export const MatchOdds = ({ selection, disable, children }) => {
+export const MatchOdds = memo(({ selection, disable, children }) => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const updatedSelections = useSelector((state) => state.updatedSelections);
-  const betTicker = useSelector((state) => state.betTicker);
 
   const [selectionRow, setSelectionRow] = useState(selection);
   const [previousSelection, prevoiusSelection] = useState(selection);
   const [priceChangeType, setPriceChangeType] = useState("");
-
+  const [isAnimationStart, setIsAnimationStart] = useState(false);
   const isSuspended = selectionRow?.trading_status === "suspended";
 
   const betIsOpen =
@@ -43,19 +41,6 @@ export const MatchOdds = ({ selection, disable, children }) => {
 
     const bet_id = e.target.dataset.id;
     let tmp = { ...selectedPlayerBets };
-
-    if (betTicker?.status) {
-      dispatch(
-        setBetTicker({
-          status: "",
-          bet_referral_id: "",
-        })
-      );
-    }
-
-    if (betTicker?.data?.mode === "pending") {
-      tmp = { bets: [], stakes: [], action: "check" };
-    }
 
     const new_bet = {
       bet_id: selection?.bet_id,
@@ -93,12 +78,6 @@ export const MatchOdds = ({ selection, disable, children }) => {
 
     if (tmp.bets.length === 0) {
       dispatch(
-        setBetTicker({
-          status: "",
-          bet_referral_id: "",
-        })
-      );
-      dispatch(
         setBetSlipResponse({
           singles: [],
           combinations: [],
@@ -112,6 +91,8 @@ export const MatchOdds = ({ selection, disable, children }) => {
   };
 
   useEffect(() => {
+    let timeoutId;
+
     if (selectionRow?.odds_decimal !== "SP" && odd) {
       const isBetslipOdd = selectedPlayerBets.bets.some(
         (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
@@ -123,6 +104,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
           : "shortening";
 
       setPriceChangeType(type);
+      setIsAnimationStart(true);
       prevoiusSelection(selectionRow);
       setSelectionRow((prev) => {
         return {
@@ -131,19 +113,26 @@ export const MatchOdds = ({ selection, disable, children }) => {
         };
       });
 
+      timeoutId = setTimeout(() => {
+        setIsAnimationStart(false);
+      }, 2500);
+
       if (isBetslipOdd) {
         dispatch(
           addToUpdatedBetslipSelections({ ...odd?.data, priceChangeType: type })
         );
       }
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [odd]);
 
   const priceBoost = {
     ...selectionRow,
-    odds_american: selection?.price_boost_odds?.american,
-    odds_decimal: selection?.price_boost_odds?.decimal,
-    odds_fractional: selection?.price_boost_odds?.fractional,
+    odds_fractional: selectionRow?.price_boost_odds?.fractional,
+    odds_decimal: selectionRow?.price_boost_odds?.decimal,
   };
 
   return (
@@ -154,7 +143,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
       key={selectionRow?.bet_id}
     >
       <TooltipWrapper
-        show={priceChangeType && !isSuspended}
+        show={priceChangeType && !isSuspended && !isAnimationStart}
         message={
           <div className="matchOddsTipContent">
             <Odds selection={previousSelection} />
@@ -164,53 +153,64 @@ export const MatchOdds = ({ selection, disable, children }) => {
               width={10}
               alt={t("arrow")}
             />
-            <Odds selection={selectionRow} />
+            <Odds
+              selection={selectionRow?.price_boost ? priceBoost : selectionRow}
+            />
           </div>
         }
       >
         <div
           className={classNames("matchOdds", {
-            selectionPriceBoost: selection?.price_boost && !isSuspended,
+            selectionPriceBoost: selectionRow?.price_boost && !isSuspended,
             styleOfSelectedOdd: isSelected && !isSuspended,
             suspended: isSuspended,
             drifting: priceChangeType === "drifting" && !isSuspended,
             shortening: priceChangeType === "shortening" && !isSuspended,
-            driftingAnimation:
-              odd?.data?.odds_decimal === selectionRow.odds_decimal &&
-              priceChangeType === "drifting" &&
-              !isSuspended,
-            shorteningAnimation:
-              odd?.data?.odds_decimal === selectionRow.odds_decimal &&
-              priceChangeType === "shortening" &&
-              !isSuspended,
           })}
-          data-value={selectionRow?.odd ? selectionRow?.odd : 1}
-          id={"bet_odds_" + selectionRow?.bet_id}
-          data-id={selectionRow?.bet_id}
-          onClick={handlerOnClick}
         >
-          {children}
-          <Odds
-            selection={selection?.price_boost ? priceBoost : selectionRow}
-          />
-          {selection?.price_boost &&
-            selectionRow?.trading_status !== "suspended" && (
-              <svg
-                width="8"
-                height="14"
-                viewBox="0 0 8 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={classNames("priceBoostIcon", { active: isSelected })}
-              >
-                <path
-                  d="M2.77003 14L3.61941 8.39639H0L5.22997 0L4.38059 5.60361H8L2.77003 14Z"
-                  fill="neno"
-                />
-              </svg>
-            )}
+          <div
+            className={classNames("animationBlock", {
+              driftingAnimation:
+                odd?.data?.odds_decimal === selectionRow.odds_decimal &&
+                priceChangeType === "drifting" &&
+                !isSuspended &&
+                isAnimationStart,
+              shorteningAnimation:
+                odd?.data?.odds_decimal === selectionRow.odds_decimal &&
+                priceChangeType === "shortening" &&
+                !isSuspended &&
+                isAnimationStart,
+            })}
+            data-value={selectionRow?.odd ? selectionRow?.odd : 1}
+            id={"bet_odds_" + selectionRow?.bet_id}
+            data-id={selectionRow?.bet_id}
+            onClick={handlerOnClick}
+          >
+            {children}
+            <Odds
+              selection={selectionRow?.price_boost ? priceBoost : selectionRow}
+            />
+            {selectionRow?.price_boost &&
+              selectionRow?.trading_status !== "suspended" && (
+                <svg
+                  width="8"
+                  height="14"
+                  viewBox="0 0 8 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={classNames("priceBoostIcon", {
+                    active: isSelected,
+                  })}
+                >
+                  <path
+                    d="M2.77003 14L3.61941 8.39639H0L5.22997 0L4.38059 5.60361H8L2.77003 14Z"
+                    fill="neno"
+                  />
+                </svg>
+              )}
+          </div>
         </div>
       </TooltipWrapper>
     </div>
   );
-};
+});

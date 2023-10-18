@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSport, setLogos } from "../../store/actions";
-import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
+import axios from "axios";
 
 export const Logo = ({ handleNavigateHome, className }) => {
   const dispatch = useDispatch();
@@ -14,8 +14,8 @@ export const Logo = ({ handleNavigateHome, className }) => {
   const logos = useSelector((state) => state.logos);
 
   useEffect(() => {
-    apiServices.get(apiUrl.GET_CSS_CONTENT).then((response) => {
-      dispatch(setLogos(response));
+    axios.get(apiUrl.GET_CSS_CONTENT).then((response) => {
+      dispatch(setLogos(response.data));
     });
   }, []);
 

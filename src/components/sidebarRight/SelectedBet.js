@@ -5,7 +5,6 @@ import {
   removeBetAmount,
   removeReturnValue,
   setBetSlipResponse,
-  setBetTicker,
   setSelectBet,
 } from "../../store/actions";
 import { XIcon } from "../../utils/icons";
@@ -13,10 +12,11 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Checkbox } from "@mui/material";
 import { BetslipOdds } from "./BetslipOdds/BetslipOdds";
 import { useClientTranslation } from "@/app/i18n/client";
+import classNames from "classnames";
 
 const prohibitedCharacters = ["e", "+", " "];
 
-export const SelectedBet = ({ row }) => {
+export const SelectedBet = ({ row, disabled }) => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const userSelectedBets = useSelector((state) => state.selectedBets);
@@ -76,7 +76,6 @@ export const SelectedBet = ({ row }) => {
       setOddValue({
         ...row,
         odds_decimal: "SP",
-        odds_american: "SP",
         odds_fractional: "SP",
       });
     } else {
@@ -95,38 +94,34 @@ export const SelectedBet = ({ row }) => {
   }, [debouncedValue]);
 
   return (
-    <div className="selected-bet-container">
+    <div className={classNames("selected-bet-container", { disabled })}>
       <div className="selected-bet-title">
         <div className="d-flex align-items-center">
-          <div
-            className="remove-bet"
-            onClick={() => {
-              dispatch(removeBet(row));
-              dispatch(removeBetAmount(row?.bet_id));
-              dispatch(removeReturnValue(row?.bet_id));
+          {!disabled && (
+            <div
+              className="remove-bet"
+              onClick={() => {
+                dispatch(removeBet(row));
+                dispatch(removeBetAmount(row?.bet_id));
+                dispatch(removeReturnValue(row?.bet_id));
 
-              if (userSelectedBets?.bets?.length - 1 === 0) {
-                dispatch(
-                  setBetTicker({
-                    status: "",
-                    bet_referral_id: "",
-                  })
-                );
-                dispatch(
-                  setBetSlipResponse({
-                    singles: [],
-                    combinations: [],
-                    total_stakes: 0,
-                    total_payout: 0,
-                  })
-                );
+                if (userSelectedBets?.bets?.length - 1 === 0) {
+                  dispatch(
+                    setBetSlipResponse({
+                      singles: [],
+                      combinations: [],
+                      total_stakes: 0,
+                      total_payout: 0,
+                    })
+                  );
 
-                return;
-              }
-            }}
-          >
-            <XIcon />
-          </div>
+                  return;
+                }
+              }}
+            >
+              <XIcon />
+            </div>
+          )}
           <span className="selected-market-selection"> {row?.name || ""}</span>
         </div>
         {row?.bog_applicable && (

@@ -8,6 +8,7 @@ export const BetslipOdds = ({ selection, className, children }) => {
   const updatedBetslipSelections = useSelector(
     (state) => state.updatedBetslipSelections
   );
+  const betTicker = useSelector((state) => state.betTicker);
 
   const odd =
     updatedBetslipSelections?.[
@@ -18,19 +19,19 @@ export const BetslipOdds = ({ selection, className, children }) => {
     odd?.trading_status === "suspended" ||
     selection.trading_status === "suspended";
 
-  const [previousSelection, setPreviousSelection] = useState(selection);
+  const [selectionData, setSelectionData] = useState(selection);
   const [priceChangeType, setPriceChangeType] = useState(null);
 
   useEffect(() => {
-    if (odd) {
+    if (odd && betTicker?.status !== "new_offer") {
       setPriceChangeType(odd.priceChangeType);
-      setPreviousSelection(odd);
+      setSelectionData(odd);
     }
   }, [odd]);
 
   useEffect(() => {
     if (selection) {
-      setPreviousSelection(selection);
+      setSelectionData(selection);
     }
   }, [selection]);
 
@@ -43,6 +44,12 @@ export const BetslipOdds = ({ selection, className, children }) => {
     }
   }, [updatedBetslipSelections]);
 
+  const priceBoost = {
+    ...selectionData,
+    odds_fractional: selectionData?.price_boost_odds?.fractional,
+    odds_decimal: selectionData?.price_boost_odds?.decimal,
+  };
+
   return (
     <div
       className={classNames("betslip-odds", className, {
@@ -53,8 +60,18 @@ export const BetslipOdds = ({ selection, className, children }) => {
           priceChangeType === "shortening" && !isSuspended && priseChanged,
       })}
     >
-      <Odds selection={odd || previousSelection} />
-      {!odd && children}
+      <Odds
+        selection={
+          selectionData?.price_boost ? priceBoost : selectionData
+        }
+      />
+      <div
+        className={classNames("betslip-odds-inner-content", {
+          "price-changes": priseChanged,
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 };

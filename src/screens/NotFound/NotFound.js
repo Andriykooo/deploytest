@@ -29,7 +29,7 @@ export const NotFoundScreen = () => {
         <Link href="/">
           <Image
             src={images.GroupSwifty}
-            alt="Swifty Gaming"
+            alt="logo"
             height={35}
             width={230}
           />

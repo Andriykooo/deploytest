@@ -29,10 +29,17 @@ export const initialState = {
     stakes: [],
     action: "check",
   },
+  reviewBets: {
+    singles: [],
+    combinations: [],
+    total_stakes: 0,
+    total_payout: 0,
+  },
   betTicker: {
     status: "",
     bet_referral_id: "",
   },
+  newOfferTimer: -1,
   betAmounts: [],
   returnAmounts: [],
   subscriptions: {},
@@ -52,6 +59,7 @@ export const initialState = {
   },
   sidebarRight: {
     data: null,
+    isActive: false,
   },
   footer: {
     data: null,
@@ -140,17 +148,33 @@ const rootReducer = (appstate = initialState, action) => {
             stakes: [],
             action: "check",
           },
+          updatedBetslipSelections: {},
+          priceIsChanged: false,
         };
       } else {
+        const priceChanges = { ...appstate.updatedBetslipSelections };
+
         let filteredBets = appstate.selectedBets.bets.filter((row) => {
-          return action?.payload?.type === "unnamed_favorite"
-            ? +action.payload.bet_id !== +row.bet_id
-            : row.bet_id !==
-                `${action.payload.bet_provider}-${action.payload.bet_id}`;
+          if (action?.payload?.type === "unnamed_favorite") {
+            return +action.payload.bet_id !== +row.bet_id;
+          }
+
+          const exist =
+            row.bet_id ===
+            `${action.payload.bet_provider}-${action.payload.bet_id}`;
+
+          if (exist) {
+            delete priceChanges[row.bet_id];
+          }
+
+          return !exist;
         });
+
         return {
           ...appstate,
           selectedBets: { ...appstate.selectedBets, bets: filteredBets },
+          updatedBetslipSelections: priceChanges,
+          priceIsChanged: Object.values(priceChanges).length > 0,
         };
       }
     case constants.SET_BET_AMOUNT:
@@ -223,6 +247,12 @@ const rootReducer = (appstate = initialState, action) => {
         ...appstate,
         sidebarLeft: action.payload,
       };
+
+    case constants.SET_NEW_OFFER_TIMER:
+      return {
+        ...appstate,
+        newOfferTimer: action.payload,
+      };
     case constants.SET_HEADER_DATA:
       return {
         ...appstate,
@@ -236,7 +266,7 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.SET_SIDEBAR_RIGHT:
       return {
         ...appstate,
-        sidebarRight: action.payload,
+        sidebarRight: { ...appstate.sidebarRight, ...action.payload },
       };
 
     case constants.SET_LANGUAGE:
@@ -316,6 +346,12 @@ const rootReducer = (appstate = initialState, action) => {
         updatedBetslipSelections: action.payload,
       };
 
+    case constants.SET_REVIEW_BETS:
+      return {
+        ...appstate,
+        reviewBets: action.payload,
+      };
+
     case constants.UPDATE_PAGE_LAYOUT_CONTENT:
       return {
         ...appstate,
@@ -380,9 +416,17 @@ const rootReducer = (appstate = initialState, action) => {
       };
 
     case constants.SET_PRICE_IS_CHANGED:
+      const data = {
+        priceIsChanged: action.payload,
+      };
+
+      if (!action.payload) {
+        data.updatedBetslipSelections = {};
+      }
+
       return {
         ...appstate,
-        priceIsChanged: action.payload,
+        ...data,
       };
 
     case constants.SET_FAVOURITE_GAMES:
@@ -498,6 +542,7 @@ const rootReducer = (appstate = initialState, action) => {
         favouriteGames: {},
         usageStartTime: new Date(),
         promo: null,
+        isVerifyMessage: false,
         forgotPassword: false,
       };
 

@@ -76,7 +76,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
                 placeholder={t("common:region")}
                 data={
                   sportContent?.regions?.map((region, index) => ({
-                    label: region,
+                    label: region.name,
                     id: index,
                   })) || []
                 }

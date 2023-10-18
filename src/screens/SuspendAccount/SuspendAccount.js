@@ -15,8 +15,10 @@ import { useClientTranslation } from "@/app/i18n/client";
 const SuspendAccount = () => {
   const { t } = useClientTranslation(["suspend_account", "common"]);
   const dispatch = useDispatch();
-  const user_settings = useSelector((state) => state?.user_settings);
   const logout = useLogout();
+
+  const user_settings = useSelector((state) => state?.user_settings);
+  const settings = useSelector((state) => state?.settings);
 
   const [selectedLimit, setSelectedLimit] = useState(-1);
   const [suspendPeriod, setSuspendPeriod] = useState(false);
@@ -95,11 +97,9 @@ const SuspendAccount = () => {
             showBackOnDesktop
           />
           <p className="menuText">
-            {t('break_options_message')}
+            {t("break_options_message", { company: settings?.companyName })}
           </p>
-          <p className="menuText">
-            {t('timeout_logout_message')}
-          </p>
+          <p className="menuText">{t("timeout_logout_message")}</p>
           <div className="row mb-3 susAccount">
             <div className="col-6 subText">{t("suspend_account_for")}</div>
             <PreferencesDropdown

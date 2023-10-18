@@ -6,7 +6,7 @@ import ConfirmDepositLimitModal from "@/screens/DepositLimit/ConfirmDepositLimit
 import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
 import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
 import TermsConfirmModal from "@/screens/Terms/TermsConfirmModal";
-import { CloseButton, alertToast } from "@/utils/alert";
+import { CloseButton, SuccesToast, alertToast } from "@/utils/alert";
 import { theme } from "@/utils/config";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
@@ -31,9 +31,12 @@ import {
   setIsVerifyMessage,
   setLoggedUser,
   setMobile,
+  setNewOfferTimer,
   setOnBoardingData,
   setResultedEvents,
+  setReviewBets,
   setSettings,
+  setSidebarRight,
   setSportData,
   setSportTypes,
   setTablet,
@@ -246,7 +249,6 @@ const Content = ({ children, className }) => {
     });
 
     communicationSocket?.on("bet_referral_message", (response) => {
-      // const message = `Bet ${response.bet_referral_id} - ${response.status}`;
       if (response?.status === "approved") {
         dispatch(
           setBetTicker({
@@ -254,6 +256,28 @@ const Content = ({ children, className }) => {
             bet_referral_id: response?.bet_referral_id,
           })
         );
+
+        dispatch(
+          setReviewBets({
+            singles: [],
+            combinations: [],
+            total_stakes: 0,
+            total_payout: 0,
+          })
+        );
+
+        SuccesToast({
+          message: t("trader_accepted_the_bet"),
+          autoClose: false,
+          onClose: () => {
+            dispatch(
+              setBetTicker({
+                status: "",
+                bet_referral_id: "",
+              })
+            );
+          },
+        });
 
         apiServices.post(apiUrl.GET_BET_SLIP, {
           bets: [],
@@ -270,6 +294,28 @@ const Content = ({ children, className }) => {
             bet_referral_id: response?.bet_referral_id,
           })
         );
+
+        dispatch(
+          setReviewBets({
+            singles: [],
+            combinations: [],
+            total_stakes: 0,
+            total_payout: 0,
+          })
+        );
+
+        alertToast({
+          message: t("trader_rejected_the_bet"),
+          autoClose: false,
+          onClose: () => {
+            dispatch(
+              setBetTicker({
+                status: "",
+                bet_referral_id: "",
+              })
+            );
+          },
+        });
       }
 
       if (response?.status === "new_offer") {
@@ -280,6 +326,9 @@ const Content = ({ children, className }) => {
             bet_slip: response?.bet_slip,
           })
         );
+
+        dispatch(setNewOfferTimer(response.bet_slip.expireSeconds));
+        dispatch(setReviewBets(response.bet_slip));
       }
     });
 
@@ -300,16 +349,11 @@ const Content = ({ children, className }) => {
       setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
     );
 
-    // show/hide bet slip based on document width
-    const betSlipContainer = document.querySelector(".bet-slip-container");
-
-    if (betSlipContainer) {
-      if (nextWindow.document.documentElement.clientWidth > 1400) {
-        betSlipContainer.style.display = "block";
-      } else {
-        betSlipContainer.style.display = "none";
-      }
-    }
+    dispatch(
+      setSidebarRight({
+        isActive: nextWindow.document.documentElement.clientWidth > 1400,
+      })
+    );
   };
 
   useEffect(() => {
@@ -360,7 +404,7 @@ const Content = ({ children, className }) => {
           autoClose={4000}
           hideProgressBar={true}
           newestOnTop={false}
-          limit={2}
+          limit={3}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
@@ -393,17 +437,8 @@ const Content = ({ children, className }) => {
               loggedUser && isVerifyMessage && !disableHeader && !isModal,
           })}
         >
-          <HelmetProvider>
-            <Helmet>
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href={process.env.NEXT_PUBLIC_CSS}
-              />
-            </Helmet>
-            <Header isModal={isModal} />
-            {children}
-          </HelmetProvider>
+          <Header isModal={isModal} />
+          {children}
         </div>
         <PageContentModal />
       </SocketContext.Provider>
@@ -414,9 +449,21 @@ const Content = ({ children, className }) => {
 export const BaseLayout = (props) => {
   const { pathname } = useClientPathname();
 
-  return pathname === "/customer_service_notice" ? (
-    <CustomerServiceNotice />
-  ) : (
-    <Content {...props} />
+  return (
+    <HelmetProvider>
+      <Helmet>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href={process.env.NEXT_PUBLIC_CSS}
+        />
+      </Helmet>
+
+      {pathname === "/customer_service_notice" ? (
+        <CustomerServiceNotice />
+      ) : (
+        <Content {...props} />
+      )}
+    </HelmetProvider>
   );
 };

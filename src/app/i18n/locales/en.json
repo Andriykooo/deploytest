@@ -18,7 +18,7 @@
     "release_free_bets": "Release your free bets",
     "qualifying_bets_instruction": "Place a minimum of 3 x £20 qualifying bets on the first day’s betting.",
     "use_free_bets": "Use your free bets",
-    "swifty_gaming_rewards_welcome": "SWIFTY GAMING REWARDS CLUB & WELCOME BONUS",
+    "rewards_welcome": "{{company}} REWARDS CLUB & WELCOME BONUS",
     "wrong_platform": "Wrong platform! Please sign in with a different one",
     "free_bets_available_after": "Your free bets will be available 48 hours after your last qualifying bet.",
     "google_sign_in": "Please sign in with Google",
@@ -92,7 +92,6 @@
     "time": "Time",
     "country": "Country",
     "try_for_free": "Try For Free",
-    "swifty_gaming_logo": "Swifty Gaming Logo",
     "accept": "ACCEPT",
     "select_bet": "Select bet",
     "warning": "warning",
@@ -160,6 +159,10 @@
     "bets_placed_success": "Your bets have been successfully placed",
     "open_bets": "OPEN BETS",
     "click_here_to_deposit": "Click here to deposit",
+    "trader_offer_expired": "Trader offer expired",
+    "trader_accepted_the_bet": "Trader accepted the bet",
+    "trader_rejected_the_bet": "Trader rejected the bet",
+    "max_bets_under_review": "Max one Betslip under trader review at a time.",
     "odds_availability_changed_message": "The odds or availability of your selections have changed",
     "bet_user_rejected_message": "You rejected the trader offer",
     "bet_rejected_message": "Your bet has been rejected by the trader",
@@ -167,12 +170,13 @@
     "insufficient_balance_message": "You need {{ balance }} more to place this bet",
     "please_enter_stake": "PLEASE ENTER A STAKE",
     "accept_price_changes": "ACCEPT PRICE CHANGES",
+    "accept_offer": "Accept Offer",
     "please_deposit": "PLEASE DEPOSIT",
     "place": "PLACE",
     "place_bet": "PLACE BET",
-    "pending_trader_review": "PENDING TRADER REVIEW",
+    "pending_trader_review": "Pending Trader Review",
     "no_live_events_message": "There are no live events right now. Check back again later.",
-    "no_more_events_today_message": "There are no more events for the day!",
+    "there_are_no_upcoming_events": "There are no upcoming events.",
     "home": "Home",
     "ok_i_get_it": "Ok, I get it",
     "app_usage_duration_message": "You’ve been using the app for",
@@ -251,7 +255,7 @@
     "thank_you_message_swifty_team": "Thank you for your message. Someone from the Swifty Team will aim to come back to you within 72 hours."
   },
   "customer_service_notice": {
-    "thank_you_for_visiting": "Thank you for visiting Swifty Gaming.",
+    "thank_you_for_visiting": "Thank you for visiting {{company}}.",
     "site_blocks_access_from_certain_territories": "This site blocks access from users accessing from certain territories.",
     "restricted_country_access_notice": "Our monitoring software has detected your IP is from a restricted country so you are unable to access the site. If this is incorrect or you require further information, please contact.",
     "apology_for_inconvenience": "We apologize for any inconvenience that this may have caused."
@@ -381,11 +385,13 @@
     "confirm_new_password": "Confirm new password",
     "password_match_requirement": "Both passwords must match",
     "password_max_length_requirement": "Maximum length of password must be 256 characters",
-    "mobile_verification_required": "Mobile verification required"
+    "mobile_verification_required": "Mobile verification required",
+    "skip": "Skip"
   },
   "racecard": {
     "win_ew": "Win / Ew",
     "sp": "SP",
+    "nr": "NR",
     "1st": "1st",
     "2nd": "2nd",
     "3rd": "3rd",
@@ -413,8 +419,8 @@
     "more_information": "More information",
     "deposit_limit_desc": "Set deposit limits to control your spending",
     "gaming_reminders_desc": "Control your game time with reminders",
-    "suspend_account_desc": "Take a break from Swifty Gaming",
-    "self_exclude_desc": "Excluded yourself from Swifty Gaming",
+    "suspend_account_desc": "Take a break from {{company}}",
+    "self_exclude_desc": "Excluded yourself from {{company}}",
     "more_information_desc": "Read about Safer Gambling"
   },
   "safer_gambling_information": {
@@ -479,7 +485,7 @@
     "account_has_been_suspended": "Your account has been suspended for",
     "day": "Day",
     "days": "Days",
-    "break_options_message": "If you want to take a break from Swifty Gaming, we offer the following options.",
+    "break_options_message": "If you want to take a break from {{company}}, we offer the following options.",
     "timeout_logout_message": "Once a timeout has been applied you will be logged out and you won't be able to log in for the chosen duration."
   },
   "terms": {

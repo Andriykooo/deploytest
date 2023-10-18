@@ -125,6 +125,13 @@ export const setBetAmount = (payload) => {
   };
 };
 
+export const setNewOfferTimer = (payload) => {
+  return {
+    type: constants.SET_NEW_OFFER_TIMER,
+    payload,
+  };
+};
+
 export const removeBetAmount = (payload) => {
   return {
     type: constants.REMOVE_BET_AMOUNT,
@@ -380,6 +387,13 @@ export const setTooltip = (payload) => {
 export const setIsVerifyMessage = (payload) => {
   return {
     type: constants.SET_IS_VERIFY_MESSAGE,
+    payload,
+  };
+};
+
+export const setReviewBets = (payload) => {
+  return {
+    type: constants.SET_REVIEW_BETS,
     payload,
   };
 };

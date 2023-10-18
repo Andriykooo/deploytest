@@ -33,9 +33,9 @@ export const DynamicSelections = ({ selections, eventId }) => {
 
   return (
     <div className="dynamic-selections">
-      {selections?.length > 4 ? (
+      {selections?.length > 3 ? (
         <>
-          {selections.slice(0, 3).map((selection, index) => {
+          {selections.slice(0, 2).map((selection, index) => {
             return (
               <div
                 className="btnPrimary betNowButtonOFSlider dynamic-selections-button"
@@ -51,7 +51,7 @@ export const DynamicSelections = ({ selections, eventId }) => {
               </div>
             );
           })}
-          <LinkType type="default" path={`/match/${eventId}`}>
+          <LinkType type="default" path={`/match/${eventId}`} className="w-100">
             <Button
               className="btnPrimary betNowButtonOFSlider dynamic-selections-button px-1"
               text={t("more")}

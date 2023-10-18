@@ -32,14 +32,12 @@ export const StandartWidget = ({ data }) => {
 
   return data?.selections?.length > 0 || data.header_banner !== "blank" ? (
     <div className="betting-in-home-slider">
-      {data.header_banner && (
-        <SportsBanner
-          data={data}
-          title={data?.title}
-          subtitle={data?.subtitle}
-          image={data?.header_banner}
-        />
-      )}
+      <SportsBanner
+        data={data}
+        title={data?.title}
+        subtitle={data?.subtitle}
+        image={data?.header_banner}
+      />
 
       {data?.selections?.length > 0 ? (
         <div className="standart-widget-wrapper">
@@ -61,7 +59,7 @@ export const StandartWidget = ({ data }) => {
           )}
         </div>
       ) : (
-        <EmptyState message={t("no_more_events_today_message")} />
+        <EmptyState message={t("there_are_no_upcoming_events")} />
       )}
     </div>
   ) : null;

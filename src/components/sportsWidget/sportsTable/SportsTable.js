@@ -89,7 +89,7 @@ export const SportsTable = ({ data, type }) => {
           message={
             data.details.widget_type === "in_play"
               ? t("no_live_events_message")
-              : t("no_more_events_today_message")
+              : t("there_are_no_upcoming_events")
           }
         />
       )}

@@ -119,6 +119,9 @@
   min-width: 50px;
   width: 100%;
   height: 50px;
+}
+
+.odds-of-horse .animationBlock {
   padding: 5px;
 }
 

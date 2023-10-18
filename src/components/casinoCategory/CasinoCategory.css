@@ -384,6 +384,7 @@
 }
 
 .casinoGame {
+  object-fit: cover;
   cursor: pointer;
   border-radius: 6px;
 }
@@ -545,7 +546,6 @@ button.btnPlayNow {
 .casino-game-cover {
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
   width: 100%;
   height: 397px;
 }

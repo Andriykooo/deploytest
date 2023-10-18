@@ -54,9 +54,9 @@ const ContactUsModal = ({ setPageModal }) => {
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
           {isMobile ? (
-            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
+            <Image src={images.gamingMobile} alt="logo" />
           ) : (
-            <Image src={images.GroupSwifty} alt="Swifty Gaming Logo" />
+            <Image src={images.GroupSwifty} alt="logo" />
           )}
         </div>
         <div

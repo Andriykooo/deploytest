@@ -114,7 +114,8 @@ export const SidebarLeft = () => {
                     <Image
                       alt="img-minisidebar"
                       src={item?.icon}
-                      style={{ color: "#516ae9" }}
+                      priority
+                      quality={50}
                       className="sports-icon-miniSidebar"
                       height={20}
                       width={20}

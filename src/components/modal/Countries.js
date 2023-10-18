@@ -98,6 +98,7 @@ export const Countries = ({
                       rel="preload"
                       src={country.flag_url}
                       alt={country.name}
+                      priority
                       className="countriesFlags"
                       height={24}
                       width={24}

@@ -7,6 +7,7 @@ import { useClientTranslation } from "@/app/i18n/client";
 export const Place = ({ item, place, onClick, disable, eventId }) => {
   const { t } = useClientTranslation(["racecard", "common"]);
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
+  const betTicker = useSelector((state) => state.betTicker);
 
   const places = {
     1: t("1st"),
@@ -51,6 +52,7 @@ export const Place = ({ item, place, onClick, disable, eventId }) => {
       className={classNames("price", {
         ["pe-none"]: disable,
         disable:
+          betTicker?.status === "new_offer" ||
           (eventIdInBetslip ? eventIdInBetslip !== eventId : false) ||
           (selectionType === "place"
             ? currentPlaceIsSelected ||

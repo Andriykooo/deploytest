@@ -92,7 +92,6 @@
   justify-content: center;
   gap: 5px;
   position: relative;
-  padding: 0 5px;
   border-radius: 0px;
   display: flex;
   justify-content: center;
@@ -104,7 +103,16 @@
   text-align: center;
   color: var(--global-color-primary);
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.animationBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  transition: background-color 2.5s ease;
 }
 
 .rowBetsOdds {
@@ -148,6 +156,7 @@
 .priceBoostIcon {
   pointer-events: none;
   fill: var(--global-color-primary);
+  margin-left: 4px;
 }
 
 .priceBoostIcon.active {
@@ -185,8 +194,10 @@
   font-weight: 400;
 }
 
-.matchOdds.driftingAnimation {
-  animation: drifting 5s ease;
+.animationBlock.driftingAnimation {
+  /* animation: drifting 5s ease; */
+  background-color: var(--global-color-price-primary);
+  color: var(--global-color-text-primary);
 }
 
 .matchOdds.drifting::before {
@@ -202,8 +213,10 @@
   background-color: transparent;
 }
 
-.matchOdds.shorteningAnimation {
-  animation: shortening 5s ease;
+.animationBlock.shorteningAnimation {
+  /* animation: shortening 5s ease; */
+  background-color: var(--global-color-price-secondary);
+  color: var(--global-color-text-primary);
 }
 
 .matchOdds.shortening::before {

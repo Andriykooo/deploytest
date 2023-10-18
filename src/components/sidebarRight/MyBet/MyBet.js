@@ -6,6 +6,7 @@ import { alertToast } from "@/utils/alert";
 import { getUserApi } from "@/utils/apiQueries";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
+import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
 import Image from "next/image";
@@ -42,7 +43,6 @@ export const MyBet = ({ data, setData }) => {
   const user = useSelector((state) => state.loggedUser);
   const userCurrency = user?.user_data?.currency?.abbreviation;
   const dispatch = useDispatch();
-
   const getUserData = () => {
     getUserApi(dispatch).then((response) => {
       dispatch(setLoggedUser({ ...loggedUser, user_data: response }));
@@ -109,10 +109,10 @@ export const MyBet = ({ data, setData }) => {
         )}
         <div className="my-bet-returns">
           <div>
-            {t("stake")}: <span className="my-bet-relust">{data.total_stake}</span>
+            {t("stake")}: <span className="my-bet-relust">{formatNumberWithDecimal(data.total_stake)}</span>
           </div>
           <div>
-            {t("returns")}: <span className="my-bet-relust">{data.payout}</span>
+            {t("returns")}: <span className="my-bet-relust">{formatNumberWithDecimal(data.payout)}</span>
           </div>
         </div>
       </div>

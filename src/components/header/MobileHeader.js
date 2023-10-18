@@ -36,7 +36,7 @@ export const MobileHeader = ({
         </div>
         <div>
           <Link href="/">
-            <Image src={images.gamingMobile} alt="Swifty Gaming Logo" />
+            <Image src={images.gamingMobile} alt="logo" />
           </Link>
         </div>
         <div className="sing-up-txt mobileAccInfo">

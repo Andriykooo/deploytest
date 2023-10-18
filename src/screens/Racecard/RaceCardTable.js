@@ -11,26 +11,24 @@ export const RacecardTable = ({ headerData, data }) => {
   const currentTime = useSelector((state) => state.currentTime);
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const isResulted = resultedEvents[data?.event_id] || data?.resulted;
-
   const activeRunners = [];
   const nonRunners = [];
-
   const selections = isResulted
     ? data.selections.sort((a, b) => {
-        if (!a.finish_num && b.finish_num) {
-          return 1;
-        }
+      if (!a.finish_num && b.finish_num) {
+        return 1;
+      }
 
-        if (a.finish_num && !b.finish_num) {
-          return -1;
-        }
+      if (a.finish_num && !b.finish_num) {
+        return -1;
+      }
 
-        if (!a.finish_num && !b.finish_num) {
-          return 0;
-        }
+      if (!a.finish_num && !b.finish_num) {
+        return 0;
+      }
 
-        return a.finish_num - b.finish_num;
-      })
+      return a.finish_num - b.finish_num;
+    })
     : data.selections;
 
   selections?.forEach((selection) => {
@@ -50,6 +48,17 @@ export const RacecardTable = ({ headerData, data }) => {
       nonRunners.push(selection);
     }
   });
+
+  const renderNonRunners = (headItem, selection) => {
+    if (headItem.render) {
+      if (headItem.dataKey === "odds_decimal" || headItem.dataKey === "sp") {
+        return t("nr");
+      }
+      return headItem.render(selection);
+    }
+    return selection[headItem.dataKey];
+
+  };
 
   return data ? (
     <div className="race-table">
@@ -130,9 +139,7 @@ export const RacecardTable = ({ headerData, data }) => {
                           headItem?.className
                         )}
                       >
-                        {headItem.render
-                          ? headItem.render(selection)
-                          : selection[headItem.dataKey]}
+                        {renderNonRunners(headItem, selection)}
                       </div>
                     );
                   })}

@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import Image from "next/image";
 import { Button } from "../button/Button";
 import "./BannerMenu.css";
 import { LinkType } from "../LinkType/LinkType";
@@ -12,9 +11,10 @@ export const BannerMenu = ({
   selected,
   setSelected,
   callToActinButton,
+  defaultItem,
 }) => {
   const handleClick = (item) => {
-    setSelected(selected?.name === item.name ? null : item);
+    setSelected(selected?.name === item.name ? defaultItem : item);
   };
 
   return (
@@ -22,15 +22,7 @@ export const BannerMenu = ({
       className="banner-menu"
       style={{ height: subtitle && options ? "115px" : "91px" }}
     >
-      {image && (
-        <Image
-          src={image}
-          alt="banner"
-          className="banner-menu-image"
-          fill
-          priority
-        />
-      )}
+      {image && <img src={image} alt="banner" className="banner-menu-image" />}
       <div className="banner-menu-content">
         {title && <div className="banner-menu-title">{title}</div>}
         {subtitle && <div className="banner-menu-subtitle">{subtitle}</div>}

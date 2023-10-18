@@ -6,25 +6,29 @@ export const TooltipWrapper = memo(({ children, className, message, show }) => {
   const dispatch = useDispatch();
 
   const onMouseEnterHandler = (e) => {
-    const rect = e?.target?.getBoundingClientRect();
+    if (show) {
+      const rect = e?.target?.getBoundingClientRect();
 
-    dispatch(
-      setTooltip({
-        x: rect.x,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height,
-        className,
-        message,
-      })
-    );
+      dispatch(
+        setTooltip({
+          x: rect.x,
+          y: rect.top,
+          width: rect.width,
+          height: rect.height,
+          className,
+          message,
+        })
+      );
+    }
   };
 
   const onMouseLeaveHandler = () => {
-    dispatch(setTooltip(null));
+    if (show) {
+      dispatch(setTooltip(null));
+    }
   };
 
-  return show ? (
+  return (
     <div
       onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
@@ -32,7 +36,5 @@ export const TooltipWrapper = memo(({ children, className, message, show }) => {
     >
       {children}
     </div>
-  ) : (
-    children
   );
 });

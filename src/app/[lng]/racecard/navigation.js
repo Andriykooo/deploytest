@@ -54,7 +54,7 @@ export const RacecardNavigation = ({ children }) => {
         defaultEvent = event;
       }
 
-      return event.event_id === +id && available;
+      return event.event_id === id && available;
     }) || defaultEvent;
 
   const marketOptions = raceCard?.market_options?.filter((market) => {

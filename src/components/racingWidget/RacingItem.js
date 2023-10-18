@@ -47,13 +47,13 @@ export const RacingItem = ({ data, slug }) => {
                       <Image
                         src={selection.silk_image}
                         alt="slik"
-                        loading="lazy"
+                        priority
+                        quality={10}
+                        height={14}
+                        width={18}
                         onError={(e) => {
                           e.target.style.display = "none";
                         }}
-                        quality={50}
-                        height={14}
-                        width={18}
                       />
                     )}
                   </div>

@@ -18,7 +18,7 @@
     "release_free_bets": "Lösen Sie Ihre Freiwetten ein",
     "qualifying_bets_instruction": "Platzieren Sie am ersten Tag mindestens 3 x £20 qualifizierende Wetten.",
     "use_free_bets": "Verwenden Sie Ihre Freiwetten",
-    "swifty_gaming_rewards_welcome": "SWIFTY GAMING BELONNUNGSKLUB & WILLKOMMENS-BONUS",
+    "rewards_welcome": "{{company}} BELONNUNGSKLUB & WILLKOMMENS-BONUS",
     "wrong_platform": "Falsche Plattform! Bitte melden Sie sich mit einer anderen an.",
     "free_bets_available_after": "Ihre Freiwetten sind 48 Stunden nach Ihrer letzten qualifizierenden Wette verfügbar.",
     "google_sign_in": "Bitte melden Sie sich mit Google an",
@@ -92,7 +92,6 @@
     "time": "Zeit",
     "country": "Land",
     "try_for_free": "Kostenlos testen",
-    "swifty_gaming_logo": "Swifty Gaming Logo",
     "accept": "AKZEPTIEREN",
     "select_bet": "Wette auswählen",
     "warning": "Warnung",
@@ -160,6 +159,10 @@
     "bets_placed_success": "Ihre Wetten wurden erfolgreich platziert",
     "open_bets": "OFFENE WETTEN",
     "click_here_to_deposit": "Klicken Sie hier, um einzuzahlen",
+    "trader_offer_expired": "Händlerangebot abgelaufen",
+    "trader_accepted_the_bet": "Der Händler hat die Wette angenommen",
+    "trader_rejected_the_bet": "Der Händler lehnte die Wette ab",
+    "max_bets_under_review": "Es kann jeweils maximal ein Wettschein vom Händler überprüft werden.",
     "odds_availability_changed_message": "Die Quoten oder die Verfügbarkeit Ihrer Auswahl haben sich geändert",
     "bet_user_rejected_message": "Sie haben das Händlerangebot abgelehnt",
     "bet_rejected_message": "Ihre Wette wurde vom Händler abgelehnt",
@@ -167,12 +170,13 @@
     "insufficient_balance_message": "Sie benötigen {{ balance }} mehr, um diese Wette abzugeben",
     "please_enter_stake": "BITTE EINSATZ EINGEBEN",
     "accept_price_changes": "PREISÄNDERUNGEN AKZEPTIEREN",
+    "accept_offer": "Angebot Annehmen",
     "please_deposit": "BITTE EINZAHLEN",
     "place": "PLATZIEREN",
     "place_bet": "WETTEINSATZ FESTLEGEN",
-    "pending_trader_review": "AUSSTEHENDE HÄNDLERÜBERPRÜFUNG",
+    "pending_trader_review": "Ausstehende Händlerüberprüfung",
     "no_live_events_message": "Es gibt derzeit keine Live-Veranstaltungen. Bitte kommen Sie später wieder.",
-    "no_more_events_today_message": "Es gibt keine weiteren Veranstaltungen für den Tag!",
+    "there_are_no_upcoming_events": "Es gibt keine weiteren Veranstaltungen für den Tag!",
     "home": "Startseite",
     "ok_i_get_it": "Ok, Ich habe es verstanden",
     "app_usage_duration_message": "Sie verwenden die App seit",
@@ -251,7 +255,7 @@
     "thank_you_message_swifty_team": "Vielen Dank für Ihre Nachricht. Jemand aus dem Swifty-Team wird versuchen, innerhalb von 72 Stunden zu antworten."
   },
   "customer_service_notice": {
-    "thank_you_for_visiting": "Vielen Dank, dass Sie Swifty Gaming besucht haben.",
+    "thank_you_for_visiting": "Vielen Dank, dass Sie {{company}} besucht haben.",
     "site_blocks_access_from_certain_territories": "Diese Website blockiert den Zugang von Benutzern aus bestimmten Gebieten.",
     "restricted_country_access_notice": "Unsere Überwachungssoftware hat erkannt, dass Ihre IP-Adresse aus einem eingeschränkten Land stammt, sodass Sie keinen Zugriff auf die Website haben. Wenn dies nicht korrekt ist oder Sie weitere Informationen benötigen, kontaktieren Sie uns bitte.",
     "apology_for_inconvenience": "Wir entschuldigen uns für eventuelle Unannehmlichkeiten, die dadurch entstanden sein könnten."
@@ -386,6 +390,7 @@
   "racecard": {
     "win_ew": "Gewinn / EW",
     "sp": "SP",
+    "nr": "NR",
     "1st": "1.",
     "2nd": "2.",
     "3rd": "3.",
@@ -413,8 +418,8 @@
     "more_information": "Mehr Informationen",
     "deposit_limit_desc": "Setzen Sie Einzahlungslimits, um Ihre Ausgaben zu kontrollieren",
     "gaming_reminders_desc": "Kontrollieren Sie Ihre Spielzeit mit Erinnerungen",
-    "suspend_account_desc": "Machen Sie eine Pause von Swifty Gaming",
-    "self_exclude_desc": "Schließen Sie sich von Swifty Gaming aus",
+    "suspend_account_desc": "Machen Sie eine Pause von {{company}}",
+    "self_exclude_desc": "Schließen Sie sich von {{company}} aus",
     "more_information_desc": "Lesen Sie über sichereres Spielen"
   },
   "safer_gambling_information": {
@@ -479,7 +484,7 @@
     "account_has_been_suspended": "Ihr Konto wurde für gesperrt",
     "day": "Tag",
     "days": "Tage",
-    "break_options_message": "Wenn Sie eine Pause von Swifty Gaming machen möchten, bieten wir die folgenden Optionen an.",
+    "break_options_message": "Wenn Sie eine Pause von {{company}} machen möchten, bieten wir die folgenden Optionen an.",
     "timeout_logout_message": "Nachdem eine Auszeit angewendet wurde, werden Sie abgemeldet und können sich während der gewählten Dauer nicht anmelden."
   },
   "terms": {

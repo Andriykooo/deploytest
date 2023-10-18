@@ -117,7 +117,6 @@ export const Game = ({ game, className, number, height, width }) => {
             className="casinoGame"
             src={game?.image_url}
             alt={game?.name}
-            quality={50}
             priority
             onClick={openGame}
             width={width || 206}

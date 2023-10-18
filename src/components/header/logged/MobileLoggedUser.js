@@ -1,13 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import Link from "next/link";
 import { Chat } from "@/components/chat/Chat";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { useClientTranslation } from "@/app/i18n/client";
+import { setSidebarRight } from "@/store/actions";
 
 export const MobileLoggedUser = ({ showBetSlip }) => {
+  const dispatch = useDispatch();
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const user = useSelector((state) => state.loggedUser);
+  const sidebarRight = useSelector((state) => state.sidebarRight);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency.abbreviation;
   const { t } = useClientTranslation("header");
@@ -29,20 +32,11 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
             <div
               className="slip-icon"
               onClick={() => {
-                if (document.querySelector(".bet-slip-container")) {
-                  let actualDisplay = document.querySelector(
-                    ".bet-slip-container"
-                  ).style.display;
-                  if (actualDisplay === "block") {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "none";
-                  } else {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "block";
-                  }
-                }
+                dispatch(
+                  setSidebarRight({
+                    isActive: !sidebarRight.isActive,
+                  })
+                );
               }}
             >
               <SlipIcon />

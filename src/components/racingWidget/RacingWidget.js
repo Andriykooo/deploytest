@@ -64,7 +64,8 @@ export const RacingWidget = ({ data }) => {
                   name: option.market_name,
                 })),
               ]}
-              selected={{ name: t(selectedFilter.name) }}
+              defaultItem={horseRacingHomeMenu[0]}
+              selected={{ name: t(selectedFilter?.name) }}
               setSelected={setSelectedFilter}
               callToActinButton={{
                 name: data?.details?.call_to_action,

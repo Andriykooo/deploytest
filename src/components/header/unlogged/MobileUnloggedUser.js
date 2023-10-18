@@ -1,14 +1,17 @@
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { SlipIcon } from "../../../utils/icons";
 import { useClientTranslation } from "@/app/i18n/client";
+import { setSidebarRight } from "@/store/actions";
 
 export const MobileUnloggedUser = ({ showBetSlip }) => {
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = useClientPathname();
-  const { t } = useClientTranslation("header")
+  const { t } = useClientTranslation("header");
+  const sidebarRight = useSelector((state) => state.sidebarRight);
 
   const navigateToLogin = () => {
     router.push(`/login?redirect=${pathname.replace("/", "")}`);
@@ -21,22 +24,11 @@ export const MobileUnloggedUser = ({ showBetSlip }) => {
           <div
             className="slip-icon-loggedOut"
             onClick={() => {
-              if (document.documentElement.clientWidth < 1400) {
-                if (document.querySelector(".bet-slip-container")) {
-                  let actualDisplay = document.querySelector(
-                    ".bet-slip-container"
-                  ).style.display;
-                  if (actualDisplay === "block") {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "none";
-                  } else {
-                    document.querySelector(
-                      ".bet-slip-container"
-                    ).style.display = "block";
-                  }
-                }
-              }
+              dispatch(
+                setSidebarRight({
+                  isActive: !sidebarRight.isActive,
+                })
+              );
             }}
           >
             <SlipIcon />

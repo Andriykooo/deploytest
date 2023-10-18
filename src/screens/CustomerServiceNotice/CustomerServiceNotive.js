@@ -8,13 +8,15 @@ import { useEffect } from "react";
 import { apiUrl } from "@/utils/constants";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "@/store/actions";
+import { Logo } from "@/components/logo/Logo";
 
 export const CustomerServiceNotice = () => {
   const { t } = useClientTranslation(["customer_service_notice", "common"]);
   const dispatch = useDispatch();
   const router = useRouter();
+  const settings = useSelector((state) => state.settings);
 
   useEffect(() => {
     axios.get(apiUrl.GET_SETTINGS).then((result) => {
@@ -29,17 +31,12 @@ export const CustomerServiceNotice = () => {
   return (
     <div className="customer-service-notice-wrapper">
       <div className="customer-service-notice">
-        {/* <Logo className="customer-service-notice-logo" /> */}
-        <Image
-          src={images.GroupSwifty}
-          alt="logo"
-          className="customer-service-notice-logo"
-        />
+        <Logo className="customer-service-notice-logo" />
         <h1 className="customer-service-notice-title">
           {t("common:customer_service_notice")}
         </h1>
         <p className="customer-service-notice-subtitle">
-          {t("thank_you_for_visiting")}
+          {t("thank_you_for_visiting", { company: settings?.companyName })}
           <br />
           {t("site_blocks_access_from_certain_territories")}
         </p>
@@ -47,10 +44,10 @@ export const CustomerServiceNotice = () => {
           {t("restricted_country_access_notice")}
         </p>
         <a
-          href="mailto:customer.services@swiftygaming.com"
+          href={`mailto:${settings?.companyServiceEmail}`}
           className="customer-service-notice-email"
         >
-          customer.services@swiftygaming.com
+          {settings?.companyServiceEmail}
         </a>
         <p className="customer-service-notice-description">
           {t("apology_for_inconvenience")}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
-import Hero from "../../assets/images/affiliatesBg.png"
+import Hero from "../../assets/images/affiliatesBg.png";
 import parse from "html-react-parser";
 import "../Affiliates/Affiliates.css";
 import { useEffect, useState } from "react";
@@ -27,12 +27,12 @@ import Cookies from "js-cookie";
 import { useClientTranslation } from "@/app/i18n/client";
 
 const Affiliates = () => {
-  const { t } = useClientTranslation(["affiliates", "common"])
+  const { t } = useClientTranslation(["affiliates", "common"]);
   const user = useSelector((state) => state.user);
   const loggedUser = useSelector((state) => state.loggedUser);
-
+  const settings = useSelector((state) => state.settings);
   const [email, setEmail] = useState("");
-  const [terms, setTerms] = useState("")
+  const [terms, setTerms] = useState("");
   const [newUser, setNewUser] = useState();
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -107,7 +107,9 @@ const Affiliates = () => {
             dispatch(setUser(newUser));
             setIsLoading(false);
             sessionStorage.setItem("loggedUserInTime", new Date());
-            router.push(`/login?is_verfied=true&first_name=${resolve?.first_name}&email=${email}`);
+            router.push(
+              `/login?is_verfied=true&first_name=${resolve?.first_name}&email=${email}`
+            );
           } else if (resolve?.sign_up_platform === "google") {
             alertToast({ message: t("google_sign_in") });
           } else if (resolve?.sign_up_platform === "facebook") {
@@ -246,19 +248,23 @@ const Affiliates = () => {
   };
 
   useEffect(() => {
-    getTerms()
-  }, [])
+    getTerms();
+  }, []);
 
   return (
     <div className="affiliates">
       <div className="affiliatesBanner">
         <div className="customerWelcome">
-          <p className="customerWelcomeTitle">{t("new_customer_welcome_offer")}</p>
+          <p className="customerWelcomeTitle">
+            {t("new_customer_welcome_offer")}
+          </p>
           <div className="customerWelcomeGet">
             <span>{t("get")}</span>
             <div>
               <span className="goldGet">£25</span>
-              <p>{t("free")} <br /> {t("sports_bets")}</p>
+              <p>
+                {t("free")} <br /> {t("sports_bets")}
+              </p>
             </div>
           </div>
           <div className="customerWelcomePlus">
@@ -270,7 +276,9 @@ const Affiliates = () => {
           </div>
           <div className="gambleInfo">
             <p>{t("gamble_responsibly")}</p>
-            <Link target="_blank" href="https://www.begambleaware.org/"><b>Be</b>Gamble<b>Aware</b>.org</Link>
+            <Link target="_blank" href="https://www.begambleaware.org/">
+              <b>Be</b>Gamble<b>Aware</b>.org
+            </Link>
           </div>
         </div>
         <Image src={Hero} alt="hero" />
@@ -303,7 +311,7 @@ const Affiliates = () => {
                 isValid && checkEmail(e);
               }}
               className={classNames("continueBtn", {
-                "btnPrimary validBtn": isValid
+                "btnPrimary validBtn": isValid,
               })}
             >
               {isLoading ? <Loader /> : t("common:continue")}
@@ -314,7 +322,11 @@ const Affiliates = () => {
           </div>
           <div className="whiteButtonsGroup d-grid affiliatesButtons">
             <div className="loginWhiteButtons">
-              <Image alt="img-fbIcon" src={images.fbIcon} className="loginIconFb" />
+              <Image
+                alt="img-fbIcon"
+                src={images.fbIcon}
+                className="loginIconFb"
+              />
               <div className="continueBtn white">
                 <FacebookLogin
                   appId="255259129680845"
@@ -323,7 +335,9 @@ const Affiliates = () => {
                   callback={responseFacebook}
                   className="google-btn"
                 />
-                <span className="social-login-title">{t("continue_with_facebook")}</span>
+                <span className="social-login-title">
+                  {t("continue_with_facebook")}
+                </span>
               </div>
             </div>
             <div className="loginWhiteButtons">
@@ -333,10 +347,10 @@ const Affiliates = () => {
                 className="loginIconGoogle"
               />
               <div className="continueBtn white">
-                <button
-                  onClick={responseGoogle}
-                  className="google-btn" />
-                <span className="social-login-title">{t("continue_with_google")}</span>
+                <button onClick={responseGoogle} className="google-btn" />
+                <span className="social-login-title">
+                  {t("continue_with_google")}
+                </span>
               </div>
             </div>
           </div>
@@ -375,9 +389,13 @@ const Affiliates = () => {
         </div>
       </div>
       <div className="affiliatesInfo">
-        <h3 className="affiliatesInfoTitle generalTitle">{t("swifty_gaming_rewards_welcome")}</h3>
+        <h3 className="affiliatesInfoTitle generalTitle">
+          {t("rewards_welcome", { company: settings?.companyName })}
+        </h3>
         <div className="affiliatesInfoTerms">
-          <h3 className="affiliatesInfoTitle">{t("common:terms_and_conditions")}</h3>
+          <h3 className="affiliatesInfoTitle">
+            {t("common:terms_and_conditions")}
+          </h3>
           {parse(terms.toString())}
         </div>
       </div>
@@ -386,6 +404,6 @@ const Affiliates = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Affiliates;

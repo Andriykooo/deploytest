@@ -174,7 +174,11 @@ const Login = ({ setShowConfirm }) => {
           checkPassword={checkPassword}
           isLoading={isLoading}
           validatePassword={validatePassword}
-          goBack={() => setIsVerified(false)}
+          goBack={() => {
+            setIsVerified(false);
+            setPassword("");
+            setIsPasswordValid(false);
+          }}
         />
       ) : (
         <LoginEmail

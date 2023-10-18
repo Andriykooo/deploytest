@@ -8,7 +8,7 @@ import {
 } from "@/context/socket";
 import { getUserApi } from "@/utils/apiQueries";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoggedUser } from "@/store/actions";
 import { useCallback } from "react";
 import { useClientTranslation } from "@/app/i18n/client";
@@ -17,16 +17,17 @@ import moment from "moment";
 
 const ContactsInfo = () => {
   const { t } = useClientTranslation("contact_us");
+  const settings = useSelector((state) => state.settings);
 
   return (
     <div className="d-flex align-items-center justify-content-center flex-column">
       {t("customer_service")}
       <br />
       <a
-        href="mailto:customer.services@swiftygaming.com"
+        href={`mailto:${settings?.companyServiceEmail}`}
         className="customer-service-notice-email"
       >
-        customer.services@swiftygaming.com
+        {settings?.companyServiceEmail}
       </a>
     </div>
   );

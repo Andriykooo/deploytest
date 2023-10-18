@@ -29,7 +29,7 @@ const InfoDiv = styled.div`
   border-radius: 10px;
   cursor: ${(props) => (props.clickable ? " pointer" : "")};
   margin-left: 10px;
-  height: 80px;
+  height: ${(props) => (props.autoHeight ? "auto" : "80px")};
 `;
 
 const EmailDiv = styled.div`
@@ -91,7 +91,6 @@ const Profile = () => {
         return;
     }
   };
-
   const handlePassword = (value, type) => {
     switch (type) {
       case "currentpassword":
@@ -227,17 +226,19 @@ const Profile = () => {
                   />
                 </InfoDiv>
               ) : (
-                <InfoDiv>
+                <InfoDiv autoHeight>
                   <div onClick={handleClickRedirect}>
                     <p
-                      className="fieldSubTitle m-2"
+                      className="fieldSubTitle ms-2"
                       style={{ cursor: "pointer" }}
                     >
                       {t("common:mobile_number")}
                     </p>
-                    <p className="playerId notVerified m-2">
-                      {t("mobile_verification_required")}
-                    </p>
+                    {loggedUser?.user_data?.required_values.phone_number && (
+                      <p className="playerId notVerified m-2">
+                        {t("mobile_verification_required")}
+                      </p>
+                    )}
                     <Image
                       alt="img-arrowIcon"
                       src={images.arrowIcon}
@@ -249,6 +250,7 @@ const Profile = () => {
             </>
           }
           <InfoDiv
+            mobileNumber
             onClick={() => {
               !(loggedUser?.user_data?.kyc_status === "verified") &&
                 getNewAccessToken();

@@ -4,7 +4,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { images } from "./imagesConstant";
 
-export const alertToast = ({ message }) => {
+export const alertToast = ({
+  message,
+  autoClose = 4000,
+  onClose = () => {},
+}) => {
   toast.error(message, {
     icon: () => (
       <Image
@@ -14,7 +18,8 @@ export const alertToast = ({ message }) => {
       />
     ),
     position: "top-right",
-    autoClose: 4000,
+    autoClose,
+    onClose,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: false,
@@ -23,7 +28,11 @@ export const alertToast = ({ message }) => {
   });
 };
 
-export const SuccesToast = ({ message }) => {
+export const SuccesToast = ({
+  message,
+  autoClose = 4000,
+  onClose = () => {},
+}) => {
   toast.success(message, {
     icon: () => (
       <Image
@@ -33,7 +42,8 @@ export const SuccesToast = ({ message }) => {
       />
     ),
     position: "top-right",
-    autoClose: 4000,
+    onClose,
+    autoClose,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: false,

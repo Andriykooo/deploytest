@@ -11,20 +11,21 @@ import { images } from "../../utils/imagesConstant";
 import "../Profile/Profile.css";
 import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useClientTranslation } from "@/app/i18n/client";
 
 export const SaferGambling = () => {
   const { t } = useClientTranslation(["safer_gambling", "common"]);
-  const isTablet = useSelector((state) => state.isTablet);
   const dispatch = useDispatch();
+  const isTablet = useSelector((state) => state.isTablet);
+  const settings = useSelector((state) => state.settings);
 
   useEffect(() => {
     apiServices.get(apiUrl.SETTING_OPTIONS).then((response) => {
       dispatch(setUserSettings(response));
     });
   }, []);
+
   const saferGambling = [
     {
       title: t("deposit_limits"),
@@ -39,12 +40,12 @@ export const SaferGambling = () => {
     {
       title: t("common:suspend_account"),
       link: "/profile/suspend_account",
-      desc: t("suspend_account_desc"),
+      desc: t("suspend_account_desc", { company: settings?.companyName }),
     },
     {
       title: t("common:self_exclude"),
       link: "/profile/self_exclude",
-      desc: t("self_exclude_desc"),
+      desc: t("self_exclude_desc", { company: settings?.companyName }),
     },
     {
       title: t("more_information"),
@@ -56,7 +57,10 @@ export const SaferGambling = () => {
   return (
     <div className="pageContent-safer">
       <div className="depositLimit saferContainer">
-        <PreferencesTitle title={t("common:safer_gambling")} marginBottomSize="lg" />
+        <PreferencesTitle
+          title={t("common:safer_gambling")}
+          marginBottomSize="lg"
+        />
         <div className="saferDivs">
           <div>
             {saferGambling.map((row, index) => {

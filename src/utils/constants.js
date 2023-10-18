@@ -59,6 +59,7 @@ export const apiUrl = {
   EMAIL_SENT: `${predictionsApiDomain}/v1/user/request_reset_password?device_type=web&&email=`,
 
   // Gaming API
+  GET_OFFER: `${gamingApiDomain}/api/v1/betting/bet-ticker`,
   TERMS: `${gamingApiDomain}/api/v1/cms/terms-conditions`,
   PRIVACY: `${gamingApiDomain}/api/v1/cms/privacy-policy`,
   GET_FOOTER: `${gamingApiDomain}/api/v1/page-layout/footer`,
@@ -203,39 +204,6 @@ export const predictionPages = [
   },
 ];
 
-export const predictions = [
-  {
-    bet: "Manchester United to win (FT)",
-    stake: "200",
-    returns: "3200",
-    odds: "3.2",
-  },
-  {
-    bet: "Manchester United to draw (FT)",
-    stake: "150",
-    returns: "3200",
-    odds: "3.7",
-  },
-];
-export const settledPredictions = [
-  {
-    bet: "Manchester United to win (FT)",
-    stake: "200",
-    returns: "3200",
-    odds: "3.2",
-    betResult: "Loss",
-    class: "lossButton",
-  },
-  {
-    bet: "Manchester United to draw (FT)",
-    stake: "150",
-    returns: "3200",
-    odds: "3.7",
-    betResult: "Win",
-
-    class: "winButton",
-  },
-];
 export const oddsFormatTypes = [
   {
     format: "decimal",
@@ -271,6 +239,7 @@ export const casinoMenu = [
     name: "Game Providers",
   },
 ];
+
 export const swiftyMenuSpecial = [
   {
     name: "All Sports",
@@ -630,217 +599,12 @@ export const sportsData = {
   },
 };
 
-export const slides = [
-  {
-    icon: images.wolfLegend,
-  },
-  {
-    icon: images.jewelTwist,
-  },
-  {
-    icon: images.gorillaGold2,
-  },
-  {
-    icon: images.wishJackpot,
-  },
-  {
-    icon: images.gewieJackpot,
-  },
-  {
-    icon: images.castleTerror,
-  },
-];
-
-export const sliderImagesHomepage = [
-  {
-    subtitle: "Starts 06:45 PM",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-    buttons: [
-      {
-        name: "FCB 9/4",
-      },
-      {
-        name: "MAN UTD 8/13",
-      },
-    ],
-  },
-  {
-    subtitle: "Starts 06:45 PM",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-    buttons: [
-      {
-        name: "FCB 9/4",
-      },
-      {
-        name: "MAN UTD 8/13",
-      },
-    ],
-  },
-  {
-    subtitle: "Starts 06:45 PM",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-    buttons: [
-      {
-        name: "FCB 9/4",
-      },
-      {
-        name: "MAN UTD 8/13",
-      },
-    ],
-  },
-  {
-    subtitle: "Starts 06:45 PM",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-    buttons: [
-      {
-        name: "FCB 9/4",
-      },
-      {
-        name: "MAN UTD 8/13",
-      },
-    ],
-  },
-  {
-    subtitle:
-      "Amad Diallo & Aleksandar Mitrovic BOTH score anytime (ENHANCE from 15/2)",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-
-    buttons: [
-      {
-        name: "Bet Now",
-      },
-    ],
-  },
-  {
-    subtitle:
-      " We are paying an extra place in the 16.10 Southwell, 16.20 Fairyhouse & 8.30 Kempton",
-    details: { title: "FA CUP BONUS", image: images.secondLogoOfSoccer },
-    buttons: [
-      {
-        name: "Free Bet",
-      },
-    ],
-  },
-  {
-    subtitle:
-      "Jelen Hurts & Patrick Mahomes BOTH to Score (Rush or Recieve) a Touchdown at Any Time",
-    details: {
-      title: "SUPER BOWL SPECIALS",
-      image: images.secondLogoOfSoccer,
-    },
-    buttons: [
-      {
-        name: "Bet Now",
-      },
-    ],
-  },
-];
-
-export const sliderCasinoMenu = [
-  {
-    icon: images.hanaberoCasinoIcon,
-    title: "HABANERO",
-    description: "Play the Tavern of the Dead and other great games!",
-    buttons: [
-      {
-        name: "Play now",
-      },
-    ],
-  },
-  {
-    icon: images.mascotGameCasino,
-    title: "MASCOT GAMES",
-    description: "Play Robin of Loxley and other great games!",
-    buttons: [
-      {
-        name: "Play now",
-      },
-    ],
-  },
-  {
-    icon: images.vasiliLogoCasino,
-    title: "YGGDRASIL GAMES",
-    description: "Play the Tavern of the Dead and other great games!",
-    buttons: [
-      {
-        name: "Play now",
-      },
-    ],
-  },
-  {
-    icon: images.hanaberoCasinoIcon,
-    title: "YGGDRASIL GAMES",
-    description:
-      "Jelen Hurts & Patrick Mahomes BOTH to Score (Rush or Recieve) a Touchdown at Any Time",
-    buttons: [
-      {
-        name: "Play now",
-      },
-    ],
-  },
-];
-export const sliderFavorites = [
-  {
-    icon: images.fisrtLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.secondLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.thirdLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.fourthLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.fifthLogoTrending,
-    title: "",
-    description: "",
-  },
-
-  {
-    icon: images.fisrtLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.secondLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.thirdLogoTrending,
-    title: "",
-    description: "",
-  },
-  {
-    icon: images.fourthLogoTrending,
-    title: "",
-    description: "",
-  },
-];
-
-export const iconsAtTheSlider = [
-  { icon: images.bigcatkino },
-  { icon: images.gemie },
-  { icon: images.gorillaGold },
-  { icon: images.jackpot },
-  { icon: images.bigcatkino },
-];
-
 export const eventAtSlider = [
   { page: "Leeds Rhinos", bet: "19/10" },
   { page: "Tie", bet: "19/10" },
   { page: "Catalans", bet: "19/10" },
 ];
+
 export const liveGamesData = [
   {
     icon: <SpeedLogoOfFooter />,
@@ -857,58 +621,6 @@ export const liveGamesData = [
     title: "Odds Boost",
     text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem.",
   },
-];
-
-export const FooterIconsSafeGambling = [
-  { icon: images.beAware, alt: "Be gamble aware" },
-  { icon: images.gamStop, alt: "Gamstop" },
-  { icon: images.bet18, alt: "bet18+" },
-  { icon: images.iBas, alt: "ibas icon" },
-  { icon: images.gamCare, alt: "gamcare" },
-];
-
-export const newsGames = [
-  images.wolfLegend,
-  images.jewelTwist,
-  images.gorillaGold2,
-  images.wishJackpot,
-  images.gewieJackpot,
-  images.castleTerror,
-  images.gewieJackpot,
-  images.castleTerror,
-];
-
-export const recommendedData = [
-  { gameImages: images.wolfLegend },
-  { gameImages: images.jewelTwist },
-  { gameImages: images.gorillaGold2 },
-  { gameImages: images.wishJackpot },
-  { gameImages: images.gewieJackpot },
-  { gameImages: images.castleTerror },
-  { gameImages: images.gewieJackpot },
-  { gameImages: images.castleTerror },
-];
-
-export const liveCasinoData = [
-  { gameImages: images.bigBass },
-  { gameImages: images.finalCountdown },
-  { gameImages: images.catKing },
-  { gameImages: images.hotRepeater },
-  { gameImages: images.bankinBacon },
-  { gameImages: images.sinful7 },
-  { gameImages: images.bigBass },
-  { gameImages: images.finalCountdown },
-];
-
-export const trendingData = [
-  { gameImages: images.firstTrending },
-  { gameImages: images.secondTrending },
-  { gameImages: images.thirdTrending },
-  { gameImages: images.fourthTrending },
-  { gameImages: images.firstTrending },
-  { gameImages: images.secondTrending },
-  { gameImages: images.thirdTrending },
-  { gameImages: images.fourthTrending },
 ];
 
 export const popularCasinoGames = [
