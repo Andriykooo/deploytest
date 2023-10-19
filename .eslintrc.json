@@ -1,11 +1,3 @@
 {
-  "extends": ["next/babel", "next/core-web-vitals"],
-  "rules": {
-    "react/prop-types": "off",
-    "no-unused-vars": "warn",
-    "react-hooks/exhaustive-deps": "off",
-    "no-useless-escape": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/no-unescaped-entities": "off"
-  }
+  "extends": "next/core-web-vitals"
 }
