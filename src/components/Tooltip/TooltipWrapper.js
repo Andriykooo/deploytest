@@ -2,7 +2,7 @@ import { setTooltip } from "@/store/actions";
 import { memo } from "react";
 import { useDispatch } from "react-redux";
 
-export const TooltipWrapper = memo(({ children, className, message, show }) => {
+export const TooltipWrapper = ({ children, className, message, show }) => {
   const dispatch = useDispatch();
 
   const onMouseEnterHandler = (e) => {
@@ -37,4 +37,4 @@ export const TooltipWrapper = memo(({ children, className, message, show }) => {
       {children}
     </div>
   );
-});
+};

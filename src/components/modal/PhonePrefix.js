@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../button/Button";
 import { useClientTranslation } from "@/app/i18n/client";
 
-export const PhonePrefix = memo(({ selectedCountry, setSelectedCountry }) => {
+export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
   const { t } = useClientTranslation(["sign_up_with_phone", "common"]);
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -156,4 +156,4 @@ export const PhonePrefix = memo(({ selectedCountry, setSelectedCountry }) => {
       </div>
     </>
   );
-});
+};

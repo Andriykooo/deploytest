@@ -30,6 +30,8 @@ import SuspendAccount from "../screens/SuspendAccount/SuspendAccount";
 import Terms from "../screens/Terms/Terms";
 import TransactionHistory from "../screens/TransactionHistory/TransactionHistory";
 import Withdraw from "../screens/Withdraw/Withdraw";
+import { CasinoPage } from "@/screens/Casino/Casino";
+import ChangePasswordMobile from "@/screens/ChangePassword/ChangePasswordMobile";
 
 export const authRoutes = [
   { path: "/home-page", component: <Home /> },

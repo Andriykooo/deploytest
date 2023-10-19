@@ -1,4 +1,3 @@
-import { useClientTranslation } from "@/app/i18n/client";
 import moment from "moment";
 
 export const groupObjectsBySameValue = (array) => {
@@ -36,23 +35,6 @@ export const formatToLocalDatetime = (datetime) => {
     return moment.utc(datetime).local();
   }
   return "-";
-};
-export const formatTime = (seconds) => {
-  const { t } = useClientTranslation("common");
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-  let formattedTime = "";
-  if (hours > 0) {
-    formattedTime += `${hours} ${hours !== 1 ? t("hours") : t("hour")}} `;
-  }
-  if (minutes > 0) {
-    formattedTime += `${minutes} ${minutes !== 1 ? t("minutes") : t("minute")}, `;
-  }
-  formattedTime += `${remainingSeconds} ${
-    remainingSeconds !== 1 ? t("seconds") : t("second")
-  }`;
-  return formattedTime;
 };
 
 export const sportSubscriber = (data) => {
@@ -223,4 +205,3 @@ export const formatOdd = (selection, format) => {
     "-"
   );
 };
-

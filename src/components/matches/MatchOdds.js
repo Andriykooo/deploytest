@@ -12,7 +12,7 @@ import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
 
-export const MatchOdds = memo(({ selection, disable, children }) => {
+export const MatchOdds = ({ selection, disable, children }) => {
   const { t } = useClientTranslation("common");
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
@@ -213,4 +213,4 @@ export const MatchOdds = memo(({ selection, disable, children }) => {
       </TooltipWrapper>
     </div>
   );
-});
+};

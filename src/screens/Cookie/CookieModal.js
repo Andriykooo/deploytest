@@ -9,6 +9,7 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Cookie/Cookie.css";
 import { useClientTranslation } from "@/app/i18n/client";
+import Link from "next/link";
 
 const CookieModal = ({ setPageModal }) => {
   const { t } = useClientTranslation("common");
