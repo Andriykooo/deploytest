@@ -44,13 +44,9 @@ export const RacingItem = ({ data, slug }) => {
                 <div className="horse-container">
                   <div className="silk-image">
                     {selection.silk_image && (
-                      <Image
+                      <img
                         src={selection.silk_image}
                         alt="slik"
-                        priority
-                        quality={10}
-                        height={14}
-                        width={18}
                         onError={(e) => {
                           e.target.style.display = "none";
                         }}

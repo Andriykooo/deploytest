@@ -6,11 +6,7 @@ import { MatchOdds } from "../../components/matches/MatchOdds";
 import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import {
-  setBetSlipResponse,
-  setBetTicker,
-  setSelectBet,
-} from "@/store/actions";
+import { setBetSlipResponse, setSelectBet } from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
 import { useSearchParams } from "next/navigation";
 import { gamingSocket } from "@/context/socket";
@@ -34,15 +30,22 @@ export const Racecard = () => {
   const raceCard = useSelector((state) => state.raceCard);
   const currentTime = useSelector((state) => state.currentTime);
 
-  const day = searchParams.get("filter");
+  const day = searchParams.get("filter") || "today";
   const id = searchParams.get("id");
 
   const [selectedTab, setSelectedTab] = useState({ label: t("win_ew"), id: 1 });
 
+  let defaultEvent;
+
   const event =
-    raceCard?.events?.find(
-      (event) => event.event_id === id && event?.availabilities?.includes(day)
-    ) || raceCard?.events[0];
+    raceCard?.events?.find((event) => {
+      defaultEvent;
+      if (!defaultEvent && event?.availabilities?.includes(day)) {
+        defaultEvent = event;
+      }
+
+      return event?.event_id === id && event?.availabilities?.includes(day);
+    }) || defaultEvent;
 
   const disablePrice =
     resultedEvents[event?.event_id] ||
@@ -88,7 +91,7 @@ export const Racecard = () => {
       stake: 0,
       place,
       trading_status: item.trading_status,
-      event_id: event.event_id,
+      event_id: event?.event_id,
     };
 
     if (racingBetsCounter === 1) {
@@ -199,20 +202,7 @@ export const Racecard = () => {
       dataKey: "name",
       width: "1fr",
       render: (item) => {
-        return (
-          <div className="runner">
-            <div>
-              <div>{item.runner_num}</div>
-              {item.stale_num && <div>({item.stale_num})</div>}
-            </div>
-            <div className="d-flex align-items-start flex-column">
-              <div className="race-table-head-title row-title">{item.name}</div>
-              <div className="race-table-head-subtitle-description">
-                {item.description}
-              </div>
-            </div>
-          </div>
-        );
+        return <Runner data={item} />;
       },
     },
     ...forecastTricast,
@@ -346,7 +336,7 @@ export const Racecard = () => {
               ["pe-none"]: disablePrice,
             })}
           >
-            <MatchOdds selection={{ ...item, event_id: event.event_id }} />
+            <MatchOdds selection={{ ...item, event_id: event?.event_id }} />
           </div>
         );
       },
@@ -382,12 +372,12 @@ export const Racecard = () => {
 
   useEffect(() => {
     gamingSocket.emit("subscribe_match", {
-      value: id,
+      value: event?.event_id,
     });
 
     return () => {
       gamingSocket.emit("unsubscribe_match", {
-        value: id,
+        value: event?.event_id,
         action_id: uuidv4(),
       });
     };

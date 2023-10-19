@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveSport, setLogos } from "../../store/actions";
+import { setActiveSport, setLogos, setTablet } from "../../store/actions";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
 import axios from "axios";
@@ -13,10 +13,20 @@ export const Logo = ({ handleNavigateHome, className }) => {
   const isTablet = useSelector((state) => state.isTablet);
   const logos = useSelector((state) => state.logos);
 
+  const resizeHandler = () => {
+    dispatch(setTablet(window.document.documentElement.clientWidth <= 1024));
+  };
+
   useEffect(() => {
     axios.get(apiUrl.GET_CSS_CONTENT).then((response) => {
       dispatch(setLogos(response.data));
     });
+
+    window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
   }, []);
 
   return (

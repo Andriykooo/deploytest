@@ -9,8 +9,8 @@
 }
 
 .warning-image {
-  height: 15px;
-  width: 15px;
+  display: flex;
+  align-items: center;
   margin-right: 6px;
 }
 

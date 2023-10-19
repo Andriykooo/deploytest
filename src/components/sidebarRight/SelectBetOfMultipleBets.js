@@ -110,14 +110,25 @@ export const SelectOfMultipleBets = ({ row }) => {
   return (
     <>
       <div className="selected-bet-container containerOfMultiBets">
-        <div className={classNames("selected-bet-title selectMultipleBets", { eachWay: allowEachWay })}>
+        <div
+          className={classNames("selected-bet-title selectMultipleBets", {
+            eachWay: allowEachWay,
+            bog: row.bog_applicable,
+          })}
+        >
           <div className="ContainerOfMultipleBets">
-            <div onClick={() => setShowModal((prev) => !prev)} className="infoIcon">
-              <InfoInformationIcon />
+            {row?.bog_applicable && (
+              <span className="selected-bet-bog">{t("bog")}</span>
+            )}
+            <div className="ContainerOfMultipleBetsName">
+              <div
+                onClick={() => setShowModal((prev) => !prev)}
+                className="infoIcon"
+              >
+                <InfoInformationIcon />
+              </div>
+              <span>{row?.name || ""}</span>
             </div>
-            <span className="selected-market-selection"></span>
-            &nbsp;
-            <span>{row?.name || ""}</span>
           </div>
 
           <div className="selected-bet-body">
@@ -129,6 +140,7 @@ export const SelectOfMultipleBets = ({ row }) => {
                 className="slip-input inputOfMultiBets"
                 onChange={(e) => hanldeChangeInput(e, row.type)}
               />
+
               <div className="betslip-odds">{returnAmountFormatted}</div>
               {allowEachWay && (
                 <div className="betslip-odds rounded-end-1">

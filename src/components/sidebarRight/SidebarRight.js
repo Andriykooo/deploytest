@@ -349,17 +349,6 @@ export const SidebarRight = () => {
         alertToast({
           message: err?.response?.data?.message,
         });
-        dispatch(
-          setSelectBet({
-            ...selectedBets,
-            bets: selectedBets.bets.filter((bet) =>
-              betSlipResponse.singles.some(
-                (single) =>
-                  `${single.bet_provider}-${single.bet_id}` === bet.bet_id
-              )
-            ),
-          })
-        );
       });
   }, [selectedBets]);
 

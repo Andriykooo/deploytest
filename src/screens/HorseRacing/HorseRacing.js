@@ -46,9 +46,12 @@ export const HorseRacing = ({ sportContent, slug }) => {
   const regionsDay = selectedMeet.label.toLowerCase();
 
   const eventsData = sportContent?.events?.filter((event) => {
-    return event?.availabilities?.includes(eventsDay) && selectedMarket.id === 1
-      ? true
-      : event.event_venue === selectedMarket.label;
+    return (
+      event?.availabilities?.includes(eventsDay) &&
+      (selectedMarket.id === 1
+        ? true
+        : event.event_venue === selectedMarket.label)
+    );
   });
 
   const regionsData = [];
@@ -101,9 +104,11 @@ export const HorseRacing = ({ sportContent, slug }) => {
   return (
     <>
       <div className="horse-sport-competitions sport-competitions mx-3 mt-3">
-        <div className={classNames("sport-competitions-head", {
-          "mobile": isTablet
-        })}>
+        <div
+          className={classNames("sport-competitions-head", {
+            mobile: isTablet,
+          })}
+        >
           <label className="sport-name">
             {slug === "horseracing" ? t("horse_racing") : t("greyhound_racing")}
           </label>
@@ -113,12 +118,12 @@ export const HorseRacing = ({ sportContent, slug }) => {
               onSelect={handleSelectDay}
               fullWidth
             />
-          ) : <Dropdown
-            data={horseracingMeetingOptions}
-            onSelect={handleSelectDay}
-          />}
-
-
+          ) : (
+            <Dropdown
+              data={horseracingMeetingOptions}
+              onSelect={handleSelectDay}
+            />
+          )}
         </div>
 
         <div className="events-filters">
@@ -182,8 +187,9 @@ export const HorseRacing = ({ sportContent, slug }) => {
                         >
                           <Link
                             className="matchTeam matchTeam2"
-                            href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${meeting.events[0].event_id
-                              }&filter=${selectedMeet.label.toLowerCase()}`}
+                            href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
+                              meeting.events[0].event_id
+                            }&filter=${selectedMeet.label.toLowerCase()}`}
                           >
                             {meeting.name}
                             <Image src={images.arrowIcon} alt="arrow" />
@@ -193,16 +199,24 @@ export const HorseRacing = ({ sportContent, slug }) => {
                               (meeting.events.length > 8
                                 ? meeting.events.slice(-8)
                                 : [...meeting.events].concat(
-                                  new Array(8 - meeting.events.length).fill(
-                                    ""
+                                    new Array(8 - meeting.events.length).fill(
+                                      ""
+                                    )
                                   )
-                                )
                               ).map((currentEvent, index) => {
                                 return (
                                   <Link
                                     key={index}
-                                    className={classNames("countriesItem", { "pe-none":  !currentEvent?.event_id})}
-                                    href={currentEvent?.event_id ? `/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${currentEvent.event_id}&filter=${selectedMeet.label.toLowerCase()}` : ''}
+                                    className={classNames("countriesItem", {
+                                      "pe-none": !currentEvent?.event_id,
+                                    })}
+                                    href={
+                                      currentEvent?.event_id
+                                        ? `/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
+                                            currentEvent.event_id
+                                          }&filter=${selectedMeet.label.toLowerCase()}`
+                                        : ""
+                                    }
                                   >
                                     <EventTime data={currentEvent} />
                                   </Link>

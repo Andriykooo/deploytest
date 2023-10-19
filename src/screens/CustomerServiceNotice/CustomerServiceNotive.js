@@ -36,7 +36,9 @@ export const CustomerServiceNotice = () => {
           {t("common:customer_service_notice")}
         </h1>
         <p className="customer-service-notice-subtitle">
-          {t("thank_you_for_visiting", { company: settings?.companyName })}
+          {t("thank_you_for_visiting", {
+            company: settings?.data?.companyName,
+          })}
           <br />
           {t("site_blocks_access_from_certain_territories")}
         </p>
@@ -44,10 +46,10 @@ export const CustomerServiceNotice = () => {
           {t("restricted_country_access_notice")}
         </p>
         <a
-          href={`mailto:${settings?.companyServiceEmail}`}
+          href={`mailto:${settings?.data?.companyServiceEmail}`}
           className="customer-service-notice-email"
         >
-          {settings?.companyServiceEmail}
+          {settings?.data?.companyServiceEmail}
         </a>
         <p className="customer-service-notice-description">
           {t("apology_for_inconvenience")}

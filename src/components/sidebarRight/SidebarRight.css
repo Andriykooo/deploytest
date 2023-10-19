@@ -66,6 +66,19 @@
 
 .ContainerOfMultipleBets {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.ContainerOfMultipleBetsName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ContainerOfMultipleBets .selected-bet-bog {
+  align-self: flex-end;
 }
 
 .ContainerOfMultipleBets > div > svg {
@@ -227,9 +240,13 @@
   gap: 10px;
 }
 
+.selectMultipleBets.eachWay .ContainerOfMultipleBets {
+  flex-direction: row-reverse;
+}
+
 .selectMultipleBets .selected-bet-body {
   padding-left: 0;
-  margin-left: 20px;
+  margin-left: 10px;
   max-width: 125px;
   width: 100%;
 }
@@ -290,9 +307,14 @@
 
 .selected-bet-title {
   font-size: 14px;
+  line-height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.selected-bet-title.bog {
+  align-items: normal;
 }
 
 .selected-bet-bog {
@@ -627,6 +649,11 @@
   #bet-holder {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .sidebar-right {
+    max-width: 100%;
+    width: 100%;
   }
 
   .slip-input {

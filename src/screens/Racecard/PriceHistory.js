@@ -3,25 +3,60 @@
 import { useSelector } from "react-redux";
 import { formatOdd } from "@/utils/global";
 import { Line, LineChart, XAxis } from "recharts";
+import { useEffect, useState } from "react";
 
 export const PriceHistory = ({ item }) => {
+  const updatedSelections = useSelector((state) => state.updatedSelections);
   const user = useSelector((state) => state.loggedUser);
-  const format = user?.user_data?.settings?.odds_format;
+  const settings = useSelector((state) => state.settings);
 
-  const data = item?.price_history?.slice(-3)?.map((price) => {
-    const odd = formatOdd(price, format);
+  const updatedSelection = updatedSelections?.[item.bet_id];
+  const format =
+    user?.user_data?.settings?.odds_format || settings.defaultOddsFormat;
 
-    return {
-      value: +price?.value,
-      name: odd,
-    };
-  });
+  const [priceHistory, setPriceHistory] = useState(
+    item?.price_history?.slice(-3)?.map((price) => {
+      const odd = formatOdd(price, format);
+
+      return {
+        value: +price?.value,
+        name: odd,
+      };
+    })
+  );
+
+  useEffect(() => {
+    if (updatedSelection) {
+      const selection = updatedSelection.data;
+
+      if (selection?.price_boost) {
+        selection.odds_decimal = selection.price_boost_odds.decimal;
+        selection.odds_fractional = selection.price_boost_odds.fractional;
+      }
+
+      const odd = formatOdd(selection, format);
+
+      const data = {
+        name: odd,
+        value: selection.odds_decimal,
+        odds_decimal: selection.odds_decimal,
+        odds_fractional: selection.odds_fractional,
+      };
+
+      if (priceHistory.length < 3) {
+        setPriceHistory([...priceHistory, data]);
+      } else {
+        priceHistory.shift();
+        setPriceHistory([...priceHistory, data]);
+      }
+    }
+  }, [updatedSelection]);
 
   return (
     <div className="price-history">
       {item?.price_history && (
         <LineChart
-          data={data}
+          data={priceHistory}
           height={32}
           width={107}
           margin={{
@@ -36,16 +71,14 @@ export const PriceHistory = ({ item }) => {
             axisLine={false}
             tickLine={false}
             dataKey={"name"}
-            tick={{ fill: "#ffffff", fontSize: 8 }}
+            tick={{ fontSize: 8 }}
           />
           <Line
             isAnimationActive={false}
             type="linear"
             dataKey="value"
-            stroke="#BC9239"
             strokeWidth={1}
             r={4}
-            fill="#BC9239"
           />
         </LineChart>
       )}

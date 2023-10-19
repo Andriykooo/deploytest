@@ -95,13 +95,18 @@ export const RacecardNavigation = ({ children }) => {
       });
   }, [pathname, filter]);
 
+  const day =
+    (moment(event?.event_start_time)?.isSame(moment(), "day") && "today") ||
+    (moment(event?.event_start_time)?.isSame(moment().add(1, "days"), "day") &&
+      "tomorrow");
+
   return raceCard ? (
     <div className="sports-body">
       <div className="sport-competitions">
         <div className="sport-competitions-head">
           <GoBackButton link="/sport/horseracing" />
           <div className="race-date">
-            {filter} {moment(event?.event_start_time).format("D MMM, HH:mm")}
+            {t(day)} {moment(event?.event_start_time).format("D MMM, HH:mm")}
           </div>
           {/* todo: This can be hidden for now until we get the streams added. */}
           {/* <div className="stream-container d-flex align-items-center">
