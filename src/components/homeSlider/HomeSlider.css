@@ -1,0 +1,339 @@
+.slider-text {
+  position: absolute;
+  top: 0;
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+  width: 172px;
+  height: 50%;
+  color: var(--global-color-text-primary);
+  top: 14px;
+  left: 14px;
+  bottom: 0;
+  right: 0;
+}
+
+.slick-slide {
+  width: 290px;
+}
+
+.slick-slide>div {
+  height: 100%;
+  width: 100%;
+}
+
+.slick-slide img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.numbering img {
+  width: auto;
+  height: 133px;
+}
+
+.gameImageWrapper {
+  width: 205px;
+  height: 190px;
+}
+
+.sliderTextContent {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.btnPrimary.betNowButtonOFSlider {
+  color: white;
+  width: auto;
+  border-radius: 4px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  line-height: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 15px;
+  white-space: nowrap;
+}
+
+.betNowBtnsContainer {
+  position: absolute;
+  overflow: auto;
+  left: 12px;
+  bottom: 14px;
+  display: flex;
+  gap: 4px;
+  width: calc(100% - 24px);
+}
+
+.slick-next,
+.slick-prev {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #c2ae82;
+  box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  -webkit-box-shadow: none;
+}
+
+.slick-prev:before {
+  content: "";
+}
+
+.slick-prev {
+  left: 10px;
+  z-index: 1;
+}
+
+.slick-next {
+  right: 10px;
+  z-index: 1;
+}
+
+.slick-dots {
+  position: static;
+  height: 17px;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--global-color-text-secondary);
+  opacity: 1;
+}
+
+.slick-dots li button:before {
+  color: #d9d9d9;
+  opacity: 1;
+  font-size: 8px;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background: #c2ae82;
+}
+
+.betting-in-home-slider {
+  position: relative;
+  padding: 0;
+}
+
+.handballLogoImage {
+  padding: 0;
+  width: 100%;
+  object-fit: cover;
+  max-height: 230px;
+}
+
+.slider-title-in-homepage {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--global-color-text-primary);
+}
+
+.slider-title-in-homepage-description {
+  position: absolute;
+  top: 48px;
+  left: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 17px;
+  color: var(--global-color-text-primary);
+  font-style: normal;
+}
+
+.buttonOfSlider {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border-radius: 4px;
+  padding: 5px 18px 5px 18px;
+  font-size: 12px;
+  padding: 5px 20px;
+}
+
+.buttonOfEventsHomepage {
+  top: 0;
+}
+
+.bannerButton {
+  top: 0;
+}
+
+.container-of-bets-in-slider {
+  left: 16px;
+  bottom: 10px;
+  display: flex;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-of-bets-in-row {
+  flex-basis: calc(33.33% - 4px);
+  margin-right: 10px;
+  height: 100px;
+  background-color: #a60909;
+  height: 33px;
+  background: #373b40;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-hero-widget-container {
+  flex-basis: calc(50% - 4px);
+}
+
+.container-of-bets-in-row:last-child {
+  margin-right: 0;
+}
+
+.markets-slider-page {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #dcdcdc;
+}
+
+.bets-of-markets-slider {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--global-color-text-secondary);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #414851;
+  padding-left: 10px;
+}
+
+.recommendedSubtitle {
+  margin: 0 50px;
+}
+
+.recommendedTitleTrending {
+  margin-left: 0;
+}
+
+.slider-image-container {
+  position: relative;
+  height: 190px;
+  width: 280px;
+}
+
+@media only screen and (max-width: 480px) {
+  .slick-slider {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .container-of-bets-in-row {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .Toastify__toast {
+    border-radius: 8px;
+    margin: 1rem;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .recommendedSubtitle {
+    margin: 0;
+  }
+
+  .container-of-bets-in-slider {
+    flex-direction: column;
+  }
+
+  .container-of-bets-in-row {
+    margin-right: 0;
+    border-bottom: 1px solid #414851;
+    border-radius: 0;
+  }
+
+  .markets-slider-page,
+  .bets-of-markets-slider {
+    line-height: 40px;
+  }
+
+  .container-of-bets-in-row:first-of-type {
+    border-radius: 4px 4px 0 0;
+  }
+
+  .container-of-bets-in-row:last-of-type {
+    border-radius: 0 0 4px 4px;
+  }
+
+  .buttonOfSlider {
+    padding: 3px 10px;
+    border-radius: 4px;
+    top: 50px;
+    right: 16px;
+    font-size: 12px;
+    padding: 5px 20px;
+    width: fit-content;
+  }
+
+  .bannerButton {
+    top: 0;
+  }
+
+  .slider-title-in-homepage {
+    line-height: 16px;
+  }
+
+  .slider-title-in-homepage-description {
+    font-size: 12px;
+    top: 40px;
+  }
+
+  .slider-title-in-homepage-description-skeleton {
+    top: 45px;
+  }
+
+  .slider-text {
+    width: auto;
+    margin-right: 5px;
+  }
+
+  .sliderTextContent {
+    margin-bottom: 5px;
+  }
+
+  .slick-slider {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .betNowButtonOFSlider {
+    padding: 5px 8px;
+  }
+}
+
+@media only screen and (max-width: 345px) {
+  .slider-title-in-homepage-description {
+    left: 5px;
+  }
+
+  .container-of-bets-in-slider {
+    left: 5px;
+  }
+
+  .slider-title-in-homepage {
+    left: 5px;
+  }
+}

@@ -1,0 +1,18 @@
+.menu-bar-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  min-height: 126px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.menu-bar-empty-massage {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22.4px;
+  color: var(--global-color-text-primary);
+}

@@ -1,0 +1,34 @@
+.backgroundImage {
+  background-image: linear-gradient(
+      0deg,
+      rgba(37, 40, 44, 0.41),
+      rgba(37, 40, 44, 0.41)
+    ),
+    url("../../assets/images/loginBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.photo_buttons {
+  text-align: start;
+
+  margin: auto;
+  margin-bottom: 1.5rem;
+}
+.kycDiv {
+  margin: auto;
+  width: 100%;
+  max-width: 383px;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .kycDiv {
+    padding: 0 1.5rem !important;
+    max-width: 100%;
+  }
+  .photo_buttons {
+    padding: 0 16px !important;
+  }
+}

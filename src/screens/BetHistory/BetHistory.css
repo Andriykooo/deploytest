@@ -1,0 +1,169 @@
+.betHistoryBody {
+  padding-bottom: 8px;
+  min-height: calc(100vh - 74px);
+  display: flex;
+  flex-direction: column;
+}
+
+.betHistoryContent {
+  flex: 1;
+}
+
+.betHistoryContent.betHistoryContentCentered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.betHistoryMenuBar {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 28px;
+}
+
+.betHistoryMenu {
+  width: auto;
+  height: 39px;
+  padding: 18px;
+  background: var(--global-color-shade8);
+  border-radius: 40px;
+  color: var(--global-color-text-primary);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.betHistoryDate {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--global-color-text-primary);
+}
+
+.activeButton {
+  border-color: var(--global-color-text-primary);
+}
+
+.betHistorySection {
+  background-color: var(--global-color-shade5);
+  border-radius: 4px;
+  padding: 0 14px;
+  margin-bottom: 6px;
+  border-left: 3px solid transparent;
+}
+
+.betHistorySection.betHistorySectionMulti {
+  padding-top: 14px;
+}
+
+.betHistorySection.betHistorySectionWinner {
+  border-left-color: #1A835C;
+}
+
+.betHistorySection.betHistorySectionLoser {
+  border-left-color: #AD0E3E;
+}
+
+.betHistorySectionHeader {
+  color: var(--global-color-text-primary);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.betHistorySectionHeader p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.betHistorySectionHeader .betHistorySectionArrow {
+  transform: rotate(180deg);
+}
+
+.betHistorySectionFooter {
+  color: var(--global-color-text-primary);
+  height: 36px;
+  font-size: 12px;
+  padding: 0 20px;
+}
+
+.betHistorySectionFooter p {
+  margin: 0;
+}
+
+.betHistorySectionFooter span {
+  font-weight: 600;
+  color: var(--global-color-yellow);
+}
+
+.betHistoryRow {
+  padding: 12px 26px 12px 20px;
+  border-bottom: 1px solid var(--global-color-shade1);
+}
+
+.betHistoryRowHeader {
+  position: relative;
+}
+
+.betHistoryRowHeader::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 10px;
+}
+
+.betHistoryRowHeader.betHistoryRowHeaderWinner::before {
+  background-color: #1A835C;
+}
+
+.betHistoryRowHeader.betHistoryRowHeaderLoser::before {
+  background-color: #AD0E3E;
+}
+
+.betHistoryRow p {
+  margin: 0;
+}
+
+.betHistoryRowTitle {
+  font-size: 14px;
+  color: var(--global-color-text-primary);
+}
+
+.betHistoryRowOdds {
+  font-size: 12px;
+  color: var(--global-color-text-primary);
+}
+
+.betHistoryRowResult {
+  margin: 4px 0;
+  color: var(--global-color-yellow);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.betHistoryRowName {
+  font-size: 12px;
+  color: var(--global-color-text-primary);
+}
+
+@media screen and (max-width: 991px) {
+  .betHistoryBody {
+    min-height: calc(100vh - 56px);
+  }
+
+  .betHistoryContent {
+    max-width: 100%;
+  }
+
+  .betHistoryTitle {
+    min-width: auto;
+  }
+}

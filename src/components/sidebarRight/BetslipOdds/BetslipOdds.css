@@ -1,0 +1,26 @@
+.betslip-odds {
+  background: var(--global-color-tertiary);
+  border-radius: 0px 2px 2px 0px;
+  padding: 7px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  transition: 0.3s ease;
+  min-width: 60px;
+  width: 100%;
+  max-width: max-content;
+}
+
+.betslip-odds.drifting {
+  background-color: var(--global-color-price-drifting);
+}
+
+.betslip-odds.shortening {
+  background-color: var(--global-color-price-shortening);
+}
+
+.betslip-odds .matchOdds {
+  color: var(--global-color-text-primary);
+}

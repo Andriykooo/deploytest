@@ -1,0 +1,164 @@
+.terms {
+  color: white;
+  overflow-y: hidden;
+  max-width: 920px;
+  padding-top: 0px;
+  margin: 0 auto;
+}
+
+.termsContent {
+  height: calc(100vh - 400px);
+  margin: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-width: 920px;
+  text-align: justify;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding-bottom: 20px;
+}
+
+.termsContent::-webkit-scrollbar {
+  display: none;
+}
+
+.none {
+  padding-left: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+li {
+  padding-top: 10px;
+}
+
+.termsTitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  margin: 0 auto;
+  max-width: 920px;
+  padding-top: 90px;
+  padding-bottom: 40px;
+}
+.termsTitleForMainPage {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  margin: 0 auto;
+  max-width: 920px;
+  padding-top: 91px;
+  padding-bottom: 40px;
+}
+.backgroundImage {
+  background-image: linear-gradient(
+      0deg,
+      rgba(37, 40, 44, 0.41),
+      rgba(37, 40, 44, 0.41)
+    ),
+    url("../../assets/images/loginBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 0px !important;
+  max-width: 100%;
+}
+.backgroundImageLogged {
+  background-image: none;
+  overflow-y: hidden;
+  padding-top: 0px !important;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.acceptBtn.disabled {
+  background: var(--global-color-secondary);
+  margin-top: 20px;
+}
+
+.acceptBtn {
+  background: var(--global-color-button-primary);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 383px;
+  margin: auto;
+  width: 100%;
+  height: 48px;
+  border: none;
+  margin-top: 20px;
+}
+
+.privacyModalTitle {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
+.privacyContentModal {
+  color: white;
+}
+
+@media (max-width: 1024px) {
+  .termsContent {
+    height: calc(100vh - 240px);
+  }
+  .termsTitleForMainPage {
+    font-family: "Montserrat", sans-serif;
+    justify-content: flex-start;
+    font-weight: 700;
+    line-height: 40px;
+    font-size: 32px;
+    padding: 30px 20px 20px;
+  }
+
+  .privacyModalTitle {
+    padding-top: 0;
+    padding-bottom: 20px;
+    font-size: 31px;
+  }
+
+  .termsTitle {
+    max-width: 90%;
+    padding-top: 29px;
+  }
+
+  .termsContent {
+    margin: 0 20px;
+  }
+
+  .acceptBtn {
+    max-width: calc(100% - 40px);
+  }
+
+  .termsContent-height-50 {
+    max-height: 65%;
+  }
+
+  .privacyContentModal {
+    max-height: 70vh;
+    height: auto;
+  }
+
+  .termsTitleForMainPage {
+    padding: 30px 20px !important;
+    justify-content: flex-start;
+    max-width: unset;
+  }
+  .termsContent {
+    height: calc(100vh - 270px);
+  }
+}

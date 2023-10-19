@@ -1,0 +1,225 @@
+.price-history .recharts-wrapper {
+  position: absolute !important;
+}
+
+.racecardHeader {
+  padding-bottom: 10px;
+  border-radius: 6px;
+}
+
+.racecard-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 36px;
+  background-color: var(--global-color-text-gray);
+  border-radius: 6px;
+  margin: 0 12px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #373b40;
+}
+
+.race-table {
+  border-radius: 6px;
+  overflow: hidden;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 20px;
+}
+
+.race-live-stream {
+  width: 100%;
+  height: 334px;
+}
+
+.race-table-head {
+  background: var(--global-color-shade10);
+  height: 44px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.race-table-head-items-container {
+  overflow-x: auto;
+}
+
+.race-table-head-items {
+  height: 32px;
+  background: var(--global-color-secondary);
+  border-bottom: 1px solid var(--global-color-secondary);
+  min-width: 650px;
+}
+
+.race-table-row {
+  min-height: 44px;
+  background: var(--global-color-shade1);
+  min-width: 650px;
+}
+
+.race-table-row > :not(:last-child) {
+  border-right: 1px solid var(--global-color-secondary);
+}
+
+.race-table-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-bottom: 1px solid var(--global-color-secondary);
+}
+
+.silk {
+  height: 14px;
+  width: 18px;
+}
+
+.runner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-left: 12px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--global-color-gold-button);
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.price.disable {
+  pointer-events: none;
+  background: var(--global-color-text-gray);
+}
+
+.price.active {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+}
+
+.weights {
+  color: var(--global-color-gold-button);
+}
+
+.price .matchOdds {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.price-history {
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 10px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.price:hover {
+  background: var(--global-color-tertiary);
+  color: var(--global-color-text-primary);
+}
+
+.race-table-head-items,
+.race-table-row {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: var(--global-color-text-primary);
+  text-align: center;
+}
+
+.race-table-row.disabled {
+  filter: blur(0.4px);
+  pointer-events: none;
+}
+
+.race-table-row.disabled .race-table-row-item {
+  opacity: 0.4;
+}
+
+.race-table-head-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: normal;
+  color: var(--global-color-text-primary);
+}
+
+.race-table-head-title.row-title {
+  font-weight: 400;
+}
+
+.race-table-head-subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.race-table-head-subtitle-event {
+  color: var(--global-color-gold-button);
+  margin-right: 10px;
+}
+.race-table-head-subtitle-description {
+  color: #acacac;
+}
+
+.race-date {
+  color: var(--global-color-text-primary);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.race-table-non-runner {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  border-right: 1px solid var(--global-color-secondary);
+  background: var(--global-color-secondary);
+  color: var(--global-color-text-primary);
+  padding-left: 16px;
+  min-width: 650px;
+}
+
+.race-status {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  padding: 0 16px;
+  background-color: #bea66f;
+  color: var(--global-color-text-primary);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.finish-num {
+  font-size: 20px;
+}
+
+@media (max-width: 1024px) {
+  .racecard-type {
+    margin: 0;
+  }
+}
