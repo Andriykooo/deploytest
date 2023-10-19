@@ -6,14 +6,14 @@ export const config = {
 };
 
 export function middleware(request) {
-  const locale = "en";
-  const { pathname } = request.nextUrl;
+  // const locale = "en";
+  // const { pathname } = request.nextUrl;
 
-  if (
-    !languages.some((lang) => pathname.startsWith(`/${lang}`)) &&
-    !pathname.startsWith("/_next")
-  ) {
-    request.nextUrl.pathname = `/${locale}${pathname}`;
-    return Response.redirect(request.nextUrl);
-  }
+  // if (
+  //   !languages.some((lang) => pathname.startsWith(`/${lang}`)) &&
+  //   !pathname.startsWith("/_next")
+  // ) {
+  //   request.nextUrl.pathname = `/${locale}${pathname}`;
+  //   return Response.redirect(request.nextUrl);
+  // }
 }
