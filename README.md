@@ -7,9 +7,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-yarn install
+npm install
 
-yarn dev
+npm run dev
 ```
+
+Build:
+
+```bash
+npm run buid
+
+npm run start
+```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
