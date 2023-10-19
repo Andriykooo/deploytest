@@ -1,0 +1,96 @@
+.saferTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--global-color-text-primary);
+  margin-bottom: 12px;
+}
+
+.saferMessage {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--global-color-text-primary);
+  padding-right: 25px;
+  margin: 0;
+}
+
+.yellowDiv {
+  background: var(--global-color-suspended-button);
+  height: 50px;
+}
+
+.saferDivs,
+.yellowDiv {
+  max-width: 454px;
+  width: 100%;
+}
+
+.saferDivs > div {
+  width: 100%;
+  padding: 0;
+}
+
+.safer-gambling-information {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--global-color-text-primary);
+  height: 100%;
+}
+
+.arrow-back {
+  cursor: pointer;
+}
+
+.arrow-top > img:hover {
+  cursor: pointer;
+}
+
+.menuText button {
+  width: 100%;
+}
+
+.funlabelPosition {
+  margin-bottom: 0px !important;
+}
+
+.saferContainer .saferInfo {
+  padding: 14px 16px;
+  width: 100%;
+  margin-left: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .saferContainer {
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .saferContainer .saferInfo {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+  }
+
+  .saferDivs {
+    max-width: 100%;
+  }
+
+  .yellowDiv {
+    position: absolute;
+    bottom: 0;
+    left: -24px;
+    margin: 0 !important;
+    width: calc(100% + 48px) !important;
+    max-width: unset;
+  }
+
+  .saferTitle {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+  }
+}

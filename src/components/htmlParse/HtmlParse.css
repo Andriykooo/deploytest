@@ -1,0 +1,22 @@
+.html-parse-title {
+  font-size: 34px;
+  line-height: 38px;
+}
+
+.scrollable-content {
+  max-height: calc(100vh - 240px);
+  overflow: auto;
+}
+
+.html-parse-content {
+  font-size: 12px;
+  color: var(--global-color-text-primary);
+}
+
+@media (max-width: 1024px) {
+  .scrollable-content {
+    max-height: calc(100vh - 140px);
+    overflow: auto;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,60 @@
+.dynamic-selections {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  justify-self: center;
+}
+
+.dynamic-selections-button {
+  width: 100%;
+  color: var(--global-color-text-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  line-height: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+  height: 26px;
+  overflow: hidden;
+}
+
+.dynamic-selections-button .matchOdds.styleOfSelectedOdd,
+.dynamic-selections-button .matchOdds.selectionPriceBoost {
+  font-size: 10px;
+  background: transparent;
+}
+
+.dynamic-selections-button .priceBoostIcon {
+  fill: var(--global-main-color-icon);
+}
+
+.dynamic-selections-button .animationBlock {
+  justify-content: space-between;
+}
+
+.btnPrimary.betNowButtonOFSlider.dynamic-selections-button {
+  padding: 0;
+}
+
+.dynamic-selections-name {
+  width: max-content;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 2px;
+}
+
+.dynamic-selections-button .matchOdds {
+  color: inherit;
+  font-size: inherit;
+  border-radius: 4px;
+  padding: 0 5px;
+  background-color: var(--global-color-links-background);
+}
+
+.dynamic-selections-button .matchOdds:hover {
+  background-color: var(--global-color-links-background);
+}

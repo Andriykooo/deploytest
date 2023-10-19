@@ -1,0 +1,75 @@
+.footerWrapper {
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  background: var(--global-color-header-background);
+  z-index: 999;
+  box-shadow: 0px -1px 20px rgba(0, 0, 0, 0.75);
+  transform: translateY(calc(100% - 72px));
+  transition: 0.3s;
+  max-height: 50vh;
+}
+
+.footerWrapper.active {
+  transform: translateY(0);
+  overflow-y: auto;
+}
+
+.footerMenu {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  background: var(--global-color-header-background);
+  height: 56px;
+}
+
+.footerMenuIcon {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-self: center;
+}
+
+.footerSport {
+  color: var(--global-color-header-text);
+  font-size: 12px;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+  display: flex;
+  font-style: normal;
+}
+
+.footerIconsDiv {
+  display: grid;
+  row-gap: 12px;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: space-between;
+  padding: 12px 4px;
+}
+
+.footerIconsDiv.inline {
+  display: flex;
+}
+
+.footerLineWrapper {
+  position: absolute;
+  padding: 3px 20px 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.footerLine {
+  width: 75px;
+  height: 2px;
+  border-radius: 6px;
+  background: var(--global-color-header-icons);
+}
+
+.activeFooter {
+  color: var(--global-color-header-text-active);
+}
