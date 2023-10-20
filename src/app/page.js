@@ -1,19 +1,10 @@
-import { Provider } from "./provider";
-import { Montserrat } from "next/font/google";
 import { apiUrl } from "@/utils/constants";
-import Script from "next/script";
-import { dir } from "i18next";
-import { languages } from "../i18n/settings";
+import { Main } from "@/screens/Main/Main";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "../globals.css";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  style: "normal",
-});
+import "./globals.css";
 
 export async function generateMetadata() {
   const response = await fetch(apiUrl.GET_GLOBAL_SEO);
@@ -41,16 +32,11 @@ export async function generateMetadata() {
   };
 }
 
-export async function generateStaticParams() {
-  return languages.map((lng) => ({ lng }));
-}
-
-export default async function Layout({ children, params: { lng } }) {
+export default function Page() {
   return (
-    <html lang={lng} dir={dir(lng)}>
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
-      <body className={montserrat.className}>
-        <Provider lng={lng}>{children}</Provider>
+    <html lang={"en"}>
+      <body>
+        <Main />
       </body>
     </html>
   );
