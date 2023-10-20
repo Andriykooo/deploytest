@@ -1,16 +1,12 @@
-import { languages } from "./app/i18n/settings";
+import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
 
 export function middleware(request) {
-  const locale = "en";
-  const { pathname } = request.nextUrl;
-
-  // console.log(languages, pathname, !languages.some((lang) => pathname.startsWith(`/${lang}`)));
-  // if (!languages.some((lang) => pathname.startsWith(`/${lang}`))) {
-  //   request.nextUrl.pathname = `/${locale}${pathname}`;
-  //   return Response.redirect(request.nextUrl);
-  // }
+  console.log(request.nextUrl.pathname);
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/en", request.url));
+  }
 }
