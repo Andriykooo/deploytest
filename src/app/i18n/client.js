@@ -1,40 +1,35 @@
-import { useEffect } from "react";
-import i18next from "i18next";
-import {
-  initReactI18next,
-  useTranslation as useTranslationOrg,
-} from "react-i18next";
-import resourcesToBackend from "i18next-resources-to-backend";
-import { getOptions, languages } from "./settings";
-import { useClientPathname } from "@/hooks/useClientPathname";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const runsOnServerSide = typeof window === "undefined";
+const dictionaries = {
+  en: () => import("./locales/en.json").then((module) => module.default),
+  de: () => import("./locales/de.json").then((module) => module.default),
+};
 
-i18next
-  .use(initReactI18next)
-  .use(
-    resourcesToBackend((language, namespace) =>
-      import(`./locales/${language}.json`).then((res) => res[namespace])
-    )
-  )
-  .init({
-    ...getOptions(),
-    lng: undefined,
-    detection: {
-      order: ["path", "htmlTag", "navigator"],
-    },
-    preload: runsOnServerSide ? languages : [],
-  });
+export const getDictionary = async (locale) => dictionaries[locale]();
 
-export function useClientTranslation(ns, options) {
-  const { locale: lng } = useClientPathname();
-  const { t, i18n } = useTranslationOrg(ns, options);
+export function useClientTranslation(ns) {
+  const params = useParams();
+  const [locales, setLocales] = useState(null);
+
+  const initLanguage = async () => {
+    const localesData = await getDictionary(params?.lng || "en");
+
+    setLocales(localesData);
+  };
 
   useEffect(() => {
-    if (lng !== i18n.language) {
-      i18n.changeLanguage(lng);
-    }
-  }, [lng, i18n]);
+    initLanguage();
+  }, [params?.lng]);
 
-  return { t, i18n };
+  return {
+    t: (translation) => {
+      if (Array.isArray(ns)) {
+        const [key, value] = translation.split(":");
+        return locales?.[key]?.[value];
+      }
+
+      return locales?.[ns]?.[translation];
+    },
+  };
 }

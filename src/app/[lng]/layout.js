@@ -2,7 +2,6 @@ import { Provider } from "./provider";
 import { Montserrat } from "next/font/google";
 import { apiUrl } from "@/utils/constants";
 import Script from "next/script";
-import { dir } from "i18next";
 import { languages } from "../i18n/settings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -47,7 +46,7 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({ children, params: { lng } }) {
   return (
-    <html lang={lng} dir={dir(lng)}>
+    <html lang={lng}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
       <body className={montserrat.className}>
         <Provider>{children}</Provider>

@@ -10,7 +10,6 @@ import Cookies from "js-cookie";
 import { clearLocalStorage } from "./localStorage";
 import moment from "moment";
 import { refreshGamingSocket } from "@/context/socket";
-import i18next from "i18next";
 import { SuccesToast } from "./alert";
 
 export const setSettingsApi = async (body, dispatch, callback) => {
@@ -63,12 +62,12 @@ export const getUserApi = async (dispatch) => {
     const data = error.response.data.error;
 
     if (data?.code === 1104) {
-      dispatch(
-        setAlertModal({
-          title: i18next.t("account_suspended"),
-          message: data.message,
-        })
-      );
+      // dispatch(
+      //   setAlertModal({
+      //     title: i18next.t("account_suspended"),
+      //     message: data.message,
+      //   })
+      // );
     }
 
     if (data?.code === 1063) {
