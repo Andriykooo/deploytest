@@ -35,7 +35,7 @@ export const Countries = ({
           <div className="modal-content-inside">
             <div className="modalTitle-countries">
               <p className="selectCountryTitle depositModalLimit">
-              {t("select_country_residence")}
+                {t("select_country_residence")}
               </p>
               <Image
                 src={images.closeIcon}
@@ -60,13 +60,12 @@ export const Countries = ({
                 onChange={(e) => handle(e, "country")}
               />
             </div>
-            {choosenCountry?.map((country, index) => {
+            {choosenCountry?.map((country) => {
               const isActive = country.cca2 === user?.country;
-
               return (
                 <div
-                  key={index}
-                  data-id={index}
+                  key={`${country.cca2}-${country.phone_number_prefix}`}
+                  data-id={country.cca2}
                   className={
                     isActive
                       ? "selectDecimal-countries selectedOdd d-flex mb-3"

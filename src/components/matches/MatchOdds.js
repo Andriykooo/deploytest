@@ -6,7 +6,7 @@ import {
 } from "../../store/actions";
 import { Odds } from "../Odds/Odds";
 import classNames from "classnames";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
@@ -65,7 +65,6 @@ export const MatchOdds = ({ selection, disable, children }) => {
         if (!!item.starting_price !== (selection.odds_decimal === "SP")) {
           return [...accum, new_bet];
         }
-
         return accum;
       }
 

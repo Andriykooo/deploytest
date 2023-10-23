@@ -53,5 +53,5 @@
   span
   .MuiSwitch-switchBase.Mui-checked
   + .MuiSwitch-track {
-  background-color: var(--global-color-notification-success) !important;
+  background-color: var(--global-color-notiffication-success) !important;
 }

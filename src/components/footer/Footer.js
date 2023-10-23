@@ -79,7 +79,11 @@ export const Footer = ({ noMenu }) => {
                               type={
                                 isPreselectedLink ? "default" : link?.page_type
                               }
-                              path={link?.path}
+                              path={
+                                isPreselectedLink
+                                  ? `${link.path}?mode=view`
+                                  : link.path
+                              }
                               openType={link?.open_type}
                               modalData={{
                                 slug: link?.path,

@@ -1,6 +1,6 @@
 {
   "affiliates": {
-    "new_customer_welcome_offer": "New Customer Welcome Offer:",
+    "new_customer_welcome_offer":  "New Customer Welcome Offer:",
     "gamble_responsibly": "Please Gamble Responsibly",
     "new_customer_qualifying_terms": "*For NEW customers only. Requires account opening, deposit and certain qualifying bets of Evens or greater.",
     "get": "GET",
@@ -162,6 +162,7 @@
     "trader_offer_expired": "Trader offer expired",
     "trader_accepted_the_bet": "Trader accepted the bet",
     "trader_rejected_the_bet": "Trader rejected the bet",
+    "your_bet_is_rejected": "Your bet is rejected",
     "max_bets_under_review": "Max one Betslip under trader review at a time.",
     "odds_availability_changed_message": "The odds or availability of your selections have changed",
     "bet_user_rejected_message": "You rejected the trader offer",
@@ -265,7 +266,7 @@
     "amount_selection_prompt": "Enter or select the amount in",
     "deposit_limit_accepted": "Deposit Limit - Accepted!",
     "deposit_limit_declined": "Deposit Limit - Declined!",
-    "decline": "Decline"
+    "decline": "DECLINE"
   },
   "email_sent": {
     "email_sent": "E-mail sent",

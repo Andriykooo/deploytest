@@ -1,7 +1,7 @@
 "use client";
 
 import parse from "html-react-parser";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -27,6 +27,7 @@ const Terms = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const getTerms = () => {
     const language = Cookies.get("language") || "en";
@@ -74,7 +75,7 @@ const Terms = () => {
     }
   }, [terms]);
 
-  const acceptIsActive = !getLocalStorageItem("access_token");
+  const acceptIsActive = !searchParams?.get("mode");
 
   return (
     <div className="terms backgroundImage">

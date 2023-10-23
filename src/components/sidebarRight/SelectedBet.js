@@ -88,7 +88,7 @@ export const SelectedBet = ({ row, disabled }) => {
   }, [row]);
 
   useEffect(() => {
-    if (debouncedValue && userSelectedBets.bets.length > 0) {
+    if (debouncedValue && userSelectedBets.bets.length > 0 && !disabled) {
       handlerSetSingleStake(isSP, isEW);
     }
   }, [debouncedValue]);
@@ -139,7 +139,6 @@ export const SelectedBet = ({ row, disabled }) => {
             type="text"
             value={input > 0 ? input : ""}
             className="slip-input"
-            data-id={bet_id}
             id={"input_stake_" + bet_id}
             onChange={hanldeChangeInput}
           />

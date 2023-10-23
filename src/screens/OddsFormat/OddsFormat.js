@@ -9,7 +9,7 @@ import { images } from "../../utils/imagesConstant";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../OddsFormat/OddsFormat.css";
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useClientTranslation } from "@/app/i18n/client";
 
@@ -30,14 +30,11 @@ const OddsFormat = () => {
 
     setSettingsApi(body, dispatch, {
       onSuccess: (result) => {
-        if (Object.keys(result).length < 1) {
+        if (!result?.error) {
           let newUser = {};
           Object.assign(newUser, loggedUser);
           newUser.user_data.settings.odds_format = key;
           dispatch(setLoggedUser(newUser));
-        }
-
-        if (!result?.error) {
           SuccesToast({ message: t("odds_format_updated") });
         }
       },

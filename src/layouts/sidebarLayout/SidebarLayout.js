@@ -50,7 +50,7 @@ export const SidebarLayout = ({
   return (
     <>
       {sidebarLeftIsActive && <SidebarLeft />}
-      {sidebarRightIsActive && <SidebarRight />}
+      {<SidebarRight pageLayoutActiveStatus={sidebarRightIsActive} />}
       <div className={classNames("content", className)}>{children}</div>
     </>
   );

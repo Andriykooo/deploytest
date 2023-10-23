@@ -232,8 +232,18 @@
   margin-bottom: 150px;
 }
 
+.transactionHistory {
+  padding-right: 40px;
+  overflow: auto;
+  height: calc(100vh - 74px);
+}
+
 @media (max-width: 1024px) {
   .transactionDetailsContent {
     margin-bottom: 0;
+  }
+
+  .transactionHistory {
+    height: calc(100vh - 56px);
   }
 }

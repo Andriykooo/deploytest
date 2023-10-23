@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../../components/button/Button";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { monthDates } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";

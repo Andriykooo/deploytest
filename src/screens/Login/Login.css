@@ -271,7 +271,7 @@
 }
 
 .Toastify__toast--success {
-  border-left: 10px solid var(--global-color-notification-success);
+  border-left: 10px solid var(--global-color-notiffication-success);
   width: auto;
 }
 

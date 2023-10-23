@@ -2,7 +2,7 @@
 
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import parse from "html-react-parser";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -20,6 +20,7 @@ import classNames from "classnames";
 const Privacy = () => {
   const { t } = useClientTranslation(["privacy", "common"]);
   const privacyDivRef = useRef(null);
+  const searchParams = useSearchParams();
   const [policy, setPolicy] = useState([]);
   const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,9 +88,7 @@ const Privacy = () => {
         dispatch(setData(result));
         setIsLoading(false);
         refreshCommunicationSocket(result?.access_token);
-        setTimeout(() => {
-          router.push("/verify_email");
-        }, 500);
+        router.push("/verify_email");
       })
       .catch(() => {
         setIsLoading(false);
@@ -123,18 +122,12 @@ const Privacy = () => {
         refreshCommunicationSocket(response?.token);
         if (countryPhone && countryPhone.length > 0) {
           if (countryPhone[0].phone_number_required) {
-            setTimeout(() => {
-              router.push("/sign_up_with_phone");
-            }, 200);
+            router.push("/sign_up_with_phone");
           } else {
-            setTimeout(() => {
-              router.push("/finish_account_setup");
-            }, 200);
+            router.push("/finish_account_setup");
           }
         } else {
-          setTimeout(() => {
-            router.push("/finish_account_setup");
-          }, 200);
+          router.push("/finish_account_setup");
         }
       })
       .catch(() => {
@@ -156,7 +149,7 @@ const Privacy = () => {
     getPolicy();
   }, []);
 
-  const acceptIsActive = !getLocalStorageItem("access_token");
+  const acceptIsActive = !searchParams?.get("mode");
 
   return (
     <div className="terms backgroundImage">

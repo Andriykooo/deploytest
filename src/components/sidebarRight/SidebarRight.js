@@ -50,7 +50,7 @@ const emptyBetSlip = {
   total_payout: 0,
 };
 
-export const SidebarRight = () => {
+export const SidebarRight = ({ pageLayoutActiveStatus }) => {
   const { t } = useClientTranslation("common");
   const { gamingSocket } = useContext(SocketContext);
   const dispatch = useDispatch();
@@ -72,6 +72,8 @@ export const SidebarRight = () => {
   const [myBets, setMyBets] = useState(false);
   const [placeBetIsLoading, setPlaceBetIsLoading] = useState(false);
   const [betIsAcceped, setBetIsAccepted] = useState(false);
+  const [betIsRejected, setBetIsRejected] = useState(false);
+  const [scrollToBet, setScrollToBet] = useState();
 
   const urlGenerateBetSlips = apiUrl.GET_BET_SLIP;
   const suspendedSelection =
@@ -199,7 +201,11 @@ export const SidebarRight = () => {
             setBetIsAccepted(true);
           }
 
-          if (data.data.mode === "rejected" || data.data.mode === "accepted") {
+          if (data.data.mode === "rejected") {
+            setBetIsRejected(true);
+          }
+
+          if (data.data.mode === "accepted") {
             dispatch(setReviewBets(emptyBetSlip));
             dispatch(setBetSlipResponse(emptyBetSlip));
             dispatch(removeBet("all"));
@@ -252,10 +258,6 @@ export const SidebarRight = () => {
     }
 
     setMyBets(false);
-    const betSlipContainer = document.querySelector(".sidebar-right");
-    if (betSlipContainer) {
-      betSlipContainer.scrollIntoView({ behavior: "instant" });
-    }
 
     // Stake
     let tmp = { ...betSlipResponse };
@@ -263,6 +265,10 @@ export const SidebarRight = () => {
 
     const bets = [];
     const unnamed_favorite = [];
+
+    if (betIsRejected) {
+      setBetIsRejected(false);
+    }
 
     selectedBets?.bets?.forEach((selected_row) => {
       if (selected_row.place) {
@@ -275,10 +281,6 @@ export const SidebarRight = () => {
         }
       });
       const { place, trading_status, ...bet } = selected_row;
-
-      if (selected_row?.trading_status?.toLowerCase() === "suspended") {
-        bets.push(bet);
-      }
 
       if (selected_row?.trading_status?.toLowerCase() === "open") {
         bets.push(bet);
@@ -343,6 +345,11 @@ export const SidebarRight = () => {
           ...unnamed_favorites,
         ];
 
+        if (response.singles.length > betSlipResponse?.singles.length) {
+          const lastBet = response.singles[response.singles.length - 1];
+          setScrollToBet(`${lastBet.bet_provider}-${lastBet.bet_id}`);
+        }
+
         dispatch(setBetSlipResponse(formatedResponse));
       })
       .catch((err) => {
@@ -351,6 +358,29 @@ export const SidebarRight = () => {
         });
       });
   }, [selectedBets]);
+
+  function isElementInViewport(element) {
+    var rect = element.getBoundingClientRect();
+
+    // Check if the element is completely in the viewport
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  useEffect(() => {
+    if (scrollToBet) {
+      const newBetInput = document.getElementById(`input_stake_${scrollToBet}`);
+
+      if (newBetInput && !isElementInViewport(newBetInput)) {
+        newBetInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [scrollToBet]);
 
   useEffect(() => {
     let timeoutId;
@@ -502,6 +532,7 @@ export const SidebarRight = () => {
   );
 
   return (
+    pageLayoutActiveStatus &&
     sidebarRight?.isActive && (
       <div
         className={classNames("bet-slip-container", {
@@ -739,6 +770,9 @@ export const SidebarRight = () => {
                           betSlipResponse?.message?.length > 0 && (
                             <Warning text={t("max_bets_under_review")} />
                           )}
+                        {betIsRejected && (
+                          <Warning text={t("your_bet_is_rejected")} />
+                        )}
                         {betSlipResponse?.singles?.length > 0 &&
                           betSlipResponse?.message?.map((text, index) => (
                             <Warning text={text} key={index} />

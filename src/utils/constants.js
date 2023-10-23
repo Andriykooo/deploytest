@@ -116,14 +116,15 @@ export const monthDates = [
 ];
 
 export const profileCards = [
-  {
-    cardName: "bonuses_promotions",
-    icon: <BonusesAndPromotionsIcon />,
-    route: "/profile/bonuses_promotions",
-    text: "bonuses_promotions",
-    buttonText: "New",
-    arrow: true,
-  },
+  // TODO: Add bonuses promotions page
+  // {
+  //   cardName: "bonuses_promotions",
+  //   icon: <BonusesAndPromotionsIcon />,
+  //   route: "/profile/bonuses_promotions",
+  //   text: "bonuses_promotions",
+  //   buttonText: "New",
+  //   arrow: true,
+  // },
   {
     cardName: "deposit",
     icon: <DepositIcon />,
@@ -219,7 +220,6 @@ export const oddsFormatTypes = [
   // },
 ];
 
-
 export const casinoMenu = [
   { name: "Home" },
   { name: "Favorite Games" },
@@ -303,7 +303,6 @@ export const emailNotifications = [
   },
   { status: true, text: "news_and_updates", key: "news_and_updates" },
   { status: true, text: "bet_updates", key: "email_bet_updates" },
-
 ];
 
 export const types = [
@@ -325,15 +324,15 @@ export const types = [
   },
 ];
 
-export const depositAmounts = [10, 20, 50, 100, 200, 500]
+export const depositAmounts = [10, 20, 50, 100, 200, 500];
 
-export const depositAmountsOnMobile = [10, 20, 30, 40, 50]
+export const depositAmountsOnMobile = [10, 20, 30, 40, 50];
 
 export const depositSteps = {
-  limit: 'limit',
-  amount: 'amount',
-  deposit: 'deposit'
-}
+  limit: "limit",
+  amount: "amount",
+  deposit: "deposit",
+};
 
 export const subscribePages = ["/inplay", "/match"];
 

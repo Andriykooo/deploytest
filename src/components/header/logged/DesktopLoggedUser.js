@@ -4,16 +4,18 @@ import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import { useClientTranslation } from "@/app/i18n/client";
 import { setSidebarRight } from "@/store/actions";
 
-export const DesktopLoggedUser = ({ showBetSlip }) => {
+export const DesktopLoggedUser = () => {
+  const { t } = useClientTranslation("header");
   const dispatch = useDispatch();
   const router = useRouter();
+
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const sidebarRight = useSelector((state) => state.sidebarRight);
+  const isMobile = useSelector((state) => state.setMobile);
 
   const user = useSelector((state) => state.loggedUser);
   const userBalance = user.user_data.balance;
   const userCurrency = user.user_data.currency?.abbreviation || "";
-  const { t } = useClientTranslation("header");
 
   return (
     <div className="sing-up-txt">
@@ -22,10 +24,10 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
           <div className="d-flex align-items-center">
             <ProfileIcon
               onClick={() => {
-                router.push("/profile/bonuses_promotions");
+                router.push("/profile/profile");
               }}
             />
-            {showBetSlip && (
+            {(!isMobile || betslipResponse?.singles?.length > 0) && (
               <div
                 className="slip-icon"
                 onClick={() => {
@@ -37,7 +39,7 @@ export const DesktopLoggedUser = ({ showBetSlip }) => {
                 }}
               >
                 <SlipIcon />
-                {betslipResponse && betslipResponse?.singles?.length > 0 && (
+                {betslipResponse?.singles?.length > 0 && (
                   <span className="total-slip-bets">
                     {betslipResponse?.singles?.length}
                   </span>

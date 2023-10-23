@@ -1,15 +1,12 @@
 
-import { getLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl, profileCards } from "../../utils/constants";
+import { profileCards } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
-import { refreshGamingSocket } from "@/context/socket";
 import { useClientTranslation } from "@/app/i18n/client";
 import { useLogout } from "@/hooks/useLogout";
 import { Logout } from "@/utils/icons";

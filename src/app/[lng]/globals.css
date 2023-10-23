@@ -1,59 +1,59 @@
-@import url(../screens/Withdraw/Withdraw.css);
-@import url(../screens/TransactionHistory/TransactionHistory.css);
-@import url(../screens/Terms/Terms.css);
-@import url(../screens/SuspendAccount/SuspendAccount.css);
-@import url(../screens/Sports/Sports.css);
-@import url(../screens/SettledPredictions/SettledPredictions.css);
-@import url(../screens/SelfExclude/SelfExclude.css);
-@import url(../screens/SaferGambling/SaferGambling.css);
-@import url(../screens/RealityCheck/RealityCheck.css);
-@import url(../screens/Profile/Profile.css);
-@import url(../screens/OpenPredictions/OpenPredictions.css);
-@import url(../screens/Notifications/Notifications.css);
-@import url(../screens/NetDeposit/NetDeposit.css);
-@import url(../screens/Login/Login.css);
-@import url(../screens/Kyc/Kyc.css);
-@import url(../screens/ForgotPassword/Email.css);
-@import url(../screens/ForgotPassword/ForgotPassword.css);
-@import url(../screens/Home/Home.css);
-@import url(../screens/Deposit/Deposit.css);
-@import url(../screens/DepositLimit/DepositLimit.css);
-@import url(../screens/Cookie/Cookie.css);
-@import url(../screens/Contact/Contact.css);
-@import url(../screens/OddsFormat/OddsFormat.css);
-@import url(../screens/BonuesesAndPromotions/BonuesesAndPromotions.css);
-@import url(../screens/NotFound/NotFound.css);
-@import url(../screens/HorseRacing/HorseRacing.css);
-@import url(../screens/Casino/Casino.css);
-@import url(../screens/Racecard/Racecard.css);
-@import url(../screens/SignUp/SignUp.css);
-@import url(../components/sidebarLeft/SedibarLeft.css);
-@import url(../components/sidebar/Sidebar.css);
-@import url(../components/profileMenu/ProfileMenu.css);
-@import url(../components/pageContentModal/PageContentModal.css);
-@import url(../components/matches/Matches.css);
-@import url(../components/htmlParse/HtmlParse.css);
-@import url(../components/homeSlider/HomeSlider.css);
-@import url(../components/header/Header.css);
-@import url(../components/footerMenu/FooterMenu.css);
-@import url(../components/footer/Footer.css);
-@import url(../components/eventTable/EventTable.css);
-@import url(../components/casinoMenu/CasinoMenu.css);
-@import url(../components/casinoCategory/CasinoCategory.css);
-@import url(../components/carousel/Carousel.css);
-@import url(../components/loaders/Loader.css);
-@import url(../components/bannerMenu/BannerMenu.css);
-@import url(../components/emptyState/EmptyState.css);
-@import url(../components/chat/Chat.css);
-@import url(../components/languageDropdown/languageDropdown.css);
-@import url(../components/pageContent/PageContent.css);
-@import url(../components/sidebarRight/BetslipOdds/BetslipOdds.css);
-@import url(../components/selectButtons/SelectButtons.css);
-@import url(../components/dropdown/Dropdown.css);
-@import url(../components/goBackButton/GoBackButton.css);
-@import url(../components/sidebarRight/MyBet/MyBet.css);
-@import url(../layouts/baseLayout/BaseLayout.css);
-@import url(../components/sidebarRight/SidebarRight.css);
+@import url(../../screens/Withdraw/Withdraw.css);
+@import url(../../screens/TransactionHistory/TransactionHistory.css);
+@import url(../../screens/Terms/Terms.css);
+@import url(../../screens/SuspendAccount/SuspendAccount.css);
+@import url(../../screens/Sports/Sports.css);
+@import url(../../screens/SettledPredictions/SettledPredictions.css);
+@import url(../../screens/SelfExclude/SelfExclude.css);
+@import url(../../screens/SaferGambling/SaferGambling.css);
+@import url(../../screens/RealityCheck/RealityCheck.css);
+@import url(../../screens/Profile/Profile.css);
+@import url(../../screens/OpenPredictions/OpenPredictions.css);
+@import url(../../screens/Notifications/Notifications.css);
+@import url(../../screens/NetDeposit/NetDeposit.css);
+@import url(../../screens/Login/Login.css);
+@import url(../../screens/Kyc/Kyc.css);
+@import url(../../screens/ForgotPassword/Email.css);
+@import url(../../screens/ForgotPassword/ForgotPassword.css);
+@import url(../../screens/Home/Home.css);
+@import url(../../screens/Deposit/Deposit.css);
+@import url(../../screens/DepositLimit/DepositLimit.css);
+@import url(../../screens/Cookie/Cookie.css);
+@import url(../../screens/Contact/Contact.css);
+@import url(../../screens/OddsFormat/OddsFormat.css);
+@import url(../../screens/BonuesesAndPromotions/BonuesesAndPromotions.css);
+@import url(../../screens/NotFound/NotFound.css);
+@import url(../../screens/HorseRacing/HorseRacing.css);
+@import url(../../screens/Casino/Casino.css);
+@import url(../../screens/Racecard/Racecard.css);
+@import url(../../screens/SignUp/SignUp.css);
+@import url(../../components/sidebarLeft/SedibarLeft.css);
+@import url(../../components/sidebar/Sidebar.css);
+@import url(../../components/profileMenu/ProfileMenu.css);
+@import url(../../components/pageContentModal/PageContentModal.css);
+@import url(../../components/matches/Matches.css);
+@import url(../../components/htmlParse/HtmlParse.css);
+@import url(../../components/homeSlider/HomeSlider.css);
+@import url(../../components/header/Header.css);
+@import url(../../components/footerMenu/FooterMenu.css);
+@import url(../../components/footer/Footer.css);
+@import url(../../components/eventTable/EventTable.css);
+@import url(../../components/casinoMenu/CasinoMenu.css);
+@import url(../../components/casinoCategory/CasinoCategory.css);
+@import url(../../components/carousel/Carousel.css);
+@import url(../../components/loaders/Loader.css);
+@import url(../../components/bannerMenu/BannerMenu.css);
+@import url(../../components/emptyState/EmptyState.css);
+@import url(../../components/chat/Chat.css);
+@import url(../../components/languageDropdown/languageDropdown.css);
+@import url(../../components/pageContent/PageContent.css);
+@import url(../../components/sidebarRight/BetslipOdds/BetslipOdds.css);
+@import url(../../components/selectButtons/SelectButtons.css);
+@import url(../../components/dropdown/Dropdown.css);
+@import url(../../components/goBackButton/GoBackButton.css);
+@import url(../../components/sidebarRight/MyBet/MyBet.css);
+@import url(../../layouts/baseLayout/BaseLayout.css);
+@import url(../../components/sidebarRight/SidebarRight.css);
 
 :root {
   /* Fonts */
@@ -63,109 +63,101 @@
 
   /* Main Colors */
 
-  --global-main-color-icon-background: #d6c08f; /* arrows, betslip and profile icons */
-  --global-main-color-icon: #ffffff; /* arrows, betslip, profile, close icons */
-  --global-main-color-text: #ffffff; /* carousel, side-text */
-  --global-main-color-background: #1b1c21; /* carousel background, collapsed button, preferences */
+  --global-main-color-icon-background: #D6C08F; /* arrows, betslip and profile icons */
+  --global-main-color-icon: #FFFFFF; /* arrows, betslip, profile, close icons */
+  --global-main-color-text: #FFFFFF; /* carousel, side-text */
+  --global-main-color-background: #1B1C21; /* carousel background, collapsed button, preferences */
 
   /* Header / Nav Bar */
 
-  --global-color-header-text: #ffffff;
-  --global-color-header-text-active: #c59e43;
-  --global-color-header-side-text: #c59e43;
-  --global-color-header-background: #2b2f34;
-  --global-color-header-background_side_bacground: #c59e43;
+  --global-color-header-text: #FFFFFF;
+  --global-color-header-text-active: #C59E43;
+  --global-color-header-side-text: #C59E43;
+  --global-color-header-background: #2B2F34;
+  --global-color-header-background_side_bacground: #C59E43;
 
   /* Sidebar */
 
-  --global-color-sidebar-background: #1b1c21;
-  --global-color-sidebar-selection: #353a40;
-  --global-color-sidebar-text: #ffffff;
+  --global-color-sidebar-background: #1B1C21;
+  --global-color-sidebar-selection: #353A40;
+  --global-color-sidebar-text: #FFFFFF;
   --global-color-sidebar-field-selected: rgba(199, 146, 57, 7%);
-  --global-color-sidebar-field-selected-sideline: #bc9239;
-  --global-color-sidebar-icons: #ffffff;
+  --global-color-sidebar-field-selected-sideline: #BC9239;
+  --global-color-sidebar-icons: #FFFFFF;
   --global-color-sidebar-icons-background: #414851;
-  --global-color-sidebar-chat_icon-background: #c59e43;
+  --global-color-sidebar-chat_icon-background: #C59E43;
 
   /* Trader Chat */
 
-  --global-color-trader-chat-primary: #c59e43;
-  --global-color-trader-chat-primary-text: #ffffff;
-  --global-color-trader-chat-background: #ffffff;
-  --global-color-trader-chat-bubble1: #ebe1d2;
-  --global-color-trader-chat-bubble1-text: #2b2f34;
-  --global-color-trader-chat-bubble2: #ebebeb;
-  --global-color-trader-chat-bubble2-text: #2b2f34;
+  --global-color-trader-chat-primary: #C59E43;
+  --global-color-trader-chat-primary-text: #FFFFFF;
+  --global-color-trader-chat-background: #FFFFFF;
+  --global-color-trader-chat-bubble1: #EBE1D2;
+  --global-color-trader-chat-bubble1-text: #2B2F34;
+  --global-color-trader-chat-bubble2: #EBEBEB;
+  --global-color-trader-chat-bubble2-text: #2B2F34;
   --global-color-trader-chat-secondary-text: #414851;
 
   /* Footer */
 
-  --global-color-footer-background: #25292d;
-  --global-color-footer-text-primary: #ffffff;
-  --global-color-footer-text-secondary: #bcbfc2;
-  --global-color-language-selector: #353a40;
+  --global-color-footer-background: #25292D;
+  --global-color-footer-text-primary: #FFFFFF;
+  --global-color-footer-text-secondary: #BCBFC2;
+  --global-color-language-selector: #353A40;
 
   /* Carousel */
 
-  --global-color-carousel-dots-active: #c59e43;
-  --global-color-carousel-dots-inactive: #ffffff;
+  --global-color-carousel-dots-active: #C59E43;
+  --global-color-carousel-dots-inactive: #FFFFFF;
 
   /* Links */
 
-  --global-color-links-background: linear-gradient(
-    180deg,
-    #dbb86d 0%,
-    #bc9239 100%
-  ); /*carousel - casino, main page*/
-  --global-color-links-text: #ffffff;
-
+  --global-color-links-background: linear-gradient(180deg, #DBB86D 0%, #BC9239 100%); /*carousel - casino, main page*/
+  --global-color-links-text: #FFFFFF;
+  
   /* Casino */
 
-  --global-color-casino-background: #25292d; /* background */
-  --global-color-casino-text1: #ffffff;
-  --global-color-casino-text2: #d6c08f;
-
+  --global-color-casino-background: #25292D; /* background */
+  --global-color-casino-text1: #FFFFFF;
+  --global-color-casino-text2: #D6C08F;
+  
   /* Buttons */
 
-  --global-color-buttons-background: linear-gradient(
-    180deg,
-    #c8a65c 0%,
-    #bc9239 100%
-  );
-  --global-color-buttons-text: #ffffff;
-  --global-color-buttons-background-disabled: #353a40;
-  --global-color-buttons-text-disabled: #bcbfc2;
+  --global-color-buttons-background: linear-gradient(180deg, #C8A65C 0%, #BC9239 100%);
+  --global-color-buttons-text: #FFFFFF;
+  --global-color-buttons-background-disabled: #353A40;
+  --global-color-buttons-text-disabled: #BCBFC2;
 
   /* Chips */
 
   --global-color-chip-round-background: #414851;
-  --global-color-chip-round-text: #ffffff;
-  --global-color-chip-round-background-disabled: #2b2f34;
-  --global-color-chip-round-text-disabled: #bcbfc2;
-  --global-color-chip-cube-background: #c59e43;
-  --global-color-chip-cube-text: #ffffff; /* live race, selected race, horse racing, greyhound */
+  --global-color-chip-round-text: #FFFFFF;
+  --global-color-chip-round-background-disabled: #2B2F34;
+  --global-color-chip-round-text-disabled: #BCBFC2;
+  --global-color-chip-cube-background: #C59E43;
+  --global-color-chip-cube-text: #FFFFFF; /* live race, selected race, horse racing, greyhound */
   --global-color-chip-cube-background-disabled: #414851; /* time race, race name */
-  --global-color-chip-cube-text-disabled: #c59e43; /* time race, race name */
-  --global-color-chip-cube1-text: #c59e43;
-  --global-color-chip-cube1-background: #353a40;
-  --global-color-chip-cube1-stroke-background: #c59e43;
+  --global-color-chip-cube-text-disabled: #C59E43; /* time race, race name */
+  --global-color-chip-cube1-text: #C59E43;
+  --global-color-chip-cube1-background: #353A40;
+  --global-color-chip-cube1-stroke-background: #C59E43;
 
   /* Bet Slip */
 
-  --global-color-betslip-border: #1b1c21;
-  --global-color-betslip-header: #25292d;
-  --global-color-betslip-selector: #2b2f34;
-  --global-color-betslip-selector-active: #353a40;
-  --global-color-betslip-background: #1b1c21;
-  --global-color-betslip-shade-primary: #353a40; /* remove bets */
+  --global-color-betslip-border: #1B1C21;
+  --global-color-betslip-header: #25292D;
+  --global-color-betslip-selector: #2B2F34;
+  --global-color-betslip-selector-active: #353A40;
+  --global-color-betslip-background: #1B1C21;
+  --global-color-betslip-shade-primary: #353A40; /* remove bets */
   --global-color-betslip-shade-secondary: #414851; /* return and balance */
   --global-color-betslip-shade-tertiary: #414851; /* alert */
-  --global-color-betslip-shade-quaternary: #647f98; /*button alternative*/
-  --global-color-betslip-text-primary: #ffffff; /* header, buttons */
-  --global-color-betslip-text-secondary: #bcbfc2; /*non active selector text*/
-  --global-color-betslip-text-tertiary: #ffffff; /*body*/
-  --global-color-betslip-text-quaternary: #c59e43; /*match*/
-  --global-color-betslip-text-quinary: #fdc500; /*returns*/
+  --global-color-betslip-shade-quaternary: #647F98; /*button alternative*/
+  --global-color-betslip-text-primary: #FFFFFF; /* header, buttons */
+  --global-color-betslip-text-secondary: #BCBFC2; /*non active selector text*/
+  --global-color-betslip-text-tertiary: #FFFFFF; /*body*/
+  --global-color-betslip-text-quaternary: #C59E43; /*match*/
+  --global-color-betslip-text-quinary: #FDC500; /*returns*/
 
   /* //// */
 
@@ -226,28 +218,20 @@
   --global-color-button-secondary: #808080;
 
   /* Gradients */
-  --global-color-linear-primary: linear-gradient(
-      186.6deg,
+  --global-color-linear-primary: linear-gradient(186.6deg,
       rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%
-    ),
+      rgba(255, 255, 255, 0) 69.62%),
     #bc9239;
-  --global-color-swifty-gradient: linear-gradient(
-    158.32deg,
-    #ff005f 10.33%,
-    #109ff2 108.66%
-  );
-  --global-color-linear-secondary: linear-gradient(
-    180.02deg,
-    #34393f 0.02%,
-    #000000 284.75%
-  );
-  --global-color-linear-tertiary: linear-gradient(
-    135.53deg,
-    #ff3364 19.83%,
-    #bb34ff 50.53%,
-    #3586ff 80.25%
-  );
+  --global-color-swifty-gradient: linear-gradient(158.32deg,
+      #ff005f 10.33%,
+      #109ff2 108.66%);
+  --global-color-linear-secondary: linear-gradient(180.02deg,
+      #34393f 0.02%,
+      #000000 284.75%);
+  --global-color-linear-tertiary: linear-gradient(135.53deg,
+      #ff3364 19.83%,
+      #bb34ff 50.53%,
+      #3586ff 80.25%);
 
   --toastify-toast-width: auto !important;
 }

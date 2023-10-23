@@ -24,6 +24,7 @@ const checkError = (code, message) => {
     // Self-Exclude Account
     case 488:
       nextWindow.location.href = "/login";
+      clearLocalStorage();
       break;
 
     // Suspended Account
@@ -35,8 +36,15 @@ const checkError = (code, message) => {
       break;
 
     // Suspended Account
+    case 485:
+      nextWindow.location.href = "/login";
+      clearLocalStorage();
+      break;
+
+    // Suspended Account
     case 487:
       nextWindow.location.href = "/login";
+      clearLocalStorage();
       break;
 
     // Suspended Closed

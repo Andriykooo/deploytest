@@ -166,17 +166,16 @@ export const Racecard = () => {
   const headerItemsForecast = [
     ...(disablePrice
       ? [
-          {
-            head: "",
-            dataKey: "finish_num",
-            width: "40px",
-            className: "border-end-0",
-            render: (item) => {
-              return <div className="finish-num">{item.finish_num}</div>;
-            },
+        {
+          head: "",
+          dataKey: "finish_num",
+          width: "40px",
+          className: "border-end-0",
+          render: (item) => {
+            return <div className="finish-num">{item.finish_num}</div>;
           },
-        ]
-      : []),
+        },
+      ] : []),
     {
       head: t("silk"),
       dataKey: "silk_image",
@@ -241,22 +240,22 @@ export const Racecard = () => {
   const tableData =
     event && !disablePrice
       ? {
-          ...event,
-          selections: [
-            ...event?.selections,
-            {
-              bet_id: event?.event_id,
-              name: t("unnamed_favorite"),
-              description: "-",
-              odds_decimal: t("sp"),
-              odds_fractional: t("sp"),
-              runner_num: "?",
-              silk_image: images.unnamedFavorite,
-              status: "active",
-              trading_status: "unnamed_favorite",
-            },
-          ],
-        }
+        ...event,
+        selections: [
+          ...event?.selections,
+          {
+            bet_id: event?.event_id,
+            name: t("unnamed_favorite"),
+            description: "-",
+            odds_decimal: t("sp"),
+            odds_fractional: t("sp"),
+            runner_num: "?",
+            silk_image: images.unnamedFavorite,
+            status: "active",
+            trading_status: "unnamed_favorite",
+          },
+        ],
+      }
       : event;
 
   const showPriceHistory =
@@ -315,15 +314,15 @@ export const Racecard = () => {
     },
     ...(showPriceHistory
       ? [
-          {
-            head: t("price_history"),
-            dataKey: "price_history",
-            width: "128px",
-            render: (item) => {
-              return <PriceHistory item={item} />;
-            },
+        {
+          head: t("price_history"),
+          dataKey: "price_history",
+          width: "128px",
+          render: (item) => {
+            return <PriceHistory item={item} />;
           },
-        ]
+        },
+      ]
       : []),
     {
       head: t("price"),
@@ -343,30 +342,30 @@ export const Racecard = () => {
     },
     ...(!disablePrice
       ? [
-          {
-            head: t("sp"),
-            dataKey: "sp",
-            width: "70px",
-            render: (item) => {
-              return (
-                <div
-                  className={classNames("price", {
-                    ["pe-none"]: disablePrice,
-                  })}
-                >
-                  <MatchOdds
-                    disable={disablePrice}
-                    selection={{
-                      ...item,
-                      odds_decimal: t("sp"),
-                      odds_fractional: t("sp"),
-                    }}
-                  />
-                </div>
-              );
-            },
+        {
+          head: t("sp"),
+          dataKey: "sp",
+          width: "70px",
+          render: (item) => {
+            return (
+              <div
+                className={classNames("price", {
+                  ["pe-none"]: disablePrice,
+                })}
+              >
+                <MatchOdds
+                  disable={disablePrice}
+                  selection={{
+                    ...item,
+                    odds_decimal: t("sp"),
+                    odds_fractional: t("sp"),
+                  }}
+                />
+              </div>
+            );
           },
-        ]
+        },
+      ]
       : []),
   ];
 

@@ -1,7 +1,6 @@
 import {
   destroySession,
   setAlertModal,
-  setLoggedUser,
   setPrivacytModal,
   setTermsModal,
 } from "@/store/actions";
@@ -12,12 +11,20 @@ import { clearLocalStorage } from "./localStorage";
 import moment from "moment";
 import { refreshGamingSocket } from "@/context/socket";
 import i18next from "i18next";
+import { SuccesToast } from "./alert";
 
 export const setSettingsApi = async (body, dispatch, callback) => {
   const request = async () =>
     apiServices
       .put(apiUrl.SETTINGS, body)
       .then(async (response) => {
+        if (response?.messages && response.messages.length > 0) {
+          response.messages.forEach((message) => {
+            SuccesToast({
+              message: message,
+            });
+          });
+        }
         if (!response?.error) {
           callback?.onSuccess(response);
         }

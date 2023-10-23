@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SuccesToast } from "@/utils/alert";
-import { setLoggedUser } from "@/store/actions";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
-import { setSettingsApi } from "@/utils/apiQueries";
+import { getUserApi, setSettingsApi } from "@/utils/apiQueries";
 import { useClientTranslation } from "@/app/i18n/client";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
 import "../../screens/DepositLimit/DepositLimit.css";
+import { setLoggedUser } from "@/store/actions";
 
 const DepositLimitComponent = ({
   backRoute,
@@ -20,11 +20,20 @@ const DepositLimitComponent = ({
   skipBtn,
   removeLimit,
   onSkip,
+  loading
 }) => {
+  const dispatch = useDispatch();
   const { t } = useClientTranslation(["common", "profile"]);
+
   const [dailyLimit, setDailyLimit] = useState(0);
   const [weeklyLimit, setWeeklyLimit] = useState(0);
   const [monthlyLimit, setMonthlyLimit] = useState(0);
+
+  const [prevValue, setPrevValue] = useState({
+    deposit_limit_daily: 0,
+    deposit_limit_weekly: 0,
+    deposit_limit_monthly: 0,
+  });
 
   const [selectedLimit, setSelectedLimit] = useState(0);
   const [depositData, setDepositData] = useState({
@@ -38,19 +47,24 @@ const DepositLimitComponent = ({
   const isTablet = useSelector((state) => state?.isTablet);
   const user = useSelector((state) => state.loggedUser);
 
-  const saferGambling = useSelector(
-    (state) =>
-      state.loggedUser?.user_data?.settings?.safer_gambling?.deposit_limit
-  );
-  const dispatch = useDispatch();
-
   useEffect(() => {
+    const saferGambling =
+      user?.user_data?.settings?.safer_gambling?.deposit_limit;
+
     if (saferGambling) {
       setDailyLimit(saferGambling?.deposit_limit_daily?.value);
       setWeeklyLimit(saferGambling?.deposit_limit_weekly?.value);
       setMonthlyLimit(saferGambling?.deposit_limit_monthly?.value);
     }
-  }, [saferGambling]);
+  }, [user]);
+
+  useEffect(() => {
+    return () => {
+      getUserApi(dispatch).then((response) => {
+        dispatch(setLoggedUser({ ...user, user_data: response }));
+      });
+    };
+  }, []);
 
   const handleToggle = (type, title) => {
     setDepositData({
@@ -58,72 +72,32 @@ const DepositLimitComponent = ({
       show: !depositData.show,
       type: type,
       title: title,
-      data: user?.settings?.deposit_limit_options?.[`deposit_limit_${type}`],
+      data: user?.user_data?.settings?.deposit_limit_options?.[
+        `deposit_limit_${type}`
+      ],
     });
   };
 
   const handleSelect = () => {
     const body = {};
 
-    if (dailyLimit) {
+    if (dailyLimit && prevValue.deposit_limit_daily !== dailyLimit) {
       body.deposit_limit_daily = dailyLimit;
     }
 
-    if (weeklyLimit) {
+    if (weeklyLimit && prevValue.deposit_limit_weekly !== weeklyLimit) {
       body.deposit_limit_weekly = weeklyLimit;
     }
 
-    if (monthlyLimit) {
+    if (monthlyLimit && prevValue.deposit_limit_monthly !== monthlyLimit) {
       body.deposit_limit_monthly = monthlyLimit;
     }
 
     setIsLoading(true);
     setSettingsApi(body, dispatch, {
       onSuccess: () => {
-        const newUser = { ...user };
-
         Object.entries(body).forEach(([limit, limitValue]) => {
-          const value = Number(limitValue);
-
-          if (
-            value >
-              user.user_data.settings.safer_gambling.deposit_limit[limit]
-                .value &&
-            user.user_data.settings.safer_gambling.deposit_limit[limit]
-              .value !== -1
-          ) {
-            SuccesToast({
-              message: `${t(
-                `${limit.replace("deposit_limit_", "")}_limit`
-              )} - ${t("change_request_cooldown_message")}`,
-            });
-          }
-
-          if (
-            value <
-              user.user_data.settings.safer_gambling.deposit_limit[limit]
-                .value ||
-            (value > 0 &&
-              user.user_data.settings.safer_gambling.deposit_limit[limit]
-                .value === -1)
-          ) {
-            SuccesToast({
-              message: `${t(
-                `${limit.replace("deposit_limit_", "")}_limit`
-              )} - ${t("successfully_updated")}`,
-            });
-
-            newUser.user_data.settings.safer_gambling.deposit_limit[limit] = {
-              ...newUser.user_data.settings.safer_gambling.deposit_limit[limit],
-              name:
-                value !== -1
-                  ? `${value} ${user?.user_data?.currency?.abbreviation}`
-                  : t("no_limit"),
-              value: value,
-            };
-
-            newUser.user_data.deposit_limit_initiated = true;
-          }
+          setPrevValue((prev) => ({ ...prev, [limit]: limitValue }));
         });
 
         setDepositData({
@@ -132,7 +106,7 @@ const DepositLimitComponent = ({
           type: "",
           data: [],
         });
-        dispatch(setLoggedUser(newUser));
+
         setSelectedLimit(0);
         setIsLoading(false);
         onSkip();
@@ -170,7 +144,9 @@ const DepositLimitComponent = ({
     if (
       removeLimit &&
       !e.target.value.length &&
-      Object.values(saferGambling).some((item) => item.value > -1)
+      Object.values(
+        user?.user_data?.settings?.safer_gambling?.deposit_limit
+      ).some((item) => item.value > -1)
     ) {
       setSelectedLimit(-1);
     } else {
@@ -283,7 +259,7 @@ const DepositLimitComponent = ({
           <Button
             className="w-100 borderedButton skipBtn"
             onClick={() => onSkip()}
-            text={t("profile:skip")}
+            text={loading ? <Loader /> : t("profile:skip")}
           />
         </div>
       )}

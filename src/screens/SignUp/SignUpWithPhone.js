@@ -19,12 +19,13 @@ function SignUpWithPhone() {
 
   const on_boarding = useSelector((state) => state.on_boarding);
   const user = useSelector((state) => state.loggedUser);
+  const settings = useSelector((state) => state.settings);
 
   const [loader, setLoader] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(
     on_boarding?.countries?.find((country) => {
-      return user?.user_data?.country === country.cca2;
+      return settings.country === country.cca2;
     })
   );
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -85,7 +86,7 @@ function SignUpWithPhone() {
     if (on_boarding) {
       setSelectedCountry(
         on_boarding?.countries?.find((country) => {
-          return user?.user_data?.country === country.cca2;
+          return settings.country === country.cca2;
         }) || on_boarding.countries[0]
       );
     }

@@ -6,7 +6,7 @@ import { getLocalStorageItem } from "@/utils/localStorage";
 import { useClientTranslation } from "@/app/i18n/client";
 import { setSidebarRight } from "@/store/actions";
 
-export const MobileLoggedUser = ({ showBetSlip }) => {
+export const MobileLoggedUser = () => {
   const dispatch = useDispatch();
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const user = useSelector((state) => state.loggedUser);
@@ -28,7 +28,7 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
           <Link href="/profile">
             <ProfileIcon />
           </Link>
-          {!!betslipResponse?.singles?.length && showBetSlip && (
+          {betslipResponse?.singles?.length > 0 && (
             <div
               className="slip-icon"
               onClick={() => {
@@ -55,9 +55,9 @@ export const MobileLoggedUser = ({ showBetSlip }) => {
             <p className="signText balanceAmount">
               {userBalance
                 ? parseFloat(userBalance)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 : "0.00"}
             </p>
             <p className="signText balanceAmount ms-2">

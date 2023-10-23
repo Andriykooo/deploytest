@@ -11,9 +11,11 @@ import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useClientTranslation } from "@/app/i18n/client";
+import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+import { getUserApi } from "@/utils/apiQueries";
 
 const ConfirmDepositLimitModal = ({ data }) => {
-  const { t } = useClientTranslation(["deposit", "common"])
+  const { t } = useClientTranslation(["deposit", "common"]);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.loggedUser);
@@ -40,16 +42,6 @@ const ConfirmDepositLimitModal = ({ data }) => {
     apiServices
       .post(apiUrl.RECONFIRM_DEPOSIT, body)
       .then(() => {
-        const newUser = {
-          ...user,
-          user_data: {
-            ...user.user_data,
-            actions: user.user_data.actions.filter(
-              (row) => row.id !== action_id
-            ),
-          },
-        };
-
         if (action === "accept") {
           SuccesToast({
             message: t("deposit_limit_accepted"),
@@ -60,17 +52,21 @@ const ConfirmDepositLimitModal = ({ data }) => {
           });
         }
 
-        dispatch(setLoggedUser(newUser));
-
-        setSelectedActionId(null);
-        setIsLoadingAccept(false);
-        setIsLoadingDecline(false);
+        getUserApi(dispatch).then((response) => {
+          setSelectedActionId(null);
+          setIsLoadingAccept(false);
+          setIsLoadingDecline(false);
+          dispatch(setLoggedUser({ ...user, user_data: response }));
+        });
       })
       .catch(() => {
         setIsLoadingAccept(false);
         setIsLoadingDecline(false);
       });
   };
+
+  const [oldValue] = data.old_value.split(" ");
+  const [newValue] = data.new_value.split(" ");
 
   return (
     <div
@@ -103,31 +99,27 @@ const ConfirmDepositLimitModal = ({ data }) => {
                   type="button"
                   className="confirmFirstButton"
                   text={
-                    data.old_value ===
-                    `-1 ${
-                      user?.user_data?.currency?.abbreviation ||
-                      settings?.defaultCurrency
-                    }`
+                    data.old_value.toLowerCase() === "no limit"
                       ? t("common:no_limit")
-                      : data.old_value
+                      : `${formatNumberWithDecimal(oldValue)} ${
+                          user?.user_data?.currency?.abbreviation
+                        }`
                   }
                 />
                 <Image
                   className="confirmArrows"
                   src={images.confirmArrows}
-                  alt={images.confirmArrows}
+                  alt={"arrow"}
                 />
                 <Button
                   type="button"
                   className="confirmSecondButton"
                   text={
-                    data.new_value ===
-                    `-1 ${
-                      user?.user_data?.currency?.abbreviation ||
-                      settings?.defaultCurrency
-                    }`
+                    data.new_value.toLowerCase() === "no limit"
                       ? t("common:no_limit")
-                      : data.new_value
+                      : `${formatNumberWithDecimal(newValue)} ${
+                          user?.user_data?.currency?.abbreviation
+                        }`
                   }
                 />
               </div>

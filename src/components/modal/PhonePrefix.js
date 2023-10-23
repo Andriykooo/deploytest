@@ -101,8 +101,8 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                 ?.filter((country) => {
                   return (
                     country.name.toLowerCase().includes(search.toLowerCase()) ||
-                    country.phone_number_prefix
-                      .toString()
+                    country?.phone_number_prefix
+                      ?.toString()
                       .includes(search.toLowerCase().replaceAll("+", ""))
                   );
                 })

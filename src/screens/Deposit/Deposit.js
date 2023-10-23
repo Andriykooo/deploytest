@@ -9,17 +9,25 @@ import "../Deposit/Deposit.css";
 import "../DepositLimit/DepositLimit.css";
 import DepositLimitComponent from "@/components/DepositLimitComponent/DepositLimitComponent";
 import DepositAmountForm from "@/components/DepositAmountForm/DepositAmountForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoggedUser } from "@/store/actions";
 
 const Deposit = () => {
   const user = useSelector((state) => state.loggedUser);
+  const dispatch = useDispatch();
 
   const [paymentUrl, setPaymentUrl] = useState("");
   const [getLinkLoading, setGetLinkLoading] = useState(false);
   const [step, setStep] = useState("amount");
   const [amount, setAmount] = useState(0);
   const [isLodaing, setIsLoading] = useState(false);
+  const [stepLoading, setStepLoading] = useState(false);
   const [skip, setSkip] = useState(!user?.user_data?.deposit_limit_initiated);
+  const onBoarding = useSelector((state) => state.on_boarding);
+  const settings = useSelector((state) => state.settings);
+  const setLimitInitialDeposit = onBoarding.countries.find(
+    ({ cca2 }) => cca2 == settings?.country
+  )?.set_limit_initial_deposit;
 
   const getGatewayLink = useCallback((value) => {
     setGetLinkLoading(true);
@@ -51,6 +59,26 @@ const Deposit = () => {
     getGatewayLink(amount);
   };
 
+  const onSkip = () => {
+    const body = {
+      deposit_limit_initiated: true,
+    };
+    setStepLoading(true);
+    apiServices.put(apiUrl.SETTINGS, body).then(() => {
+      dispatch(
+        setLoggedUser({
+          ...user,
+          user_data: {
+            ...user.user_data,
+            deposit_limit_initiated: true,
+          },
+        })
+      );
+      setSkip(false);
+      setStepLoading(false);
+    });
+  };
+
   if (isLodaing || !user) {
     return (
       <div className="depositLimit">
@@ -59,13 +87,14 @@ const Deposit = () => {
     );
   }
 
-  if (skip) {
+  if (setLimitInitialDeposit && skip) {
     return (
       <DepositLimitComponent
         onSetLimit={() => setStep("amount")}
         backRoute="/profile"
         skipBtn
-        onSkip={() => setSkip(false)}
+        loading={stepLoading}
+        onSkip={() => onSkip()}
       />
     );
   }

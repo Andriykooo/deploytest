@@ -47,6 +47,7 @@ const SignUp = () => {
     policy_version: "",
   });
   const user = useSelector((state) => state.user);
+  const settings = useSelector((state) => state.settings);
   const loggedUser = useSelector((state) => state.loggedUser);
   const on_boarding = useSelector((state) => state.on_boarding);
   const signup_platform = useSelector((state) => state.signup_platform);
@@ -57,6 +58,22 @@ const SignUp = () => {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+  useEffect(() => {
+    const userCountry = on_boarding?.countries?.find((country) => country.cca2 === settings.country)
+    if (userCountry?.states) {
+      setStates(userCountry?.states);
+    } else {
+      setStates([]);
+    }
+    setCountry(userCountry?.name);
+    setCountryFlag(userCountry?.flag_url);
+    setCountryCode(userCountry?.cca2);
+    addLocalStorageItem("country_code", userCountry?.cca2);
+    let newUser = user;
+    newUser["country"] = userCountry?.cca2;
+    newUser["country_name"] = userCountry?.name;
+    dispatch(setUser(newUser));
+  }, []);
 
   useEffect(() => {
     setCountries(on_boarding?.countries);
@@ -97,7 +114,6 @@ const SignUp = () => {
       alertToast({ message: t("password_incorrect") });
     }
   }
-
   function handle(e, key) {
     let newUser = {};
     Object.assign(newUser, user);

@@ -1,6 +1,5 @@
 "use client";
 
-import { nextWindow } from "@/utils/nextWindow";
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -43,7 +42,7 @@ const TransactionHistory = () => {
     apiServices
       .get(`${apiUrl.TRANSACTION_HISTORY}${currPage}`)
       .then((data) => {
-        setTransactions(data.data);
+        setTransactions((prev) => [...prev, ...data.data]);
         setInitialData(data.data);
         setCurrPage(data.current_page + 1);
         setHasMore(data.current_page < data.total_pages);
@@ -100,6 +99,7 @@ const TransactionHistory = () => {
     var transactionTitle = ``;
     switch (item?.transaction_type) {
       case "bet_cancel":
+      case "bet_undo":
         icon = (
           <Image
             alt="img-betCancelled"
@@ -132,19 +132,7 @@ const TransactionHistory = () => {
         );
         transactionTitle = `${t("bet_pushed")} (#${item.id})`;
         break;
-      case "bet_undo":
-        icon = (
-          <Image
-            alt="img-betPlacedBlack"
-            src={images.betPlacedBlack}
-            width="40px"
-            height="40px"
-          />
-        );
-        transactionTitle = `${t("bet_undo")} (#${item.id})`;
-        break;
-      case "deposit_bank_transfer":
-      case item?.transaction_type.includes("deposit"):
+      case "deposit":
         icon = (
           <Image
             alt="img-depositBlack"
@@ -156,8 +144,6 @@ const TransactionHistory = () => {
         transactionTitle = t("common:deposit");
         break;
       case "withdrawal":
-      case "withdrawal_nixxe":
-      case item?.transaction_type.includes("withdraw"):
         icon = (
           <Image
             alt="img-withdrawalBlack"
@@ -237,24 +223,13 @@ const TransactionHistory = () => {
     paddingLeft: "0.25rem",
     paddingRight: "16px",
   };
-  const containerStyles = {
-    paddingRight: "40px",
-    height: "100%",
-  };
+
   useEffect(() => {
     getTransactions();
-    const onScroll = () => {};
-    if (document.querySelector("#scrollable")) {
-      document
-        .querySelector("#scrollable")
-        .addEventListener("scroll", onScroll);
-    }
-
-    return () => nextWindow.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div className="depositLimit" style={containerStyles} id="scrollable">
+    <div className="depositLimit transactionHistory" id="scrollable">
       <div className="">
         <PreferencesTitle title={t("common:transaction_history")} />
         <div className="promotion-title">
@@ -295,6 +270,11 @@ const TransactionHistory = () => {
             <InfiniteScroll
               dataLength={transactions?.length}
               next={getTransactions}
+              loader={showSpinner && (
+                <span className="spinnerStyle">
+                  <Spiner sell />
+                </span>
+              )}
               hasMore={hasMore && !isLoading}
               scrollableTarget="scrollable"
               className="max-container"
@@ -361,7 +341,7 @@ const TransactionHistory = () => {
                                         "title-centered":
                                           !item.row2 &&
                                           item.transaction_status ===
-                                            TRANSACTION_HISTORY_STATUSES.successful,
+                                          TRANSACTION_HISTORY_STATUSES.successful,
                                       }
                                     )}
                                   >
@@ -380,7 +360,7 @@ const TransactionHistory = () => {
                                         </span>
                                       ) : (
                                         item.transaction_status !==
-                                          TRANSACTION_HISTORY_STATUSES.successful && (
+                                        TRANSACTION_HISTORY_STATUSES.successful && (
                                           <div
                                             className={classNames(
                                               "transaction-status",
@@ -410,11 +390,6 @@ const TransactionHistory = () => {
                         </div>
                       );
                     })}
-                    {showSpinner && (
-                      <span className="spinnerStyle">
-                        <Spiner sell />
-                      </span>
-                    )}
                   </>
                 )}
               </div>

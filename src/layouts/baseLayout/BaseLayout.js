@@ -37,7 +37,6 @@ import {
   setReviewBets,
   setSettings,
   setSidebarRight,
-  setSportData,
   setSportTypes,
   setTablet,
   setUpdatedSelections,
@@ -152,18 +151,13 @@ const Content = ({ children, className }) => {
     dispatch(
       setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
     );
+
     dispatch(
-      setSportData({
-        type: "competition_id",
-        value: null,
+      setSidebarRight({
+        isActive: nextWindow.document.documentElement.clientWidth > 1400,
       })
     );
-    dispatch(
-      setSportData({
-        type: "market_id",
-        value: null,
-      })
-    );
+
     nextWindow.addEventListener("resize", resizeHandler);
 
     gamingSocket?.on("error", (response) => {
@@ -382,7 +376,7 @@ const Content = ({ children, className }) => {
         clearInterval(interval);
       }
     };
-  }, [loggedUser?.token]);
+  }, [loggedUser]);
 
   const disableHeader =
     (params?.path &&

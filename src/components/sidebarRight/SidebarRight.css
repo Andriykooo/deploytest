@@ -564,7 +564,6 @@
 }
 
 .totalsWrapper {
-  position: sticky;
   bottom: 0;
   background-color: var(--global-color-betslip-background);
 }

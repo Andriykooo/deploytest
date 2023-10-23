@@ -162,6 +162,7 @@
     "trader_offer_expired": "Händlerangebot abgelaufen",
     "trader_accepted_the_bet": "Der Händler hat die Wette angenommen",
     "trader_rejected_the_bet": "Der Händler lehnte die Wette ab",
+    "your_bet_is_rejected": "Ihre Wette wird abgelehnt",
     "max_bets_under_review": "Es kann jeweils maximal ein Wettschein vom Händler überprüft werden.",
     "odds_availability_changed_message": "Die Quoten oder die Verfügbarkeit Ihrer Auswahl haben sich geändert",
     "bet_user_rejected_message": "Sie haben das Händlerangebot abgelehnt",
@@ -265,7 +266,7 @@
     "amount_selection_prompt": "Geben Sie den Betrag in",
     "deposit_limit_accepted": "Einzahlungslimit - Akzeptiert!",
     "deposit_limit_declined": "Einzahlungslimit - Abgelehnt!",
-    "decline": "Ablehnen"
+    "decline": "ABLEHNEN"
   },
   "email_sent": {
     "email_sent": "E-Mail gesendet",
