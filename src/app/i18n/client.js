@@ -36,20 +36,24 @@
 
 import { useTranslations } from "next-intl";
 
+const Translate = ({ translation, ns }) => {
+  const translations = useTranslations(ns);
+
+  return translations(translation);
+};
+
 export const useClientTranslation = (ns) => {
-  const t = (translation) => {
-    if (Array.isArray(ns)) {
+  return {
+    t: (translation) => {
+      const hasNameSpace = Array.isArray(ns);
       const [key, value] = translation.split(":");
 
-      const translations = useTranslations(key);
-
-      return translations(value);
-    } else {
-      const translations = useTranslations(ns);
-
-      return translations(translation);
-    }
+      return (
+        <Translate
+          translation={hasNameSpace ? value : translation}
+          ns={hasNameSpace ? key : ns}
+        />
+      );
+    },
   };
-
-  return { t };
 };
