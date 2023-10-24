@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -45,11 +46,20 @@ export async function generateStaticParams() {
 }
 
 export default async function RootLayout({ children, params: { lng } }) {
+  let messages;
+  try {
+    messages = (await import(`../i18n/locales/${lng}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   return (
     <html lang={lng}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
       <body className={montserrat.className}>
-        <Provider>{children}</Provider>
+        <NextIntlClientProvider locale={lng} messages={messages}>
+          <Provider>{children}</Provider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
