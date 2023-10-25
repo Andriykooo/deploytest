@@ -3,10 +3,9 @@ import { images } from "../../utils/imagesConstant";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../button/Button";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
-  const { t } = useClientTranslation(["sign_up_with_phone", "common"]);
+  const t = useTranslations();
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const on_boarding = useSelector((state) => state.on_boarding);
@@ -66,7 +65,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
             <div className="modal-content-inside">
               <div className="modalTitle">
                 <p className="selectCountryTitle depositModalLimit">
-                  {t("country_selection_prompt")}
+                  {t("sign_up_with_phone.country_selection_prompt")}
                 </p>
                 <Image
                   src={images.closeIcon}
@@ -92,7 +91,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                 <input
                   autoFocus
                   className="decimalText searchField"
-                  placeholder={t("common:search")}
+                  placeholder={t("common.search")}
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
                 />

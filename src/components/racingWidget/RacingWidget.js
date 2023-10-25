@@ -7,26 +7,28 @@ import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { RacingComponent } from "../racingComponent/RacingComponent";
 import { gamingSocket } from "@/context/socket";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const RacingWidget = ({ data }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
-  const [selectedFilter, setSelectedFilter] = useState(horseRacingHomeMenu[0]);
+  const [selectedFilter, setSelectedFilter] = useState({
+    name: t(horseRacingHomeMenu[0].name),
+    slug: horseRacingHomeMenu[0].name,
+  });
 
   const filteredData = data.events.filter((event) => {
-    if (t(selectedFilter.name) === t("today")) {
+    if (selectedFilter.slug === "today") {
       return moment(event.event_start_time).isSame(moment(), "day");
     }
 
-    if (t(selectedFilter.name) === t("tomorrow")) {
+    if (selectedFilter.slug === "tomorrow") {
       return moment(event.event_start_time).isSame(
         moment().add(1, "day"),
         "day"
       );
     }
 
-    return t(selectedFilter.name) === event.event_venue;
+    return selectedFilter.slug === event.event_venue;
   });
 
   useEffect(() => {
@@ -59,13 +61,17 @@ export const RacingWidget = ({ data }) => {
               subtitle={data?.details?.subtitle}
               image={data?.header_banner}
               options={[
-                ...horseRacingHomeMenu.map((item) => ({ name: t(item.name) })),
+                ...horseRacingHomeMenu.map((item) => ({
+                  name: t(item.name),
+                  slug: item.name,
+                })),
                 ...data?.market_options?.map((option) => ({
                   name: option.market_name,
+                  slug: option.market_name,
                 })),
               ]}
               defaultItem={horseRacingHomeMenu[0]}
-              selected={{ name: t(selectedFilter?.name) }}
+              selected={selectedFilter}
               setSelected={setSelectedFilter}
               callToActinButton={{
                 name: data?.details?.call_to_action,

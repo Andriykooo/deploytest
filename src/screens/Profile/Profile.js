@@ -19,8 +19,7 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 
 import "../Profile/Profile.css";
 import "../Withdraw/Withdraw.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const InfoDiv = styled.div`
   margin-bottom: 16px;
   width: 100%;
@@ -44,7 +43,7 @@ const EmailDiv = styled.div`
 `;
 
 const Profile = () => {
-  const { t } = useClientTranslation(["profile", "common"]);
+  const t = useTranslations();
   const loggedUser = useSelector((state) => state.loggedUser);
   const isTablet = useSelector((state) => state.isTablet);
   const [newPassword, setNewPassword] = useState("");
@@ -98,7 +97,7 @@ const Profile = () => {
           setCurrentPassword(value);
         } else {
           alertToast({
-            message: t("password_max_length_requirement"),
+            message: t("profile.password_max_length_requirement"),
           });
         }
         break;
@@ -108,7 +107,7 @@ const Profile = () => {
           setValidation(validateUserPassword(value));
         } else {
           alertToast({
-            message: t("password_max_length_requirement"),
+            message: t("profile.password_max_length_requirement"),
           });
         }
         break;
@@ -117,7 +116,7 @@ const Profile = () => {
           setConfirmPassword(value);
         } else {
           alertToast({
-            message: t("password_max_length_requirement"),
+            message: t("profile.password_max_length_requirement"),
           });
         }
         break;
@@ -165,12 +164,12 @@ const Profile = () => {
   return (
     <div className="depositLimit">
       <div className="pageContent">
-        <PreferencesTitle title={t("common:profile")} marginBottomSize="lg" />
+        <PreferencesTitle title={t("common.profile")} marginBottomSize="lg" />
 
         <div className="row col-4 mb-3 profileRow">
           {loggedUser?.user_data?.player_id && (
             <InfoDiv>
-              <p className="fieldSubTitle m-2">{t("player_id")}</p>
+              <p className="fieldSubTitle m-2">{t("profile.player_id")}</p>
               <div className="playerId m-2">
                 <p className="playerId mb-0">
                   {loggedUser?.user_data?.player_id}
@@ -183,7 +182,9 @@ const Profile = () => {
               loggedUser?.user_data?.kyc_status === "verified" ? false : true
             }
           >
-            <p className="fieldSubTitle m-2">{t("email_verification")}</p>
+            <p className="fieldSubTitle m-2">
+              {t("profile.email_verification")}
+            </p>
             {loggedUser?.user_data?.email_verified ? (
               <>
                 <div className="playerId m-2">
@@ -199,7 +200,7 @@ const Profile = () => {
               <>
                 <div onClick={handleEmailClickRedirect}>
                   <p className="playerId notVerified m-2 ">
-                    {t("email_verify_required")}
+                    {t("profile.email_verify_required")}
                   </p>
                   <Image
                     alt="img-arrowIcon"
@@ -214,7 +215,9 @@ const Profile = () => {
             <>
               {loggedUser?.user_data?.phone_number_verified ? (
                 <InfoDiv>
-                  <p className="fieldSubTitle m-2">{t("common:mobile_number")}</p>
+                  <p className="fieldSubTitle m-2">
+                    {t("common.mobile_number")}
+                  </p>
                   <p className="playerId m-2" style={{ lineHeight: "40px" }}>
                     {loggedUser?.user_data?.phone_prefix}{" "}
                     {loggedUser?.user_data?.phone_number}
@@ -232,11 +235,11 @@ const Profile = () => {
                       className="fieldSubTitle ms-2"
                       style={{ cursor: "pointer" }}
                     >
-                      {t("common:mobile_number")}
+                      {t("common.mobile_number")}
                     </p>
                     {loggedUser?.user_data?.required_values.phone_number && (
                       <p className="playerId notVerified m-2">
-                        {t("mobile_verification_required")}
+                        {t("profile.mobile_verification_required")}
                       </p>
                     )}
                     <Image
@@ -256,10 +259,14 @@ const Profile = () => {
                 getNewAccessToken();
             }}
           >
-            <p className="fieldSubTitle m-2 cursorPointer">{t("proof_of_identify")}</p>
+            <p className="fieldSubTitle m-2 cursorPointer">
+              {t("profile.proof_of_identify")}
+            </p>
             {loggedUser?.user_data?.kyc_status === "verified" && (
               <div>
-                <p className="playerId m-2">{t("account_is_verified")}</p>
+                <p className="playerId m-2">
+                  {t("profile.account_is_verified")}
+                </p>
                 <Image
                   alt="img-validated"
                   src={images.validated}
@@ -270,7 +277,7 @@ const Profile = () => {
             {loggedUser?.user_data?.kyc_status === "rejected" && (
               <div className="d-flex">
                 <p className="playerId notVerified m-2">
-                  {t("account_verify_rejected")}
+                  {t("profile.account_verify_rejected")}
                 </p>
 
                 {initStarted ? (
@@ -288,7 +295,9 @@ const Profile = () => {
             )}
             {loggedUser?.user_data?.kyc_status === "pending" && (
               <div className="cursorPointer">
-                <p className="playerId m-2">{t("account_verify_pending")}</p>
+                <p className="playerId m-2">
+                  {t("profile.account_verify_pending")}
+                </p>
 
                 {initStarted && (
                   <div>
@@ -300,7 +309,9 @@ const Profile = () => {
 
             {loggedUser?.user_data?.kyc_status === "init" && (
               <div className="cursorPointer">
-                <p className="playerId m-2">{t("account_verify_started")}</p>
+                <p className="playerId m-2">
+                  {t("profile.account_verify_started")}
+                </p>
 
                 {initStarted && (
                   <div>
@@ -314,7 +325,7 @@ const Profile = () => {
               <div>
                 <div className="d-flex">
                   <p className="playerId notVerified m-2">
-                    {t("account_verify_required")}
+                    {t("profile.account_verify_required")}
                   </p>
                   {initStarted ? (
                     <div>
@@ -339,7 +350,9 @@ const Profile = () => {
                 : setShowChangePassword(true)
             }
           >
-            <p className="fieldSubTitle m-3 ms-2">{t("common:change_password")}</p>
+            <p className="fieldSubTitle m-3 ms-2">
+              {t("common.change_password")}
+            </p>
             <Image
               alt="img-arrowIcon"
               src={images.arrowIcon}

@@ -10,10 +10,9 @@ import "../NetDeposit/NetDeposit.css";
 import "../RealityCheck/RealityCheck.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const NetDeposit = () => {
-  const { t } = useClientTranslation(["net_deposit", "common"]);
+  const t = useTranslations();
   const [netAmount, setNetAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLimit, setSelectedLimit] = useState(-1);
@@ -44,46 +43,42 @@ const NetDeposit = () => {
     getNetDepositAmount();
   }, []);
 
-  const options = netDepositOptions?.net_deposit_options || [
-    {
-      name: t("common:today"),
-      value: "1",
-    },
-    {
-      name: t("last_7_days"),
-      value: "7",
-    },
-    {
-      name: t("last_30_days"),
-      value: "30",
-    },
-    {
-      name: t("last_3_months"),
-      value: "90",
-    },
-    {
-      name: t("last_year"),
-      value: "365",
-    },
-    {
-      name: t("all_time"),
-      value: "-1",
-    },
-  ];
+  const options = netDepositOptions?.net_deposit_options.map((option) => {
+    let name;
 
-  var netDepositText = t("all_time");
+    if (option.value === 1) {
+      name = t("common.today");
+    } else if (option.value === 7) {
+      name = t("net_deposit.last_7_days");
+    } else if (option.value === 30) {
+      name = t("net_deposit.last_30_days");
+    } else if (option.value === 90) {
+      name = t("net_deposit.last_3_months");
+    } else if (option.value === 365) {
+      name = t("net_deposit.last_year");
+    } else {
+      name = t("net_deposit.all_time");
+    }
+
+    return {
+      name,
+      value: option.value,
+    };
+  });
+
+  var netDepositText = t("net_deposit.all_time");
   if (selectedLimit === -1) {
-    netDepositText = t("all_time");
+    netDepositText = t("net_deposit.all_time");
   } else if (selectedLimit === 1) {
-    netDepositText = t("common:today");
+    netDepositText = t("common.today");
   } else if (selectedLimit === 7) {
-    netDepositText = t("last_7_days");
+    netDepositText = t("net_deposit.last_7_days");
   } else if (selectedLimit === 30) {
-    netDepositText = t("last_30_days");
+    netDepositText = t("net_deposit.last_30_days");
   } else if (selectedLimit === 90) {
-    netDepositText = t("last_3_months");
+    netDepositText = t("net_deposit.last_3_months");
   } else if (selectedLimit === 365) {
-    netDepositText = t("last_year");
+    netDepositText = t("net_deposit.last_year");
   }
 
   const [modalShow, setModalShow] = useState(false);
@@ -99,17 +94,26 @@ const NetDeposit = () => {
   return (
     <div className="depositLimit netDepositLimit">
       <div className="pageContent max-width-container">
-        <PreferencesTitle title={t("common:net_deposit")} marginBottomSize="sm" />
-        <p className="menuText">{t("net_deposit_description")}</p>
+        <PreferencesTitle
+          title={t("common.net_deposit")}
+          marginBottomSize="sm"
+        />
+        <p className="menuText">{t("net_deposit.net_deposit_description")}</p>
         <div className="row selectDepositDiv mb-3">
-          <p className="depositText col-6">{t("net_deposit_period")}</p>
+          <p className="depositText col-6">
+            {t("net_deposit.net_deposit_period")}
+          </p>
           <PreferencesDropdown
-            data={{ data: options, show: modalShow, title: t("common:net_deposit") }}
+            data={{
+              data: options,
+              show: modalShow,
+              title: t("common.net_deposit"),
+            }}
             selectedItem={selectedLimit}
             handleToggle={handleShow}
             handleSelect={(limit) => handleSetLimit(limit)}
             placeholder={netDepositText}
-            btnTitle={t("set_period")}
+            btnTitle={t("net_deposit.set_period")}
             modalOnMobile
             handleSubmit={handleSetLimit}
           />

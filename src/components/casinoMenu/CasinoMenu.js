@@ -10,18 +10,11 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import "./CasinoMenu.css";
 import { setCasinoCategory } from "@/store/actions";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const skeletonArray = Array(5).fill(null);
 
-const CasinoMenu = ({
-  data,
-  search,
-  setSearch,
-  category,
-  isLoading,
-}) => {
-  const { t } = useClientTranslation("common");
+const CasinoMenu = ({ data, search, setSearch, category, isLoading }) => {
+  const t = useTranslations("common");
   const isTablet = useSelector((state) => state.isTablet);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
@@ -66,7 +59,10 @@ const CasinoMenu = ({
       ) : (
         <>
           <div className="categories">
-            <div className="menu" onClick={() => dispatch(setCasinoCategory(null))}>
+            <div
+              className="menu"
+              onClick={() => dispatch(setCasinoCategory(null))}
+            >
               <Button
                 className={classNames("menu-link", {
                   selected: !category,
@@ -83,7 +79,11 @@ const CasinoMenu = ({
                     className="menu"
                     key={item.id}
                     onClick={() => {
-                      dispatch(setCasinoCategory(category?.id !== item?.id ? item : null));
+                      dispatch(
+                        setCasinoCategory(
+                          category?.id !== item?.id ? item : null
+                        )
+                      );
                     }}
                   >
                     <Button

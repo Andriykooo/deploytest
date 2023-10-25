@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { useUsageTime } from "@/hooks/useUsageTime";
 
 const GamingReminderAlert = ({ setGamingAlert }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
   const router = useRouter();
   const isMobile = useSelector((state) => state.setMobile);

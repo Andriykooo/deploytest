@@ -4,10 +4,9 @@ import classNames from "classnames";
 import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const Dropdown = ({ data, onSelect, selectedItem }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dropdownRef = useRef(null);
 
   const [activeItem, setActiveItem] = useState(data[0]);

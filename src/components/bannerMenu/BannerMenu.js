@@ -14,7 +14,7 @@ export const BannerMenu = ({
   defaultItem,
 }) => {
   const handleClick = (item) => {
-    setSelected(selected?.name === item.name ? defaultItem : item);
+    setSelected(selected?.slug === item.slug ? defaultItem : item);
   };
 
   return (
@@ -33,7 +33,7 @@ export const BannerMenu = ({
                 key={index}
                 onClick={() => handleClick(item)}
                 className={classNames("banner-menu-button", {
-                  selected: selected?.name === item.name,
+                  selected: selected?.slug === item.slug,
                 })}
                 type="button"
                 text={item.name}

@@ -13,10 +13,9 @@ import { setCompetitions } from "../../store/actions";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const InPlay = () => {
-  const { t } = useClientTranslation("in_play");
+  const t = useTranslations("in_play");
   const [markets, setMarkets] = useState([]);
   const [message, setMessage] = useState("");
   const [marketId, setMarketId] = useState("");
@@ -107,7 +106,9 @@ const InPlay = () => {
                   </label>
                   <div className="autoCompleteMultipleInRow">
                     <AutocompleteSelect
-                      placeholder={id !== 15 ? t("select_league") : t("competitions")}
+                      placeholder={
+                        id !== 15 ? t("select_league") : t("competitions")
+                      }
                       data={competitionsData.map((competition) => ({
                         label: competition.competition_name,
                         id: competition.competition_id,
@@ -123,9 +124,18 @@ const InPlay = () => {
                     />
                     {id === 15 && (
                       <>
-                        <AutocompleteSelect placeholder={t("common:time")} data={[]} />
-                        <AutocompleteSelect placeholder={t("common:region")} data={[]} />
-                        <AutocompleteSelect placeholder={t("common:country")} data={[]} />
+                        <AutocompleteSelect
+                          placeholder={t("common:time")}
+                          data={[]}
+                        />
+                        <AutocompleteSelect
+                          placeholder={t("common:region")}
+                          data={[]}
+                        />
+                        <AutocompleteSelect
+                          placeholder={t("common:country")}
+                          data={[]}
+                        />
                       </>
                     )}
                   </div>

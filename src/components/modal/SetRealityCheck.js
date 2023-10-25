@@ -7,8 +7,7 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const SetRealityCheck = ({
   options,
   selectedLimit,
@@ -18,7 +17,7 @@ export const SetRealityCheck = ({
   realityCheckData,
   setRealityCheckData,
 }) => {
-  const { t } = useClientTranslation(["reality_check", "common"]);
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   let user = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
@@ -32,7 +31,7 @@ export const SetRealityCheck = ({
 
     setSettingsApi(body, dispatch, {
       onSucces: () => {
-        SuccesToast({ message: t("common:successfully_updated") });
+        SuccesToast({ message: t("common.successfully_updated") });
         setIsLoading(false);
         setRealityCheckData({
           ...realityCheckData,
@@ -69,7 +68,7 @@ export const SetRealityCheck = ({
       >
         <div className="modal-content modalCenterContent">
           <p className="d-flex justify-content-center depositModalLimit">
-            {t("reality_check")}
+            {t("reality_check.reality_check")}
           </p>
           <Image
             src={images.closeIcon}
@@ -126,7 +125,7 @@ export const SetRealityCheck = ({
                   : "btn finishBtn setLimitBtn col-8 disabled"
               }
               onClick={() => selectedLimit !== 0 && handleSetLimit()}
-              text={<>{isLoading ? <Loader /> : t("common:set_limit")}</>}
+              text={<>{isLoading ? <Loader /> : t("common.set_limit")}</>}
             />
           </div>
         </div>

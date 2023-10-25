@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import "./Chat.css";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { SendMessage } from "@/utils/icons";
 
 const TypingArea = ({
@@ -12,7 +12,7 @@ const TypingArea = ({
   keyDownHandle,
   textareaHeight,
 }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   return (
     <form className="typing-area-form" onSubmit={onSubmit}>
       <textarea
@@ -28,7 +28,9 @@ const TypingArea = ({
       />
       <button className="chat-send-btn" type="submit">
         <SendMessage
-          color={value.trim().length > 0 && "var(--global-color-trader-chat-primary)"}
+          color={
+            value.trim().length > 0 && "var(--global-color-trader-chat-primary)"
+          }
         />
       </button>
     </form>

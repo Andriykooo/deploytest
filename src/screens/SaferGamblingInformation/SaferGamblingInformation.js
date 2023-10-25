@@ -5,10 +5,9 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const SaferGamblingInformation = () => {
-  const { t } = useClientTranslation("safer_gambling_information");
+  const t = useTranslations("safer_gambling_information");
   const [pageContent, setPageContent] = useState("");
 
   const saferGamblingInfo = () => {

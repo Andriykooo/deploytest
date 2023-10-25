@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
-import { theme } from "../../utils/config";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import Information from "@/components/information/Information";
@@ -14,16 +13,19 @@ import Information from "@/components/information/Information";
 import "../Withdraw/Withdraw.css";
 import classNames from "classnames";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const Withdraw = () => {
-  const { t } = useClientTranslation(["withdraw", "common"]);
+  const t = useTranslations();
   const [paymentUrl, setPaymentUrl] = useState("");
   const [getLinkLoading, setGetLinkLoading] = useState(false);
   const [valueOfInput, setValueOfInput] = useState("");
   const [validButton, setValidButton] = useState(false);
-  const userBalance = useSelector((state) => state.loggedUser?.user_data?.balance || 0);
-  const userCurrency = useSelector((state) => state.loggedUser?.user_data.currency?.symbol || "");
+  const userBalance = useSelector(
+    (state) => state.loggedUser?.user_data?.balance || 0
+  );
+  const userCurrency = useSelector(
+    (state) => state.loggedUser?.user_data.currency?.symbol || ""
+  );
   const isTablet = useSelector((state) => state.isTablet);
 
   const handleGatewayLink = () => {
@@ -53,23 +55,27 @@ const Withdraw = () => {
 
   return (
     <div className="depositLimit">
-      <div className={classNames("pageContent", { 'max-width-container': !isTablet })}>
+      <div
+        className={classNames("pageContent", {
+          "max-width-container": !isTablet,
+        })}
+      >
         <ProfileBack />
         {!paymentUrl ? (
           <>
             <PreferencesTitle
-              title={t("common:withdraw")}
+              title={t("common.withdraw")}
               showBack={false}
               marginBottomSize="sm"
             />
             <Information
               className="withdrawInformation"
-              text={t("withdrawal_restrictions_message")}
+              text={t("withdraw.withdrawal_restrictions_message")}
             />
             <div className="deposit-form span-sm-0">
               <div>
                 <p className="withdraw-enter-text">
-                  {t("withdrawal_amount_prompt")}
+                  {t("withdraw.withdrawal_amount_prompt")}
                 </p>
                 <div className="withdraw-input-container">
                   <input
@@ -79,9 +85,17 @@ const Withdraw = () => {
                     value={valueOfInput}
                     placeholder="0.00"
                   />
-                  <button className="max-button" onClick={() => setValueOfInput(userBalance)}>{t("max")}</button>
+                  <button
+                    className="max-button"
+                    onClick={() => setValueOfInput(userBalance)}
+                  >
+                    {t("withdraw.max")}
+                  </button>
                 </div>
-                <p className="user-balance">{t("balance")} {userCurrency} {formatNumberWithDecimal(userBalance)}</p>
+                <p className="user-balance">
+                  {t("withdraw.balance")} {userCurrency}{" "}
+                  {formatNumberWithDecimal(userBalance)}
+                </p>
               </div>
               <div className="preferences-button-container">
                 <Button
@@ -90,10 +104,10 @@ const Withdraw = () => {
                     handleGatewayLink();
                   }}
                   className={classNames("submit-button-deposit", {
-                    "btnPrimary": validButton,
-                    "btn finishBtn disabled setLimitBtn col-8": !validButton
+                    btnPrimary: validButton,
+                    "btn finishBtn disabled setLimitBtn col-8": !validButton,
                   })}
-                  text={getLinkLoading ? <Loader /> : t("common:authorise")}
+                  text={getLinkLoading ? <Loader /> : t("common.authorise")}
                 />
               </div>
             </div>

@@ -1,14 +1,12 @@
 import moment from "moment";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowIcon } from "../../utils/icons";
 import { MatchOdds } from "../matches/MatchOdds";
-import { capitalize } from "@mui/material";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { Runner } from "./Runner";
 
 export const RacingItem = ({ data, slug }) => {
-  const { t } = useClientTranslation(["sports"]);
+  const t = useTranslations();
 
   const day =
     moment().day() === moment(data.event_start_time).day()
@@ -22,7 +20,7 @@ export const RacingItem = ({ data, slug }) => {
           {/* todo: add live streaming link */}
           {/* <Image src={images.streamVideo} alt="#" className="racingHeaderImg" /> */}
           <span className="racingHeaderName">
-            {capitalize(t(day))},{" "}
+            <span className="racingHeaderNameVenue">{t(`common.${day}`)}</span>{" "}
             {moment(data.event_start_time).format("HH:mm")} {data.event_venue}
           </span>
         </div>
@@ -70,7 +68,9 @@ export const RacingItem = ({ data, slug }) => {
           }&filter=${day}`}
         >
           <span className="more-container-in-horse">
-            <span className="more-sidebar-in-events">{t("view_racecard")}</span>
+            <span className="more-sidebar-in-events">
+              {t("sports.view_racecard")}
+            </span>
             <ArrowIcon className="more-container-arrow" />
           </span>
         </Link>

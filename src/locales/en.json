@@ -1,6 +1,6 @@
 {
   "affiliates": {
-    "new_customer_welcome_offer":  "New Customer Welcome Offer:",
+    "new_customer_welcome_offer": "New Customer Welcome Offer:",
     "gamble_responsibly": "Please Gamble Responsibly",
     "new_customer_qualifying_terms": "*For NEW customers only. Requires account opening, deposit and certain qualifying bets of Evens or greater.",
     "get": "GET",
@@ -18,7 +18,7 @@
     "release_free_bets": "Release your free bets",
     "qualifying_bets_instruction": "Place a minimum of 3 x £20 qualifying bets on the first day’s betting.",
     "use_free_bets": "Use your free bets",
-    "rewards_welcome": "{{company}} REWARDS CLUB & WELCOME BONUS",
+    "rewards_welcome": "{company} REWARDS CLUB & WELCOME BONUS",
     "wrong_platform": "Wrong platform! Please sign in with a different one",
     "free_bets_available_after": "Your free bets will be available 48 hours after your last qualifying bet.",
     "google_sign_in": "Please sign in with Google",
@@ -28,7 +28,7 @@
     "no_email_facebook_register": "No e-mail associated with this Facebook Account, Please Register with Email"
   },
   "bet_history": {
-    "no_bets_message": "There are no {{text}} bets !"
+    "no_bets_message": "There are no {text} bets !"
   },
   "bonuses_promotions": {
     "bonuses_and_promotions": "Bonuses And Promotions",
@@ -132,6 +132,7 @@
     "enter_current_password": "Enter current password",
     "max_password_length_256_chars": "Maximum length of password must be 256 characters",
     "page_content_not_found": "Page content not found",
+    "live_chat": "Live Chat",
     "sport_not_found": "We could not find the sport.",
     "send_message": "Send a message...",
     "less": "Less",
@@ -153,7 +154,7 @@
     "my_bets": "MY BETS",
     "remove_all_bets": "Remove all bets",
     "new_trader_offer": "New Trader Offer",
-    "offer_will_expire_in": "This offer will expire in {{ timer }}s",
+    "offer_will_expire_in": "This offer will expire in {timer}s",
     "bet_receipt": "BET RECEIPT",
     "bet_slip_approved": "Bet Slip was Approved",
     "bets_placed_success": "Your bets have been successfully placed",
@@ -168,7 +169,7 @@
     "bet_user_rejected_message": "You rejected the trader offer",
     "bet_rejected_message": "Your bet has been rejected by the trader",
     "login_to_place_bet": "LOG IN TO PLACE BET",
-    "insufficient_balance_message": "You need {{ balance }} more to place this bet",
+    "insufficient_balance_message": "You need {balance} more to place this bet",
     "please_enter_stake": "PLEASE ENTER A STAKE",
     "accept_price_changes": "ACCEPT PRICE CHANGES",
     "accept_offer": "Accept Offer",
@@ -193,7 +194,7 @@
     "sabres": "Sabres",
     "horricane": "Horricane",
     "withdraw": "Withdraw",
-    "account_excluded_message": "Your profile is exclude until {{ date }}",
+    "account_excluded_message": "Your profile is exclude until {date}",
     "account_excluded": "Account excluded",
     "account_suspended": "Your account is suspended",
     "account_closed": "Your account is closed",
@@ -256,7 +257,7 @@
     "thank_you_message_swifty_team": "Thank you for your message. Someone from the Swifty Team will aim to come back to you within 72 hours."
   },
   "customer_service_notice": {
-    "thank_you_for_visiting": "Thank you for visiting {{company}}.",
+    "thank_you_for_visiting": "Thank you for visiting {company}.",
     "site_blocks_access_from_certain_territories": "This site blocks access from users accessing from certain territories.",
     "restricted_country_access_notice": "Our monitoring software has detected your IP is from a restricted country so you are unable to access the site. If this is incorrect or you require further information, please contact.",
     "apology_for_inconvenience": "We apologize for any inconvenience that this may have caused."
@@ -404,7 +405,7 @@
     "weights": "Weights",
     "price_history": "Price History",
     "price": "Price",
-    "no_more_races_message": "No more races for {{day}}!",
+    "no_more_races_message": "No more races for {day}!",
     "race_result": "Race result",
     "race_in_progress": "Race in progress",
     "non_runner": "Non Runner"
@@ -420,8 +421,8 @@
     "more_information": "More information",
     "deposit_limit_desc": "Set deposit limits to control your spending",
     "gaming_reminders_desc": "Control your game time with reminders",
-    "suspend_account_desc": "Take a break from {{company}}",
-    "self_exclude_desc": "Excluded yourself from {{company}}",
+    "suspend_account_desc": "Take a break from {company}",
+    "self_exclude_desc": "Excluded yourself from {company}",
     "more_information_desc": "Read about Safer Gambling"
   },
   "safer_gambling_information": {
@@ -475,8 +476,8 @@
     "event": "Event",
     "bell": "Bell",
     "competetion": "Competetion",
-    "notifications_for_match_are_on": "Notifications for {{matchName}} are on!",
-    "notifications_for_match_are_off": "Notifications for {{matchName}} are off!",
+    "notifications_for_match_are_on": "Notifications for {matchName} are on!",
+    "notifications_for_match_are_off": "Notifications for {matchName} are off!",
     "view_racecard": "View Racecard",
     "select_league": "Select League",
     "all_sports": "All Sports"
@@ -486,13 +487,13 @@
     "account_has_been_suspended": "Your account has been suspended for",
     "day": "Day",
     "days": "Days",
-    "break_options_message": "If you want to take a break from {{company}}, we offer the following options.",
+    "break_options_message": "If you want to take a break from {company}, we offer the following options.",
     "timeout_logout_message": "Once a timeout has been applied you will be logged out and you won't be able to log in for the chosen duration."
   },
   "terms": {
     "terms_conditions_update_success": "Terms and Conditions Updated Successfully",
     "new_terms_conditions": "New Terms And Conditions",
-    "accept_changes": "Accept Changes"
+    "accamount_selection_promptept_changes": "Accept Changes"
   },
   "transaction_history": {
     "something_went_wrong": "Something went wrong!",

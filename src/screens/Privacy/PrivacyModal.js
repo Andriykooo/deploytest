@@ -8,10 +8,9 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Terms/Terms.css";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const PrivacyModal = ({ setPageModal }) => {
-  const { t } = useClientTranslation(["terms", "common"]);
+  const t = useTranslations();
   const privacyDivRef = useRef(null);
   const [policy, setPolicy] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -59,7 +58,7 @@ const PrivacyModal = ({ setPageModal }) => {
         </div>
       </nav>
       <div className="terms backgroundImageLogged backHeight">
-        <p className="termsTitle">{t("privacy_policy")}</p>
+        <p className="termsTitle">{t("privacy.privacy_policy")}</p>
         {loader ? (
           <Loader />
         ) : (

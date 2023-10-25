@@ -6,10 +6,9 @@ import { setInPlay } from "../../store/actions";
 import { theme } from "../../utils/config";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const HockeyCard = (props) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const { match, firstRow, id, inPlay } = props;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
@@ -46,7 +45,9 @@ const HockeyCard = (props) => {
             <div style={{ width: "105px", textAlign: "center" }}>
               {t("money_line")}
             </div>
-            <div style={{ width: "105px", textAlign: "center" }}>{t("spread")}</div>
+            <div style={{ width: "105px", textAlign: "center" }}>
+              {t("spread")}
+            </div>
             <div style={{ width: "105px", textAlign: "center" }}>
               {t("total_goals")}
             </div>
@@ -83,10 +84,7 @@ const HockeyCard = (props) => {
       <div className="matchCard  matchCardRow matchIceHockeyRow">
         {/* Desktop match time */}
         {!isMobile && (
-          <div
-            className="matchCardDate"
-            onClick={handleClickRow}
-          >
+          <div className="matchCardDate" onClick={handleClickRow}>
             <div className="matchCardIcon">
               <Image
                 src={images.notificationOffIcon}
@@ -153,11 +151,15 @@ const HockeyCard = (props) => {
                     borderBottom: `1px solid ${theme?.colors?.mainSecondary}`,
                   }}
                 >
-                  <div className="selectionTeamContainer">{match.selections[0].name}</div>
+                  <div className="selectionTeamContainer">
+                    {match.selections[0].name}
+                  </div>
                   <div>{match.selections[0].odd}</div>
                 </div>
                 <div className="ice-hockey-main-container">
-                  <div className="selectionTeamContainer">{match.selections[1].name}</div>
+                  <div className="selectionTeamContainer">
+                    {match.selections[1].name}
+                  </div>
                   <div>{match.selections[1].odd}</div>
                 </div>
               </div>

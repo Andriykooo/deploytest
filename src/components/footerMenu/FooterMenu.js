@@ -7,10 +7,9 @@ import { useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HeaderDiv } from "../header/HeaderDiv";
 import { images } from "@/utils/imagesConstant";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const FooterMenu = ({ data, onClick }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const activePage = useSelector((state) => state.activePage);
   const footerLinksRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);

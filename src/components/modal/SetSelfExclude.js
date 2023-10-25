@@ -4,8 +4,7 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const SetSelfExclude = ({
   excludeData,
   selectedLimit,
@@ -13,7 +12,7 @@ export const SetSelfExclude = ({
   setExcludePeriod,
   setExcludeData,
 }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useSelector((state) => state.setMobile);
 

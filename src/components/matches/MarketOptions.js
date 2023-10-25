@@ -1,7 +1,6 @@
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const MarketOptions = ({ options }) => {
-  const { t } = useClientTranslation("sports")
+  const t = useTranslations("sports");
   return (
     <div className="matchCardRowContainer">
       <div className="matchCard selections">

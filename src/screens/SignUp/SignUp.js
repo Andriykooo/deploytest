@@ -14,10 +14,9 @@ import { alertToast } from "../../utils/alert";
 import { images } from "../../utils/imagesConstant";
 import "../Login/Login.css";
 import "../SignUp/SignUp.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const SignUp = () => {
-  const { t } = useClientTranslation(["sign_up", "common"]);
+  const t = useTranslations();
   const [states, setStates] = useState([]);
   const [isValid, setIsValid] = useState(false);
   const [stateName, setStateName] = useState("");
@@ -32,7 +31,7 @@ const SignUp = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [passwordHasANumber, setpasswordHasANumber] = useState(false);
   const [passwordIsLongEnough, setpasswordIsLongEnough] = useState(false);
-  const [country, setCountry] = useState(t("select_country_residence"));
+  const [country, setCountry] = useState(t("sign_up.select_country_residence"));
   const [PasswordHasOneCharacter, setPasswordHasOneCharacter] = useState(false);
   const [passwordHasSpecialCharater, setpasswordHasSpecialCharater] =
     useState(false);
@@ -59,7 +58,9 @@ const SignUp = () => {
     setPasswordShown(!passwordShown);
   };
   useEffect(() => {
-    const userCountry = on_boarding?.countries?.find((country) => country.cca2 === settings.country)
+    const userCountry = on_boarding?.countries?.find(
+      (country) => country.cca2 === settings.country
+    );
     if (userCountry?.states) {
       setStates(userCountry?.states);
     } else {
@@ -107,11 +108,11 @@ const SignUp = () => {
     });
     dispatch(setCountryPhone(InfoForCountry));
     if (!user.first_name || !user.email || !user.last_name || !user.country) {
-      alertToast({ message: t("fill_in_all_fields") });
+      alertToast({ message: t("sign_up.fill_in_all_fields") });
     } else if (isValid) {
       router.push("/terms");
     } else {
-      alertToast({ message: t("password_incorrect") });
+      alertToast({ message: t("sign_up.password_incorrect") });
     }
   }
   function handle(e, key) {
@@ -182,33 +183,35 @@ const SignUp = () => {
   return (
     <div className="backgroundImage">
       <form className=" loginForm" onSubmit={submitValidate}>
-        <p className="logInTitle">{t("new_user_setup")}</p>
+        <p className="logInTitle">{t("sign_up.new_user_setup")}</p>
         <div className="emailValidation d-grid">
-          <label className="nameLabels">{t("first_name")}</label>
+          <label className="nameLabels">{t("sign_up.first_name")}</label>
           <input
             onChange={(e) => handle(e, "first_name")}
             id="first_name"
             type="text"
             className="login-buttons"
-            placeholder={t("enter_first_name")}
+            placeholder={t("sign_up.enter_first_name")}
             value={data.first_name}
             autoComplete="new-password"
           />
         </div>
         <div className="emailValidation d-grid">
-          <label className="nameLabels">{t("last_name")}</label>
+          <label className="nameLabels">{t("sign_up.last_name")}</label>
           <input
             onChange={(e) => handle(e, "last_name")}
             id="last_name"
             type="text"
             className="login-buttons"
-            placeholder={t("enter_last_name")}
+            placeholder={t("sign_up.enter_last_name")}
             value={data.last_name}
             autoComplete="new-password"
           />
         </div>
         <div className="emailValidation d-grid">
-          <label className="nameLabels">{t("country_of_residence")}</label>
+          <label className="nameLabels">
+            {t("sign_up.country_of_residence")}
+          </label>
           <div className="residenceInput">
             <Button
               onClick={() => setShowCountries(true)}
@@ -216,7 +219,7 @@ const SignUp = () => {
               type="button"
               className={"login-buttons p-0"}
               value={countryCode}
-              placeholder={t("select_country_residence")}
+              placeholder={t("sign_up.select_country_residence")}
               text={
                 <>
                   <div className="d-flex">
@@ -245,7 +248,7 @@ const SignUp = () => {
         </div>
         {user?.country === "US" && states.length > 0 && (
           <div className="emailValidation d-grid">
-            <label className="nameLabels">{t("state_province")}</label>
+            <label className="nameLabels">{t("sign_up.state_province")}</label>
             <div className="residenceInput">
               <Button
                 onClick={() => {
@@ -256,12 +259,12 @@ const SignUp = () => {
                 type="select"
                 className={"login-buttons p-0 mb-3"}
                 value={countryCode}
-                placeholder={t("select_country_residence")}
+                placeholder={t("sign_up.select_country_residence")}
                 text={
                   <>
                     <div className="d-flex">
                       <p className="ms-3 mb-0 mt-1 countryName">
-                        {countryState || t("select_state_province")}
+                        {countryState || t("sign_up.select_state_province")}
                       </p>
                     </div>
                     <Image
@@ -280,45 +283,45 @@ const SignUp = () => {
           signup_platform === "facebook" ||
           signup_platform === "apple"
         ) && (
-            <div className="emailValidation d-grid">
-              <label className="nameLabels">{t("common:password")}</label>
-              <input
-                onChange={(e) => handle(e, "password")}
-                id="password"
-                type={passwordShown ? "text" : "password"}
-                className="login-buttons"
-                placeholder={t("common:enter_password")}
-                value={data.password}
-                autoComplete="new-password"
+          <div className="emailValidation d-grid">
+            <label className="nameLabels">{t("common.password")}</label>
+            <input
+              onChange={(e) => handle(e, "password")}
+              id="password"
+              type={passwordShown ? "text" : "password"}
+              className="login-buttons"
+              placeholder={t("common.enter_password")}
+              value={data.password}
+              autoComplete="new-password"
+            />
+            <p className="newPassChecks mb-0">
+              <span className={passwordIsLongEnough ? "dot valid" : "dot"} />
+              {t("common.password_length_requirement")}
+            </p>
+            <p className="newPassChecks mb-0">
+              <span
+                className={passwordHasSpecialCharater ? "dot valid" : "dot"}
               />
-              <p className="newPassChecks mb-0">
-                <span className={passwordIsLongEnough ? "dot valid" : "dot"} />
-                {t("common:password_length_requirement")}
-              </p>
-              <p className="newPassChecks mb-0">
-                <span
-                  className={passwordHasSpecialCharater ? "dot valid" : "dot"}
-                />
-                {t("common:password_character_requirement")}
-              </p>
-              <p className="newPassChecks mb-4">
-                <span className={passwordHasANumber ? "dot valid" : "dot"} />
-                {t("common:password_number_requirement")}
-              </p>
-              {PasswordHasOneCharacter ? (
-                <Image
-                  onClick={togglePassword}
-                  src={images.showPassIcon}
-                  className="showPasswordIcon signUp"
-                  alt="Valid"
-                  width={20}
-                  height={14}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-          )}
+              {t("common.password_character_requirement")}
+            </p>
+            <p className="newPassChecks mb-4">
+              <span className={passwordHasANumber ? "dot valid" : "dot"} />
+              {t("common.password_number_requirement")}
+            </p>
+            {PasswordHasOneCharacter ? (
+              <Image
+                onClick={togglePassword}
+                src={images.showPassIcon}
+                className="showPasswordIcon signUp"
+                alt="Valid"
+                width={20}
+                height={14}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        )}
         <div className="authButtonsContainer">
           <Button
             type="submit"
@@ -327,7 +330,7 @@ const SignUp = () => {
                 ? "btnPrimary continueBtn validBtn signUpBtn"
                 : "continueBtn signUpBtn"
             }
-            text={t("sign_up")}
+            text={t("sign_up.sign_up")}
           />
         </div>
       </form>

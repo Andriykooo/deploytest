@@ -3,7 +3,6 @@
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import { gamingSocket } from "@/context/socket";
 import { Button } from "../../components/button/Button";
 import {
@@ -21,12 +20,11 @@ import { EmptyState } from "@/components/emptyState/EmptyState";
 import "../DepositLimit/DepositLimit.css";
 import "./BetHistory.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const skeletonHeader = new Array(4).fill(0);
 
 const BetHistory = () => {
-  const { t } = useClientTranslation(["bet_history", "common"]);
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(true);
   const [myBets, setMyBets] = useState([]);
   const [activeTab, setActiveTab] = useState(BET_HISTORY_TABS[0].value);
@@ -73,7 +71,9 @@ const BetHistory = () => {
     if (!tabDates.length) {
       const text = activeTab === BET_HISTORY_ALL_TAB ? "" : `${activeTab} `;
 
-      return <EmptyState message={t("no_bets_message", { text })} />;
+      return (
+        <EmptyState message={t("bet_history.no_bets_message", { text })} />
+      );
     }
 
     return tabDates.map((date) => {
@@ -116,9 +116,7 @@ const BetHistory = () => {
   return (
     <div className="depositLimit betHistoryBody">
       <div>
-        <PreferencesTitle
-          title={t("common:bet_history")}
-        />
+        <PreferencesTitle title={t("common.bet_history")} />
         <div className="betHistoryMenuBar">
           {BET_HISTORY_TABS.map((tab) => (
             <Button
@@ -130,7 +128,7 @@ const BetHistory = () => {
               text={
                 <>
                   <Image src={tab.icon} alt="my-bet-tab" />
-                  &nbsp; {t(`common:${tab.label}`)}
+                  &nbsp; {t(`common.${tab.label}`)}
                 </>
               }
             />

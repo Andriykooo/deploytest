@@ -12,10 +12,9 @@ import "../Profile/Profile.css";
 import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const SaferGambling = () => {
-  const { t } = useClientTranslation(["safer_gambling", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const isTablet = useSelector((state) => state.isTablet);
   const settings = useSelector((state) => state.settings);
@@ -28,29 +27,33 @@ export const SaferGambling = () => {
 
   const saferGambling = [
     {
-      title: t("deposit_limits"),
+      title: t("safer_gambling.deposit_limits"),
       link: "/profile/deposit_limit",
-      desc: t("deposit_limit_desc"),
+      desc: t("safer_gambling.deposit_limit_desc"),
     },
     {
-      title: t("gaming_reminders"),
+      title: t("safer_gambling.gaming_reminders"),
       link: "/profile/reality_check",
-      desc: t("gaming_reminders_desc"),
+      desc: t("safer_gambling.gaming_reminders_desc"),
     },
     {
-      title: t("common:suspend_account"),
+      title: t("common.suspend_account"),
       link: "/profile/suspend_account",
-      desc: t("suspend_account_desc", { company: settings?.companyName }),
+      desc: t("safer_gambling.suspend_account_desc", {
+        company: settings?.companyName,
+      }),
     },
     {
-      title: t("common:self_exclude"),
+      title: t("common.self_exclude"),
       link: "/profile/self_exclude",
-      desc: t("self_exclude_desc", { company: settings?.companyName }),
+      desc: t("safer_gambling.self_exclude_desc", {
+        company: settings?.companyName,
+      }),
     },
     {
-      title: t("more_information"),
+      title: t("safer_gambling.more_information"),
       link: "/profile/safer_gambling_information",
-      desc: t("more_information_desc"),
+      desc: t("safer_gambling.more_information_desc"),
     },
   ];
 
@@ -58,7 +61,7 @@ export const SaferGambling = () => {
     <div className="pageContent-safer">
       <div className="depositLimit saferContainer">
         <PreferencesTitle
-          title={t("common:safer_gambling")}
+          title={t("common.safer_gambling")}
           marginBottomSize="lg"
         />
         <div className="saferDivs">

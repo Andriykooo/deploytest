@@ -11,10 +11,9 @@ import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDro
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../DepositLimit/DepositLimit.css";
 import "../RealityCheck/RealityCheck.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const RealityCheck = () => {
-  const { t } = useClientTranslation(["reality_check", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const user_settings = useSelector((state) => state?.user_settings);
   const user = useSelector((state) => state.loggedUser);
@@ -40,22 +39,41 @@ const RealityCheck = () => {
   let realityCheckTxt = "";
 
   if (selectedLimit === 15) {
-    realityCheckTxt = `15 ${t("common:minutes")}`;
+    realityCheckTxt = `15 ${t("common.minutes")}`;
   } else if (selectedLimit === 30) {
-    realityCheckTxt = `30 ${t("common:minutes")}`;
+    realityCheckTxt = `30 ${t("common.minutes")}`;
   } else if (selectedLimit === 45) {
-    realityCheckTxt = `45 ${t("common:minutes")}`;
+    realityCheckTxt = `45 ${t("common.minutes")}`;
   } else if (selectedLimit === 60) {
-    realityCheckTxt = `1 ${t("common:hour")}`;
+    realityCheckTxt = `1 ${t("common.hour")}`;
   } else {
-    realityCheckTxt = t("common:not_set");
+    realityCheckTxt = t("common.not_set");
   }
 
   const handleToggle = () => {
     setRealityCheckData({
       ...realityCheckData,
       show: !realityCheckData.show,
-      data: user_settings?.reality_check_options,
+      data: user_settings?.reality_check_options.map((option) => {
+        let name;
+
+        if (option.value === 15) {
+          name = `15 ${t("common.minutes")}`;
+        } else if (option.value === 30) {
+          name = `30 ${t("common.minutes")}`;
+        } else if (option.value === 45) {
+          name = `45 ${t("common.minutes")}`;
+        } else if (option.value === 60) {
+          name = `60 ${t("common.hour")}`;
+        } else {
+          name = t("common.not_set");
+        }
+
+        return {
+          name,
+          value: option.value,
+        };
+      }),
     });
     setDisabled(true);
   };
@@ -70,7 +88,7 @@ const RealityCheck = () => {
         if (response?.error) {
           return;
         }
-        SuccesToast({ message: t("common:successfully_updated") });
+        SuccesToast({ message: t("common.successfully_updated") });
         setDisabled(true);
         setRealityCheckData({
           ...realityCheckData,
@@ -97,18 +115,25 @@ const RealityCheck = () => {
       <div className="depositLimit max-width-container">
         <div>
           <PreferencesTitle
-            title={t("reality_check")}
+            title={t("reality_check.reality_check")}
             backRoute="/profile/safer_gambling"
             marginBottomSize="sm"
             showBackOnDesktop
           />
-          <p className="menuText">{t("reality_check_description")}</p>
+          <p className="menuText">
+            {t("reality_check.reality_check_description")}
+          </p>
 
           <div className="mb-3 row">
-            <div className="subText col-6">{t("reality_check_after")}</div>
+            <div className="subText col-6">
+              {t("reality_check.reality_check_after")}
+            </div>
 
             <PreferencesDropdown
-              data={{ ...realityCheckData, title: t("reality_check") }}
+              data={{
+                ...realityCheckData,
+                title: t("reality_check.reality_check"),
+              }}
               selectedItem={selectedLimit}
               handleToggle={handleToggle}
               handleSelect={(value) => {
@@ -121,7 +146,7 @@ const RealityCheck = () => {
                 });
               }}
               modalOnMobile
-              btnTitle={t("common:set_limit")}
+              btnTitle={t("common.set_limit")}
               placeholder={realityCheckTxt}
             />
           </div>
@@ -135,7 +160,7 @@ const RealityCheck = () => {
                 : "btn finishBtn disabled setLimitBtn col-8")
             }
             onClick={handleSelect}
-            text={loader ? <Loader /> : t("common:set_limit")}
+            text={loader ? <Loader /> : t("common.set_limit")}
           />
         </div>
       </div>

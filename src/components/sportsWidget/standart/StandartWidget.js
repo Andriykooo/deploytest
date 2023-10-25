@@ -4,13 +4,13 @@ import { EventTable } from "../../eventTable/EventTable";
 import { MatchOdds } from "../../matches/MatchOdds";
 import { SportsBanner } from "../SportsBanner";
 import "./StandartWidget.css";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { v4 as uuidv4 } from "uuid";
 import { gamingSocket } from "@/context/socket";
 import { useEffect } from "react";
 
 export const StandartWidget = ({ data }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const isTablet = useSelector((state) => state.isTablet);
 
   useEffect(() => {

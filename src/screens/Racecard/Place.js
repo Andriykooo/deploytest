@@ -2,18 +2,17 @@
 
 import { useSelector } from "react-redux";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const Place = ({ item, place, onClick, disable, eventId }) => {
-  const { t } = useClientTranslation(["racecard", "common"]);
+  const t = useTranslations();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const betTicker = useSelector((state) => state.betTicker);
 
   const places = {
-    1: t("1st"),
-    2: t("2nd"),
-    3: t("3rd"),
-    any: t("common:any"),
+    1: t("racecard.1st"),
+    2: t("racecard.2nd"),
+    3: t("racecard.3rd"),
+    any: t("common.any"),
   };
 
   let selectionType;

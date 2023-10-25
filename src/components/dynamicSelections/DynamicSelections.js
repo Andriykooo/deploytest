@@ -1,4 +1,4 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { MatchOdds } from "../matches/MatchOdds";
@@ -8,7 +8,7 @@ import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 
 export const DynamicSelections = ({ selections, eventId }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
   useEffect(() => {
     selections.forEach((selection) => {

@@ -1,10 +1,10 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const useUsageTime = () => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const usageStartTime = useSelector((state) => state.usageStartTime);
 
   const [time, setTime] = useState("");

@@ -3,8 +3,7 @@ import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const States = ({
   states,
   setCountryState,
@@ -12,7 +11,7 @@ export const States = ({
   setShowStates,
   handle,
 }) => {
-  const { t } = useClientTranslation(["sign_up", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   return (
@@ -30,7 +29,7 @@ export const States = ({
             <div className="modal-content-inside">
               <div className="modalTitle">
                 <p className="selectCountryTitle depositModalLimit">
-                  {t("select_state_province")}
+                  {t("sign_up.select_state_province")}
                 </p>
                 <Image
                   src={images.closeIcon}
@@ -42,7 +41,6 @@ export const States = ({
                   onClick={() => {
                     setShowStates(false);
                   }}
-
                 />
               </div>
               <div className="selectDecimal d-flex mb-5">
@@ -53,7 +51,7 @@ export const States = ({
                 />
                 <input
                   className="decimalText searchField"
-                  placeholder={t("common:search")}
+                  placeholder={t("common.search")}
                   onChange={(e) => handle(e, "state")}
                 />
               </div>
@@ -68,8 +66,8 @@ export const States = ({
                       "countryModalText",
                       state.code === user?.state
                         ? "selectDecimal selectedOdd d-flex mb-3"
-                        : "selectDecimal d-flex mb-3 ")
-                    }
+                        : "selectDecimal d-flex mb-3 "
+                    )}
                     onClick={() => {
                       setCountryState(state.name);
                       let newUser = user;

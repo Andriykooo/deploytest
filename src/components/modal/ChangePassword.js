@@ -8,8 +8,7 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { addLocalStorageItem } from "@/utils/localStorage";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const ChangePassowrd = ({
   currentPassword,
   newPassword,
@@ -26,7 +25,7 @@ export const ChangePassowrd = ({
   setShowChangePassword,
   showChangePassword,
 }) => {
-  const { t } = useClientTranslation(["profile", "common"]);
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useSelector((state) => state.setMobile);
 
@@ -42,7 +41,7 @@ export const ChangePassowrd = ({
       .then((result) => {
         addLocalStorageItem("token", result?.token);
         addLocalStorageItem("refresh_token", result?.refresh_token);
-        SuccesToast({ message: t("common:password_update_success") });
+        SuccesToast({ message: t("common.password_update_success") });
         setIsLoading(false);
         setShowChangePassword(false);
         setCurrentPassword("");
@@ -102,16 +101,18 @@ export const ChangePassowrd = ({
               }}
             />
             <p className="logInTitle profile d-flex justify-content-center">
-              {t("common:change_password")}
+              {t("common.change_password")}
             </p>
             <div className="emailValidation">
-              <label className="newPasswordLabel">{t("current_password")}</label>
+              <label className="newPasswordLabel">
+                {t("common.current_password")}
+              </label>
               <div className="password-container position-relative">
                 <input
                   id="password"
                   type={showPassword["currentpassword"] ? "text" : "password"}
                   className="login-buttons"
-                  placeholder={t("enter_current_password")}
+                  placeholder={t("common.enter_current_password")}
                   onChange={(e) =>
                     handlePassword(e.target.value, "currentpassword")
                   }
@@ -127,13 +128,15 @@ export const ChangePassowrd = ({
               </div>
             </div>
             <div className="emailValidation">
-              <label className="newPasswordLabel">{t("new_password")}</label>
+              <label className="newPasswordLabel">
+                {t("profile.new_password")}
+              </label>
               <div className="password-container position-relative">
                 <input
                   id="password"
                   type={showPassword["newpassword"] ? "text" : "password"}
                   className="login-buttons"
-                  placeholder={t("enter_new_password")}
+                  placeholder={t("profile.enter_new_password")}
                   onChange={(e) =>
                     handlePassword(e.target.value, "newpassword")
                   }
@@ -149,27 +152,29 @@ export const ChangePassowrd = ({
               </div>
               <p className="newPassChecks">
                 <span className={validation.length ? "dot valid" : "dot"} />
-                {t("common:password_length_requirement")}
+                {t("common.password_length_requirement")}
               </p>
               <p className="newPassChecks">
                 <span
                   className={validation.specialChar ? "dot valid" : "dot"}
                 />
-                {t("common:password_character_requirement")}
+                {t("common.password_character_requirement")}
               </p>
               <p className="newPassChecks">
                 <span className={validation.numeric ? "dot valid" : "dot"} />
-                {t("common:password_number_requirement")}
+                {t("common.password_number_requirement")}
               </p>
             </div>
             <div className="emailValidation">
-              <label className="newPasswordLabel">{t("confirm_new_password")}</label>
+              <label className="newPasswordLabel">
+                {t("profile.confirm_new_password")}
+              </label>
               <div className="password-container">
                 <input
                   id="password"
                   type={showPassword["confirmpassword"] ? "text" : "password"}
                   className="login-buttons"
-                  placeholder={t("enter_new_password")}
+                  placeholder={t("profile.enter_new_password")}
                   onChange={(e) =>
                     handlePassword(e.target.value, "confirmpassword")
                   }
@@ -186,7 +191,7 @@ export const ChangePassowrd = ({
             </div>
             <p className="newPassChecks">
               <span className={passwordMatch ? "dot valid" : "dot"} />
-              {t("password_match_requirement")}
+              {t("profile.password_match_requirement")}
             </p>
             <Button
               className={
@@ -195,7 +200,7 @@ export const ChangePassowrd = ({
                   : " mt-4 continueBtn"
               }
               onClick={(e) => validateForm() && handleSubmit(e)}
-              text={<>{isLoading ? <Loader /> : t("common:confirm")}</>}
+              text={<>{isLoading ? <Loader /> : t("common.confirm")}</>}
             />
           </div>
         </div>

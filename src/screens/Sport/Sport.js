@@ -9,10 +9,9 @@ import SkeletonComponent from "../../utils/SkeletonComponent";
 import "../Home/Home.css";
 import "../Sports/Sports.css";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const Sport = ({ sportContent, setSportContent, slug }) => {
-  const { t } = useClientTranslation("sports");
+  const t = useTranslations();
   const { gamingSocket } = useContext(SocketContext);
   const isMobile = useSelector((state) => state.setMobile);
   const language = useSelector((state) => state.language);
@@ -59,7 +58,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
           </div>
           <div className="autoCompleteMultipleInRow mt-2">
             <AutocompleteSelect
-              placeholder={t("sports:competitions")}
+              placeholder={t("sports.competitions")}
               data={
                 sportContent?.competitions?.map((competition) => ({
                   label: competition.name,
@@ -73,7 +72,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
 
             {slug !== "horseracing" && (
               <AutocompleteSelect
-                placeholder={t("common:region")}
+                placeholder={t("common.region")}
                 data={
                   sportContent?.regions?.map((region, index) => ({
                     label: region.name,
@@ -102,7 +101,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
               });
               setSelectedMarket(foundMarket);
             }}
-            placeholder={t("select_market")}
+            placeholder={t("in_play.select_market")}
             variant={marketOptions?.length > 7 ? "scrollable" : "fullWidth"}
           />
         </div>
@@ -129,7 +128,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
               type={slug}
             />
           ) : (
-            <EmptyState message={t("no_games_available")} />
+            <EmptyState message={t("sports.no_games_available")} />
           )}
         </>
       )}

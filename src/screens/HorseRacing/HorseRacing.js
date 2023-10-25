@@ -11,19 +11,20 @@ import "./HorseRacing.css";
 import { EventTime } from "@/components/EventTime/EventTime";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const HorseRacing = ({ sportContent, slug }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
   const horseracingMeetingOptions = [
     {
       label: t("today"),
       id: 1,
+      value: "today",
     },
     {
       label: t("tomorrow"),
       id: 2,
+      value: "tomorrow",
     },
   ];
 
@@ -31,6 +32,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
     {
       label: t("next_races"),
       id: 1,
+      value: "next",
     },
   ];
   const [selectedDay, setSelectedDay] = useState(horseracingMeetingOptions[0]);
@@ -42,15 +44,15 @@ export const HorseRacing = ({ sportContent, slug }) => {
   );
 
   const isTablet = useSelector((state) => state.isTablet);
-  const eventsDay = selectedDay.label.toLowerCase();
-  const regionsDay = selectedMeet.label.toLowerCase();
+  const eventsDay = selectedDay.value.toLowerCase();
+  const regionsDay = selectedMeet.value.toLowerCase();
 
   const eventsData = sportContent?.events?.filter((event) => {
     return (
       event?.availabilities?.includes(eventsDay) &&
       (selectedMarket.id === 1
         ? true
-        : event.event_venue === selectedMarket.label)
+        : event.event_venue === selectedMarket.value)
     );
   });
 
@@ -189,7 +191,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                             className="matchTeam matchTeam2"
                             href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
                               meeting.events[0].event_id
-                            }&filter=${selectedMeet.label.toLowerCase()}`}
+                            }&filter=${selectedMeet.value.toLowerCase()}`}
                           >
                             {meeting.name}
                             <Image src={images.arrowIcon} alt="arrow" />
@@ -214,7 +216,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                                       currentEvent?.event_id
                                         ? `/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
                                             currentEvent.event_id
-                                          }&filter=${selectedMeet.label.toLowerCase()}`
+                                          }&filter=${selectedMeet.value.toLowerCase()}`
                                         : ""
                                     }
                                   >

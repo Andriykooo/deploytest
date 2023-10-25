@@ -5,10 +5,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 function FinishAccountSetup() {
-  const { t } = useClientTranslation(["finish_account_setup", "common", "sign_up"]);
+  const t = useTranslations();
   const [showInformation, setShowInformation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -50,26 +49,31 @@ function FinishAccountSetup() {
   return (
     <div className="backgroundImage finishAccountSetup">
       <div className=" loginForm px-4">
-        <p className="logInTitle">{t("finish_account_setup:finish_account_setup")}</p>
+        <p className="logInTitle">
+          {t("finish_account_setup.finish_account_setup")}
+        </p>
         <p className="codeSent codeSend2">
-          {t("finish_account_setup:country_laws_require_details")}
+          {t("finish_account_setup.country_laws_require_details")}
           <br />
           <br />
-          {t("finish_account_setup:activate_account_deposit_funds_instructions")} <br />
+          {t(
+            "finish_account_setup.activate_account_deposit_funds_instructions"
+          )}{" "}
           <br />
-          {`1. ${t("finish_account_setup:upload_identity_document")}`} <br />
-          {`2. ${t("finish_account_setup:selfie_verification")}`} <br />
-          {`3. ${t("finish_account_setup:upload_proof_of_address")}`}
+          <br />
+          {`1. ${t("finish_account_setup.upload_identity_document")}`} <br />
+          {`2. ${t("finish_account_setup.selfie_verification")}`} <br />
+          {`3. ${t("finish_account_setup.upload_proof_of_address")}`}
         </p>
         <div className="loginForm d-grid">
           <Button
             className="buttontoresendcode finishSetupInfo"
             onClick={showInfo}
-            text={t("sign_up:more_information_required_question")}
+            text={t("sign_up.more_information_required_question")}
           />
           {showInformation ? (
             <p className="codeSent codeSend3">
-              {t("finish_account_setup:swifty_app_identity_confirmation")}
+              {t("finish_account_setup.swifty_app_identity_confirmation")}
             </p>
           ) : (
             ""
@@ -79,7 +83,7 @@ function FinishAccountSetup() {
           <Button
             onClick={continueToKyc}
             className={"btnPrimary continueBtn validBtn codeBtn"}
-            text={t("common:continue")}
+            text={t("common.continue")}
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +47,7 @@ import { apiUrl } from "../../utils/constants";
 import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerServiceNotive";
 import { getUserApi } from "@/utils/apiQueries";
 import { AlertModal } from "@/components/alertModal/AlertModal";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
 
@@ -69,7 +69,7 @@ const modalList = [
 ];
 
 const Content = ({ children, className }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [gamingAlert, setGamingAlert] = useState(false);
 
   const header = useSelector((state) => state.headerData);
@@ -80,7 +80,7 @@ const Content = ({ children, className }) => {
   const accessToken = getLocalStorageItem("access_token");
 
   const dispatch = useDispatch();
-  const { pathname } = useClientPathname();
+  const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
 
@@ -90,9 +90,17 @@ const Content = ({ children, className }) => {
     return modalList.some((modalPath) => {
       if (modalPath.endsWith("/*")) {
         const prefix = modalPath.slice(0, -2);
+
         return pathname.startsWith(prefix);
       }
-      return pathname === modalPath;
+
+      let path = pathname;
+
+      if (pathname.startsWith(`/${params.lng}`)) {
+        path = pathname.replace(`/${params.lng}`, "");
+      }
+
+      return path === modalPath;
     });
   }, [pathname]);
 
@@ -220,6 +228,7 @@ const Content = ({ children, className }) => {
           dispatch(setResultedEvents(response.eventId));
           break;
         case "new_user_balance":
+          console.log('New user balance', response.value);
           // Update only user balance
           // loggedUser.user_data.balance = response.value;
           if (loggedUser && !Number.isNaN(+response.value)) {

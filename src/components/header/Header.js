@@ -20,12 +20,12 @@ import "../sidebar/Sidebar.css";
 import "./Header.css";
 import classNames from "classnames";
 import Link from "next/link";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 function Header({ isModal }) {
   const dispatch = useDispatch();
   const { pathname } = useClientPathname();
-  const { t } = useClientTranslation("header");
+  const t = useTranslations("header");
   const router = useRouter();
   const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);

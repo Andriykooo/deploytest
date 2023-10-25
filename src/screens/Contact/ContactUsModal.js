@@ -10,10 +10,9 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Contact/Contact.css";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const ContactUsModal = ({ setPageModal }) => {
-  const { t } = useClientTranslation("contact_us");
+  const t = useTranslations("contact_us");
   const isMobile = useSelector((state) => state.setMobile);
   const [showSubmitMessage, setShowSubmitMessage] = useState(false);
 
@@ -74,7 +73,9 @@ const ContactUsModal = ({ setPageModal }) => {
                 <div className="container">
                   <div className="row contact mt-2">
                     <div className="col-md-6 span-sm-0" id="contact-banner">
-                      <h2 className="banner-title-contact">{t("contact_us")}</h2>
+                      <h2 className="banner-title-contact">
+                        {t("contact_us")}
+                      </h2>
                       <span className="banner-text-contact">
                         {t("need_help_or_support")}
                         <br /> <br />
@@ -147,7 +148,9 @@ const ContactUsModal = ({ setPageModal }) => {
                                     <option value="Topic 3">
                                       {t("marketing_or_media")}
                                     </option>
-                                    <option value="Topic 4">{t("complaint")}</option>
+                                    <option value="Topic 4">
+                                      {t("complaint")}
+                                    </option>
                                   </select>
                                 </div>
                                 <div>
@@ -181,7 +184,9 @@ const ContactUsModal = ({ setPageModal }) => {
                       className="col-md-5 col-sm-4 col-lg-4 social-form span-sm-0"
                       id="reach-us-form"
                     >
-                      <span className="social-media-title">{t("reach_us")}</span>
+                      <span className="social-media-title">
+                        {t("reach_us")}
+                      </span>
                       <span className="social-divider" />
                       <div className="social-media-form">
                         <div className="social-media-accounts">

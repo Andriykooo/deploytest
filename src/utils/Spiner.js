@@ -1,8 +1,8 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import Spinner from "react-bootstrap/Spinner";
 
 function Spiner({ sell }) {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   return (
     <div
       className={sell ? "spinnerPadding spinnerPosition" : "spinnerPosition"}

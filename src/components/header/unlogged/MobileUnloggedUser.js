@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { SlipIcon } from "../../../utils/icons";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { setSidebarRight } from "@/store/actions";
 import Link from "next/link";
 
@@ -9,7 +9,7 @@ export const MobileUnloggedUser = () => {
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const dispatch = useDispatch();
   const { pathname } = useClientPathname();
-  const { t } = useClientTranslation("header");
+  const t = useTranslations("header");
   const sidebarRight = useSelector((state) => state.sidebarRight);
 
   return (

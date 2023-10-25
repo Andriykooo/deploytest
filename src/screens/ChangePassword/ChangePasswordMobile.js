@@ -11,16 +11,15 @@ import classNames from "classnames";
 import { SuccesToast } from "@/utils/alert";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import "react-toastify/dist/ReactToastify.css";
-import "./ChangePassword.css"
-import { useClientTranslation } from "@/app/i18n/client";
-
+import "./ChangePassword.css";
+import { useTranslations } from "next-intl";
 const ChangePasswordMobile = () => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
-  const {pathname} = useClientPathname();
+  const { pathname } = useClientPathname();
   const router = useRouter();
 
   const handleSubmit = (e) => {
@@ -40,7 +39,7 @@ const ChangePasswordMobile = () => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        router.replace('/profile/profile')
+        router.replace("/profile/profile");
       })
       .catch(() => {
         setIsLoading(false);
@@ -50,11 +49,13 @@ const ChangePasswordMobile = () => {
 
   return (
     <div className="change-password">
-      <div className={classNames("forgotPassword", {
-        backgroundImage: pathname === 'forgot_password'
-      })}>
+      <div
+        className={classNames("forgotPassword", {
+          backgroundImage: pathname === "forgot_password",
+        })}
+      >
         <div className="loginForm p-4">
-          <ProfileBack back='profile' />
+          <ProfileBack back="profile" />
           <p className="logInTitle">{t("change_password")}</p>
           <PasswordFields
             changePassword

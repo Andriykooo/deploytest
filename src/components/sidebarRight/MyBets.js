@@ -3,12 +3,11 @@ import { EmptyFolder } from "@/utils/icons";
 import { useEffect, useState } from "react";
 import { MyBet } from "./MyBet/MyBet";
 import { alertToast } from "@/utils/alert";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const myBetsArray = ["All", "Open", "Settled"];
 
 export const MyBets = () => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [selectedButton, setSelectedButton] = useState(1);
   const [myBets, setMyBets] = useState(null);
 

@@ -1,4 +1,4 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
@@ -12,7 +12,7 @@ const BetHistorySection = ({
   result,
   children,
 }) => {
-  const { t } = useClientTranslation(["bet_history", "common"]);
+  const t = useTranslations();
   return (
     <div
       className={classNames("betHistorySection", {
@@ -34,10 +34,10 @@ const BetHistorySection = ({
       <div>{children}</div>
       <div className="betHistorySectionFooter d-flex justify-content-between align-items-center">
         <p>
-          {t("common:stake")}: <span>{formatNumberWithDecimal(stake)}</span>
+          {t("common.stake")}: <span>{formatNumberWithDecimal(stake)}</span>
         </p>
         <p>
-          {t("common:returns")}: <span>{formatNumberWithDecimal(returns)}</span>
+          {t("common.returns")}: <span>{formatNumberWithDecimal(returns)}</span>
         </p>
       </div>
     </div>

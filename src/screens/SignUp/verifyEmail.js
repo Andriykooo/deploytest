@@ -14,10 +14,9 @@ import { apiUrl } from "../../utils/constants";
 import "../Login/Login.css";
 import Cookies from "js-cookie";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const VerifyEmail = () => {
-  const { t } = useClientTranslation(["verify_email", "common"]);
+  const t = useTranslations();
   const [OTP, setOTP] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(59);
@@ -55,7 +54,7 @@ const VerifyEmail = () => {
     apiServices
       .get(apiUrl.RESEND_EMAIL)
       .then(() => {
-        SuccesToast({ message: t("common:resend_code_success") });
+        SuccesToast({ message: t("common.resend_code_success") });
       })
       .catch(() => {
         setLoader(false);
@@ -106,7 +105,7 @@ const VerifyEmail = () => {
   return (
     <div className="backgroundImage">
       <div className="loginForm px-4">
-        <p className="logInTitle">{t("verify_email_address")}</p>
+        <p className="logInTitle">{t("verify_email.verify_email_address")}</p>
         <form className="d-grid justify-content-center">
           <div className="codeVerification">
             <OTPInput
@@ -121,7 +120,7 @@ const VerifyEmail = () => {
             />
           </div>
           <p className="codeSent mb-5">
-            {t("code_sent_to_email_at")}
+            {t("verify_email.code_sent_to_email_at")}
             <strong> {user?.email}</strong>
           </p>
           <div className="authButtonsContainer">
@@ -133,8 +132,11 @@ const VerifyEmail = () => {
               disabled={!resendIsActive}
               text={
                 <span>
-                  {resendIsActive ? t("common:resend") : `${t("common:resend_in")} ${minutes}:${seconds < 10 ? `0${seconds}` : seconds
-                    }`}
+                  {resendIsActive
+                    ? t("common.resend")
+                    : `${t("common.resend_in")} ${minutes}:${
+                        seconds < 10 ? `0${seconds}` : seconds
+                      }`}
                 </span>
               }
             />
@@ -144,7 +146,7 @@ const VerifyEmail = () => {
                 validBtn: isValid,
               })}
               onClick={verifyCode}
-              text={loader ? <Loader /> : t("common:verify")}
+              text={loader ? <Loader /> : t("common.verify")}
             />
           </div>
         </form>

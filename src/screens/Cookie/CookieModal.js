@@ -8,11 +8,11 @@ import { apiUrl } from "../../utils/constants";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Cookie/Cookie.css";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 const CookieModal = ({ setPageModal }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [loader, setLoader] = useState(true);
   const [cookieContent, setCookieContent] = useState("");
 

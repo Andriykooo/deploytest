@@ -1,10 +1,9 @@
 "use client";
 
 import { types } from "../../utils/constants";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const BetSelectedTypes = () => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
   return (
     <div className="row w-100 m-0">

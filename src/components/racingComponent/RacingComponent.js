@@ -4,10 +4,9 @@ import { RacingItem } from "../racingWidget/RacingItem";
 import Slider from "react-slick";
 import { SampleNextArrow, SamplePrevArrow } from "@/utils/icons";
 import { EmptyState } from "../emptyState/EmptyState";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const RacingComponent = ({ data, slug }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const isMobile = useSelector((state) => state.setMobile);
 

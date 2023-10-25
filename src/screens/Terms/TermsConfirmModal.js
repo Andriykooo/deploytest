@@ -8,10 +8,9 @@ import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const TermsConfirmModal = () => {
-  const { t } = useClientTranslation("terms");
+  const t = useTranslations("terms");
   const dispatch = useDispatch();
   const pathname = usePathname();
   const termsDivRef = useRef(null);

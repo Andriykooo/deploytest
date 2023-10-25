@@ -5,10 +5,9 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { GoBackButton } from "../goBackButton/GoBackButton";
 import { ProfileCard } from "./Styled";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const PredictionsMenu = ({ page, active }) => {
-  const { t } = useClientTranslation(["profile", "common"]);
+  const t = useTranslations();
   return (
     <>
       <div className="d-flex pb-3">
@@ -19,7 +18,7 @@ export const PredictionsMenu = ({ page, active }) => {
           onClick={() => router.push("/profile/profile")}
         />
       </div>
-      <p className="historyBets">{t("bet_history")}</p>
+      <p className="historyBets">{t("common.bet_history")}</p>
       <div className="predictions-menu">
         {predictionPages.map((value, index) => {
           return (
@@ -45,7 +44,7 @@ export const PredictionsMenu = ({ page, active }) => {
                         "btn dropdown-toggle popularDropdown profile top w-100"
                       }
                       type="button"
-                      text={t(`common:${value.cardName}`)}
+                      text={t(`common.${value.cardName}`)}
                     />
                     <Image
                       src={images.arrowIcon}

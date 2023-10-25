@@ -24,10 +24,9 @@ import { useGoogleLogin } from "@react-oauth/google";
 import classNames from "classnames";
 import { Loader } from "@/components/loaders/Loader";
 import Cookies from "js-cookie";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const Affiliates = () => {
-  const { t } = useClientTranslation(["affiliates", "common"]);
+  const t = useTranslations();
   const user = useSelector((state) => state.user);
   const loggedUser = useSelector((state) => state.loggedUser);
   const settings = useSelector((state) => state.settings);
@@ -111,14 +110,14 @@ const Affiliates = () => {
               `/login?is_verfied=true&first_name=${resolve?.first_name}&email=${email}`
             );
           } else if (resolve?.sign_up_platform === "google") {
-            alertToast({ message: t("google_sign_in") });
+            alertToast({ message: t("affiliates.google_sign_in") });
           } else if (resolve?.sign_up_platform === "facebook") {
-            alertToast({ message: t("facebook_sign_in") });
+            alertToast({ message: t("affiliates.facebook_sign_in") });
           } else if (resolve?.sign_up_platform === "apple") {
-            alertToast({ message: t("apple_sign_in") });
+            alertToast({ message: t("affiliates.apple_sign_in") });
           } else {
             alertToast({
-              message: t("wrong_platform"),
+              message: t("affiliates.wrong_platform"),
             });
           }
           setIsLoading(false);
@@ -256,26 +255,26 @@ const Affiliates = () => {
       <div className="affiliatesBanner">
         <div className="customerWelcome">
           <p className="customerWelcomeTitle">
-            {t("new_customer_welcome_offer")}
+            {t("affiliates.new_customer_welcome_offer")}
           </p>
           <div className="customerWelcomeGet">
-            <span>{t("get")}</span>
+            <span>{t("affiliates.get")}</span>
             <div>
               <span className="goldGet">£25</span>
               <p>
-                {t("free")} <br /> {t("sports_bets")}
+                {t("affiliates.free")} <br /> {t("affiliates.sports_bets")}
               </p>
             </div>
           </div>
           <div className="customerWelcomePlus">
-            <span>{t("plus")}</span>
+            <span>{t("affiliates.plus")}</span>
             <div>
               <span className="goldPlus">50 {t("free").toUpperCase()}</span>
-              <span>{t("casino_spins")}</span>
+              <span>{t("affiliates.casino_spins")}</span>
             </div>
           </div>
           <div className="gambleInfo">
-            <p>{t("gamble_responsibly")}</p>
+            <p>{t("affiliates.gamble_responsibly")}</p>
             <Link target="_blank" href="https://www.begambleaware.org/">
               <b>Be</b>Gamble<b>Aware</b>.org
             </Link>
@@ -284,17 +283,17 @@ const Affiliates = () => {
         <Image src={Hero} alt="hero" />
       </div>
       <div className="infoForCostumers">
-        <p>{t("new_customer_qualifying_terms")}</p>
+        <p>{t("affiliates.new_customer_qualifying_terms")}</p>
       </div>
       <div className="affiliatesRegister">
         <form className="registerNow" onSubmit={(e) => e.preventDefault()}>
-          <h2 className="registerNowTitle">{t("register_now")}</h2>
+          <h2 className="registerNowTitle">{t("affiliates.register_now")}</h2>
           <div className="email-validation">
             <input
               id="email"
               type="email"
               className="login-buttons"
-              placeholder={t("enter_email")}
+              placeholder={t("affiliates.enter_email")}
               value={email}
               onChange={(e) => validateEmail(e)}
               autoFocus
@@ -314,10 +313,10 @@ const Affiliates = () => {
                 "btnPrimary validBtn": isValid,
               })}
             >
-              {isLoading ? <Loader /> : t("common:continue")}
+              {isLoading ? <Loader /> : t("common.continue")}
             </button>
             <p className="oneClick d-flex justify-content-center">
-              {t("sign_in_one_click")}
+              {t("affiliates.sign_in_one_click")}
             </p>
           </div>
           <div className="whiteButtonsGroup d-grid affiliatesButtons">
@@ -336,7 +335,7 @@ const Affiliates = () => {
                   className="google-btn"
                 />
                 <span className="social-login-title">
-                  {t("continue_with_facebook")}
+                  {t("affiliates.continue_with_facebook")}
                 </span>
               </div>
             </div>
@@ -349,22 +348,24 @@ const Affiliates = () => {
               <div className="continueBtn white">
                 <button onClick={responseGoogle} className="google-btn" />
                 <span className="social-login-title">
-                  {t("continue_with_google")}
+                  {t("affiliates.continue_with_google")}
                 </span>
               </div>
             </div>
           </div>
         </form>
         <div className="offerWorks">
-          <h2 className="offerWorksTitle">{t("offer_how_it_works")}</h2>
+          <h2 className="offerWorksTitle">
+            {t("affiliates.offer_how_it_works")}
+          </h2>
           <ul className="offerWorksLists">
             <li>
               <div className="listSequence">
                 <span>1</span>
               </div>
               <div className="listInfo">
-                <h4>{t("common:deposit")}</h4>
-                <p>{t("open_account_and_deposit")}</p>
+                <h4>{t("common.deposit")}</h4>
+                <p>{t("affiliates.open_account_and_deposit")}</p>
               </div>
             </li>
             <li>
@@ -372,8 +373,8 @@ const Affiliates = () => {
                 <span>2</span>
               </div>
               <div className="listInfo">
-                <h4>{t("release_free_bets")}</h4>
-                <p>{t("qualifying_bets_instruction")}</p>
+                <h4>{t("affiliates.release_free_bets")}</h4>
+                <p>{t("affiliates.qualifying_bets_instruction")}</p>
               </div>
             </li>
             <li>
@@ -381,8 +382,8 @@ const Affiliates = () => {
                 <span>3</span>
               </div>
               <div className="listInfo">
-                <h4>{t("use_free_bets")}</h4>
-                <p>{t("free_bets_available_after")}</p>
+                <h4>{t("affiliates.use_free_bets")}</h4>
+                <p>{t("affiliates.free_bets_available_after")}</p>
               </div>
             </li>
           </ul>
@@ -390,11 +391,11 @@ const Affiliates = () => {
       </div>
       <div className="affiliatesInfo">
         <h3 className="affiliatesInfoTitle generalTitle">
-          {t("rewards_welcome", { company: settings?.companyName })}
+          {t("affiliates.rewards_welcome", { company: settings?.companyName })}
         </h3>
         <div className="affiliatesInfoTerms">
           <h3 className="affiliatesInfoTitle">
-            {t("common:terms_and_conditions")}
+            {t("common.terms_and_conditions")}
           </h3>
           {parse(terms.toString())}
         </div>

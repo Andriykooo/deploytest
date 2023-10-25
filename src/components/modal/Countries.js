@@ -3,8 +3,7 @@ import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import { addLocalStorageItem } from "@/utils/localStorage";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const Countries = ({
   handle,
   choosenCountry,
@@ -16,7 +15,7 @@ export const Countries = ({
   showCountries,
   setShowCountries,
 }) => {
-  const { t } = useClientTranslation(["sign_up", "common"]);
+  const t = useTranslations();
   const user = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ export const Countries = ({
           <div className="modal-content-inside">
             <div className="modalTitle-countries">
               <p className="selectCountryTitle depositModalLimit">
-                {t("select_country_residence")}
+                {t("sign_up.select_country_residence")}
               </p>
               <Image
                 src={images.closeIcon}
@@ -56,7 +55,7 @@ export const Countries = ({
               <input
                 autoFocus
                 className="decimalText countryModalText searchField"
-                placeholder={t("common:search")}
+                placeholder={t("common.search")}
                 onChange={(e) => handle(e, "country")}
               />
             </div>

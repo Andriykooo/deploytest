@@ -15,10 +15,9 @@ import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const OpenPredictions = () => {
-  const { t } = useClientTranslation("common")
+  const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
   const [hasMore, setHasMore] = useState(false);
   const [activeBet, setActiveBet] = useState(-1);
@@ -271,7 +270,7 @@ const OpenPredictions = () => {
                                                     </div>
                                                     <div className="col stakeValue d-flex">
                                                       <span className="stakeReturn">
-                                                      {t("returns")}:
+                                                        {t("returns")}:
                                                       </span>
                                                       &nbsp;{value.returns}
                                                     </div>

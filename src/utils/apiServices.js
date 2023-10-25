@@ -54,15 +54,6 @@ const checkError = (code, message) => {
     case 1062:
       break;
 
-    // Account Exists
-    case 1026:
-      if (typeof window !== "undefined") {
-        // alertToast({
-        //   message: i18next.t("email_already_registered_message"),
-        // });
-      }
-      break;
-
     default:
       if (typeof window !== "undefined") {
         alertToast({

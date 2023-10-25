@@ -2,10 +2,9 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const TransactionDetails = ({ data, close }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
 
   return (

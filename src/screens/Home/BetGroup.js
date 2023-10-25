@@ -1,10 +1,9 @@
 import { Skeleton } from "@mui/material";
 import React from "react";
 import { betGroupLinks } from "../../utils/constants";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const BetGroup = ({ isLoading, isMobile }) => {
-  const { t } = useClientTranslation("home");
+  const t = useTranslations("home");
   let counter = 0;
   const maxCounter = betGroupLinks.length - 1;
 

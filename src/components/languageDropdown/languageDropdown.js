@@ -1,17 +1,19 @@
 "use client";
 
 import { setLanguage } from "@/store/actions";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { LanguageIcon } from "@/utils/icons";
 import { useClientPathname } from "@/hooks/useClientPathname";
-
 import "./languageDropdown.css";
+import { useParams } from "next/navigation";
+import { locales } from "../../../i18n";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
   const { pathname } = useClientPathname();
+  const params = useParams();
 
   const dropdownLangRef = useRef(null);
 
@@ -27,7 +29,7 @@ const LanguageDropdown = () => {
   const languageSelectHandler = (selectedLanguage) => {
     dispatch(setLanguage(selectedLanguage));
     toggleDropdown();
-    window.location.href = `/${selectedLanguage.code2.toLowerCase()}${pathname}`
+    window.location.href = `/${selectedLanguage.code2.toLowerCase()}${pathname}`;
   };
 
   useClickOutside(dropdownLangRef, () => {
@@ -38,14 +40,29 @@ const LanguageDropdown = () => {
     return null;
   }
 
+  useEffect(() => {
+    if (onboarding?.languages) {
+      const lng = params.lng.toUpperCase();
+
+      dispatch(
+        setLanguage(
+          onboarding.languages.find((language) => language.code2 === lng)
+        )
+      );
+    }
+  }, [onboarding]);
+
   return (
     <div className="dropdown-lang-container" ref={dropdownLangRef}>
       <ul className="dropdown-lang-list">
         {isOpen &&
           onboarding.languages
-            ?.filter(
-              (filterLanguage) => filterLanguage?.code2 !== language?.code2
-            )
+            ?.filter((filterLanguage) => {
+              return (
+                filterLanguage?.code2 !== language?.code2 &&
+                locales.includes(filterLanguage.code2?.toLowerCase())
+              );
+            })
             ?.map((language) => (
               <li
                 key={language?.code2}

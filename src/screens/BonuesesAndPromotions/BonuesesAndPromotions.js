@@ -8,10 +8,9 @@ import { images } from "../../utils/imagesConstant";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
 import { useSelector } from "react-redux";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 function BonuesesAndPromotions() {
-  const { t } = useClientTranslation(["bonuses_promotions", "common"]);
+  const t = useTranslations();
   const [selected, setSelected] = useState(0);
   const isTablet = useSelector((state) => state.isTablet);
   const handleClick = (index) => {
@@ -49,7 +48,11 @@ function BonuesesAndPromotions() {
     <div className="depositLimit netDepositLimit">
       <div className=" bonuses-container-menu">
         <PreferencesTitle
-          title={t(isTablet ? "bonuses_and_promotions" : "common:bonuses_promotions")}
+          title={t(
+            isTablet
+              ? "bonuses_promotions.bonuses_and_promotions"
+              : "common.bonuses_promotions"
+          )}
         />
         <div className="promotion-title">
           {monthDates.map((value, index) => {
@@ -63,7 +66,7 @@ function BonuesesAndPromotions() {
                 <Button
                   className={`menu-link-promotions ${selectedStyle}`}
                   type="button"
-                  text={t(`common:${value?.month}`) + " " + value?.year}
+                  text={t(`common.${value?.month}`) + " " + value?.year}
                 />
               </div>
             );
@@ -94,13 +97,16 @@ function BonuesesAndPromotions() {
                 </p>
                 <div className="promotion-info">
                   <div className="promotion-values-container">
-                    <p className="promotion-valid">{t("valid_until")}:</p> &nbsp;
+                    <p className="promotion-valid">
+                      {t("bonuses_promotions.valid_until")}:
+                    </p>{" "}
+                    &nbsp;
                     <p className="promotion-value fw-bold">
                       {value?.validDate}
                     </p>
                   </div>
                   <p className="promotion-amount">
-                    {t("amount")}{" "}
+                    {t("bonuses_promotions.amount")}{" "}
                     <span className="promotion-value fw-bold">
                       {value?.amount}
                     </span>

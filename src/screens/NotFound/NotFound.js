@@ -8,15 +8,14 @@ import { Montserrat } from "next/font/google";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useLayoutEffect } from "react";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const montserrat = Montserrat({
   subsets: ["latin"],
   style: "normal",
 });
 
 export const NotFoundScreen = () => {
-  const { t } = useClientTranslation("not_found");
+  const t = useTranslations("not_found");
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -27,21 +26,14 @@ export const NotFoundScreen = () => {
     <div className={classNames("error-page", montserrat.className)}>
       <div className="header-of-error-component">
         <Link href="/">
-          <Image
-            src={images.GroupSwifty}
-            alt="logo"
-            height={35}
-            width={230}
-          />
+          <Image src={images.GroupSwifty} alt="logo" height={35} width={230} />
         </Link>
       </div>
       <div className="error-content">
         <div className="error-number">404</div>
         <div className="error-redirect">
           <p className="error-title">{t("oops_exclamation")}</p>
-          <p className="error-description">
-            {t("page_not_found")}
-          </p>
+          <p className="error-description">{t("page_not_found")}</p>
           <div className="error-page-navigation">
             <Link href="/">
               <button className="btnPrimary error-page-navigation-button">

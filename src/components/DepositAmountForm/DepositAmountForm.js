@@ -1,15 +1,17 @@
 import PreferencesTitle from "../preferencesTitle/PreferencesTitle";
-import '../DepositAmountForm/DepositAmountForm.css'
+import "../DepositAmountForm/DepositAmountForm.css";
 import { depositAmounts, depositAmountsOnMobile } from "@/utils/constants";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 
 const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
-  const { t } = useClientTranslation(["deposit", "common"])
-  const abbreviation = useSelector((state) => state.loggedUser?.user_data?.currency.abbreviation);
+  const t = useTranslations();
+  const abbreviation = useSelector(
+    (state) => state.loggedUser?.user_data?.currency.abbreviation
+  );
   const isMobile = useSelector((state) => state.setMobile);
   const amounts = isMobile ? depositAmountsOnMobile : depositAmounts;
   const handleSelectAmount = (event, value) => {
@@ -20,12 +22,13 @@ const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
   return (
     <div className="max-width-container depositLimit">
       <PreferencesTitle
-        title={t("common:deposit")}
+        title={t("common.deposit")}
         marginBottomSize="sm"
-      // showBackOnDesktop={showBackOnDesktop}
-
+        // showBackOnDesktop={showBackOnDesktop}
       />
-      <p className="select-amount-title">{t("amount_selection_prompt")} {abbreviation}</p>
+      <p className="select-amount-title">
+        {t("deposit.amount_selection_prompt")} {abbreviation}
+      </p>
       <form className="select-amount" onSubmit={(e) => e.preventDefault()}>
         <div>
           <div className="enter-amount-input">
@@ -34,7 +37,7 @@ const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
               className="deposit-input"
               onChange={(e) => setAmount(e.target.value)}
               value={amount}
-              placeholder={amount ? amount : '0.00'}
+              placeholder={amount ? amount : "0.00"}
             />
             <span className="deposit-input-text">{abbreviation}</span>
           </div>
@@ -43,7 +46,7 @@ const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
               <button
                 onClick={(e) => handleSelectAmount(e, item)}
                 className={classNames("amount-button", {
-                  "active-amount": item == amount
+                  "active-amount": item == amount,
                 })}
                 key={item}
               >
@@ -54,14 +57,13 @@ const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
         </div>
         <Button
           className={classNames("select-amount-submit", {
-            "active-amount-submit": amount
+            "active-amount-submit": amount,
           })}
           onClick={onSetAmount}
           disabled={!amount}
-          text={isLoading ? <Loader /> : t("common:authorise")}
+          text={isLoading ? <Loader /> : t("common.authorise")}
         />
       </form>
-
     </div>
   );
 };

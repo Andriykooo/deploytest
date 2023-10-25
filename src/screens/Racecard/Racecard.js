@@ -13,14 +13,14 @@ import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import moment from "moment";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { Runner } from "@/components/racingWidget/Runner";
 import { PriceHistory } from "./PriceHistory";
 import { Place } from "./Place";
 import { RacecardTable } from "./RaceCardTable";
 
 export const Racecard = () => {
-  const { t } = useClientTranslation(["racecard", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const betTicker = useSelector((state) => state.betTicker);
@@ -33,7 +33,10 @@ export const Racecard = () => {
   const day = searchParams.get("filter") || "today";
   const id = searchParams.get("id");
 
-  const [selectedTab, setSelectedTab] = useState({ label: t("win_ew"), id: 1 });
+  const [selectedTab, setSelectedTab] = useState({
+    label: t("racecard.win_ew"),
+    id: 1,
+  });
 
   let defaultEvent;
 
@@ -111,7 +114,7 @@ export const Racecard = () => {
 
   const forecastTricast = [
     {
-      head: t("1st"),
+      head: t("racecard.1st"),
       dataKey: "sp",
       width: "70px",
       render: (item) => {
@@ -127,7 +130,7 @@ export const Racecard = () => {
       },
     },
     {
-      head: t("2nd"),
+      head: t("racecard.2nd"),
       dataKey: "sp",
       width: "70px",
       render: (item) => {
@@ -146,7 +149,7 @@ export const Racecard = () => {
 
   if (event?.tricast) {
     forecastTricast.push({
-      head: t("3rd"),
+      head: t("racecard.3rd"),
       dataKey: "sp",
       width: "70px",
       render: (item) => {
@@ -166,18 +169,19 @@ export const Racecard = () => {
   const headerItemsForecast = [
     ...(disablePrice
       ? [
-        {
-          head: "",
-          dataKey: "finish_num",
-          width: "40px",
-          className: "border-end-0",
-          render: (item) => {
-            return <div className="finish-num">{item.finish_num}</div>;
+          {
+            head: "",
+            dataKey: "finish_num",
+            width: "40px",
+            className: "border-end-0",
+            render: (item) => {
+              return <div className="finish-num">{item.finish_num}</div>;
+            },
           },
-        },
-      ] : []),
+        ]
+      : []),
     {
-      head: t("silk"),
+      head: t("racecard.silk"),
       dataKey: "silk_image",
       width: "50px",
       className: "border-end-0",
@@ -194,7 +198,7 @@ export const Racecard = () => {
       },
     },
     {
-      head: t("runner"),
+      head: t("racecard.runner"),
       renderHead: (headItem) => {
         return <div className="runner">{headItem.head}</div>;
       },
@@ -206,7 +210,7 @@ export const Racecard = () => {
     },
     ...forecastTricast,
     {
-      head: t("any_order"),
+      head: t("racecard.any_order"),
       dataKey: "odds_decimal",
       width: "70px",
       render: (item) => {
@@ -225,14 +229,14 @@ export const Racecard = () => {
 
   const predictionsTabs = [
     {
-      label: t("win_ew"),
+      label: t("racecard.win_ew"),
       id: 1,
     },
   ];
 
   if (event?.forecast) {
     predictionsTabs.push({
-      label: t("forecast_tricast"),
+      label: t("racecard.forecast_tricast"),
       id: 2,
     });
   }
@@ -240,22 +244,22 @@ export const Racecard = () => {
   const tableData =
     event && !disablePrice
       ? {
-        ...event,
-        selections: [
-          ...event?.selections,
-          {
-            bet_id: event?.event_id,
-            name: t("unnamed_favorite"),
-            description: "-",
-            odds_decimal: t("sp"),
-            odds_fractional: t("sp"),
-            runner_num: "?",
-            silk_image: images.unnamedFavorite,
-            status: "active",
-            trading_status: "unnamed_favorite",
-          },
-        ],
-      }
+          ...event,
+          selections: [
+            ...event?.selections,
+            {
+              bet_id: event?.event_id,
+              name: t("racecard.unnamed_favorite"),
+              description: "-",
+              odds_decimal: t("racecard.sp"),
+              odds_fractional: t("racecard.sp"),
+              runner_num: "?",
+              silk_image: images.unnamedFavorite,
+              status: "active",
+              trading_status: "unnamed_favorite",
+            },
+          ],
+        }
       : event;
 
   const showPriceHistory =
@@ -277,7 +281,7 @@ export const Racecard = () => {
         ]
       : []),
     {
-      head: t("silk"),
+      head: t("racecard.silk"),
       dataKey: "silk_image",
       width: "50px",
       className: "border-end-0",
@@ -294,7 +298,7 @@ export const Racecard = () => {
       },
     },
     {
-      head: t("runner"),
+      head: t("racecard.runner"),
       renderHead: (headItem) => {
         return <div className="runner">{headItem.head}</div>;
       },
@@ -305,7 +309,7 @@ export const Racecard = () => {
       },
     },
     {
-      head: t("weights"),
+      head: t("racecard.weights"),
       dataKey: "weights",
       width: "70px",
       render: (item) => {
@@ -314,18 +318,18 @@ export const Racecard = () => {
     },
     ...(showPriceHistory
       ? [
-        {
-          head: t("price_history"),
-          dataKey: "price_history",
-          width: "128px",
-          render: (item) => {
-            return <PriceHistory item={item} />;
+          {
+            head: t("racecard.price_history"),
+            dataKey: "price_history",
+            width: "128px",
+            render: (item) => {
+              return <PriceHistory item={item} />;
+            },
           },
-        },
-      ]
+        ]
       : []),
     {
-      head: t("price"),
+      head: t("racecard.price"),
       dataKey: "odds_decimal",
       width: "70px",
       render: (item) => {
@@ -342,30 +346,30 @@ export const Racecard = () => {
     },
     ...(!disablePrice
       ? [
-        {
-          head: t("sp"),
-          dataKey: "sp",
-          width: "70px",
-          render: (item) => {
-            return (
-              <div
-                className={classNames("price", {
-                  ["pe-none"]: disablePrice,
-                })}
-              >
-                <MatchOdds
-                  disable={disablePrice}
-                  selection={{
-                    ...item,
-                    odds_decimal: t("sp"),
-                    odds_fractional: t("sp"),
-                  }}
-                />
-              </div>
-            );
+          {
+            head: t("racecard.sp"),
+            dataKey: "sp",
+            width: "70px",
+            render: (item) => {
+              return (
+                <div
+                  className={classNames("price", {
+                    ["pe-none"]: disablePrice,
+                  })}
+                >
+                  <MatchOdds
+                    disable={disablePrice}
+                    selection={{
+                      ...item,
+                      odds_decimal: t("racecard.sp"),
+                      odds_fractional: t("racecard.sp"),
+                    }}
+                  />
+                </div>
+              );
+            },
           },
-        },
-      ]
+        ]
       : []),
   ];
 
@@ -386,7 +390,7 @@ export const Racecard = () => {
     <>
       <TabsSelect
         data={predictionsTabs}
-        placeholder={t("common:select_bet")}
+        placeholder={t("common.select_bet")}
         onChange={setSelectedTab}
         variant="fullWidth"
       />
@@ -398,6 +402,6 @@ export const Racecard = () => {
       )}
     </>
   ) : (
-    <EmptyState message={t("no_more_races_message", { day: day })} />
+    <EmptyState message={t("racecard.no_more_races_message", { day: day })} />
   );
 };

@@ -15,10 +15,9 @@ import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
 import "../SettledPredictions/SettledPredictions.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const SettledPredictions = () => {
-  const { t } = useClientTranslation("common")
+  const t = useTranslations("common");
   const skeletonHeader = new Array(4).fill(0);
   const [hasMore, setHasMore] = useState(false);
   const [activeBet, setActiveBet] = useState(-1);
@@ -137,30 +136,30 @@ const SettledPredictions = () => {
         >
           {isLoading
             ? skeletonHeader.map((item, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Skeleton
-                    variant="text"
-                    sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                    className="mt-2"
-                    animation="wave"
-                    width={250}
-                    key={index}
-                  />
-                  {skeletonHeader.map((item, index) => (
+                return (
+                  <React.Fragment key={index}>
                     <Skeleton
                       variant="text"
-                      sx={{ fontSize: "1.2rem" }}
-                      className="my-2"
+                      sx={{ fontSize: "2rem", bgcolor: "#212536" }}
+                      className="mt-2"
                       animation="wave"
+                      width={250}
                       key={index}
                     />
-                  ))}
-                </React.Fragment>
-              );
-            })
+                    {skeletonHeader.map((item, index) => (
+                      <Skeleton
+                        variant="text"
+                        sx={{ fontSize: "1.2rem" }}
+                        className="my-2"
+                        animation="wave"
+                        key={index}
+                      />
+                    ))}
+                  </React.Fragment>
+                );
+              })
             : closedPredictions?.length > 0
-              ? closedPredictions.map((row, index) => {
+            ? closedPredictions.map((row, index) => {
                 return (
                   <React.Fragment key={index}>
                     <p className="predictionDates">{getDate(row?.date)}</p>
@@ -283,7 +282,7 @@ const SettledPredictions = () => {
                                                 </div>
                                               </div>
                                               {value.win_lose_status ===
-                                                "loss" ? (
+                                              "loss" ? (
                                                 <div className="loss cancelButton ">
                                                   {t("loss")}
                                                 </div>
@@ -321,7 +320,7 @@ const SettledPredictions = () => {
                   </React.Fragment>
                 );
               })
-              : ""}
+            : ""}
           {isLoading ? (
             <div className="spinnerStyle">
               <Spiner />

@@ -18,10 +18,9 @@ import "../Login/Login.css";
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const Login = ({ setShowConfirm }) => {
-  const { t } = useClientTranslation(["login", "common"]);
+  const t = useTranslations();
   const user = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [newUser, setNewUser] = useState();
@@ -88,14 +87,14 @@ const Login = ({ setShowConfirm }) => {
             setNewUser(newUser);
             dispatch(setUser(newUser));
           } else if (resolve?.sign_up_platform === "google") {
-            alertToast({ message: t("google_sign_in") });
+            alertToast({ message: t("login.google_sign_in") });
           } else if (resolve?.sign_up_platform === "facebook") {
-            alertToast({ message: t("facebook_sign_in") });
+            alertToast({ message: t("login.facebook_sign_in") });
           } else if (resolve?.sign_up_platform === "apple") {
-            alertToast({ message: t("apple_sign_in") });
+            alertToast({ message: t("login.apple_sign_in") });
           } else {
             alertToast({
-              message: t("wrong_platform"),
+              message: t("login.wrong_platform"),
             });
           }
         } else {

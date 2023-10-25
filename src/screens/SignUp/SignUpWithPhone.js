@@ -10,10 +10,9 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { setLoggedUser } from "@/store/actions";
 import "./SignUp.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 function SignUpWithPhone() {
-  const { t } = useClientTranslation(["sign_up_with_phone", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -96,13 +95,15 @@ function SignUpWithPhone() {
     <div className="backgroundImage">
       {selectedCountry ? (
         <div className="loginForm GridStyleForPhone">
-          <p className="logInTitle">{t("add_mobile_number")}</p>
+          <p className="logInTitle">
+            {t("sign_up_with_phone.add_mobile_number")}
+          </p>
           <form
             onSubmit={validateAndSubmitForm}
             className="d-grid justify-content-center GridStyleForPhone"
           >
             <div className="emailValidation d-grid GridStyleForPhone">
-              <label className="nameLabels">{t("common:mobile_number")}</label>
+              <label className="nameLabels">{t("common.mobile_number")}</label>
               <div className="collectionOfInput collectionOfInput2">
                 <PhonePrefix
                   selectedCountry={selectedCountry}
@@ -112,11 +113,13 @@ function SignUpWithPhone() {
                   id="call"
                   type="text"
                   className="login-buttons inputForPhone"
-                  placeholder={t("common:mobile_number")}
+                  placeholder={t("common.mobile_number")}
                   onChange={handleChange}
                 />
               </div>
-              <p className="codeSent mt-5 mb-5 codeSend2">{t("verification_code_message")}</p>
+              <p className="codeSent mt-5 mb-5 codeSend2">
+                {t("sign_up_with_phone.verification_code_message")}
+              </p>
             </div>
             <div className="authButtonsContainer">
               <Button
@@ -125,7 +128,7 @@ function SignUpWithPhone() {
                   isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
                 }
                 style={{ marginTop: "75px" }}
-                text={loader ? <Loader /> : t("send_code")}
+                text={loader ? <Loader /> : t("sign_up_with_phone.send_code")}
               />
             </div>
           </form>

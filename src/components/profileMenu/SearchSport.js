@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "@/store/actions";
 import { ProfileCard } from "./Styled";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { SearchIcon } from "@/utils/icons";
 
 export const Search = ({ handleSearch }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
   const sidebaLeft = useSelector((state) => state.sidebarLeft);
 

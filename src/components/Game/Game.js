@@ -18,8 +18,7 @@ import { apiUrl } from "../../utils/constants";
 import { LikeIcon } from "../../utils/icons";
 import { CasinoPlayNow } from "../modal/CasinoPlayNow";
 import { addToFavouriteGames, removeFromFavouriteGames } from "@/store/actions";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const trendingNumbers = {
   0: numberZeroTrending,
   1: numberOneTrending,
@@ -57,7 +56,7 @@ const TrendingNumber = ({ number }) => {
 };
 
 export const Game = ({ game, className, number, height, width }) => {
-  const { t } = useClientTranslation(["casino", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.loggedUser);
   const favoriteGames = useSelector((state) => state.favouriteGames);
@@ -74,7 +73,7 @@ export const Game = ({ game, className, number, height, width }) => {
           gameId: game.id,
         })
         .then(() => {
-          SuccesToast({ message: t("game_added_to_favorites") });
+          SuccesToast({ message: t("casino.game_added_to_favorites") });
         });
     } else {
       dispatch(removeFromFavouriteGames(game));
@@ -84,7 +83,7 @@ export const Game = ({ game, className, number, height, width }) => {
           gameId: game.id,
         })
         .then(() => {
-          SuccesToast({ message: t("game_removed_from_favorites") });
+          SuccesToast({ message: t("casino.game_removed_from_favorites") });
         });
     }
   };
@@ -123,7 +122,7 @@ export const Game = ({ game, className, number, height, width }) => {
             height={height || 190}
           />
           <button className="btnPrimary btnPlayNow" onClick={openGame}>
-            {t("common:play_now")}
+            {t("common.play_now")}
           </button>
         </div>
       </div>

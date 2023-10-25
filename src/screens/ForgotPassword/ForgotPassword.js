@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
 import { useSearchParams } from "next/navigation";
@@ -11,7 +11,7 @@ import "../ForgotPassword/ForgotPassword.css";
 import "../../components/passwordFields/PasswordFields.css";
 
 const ForgotPassword = () => {
-  const { t } = useClientTranslation("forgot_password");
+  const t = useTranslations("forgot_password");
   const { onLoginSuccess, onLoginError } = useLoginCallbacks();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);

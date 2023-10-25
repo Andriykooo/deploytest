@@ -3,10 +3,9 @@
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import moment from "moment";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const RacecardTable = ({ headerData, data }) => {
-  const { t } = useClientTranslation("racecard");
+  const t = useTranslations("racecard");
   const gridColumns = headerData.map((item) => item.width).join(" ");
   const currentTime = useSelector((state) => state.currentTime);
   const resultedEvents = useSelector((state) => state.resultedEvents);
@@ -15,20 +14,20 @@ export const RacecardTable = ({ headerData, data }) => {
   const nonRunners = [];
   const selections = isResulted
     ? data.selections.sort((a, b) => {
-      if (!a.finish_num && b.finish_num) {
-        return 1;
-      }
+        if (!a.finish_num && b.finish_num) {
+          return 1;
+        }
 
-      if (a.finish_num && !b.finish_num) {
-        return -1;
-      }
+        if (a.finish_num && !b.finish_num) {
+          return -1;
+        }
 
-      if (!a.finish_num && !b.finish_num) {
-        return 0;
-      }
+        if (!a.finish_num && !b.finish_num) {
+          return 0;
+        }
 
-      return a.finish_num - b.finish_num;
-    })
+        return a.finish_num - b.finish_num;
+      })
     : data.selections;
 
   selections?.forEach((selection) => {
@@ -57,7 +56,6 @@ export const RacecardTable = ({ headerData, data }) => {
       return headItem.render(selection);
     }
     return selection[headItem.dataKey];
-
   };
 
   return data ? (

@@ -18,7 +18,7 @@
     "release_free_bets": "Lösen Sie Ihre Freiwetten ein",
     "qualifying_bets_instruction": "Platzieren Sie am ersten Tag mindestens 3 x £20 qualifizierende Wetten.",
     "use_free_bets": "Verwenden Sie Ihre Freiwetten",
-    "rewards_welcome": "{{company}} BELONNUNGSKLUB & WILLKOMMENS-BONUS",
+    "rewards_welcome": "{company} BELONNUNGSKLUB & WILLKOMMENS-BONUS",
     "wrong_platform": "Falsche Plattform! Bitte melden Sie sich mit einer anderen an.",
     "free_bets_available_after": "Ihre Freiwetten sind 48 Stunden nach Ihrer letzten qualifizierenden Wette verfügbar.",
     "google_sign_in": "Bitte melden Sie sich mit Google an",
@@ -28,7 +28,7 @@
     "no_email_facebook_register": "Keine E-Mail mit diesem Facebook-Konto verknüpft. Bitte registrieren Sie sich mit Ihrer E-Mail"
   },
   "bet_history": {
-    "no_bets_message": "Es gibt keine {{text}} Wetten!"
+    "no_bets_message": "Es gibt keine {text} Wetten!"
   },
   "bonuses_promotions": {
     "bonuses_and_promotions": "Boni und Aktionen",
@@ -132,6 +132,7 @@
     "enter_current_password": "Aktuelles Passwort eingeben",
     "max_password_length_256_chars": "Die maximale Passwortlänge beträgt 256 Zeichen",
     "page_content_not_found": "Seiteninhalt nicht gefunden",
+    "live_chat": "Live-Chat",
     "sport_not_found": "Wir konnten den Sport nicht finden.",
     "send_message": "Nachricht senden...",
     "less": "Weniger",
@@ -153,7 +154,7 @@
     "my_bets": "MEINE WETTEN",
     "remove_all_bets": "Alle Wetten entfernen",
     "new_trader_offer": "Neues Händlerangebot",
-    "offer_will_expire_in": "Dieses Angebot läuft in {{ timer }}s ab",
+    "offer_will_expire_in": "Dieses Angebot läuft in { timer }s ab",
     "bet_receipt": "WETTBELEGE",
     "bet_slip_approved": "Wettschein wurde genehmigt",
     "bets_placed_success": "Ihre Wetten wurden erfolgreich platziert",
@@ -168,7 +169,7 @@
     "bet_user_rejected_message": "Sie haben das Händlerangebot abgelehnt",
     "bet_rejected_message": "Ihre Wette wurde vom Händler abgelehnt",
     "login_to_place_bet": "ANMELDEN, UM EINE WETTE ABZUGEBEN",
-    "insufficient_balance_message": "Sie benötigen {{ balance }} mehr, um diese Wette abzugeben",
+    "insufficient_balance_message": "Sie benötigen { balance } mehr, um diese Wette abzugeben",
     "please_enter_stake": "BITTE EINSATZ EINGEBEN",
     "accept_price_changes": "PREISÄNDERUNGEN AKZEPTIEREN",
     "accept_offer": "Angebot Annehmen",
@@ -193,7 +194,7 @@
     "sabres": "Sabres",
     "horricane": "Horricane",
     "withdraw": "Auszahlen",
-    "account_excluded_message": "Ihr Profil ist ausgeschlossen bis {{ date }}",
+    "account_excluded_message": "Ihr Profil ist ausgeschlossen bis { date }",
     "account_excluded": "Konto ausgeschlossen",
     "account_suspended": "Ihr Account wurde gesperrt",
     "account_closed": "Ihr Konto ist geschlossen",
@@ -256,7 +257,7 @@
     "thank_you_message_swifty_team": "Vielen Dank für Ihre Nachricht. Jemand aus dem Swifty-Team wird versuchen, innerhalb von 72 Stunden zu antworten."
   },
   "customer_service_notice": {
-    "thank_you_for_visiting": "Vielen Dank, dass Sie {{company}} besucht haben.",
+    "thank_you_for_visiting": "Vielen Dank, dass Sie {company} besucht haben.",
     "site_blocks_access_from_certain_territories": "Diese Website blockiert den Zugang von Benutzern aus bestimmten Gebieten.",
     "restricted_country_access_notice": "Unsere Überwachungssoftware hat erkannt, dass Ihre IP-Adresse aus einem eingeschränkten Land stammt, sodass Sie keinen Zugriff auf die Website haben. Wenn dies nicht korrekt ist oder Sie weitere Informationen benötigen, kontaktieren Sie uns bitte.",
     "apology_for_inconvenience": "Wir entschuldigen uns für eventuelle Unannehmlichkeiten, die dadurch entstanden sein könnten."
@@ -403,7 +404,7 @@
     "weights": "Gewichte",
     "price_history": "Preishistorie",
     "price": "Preis",
-    "no_more_races_message": "Keine weiteren Rennen für {{day}}!",
+    "no_more_races_message": "Keine weiteren Rennen für {day}!",
     "race_result": "Rennergebnis",
     "race_in_progress": "Rennen in Arbeit",
     "non_runner": "Nichtstarter"
@@ -419,8 +420,8 @@
     "more_information": "Mehr Informationen",
     "deposit_limit_desc": "Setzen Sie Einzahlungslimits, um Ihre Ausgaben zu kontrollieren",
     "gaming_reminders_desc": "Kontrollieren Sie Ihre Spielzeit mit Erinnerungen",
-    "suspend_account_desc": "Machen Sie eine Pause von {{company}}",
-    "self_exclude_desc": "Schließen Sie sich von {{company}} aus",
+    "suspend_account_desc": "Machen Sie eine Pause von {company}",
+    "self_exclude_desc": "Schließen Sie sich von {company} aus",
     "more_information_desc": "Lesen Sie über sichereres Spielen"
   },
   "safer_gambling_information": {
@@ -468,14 +469,14 @@
   },
   "sports": {
     "competitions": "Wettbewerbe",
-    "select_market": "Markt auswählen",
+    "select_mtimearket": "Markt auswählen",
     "no_games_available": "Derzeit sind keine Spiele verfügbar!",
     "time": "Zeit",
     "event": "Ereignis",
     "bell": "Glocke",
     "competetion": "Wettbewerb",
-    "notifications_for_match_are_on": "Benachrichtigungen für {{matchName}} sind aktiviert!",
-    "notifications_for_match_are_off": "Benachrichtigungen für {{matchName}} sind deaktiviert!",
+    "notifications_for_match_are_on": "Benachrichtigungen für {matchName} sind aktiviert!",
+    "notifications_for_match_are_off": "Benachrichtigungen für {matchName} sind deaktiviert!",
     "view_racecard": "Rennkarte anzeigen",
     "select_league": "Liga auswählen",
     "all_sports": "Alle Sportarten"
@@ -485,7 +486,7 @@
     "account_has_been_suspended": "Ihr Konto wurde für gesperrt",
     "day": "Tag",
     "days": "Tage",
-    "break_options_message": "Wenn Sie eine Pause von {{company}} machen möchten, bieten wir die folgenden Optionen an.",
+    "break_options_message": "Wenn Sie eine Pause von {company} machen möchten, bieten wir die folgenden Optionen an.",
     "timeout_logout_message": "Nachdem eine Auszeit angewendet wurde, werden Sie abgemeldet und können sich während der gewählten Dauer nicht anmelden."
   },
   "terms": {

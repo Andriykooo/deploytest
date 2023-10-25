@@ -10,12 +10,12 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { getUserApi } from "@/utils/apiQueries";
 
 const ConfirmDepositLimitModal = ({ data }) => {
-  const { t } = useClientTranslation(["deposit", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.loggedUser);
@@ -44,11 +44,11 @@ const ConfirmDepositLimitModal = ({ data }) => {
       .then(() => {
         if (action === "accept") {
           SuccesToast({
-            message: t("deposit_limit_accepted"),
+            message: t("deposit.deposit_limit_accepted"),
           });
         } else if (action === "decline") {
           SuccesToast({
-            message: t("deposit_limit_declined"),
+            message: t("deposit.deposit_limit_declined"),
           });
         }
 
@@ -100,7 +100,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
                   className="confirmFirstButton"
                   text={
                     data.old_value.toLowerCase() === "no limit"
-                      ? t("common:no_limit")
+                      ? t("common.no_limit")
                       : `${formatNumberWithDecimal(oldValue)} ${
                           user?.user_data?.currency?.abbreviation
                         }`
@@ -116,7 +116,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
                   className="confirmSecondButton"
                   text={
                     data.new_value.toLowerCase() === "no limit"
-                      ? t("common:no_limit")
+                      ? t("common.no_limit")
                       : `${formatNumberWithDecimal(newValue)} ${
                           user?.user_data?.currency?.abbreviation
                         }`
@@ -133,7 +133,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
                   isLoadingDecline && selectedActionId === data.id ? (
                     <Loader />
                   ) : (
-                    t("decline")
+                    t("deposit.decline")
                   )
                 }
               />
@@ -145,7 +145,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
                   isLoadingAccept && selectedActionId === data.id ? (
                     <Loader />
                   ) : (
-                    t("common:accept")
+                    t("common.accept")
                   )
                 }
               />

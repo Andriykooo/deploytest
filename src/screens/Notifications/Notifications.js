@@ -10,10 +10,9 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../Notifications/Notifications.css";
 import "../Withdraw/Withdraw.css";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const Notifications = () => {
-  const { t } = useClientTranslation(["notifications","common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
 
   const [pushNotificationSettings, setPushNotificationSettings] = useState([]);
@@ -68,24 +67,29 @@ const Notifications = () => {
     setSettingsApi(body, dispatch, {
       onSuccess: (result) => {
         if (Object.keys(result).length < 1) {
-          SuccesToast(t("notification_turned_off_success"));
+          SuccesToast(t("notifications.notification_turned_off_success"));
         }
       },
       onError: (error) =>
         alertToast(
-          error?.message || t("settings_save_error_message")
-        )
-        });
+          error?.message || t("notifications.settings_save_error_message")
+        ),
+    });
   };
   return (
     <div className="depositLimit">
       <div className="depositBody">
-        <PreferencesTitle title={t("common:notifications")} marginBottomSize="lg" />
+        <PreferencesTitle
+          title={t("common.notifications")}
+          marginBottomSize="lg"
+        />
         <div className="row depositLimitContainer">
-          <span className="notificationsSub ">{t("push_notifications")}</span>
+          <span className="notificationsSub ">
+            {t("notifications.push_notifications")}
+          </span>
           {pushNotificationSettings.map((item, i) => (
             <ToggleLabel
-              notification={{...item, text: t(item.text)}}
+              notification={{ ...item, text: t(`notifications.${item.text}`) }}
               key={item.key}
               type="push"
               className="notificationTrack"
@@ -98,11 +102,13 @@ const Notifications = () => {
         </div>
         <div className="divider" />
         <div className="row depositLimitContainer">
-          <span className="notificationsSub ">{t("email_notifications")}</span>
+          <span className="notificationsSub ">
+            {t("notifications.email_notifications")}
+          </span>
 
           {emailNotificationSettings.map((item, i) => (
             <ToggleLabel
-              notification={{...item, text: t(item.text)}}
+              notification={{ ...item, text: t(`notifications.${item.text}`) }}
               key={item.key}
               type="email"
               value={item.status}

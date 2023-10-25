@@ -4,10 +4,9 @@ import { images } from "@/utils/imagesConstant";
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { CloseIcon } from "../../utils/icons";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
-  const { t } = useClientTranslation("common")
+  const t = useTranslations("common");
   const autoselectRef = useRef(null);
 
   const [isOpened, setIsOpened] = useState(false);
@@ -73,7 +72,12 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
           {placeholder !== t("region") && (
             <div className="competitions-select_item">
               <label className="search_wrapper">
-                <Image alt={t("sports")} width={20} height={20} src={images.search} />
+                <Image
+                  alt={t("sports")}
+                  width={20}
+                  height={20}
+                  src={images.search}
+                />
                 <input
                   type={"text"}
                   className="competitions_search"
@@ -90,7 +94,11 @@ export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
               return (
                 <span
                   key={item.id}
-                  className={selectedItem?.id === item?.id ? "competitions-select_item-active" : "competitions-select_item"}
+                  className={
+                    selectedItem?.id === item?.id
+                      ? "competitions-select_item-active"
+                      : "competitions-select_item"
+                  }
                   onClick={() => {
                     handleSelect(item);
                   }}

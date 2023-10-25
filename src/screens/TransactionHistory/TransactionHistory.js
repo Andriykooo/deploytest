@@ -21,10 +21,9 @@ import { Button } from "../../components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const TransactionHistory = () => {
-  const { t } = useClientTranslation(["transaction_history", "common"]);
+  const t = useTranslations();
   const skeletonHeader = new Array(4).fill(0);
   const isTablet = useSelector((state) => state.isTablet);
 
@@ -52,7 +51,9 @@ const TransactionHistory = () => {
       .catch((error) => {
         setIsLoading(false);
         setShowSpinner(false);
-        alertToast({ message: error || t("something_went_wrong") });
+        alertToast({
+          message: error || t("transaction_history.something_went_wrong"),
+        });
       });
   };
 
@@ -75,13 +76,13 @@ const TransactionHistory = () => {
 
   const getDate = (date) => {
     const weekday = new Array(7);
-    weekday[0] = t("common:sunday");
-    weekday[1] = t("common:monday");
-    weekday[2] = t("common:tuesday");
-    weekday[3] = t("common:wednesday");
-    weekday[4] = t("common:thursday");
-    weekday[5] = t("common:friday");
-    weekday[6] = t("common:saturday");
+    weekday[0] = t("common.sunday");
+    weekday[1] = t("common.monday");
+    weekday[2] = t("common.tuesday");
+    weekday[3] = t("common.wednesday");
+    weekday[4] = t("common.thursday");
+    weekday[5] = t("common.friday");
+    weekday[6] = t("common.saturday");
     const currDate = new Date(date);
     let dateNow = currDate.getDate();
     dateNow > 30 ? (dateNow = dateNow + "st") : (dateNow = dateNow + "th");
@@ -108,7 +109,9 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `${t("bet_cancelled")} (#${item.id})`;
+        transactionTitle = `${t("transaction_history.bet_cancelled")} (#${
+          item.id
+        })`;
         break;
       case "bet_place":
         icon = (
@@ -119,7 +122,9 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `${t("bet_placed")} (#${item.id})`;
+        transactionTitle = `${t("transaction_history.bet_placed")} (#${
+          item.id
+        })`;
         break;
       case "bet_pushed":
         icon = (
@@ -130,7 +135,9 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = `${t("bet_pushed")} (#${item.id})`;
+        transactionTitle = `${t("transaction_history.bet_pushed")} (#${
+          item.id
+        })`;
         break;
       case "deposit":
         icon = (
@@ -141,7 +148,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = t("common:deposit");
+        transactionTitle = t("common.deposit");
         break;
       case "withdrawal":
         icon = (
@@ -152,7 +159,7 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = t("withdrawal");
+        transactionTitle = t("transaction_history.withdrawal");
         break;
       case "user_balance_adjustment":
         icon = (
@@ -163,15 +170,15 @@ const TransactionHistory = () => {
             height="40px"
           />
         );
-        transactionTitle = t("balance_adjustment");
+        transactionTitle = t("transaction_history.balance_adjustment");
         break;
       case "casino_bet":
         icon = <CasinoBet />;
-        transactionTitle = t("casino");
+        transactionTitle = t("transaction_history.casino");
         break;
       case "casino_result":
         icon = <CasinoResult />;
-        transactionTitle = t("casino");
+        transactionTitle = t("transaction_history.casino");
         break;
       default:
         // Place Bet
@@ -194,7 +201,9 @@ const TransactionHistory = () => {
               height="40px"
             />
           );
-          transactionTitle = `${t("bet_won")} (#${item.id})`;
+          transactionTitle = `${t("transaction_history.bet_won")} (#${
+            item.id
+          })`;
         }
 
         break;
@@ -231,7 +240,7 @@ const TransactionHistory = () => {
   return (
     <div className="depositLimit transactionHistory" id="scrollable">
       <div className="">
-        <PreferencesTitle title={t("common:transaction_history")} />
+        <PreferencesTitle title={t("common.transaction_history")} />
         <div className="promotion-title">
           {initialData.map((transaction) => {
             const isSelected = selected?.date === transaction.date;
@@ -270,11 +279,13 @@ const TransactionHistory = () => {
             <InfiniteScroll
               dataLength={transactions?.length}
               next={getTransactions}
-              loader={showSpinner && (
-                <span className="spinnerStyle">
-                  <Spiner sell />
-                </span>
-              )}
+              loader={
+                showSpinner && (
+                  <span className="spinnerStyle">
+                    <Spiner sell />
+                  </span>
+                )
+              }
               hasMore={hasMore && !isLoading}
               scrollableTarget="scrollable"
               className="max-container"
@@ -341,7 +352,7 @@ const TransactionHistory = () => {
                                         "title-centered":
                                           !item.row2 &&
                                           item.transaction_status ===
-                                          TRANSACTION_HISTORY_STATUSES.successful,
+                                            TRANSACTION_HISTORY_STATUSES.successful,
                                       }
                                     )}
                                   >
@@ -360,7 +371,7 @@ const TransactionHistory = () => {
                                         </span>
                                       ) : (
                                         item.transaction_status !==
-                                        TRANSACTION_HISTORY_STATUSES.successful && (
+                                          TRANSACTION_HISTORY_STATUSES.successful && (
                                           <div
                                             className={classNames(
                                               "transaction-status",

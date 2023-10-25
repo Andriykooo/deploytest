@@ -9,10 +9,9 @@ import { CheckIcon } from "../../utils/icons";
 import { redirect } from "next/navigation";
 import { setForgotPassword } from "@/store/actions";
 import "../ForgotPassword/Email.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const Email = () => {
-  const { t } = useClientTranslation("email_sent");
+  const t = useTranslations("email_sent");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const forgotPassword = useSelector((state) => state.forgotPassword);

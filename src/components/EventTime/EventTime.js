@@ -1,4 +1,4 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
 import moment from "moment";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 
 export const EventTime = ({ data }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const currentTime = useSelector((state) => state.currentTime);
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const isResulted = resultedEvents[data.event_id] || data.resulted;

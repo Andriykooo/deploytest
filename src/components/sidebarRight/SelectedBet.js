@@ -11,13 +11,13 @@ import { XIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Checkbox } from "@mui/material";
 import { BetslipOdds } from "./BetslipOdds/BetslipOdds";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 const prohibitedCharacters = ["e", "+", " "];
 
 export const SelectedBet = ({ row, disabled }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
   const userSelectedBets = useSelector((state) => state.selectedBets);
   const [input, setInput] = useState(row.new_stake || row.stake);

@@ -11,12 +11,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoggedUser } from "@/store/actions";
 import { useCallback } from "react";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import moment from "moment";
 
 const ContactsInfo = () => {
-  const { t } = useClientTranslation("contact_us");
+  const t = useTranslations("contact_us");
   const settings = useSelector((state) => state.settings);
 
   return (
@@ -34,7 +34,7 @@ const ContactsInfo = () => {
 };
 
 export function useLoginCallbacks() {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useSearchParams();
@@ -87,7 +87,7 @@ export function useLoginCallbacks() {
       if (data?.code === 1104) {
         dispatch(
           setAlertModal({
-            title: t("account_suspended"),
+            code: data?.code,
             message: <ContactsInfo />,
           })
         );
@@ -96,7 +96,7 @@ export function useLoginCallbacks() {
       if (data?.code === 1063) {
         dispatch(
           setAlertModal({
-            title: t("account_suspended"),
+            code: data?.code,
             message: <ContactsInfo />,
           })
         );
@@ -105,7 +105,7 @@ export function useLoginCallbacks() {
       if (data?.code === 2280) {
         dispatch(
           setAlertModal({
-            title: t("account_closed"),
+            code: data?.code,
             message: <ContactsInfo />,
           })
         );
@@ -114,7 +114,7 @@ export function useLoginCallbacks() {
       if (data?.code === 1062) {
         dispatch(
           setAlertModal({
-            title: t("account_excluded"),
+            code: data?.code,
             message: t("account_excluded_message", {
               date: moment(data.extra_data["{date}"]).format("DD MMMM YYYY"),
             }),

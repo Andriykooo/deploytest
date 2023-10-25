@@ -9,12 +9,12 @@ import { images } from "../../utils/imagesConstant";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "../OddsFormat/OddsFormat.css";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 const OddsFormat = () => {
-  const { t } = useClientTranslation(["odds_format", "common"]);
+  const t = useTranslations();
   const loggedUser = useSelector((state) => state.loggedUser);
   const isTablet = useSelector((state) => state.isTablet);
   const [activeOdd, setActiveOdd] = useState(
@@ -35,7 +35,7 @@ const OddsFormat = () => {
           Object.assign(newUser, loggedUser);
           newUser.user_data.settings.odds_format = key;
           dispatch(setLoggedUser(newUser));
-          SuccesToast({ message: t("odds_format_updated") });
+          SuccesToast({ message: t("odds_format.odds_format_updated") });
         }
       },
     });
@@ -47,7 +47,7 @@ const OddsFormat = () => {
         "max-width-container": !isTablet,
       })}
     >
-      <PreferencesTitle title={t("common:odds_format")} marginBottomSize="lg" />
+      <PreferencesTitle title={t("common.odds_format")} marginBottomSize="lg" />
       {oddsFormatTypes.map((value, index) => {
         return (
           <div
@@ -59,7 +59,7 @@ const OddsFormat = () => {
             })}
           >
             <span className="">
-              <p className="decimalText">{t(value.format)}</p>
+              <p className="decimalText">{t(`odds_format.${value.format}`)}</p>
             </span>
             {activeOdd === value.id ? (
               <Image

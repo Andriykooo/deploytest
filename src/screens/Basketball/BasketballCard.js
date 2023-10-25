@@ -6,8 +6,7 @@ import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const BasketballCard = ({
   match,
   moreMarkets,
@@ -15,7 +14,7 @@ const BasketballCard = ({
   selectionTypes,
   inPlay,
 }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   let matchSelectionsData = match?.selections;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();

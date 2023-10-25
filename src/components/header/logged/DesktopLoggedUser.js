@@ -1,11 +1,11 @@
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { setSidebarRight } from "@/store/actions";
 
 export const DesktopLoggedUser = () => {
-  const { t } = useClientTranslation("header");
+  const t = useTranslations("header");
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -27,25 +27,23 @@ export const DesktopLoggedUser = () => {
                 router.push("/profile/profile");
               }}
             />
-            {(!isMobile || betslipResponse?.singles?.length > 0) && (
-              <div
-                className="slip-icon"
-                onClick={() => {
-                  dispatch(
-                    setSidebarRight({
-                      isActive: !sidebarRight.isActive,
-                    })
-                  );
-                }}
-              >
-                <SlipIcon />
-                {betslipResponse?.singles?.length > 0 && (
-                  <span className="total-slip-bets">
-                    {betslipResponse?.singles?.length}
-                  </span>
-                )}
-              </div>
-            )}
+            <div
+              className="slip-icon"
+              onClick={() => {
+                dispatch(
+                  setSidebarRight({
+                    isActive: !sidebarRight.isActive,
+                  })
+                );
+              }}
+            >
+              <SlipIcon />
+              {betslipResponse?.singles?.length > 0 && (
+                <span className="total-slip-bets">
+                  {betslipResponse?.singles?.length}
+                </span>
+              )}
+            </div>
           </div>
           <div className="d-flex flex-column justify-content-between">
             <p className="signText balanceText">{t("balance")}</p>
@@ -53,9 +51,9 @@ export const DesktopLoggedUser = () => {
               <p className="signText balanceAmount">
                 {userBalance
                   ? parseFloat(userBalance)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "0.00"}
               </p>
               <p className="signText balanceAmount ms-2">

@@ -1,6 +1,4 @@
-import Cookies from "js-cookie";
 import * as constants from "./actionTypes";
-import { cookieName } from "@/app/i18n/settings";
 
 export const initialState = {
   user: null,
@@ -9,7 +7,6 @@ export const initialState = {
   swifty_id: null,
   signup_platform: null,
   user_settings: null,
-  language: null,
   sports: [],
   activeSport: null,
   competitionsData: [],
@@ -18,6 +15,7 @@ export const initialState = {
   tooltip: null,
   priceIsChanged: false,
   logos: null,
+  language: null,
   betslipResponse: {
     singles: [],
     combinations: [],
@@ -109,15 +107,9 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.SET_LOGOUT:
       return { ...appstate, loggedUser: action.payload };
     case constants.ON_BOARDING: {
-      const cookieLang = Cookies.get(cookieName);
-      const selectedLanguage = action.payload.languages?.find(
-        (item) => item.code2.toLowerCase() === cookieLang
-      );
-
       return {
         ...appstate,
         on_boarding: action.payload,
-        language: selectedLanguage || action.payload.languages[0],
       };
     }
     case constants.SWIFTY_ID:

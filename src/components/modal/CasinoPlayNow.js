@@ -13,10 +13,9 @@ import {
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import { addLocalStorageItem } from "@/utils/localStorage";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const CasinoPlayNow = ({ game, setGame }) => {
-  const { t } = useClientTranslation(["casino", "common"]);
+  const t = useTranslations();
   const router = useRouter();
 
   const loggedUser = useSelector((state) => state.loggedUser);
@@ -120,7 +119,9 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                   <div className="casino-game-info">
                     <div className="casino-game-bet">
                       <div className="casino-game-amount">
-                        <span className="amount-title">{t("minimum_bet")}</span>
+                        <span className="amount-title">
+                          {t("casino.minimum_bet")}
+                        </span>
                         <span className="amount-value">
                           {loggedUser && game?.min_bet
                             ? loggedUser?.user_data?.currency?.symbol
@@ -131,7 +132,9 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                         </span>
                       </div>
                       <div className="casino-game-amount">
-                        <span className="amount-title">{t("maximum_bet")}</span>
+                        <span className="amount-title">
+                          {t("casino.maximum_bet")}
+                        </span>
                         <span className="amount-value">
                           {loggedUser && game?.max_bet
                             ? loggedUser?.user_data?.currency?.symbol
@@ -142,7 +145,9 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                         </span>
                       </div>
                       <div className="casino-game-amount">
-                        <span className="amount-title">{t("return_to_player")}</span>
+                        <span className="amount-title">
+                          {t("casino.return_to_player")}
+                        </span>
                         <span className="amount-value">
                           {game?.return_to_player
                             ? parseFloat(game?.return_to_player) + "%"
@@ -156,7 +161,13 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                         onClick={() => {
                           !loadingType && playGame(game, "LIVE");
                         }}
-                        text={loadingType === "LIVE" ? <Loader /> : t("common:play_now")}
+                        text={
+                          loadingType === "LIVE" ? (
+                            <Loader />
+                          ) : (
+                            t("common.play_now")
+                          )
+                        }
                       />
                       {game?.demo_game_available === "1" && (
                         <Button
@@ -165,7 +176,11 @@ export const CasinoPlayNow = ({ game, setGame }) => {
                             !loadingType && playGame(game, "DEMO");
                           }}
                           text={
-                            loadingType === "DEMO" ? <Loader /> : t("common:try_for_free")
+                            loadingType === "DEMO" ? (
+                              <Loader />
+                            ) : (
+                              t("common.try_for_free")
+                            )
                           }
                         />
                       )}

@@ -9,10 +9,9 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useLogout } from "@/hooks/useLogout";
 import "./SelfExclude.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const SelfExclude = () => {
-  const { t } = useClientTranslation(["self_exclude", "common"]);
+  const t = useTranslations();
   const [excludeData, setExcludeData] = useState({
     show: false,
     data: [],
@@ -54,24 +53,43 @@ const SelfExclude = () => {
     });
   };
 
-  var excludeText = "";
+  let excludeText = "";
   if (excludePeriod === 6) {
-    excludeText = `6 ${t("months")}`;
+    excludeText = `6 ${t("self_exclude.months")}`;
   } else if (excludePeriod === 12) {
-    excludeText = `1 ${t("year")}`;
+    excludeText = `1 ${t("self_exclude.year")}`;
   } else if (excludePeriod === 24) {
-    excludeText = `2 ${t("years")}`;
+    excludeText = `2 ${t("self_exclude.years")}`;
   } else if (excludePeriod === 60) {
-    excludeText = `5 ${t("years")}`;
+    excludeText = `5 ${t("self_exclude.years")}`;
   } else {
-    excludeText = t("common:not_set");
+    excludeText = t("common.not_set");
   }
 
   const handleToggle = () => {
     setExcludeData({
       ...excludeData,
       show: !excludeData.show,
-      data: user_settings?.self_exclude_deactivate_options,
+      data: user_settings?.self_exclude_deactivate_options.map((option) => {
+        let name;
+
+        if (option.value === 6) {
+          name = `6 ${t("self_exclude.months")}`;
+        } else if (option.value === 12) {
+          name = `1 ${t("self_exclude.year")}`;
+        } else if (option.value === 24) {
+          name = `2 ${t("self_exclude.years")}`;
+        } else if (option.value === 60) {
+          name = `5 ${t("self_exclude.years")}`;
+        } else {
+          name = t("common.not_set");
+        }
+
+        return {
+          name,
+          value: option.value,
+        };
+      }),
     });
   };
 
@@ -86,15 +104,17 @@ const SelfExclude = () => {
       <div className="max-width-container">
         <div>
           <PreferencesTitle
-            title={t("common:self_exclude")}
+            title={t("common.self_exclude")}
             backRoute="/profile/safer_gambling"
             marginBottomSize="sm"
             showBackOnDesktop
           />
-          <p className="menuText">{t("self_exclusion_prompt")}</p>
-          <p className="menuText">{t("open_wagers_exclusion_message")}</p>
+          <p className="menuText">{t("self_exclude.self_exclusion_prompt")}</p>
           <p className="menuText">
-            {t("further_advice_links_message")} <br />
+            {t("self_exclude.open_wagers_exclusion_message")}
+          </p>
+          <p className="menuText">
+            {t("self_exclude.further_advice_links_message")} <br />
             GamCare: www.gamcare.org.uk
             <br />
             Gam-Anon: www.gamanon.org.uk
@@ -103,9 +123,12 @@ const SelfExclude = () => {
             <br />
           </p>
           <div className="mb-3 d-flex">
-            <div className="col-6 subText">{t("deactivate_account_for")}</div>
+            <div className="col-6 subText">
+              {t("self_exclude.deactivate_account_for")}
+            </div>
+
             <PreferencesDropdown
-              data={{ ...excludeData, title: t("common:self_exclude") }}
+              data={{ ...excludeData, title: t("common.self_exclude") }}
               selectedItem={excludeValue}
               handleToggle={handleToggle}
               handleSelect={(v) => {
@@ -113,7 +136,7 @@ const SelfExclude = () => {
               }}
               placeholder={excludeText}
               loader={loader}
-              btnTitle={t("common:set_limit")}
+              btnTitle={t("common.set_limit")}
               modalOnMobile
             />
           </div>
@@ -127,7 +150,11 @@ const SelfExclude = () => {
                 : "btn finishBtn disabled setLimitBtn col-8")
             }
             onClick={() => excludePeriod && handleSetLimit()}
-            text={<>{isLoading ? <Loader /> : t("deactivate_account")}</>}
+            text={
+              <>
+                {isLoading ? <Loader /> : t("self_exclude.deactivate_account")}
+              </>
+            }
           />
         </div>
       </div>

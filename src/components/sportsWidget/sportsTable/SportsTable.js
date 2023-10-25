@@ -6,10 +6,9 @@ import { MarketOptions } from "../../matches/MarketOptions";
 import MatchCard from "../../matches/MatchCard";
 import { SportsBanner } from "../SportsBanner";
 import "./SportsTable.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const SportsTable = ({ data, type }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const isTablet = useSelector((state) => state.isTablet);
   const [sports, setSports] = useState(data.sports);
 

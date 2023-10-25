@@ -8,10 +8,9 @@ import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import "../Terms/Terms.css";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const TermsModal = ({ setPageModal }) => {
-  const { t } = useClientTranslation(["terms", "common"]);
+  const t = useTranslations();
   const termsDivRef = useRef(null);
   const [terms, setTerms] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -60,7 +59,7 @@ const TermsModal = ({ setPageModal }) => {
       </nav>
 
       <div className="terms backgroundImageLogged backHeight">
-        <p className="termsTitle">{t("common:terms_and_conditions")}</p>
+        <p className="termsTitle">{t("common.terms_and_conditions")}</p>
         {loader ? (
           <Loader />
         ) : (

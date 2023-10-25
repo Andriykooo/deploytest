@@ -40,7 +40,7 @@ import { MyBets } from "./MyBets";
 import { getUserApi } from "@/utils/apiQueries";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { BetslipDropdown } from "./BetslipDropdown/BetslipDropdown";
 
 const emptyBetSlip = {
@@ -51,7 +51,7 @@ const emptyBetSlip = {
 };
 
 export const SidebarRight = ({ pageLayoutActiveStatus }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const { gamingSocket } = useContext(SocketContext);
   const dispatch = useDispatch();
 
@@ -426,7 +426,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (
       betSlipResponse?.singles?.length > 0 &&
-      betSlipResponse?.total_stakes === 0
+      selectedBets.bets.every((bet) => +bet.stake === 0)
     ) {
       return (
         <div className="place-bet-container">
@@ -476,7 +476,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (
       betSlipResponse?.singles?.length > 0 &&
-      betSlipResponse?.total_stakes > 0
+      selectedBets.bets.some((bet) => +bet.stake !== 0)
     ) {
       return (
         <div className="place-bet-container">

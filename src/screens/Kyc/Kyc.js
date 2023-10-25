@@ -4,26 +4,23 @@ import { useRouter } from "next/navigation";
 import { Button } from "../../components/button/Button";
 import "../Kyc/Kyc.css";
 import "../Login/Login.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 function Kyc() {
-  const { t } = useClientTranslation(["kyc", "common"])
+  const t = useTranslations();
   const router = useRouter();
 
   return (
     <div className="backgroundImage">
       <div className="kycDiv">
-        <p className="logInTitle">{t("verify_identity")}</p>
-        <p className="oneClick d-flex">
-          {t("take_about_2_minutes")}
-        </p>
+        <p className="logInTitle">{t("kyc.verify_identity")}</p>
+        <p className="oneClick d-flex">{t("kyc.take_about_2_minutes")}</p>
         <div className="emailValidation d-grid m-auto">
           <Button
             id="take_photo_of_yor_if"
             type="text"
             className={"login-buttons photo_buttons"}
             placeholder="1 .Take a photo of your ID"
-            text={`1. ${t("take_photo_of_id")}`}
+            text={`1. ${t("kyc.take_photo_of_id")}`}
           />
         </div>
         <div className="emailValidation d-grid">
@@ -33,7 +30,7 @@ function Kyc() {
             className={"login-buttons photo_buttons"}
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
-            text={`2. ${t("take_selfie")}`}
+            text={`2. ${t("kyc.take_selfie")}`}
           />
         </div>
         <div className="emailValidation d-grid">
@@ -41,11 +38,11 @@ function Kyc() {
             id="upload_photo_of_your_Proof_of_Address"
             type="text"
             className={"login-buttons photo_buttons"}
-            text={`3. ${t("upload_proof_of_address_photo")}`}
+            text={`3. ${t("kyc.upload_proof_of_address_photo")}`}
           />
         </div>
         <p className="oneClick d-flex text-start">
-          {t("accept_terms_and_conditions_personal_data_processing")}
+          {t("kyc.accept_terms_and_conditions_personal_data_processing")}
         </p>
         <div className="authButtonsContainer">
           <Button
@@ -53,9 +50,14 @@ function Kyc() {
             onClick={() => {
               router.push("/verification");
             }}
-            text={t("common:continue")}
+            text={t("common.continue")}
           />
-          <p className="small-text text-white text-center" style={{ fontSize: "12px" }}>{t("powered_by_sumsub")}</p>
+          <p
+            className="small-text text-white text-center"
+            style={{ fontSize: "12px" }}
+          >
+            {t("kyc.powered_by_sumsub")}
+          </p>
         </div>
       </div>
     </div>

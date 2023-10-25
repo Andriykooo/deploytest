@@ -923,6 +923,10 @@ matchOdds .in-play-time,
   overflow: hidden;
 }
 
+.racingHeaderNameVenue {
+  text-transform: capitalize;
+}
+
 .racingLink img {
   height: auto;
   width: auto;

@@ -9,11 +9,11 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
 
 export const MatchOdds = ({ selection, disable, children }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const updatedSelections = useSelector((state) => state.updatedSelections);

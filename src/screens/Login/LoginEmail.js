@@ -15,8 +15,7 @@ import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const LoginEmail = ({
   email,
   isValid,
@@ -27,7 +26,7 @@ export const LoginEmail = ({
   setIsLoading,
   setIsValid,
 }) => {
-  const { t } = useClientTranslation(["login", "common"])
+  const t = useTranslations();
   const router = useRouter();
   const promo = useSelector((state) => state.promo);
   const dispatch = useDispatch();
@@ -148,11 +147,11 @@ export const LoginEmail = ({
           setEmail("");
           if (response.status !== "unknown" && !response.email) {
             alertToast({
-              message: t("no_email_facebook_register"),
+              message: t("login.no_email_facebook_register"),
             });
           } else {
             alertToast({
-              message: t("facebook_login_failed"),
+              message: t("login.facebook_login_failed"),
             });
           }
         });
@@ -161,14 +160,14 @@ export const LoginEmail = ({
 
   return (
     <div className="loginForm">
-      <p className="logInTitle">{t("start_with_email")}</p>
+      <p className="logInTitle">{t("login.start_with_email")}</p>
       <form className="d-grid justify-content-center mb-2">
         <div className="emailValidation">
           <input
             id="email"
             type="email"
             className="login-buttons"
-            placeholder={t("enter_email")}
+            placeholder={t("login.enter_email")}
             value={email}
             onChange={(e) => validateEmail(e)}
             autoFocus
@@ -189,11 +188,11 @@ export const LoginEmail = ({
             isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
           }
         >
-          {isLoading ? <Loader /> : t("common:continue")}
+          {isLoading ? <Loader /> : t("common.continue")}
         </button>
       </form>
       <p className="oneClick d-flex justify-content-center">
-        {t("sign_in_one_click")}
+        {t("login.sign_in_one_click")}
       </p>
       <div className="whiteButtonsGroup d-grid mt-2">
         <div className="loginWhiteButtons">
@@ -206,7 +205,9 @@ export const LoginEmail = ({
               callback={responseFacebook}
               className="google-btn"
             />
-            <span className="social-login-title">{t("continue_with_facebook")}</span>
+            <span className="social-login-title">
+              {t("login.continue_with_facebook")}
+            </span>
           </div>
         </div>
         <div className="loginWhiteButtons">
@@ -217,7 +218,9 @@ export const LoginEmail = ({
           />
           <div className="continueBtn white">
             <button onClick={responseGoogle} className="google-btn" />
-            <span className="social-login-title">{t("continue_with_google")}</span>
+            <span className="social-login-title">
+              {t("login.continue_with_google")}
+            </span>
           </div>
         </div>
       </div>

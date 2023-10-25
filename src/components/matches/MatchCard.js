@@ -9,10 +9,9 @@ import { images } from "../../utils/imagesConstant";
 import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
 import moment from "moment";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const MatchCard = ({ match, inPlay }) => {
-  const { t } = useClientTranslation(["sports", "common"]);
+  const t = useTranslations();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -34,11 +33,11 @@ const MatchCard = ({ match, inPlay }) => {
     setShowNotification(!showNotification);
     if (!showNotification) {
       SuccesToast({
-        message: t("notifications_for_match_are_on", { matchName }),
+        message: t("sports.notifications_for_match_are_on", { matchName }),
       });
     } else {
       alertToast({
-        message: t("notifications_for_match_are_off", { matchName }),
+        message: t("sports.notifications_for_match_are_off", { matchName }),
       });
     }
   };
@@ -51,7 +50,7 @@ const MatchCard = ({ match, inPlay }) => {
               {showNotification ? (
                 <Image
                   src={images.notificationOnIcon}
-                  alt={t("bell")}
+                  alt={t("sports.bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -59,7 +58,7 @@ const MatchCard = ({ match, inPlay }) => {
               ) : (
                 <Image
                   src={images.notificationOffIcon}
-                  alt={t("bell")}
+                  alt={t("sports.bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -67,7 +66,9 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
-              {match?.is_live && inPlay ? match?.current_time : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
+              {match?.is_live && inPlay
+                ? match?.current_time
+                : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
           <div className="more-markets-container" onClick={handleClickRow}>
@@ -82,7 +83,7 @@ const MatchCard = ({ match, inPlay }) => {
               {showNotification ? (
                 <Image
                   src={images.notificationOnIcon}
-                  alt={t("bell")}
+                  alt={t("sports.bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -90,7 +91,7 @@ const MatchCard = ({ match, inPlay }) => {
               ) : (
                 <Image
                   src={images.notificationOffIcon}
-                  alt={t("bell")}
+                  alt={t("sports.bell")}
                   className="bellIcon"
                   height={24}
                   width={24}
@@ -98,7 +99,9 @@ const MatchCard = ({ match, inPlay }) => {
               )}
             </div>
             <div className={inPlay ? "in-play-time" : "starting-soon-games"}>
-              {match?.is_live && inPlay ? match?.current_time : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
+              {match?.is_live && inPlay
+                ? match?.current_time
+                : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
         )}
@@ -114,15 +117,14 @@ const MatchCard = ({ match, inPlay }) => {
                 </div>
                 <div className="matchResult matchResultMobile match-vs-teams">
                   {match?.participants[0].score &&
-                    match?.participants[1].score &&
-                    match?.is_live ? (
+                  match?.participants[1].score &&
+                  match?.is_live ? (
                     <>
                       {match?.participants[0].score} :{" "}
                       {match?.participants[1].score}
                     </>
                   ) : (
-                    t("common:vs")
-
+                    t("common.vs")
                   )}
                 </div>
                 <div className="matchTeam matchTeamMobile">
@@ -142,7 +144,7 @@ const MatchCard = ({ match, inPlay }) => {
                     {match?.participants[1].score}
                   </>
                 ) : (
-                  t("common:vs")
+                  t("common.vs")
                 )}
               </div>
               <div className="matchTeam">{match?.participants[1].name}</div>

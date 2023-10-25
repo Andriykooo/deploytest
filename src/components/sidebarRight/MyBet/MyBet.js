@@ -1,4 +1,4 @@
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { Odds } from "@/components/Odds/Odds";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
@@ -39,7 +39,7 @@ const Bet = ({ data }) => {
 };
 
 export const MyBet = ({ data, setData }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const user = useSelector((state) => state.loggedUser);
   const userCurrency = user?.user_data?.currency?.abbreviation;
   const dispatch = useDispatch();
@@ -109,10 +109,16 @@ export const MyBet = ({ data, setData }) => {
         )}
         <div className="my-bet-returns">
           <div>
-            {t("stake")}: <span className="my-bet-relust">{formatNumberWithDecimal(data.total_stake)}</span>
+            {t("stake")}:{" "}
+            <span className="my-bet-relust">
+              {formatNumberWithDecimal(data.total_stake)}
+            </span>
           </div>
           <div>
-            {t("returns")}: <span className="my-bet-relust">{formatNumberWithDecimal(data.payout)}</span>
+            {t("returns")}:{" "}
+            <span className="my-bet-relust">
+              {formatNumberWithDecimal(data.payout)}
+            </span>
           </div>
         </div>
       </div>
@@ -121,7 +127,9 @@ export const MyBet = ({ data, setData }) => {
           <Button
             className="btnAction cash-out"
             onClick={cashOut}
-            text={`${t("cash_out")} ${data.cashout_button_amount} ${userCurrency}`}
+            text={`${t("cash_out")} ${
+              data.cashout_button_amount
+            } ${userCurrency}`}
           />
         ) : (
           <Button
@@ -131,7 +139,9 @@ export const MyBet = ({ data, setData }) => {
               isLoading ? (
                 <Loader />
               ) : (
-                `${t("confirm_cash_out")} ${data.cashout_button_amount} ${userCurrency}`
+                `${t("confirm_cash_out")} ${
+                  data.cashout_button_amount
+                } ${userCurrency}`
               )
             }
           />

@@ -8,9 +8,8 @@ import { validateUserPassword } from "../../utils/validation";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import "react-toastify/dist/ReactToastify.css";
-import './PasswordFields.css'
-import { useClientTranslation } from "@/app/i18n/client";
-
+import "./PasswordFields.css";
+import { useTranslations } from "next-intl";
 const PasswordFields = ({
   changePassword,
   setCurrentPassword,
@@ -21,7 +20,7 @@ const PasswordFields = ({
   handleSubmit,
   isLoading,
 }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const [validation, setValidation] = useState({
     length: false,
     specialChar: false,
@@ -159,9 +158,7 @@ const PasswordFields = ({
             type={showPassword["confirmpassword"] ? "text" : "password"}
             className="password_input"
             placeholder={t("enter_password")}
-            onChange={(e) =>
-              handlePassword(e.target.value, "confirm-password")
-            }
+            onChange={(e) => handlePassword(e.target.value, "confirm-password")}
           />
           <Image
             onClick={() => togglePassword("confirmpassword")}
@@ -187,10 +184,10 @@ const PasswordFields = ({
         <Button
           className={
             newPassword === confirmPassword &&
-              confirmPassword &&
-              validation?.length &&
-              validation?.numeric &&
-              validation?.specialChar
+            confirmPassword &&
+            validation?.length &&
+            validation?.numeric &&
+            validation?.specialChar
               ? "btnPrimary continueBtn validBtn"
               : "continueBtn"
           }

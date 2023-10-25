@@ -2,13 +2,13 @@ import { Provider } from "./provider";
 import { Montserrat } from "next/font/google";
 import { apiUrl } from "@/utils/constants";
 import Script from "next/script";
-import { languages } from "../i18n/settings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
+import { locales } from "../../../i18n";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -42,13 +42,14 @@ export async function generateMetadata() {
 }
 
 export async function generateStaticParams() {
-  return languages.map((lng) => ({ lng }));
+  return locales.map((lng) => ({ lng }));
 }
 
 export default async function RootLayout({ children, params: { lng } }) {
-  let messages;
+  let locales;
+
   try {
-    messages = (await import(`../i18n/locales/${lng}.json`)).default;
+    locales = (await import(`../../locales/${lng}.json`)).default;
   } catch (error) {
     notFound();
   }
@@ -57,7 +58,7 @@ export default async function RootLayout({ children, params: { lng } }) {
     <html lang={lng}>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" />
       <body className={montserrat.className}>
-        <NextIntlClientProvider locale={lng} messages={messages}>
+        <NextIntlClientProvider locale={lng} messages={locales}>
           <Provider>{children}</Provider>
         </NextIntlClientProvider>
       </body>

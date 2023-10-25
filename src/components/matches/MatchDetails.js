@@ -14,14 +14,13 @@ import { apiUrl } from "@/utils/constants";
 import { EmptyState } from "../emptyState/EmptyState";
 import { GoBackButton } from "../goBackButton/GoBackButton";
 import classNames from "classnames";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const MatchDetails = ({ data, id }) => {
-  const { t } = useClientTranslation(["common", "match"]);
+  const t = useTranslations();
 
   const [pushNotificationSettings, setPushNotificationSettings] = useState([
-    { key: "key1", label: `${t("common:notification")} 1`, status: false },
-    { key: "key2", label: `${t("common:notification")} 2`, status: true },
+    { key: "key1", label: `${t("common.notification")} 1`, status: false },
+    { key: "key2", label: `${t("common.notification")} 2`, status: true },
   ]);
 
   const markets = data?.markets?.length >= 1 ? data?.markets : []; // groupObjectsBySameValue(data?.markets) : [];
@@ -131,7 +130,7 @@ const MatchDetails = ({ data, id }) => {
                     <div className="matchResult match-result-soccer-vs">
                       {data?.is_live
                         ? `${teams?.homeTeam?.score} : ${teams?.awayTeam?.score}`
-                        : t("common:vs")}
+                        : t("common.vs")}
                     </div>
                   </div>
                 </div>
@@ -178,10 +177,10 @@ const MatchDetails = ({ data, id }) => {
 
                       <div className="pitch-top">
                         <div className="live-label" data-type="game">
-                          {t("match:live_game")}
+                          {t("match.live_game")}
                         </div>
                         <div className="live-label" data-type="stats">
-                          {t("match:live_stats")}
+                          {t("match.live_stats")}
                         </div>
                       </div>
                     </div>
@@ -194,7 +193,7 @@ const MatchDetails = ({ data, id }) => {
                       <div className="matchResult match-result-soccer-vs">
                         {data?.is_live
                           ? `${teams?.homeTeam?.score} : ${teams?.awayTeam?.score}`
-                          : t("common:vs")}
+                          : t("common.vs")}
                       </div>
                       <div className="team-for-matchdetails-mobile match-details-teams-teams">
                         {teams?.awayTeam?.name}
@@ -216,7 +215,7 @@ const MatchDetails = ({ data, id }) => {
                     ),
                   })),
                 ]}
-                placeholder={t("common:select_bet")}
+                placeholder={t("common.select_bet")}
                 variant={marketList?.length > 7 ? "scrollable" : "fullWidth"}
                 onChange={async (selectedMarketList) => {
                   if (selectedMarketList.id === 0) {
@@ -290,7 +289,7 @@ const MatchDetails = ({ data, id }) => {
                 );
               })
             ) : (
-              <EmptyState message={t("match:no_more_events")} />
+              <EmptyState message={t("match.no_more_events")} />
             )}
           </div>
         </div>

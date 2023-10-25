@@ -5,10 +5,9 @@ import { ArrowDownIcon } from "../../utils/icons";
 import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
 import "./CasinoCategory.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const CasinoCategory = ({ data, redirect }) => {
-  const { t } = useClientTranslation("casino");
+  const t = useTranslations("casino");
   const router = useRouter();
   const dispatch = useDispatch();
   const headerData = useSelector((state) => state.headerData);

@@ -13,10 +13,9 @@ import classNames from "classnames";
 import Link from "next/link";
 import "../Login/Login.css";
 import { setLoggedUser } from "@/store/actions";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const VerifyPhone = () => {
-  const { t } = useClientTranslation(["verify_phone", "common"]);
+  const t = useTranslations();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -39,7 +38,7 @@ export const VerifyPhone = () => {
     apiServices
       .get(apiUrl.RESEND_CODE)
       .then(() => {
-        SuccesToast({ message: t("common:resend_code_success") });
+        SuccesToast({ message: t("common.resend_code_success") });
       })
       .finally(() => {
         setResendLoader(false);
@@ -106,7 +105,7 @@ export const VerifyPhone = () => {
   return (
     <div className="backgroundImage">
       <div className="loginForm px-4">
-        <p className="logInTitle">{t("verify_phone_number")}</p>
+        <p className="logInTitle">{t("verify_phone.verify_phone_number")}</p>
         <form className="d-grid justify-content-center">
           <div className="codeVerification">
             <OTPInput
@@ -121,7 +120,7 @@ export const VerifyPhone = () => {
             />
           </div>
           <p className="codeSent">
-            {t("code_sent_to_number")}
+            {t("verify_phone.code_sent_to_number")}
             <br />
             <strong>
               {user?.user_data?.phone_prefix} {user?.user_data?.phone_number}{" "}
@@ -129,7 +128,7 @@ export const VerifyPhone = () => {
           </p>
           <p className="mb-5">
             <Link href={"/sign_up_with_phone"} className="codeSent">
-              {t("wrong_number_change_link")}
+              {t("verify_phone.wrong_number_change_link")}
             </Link>
           </p>
           <div className="authButtonsContainer">
@@ -144,8 +143,11 @@ export const VerifyPhone = () => {
                   <Loader />
                 ) : (
                   <span>
-                    {resendIsActive ? t("common:resend") :
-                      `${t("common:resend_in")} ${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+                    {resendIsActive
+                      ? t("common.resend")
+                      : `${t("common.resend_in")} ${minutes}:${
+                          seconds < 10 ? `0${seconds}` : seconds
+                        }`}
                   </span>
                 )
               }
@@ -157,7 +159,7 @@ export const VerifyPhone = () => {
                 validBtn: isValid,
               })}
               onClick={verifyCode}
-              text={loader ? <Loader /> : t("common:verify")}
+              text={loader ? <Loader /> : t("common.verify")}
             />
           </div>
         </form>

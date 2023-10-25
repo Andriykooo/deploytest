@@ -2,10 +2,9 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 const TransactionModals = ({ type }) => {
-  const { t } = useClientTranslation(["transaction_history", "common"]);
+  const t = useTranslations();
   const isMobile = useSelector((state) => state.setMobile);
   return (
     <div>
@@ -17,7 +16,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#betPlacedModal"
-            text={t("placed")}
+            text={t("transaction_history.placed")}
           />
           <div
             className="modal fade"
@@ -40,7 +39,7 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      {t("bet_placed")} (#3243)
+                      {t("transaction_history.bet_placed")} (#3243)
                     </p>
                   </div>
                 </div>
@@ -51,7 +50,9 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
+                  <p className="fundsMsgModal placed">
+                    {t("common.stake")}: 50.00
+                  </p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
@@ -110,13 +111,15 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
+                  <p className="fundsMsgModal placed">
+                    {t("common:stake")}: 50.00
+                  </p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
                     type="button"
                     className={"btn finishBtn col-8"}
-                    text={t("common:close")}
+                    text={t("common.close")}
                   />
                 </div>
               </div>
@@ -170,7 +173,9 @@ const TransactionModals = ({ type }) => {
                   <p className="fundsMsgModal">
                     Liverpool to win the match (90 min.)
                   </p>
-                  <p className="fundsMsgModal placed">{t("common:stake")}: 50.00</p>
+                  <p className="fundsMsgModal placed">
+                    {t("common.stake")}: 50.00
+                  </p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   <Button
@@ -230,7 +235,7 @@ const TransactionModals = ({ type }) => {
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={t("common:close")}
+                    text={t("common.close")}
                   />
                 </div>
               </div>
@@ -284,7 +289,7 @@ const TransactionModals = ({ type }) => {
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={t("common:close")}
+                    text={t("common.close")}
                   />
                 </div>
               </div>

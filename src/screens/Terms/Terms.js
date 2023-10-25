@@ -11,12 +11,11 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
-import { useClientTranslation } from "@/app/i18n/client";
-import { getLocalStorageItem } from "@/utils/localStorage";
+import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 const Terms = () => {
-  const { t } = useClientTranslation(["terms", "common"]);
+  const t = useTranslations();
   const termsDivRef = useRef(null);
   const [terms, setTerms] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -80,7 +79,7 @@ const Terms = () => {
   return (
     <div className="terms backgroundImage">
       <p className="termsTitleForMainPage">
-        {t("common:terms_and_conditions")}
+        {t("common.terms_and_conditions")}
       </p>
       {loader ? (
         <Loader />
@@ -105,7 +104,7 @@ const Terms = () => {
               })}
               onClick={continueToPrivacy}
               disabled={acceptButtonDisabled}
-              text={t("common:accept")}
+              text={t("common.accept")}
             />
           ) : null}
         </>

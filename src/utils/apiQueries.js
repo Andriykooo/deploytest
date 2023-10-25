@@ -62,22 +62,22 @@ export const getUserApi = async (dispatch) => {
     const data = error.response.data.error;
 
     if (data?.code === 1104) {
-      // dispatch(
-      //   setAlertModal({
-      //     title: i18next.t("account_suspended"),
-      //     message: data.message,
-      //   })
-      // );
+      dispatch(
+        setAlertModal({
+          message: data.message,
+          code: data?.code,
+        })
+      );
     }
 
     if (data?.code === 1063) {
       dispatch(
         setAlertModal({
-          code: data.code,
           message: data.message.replace(
             "{date}",
             moment(data.extra_data.suspended_until).format("DD MMMM YYYY")
           ),
+          code: data.code,
         })
       );
     }
@@ -85,11 +85,11 @@ export const getUserApi = async (dispatch) => {
     if (data?.code === 1062) {
       dispatch(
         setAlertModal({
-          title: i18next.t("account_excluded"),
           message: data.message.replace(
             data?.extra_data?.["{date}"]?.toString(),
             moment(data?.extra_data?.["{date}"])?.format("DD MMMM YYYY")
           ),
+          code: data?.code,
         })
       );
     }

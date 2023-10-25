@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -7,7 +6,7 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { useLogout } from "@/hooks/useLogout";
 import { Logout } from "@/utils/icons";
 
@@ -19,7 +18,7 @@ export const ProfileSidebar = ({
   active,
   setIsLoggingOut,
 }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
   const logout = useLogout();
@@ -102,4 +101,3 @@ export const ProfileSidebar = ({
     </SidebarProfilMenu>
   );
 };
-

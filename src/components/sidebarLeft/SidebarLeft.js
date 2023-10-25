@@ -14,14 +14,14 @@ import { ProfileCard, SidebarProfile } from "../profileMenu/Styled";
 import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { useClientPathname } from "@/hooks/useClientPathname";
 
 export const SidebarLeft = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { pathname } = useClientPathname();
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
 
   const loggedUser = useSelector((state) => state.loggedUser);
   const sidebarLeft = useSelector((state) => state.sidebarLeft);

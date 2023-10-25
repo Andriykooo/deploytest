@@ -4,10 +4,9 @@ import { useSelector } from "react-redux";
 import { inPlayHomeMenu } from "../../utils/constants";
 import { Button } from "../button/Button";
 import "../casinoMenu/CasinoMenu.css";
-import { useClientTranslation } from "@/app/i18n/client";
-
+import { useTranslations } from "next-intl";
 export const InPlayHomeMenu = () => {
-  const { t } = useClientTranslation("home");
+  const t = useTranslations("home");
   const [selected, setSelected] = useState(0);
   const isMobile = useSelector((state) => state.setMobile);
 
@@ -65,7 +64,7 @@ export const SportWidgetMultiSportsHomeMenu = ({
   setSelected,
   selected,
 }) => {
-  const { t } = useClientTranslation("home");
+  const t = useTranslations("home");
   const isMobile = useSelector((state) => state.setMobile);
 
   const handleClick = (item) => {
@@ -117,7 +116,7 @@ export const SportWidgetMultiSportsHomeMenu = ({
 };
 
 export const SwiftySpecialsHomeMenu = () => {
-  const { t } = useClientTranslation("home");
+  const t = useTranslations("home");
   const [selected, setSelected] = useState(0);
   const isMobile = useSelector((state) => state.setMobile);
 

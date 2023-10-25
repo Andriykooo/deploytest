@@ -4,14 +4,14 @@ import { setSelectBet } from "../../store/actions";
 import { InfoInformationIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import CombinationInfo from "@/components/modal/CombinationInfo";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import { Checkbox } from "@mui/material";
 import classNames from "classnames";
 
 const prohibitedCharacters = ["e", "+", " "];
 
 export const SelectOfMultipleBets = ({ row }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
   const userSelectedBets = useSelector((state) => state.selectedBets);
 

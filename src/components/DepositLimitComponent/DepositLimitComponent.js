@@ -6,7 +6,7 @@ import { SuccesToast } from "@/utils/alert";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
 import { getUserApi, setSettingsApi } from "@/utils/apiQueries";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
@@ -20,10 +20,10 @@ const DepositLimitComponent = ({
   skipBtn,
   removeLimit,
   onSkip,
-  loading
+  loading,
 }) => {
   const dispatch = useDispatch();
-  const { t } = useClientTranslation(["common", "profile"]);
+  const t = useTranslations();
 
   const [dailyLimit, setDailyLimit] = useState(0);
   const [weeklyLimit, setWeeklyLimit] = useState(0);
@@ -126,17 +126,17 @@ const DepositLimitComponent = ({
     switch (type) {
       case "daily": {
         setDailyLimit(!e.target.value.length ? -1 : e.target.value);
-        handleToggle("daily", t("daily_limit"));
+        handleToggle("daily", t("common.daily_limit"));
         break;
       }
       case "weekly": {
         setWeeklyLimit(!e.target.value.length ? -1 : e.target.value);
-        handleToggle("weekly", t("weekly_limit"));
+        handleToggle("weekly", t("common.weekly_limit"));
         break;
       }
       case "monthly": {
         setMonthlyLimit(!e.target.value.length ? -1 : e.target.value);
-        handleToggle("monthly", t("monthly_limit"));
+        handleToggle("monthly", t("common.monthly_limit"));
         break;
       }
     }
@@ -157,17 +157,17 @@ const DepositLimitComponent = ({
   const inputs = [
     {
       type: "daily",
-      title: t("daily_limit"),
+      title: t("common.daily_limit"),
       value: dailyLimit,
     },
     {
       type: "weekly",
-      title: t("weekly_limit"),
+      title: t("common.weekly_limit"),
       value: weeklyLimit,
     },
     {
       type: "monthly",
-      title: t("monthly_limit"),
+      title: t("common.monthly_limit"),
       value: monthlyLimit,
     },
   ];
@@ -179,12 +179,14 @@ const DepositLimitComponent = ({
       })}
     >
       <PreferencesTitle
-        title={t("deposit_limit")}
+        title={t("common.deposit_limit")}
         backRoute={backRoute}
         marginBottomSize="sm"
         showBackOnDesktop={showBackOnDesktop}
       />
-      <p className="menuText">{t("deposit_limit_settings_description")}</p>
+      <p className="menuText">
+        {t("common.deposit_limit_settings_description")}
+      </p>
       {inputs.map((item) =>
         isTablet ? (
           <div className="row mb-3" key={item.type}>
@@ -213,11 +215,11 @@ const DepositLimitComponent = ({
               placeholder={
                 item.value > 0
                   ? `${item.value} ${user?.user_data?.currency?.abbreviation}`
-                  : t("no_limit")
+                  : t("common.no_limit")
               }
               type={item.type}
               modalOnMobile
-              btnTitle={t("set_limit")}
+              btnTitle={t("common.set_limit")}
               loader={isLoading}
             />
           </div>
@@ -230,7 +232,7 @@ const DepositLimitComponent = ({
                 className="depositLimit-input"
                 onChange={(e) => handleChangeInput(e, item.type)}
                 value={item.value >= 0 ? item.value : ""}
-                placeholder={t("not_set")}
+                placeholder={t("common.not_set")}
                 disabled={isLoading}
               />
               <span className="depositLimit-currency">
@@ -250,7 +252,7 @@ const DepositLimitComponent = ({
                 : "btn finishBtn disabled setLimitBtn col-8 limitBtn")
             }
             onClick={() => handleSelect()}
-            text={isLoading ? <Loader /> : t("set_limit")}
+            text={isLoading ? <Loader /> : t("common.set_limit")}
           />
         </div>
       )}
@@ -259,7 +261,7 @@ const DepositLimitComponent = ({
           <Button
             className="w-100 borderedButton skipBtn"
             onClick={() => onSkip()}
-            text={loading ? <Loader /> : t("profile:skip")}
+            text={loading ? <Loader /> : t("profile.skip")}
           />
         </div>
       )}

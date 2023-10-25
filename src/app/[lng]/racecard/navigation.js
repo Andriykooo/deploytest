@@ -15,10 +15,10 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import SkeletonComponent from "@/utils/SkeletonComponent";
 import { EventTime } from "@/components/EventTime/EventTime";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 export const RacecardNavigation = ({ children }) => {
-  const { t } = useClientTranslation("common");
+  const t = useTranslations("common");
   const dispatch = useDispatch();
 
   const horseracingMeetingOptions = [

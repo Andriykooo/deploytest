@@ -14,11 +14,11 @@ import "../Terms/Terms.css";
 import { refreshCommunicationSocket } from "@/context/socket";
 import Cookies from "js-cookie";
 import { alertToast } from "@/utils/alert";
-import { useClientTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 import classNames from "classnames";
 
 const Privacy = () => {
-  const { t } = useClientTranslation(["privacy", "common"]);
+  const t = useTranslations();
   const privacyDivRef = useRef(null);
   const searchParams = useSearchParams();
   const [policy, setPolicy] = useState([]);
@@ -153,7 +153,7 @@ const Privacy = () => {
 
   return (
     <div className="terms backgroundImage">
-      <p className="termsTitleForMainPage">{t("privacy_policy")}</p>
+      <p className="termsTitleForMainPage">{t("privacy.privacy_policy")}</p>
       {loader ? (
         <Loader />
       ) : (
@@ -188,7 +188,7 @@ const Privacy = () => {
                 }
               }}
               disabled={acceptButtonDisabled}
-              text={<>{isLoading ? <Loader /> : t("common:accept")}</>}
+              text={<>{isLoading ? <Loader /> : t("common.accept")}</>}
             />
           ) : null}
         </>
