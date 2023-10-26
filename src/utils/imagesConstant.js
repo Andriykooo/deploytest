@@ -152,10 +152,12 @@ import pointer from "../assets/images/pointer.svg";
 import allPending from "../assets/images/allPending.svg";
 import tickIcon from "../assets/images/tickIcon.svg";
 import priceBoost from "../assets/images/priceBoost.svg";
+import dashedLine from "../assets/images/dashedLine.png";
 
 export const images = {
   priceBoost,
   tickIcon,
+  dashedLine,
   pointer,
   unnamedFavorite,
   arrowRight,

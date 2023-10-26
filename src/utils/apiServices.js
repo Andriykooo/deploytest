@@ -13,6 +13,13 @@ import {
 } from "./localStorage";
 import { nextWindow } from "./nextWindow";
 
+const clearStorage = () => {
+  if (!nextWindow.location.pathname.includes("/login")) {
+    nextWindow.location.href = "/login";
+    clearLocalStorage();
+  }
+};
+
 const checkError = (code, message) => {
   switch (code) {
     // Country Block
@@ -22,8 +29,7 @@ const checkError = (code, message) => {
 
     // Self-Exclude Account
     case 488:
-      nextWindow.location.href = "/login";
-      clearLocalStorage();
+      clearStorage();
       break;
 
     // Suspended Account
@@ -36,14 +42,14 @@ const checkError = (code, message) => {
 
     // Suspended Account
     case 485:
-      nextWindow.location.href = "/login";
-      clearLocalStorage();
+      clearStorage();
+
       break;
 
     // Suspended Account
     case 487:
-      nextWindow.location.href = "/login";
-      clearLocalStorage();
+      clearStorage();
+
       break;
 
     // Suspended Closed

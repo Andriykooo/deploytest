@@ -372,6 +372,12 @@
   },
   "profile": {
     "player_id": "Player ID",
+    "account_balance": "Account Balance",
+    "free_bet_credits": "Free Bet Credits",
+    "used": "Used",
+    "available": "Available",
+    "withdrawal_balance": "Withdrawal Balance",
+    "gaming_reminder": "Gaming Reminder",
     "email_verify_required": "Email verification required",
     "email_verification": "Email Verification",
     "proof_of_identify": "Proof of Identity",

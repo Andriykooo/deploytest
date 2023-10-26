@@ -15,7 +15,7 @@ import { CloseIcon, XIcon } from "@/utils/icons";
 import Cookies from "js-cookie";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { useClientPathname } from "@/hooks/useClientPathname";
+import { usePathname } from "next/navigation";
 import "../sidebar/Sidebar.css";
 import "./Header.css";
 import classNames from "classnames";
@@ -24,7 +24,7 @@ import { useTranslations } from "next-intl";
 
 function Header({ isModal }) {
   const dispatch = useDispatch();
-  const { pathname } = useClientPathname();
+  const pathname = usePathname();
   const t = useTranslations("header");
   const router = useRouter();
   const params = useParams();

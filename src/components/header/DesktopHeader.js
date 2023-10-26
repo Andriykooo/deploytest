@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useClientPathname } from "@/hooks/useClientPathname";
+import { usePathname } from "next/navigation";
 import { setSidebarLeft } from "../../store/actions";
 import { LinkType } from "../LinkType/LinkType";
 import { Carousel } from "../carousel/Carousel";
@@ -18,8 +18,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
 
   const loggedUser = useSelector((state) => state.loggedUser);
   const activePage = useSelector((state) => state.activePage);
-  const {pathname} = useClientPathname();
-
+  const pathname = usePathname();
   const toggleSidebarLeft = (value) => {
     dispatch(
       setSidebarLeft({
@@ -30,7 +29,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
   };
 
   // hide burger menu in the casino page
-  const showMenuIcon = !pathname.startsWith('/casino')
+  const showMenuIcon = !pathname.startsWith("/casino");
 
   return (
     <>
@@ -93,7 +92,9 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
                                 alt="page"
                                 height={16}
                                 width={16}
-                                onError={(e) => e.target.style.display = "none"}
+                                onError={(e) =>
+                                  (e.target.style.display = "none")
+                                }
                               />
                             )}
 

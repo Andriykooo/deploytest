@@ -5,14 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { LanguageIcon } from "@/utils/icons";
-import { useClientPathname } from "@/hooks/useClientPathname";
+import { usePathname } from "next/navigation";
 import "./languageDropdown.css";
 import { useParams } from "next/navigation";
 import { locales } from "../../../i18n";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
-  const { pathname } = useClientPathname();
+  const pathname = usePathname();
   const params = useParams();
 
   const dropdownLangRef = useRef(null);
@@ -36,10 +36,6 @@ const LanguageDropdown = () => {
     setIsOpen(false);
   });
 
-  if (onboarding.languages?.length <= 1) {
-    return null;
-  }
-
   useEffect(() => {
     if (onboarding?.languages) {
       const lng = params.lng.toUpperCase();
@@ -51,6 +47,10 @@ const LanguageDropdown = () => {
       );
     }
   }, [onboarding]);
+
+  if (onboarding.languages?.length <= 1) {
+    return null;
+  }
 
   return (
     <div className="dropdown-lang-container" ref={dropdownLangRef}>

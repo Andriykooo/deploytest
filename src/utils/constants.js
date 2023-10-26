@@ -3,6 +3,7 @@ import { theme } from "./config";
 import {
   BetHistoryIcon,
   BonusesAndPromotionsIcon,
+  ChangePasswordIcon,
   CreditCardLogoOfFooter,
   DepositIcon,
   FastestPayoutsIcon,
@@ -165,6 +166,13 @@ export const profileCards = [
     icon: <ProfileMenuIcon />,
     route: "/profile/profile",
     text: "profile",
+    arrow: false,
+  },
+  {
+    cardName: "change_password",
+    icon: <ChangePasswordIcon />,
+    route: "/profile/change_password",
+    text: "change_password",
     arrow: false,
   },
   {

@@ -148,7 +148,7 @@ const rootReducer = (appstate = initialState, action) => {
 
         let filteredBets = appstate.selectedBets.bets.filter((row) => {
           if (action?.payload?.type === "unnamed_favorite") {
-            return +action.payload.bet_id !== +row.bet_id;
+            return action.payload.bet_id !== row.bet_id;
           }
 
           const exist =
@@ -402,10 +402,23 @@ const rootReducer = (appstate = initialState, action) => {
       };
 
     case constants.SET_RESULTED_EVENTS:
-      return {
+      const reslutedEventsState = {
         ...appstate,
         resultedEvents: { ...appstate.resultedEvents, [action.payload]: true },
       };
+
+      const filteredBets = appstate.selectedBets.bets.filter(
+        (bet) => bet?.event_id !== action.payload
+      );
+
+      if (appstate.selectedBets.bets.length !== filteredBets.length) {
+        reslutedEventsState.selectedBets = {
+          ...appstate.selectedBets,
+          bets: filteredBets,
+        };
+      }
+
+      return reslutedEventsState;
 
     case constants.SET_PRICE_IS_CHANGED:
       const data = {

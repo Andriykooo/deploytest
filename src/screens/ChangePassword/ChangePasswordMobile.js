@@ -6,20 +6,18 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { useRouter } from "next/navigation";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
-import ProfileBack from "@/components/profileBack/ProfileBack";
-import classNames from "classnames";
 import { SuccesToast } from "@/utils/alert";
-import { useClientPathname } from "@/hooks/useClientPathname";
 import "react-toastify/dist/ReactToastify.css";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "./ChangePassword.css";
 import { useTranslations } from "next-intl";
+
 const ChangePasswordMobile = () => {
   const t = useTranslations("common");
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
-  const { pathname } = useClientPathname();
   const router = useRouter();
 
   const handleSubmit = (e) => {
@@ -48,27 +46,20 @@ const ChangePasswordMobile = () => {
   };
 
   return (
-    <div className="change-password">
-      <div
-        className={classNames("forgotPassword", {
-          backgroundImage: pathname === "forgot_password",
-        })}
-      >
-        <div className="loginForm p-4">
-          <ProfileBack back="profile" />
-          <p className="logInTitle">{t("change_password")}</p>
-          <PasswordFields
-            changePassword
-            setCurrentPassword={setCurrentPassword}
-            isLoading={isLoading}
-            handleSubmit={handleSubmit}
-            newPassword={newPassword}
-            setNewPassword={setNewPassword}
-            setConfirmPassword={setConfirmPassword}
-            confirmPassword={confirmPassword}
-            currentPassword={currentPassword}
-          />
-        </div>
+    <div className="change-password-container">
+      <div className="change-password-content">
+        <PreferencesTitle title={t("change_password")} marginBottomSize="lg" />
+        <PasswordFields
+          changePassword
+          setCurrentPassword={setCurrentPassword}
+          isLoading={isLoading}
+          handleSubmit={handleSubmit}
+          newPassword={newPassword}
+          setNewPassword={setNewPassword}
+          setConfirmPassword={setConfirmPassword}
+          confirmPassword={confirmPassword}
+          currentPassword={currentPassword}
+        />
       </div>
     </div>
   );

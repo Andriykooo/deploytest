@@ -15,12 +15,11 @@ import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
-import { useClientPathname } from "@/hooks/useClientPathname";
-
+import { usePathname } from "next/navigation";
 export const SidebarLeft = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { pathname } = useClientPathname();
+  const pathname = usePathname();
   const t = useTranslations("common");
 
   const loggedUser = useSelector((state) => state.loggedUser);

@@ -1,12 +1,12 @@
 "use client";
 
 import ProfileMenu from "@/components/profileMenu/ProfileMenu";
-import { useClientPathname } from "@/hooks/useClientPathname";
+import { usePathname } from "next/navigation";
 import { ProtectedLayout } from "@/layouts/protectedLayout/ProtectedLayout";
 import { useSelector } from "react-redux";
 
 export default function Layout({ children }) {
-  const {pathname} = useClientPathname();
+  const pathname = usePathname();
   const isTablet = useSelector((state) => state.isTablet);
 
   // in the mobile version we have sidebar in full width

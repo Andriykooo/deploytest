@@ -53,8 +53,12 @@
 }
 
 .gateway-iframe {
-  height: calc(100vh - 165px);
-  width: calc(100% - 48px);
+  height: calc(100vh - 74px);
+  width: calc(100%);
+}
+
+.paymentIframe {
+  margin-left:  390px;
 }
 
 .depositLoader {

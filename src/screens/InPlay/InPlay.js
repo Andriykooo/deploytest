@@ -125,15 +125,15 @@ const InPlay = () => {
                     {id === 15 && (
                       <>
                         <AutocompleteSelect
-                          placeholder={t("common:time")}
+                          placeholder={t("common.time")}
                           data={[]}
                         />
                         <AutocompleteSelect
-                          placeholder={t("common:region")}
+                          placeholder={t("common.region")}
                           data={[]}
                         />
                         <AutocompleteSelect
-                          placeholder={t("common:country")}
+                          placeholder={t("common.country")}
                           data={[]}
                         />
                       </>

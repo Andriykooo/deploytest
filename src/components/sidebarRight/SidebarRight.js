@@ -206,7 +206,6 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
           }
 
           if (data.data.mode === "accepted") {
-            dispatch(setReviewBets(emptyBetSlip));
             dispatch(setBetSlipResponse(emptyBetSlip));
             dispatch(removeBet("all"));
             dispatch(removeBetAmount("all"));
@@ -253,10 +252,6 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedBets?.bets?.length === 0) {
-      return;
-    }
-
     setMyBets(false);
 
     // Stake
@@ -426,7 +421,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (
       betSlipResponse?.singles?.length > 0 &&
-      selectedBets.bets.every((bet) => +bet.stake === 0)
+      betSlipResponse.total_stakes === 0
     ) {
       return (
         <div className="place-bet-container">
@@ -476,7 +471,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (
       betSlipResponse?.singles?.length > 0 &&
-      selectedBets.bets.some((bet) => +bet.stake !== 0)
+      betSlipResponse.total_stakes > 0
     ) {
       return (
         <div className="place-bet-container">

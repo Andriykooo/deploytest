@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 export const Place = ({ item, place, onClick, disable, eventId }) => {
   const t = useTranslations();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
-  const betTicker = useSelector((state) => state.betTicker);
 
   const places = {
     1: t("racecard.1st"),
@@ -33,7 +32,6 @@ export const Place = ({ item, place, onClick, disable, eventId }) => {
       return element.bet_id === item.bet_id || element.place === place;
     }
 
-    selectionType = "place";
     return element.bet_id === item.bet_id;
   });
 
@@ -51,7 +49,6 @@ export const Place = ({ item, place, onClick, disable, eventId }) => {
       className={classNames("price", {
         ["pe-none"]: disable,
         disable:
-          betTicker?.status === "new_offer" ||
           (eventIdInBetslip ? eventIdInBetslip !== eventId : false) ||
           (selectionType === "place"
             ? currentPlaceIsSelected ||

@@ -58,7 +58,7 @@ const TransactionModals = ({ type }) => {
                   <Button
                     type="button"
                     className={"btn finishBtn col-8"}
-                    text={t("common:close")}
+                    text={t("common.close")}
                   />
                 </div>
               </div>
@@ -112,7 +112,7 @@ const TransactionModals = ({ type }) => {
                     Liverpool to win the match (90 min.)
                   </p>
                   <p className="fundsMsgModal placed">
-                    {t("common:stake")}: 50.00
+                    {t("common.stake")}: 50.00
                   </p>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
@@ -181,7 +181,7 @@ const TransactionModals = ({ type }) => {
                   <Button
                     type="button"
                     className="btn finishBtn col-8"
-                    text={t("common:close")}
+                    text={t("common.close")}
                   />
                 </div>
               </div>
@@ -200,7 +200,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#depositModal"
-            text={t("common:deposit")}
+            text={t("common.deposit")}
           />
           <div
             className="modal fade"
@@ -223,7 +223,7 @@ const TransactionModals = ({ type }) => {
                       className="mb-4"
                     />
                     <p className="modal-title mt-3" id="exampleModalLabel">
-                      {t("common:deposit")}
+                      {t("common.deposit")}
                     </p>
                   </div>
                 </div>
@@ -254,7 +254,7 @@ const TransactionModals = ({ type }) => {
             className={"btn btnPrimary col-4"}
             data-bs-toggle="modal"
             data-bs-target="#withdrawalModal"
-            text={t("common:withdraw")}
+            text={t("common.withdraw")}
           />
           <div
             className="modal fade"

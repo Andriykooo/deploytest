@@ -7,8 +7,6 @@ import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
 import { useTranslations } from "next-intl";
-import { useLogout } from "@/hooks/useLogout";
-import { Logout } from "@/utils/icons";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -16,17 +14,10 @@ export const ProfileSidebar = ({
   profileMenu,
   page,
   active,
-  setIsLoggingOut,
 }) => {
   const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
-  const logout = useLogout();
-
-  const onLogOut = () => {
-    setIsLoggingOut(true);
-    logout();
-  };
 
   return (
     <SidebarProfilMenu sideBarMenu version={version}>
@@ -84,19 +75,6 @@ export const ProfileSidebar = ({
             );
           })}
         </>
-      )}
-      {!version && (
-        <ProfileCard>
-          <div className="dropdown sidebarBox profileMenuDisplay">
-            <Logout />
-            <Button
-              className={"btn dropdown-toggle azDropdown profile top w-100"}
-              type="button"
-              onClick={onLogOut}
-              text={t("log_out")}
-            />
-          </div>
-        </ProfileCard>
       )}
     </SidebarProfilMenu>
   );

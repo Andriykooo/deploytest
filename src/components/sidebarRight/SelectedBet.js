@@ -19,7 +19,14 @@ const prohibitedCharacters = ["e", "+", " "];
 export const SelectedBet = ({ row, disabled }) => {
   const t = useTranslations("common");
   const dispatch = useDispatch();
+
   const userSelectedBets = useSelector((state) => state.selectedBets);
+
+  if (row.type === "unnamed_favorite") {
+    row.bet_id = row.event_id;
+    row.starting_price = true;
+  }
+
   const [input, setInput] = useState(row.new_stake || row.stake);
   const [isEW, setIsEW] = useState(false);
   const [isSP, setIsSP] = useState(row.starting_price);
@@ -29,7 +36,7 @@ export const SelectedBet = ({ row, disabled }) => {
   const debouncedValue = useDebounce(input, 500);
   const bet_id =
     row.type === "unnamed_favorite"
-      ? +row?.bet_id
+      ? row?.bet_id
       : row?.bet_provider + "-" + row?.bet_id;
   const isRacing =
     row.sport_slug === "horseracing" || row.sport_slug === "greyhoundracing";
@@ -46,6 +53,7 @@ export const SelectedBet = ({ row, disabled }) => {
         }
       }
     });
+
     tmp.action = "check";
     dispatch(setSelectBet(tmp));
   };

@@ -48,7 +48,6 @@ import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerS
 import { getUserApi } from "@/utils/apiQueries";
 import { AlertModal } from "@/components/alertModal/AlertModal";
 import { useTranslations } from "next-intl";
-import { useClientPathname } from "@/hooks/useClientPathname";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
 
 const modalList = [
@@ -88,16 +87,15 @@ const Content = ({ children, className }) => {
 
   const isModal = useMemo(() => {
     return modalList.some((modalPath) => {
-      if (modalPath.endsWith("/*")) {
-        const prefix = modalPath.slice(0, -2);
-
-        return pathname.startsWith(prefix);
-      }
-
       let path = pathname;
 
       if (pathname.startsWith(`/${params.lng}`)) {
         path = pathname.replace(`/${params.lng}`, "");
+      }
+
+      if (modalPath.endsWith("/*")) {
+        const prefix = modalPath.slice(0, -2);
+        return path.startsWith(prefix);
       }
 
       return path === modalPath;
@@ -228,7 +226,6 @@ const Content = ({ children, className }) => {
           dispatch(setResultedEvents(response.eventId));
           break;
         case "new_user_balance":
-          console.log('New user balance', response.value);
           // Update only user balance
           // loggedUser.user_data.balance = response.value;
           if (loggedUser && !Number.isNaN(+response.value)) {
@@ -450,7 +447,7 @@ const Content = ({ children, className }) => {
 };
 
 export const BaseLayout = (props) => {
-  const { pathname } = useClientPathname();
+  const pathname = usePathname();
 
   return (
     <>

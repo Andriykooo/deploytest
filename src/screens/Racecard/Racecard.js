@@ -339,7 +339,19 @@ export const Racecard = () => {
               ["pe-none"]: disablePrice,
             })}
           >
-            <MatchOdds selection={{ ...item, event_id: event?.event_id }} />
+            <MatchOdds
+              selection={{
+                ...item,
+                trading_status: disablePrice ? "open" : item.trading_status,
+                event_id: event?.event_id,
+                odds_decimal: disablePrice
+                  ? t("racecard.sp")
+                  : item.odds_decimal,
+                odds_fractional: disablePrice
+                  ? t("racecard.sp")
+                  : item.odds_fractional,
+              }}
+            />
           </div>
         );
       },

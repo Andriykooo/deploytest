@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { DesktopLoggedUser } from "../logged/DesktopLoggedUser";
 import { MobileLoggedUser } from "../logged/MobileLoggedUser";

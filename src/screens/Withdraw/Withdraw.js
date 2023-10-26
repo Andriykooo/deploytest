@@ -36,9 +36,8 @@ const Withdraw = () => {
         if (data?.link) {
           setPaymentUrl(data?.link);
         }
-        setTimeout(() => setGetLinkLoading(false), 600);
       })
-      .catch(() => {
+      .finally(() => {
         setGetLinkLoading(false);
       });
   };
@@ -53,6 +52,26 @@ const Withdraw = () => {
     setValueOfInput(e.target.value);
   };
 
+  if (paymentUrl) {
+    return (
+      <div className="paymentIframe">
+        {getLinkLoading ? (
+          <div className="depositLoader">
+            <Loader />
+          </div>
+        ) : (
+          <iframe
+            src={paymentUrl}
+            height="80%"
+            width="100%"
+            title="Gateway Iframe"
+            className="gateway-iframe"
+          ></iframe>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="depositLimit">
       <div
@@ -61,74 +80,55 @@ const Withdraw = () => {
         })}
       >
         <ProfileBack />
-        {!paymentUrl ? (
-          <>
-            <PreferencesTitle
-              title={t("common.withdraw")}
-              showBack={false}
-              marginBottomSize="sm"
-            />
-            <Information
-              className="withdrawInformation"
-              text={t("withdraw.withdrawal_restrictions_message")}
-            />
-            <div className="deposit-form span-sm-0">
-              <div>
-                <p className="withdraw-enter-text">
-                  {t("withdraw.withdrawal_amount_prompt")}
-                </p>
-                <div className="withdraw-input-container">
-                  <input
-                    type="text"
-                    className="deposit-input"
-                    onChange={(e) => handleChangeInput(e)}
-                    value={valueOfInput}
-                    placeholder="0.00"
-                  />
-                  <button
-                    className="max-button"
-                    onClick={() => setValueOfInput(userBalance)}
-                  >
-                    {t("withdraw.max")}
-                  </button>
-                </div>
-                <p className="user-balance">
-                  {t("withdraw.balance")} {userCurrency}{" "}
-                  {formatNumberWithDecimal(userBalance)}
-                </p>
-              </div>
-              <div className="preferences-button-container">
-                <Button
-                  type="submit"
-                  onClick={() => {
-                    handleGatewayLink();
-                  }}
-                  className={classNames("submit-button-deposit", {
-                    btnPrimary: validButton,
-                    "btn finishBtn disabled setLimitBtn col-8": !validButton,
-                  })}
-                  text={getLinkLoading ? <Loader /> : t("common.authorise")}
-                />
-              </div>
+
+        <PreferencesTitle
+          title={t("common.withdraw")}
+          showBack={false}
+          marginBottomSize="sm"
+        />
+        <Information
+          className="withdrawInformation"
+          text={t("withdraw.withdrawal_restrictions_message")}
+        />
+        <div className="deposit-form span-sm-0">
+          <div>
+            <p className="withdraw-enter-text">
+              {t("withdraw.withdrawal_amount_prompt")}
+            </p>
+            <div className="withdraw-input-container">
+              <input
+                type="text"
+                className="deposit-input"
+                onChange={(e) => handleChangeInput(e)}
+                value={valueOfInput}
+                placeholder="0.00"
+              />
+              <button
+                className="max-button"
+                onClick={() => setValueOfInput(userBalance)}
+              >
+                {t("withdraw.max")}
+              </button>
             </div>
-          </>
-        ) : (
-          <>
-            {!getLinkLoading ? (
-              <iframe
-                src={paymentUrl}
-                height="80%"
-                width="100%"
-                title="Gateway Iframe"
-                className="gateway-iframe"
-              ></iframe>
-            ) : (
-              <div className="withdrawLoader">
-                <Loader />
-              </div>
-            )}
-          </>
-        )}
+            <p className="user-balance">
+              {t("withdraw.balance")} {userCurrency}{" "}
+              {formatNumberWithDecimal(userBalance)}
+            </p>
+          </div>
+          <div className="preferences-button-container">
+            <Button
+              type="submit"
+              onClick={() => {
+                handleGatewayLink();
+              }}
+              className={classNames("submit-button-deposit", {
+                btnPrimary: validButton,
+                "btn finishBtn disabled setLimitBtn col-8": !validButton,
+              })}
+              text={getLinkLoading ? <Loader /> : t("common.authorise")}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

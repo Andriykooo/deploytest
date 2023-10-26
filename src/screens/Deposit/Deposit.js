@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
-import { apiUrl, depositSteps } from "../../utils/constants";
+import { apiUrl } from "../../utils/constants";
 import ProfileBack from "@/components/profileBack/ProfileBack";
 import "../Deposit/Deposit.css";
 import "../DepositLimit/DepositLimit.css";
@@ -112,12 +112,7 @@ const Deposit = () => {
 
   if (step === "deposit") {
     return (
-      <div className="depositLimit">
-        <div className="contentPosition secondContentPosition">
-          <div className="pageContent">
-            <ProfileBack />
-          </div>
-        </div>
+      <div className="paymentIframe">
         {getLinkLoading ? (
           <div className="depositLoader">
             <Loader />

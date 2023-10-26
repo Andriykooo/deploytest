@@ -30,8 +30,12 @@ const Bet = ({ data }) => {
           </span>
         </div>
 
-        <div className="my-bet-relust">({data.event_result || "0:0"})</div>
-        <div className="my-bet-market-name">{data.market_name}</div>
+        {data?.event_result && (
+          <div className="my-bet-relust">{data.event_result}</div>
+        )}
+        {data.market_name && (
+          <div className="my-bet-market-name">{data.market_name}</div>
+        )}
         {data.event_name}
       </div>
     </div>
@@ -115,10 +119,7 @@ export const MyBet = ({ data, setData }) => {
             </span>
           </div>
           <div>
-            {t("returns")}:{" "}
-            <span className="my-bet-relust">
-              {formatNumberWithDecimal(data.payout)}
-            </span>
+            {t("returns")}: <span className="my-bet-relust">{data.payout}</span>
           </div>
         </div>
       </div>
