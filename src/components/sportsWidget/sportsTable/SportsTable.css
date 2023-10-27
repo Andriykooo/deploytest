@@ -3,7 +3,12 @@
   flex-direction: column;
   gap: 1px;
   overflow: hidden;
-  padding: 16px;
+  margin: 16px;
+  border-radius: 8px;
+}
+
+.sport-accordion > .custom-accordion-header {
+  font-weight: 600;
 }
 
 .sports-table-sports > .accordion {

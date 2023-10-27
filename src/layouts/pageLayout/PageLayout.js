@@ -2,9 +2,7 @@
 
 import { Footer } from "@/components/footer/Footer";
 import { setFavouriteGames, setPageLayoutContent } from "@/store/actions";
-import { apiServices } from "@/utils/apiServices";
-import { apiUrl } from "@/utils/constants";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Banner } from "../../components/Banner/Banner";
 import CasinoCategory from "../../components/casinoCategory/CasinoCategory";
@@ -15,8 +13,8 @@ import { SportsWidget } from "../../components/sportsWidget/SportsWidget";
 import { SidebarLayout } from "../sidebarLayout/SidebarLayout";
 import { PageContent } from "@/components/pageContent/PageContent";
 import { useParams } from "next/navigation";
-import Cookies from "js-cookie";
 import HomeSkeletonComponent from "@/utils/HomeSkeletonComponent";
+import { SocketContext } from "@/context/socket";
 
 export const PageLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -24,6 +22,7 @@ export const PageLayout = ({ children }) => {
   const layout = useSelector((state) => state.pageLayoutContent);
   const headerData = useSelector((state) => state.headerData);
   const params = useParams();
+  const { gamingSocket } = useContext(SocketContext);
 
   const page = headerData?.find(
     (page) => page?.path?.substring(1) === (params?.path || "home-page")
@@ -31,31 +30,25 @@ export const PageLayout = ({ children }) => {
 
   const data = layout?.[page?.slug];
 
-  const getPageLayout = async () => {
-    const lang = Cookies.get("language");
+  const fetchLayout = async () => {
+    const lang = params.lng;
     const contentLanguage = lang === "en" ? "all" : lang;
 
-    const layout = await apiServices
-      .get(apiUrl.GET_PAGE_LAYOUT, {
+    gamingSocket.emit(
+      "page_layout",
+      {
         value: page?.slug,
         country: contentLanguage,
-      })
-      .then((response) => ({
-        ...response,
-        page,
-      }));
-
-    return layout;
-  };
-
-  const fetchLayout = async () => {
-    const data = await getPageLayout();
-
-    dispatch(
-      setPageLayoutContent({
-        ...layout,
-        [data.page.slug]: data,
-      })
+      },
+      (response) => {
+        console.log(response);
+        dispatch(
+          setPageLayoutContent({
+            ...layout,
+            [page.slug]: response.data,
+          })
+        );
+      }
     );
   };
 

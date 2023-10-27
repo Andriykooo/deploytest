@@ -13,6 +13,8 @@ export const RacingItem = ({ data, slug }) => {
       ? "today"
       : "tomorrow";
 
+
+
   return (
     <div>
       <div className="horse-links">

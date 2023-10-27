@@ -5,15 +5,17 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { LanguageIcon } from "@/utils/icons";
-import { usePathname } from "next/navigation";
 import "./languageDropdown.css";
 import { useParams } from "next/navigation";
 import { locales } from "../../../i18n";
+import { usePathname, useRouter } from "next-intl/client";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const params = useParams();
+
+  const router = useRouter();
 
   const dropdownLangRef = useRef(null);
 
@@ -29,7 +31,8 @@ const LanguageDropdown = () => {
   const languageSelectHandler = (selectedLanguage) => {
     dispatch(setLanguage(selectedLanguage));
     toggleDropdown();
-    window.location.href = `/${selectedLanguage.code2.toLowerCase()}${pathname}`;
+
+    router.replace(pathname, { locale: selectedLanguage.code2.toLowerCase() });
   };
 
   useClickOutside(dropdownLangRef, () => {

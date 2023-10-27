@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Accordion } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { EmptyState } from "../../emptyState/EmptyState";
 import { MarketOptions } from "../../matches/MarketOptions";
@@ -7,6 +6,8 @@ import MatchCard from "../../matches/MatchCard";
 import { SportsBanner } from "../SportsBanner";
 import "./SportsTable.css";
 import { useTranslations } from "next-intl";
+import { Accordion } from "@/components/Accordion/Accordions";
+
 export const SportsTable = ({ data, type }) => {
   const t = useTranslations("common");
   const isTablet = useSelector((state) => state.isTablet);
@@ -28,57 +29,33 @@ export const SportsTable = ({ data, type }) => {
           {sports?.map((sport, index) => {
             return (
               <Accordion
+                title={sport.name}
+                className="sport-accordion"
                 key={sport.slug}
-                defaultActiveKey={["0"]}
-                className="accordion-wrapper"
+                active={index === 0}
               >
-                <Accordion.Item eventKey={String(index)}>
-                  <div className="firstAccordionItem">
-                    <Accordion.Header className="accordion-of-specials inPlay-specials">
-                      <span
-                        className="hour-of-special-events"
-                        style={{ color: "white" }}
-                      >
-                        {sport.name}
-                      </span>
-                    </Accordion.Header>
-                  </div>
-                  <Accordion.Body className="events">
-                    {!isTablet && (
-                      <MarketOptions options={sport?.market_types} />
-                    )}
-                    {sport?.competitions?.map((competition, index) => {
-                      return (
-                        <Accordion
-                          defaultActiveKey={index === 0 ? "0" : null}
-                          className="accordion-special-container inPlaySectionAccordion"
-                          key={competition.id}
-                        >
-                          <Accordion.Header className="leagues-accordion">
-                            <span
-                              className="match-of-special-events"
-                              style={{ color: "white" }}
-                            >
-                              {competition.name}
-                            </span>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            {competition.events.map((event) => {
-                              return (
-                                <div key={event.id}>
-                                  <MatchCard
-                                    match={event}
-                                    inPlay={type === "sport_widget_in_play"}
-                                  />
-                                </div>
-                              );
-                            })}
-                          </Accordion.Body>
-                        </Accordion>
-                      );
-                    })}
-                  </Accordion.Body>
-                </Accordion.Item>
+                {!isTablet && <MarketOptions options={sport?.market_types} />}
+                {sport?.competitions?.map((competition, competitionIndex) => {
+                  return (
+                    <Accordion
+                      key={competition.id}
+                      className="leagues-accordion"
+                      title={competition.name}
+                      active={index === 0 && competitionIndex === 0}
+                    >
+                      {competition.events.map((event) => {
+                        return (
+                          <div key={event.id}>
+                            <MatchCard
+                              match={event}
+                              inPlay={type === "sport_widget_in_play"}
+                            />
+                          </div>
+                        );
+                      })}
+                    </Accordion>
+                  );
+                })}
               </Accordion>
             );
           })}

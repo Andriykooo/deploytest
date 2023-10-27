@@ -13,6 +13,7 @@
 .matchCard.selections {
   min-height: 32px;
   height: 100%;
+  color: var(--global-color-text-primary);
 }
 
 .matchTeam {
@@ -523,6 +524,7 @@ matchOdds .in-play-time,
   align-items: center;
   justify-content: center;
   border: 0;
+  color: var(--global-color-text-primary);
 }
 
 .singleSelection {
@@ -854,7 +856,7 @@ matchOdds .in-play-time,
   font-size: 12px;
 }
 
-.leagues-accordion .accordion-button {
+.leagues-accordion .custom-accordion-header {
   background-color: var(--global-color-background-quaternary);
   border-radius: 0;
   display: flex;
@@ -1390,6 +1392,11 @@ matchOdds .in-play-time,
     height: 76px;
     margin-left: 8px;
     margin-right: 0;
+  }
+
+  .leagues-accordion .custom-accordion-header {
+    background-color: var(--global-color-background-tertiary);
+    height: 40px;
   }
 
   .inPlaySectionAccordion .accordion-header,

@@ -102,21 +102,6 @@ const Content = ({ children, className }) => {
     });
   }, [pathname]);
 
-  const getSportTypes = () => {
-    axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
-      let sportsData = result?.data;
-      if (sportsData && sportsData.length > 0) {
-        dispatch(setSportTypes(sportsData));
-        if (!activeSport) {
-          dispatch(setActiveSport(sportsData[0]?.id));
-        }
-      } else {
-        dispatch(setSportTypes([]));
-        dispatch(setActiveSport(null));
-      }
-    });
-  };
-
   const getUserData = () => {
     var newUser = loggedUser;
     getUserApi(dispatch).then((result) => {
@@ -148,11 +133,10 @@ const Content = ({ children, className }) => {
       );
     });
 
-    getSportTypes();
-
     if (loggedUser) {
       addLocalStorageItem("swifty_id", loggedUser?.swifty_id);
     }
+
     dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
     dispatch(
       setTablet(nextWindow.document.documentElement.clientWidth <= 1024)

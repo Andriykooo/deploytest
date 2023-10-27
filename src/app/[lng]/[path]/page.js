@@ -4,9 +4,8 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
-  const cookieStore = cookies();
-  const lang = cookieStore.get("language");
-  const defaultLanguage = lang?.value.toLowerCase() || "en";
+  const lang = params.lng;
+  const defaultLanguage = lang?.toLowerCase() || "en";
 
   const country = defaultLanguage === "en" ? "all" : defaultLanguage;
 
@@ -42,9 +41,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const cookieStore = cookies();
-  const lang = cookieStore.get("language");
-  const defaultLanguage = lang?.value.toLowerCase() || "en";
+  const lang = params.lng;
+  const defaultLanguage = lang.toLowerCase() || "en";
 
   const country = defaultLanguage ? "all" : defaultLanguage;
 

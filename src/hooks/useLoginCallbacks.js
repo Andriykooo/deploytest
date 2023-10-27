@@ -9,7 +9,7 @@ import {
 import { getUserApi } from "@/utils/apiQueries";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { setAlertModal, setLoggedUser } from "@/store/actions";
+import { setAlertModal, setLoggedUser, setSidebarLeft } from "@/store/actions";
 import { useCallback } from "react";
 import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
@@ -38,6 +38,7 @@ export function useLoginCallbacks() {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useSearchParams();
+  const sidebarLeft = useSelector((state) => state.sidebarLeft);
 
   const onLoginSuccess = useCallback(
     (response, setShowConfirm) => {
@@ -50,6 +51,14 @@ export function useLoginCallbacks() {
       refreshGamingSocket(response?.token);
 
       Cookies.set("country", response.user_data.country);
+
+      apiServices
+        .get(apiUrl.GET_SIDEBAR_LEFT, {
+          country: response.user_data.country.toLowerCase() || "all",
+        })
+        .then((response) => {
+          dispatch(setSidebarLeft({ ...sidebarLeft, data: response }));
+        });
 
       getUserApi(dispatch).then((userData) => {
         let nextUrlPath = getLocalStorageItem("nextUrlPath");
