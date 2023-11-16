@@ -4,7 +4,7 @@ export const ChatWrapper = styled.div`
   position: fixed;
   z-index: 1000;
   bottom: 0;
-  width: ${(props) => (props.isOpen ? "276px" : "70px")};
+  width: ${(props) => (props.isOpen ? "240px" : "70px")};
   box-shadow: -2px -2px 4px 0px #00000040;
 
   @media (max-width: 1024px) {
@@ -18,9 +18,9 @@ export const ChatBottomWrapper = styled.div`
   display: flex;
   cursor: pointer;
   width: 100%;
-  height: 71px;
+  height: 59px;
   background: var(--global-color-sidebar-selection);
-  padding: 17px 26px 17px 18px;
+  padding: 15px 26px 15px 18px;
   justify-content: space-between;
   align-items: center;
 
@@ -54,7 +54,7 @@ export const ChatBox = styled.div`
   border-radius: 8px 8px 0px 0px;
   position: fixed;
   bottom: 0;
-  left: ${(props) => (props.isOpen ? "279px" : "73px")};
+  left: ${(props) => (props.isOpen ? "243px" : "73px")};
   border: 1px solid var(--global-color-trader-chat-primary);
 
   @media (max-width: 1024px) {
@@ -125,12 +125,12 @@ export const ChatMessage = styled.div`
 `;
 
 export const ChatTitle = styled.div`
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 20px;
   display: flex;
   align-items: center;
-  color: var(--global-color-trader-chat-primary-text);
+  color: var(--global-color-sidebar-text);
 `;
 
 export const MessagesBlock = styled.div`
@@ -161,4 +161,29 @@ export const NumberNewMessages = styled.div`
   font-size: 14px;
   text-align: center;
   color: ${(props) => (props.isOpen ? "var(--global-color-trader-chat-primary-text)" : "var(--global-color-trader-chat-primary)")};
+`;
+
+export const UnLoggedMessage = styled.div`
+  margin: auto 27px;
+  background: #EFECE7;
+  border-radius: 6px;
+  height: 136px;
+  display: grid;
+  place-items: center;
+
+  p {
+    margin: 0;
+    width: 180px;
+    text-align: center;
+    color: var(--global-color-trader-chat-secondary-text);
+    font-size: 14px;
+    line-height: 24px;
+
+    a {
+      color: var(--global-color-trader-chat-primary);
+      text-decoration: underline !important;
+      font-weight: 600;
+    }
+  }
+
 `;

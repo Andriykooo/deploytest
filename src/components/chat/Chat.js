@@ -17,12 +17,14 @@ import {
   ChattingBlock,
   MessagesBlock,
   NumberNewMessages,
+  UnLoggedMessage,
 } from "./ChatStyled";
 import RenderMessages from "./RenderMessages";
 import TypingArea from "./TypingArea";
 import { setSidebarLeft } from "../../store/actions";
 import { useTranslations } from "next-intl";
 import { ChatIcon } from "@/utils/icons";
+import Link from "next/link";
 
 const minHeightTextarea = 16;
 const maxHeightTextarea = 80;
@@ -33,6 +35,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
   const messagesRef = useRef(null);
   const dispatch = useDispatch();
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
+  const loggedUser = useSelector((state) => state.loggedUser)
 
   const { communicationSocket } = useContext(SocketContext);
 
@@ -47,7 +50,8 @@ export const Chat = ({ isOpen, isMobile = false }) => {
   const [lastMessageId, setLastMessageId] = useState();
 
   const fetchNextPage = () => {
-    setIsFetching(true);
+    if (loggedUser) {
+      setIsFetching(true);
 
     communicationSocket.emit(
       "last_messages",
@@ -62,6 +66,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
         ]);
       }
     );
+    }
   };
 
   const hasNextPage = currentPage < totalPages;
@@ -105,30 +110,32 @@ export const Chat = ({ isOpen, isMobile = false }) => {
   };
 
   useEffect(() => {
-    communicationSocket.emit(
-      "last_messages",
-      { page: currentPage },
-      (messagesHistory) => {
-        setMessages(messagesHistory?.data?.messages?.reverse() || []);
-        setCurrentPage(messagesHistory.data.current_page);
-        setTotalPages(messagesHistory.data.total_pages);
-      }
-    );
+    if (loggedUser) {
+      communicationSocket.emit(
+        "last_messages",
+        { page: currentPage },
+        (messagesHistory) => {
+          setMessages(messagesHistory?.data?.messages?.reverse() || []);
+          setCurrentPage(messagesHistory.data.current_page);
+          setTotalPages(messagesHistory.data.total_pages);
+        }
+      );
 
-    communicationSocket.on("new_chat_message", (newMessage) => {
-      if (isChatActive) {
-        communicationSocket.emit("read_messages", {
-          messageIds: [newMessage.message_id],
-          roomId: newMessage?.room_id,
-        });
+      communicationSocket.on("new_chat_message", (newMessage) => {
+        if (isChatActive) {
+          communicationSocket.emit("read_messages", {
+            messageIds: [newMessage.message_id],
+            roomId: newMessage?.room_id,
+          });
 
-        newMessage.is_read = true;
-      }
+          newMessage.is_read = true;
+        }
 
-      setMessages((prev) => [...prev, newMessage]);
-      setDisableScroll(false);
-    });
-  }, []);
+        setMessages((prev) => [...prev, newMessage]);
+        setDisableScroll(false);
+      });
+    }
+  }, [loggedUser]);
 
   const keyDownHandle = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -164,7 +171,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
   };
 
   useEffect(() => {
-    if (isChatActive) {
+    if (isChatActive && loggedUser) {
       if (
         messagesRef.current.scrollHeight <= messagesRef.current.clientHeight &&
         !isFetching &&
@@ -208,7 +215,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
         );
       }
     }
-  }, [messages, isChatActive]);
+  }, [messages, isChatActive, loggedUser]);
 
   const numberUnreadMessage = messages?.reduce((accumulator, currentValue) => {
     if (!currentValue?.is_read && currentValue.from_cms) {
@@ -238,12 +245,19 @@ export const Chat = ({ isOpen, isMobile = false }) => {
               textareaHeight + (textareaHeight === minHeightTextarea ? 104 : 90)
             }
           >
-            <MessagesBlock onScroll={scrollHandler} ref={messagesRef}>
-              <RenderMessages messages={messages} />
-              <div ref={chatBlockRef}></div>
-            </MessagesBlock>
-          </ChattingBlock>
+          {loggedUser ? (
+              <MessagesBlock onScroll={scrollHandler} ref={messagesRef}>
+                <RenderMessages messages={messages} />
+                <div ref={chatBlockRef}></div>
+              </MessagesBlock>
+          ) : (
+            <UnLoggedMessage>
+              <p>Please <Link href="/login">Log In</Link> to send a message to us!</p>
+            </UnLoggedMessage>
+            )}
+            </ChattingBlock>
           <TypingArea
+            disabled={!loggedUser}
             onSubmit={sendMessageHandler}
             maxLength={500}
             value={writtenMessage}

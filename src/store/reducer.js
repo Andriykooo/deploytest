@@ -16,6 +16,7 @@ export const initialState = {
   priceIsChanged: false,
   logos: null,
   language: null,
+  sportContent: {},
   betslipResponse: {
     singles: [],
     combinations: [],
@@ -78,6 +79,7 @@ export const initialState = {
   promo: null,
   forgotPassword: false,
   isVerifyMessage: false,
+  userStats: null,
 };
 
 const rootReducer = (appstate = initialState, action) => {
@@ -93,6 +95,8 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, betTicker: action.payload };
     case constants.SET_USER:
       return { ...appstate, user: action.payload };
+    case constants.SET_USER_STATS:
+      return { ...appstate, userStats: action.payload };
     case constants.SET_DATA:
       return { ...appstate, data: action.payload };
     case constants.SET_COUNTRY_PHONE:
@@ -359,18 +363,25 @@ const rootReducer = (appstate = initialState, action) => {
                   ...component,
                   [component.type]: component[component.type].map((item) => {
                     if (item.id === action.payload.content.id) {
-                      const details = JSON.parse(
-                        action.payload.content.details
-                      );
+                      const language = action.payload.language;
+                      const details = action.payload.content.details;
+
+                      const newDetails = {
+                        ...details,
+
+                        title:
+                          language === "en"
+                            ? details.title
+                            : details[`title_${language}`],
+                        subtitle:
+                          language === "en"
+                            ? details.subtitle
+                            : details[`subtitle_${language}`],
+                      };
+
                       return {
                         ...item,
-                        details: {
-                          ...details,
-                          image: `${
-                            appstate.pageLayoutContent[action.payload.slug]
-                              .media_path
-                          }/${details.image}`,
-                        },
+                        details: newDetails,
                       };
                     }
 
@@ -378,13 +389,25 @@ const rootReducer = (appstate = initialState, action) => {
                   }),
                 };
               }
-
               if (component.type_id === action.payload.content.id) {
+                const details = action.payload.content.details;
+                const language = action.payload.language;
+
                 return {
                   ...component,
                   [component.type]: {
                     ...component[component.type],
-                    details: JSON.parse(action.payload.content.details),
+                    ...action.payload[component.type],
+                    details: details,
+                    header_banner: details?.image,
+                    title:
+                      language === "en"
+                        ? details.title
+                        : details[`title_${language}`],
+                    subtitle:
+                      language === "en"
+                        ? details.subtitle
+                        : details[`subtitle_${language}`],
                   },
                 };
               }
@@ -501,6 +524,12 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         promo: action.payload,
+      };
+
+    case constants.SET_SPORT_CONTENT:
+      return {
+        ...appstate,
+        sportContent: action.payload,
       };
 
     case constants.SET_BETSLIP_RESPONSE:

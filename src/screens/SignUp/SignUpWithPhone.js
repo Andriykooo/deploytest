@@ -92,7 +92,7 @@ function SignUpWithPhone() {
   }, [on_boarding]);
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       {selectedCountry ? (
         <div className="loginForm GridStyleForPhone">
           <p className="logInTitle">

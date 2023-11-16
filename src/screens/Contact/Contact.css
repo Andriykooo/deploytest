@@ -287,12 +287,10 @@ p.accounts {
 @media (min-width: 539px) and (max-width: 721px) {
   .contactPage {
     padding-top: 90px;
-    max-width: 920px;
   }
   form {
     display: flex;
     flex-direction: column;
-    width: 90%;
   }
 
   .banner-text-contact {

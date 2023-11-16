@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { images } from "./imagesConstant";
+import { CloseIcon, ToastError, ToastSuccess } from "./icons";
 
 export const alertToast = ({
   message,
@@ -11,11 +12,7 @@ export const alertToast = ({
 }) => {
   toast.error(message, {
     icon: () => (
-      <Image
-        alt="img-toastError"
-        className="customIcon"
-        src={images.toastError}
-      />
+      <ToastError />
     ),
     position: "top-right",
     autoClose,
@@ -35,11 +32,7 @@ export const SuccesToast = ({
 }) => {
   toast.success(message, {
     icon: () => (
-      <Image
-        alt="img-toastSuccess"
-        className="customIcon2"
-        src={images.toastSuccess}
-      />
+      <ToastSuccess />
     ),
     position: "top-right",
     onClose,
@@ -54,6 +47,6 @@ export const SuccesToast = ({
 // Close button customized for toast error
 export const CloseButton = ({ closeToast }) => (
   <span className="Toastify__close-button" onClick={closeToast}>
-    <Image alt="img-closeIcon" src={images.closeIcon} />
+    <CloseIcon />
   </span>
 );

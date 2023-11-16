@@ -5,17 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { LanguageIcon } from "@/utils/icons";
+import { usePathname } from "next/navigation";
 import "./languageDropdown.css";
 import { useParams } from "next/navigation";
 import { locales } from "../../../i18n";
-import { usePathname, useRouter } from "next-intl/client";
+import { addLocalStorageItem } from "@/utils/localStorage";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const params = useParams();
-
-  const router = useRouter();
 
   const dropdownLangRef = useRef(null);
 
@@ -30,9 +29,14 @@ const LanguageDropdown = () => {
 
   const languageSelectHandler = (selectedLanguage) => {
     dispatch(setLanguage(selectedLanguage));
+
+    addLocalStorageItem("language", selectedLanguage.code2.toLowerCase());
     toggleDropdown();
 
-    router.replace(pathname, { locale: selectedLanguage.code2.toLowerCase() });
+    window.location.href = pathname.replace(
+      `/${params.lng}`,
+      `/${selectedLanguage.code2.toLowerCase()}`
+    );
   };
 
   useClickOutside(dropdownLangRef, () => {
@@ -40,12 +44,12 @@ const LanguageDropdown = () => {
   });
 
   useEffect(() => {
-    if (onboarding?.languages) {
-      const lng = params.lng.toUpperCase();
-
+    if (!language) {
       dispatch(
         setLanguage(
-          onboarding.languages.find((language) => language.code2 === lng)
+          onboarding.languages?.find(
+            (lang) => lang.code2.toLowerCase() === params.lng
+          )
         )
       );
     }

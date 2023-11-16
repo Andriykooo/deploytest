@@ -8,7 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 import { RacingComponent } from "../racingComponent/RacingComponent";
 import { gamingSocket } from "@/context/socket";
 import { useTranslations } from "next-intl";
-export const RacingWidget = ({ data }) => {
+import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
+
+const RacingWidgetComponent = ({ data }) => {
   const t = useTranslations("common");
 
   const [selectedFilter, setSelectedFilter] = useState({
@@ -95,3 +97,5 @@ export const RacingWidget = ({ data }) => {
     </div>
   ) : null;
 };
+
+export const RacingWidget = widgetDisplayRestriction(RacingWidgetComponent);

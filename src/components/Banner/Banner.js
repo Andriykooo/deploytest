@@ -2,8 +2,10 @@
 
 import { Skeleton } from "@mui/material";
 import { LinkType } from "../LinkType/LinkType";
+import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
+import Image from "next/image";
 
-export const Banner = ({ data, isLoading }) => {
+const BannerComponent = ({ data, isLoading }) => {
   return (
     <div className="imageContainer">
       {isLoading ? (
@@ -50,18 +52,14 @@ export const Banner = ({ data, isLoading }) => {
         </>
       ) : (
         <>
-          {data?.media_type === "iframe" ? (
-            <iframe
-              src={data?.media}
-              width="100%"
-              height="100%"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              title="Banner"
-            ></iframe>
-          ) : (
-            <img src={data?.media?.path} alt="Banner" />
-          )}
+          <Image
+            src={data.details.image}
+            alt="banner"
+            placeholder="blur"
+            quality={100}
+            fill
+            priority
+          />
           <div className="textContainer">
             <div className="firstImageText">
               {data?.title}
@@ -71,16 +69,16 @@ export const Banner = ({ data, isLoading }) => {
             </div>
             {data?.link_details?.name && (
               <LinkType
-                type={data?.link_details?.type}
-                path={data?.link_details?.path}
+                type={data?.details?.link_type}
+                path={data?.details?.link}
                 openType={data?.link_details?.open_type}
                 modalData={{
-                  slug: data?.link_details?.path.substring(1),
+                  slug: data?.details?.link_slug,
                   name: data?.title,
                 }}
               >
                 <button className="btnPrimary bannerButton buttonOfSlider">
-                  {data?.link_details?.name}
+                  {data?.details?.call_to_action}
                 </button>
               </LinkType>
             )}
@@ -90,3 +88,5 @@ export const Banner = ({ data, isLoading }) => {
     </div>
   );
 };
+
+export const Banner = widgetDisplayRestriction(BannerComponent);

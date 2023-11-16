@@ -202,6 +202,13 @@ export const setActivePage = (payload) => {
   };
 };
 
+export const setSportContent = (payload) => {
+  return {
+    type: constants.SET_SPORT_CONTENT,
+    payload,
+  };
+};
+
 export const setLanguage = (payload) => {
   return {
     type: constants.SET_LANGUAGE,
@@ -394,6 +401,13 @@ export const setIsVerifyMessage = (payload) => {
 export const setReviewBets = (payload) => {
   return {
     type: constants.SET_REVIEW_BETS,
+    payload,
+  };
+};
+
+export const setUserStats = (payload) => {
+  return {
+    type: constants.SET_USER_STATS,
     payload,
   };
 };

@@ -1,11 +1,9 @@
-.backgroundImage {
-  min-height: calc(100vh - 76px);
-  background-image: linear-gradient(
-      0deg,
+.signInImage {
+  min-height: calc(100vh - 74px);
+  background-image: linear-gradient(0deg,
       rgba(37, 40, 44, 0.41),
-      rgba(37, 40, 44, 0.41)
-    ),
-    url("../../assets/images/loginBackground.png");
+      rgba(37, 40, 44, 0.41)),
+    url("../../assets/images/signInImage.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -20,12 +18,11 @@
   color: var(--global-color-text-primary);
   max-width: 383px;
   width: 100%;
-  margin-top: 36px;
-  margin-bottom: 42px;
+  margin-bottom: 30px;
 }
 
 .login-buttons {
-  margin-bottom: 24px;
+  position: relative;
   width: 24rem;
   height: 50px;
   color: var(--global-color-text-primary);
@@ -59,6 +56,7 @@
   background: var(--global-color-buttons-background-disabled);
   box-sizing: border-box;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .continueBtn.outline {
@@ -84,6 +82,7 @@
 
 .emailValidation {
   position: relative;
+  margin-bottom: 24px;
 }
 
 .validatedIcon {
@@ -92,32 +91,11 @@
   right: 5%;
 }
 
-.Toastify__toast {
-  border-radius: 10px;
-  border-left: 10px solid #e20b5c;
-  margin-top: 2rem;
-  margin-right: 1rem;
-  width: auto;
-  padding: 0 20px;
-}
-
-.Toastify__close-button {
-  color: white;
-  opacity: 1;
-  width: 24px;
-  top: 30%;
-  right: 13px;
-  position: absolute;
-}
-
-.Toastify__toast-body {
-  padding: 0;
-}
-
 .loginForm {
   display: grid;
   justify-content: center;
-  padding-top: 100px;
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 .loginForm form {
@@ -130,6 +108,7 @@
   justify-content: flex-start;
   gap: 8px;
   cursor: pointer;
+  margin-bottom: 24px;
 }
 
 .loginForm .go-back span {
@@ -215,6 +194,10 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .signInImage {
+    min-height: calc(100vh - 56px);
+  }
+
   .loginForm {
     padding-left: 24px;
     padding-right: 24px;
@@ -246,10 +229,6 @@
     left: 56px;
   }
 
-  .login-buttons {
-    margin-bottom: 16px;
-  }
-
   .oneClick {
     margin-bottom: 24px;
   }
@@ -268,17 +247,6 @@
   padding: 0 20px;
   margin-bottom: 0;
   margin-right: 12px;
-}
-
-.Toastify__toast--success {
-  border-left: 10px solid var(--global-color-notiffication-success);
-  width: auto;
-}
-
-.Toastify__toast-container--top-right {
-  top: 1em;
-  right: 0em !important;
-  width: var(--toastify-toast-width);
 }
 
 .button1 {
@@ -317,8 +285,6 @@ input:-webkit-autofill:active {
   }
 
   .logInTitle {
-    margin-top: 30px;
-    margin-bottom: 30px;
     max-width: 100%;
   }
 

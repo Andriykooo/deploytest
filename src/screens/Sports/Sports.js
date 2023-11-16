@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SocketContext } from "../../context/socket";
 import SkeletonComponent from "../../utils/SkeletonComponent";
@@ -8,14 +8,17 @@ import { HorseRacing } from "../HorseRacing/HorseRacing";
 import { Sport } from "../Sport/Sport";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
+import { useParams } from "next/navigation";
+import { setSportContent } from "@/store/actions";
 
 const Sports = ({ slug }) => {
+  const dispatch = useDispatch();
   const { gamingSocket } = useContext(SocketContext);
-  const isMobile = useSelector((state) => state.setMobile);
-  const language = useSelector((state) => state.language);
+  const params = useParams();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [sportContent, setSportContent] = useState(null);
+  const isMobile = useSelector((state) => state.setMobile);
+  const data = useSelector((state) => state.sportContent);
+  const sportContent = data?.[slug];
 
   useEffect(() => {
     gamingSocket.emit("subscribe_sport", {
@@ -31,27 +34,20 @@ const Sports = ({ slug }) => {
   }, []);
 
   useEffect(() => {
-    setSportContent(null);
+    gamingSocket?.emit(
+      "sport_content",
+      {
+        value: slug,
+        country: params.lng,
+        timezone: moment().utcOffset(),
+      },
+      (response) => {
+        dispatch(setSportContent({ ...data, [slug]: response?.data }));
+      }
+    );
+  }, []);
 
-    if (slug) {
-      setIsLoading(true);
-
-      gamingSocket?.emit(
-        "sport_content",
-        {
-          value: slug,
-          country: language?.code2,
-          timezone: moment().utcOffset(),
-        },
-        (response) => {
-          setSportContent(response?.data);
-          setIsLoading(false);
-        }
-      );
-    }
-  }, [slug, language]);
-
-  return isLoading ? (
+  return !sportContent ? (
     <SkeletonComponent isMobile={isMobile} />
   ) : (
     <div className="mainArticle">

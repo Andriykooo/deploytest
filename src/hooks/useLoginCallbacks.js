@@ -9,7 +9,7 @@ import {
 import { getUserApi } from "@/utils/apiQueries";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { setAlertModal, setLoggedUser, setSidebarLeft } from "@/store/actions";
+import { setAlertModal, setLoggedUser } from "@/store/actions";
 import { useCallback } from "react";
 import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
@@ -24,10 +24,10 @@ const ContactsInfo = () => {
       {t("customer_service")}
       <br />
       <a
-        href={`mailto:${settings?.companyServiceEmail}`}
+        href={`mailto:${settings?.company_service_email}`}
         className="customer-service-notice-email"
       >
-        {settings?.companyServiceEmail}
+        {settings?.company_service_email}
       </a>
     </div>
   );
@@ -38,27 +38,17 @@ export function useLoginCallbacks() {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useSearchParams();
-  const sidebarLeft = useSelector((state) => state.sidebarLeft);
 
   const onLoginSuccess = useCallback(
     (response, setShowConfirm) => {
       addLocalStorageItem("access_token", response?.token);
       addLocalStorageItem("refresh_token", response?.refresh_token);
-      addLocalStorageItem("device_id", uuidv4());
       addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
       addLocalStorageItem("swifty_id", response?.swifty_id);
       refreshCommunicationSocket(response?.token);
       refreshGamingSocket(response?.token);
 
       Cookies.set("country", response.user_data.country);
-
-      apiServices
-        .get(apiUrl.GET_SIDEBAR_LEFT, {
-          country: response.user_data.country.toLowerCase() || "all",
-        })
-        .then((response) => {
-          dispatch(setSidebarLeft({ ...sidebarLeft, data: response }));
-        });
 
       getUserApi(dispatch).then((userData) => {
         let nextUrlPath = getLocalStorageItem("nextUrlPath");

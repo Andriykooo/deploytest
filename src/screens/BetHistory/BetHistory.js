@@ -2,13 +2,11 @@
 
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { gamingSocket } from "@/context/socket";
 import { Button } from "../../components/button/Button";
 import {
   BET_HISTORY_ALL_TAB,
-  BET_HISTORY_OPEN_TAB,
-  BET_HISTORY_SETTLED_TAB,
   BET_HISTORY_TABS,
 } from "@/utils/betHistory";
 import classNames from "classnames";
@@ -16,11 +14,12 @@ import moment from "moment";
 import BetHistorySection from "./BetHistorySection";
 import BetHistorySectionRow from "./BetHistorySectionRow";
 import { EmptyState } from "@/components/emptyState/EmptyState";
-
 import "../DepositLimit/DepositLimit.css";
 import "./BetHistory.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
+import Spiner from "@/utils/Spiner";
+import InfiniteScroll from "react-infinite-scroll-component";
 const skeletonHeader = new Array(4).fill(0);
 
 const BetHistory = () => {
@@ -28,35 +27,48 @@ const BetHistory = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [myBets, setMyBets] = useState([]);
   const [activeTab, setActiveTab] = useState(BET_HISTORY_TABS[0].value);
+  const [page, setPage] = useState(1);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const hasMore = useRef(false);
 
   const getMyBets = (type) => {
-    gamingSocket.emit("my_bets", { value: type }, (response) => {
-      if (response?.data) {
-        if (response.data?.errorMessage) {
-          alertToast({ message: response.data.errorMessage });
+    setShowSpinner(true);
+    gamingSocket.emit("my_bets", { value: type, page: page }, (response) => {
+      if (response.data?.errorMessage) {
+        alertToast({ message: response.data.errorMessage });
+      } else if (response.data.length) {
+        setMyBets((prev) => [...prev, ...response.data]);
+        if (response.data.length < 20) {
+          hasMore.current = false;
         } else {
-          setMyBets(response.data);
+          hasMore.current = true;
+          setPage(page + 1)
         }
+      } else {
+        hasMore.current = false;
       }
       setIsLoading(false);
+      setShowSpinner(false);
     });
   };
 
   const handleChangeTab = (value) => {
+    setIsLoading(true);
+    setMyBets([]);
+    setPage(1);
+    hasMore.current = false;
     setActiveTab(value);
-    getMyBets(value);
   };
 
   useEffect(() => {
-    getMyBets("all");
-  }, []);
+    getMyBets(activeTab);
+  }, [activeTab]);
+
 
   const tabData = useMemo(
     () =>
       myBets.reduce((acc, val) => {
-        // TODO: add date
         const date = moment(val.bet_date).format("dddd, Do MMMM YYYY");
-
         return {
           ...acc,
           [date]: [...(acc[date] || []), val],
@@ -64,7 +76,6 @@ const BetHistory = () => {
       }, {}),
     [myBets]
   );
-
   const tabDates = useMemo(() => Object.keys(tabData), [tabData]);
 
   const renderTab = () => {
@@ -76,45 +87,60 @@ const BetHistory = () => {
       );
     }
 
-    return tabDates.map((date) => {
-      const data = tabData[date];
-
-      return (
-        <div key={date}>
-          <p className="betHistoryDate">{date}</p>
-          {data.map((bet) => (
-            <BetHistorySection
-              key={bet.bet_id}
-              title={bet.bet_name}
-              stake={bet.total_stake}
-              returns={bet.payout}
-              betsCount={bet.bets.length}
-              result={bet.result}
-            >
-              {bet.bets.map((item) => (
-                <BetHistorySectionRow
-                  key={`${bet.bet_id}-${item.event_name}`}
-                  title={item.selection_name || item.competitor_name}
-                  eventResult={item.event_result}
-                  result={item.result}
-                  market={item.market_name}
-                  name={item.event_name}
-                  odds={{
-                    odds_decimal: item.odds_decimal,
-                    odds_fractional: item.odds_fractional,
-                    odds_american: item.odds_american,
-                  }}
-                />
-              ))}
-            </BetHistorySection>
-          ))}
+    return (
+      <InfiniteScroll
+        dataLength={myBets?.length}
+        next={() => getMyBets(activeTab)}
+        loader={showSpinner && (
+          <span className="spinnerStyle">
+            <Spiner sell />
+          </span>
+        )}
+        hasMore={hasMore.current && !isLoading}
+        scrollableTarget="scrollable"
+        className="max-container"
+      >
+        <div className="mb-4">
+          {tabDates.map((date) => {
+            const data = tabData[date];
+            return (
+              <div key={date}>
+                <p className="betHistoryDate">{date}</p>
+                {data?.map((bet) => (
+                  <BetHistorySection
+                    key={bet.bet_id}
+                    title={bet.bet_name}
+                    stake={bet.total_stake}
+                    returns={bet.payout}
+                    betsCount={bet.bets.length}
+                    result={bet.result}
+                  >
+                    {bet.bets.map((item) => (
+                      <BetHistorySectionRow
+                        key={`${bet.bet_id}-${item.event_name}`}
+                        title={item.selection_name || item.competitor_name}
+                        eventResult={item.event_result}
+                        result={item.result}
+                        market={item.market_name}
+                        name={item.event_name}
+                        odds={{
+                          odds_decimal: item.odds_decimal,
+                          odds_fractional: item.odds_fractional,
+                          odds_american: item.odds_american,
+                        }} />
+                    ))}
+                  </BetHistorySection>
+                ))}
+              </div>
+            );
+          })}
         </div>
-      );
-    });
+      </InfiniteScroll>
+    )
   };
 
   return (
-    <div className="depositLimit betHistoryBody">
+    <div className="depositLimit betHistoryBody" id="scrollable">
       <div>
         <PreferencesTitle title={t("common.bet_history")} />
         <div className="betHistoryMenuBar">
@@ -124,7 +150,11 @@ const BetHistory = () => {
               className={classNames("betHistoryMenu", {
                 activeButton: activeTab === tab.value,
               })}
-              onClick={() => handleChangeTab(tab.value)}
+              onClick={() => {
+                if (activeTab !== tab.value) {
+                  handleChangeTab(tab.value)
+                }
+              }}
               text={
                 <>
                   <Image src={tab.icon} alt="my-bet-tab" />
@@ -143,27 +173,27 @@ const BetHistory = () => {
       >
         {isLoading
           ? skeletonHeader.map((_, index) => {
-              return (
-                <React.Fragment key={index}>
+            return (
+              <React.Fragment key={index}>
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: "2rem", bgcolor: "#212536" }}
+                  className="mt-2"
+                  animation="wave"
+                  width={250}
+                />
+                {skeletonHeader.map((__, headerIndex) => (
                   <Skeleton
                     variant="text"
-                    sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                    className="mt-2"
+                    sx={{ fontSize: "1.2rem" }}
+                    className="my-2"
                     animation="wave"
-                    width={250}
+                    key={headerIndex}
                   />
-                  {skeletonHeader.map((__, headerIndex) => (
-                    <Skeleton
-                      variant="text"
-                      sx={{ fontSize: "1.2rem" }}
-                      className="my-2"
-                      animation="wave"
-                      key={headerIndex}
-                    />
-                  ))}
-                </React.Fragment>
-              );
-            })
+                ))}
+              </React.Fragment>
+            );
+          })
           : renderTab()}
       </div>
     </div>

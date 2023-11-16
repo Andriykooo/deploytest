@@ -1,9 +1,9 @@
 .matchCard {
   width: 100%;
-  background: var(--global-color-background-tertiary);
+  background: var(--global-color-table-header-secondary);
   display: grid;
   grid-template-columns: 0.5fr 3.5fr 2fr;
-  border-bottom: 1px solid var(--global-color-background-quaternary);
+  border-bottom: 1px solid var(--global-color-table-grid-border);
   margin: 0;
   font-style: normal;
   font-weight: 400;
@@ -13,7 +13,7 @@
 .matchCard.selections {
   min-height: 32px;
   height: 100%;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-table-text-primary);
 }
 
 .matchTeam {
@@ -23,7 +23,7 @@
   line-height: 19px;
   display: flex;
   align-items: center;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-table-text-secondary);
   flex: 1 1;
   justify-content: flex-start;
   text-align: start;
@@ -38,14 +38,14 @@
 }
 
 .more-markets {
-  border-left: 1px solid var(--global-color-background-quaternary);
+  border-left: 1px solid var(--global-color-table-grid-border);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .more-marketsTemp {
-  border-left: 1px solid var(--global-color-background-quaternary);
+  border-left: 1px solid var(--global-color-table-grid-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,18 +60,13 @@
   justify-content: center;
   align-items: center;
   padding: 6px 16px;
-  background: rgba(245, 196, 81, 0.1);
   border-radius: 16px;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 17px;
-  color: #f5c451;
-  background: linear-gradient(0deg, #bc9239, #bc9239),
-    linear-gradient(0deg, rgba(106, 47, 47, 0.2), rgba(106, 47, 47, 0.2)),
-    linear-gradient(180deg, #f4176a 0%, rgba(255, 3, 98, 0) 100%), #c2034b;
-
-  background: rgba(245, 196, 81, 0.1);
+  color: var(--global-color-table-text-odds-primary);
+  background: var(--global-color-table-text-vs-background);
 }
 
 .matchDate {
@@ -102,7 +97,7 @@
   width: 100%;
   line-height: 100%;
   text-align: center;
-  color: var(--global-color-primary);
+  color: var(--global-color-table-text-odds-primary);
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -117,11 +112,11 @@
 }
 
 .rowBetsOdds {
-  background: var(--global-color-shade1);
+  background: var(--global-color-table-grid-background);
 }
 
 .rowOdds {
-  background: var(--global-color-shade5);
+  background: var(--global-color-table-header-secondary);
 }
 
 .matchOdds.selectionPriceBoost {
@@ -130,17 +125,17 @@
 }
 
 .matchOdds:hover {
-  background: var(--global-color-primary);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-price-selected);
+  color: var(--global-color-table-text-secondary);
 }
 
 .matchOdds:hover .priceBoostIcon {
-  fill: var(--global-color-text-primary);
+  fill: var(--global-color-table-text-secondary);
 }
 
 .matchOdds.suspended {
-  background-color: var(--global-color-shade4);
-  color: var(--global-color-text-secondary);
+  background-color: var(--global-color-price-suspended);
+  color: var(--global-color-price-text);
   pointer-events: none;
 }
 
@@ -156,12 +151,12 @@
 
 .priceBoostIcon {
   pointer-events: none;
-  fill: var(--global-color-primary);
+  fill: var(--global-color-table-text-odds-primary);
   margin-left: 4px;
 }
 
 .priceBoostIcon.active {
-  fill: var(--global-color-text-primary);
+  fill: var(--global-color-table-text-secondary);
 }
 
 .tooltip {
@@ -197,8 +192,8 @@
 
 .animationBlock.driftingAnimation {
   /* animation: drifting 5s ease; */
-  background-color: var(--global-color-price-primary);
-  color: var(--global-color-text-primary);
+  background-color: var(--global-color-price-drifting);
+  color: var(--global-color-table-text-secondary);
 }
 
 .matchOdds.drifting::before {
@@ -207,17 +202,17 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  border-right: 10px solid var(--global-color-price-primary);
+  border-right: 10px solid var(--global-color-price-drifting);
   border-left: 10px solid transparent;
-  border-bottom: 10px solid var(--global-color-price-primary);
+  border-bottom: 10px solid var(--global-color-price-drifting);
   border-top: 10px solid transparent;
   background-color: transparent;
 }
 
 .animationBlock.shorteningAnimation {
   /* animation: shortening 5s ease; */
-  background-color: var(--global-color-price-secondary);
-  color: var(--global-color-text-primary);
+  background-color: var(--global-color-price-shortening);
+  color: var(--global-color-table-text-secondary);
 }
 
 .matchOdds.shortening::before {
@@ -226,9 +221,9 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  border-right: 10px solid var(--global-color-price-secondary);
+  border-right: 10px solid var(--global-color-price-shortening);
   border-left: 10px solid transparent;
-  border-bottom: 10px solid var(--global-color-price-secondary);
+  border-bottom: 10px solid var(--global-color-price-shortening);
   border-top: 10px solid transparent;
   background-color: transparent;
 }
@@ -271,13 +266,13 @@
   }
 
   25% {
-    background-color: var(--global-color-price-primary);
-    color: var(--global-color-text-primary);
+    background-color: var(--global-color-price-drifting);
+    color: var(--global-color-table-text-secondary);
   }
 
   75% {
-    background-color: var(--global-color-price-primary);
-    color: var(--global-color-text-primary);
+    background-color: var(--global-color-price-drifting);
+    color: var(--global-color-table-text-secondary);
   }
 
   100% {
@@ -289,13 +284,13 @@
   }
 
   25% {
-    background-color: var(--global-color-price-secondary);
-    color: var(--global-color-text-primary);
+    background-color: var(--global-color-price-shortening);
+    color: var(--global-color-table-text-secondary);
   }
 
   75% {
-    background-color: var(--global-color-price-secondary);
-    color: var(--global-color-text-primary);
+    background-color: var(--global-color-price-shortening);
+    color: var(--global-color-table-text-secondary);
   }
 
   100% {
@@ -308,7 +303,7 @@
 }
 
 .activeOdd {
-  background: var(--global-color-primary);
+  background: var(--global-color-table-text-odds-primary);
 }
 
 .odds {
@@ -320,7 +315,7 @@
 }
 
 .odds > * {
-  border-left: 1px solid var(--global-color-background-quaternary);
+  border-left: 1px solid var(--global-color-table-grid-border);
 }
 
 .iceHockeyOdds {
@@ -366,12 +361,11 @@
   line-height: 15px;
   display: flex;
   align-items: center;
-  color: var(--global-color-text-primary);
   padding-bottom: 10px !important;
 }
 
 .match-event-accordion-body {
-  background-color: var(--global-color-background-secondary);
+  background-color: var(--global-color-table-header-primary);
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -385,7 +379,7 @@
   font-size: 12px;
   margin: 20px auto 30px;
   max-width: 920px;
-  color: var(--global-color-text-secondary);
+  color: var(--global-color-price-text);
 }
 
 .match-details-main .sports-types {
@@ -455,7 +449,7 @@
 }
 
 .mb-match-time {
-  background: var(--global-color-background-quaternary);
+  background: var(--global-color-table-header-tertiary);
   padding: 4px 10px;
   font-style: normal;
   font-size: 12px;
@@ -476,7 +470,7 @@
   line-height: 12px;
 }
 
-matchOdds .in-play-time,
+.matchOdds .in-play-time,
 .starting-soon-games {
   width: 57px;
   font-style: normal;
@@ -488,13 +482,13 @@ matchOdds .in-play-time,
 }
 
 .starting-soon-games {
-  color: var(--global-color-text-primary);
+  color: var(--global-color-table-text-secondary);
 }
 
 .in-play-time {
   width: 100%;
   margin-left: 7px;
-  color: var(--global-color-text-quaternary);
+  color: var(--global-color-betslip-live);
 }
 
 .starting-soon-match {
@@ -548,7 +542,7 @@ matchOdds .in-play-time,
   align-items: center;
   display: flex;
   justify-content: space-between;
-  background-color: var(--global-color-background-quaternary);
+  background-color: var(--global-color-table-header-tertiary);
   border-radius: 6px 6px 0 0;
   padding: 10px 16px;
 }
@@ -791,7 +785,7 @@ matchOdds .in-play-time,
 }
 
 .headerOfGames {
-  background: var(--global-color-background-quaternary);
+  background: var(--global-color-table-header-tertiary);
   margin: 0;
   height: 32px;
   display: flex;
@@ -839,8 +833,8 @@ matchOdds .in-play-time,
 
 .accordion-button.collapsed,
 .accordion-button:not(.collapsed) {
-  background: var(--global-color-background-secondary);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-table-header-primary);
+  color: var(--global-color-table-text-primary);
   padding-left: 12px;
   font-size: 12px;
   font-weight: 600;
@@ -851,7 +845,7 @@ matchOdds .in-play-time,
 
 .sportsBackground .accordion-button.collapsed,
 .sportsBackground .accordion-button:not(.collapsed) {
-  background: var(--global-main-color-background);
+  background: var(--global-color-background);
   font-weight: 600;
   font-size: 12px;
 }
@@ -863,6 +857,10 @@ matchOdds .in-play-time,
   flex-direction: row-reverse;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.custom-accordion.leagues-accordion:not(:last-child) {
+  margin-bottom: 1px;
 }
 
 .homeSportsContainer.accordion-header {
@@ -987,7 +985,7 @@ matchOdds .in-play-time,
 
 .matchCardRow {
   cursor: pointer;
-  background: var(--global-color-background-quinary);
+  background: var(--global-color-table-grid-background);
 }
 
 .matchCardRow:nth-last-child(2) {
@@ -1004,7 +1002,7 @@ matchOdds .in-play-time,
 
 .accordion-body {
   padding: 0px;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-table-text-secondary);
   overflow-x: auto;
 }
 
@@ -1138,6 +1136,12 @@ matchOdds .in-play-time,
 .accordionContainer {
   border-radius: 4px;
   overflow: hidden;
+  background: var(--global-color-betslip-header);
+  margin-bottom: 10px;
+}
+
+.accordionContainer .headerOfGames {
+  margin: 0 10px 10px;
 }
 
 @media screen and (max-width: 480px) {

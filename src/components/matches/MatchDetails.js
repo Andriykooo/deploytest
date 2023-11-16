@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { Accordion } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../../context/socket";
@@ -15,6 +14,7 @@ import { EmptyState } from "../emptyState/EmptyState";
 import { GoBackButton } from "../goBackButton/GoBackButton";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import { Accordion } from "../Accordion/Accordions";
 const MatchDetails = ({ data, id }) => {
   const t = useTranslations();
 
@@ -221,13 +221,12 @@ const MatchDetails = ({ data, id }) => {
                   if (selectedMarketList.id === 0) {
                     setFilteredMarkets(markets);
                   } else {
-                    const url = new URL(apiUrl.MATCH_DETAILS);
-
-                    url.searchParams.append("eventId", id);
-                    url.searchParams.append("listId", selectedMarketList.id);
-
                     const { markets: responseMarkets } = await apiServices.get(
-                      url
+                      apiUrl.MATCH_DETAILS,
+                      {
+                        eventId: id,
+                        listId: selectedMarketList.id,
+                      }
                     );
 
                     setFilteredMarkets(responseMarkets);
@@ -242,49 +241,44 @@ const MatchDetails = ({ data, id }) => {
             })}
           >
             {filteredMarkets.length > 0 ? (
-              filteredMarkets.map((row, index) => {
+              filteredMarkets.map((row) => {
                 return (
                   <Accordion
-                    defaultActiveKey={["0"]}
-                    key={index}
-                    alwaysOpen
-                    className="accordionContainer "
+                    title={row?.market_name}
+                    key={`${row?.market_id}-${row?.market_name}`}
+                    className="accordionContainer"
                   >
-                    <Accordion.Item eventKey={String(index)}>
-                      <Accordion.Header className="accourdHeader">
-                        {row?.market_name}
-                      </Accordion.Header>
-                      <Accordion.Body
-                        className="match-event-accordion-body "
-                        style={
-                          isTablet
-                            ? { gridTemplateColumns: "1fr 1fr" }
-                            : row?.selections.length <= 2
-                            ? { gridTemplateColumns: "1fr 1fr" }
-                            : { gridTemplateColumns: "1fr 1fr 1fr" }
-                        }
-                      >
-                        {row?.selections.map((option, index) => {
-                          option.odd = option.odds_decimal;
-
-                          return (
-                            <div className="headerOfGames" key={index}>
-                              <div className="d-flex position-relative match-event-selection">
-                                {option.name}
-                              </div>
-
-                              <div
-                                className={
-                                  "d-flex position-relative match-event-odds"
-                                }
-                              >
-                                <MatchOdds selection={option} />
-                              </div>
+                    <div
+                      className="d-grid"
+                      style={{
+                        gridTemplateColumns: `repeat(${
+                          row?.selections?.length > 3
+                            ? 3
+                            : row?.selections?.length
+                        }, 1fr)`,
+                      }}
+                    >
+                      {row?.selections.map((selection) => {
+                        return (
+                          <div
+                            className="headerOfGames"
+                            key={selection?.bet_id}
+                          >
+                            <div className="d-flex position-relative match-event-selection">
+                              {selection.name}
                             </div>
-                          );
-                        })}
-                      </Accordion.Body>
-                    </Accordion.Item>
+
+                            <div
+                              className={
+                                "d-flex position-relative match-event-odds"
+                              }
+                            >
+                              <MatchOdds selection={selection} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </Accordion>
                 );
               })

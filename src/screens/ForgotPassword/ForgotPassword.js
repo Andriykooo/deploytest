@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="backgroundImage forgotPassword">
+    <div className="signInImage forgotPassword">
       <div className="loginForm p-4">
         <p className="logInTitle">{t("create_new_password")}</p>
         <PasswordFields

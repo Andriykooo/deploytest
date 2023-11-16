@@ -2,6 +2,7 @@
   position: fixed;
   z-index: 10;
   height: 100%;
+  background-color: var(--global-color-sidebar-selection);
 }
 
 .sidebar-left-chat {
@@ -20,7 +21,12 @@
 }
 
 .sidebar-left.active ~ .content {
-  margin-left: 276px;
+  margin-left: 240px;
+}
+
+.sports-search-icon {
+  margin-left: 16px;
+  padding-bottom: 2px;
 }
 
 @media (max-width: 1024px) {

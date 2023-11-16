@@ -39,7 +39,7 @@ export const TabsSelect = ({
                 value={item}
                 sx={{
                   color:
-                    selectedItem?.label === item?.label ? "#ffffff" : "#A4A4A4",
+                    selectedItem?.label === item?.label ? "var(--global-color-chip-line-text-active)" : "var(--global-color-chip-line-text-inactive)",
                   textTransform: "none",
                   display: "flex",
                 }}

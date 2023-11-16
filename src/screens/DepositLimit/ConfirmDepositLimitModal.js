@@ -20,7 +20,6 @@ const ConfirmDepositLimitModal = ({ data }) => {
 
   const user = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
-  const settings = useSelector((state) => state.settings);
 
   const [isLoadingAccept, setIsLoadingAccept] = useState(false);
   const [selectedActionId, setSelectedActionId] = useState(null);

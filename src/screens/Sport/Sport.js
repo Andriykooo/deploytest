@@ -10,13 +10,15 @@ import "../Home/Home.css";
 import "../Sports/Sports.css";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+
 export const Sport = ({ sportContent, setSportContent, slug }) => {
   const t = useTranslations();
   const { gamingSocket } = useContext(SocketContext);
   const isMobile = useSelector((state) => state.setMobile);
-  const language = useSelector((state) => state.language);
+  const params = useParams();
 
-  const [filterIsLoading, setFilterIsLoading] = useState(true);
+  const [filterIsLoading, setFilterIsLoading] = useState(false);
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedMarket, setSelectedMarket] = useState(
@@ -26,22 +28,23 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
   const name = useMemo(() => sportContent?.name, []);
   const marketOptions = useMemo(() => sportContent?.market_options, []);
 
-  useEffect(() => {
+  const fetchMarketData = (foundMarket) => {
     setFilterIsLoading(true);
+    setSelectedMarket(foundMarket);
 
     gamingSocket?.emit(
       "sport_content",
       {
         value: slug,
-        market_id: selectedMarket ? selectedMarket.market_id : null,
-        country: language?.code2,
+        market_id: foundMarket.market_id,
+        country: params.lng,
       },
       (response) => {
         setFilterIsLoading(false);
         setSportContent(response.data);
       }
     );
-  }, [selectedMarket, slug, language]);
+  };
 
   const isEmpty = !filterIsLoading && !sportContent?.competitions?.length;
 
@@ -99,7 +102,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
               const foundMarket = marketOptions?.find((market) => {
                 return market.market_id === selectedItem.id;
               });
-              setSelectedMarket(foundMarket);
+              fetchMarketData(foundMarket);
             }}
             placeholder={t("in_play.select_market")}
             variant={marketOptions?.length > 7 ? "scrollable" : "fullWidth"}

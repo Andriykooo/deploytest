@@ -35,11 +35,10 @@ import { BetSlipAds } from "./BetSlipAds";
 import { SelectOfMultipleBets } from "./SelectBetOfMultipleBets";
 import { SelectedBet } from "./SelectedBet";
 import { SocketContext } from "@/context/socket";
-import { v4 as uuidv4 } from "uuid";
 import { MyBets } from "./MyBets";
 import { getUserApi } from "@/utils/apiQueries";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
-import { getLocalStorageItem } from "@/utils/localStorage";
+import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
 import { BetslipDropdown } from "./BetslipDropdown/BetslipDropdown";
 
@@ -63,7 +62,6 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
   const betTicker = useSelector((state) => state.betTicker);
   const settings = useSelector((state) => state.settings);
   const betSlipResponse = useSelector((state) => state.betslipResponse);
-  const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
   const timer = useSelector((state) => state.newOfferTimer);
   const updatedBetslipSelections = useSelector(
     (state) => state.updatedBetslipSelections
@@ -96,7 +94,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
   const showTimer =
     betTicker.status === "new_offer" &&
-    betTicker?.bet_slip.expireSeconds &&
+    betTicker?.bet_slip?.expire_seconds &&
     timer > 0;
 
   const showTrederReview =
@@ -130,6 +128,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
       .then(() => {
         if (status === "approved") {
           setBetIsAccepted(true);
+
           apiServices.post(urlGenerateBetSlips, {
             bets: [],
             stakes: [],
@@ -142,6 +141,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
       })
       .finally(() => {
         dispatch(setReviewBets({ ...emptyBetSlip }));
+        addLocalStorageItem("new_offer", betTicker?.bet_referral_id);
       });
   };
 
@@ -227,28 +227,184 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
       });
   };
 
+  const renderBetButtons = () => {
+    if (priceChanged) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            className={"btnAction"}
+            text={t("accept_price_changes")}
+            onClick={() => {
+              dispatch(setPriceIsChanged(false));
+            }}
+          />
+        </div>
+      );
+    }
+
+    if (
+      betSlipResponse?.singles?.length > 0 &&
+      betSlipResponse.total_stakes === 0
+    ) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            className={"btnAction"}
+            text={t("please_enter_stake")}
+            disabled
+          />
+        </div>
+      );
+    }
+
+    if (suspendedSelection) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            disabled
+            className={"btnPrimary place-bet-button"}
+            text={
+              `${t("place_bet")} ` +
+              Number(
+                betSlipResponse?.new_total_stakes ||
+                  betSlipResponse?.total_stakes
+              ).toFixed(2) +
+              ` ${
+                loggedUser?.user_data?.currency?.abbreviation ||
+                settings?.default_currency
+              }`
+            }
+          />
+        </div>
+      );
+    }
+
+    if (insufficientBalance) {
+      return (
+        <div className="place-bet-container">
+          <Link href="/profile/deposit">
+            <Button
+              className={"btnPrimary place-bet-button"}
+              text={t("please_deposit")}
+            />
+          </Link>
+        </div>
+      );
+    }
+
+    if (
+      betSlipResponse?.singles?.length > 0 &&
+      betSlipResponse.total_stakes > 0
+    ) {
+      return (
+        <div className="place-bet-container">
+          <Button
+            disabled={
+              betSlipResponse?.message?.length > 0 &&
+              (showTrederReview || !loggedUser?.user_data?.bet_referral_enabled)
+            }
+            className={"btnPrimary activeBetButton place-bet-button"}
+            text={
+              placeBetIsLoading ? (
+                <Loader />
+              ) : (
+                `${t("place_bet")} ` +
+                Number(
+                  betSlipResponse?.new_total_stakes ||
+                    betSlipResponse?.total_stakes
+                ).toFixed(2) +
+                ` ${
+                  loggedUser?.user_data?.currency?.abbreviation ||
+                  settings?.default_currency
+                }`
+              )
+            }
+            onClick={placeBetsHandler}
+          />
+        </div>
+      );
+    }
+  };
+
+  const stakesAndReturns = (data) => (
+    <>
+      {
+        selectedBets.bets.length > 0 && (
+          <>
+            <div className="totals-container">
+              {/* Total Stakes */}
+              <span>{t("total_stakes")}: </span>
+              <span className="stakes amount">
+                {formatNumberWithDecimal(
+                  data?.new_total_stakes || data?.total_stakes || 0
+                )}
+              </span>
+            </div>
+            <div className="totals-container">
+              {/* Total Returns */}
+              <span>{t("total_returns")}:</span>
+              <span className="amount">
+                {data.total_payout == "?"
+                  ? "[?]"
+                  : formatNumberWithDecimal(
+                    data?.new_total_payout || data?.total_payout || 0
+                  )}
+            </span>
+          </div>
+        </>
+      )}
+    </>
+  );
+
+  const isElementInViewport = (element) => {
+    var rect = element.getBoundingClientRect();
+
+    // Check if the element is completely in the viewport
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  };
+
   useEffect(() => {
     dispatch(removeBetAmount("all"));
     dispatch(removeReturnValue("all"));
 
-    if (selectedBets.bets.length > 0) {
-      selectedBets.bets.forEach((bet) => {
-        gamingSocket.emit("subscribe_market", {
-          value: bet.bet_id,
-        });
+    if (loggedUser?.user_data && getLocalStorageItem("access_token")) {
+      apiServices.get(apiUrl.BET_TICKER_LIST).then((response) => {
+        const newOffer = response.find(
+          (bet) =>
+            bet.status === "new_offer" &&
+            loggedUser?.user_data?.player_id === bet.player_id
+        );
+
+        if (newOffer) {
+          dispatch(setReviewBets(newOffer.bet_slip_json));
+          dispatch(setNewOfferTimer(newOffer.bet_slip_json.expire_seconds));
+
+          dispatch(
+            setBetTicker({
+              ...newOffer,
+              bet_slip: newOffer.bet_slip_json,
+              bet_referral_id: newOffer.bet_ticker_id,
+            })
+          );
+        }
       });
     }
 
-    return () => {
-      if (selectedBets.bets.length > 0) {
-        selectedBets.bets.forEach((bet) => {
-          gamingSocket.emit("unsubscribe_market", {
+    if (selectedBets.bets.length > 0) {
+      selectedBets.bets.forEach((bet) => {
+        if (bet.bet_id) {
+          gamingSocket.emit("subscribe_market", {
             value: bet.bet_id,
-            action_id: uuidv4(),
           });
-        });
-      }
-    };
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -354,19 +510,6 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
       });
   }, [selectedBets]);
 
-  function isElementInViewport(element) {
-    var rect = element.getBoundingClientRect();
-
-    // Check if the element is completely in the viewport
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
-
   useEffect(() => {
     if (scrollToBet) {
       const newBetInput = document.getElementById(`input_stake_${scrollToBet}`);
@@ -404,140 +547,13 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
     }
   }, [betTicker]);
 
-  const renderBetButtons = () => {
-    if (priceChanged) {
-      return (
-        <div className="place-bet-container">
-          <Button
-            className={"btnAction"}
-            text={t("accept_price_changes")}
-            onClick={() => {
-              dispatch(setPriceIsChanged(false));
-            }}
-          />
-        </div>
-      );
-    }
-
-    if (
-      betSlipResponse?.singles?.length > 0 &&
-      betSlipResponse.total_stakes === 0
-    ) {
-      return (
-        <div className="place-bet-container">
-          <Button
-            className={"btnAction"}
-            text={t("please_enter_stake")}
-            disabled
-          />
-        </div>
-      );
-    }
-
-    if (suspendedSelection) {
-      return (
-        <div className="place-bet-container">
-          <Button
-            disabled
-            className={"btnPrimary place-bet-button"}
-            text={
-              `${t("place_bet")} ` +
-              Number(
-                betSlipResponse?.new_total_stakes ||
-                  betSlipResponse?.total_stakes
-              ).toFixed(2) +
-              ` ${
-                loggedUser?.user_data?.currency?.abbreviation ||
-                settings?.defaultCurrency
-              }`
-            }
-          />
-        </div>
-      );
-    }
-
-    if (insufficientBalance) {
-      return (
-        <div className="place-bet-container">
-          <Link href="/profile/deposit">
-            <Button
-              className={"btnPrimary place-bet-button"}
-              text={t("please_deposit")}
-            />
-          </Link>
-        </div>
-      );
-    }
-
-    if (
-      betSlipResponse?.singles?.length > 0 &&
-      betSlipResponse.total_stakes > 0
-    ) {
-      return (
-        <div className="place-bet-container">
-          <Button
-            disabled={showTrederReview && betSlipResponse?.message?.length > 0}
-            className={"btnPrimary place-bet-button"}
-            text={
-              placeBetIsLoading ? (
-                <Loader />
-              ) : (
-                `${t("place_bet")} ` +
-                Number(
-                  betSlipResponse?.new_total_stakes ||
-                    betSlipResponse?.total_stakes
-                ).toFixed(2) +
-                ` ${
-                  loggedUser?.user_data?.currency?.abbreviation ||
-                  settings?.defaultCurrency
-                }`
-              )
-            }
-            onClick={placeBetsHandler}
-          />
-        </div>
-      );
-    }
-  };
-
-  const stakesAndReturns = (data) => (
-    <>
-      <div className="totals-container">
-        {/* Total Stakes */}
-        <span>{t("total_stakes")}: </span>
-        <span className="stakes amount">
-          {formatNumberWithDecimal(
-            data?.new_total_stakes || data?.total_stakes || 0
-          )}
-        </span>
-      </div>
-
-      <div className="totals-container">
-        {/* Total Returns */}
-        <span>{t("total_returns")}:</span>
-        <span className="amount">
-          {data.total_payout == "?"
-            ? "[?]"
-            : formatNumberWithDecimal(
-                data?.new_total_payout || data?.total_payout || 0
-              )}
-        </span>
-      </div>
-    </>
-  );
-
   return (
     pageLayoutActiveStatus &&
     sidebarRight?.isActive && (
-      <div
-        className={classNames("bet-slip-container", {
-          noVerified: isVerifyMessage,
-        })}
-        onClick={hideBetSlip}
-      >
+      <div className="bet-slip-container" onClick={hideBetSlip}>
         <div className="sidebar-right" onClick={(e) => e.stopPropagation()}>
           <div className="bet-slip-content">
-            <div className="slip-bets-title slips-bets-title-container">
+            <div className={classNames("slip-bets-title slips-bets-title-container")}>
               <span
                 className={
                   selectedBets?.bets?.length < 1 && !isTablet
@@ -556,13 +572,13 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
             <div className="slip-bets-title">
               <button
                 className={classNames("bet-slip-description", {
-                  active: !myBets,
+                  active: !myBets
                 })}
                 onClick={() => handleClickBets("betslip")}
               >
                 <span
                   className={classNames({
-                    betStyleEmpty: selectedBets?.length < 1 && isTablet,
+                    betStyleEmpty: selectedBets?.bets?.length < 1 && isTablet,
                   })}
                 >
                   {t("betslip")}
@@ -570,7 +586,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
               </button>
               <button
                 className={classNames("bet-slip-description", {
-                  active: myBets,
+                  active: myBets
                 })}
                 onClick={() => handleClickBets("mybets")}
               >
@@ -678,7 +694,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
                               dispatch(removeBetAmount("all"));
                             }}
                           >
-                            <XIcon marginTop={2} />
+                            <XIcon size="9" />
                             <span className="remove-text">
                               {t("remove_all_bets")}
                             </span>

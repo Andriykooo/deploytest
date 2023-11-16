@@ -103,7 +103,7 @@ const VerifyEmail = () => {
   const resendIsActive = seconds === 0 && minutes === 0;
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       <div className="loginForm px-4">
         <p className="logInTitle">{t("verify_email.verify_email_address")}</p>
         <form className="d-grid justify-content-center">

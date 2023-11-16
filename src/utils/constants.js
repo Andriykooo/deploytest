@@ -1,4 +1,3 @@
-import pointer from "../assets/images/pointer.svg";
 import { theme } from "./config";
 import {
   BetHistoryIcon,
@@ -35,6 +34,7 @@ export const apiUrl = {
   VERIFY_EMAIL: `${predictionsApiDomain}/v1/user/verify_email_full_profile?code=`,
   TRANSACTION_HISTORY: `${predictionsApiDomain}/v1/user/transaction_history?page=`,
   USER: `${predictionsApiDomain}/v1/user`,
+  USER_STATS: `${predictionsApiDomain}/v1/user/stats`,
   VERIFY_PHONE: `${predictionsApiDomain}/v1/user/verify_phone_number?code=`,
   CHECK_PASSWORD: `${predictionsApiDomain}/v1/user/auth`,
   RESEND_CODE: `${predictionsApiDomain}/v1/user/resend_phone_number_code`,
@@ -61,6 +61,7 @@ export const apiUrl = {
 
   // Gaming API
   GET_OFFER: `${gamingApiDomain}/api/v1/betting/bet-ticker`,
+  BET_TICKER_LIST: `${gamingApiDomain}/api/v1/betting/bet-ticker-list`,
   TERMS: `${gamingApiDomain}/api/v1/cms/terms-conditions`,
   PRIVACY: `${gamingApiDomain}/api/v1/cms/privacy-policy`,
   GET_FOOTER: `${gamingApiDomain}/api/v1/page-layout/footer`,
@@ -84,11 +85,18 @@ export const apiUrl = {
   GET_SETTINGS: `${gamingApiDomain}/api/v1/cms/settings`,
   GET_MY_BETS: `${gamingApiDomain}/api/v1/betting/my-bets`,
   GET_VENUE_EVENTS: `${gamingApiDomain}/api/v1/page-layout/venue-events`,
+  GET_AFFILIATES: `${gamingApiDomain}/api/v1/cms/landing-page?affiliate_slug=`,
 
   // Casino API
   CASINO_GAMES: `${casinoApiDomain}/api/v1/casino/games`,
   OPEN_CASINO_GAME: `${casinoApiDomain}/api/v1/casino/game/open`,
   CASINO_LAYOUT: `${casinoApiDomain}/api/v1/casino/layout?slug=casino`,
+
+  // Facebook graph
+  GRAPH_FACEBOOK: 'https://graph.facebook.com/v18.0/me',
+
+  // Google
+  GOOGLE_OAUTH_USERINFO: 'https://www.googleapis.com/oauth2/v3/userinfo',
 };
 
 export const sports = [
@@ -127,6 +135,20 @@ export const profileCards = [
   //   arrow: true,
   // },
   {
+    cardName: "profile",
+    icon: <ProfileMenuIcon />,
+    route: "/profile/profile",
+    text: "profile",
+    arrow: false,
+  },
+  {
+    cardName: "safer_gambling",
+    icon: <SaferGamblingIcon />,
+    route: "/profile/safer_gambling",
+    text: "safer_gambling",
+    arrow: false,
+  },
+  {
     cardName: "deposit",
     icon: <DepositIcon />,
     route: "/profile/deposit",
@@ -162,13 +184,6 @@ export const profileCards = [
     arrow: true,
   },
   {
-    cardName: "profile",
-    icon: <ProfileMenuIcon />,
-    route: "/profile/profile",
-    text: "profile",
-    arrow: false,
-  },
-  {
     cardName: "change_password",
     icon: <ChangePasswordIcon />,
     route: "/profile/change_password",
@@ -187,13 +202,6 @@ export const profileCards = [
     icon: <OddsFormatIcon />,
     route: "/profile/odds_format",
     text: "odds_format",
-    arrow: false,
-  },
-  {
-    cardName: "safer_gambling",
-    icon: <SaferGamblingIcon />,
-    route: "/profile/safer_gambling",
-    text: "safer_gambling",
     arrow: false,
   },
 ];
@@ -316,19 +324,19 @@ export const emailNotifications = [
 export const types = [
   {
     name: "selected",
-    color: "var(--global-color-primary)",
+    color: "var(--global-color-price-selected)",
   },
   {
     name: "price_going_out",
-    color: "var(--global-color-price-primary)",
+    color: "var(--global-color-price-drifting)",
   },
   {
     name: "price_coming_in",
-    color: "var(--global-color-price-secondary)",
+    color: "var(--global-color-price-shortening)",
   },
   {
     name: "suspended",
-    color: "var(--global-color-shade4)",
+    color: "var(--global-color-price-suspended)",
   },
 ];
 

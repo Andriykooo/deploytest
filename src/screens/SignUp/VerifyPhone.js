@@ -14,6 +14,7 @@ import Link from "next/link";
 import "../Login/Login.css";
 import { setLoggedUser } from "@/store/actions";
 import { useTranslations } from "next-intl";
+
 export const VerifyPhone = () => {
   const t = useTranslations();
   const router = useRouter();
@@ -103,7 +104,7 @@ export const VerifyPhone = () => {
   }, [OTP]);
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       <div className="loginForm px-4">
         <p className="logInTitle">{t("verify_phone.verify_phone_number")}</p>
         <form className="d-grid justify-content-center">

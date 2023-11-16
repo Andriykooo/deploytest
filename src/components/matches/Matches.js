@@ -3,14 +3,8 @@ import { useSelector } from "react-redux";
 import { MatchAccordion } from "../custom/MatchAccordion";
 import "./Matches.css";
 
-const Matches = ({
-  competitionsData,
-  marketOptions,
-  inPlay,
-  type,
-}) => {
+const Matches = ({ competitionsData, marketOptions, inPlay, type }) => {
   let competitions = competitionsData;
-  let activeSport = useSelector((state) => state.activeSport);
   const selectedBets = useSelector((state) => state.selectedBets);
 
   useEffect(() => {
@@ -26,17 +20,12 @@ const Matches = ({
       }
     }
   }, [selectedBets, competitions]);
+
   return (
-    <div
-      className={
-        activeSport !== 15
-          ? "accordionContainer"
-          : "accordion-container-without-markets"
-      }
-    >
+    <div>
       {competitionsData.map((row, index) => {
         return (
-          <div key={index} className="mx-3">
+          <div key={row.id} className="mx-3">
             <MatchAccordion
               marketOptions={marketOptions}
               row={row}

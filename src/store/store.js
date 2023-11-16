@@ -53,6 +53,8 @@ const persistConfig = {
     "forgotPassword",
     "tooltip",
     "isVerifyMessage",
+    "sportContent",
+    "userStats"
   ],
 };
 

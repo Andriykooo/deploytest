@@ -3,8 +3,8 @@ import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { Pie, PieChart } from "recharts";
 
-export const LimitChart = ({ title, used, amount }) => {
-  const t = useTranslations("");
+export const LimitChart = ({ title, used, amount, usedPercent }) => {
+  const t = useTranslations();
   const loggedUser = useSelector((state) => state.loggedUser);
 
   const data = [
@@ -61,10 +61,7 @@ export const LimitChart = ({ title, used, amount }) => {
         </PieChart>
         <div className="limitChartPercentWrapper">
           <div className="limitChartPercent">
-            <span className="chartPercent">
-              {amount < 0 && used > 0 ? 100 : Math.round((used * 100) / amount)}
-              %
-            </span>
+            <span className="chartPercent">{usedPercent}%</span>
           </div>
         </div>
       </div>

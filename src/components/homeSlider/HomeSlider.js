@@ -62,7 +62,7 @@ const HomeSlider = ({
       <Slider {...settings} className={type ? "casinoTrendingSlider" : ""}>
         {data?.map((carouselItem, index) => {
           return (
-            <Fragment key={index}>
+            <Fragment key={carouselItem.id}>
               <div
                 key={index}
                 className={
@@ -71,19 +71,12 @@ const HomeSlider = ({
                     : "slider-image-container"
                 }
               >
-                {isLoading ? (
-                  <Skeleton
-                    className="my-2"
-                    variant="text"
-                    sx={{ width: "251px", height: "182px" }}
-                  />
-                ) : (
+          
                   <>
                     <Image
                       src={carouselItem?.details?.image}
                       alt="slider-img"
                       priority
-                      quality={70}
                       height={190}
                       width={280}
                     />
@@ -119,7 +112,6 @@ const HomeSlider = ({
                         )}
                     </div>
                   </>
-                )}
               </div>
             </Fragment>
           );

@@ -1,6 +1,7 @@
-.arrow.rotate.profileMenu,
+.rotate.profileMenu,
 .arrowSecond.rotate.profileMenu {
   transform: rotate(90deg) !important;
+  margin-right: 4px;
 }
 
 .azDropdown.profile,
@@ -68,24 +69,25 @@
 
 .sports-icon-miniSidebar {
   margin-left: 18px;
-  width: 25px;
-  height: 25px;
+  width: 18px;
+  height: 18px;
 }
 
 .sports-icon-miniSidebar-minimized {
   margin-left: 11px;
 }
 
-.input-search-sports {
+.input-search-sports.profile {
   text-indent: 0;
   background: transparent;
   border: none;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 16px;
   font-weight: 400;
   color: var(--global-color-sidebar-text);
-  padding-right: 1rem;
+  padding: 10px 19px 10px 12px;
   text-align: start;
+  height: 43px;
 }
 
 .inactive-left-border-miniSideBar img {
@@ -93,6 +95,7 @@
 }
 
 .input-search-sports::placeholder {
+  font-size: 14px;
   position: relative;
   color: var(--global-color-text-primary);
 }

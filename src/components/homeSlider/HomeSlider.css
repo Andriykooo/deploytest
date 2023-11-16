@@ -6,15 +6,15 @@
   display: block;
   width: 172px;
   height: 50%;
-  color: var(--global-main-color-text);
+  color: var(--global-color-text);
   top: 14px;
   left: 14px;
   bottom: 0;
   right: 0;
 }
 
-.slick-slide {
-  width: 290px;
+.slick-slider {
+  font-display: swap;
 }
 
 .slick-slide > div {
@@ -23,8 +23,6 @@
 }
 
 .slick-slide img {
-  width: 100%;
-  height: 100%;
   border-radius: 6px;
   object-fit: cover;
 }
@@ -51,7 +49,7 @@
   font-style: normal;
   line-height: 10px;
   font-weight: 600;
-  font-size: 10px;
+  font-size: 12px;
   padding: 0 15px;
   white-space: nowrap;
 }
@@ -229,7 +227,7 @@
 .slider-image-container {
   position: relative;
   height: 190px;
-  width: 280px;
+  width: 290px;
 }
 
 @media only screen and (max-width: 480px) {
@@ -245,11 +243,6 @@
   .container-of-bets-in-row {
     padding-left: 5px;
     padding-right: 5px;
-  }
-
-  .Toastify__toast {
-    border-radius: 8px;
-    margin: 1rem;
   }
 }
 

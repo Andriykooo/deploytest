@@ -33,7 +33,7 @@ export const Logo = ({ handleNavigateHome, className }) => {
     logos && (
       <Link href={"/"}>
         <img
-          className={classNames(className)}
+          className={classNames("logo", className)}
           src={isTablet ? logos?.mobile_logo : logos?.desktop_logo}
           alt="logo"
           onClick={() => {

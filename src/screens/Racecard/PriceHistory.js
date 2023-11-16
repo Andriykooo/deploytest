@@ -2,7 +2,7 @@
 
 import { useSelector } from "react-redux";
 import { formatOdd } from "@/utils/global";
-import { Line, LineChart, XAxis } from "recharts";
+import { Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
 import { useEffect, useState } from "react";
 
 export const PriceHistory = ({ item }) => {
@@ -12,7 +12,7 @@ export const PriceHistory = ({ item }) => {
 
   const updatedSelection = updatedSelections?.[item.bet_id];
   const format =
-    user?.user_data?.settings?.odds_format || settings.defaultOddsFormat;
+    user?.user_data?.settings?.odds_format || settings.default_odds_format;
 
   const [priceHistory, setPriceHistory] = useState(
     item?.price_history?.slice(-3)?.map((price) => {
@@ -55,32 +55,28 @@ export const PriceHistory = ({ item }) => {
   return (
     <div className="price-history">
       {item?.price_history && (
-        <LineChart
-          data={priceHistory}
-          height={32}
-          width={107}
-          margin={{
-            top: 5,
-            right: 12,
-            left: 12,
-            bottom: -16,
-          }}
+        <ResponsiveContainer
+          width={108}
+          height={52}
+          className={"position-absolute"}
         >
-          <XAxis
-            interval={0}
-            axisLine={false}
-            tickLine={false}
-            dataKey={"name"}
-            tick={{ fontSize: 8 }}
-          />
-          <Line
-            isAnimationActive={false}
-            type="linear"
-            dataKey="value"
-            strokeWidth={1}
-            r={4}
-          />
-        </LineChart>
+          <LineChart data={priceHistory} height={52} width={108}>
+            <XAxis
+              interval={0}
+              axisLine={false}
+              tickLine={false}
+              dataKey={"name"}
+              tick={{ fontSize: 8 }}
+            />
+            <Line
+              isAnimationActive={false}
+              type="linear"
+              dataKey="value"
+              strokeWidth={1}
+              r={4}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       )}
     </div>
   );

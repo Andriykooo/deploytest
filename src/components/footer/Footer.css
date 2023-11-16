@@ -127,6 +127,7 @@
     padding-left: 2.5rem !important;
     padding-bottom: 3rem !important;
   }
+
   .mobileVersionLinks {
     display: block !important;
     margin-bottom: 1.7rem;
@@ -171,6 +172,10 @@
     padding-bottom: 6rem !important;
   }
 
+  .footer-container-div.pwa {
+    padding-bottom: 7.5rem !important;
+  }
+
   .mobileVersionLinks {
     display: block !important;
     margin-bottom: 1.7rem;
@@ -195,7 +200,6 @@
     font-weight: 400;
     font-size: 0.75rem !important;
     text-decoration: none;
-    font-weight: 300;
     color: var(--global-color-footer-text-primary);
     opacity: 0.8;
   }

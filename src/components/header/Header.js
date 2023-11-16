@@ -12,19 +12,18 @@ import { DesktopHeader } from "./DesktopHeader";
 import { useParams, useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
 import { CloseIcon, XIcon } from "@/utils/icons";
-import Cookies from "js-cookie";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { usePathname } from "next/navigation";
 import "../sidebar/Sidebar.css";
 import "./Header.css";
 import classNames from "classnames";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useClientPathname } from "@/hooks/useClientPathname";
 
 function Header({ isModal }) {
   const dispatch = useDispatch();
-  const pathname = usePathname();
+  const { pathname } = useClientPathname();
   const t = useTranslations("header");
   const router = useRouter();
   const params = useParams();
@@ -38,8 +37,8 @@ function Header({ isModal }) {
     (params?.path &&
       !headerData?.some((page) => page.path.substring(1) == params?.path)) ||
     pathname === "/not_found" ||
-    pathname === "/customer_service_notice" ||
-    pathname.startsWith("/promo/");
+    pathname === "/error" ||
+    pathname === "/customer_service_notice";
 
   useEffect(() => {
     if (headerData) {
@@ -52,12 +51,14 @@ function Header({ isModal }) {
 
         if (page) {
           dispatch(setActivePage(page));
+        } else {
+          dispatch(setActivePage({}));
         }
       }
     }
 
     if (!headerData) {
-      const lang = Cookies.get("language");
+      const lang = params.lng;
       const defaultLanguage = lang?.toLowerCase() || "en";
 
       const country = defaultLanguage === "en" ? "all" : defaultLanguage;

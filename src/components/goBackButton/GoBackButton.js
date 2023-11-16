@@ -2,7 +2,8 @@ import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-export const GoBackButton = ({ link }) => {
+import classNames from "classnames";
+export const GoBackButton = ({ link, fullIcon = false }) => {
   const t = useTranslations("common");
   const router = useRouter();
 
@@ -16,14 +17,27 @@ export const GoBackButton = ({ link }) => {
 
   return (
     <div onClick={handleLink} className="goBackButton">
-      <Image
-        src={images.arrowIcon}
-        alt="Go back"
-        className="goBackArrow"
-        height={14}
-        width={14}
-      />
-      <span>{t("go_back")}</span>
+      {fullIcon ? (
+        <Image
+          src={images.goBackArrow}
+          alt="Go back"
+          className="goBackArrowFull"
+          height={16}
+          width={14}
+        />
+      ) : (
+        <Image
+          src={images.arrowIcon}
+          alt="Go back"
+          className="goBackArrow"
+          height={14}
+          width={14}
+        />
+      )}
+      <span
+        className={classNames("goBackText", { boldText: !fullIcon })}>
+        {t("go_back")}
+      </span>
     </div>
   );
 };

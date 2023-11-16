@@ -39,7 +39,7 @@ const Email = () => {
   }, []);
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       <div className="email-sent-container">
         {isLoading ? (
           <Loader />

@@ -3,16 +3,10 @@
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import Link from "next/link";
-import arrowRight from "../../assets/images/arrow_right.svg";
-import { Montserrat } from "next/font/google";
-import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useLayoutEffect } from "react";
 import { useTranslations } from "next-intl";
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  style: "normal",
-});
+import { Logo } from "@/components/logo/Logo";
 
 export const NotFoundScreen = () => {
   const t = useTranslations("not_found");
@@ -23,11 +17,9 @@ export const NotFoundScreen = () => {
   }, []);
 
   return (
-    <div className={classNames("error-page", montserrat.className)}>
+    <div className="error-page">
       <div className="header-of-error-component">
-        <Link href="/">
-          <Image src={images.GroupSwifty} alt="logo" height={35} width={230} />
-        </Link>
+        <Logo />
       </div>
       <div className="error-content">
         <div className="error-number">404</div>
@@ -39,7 +31,7 @@ export const NotFoundScreen = () => {
               <button className="btnPrimary error-page-navigation-button">
                 {t("go_to_homepage")}
                 <Image
-                  src={arrowRight}
+                  src={images.arrowRight}
                   className="error-page-arrow"
                   height={14}
                   width={14}

@@ -1,8 +1,12 @@
 "use client";
 
 import { Footer } from "@/components/footer/Footer";
-import { setFavouriteGames, setPageLayoutContent } from "@/store/actions";
-import { useContext, useEffect } from "react";
+import {
+  setFavouriteGames,
+  setPageLayoutContent,
+  updatePageLayoutContent,
+} from "@/store/actions";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Banner } from "../../components/Banner/Banner";
 import CasinoCategory from "../../components/casinoCategory/CasinoCategory";
@@ -12,9 +16,11 @@ import { RacingWidget } from "../../components/racingWidget/RacingWidget";
 import { SportsWidget } from "../../components/sportsWidget/SportsWidget";
 import { SidebarLayout } from "../sidebarLayout/SidebarLayout";
 import { PageContent } from "@/components/pageContent/PageContent";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import HomeSkeletonComponent from "@/utils/HomeSkeletonComponent";
-import { SocketContext } from "@/context/socket";
+import { communicationSocket } from "@/context/socket";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
 
 export const PageLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -22,41 +28,55 @@ export const PageLayout = ({ children }) => {
   const layout = useSelector((state) => state.pageLayoutContent);
   const headerData = useSelector((state) => state.headerData);
   const params = useParams();
-  const { gamingSocket } = useContext(SocketContext);
+  const path = params?.path?.[0] || "home-page";
+  const page = headerData?.find((page) => {
+    return page?.path?.substring(1) === path;
+  });
 
-  const page = headerData?.find(
-    (page) => page?.path?.substring(1) === (params?.path || "home-page")
-  );
-
-  const data = layout?.[page?.slug];
+  const data = layout?.[path];
 
   const fetchLayout = async () => {
     const lang = params.lng;
     const contentLanguage = lang === "en" ? "all" : lang;
 
-    gamingSocket.emit(
-      "page_layout",
-      {
+    apiServices
+      .get(apiUrl.GET_PAGE_LAYOUT, {
         value: page?.slug,
         country: contentLanguage,
-      },
-      (response) => {
-        console.log(response);
+      })
+      .then((response) => {
         dispatch(
           setPageLayoutContent({
             ...layout,
-            [page.slug]: response.data,
+            [path]: response,
           })
         );
-      }
-    );
+      });
   };
 
   useEffect(() => {
-    if (headerData && !data && page && !layout[page?.slug]) {
+    communicationSocket?.on("new_event", (response) => {
+      if (response?.type === "component_updated") {
+        dispatch(
+          updatePageLayoutContent({
+            content: response.updatedComponent,
+            slug: path,
+            language: params.lng,
+          })
+        );
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if ((headerData && !page) || params?.path?.length > 1) {
+      notFound();
+    }
+
+    if (page) {
       fetchLayout();
     }
-  }, [headerData, page]);
+  }, [headerData]);
 
   useEffect(() => {
     if (data?.content) {
@@ -91,7 +111,7 @@ export const PageLayout = ({ children }) => {
       sidebarLeftIsActive={!!data?.show_sidebar}
       sidebarRightIsActive={!!data?.show_betslip}
     >
-      {data ? (
+      {data?.content ? (
         <div>
           {data?.content?.map((component) => {
             if (component.type === "banner") {

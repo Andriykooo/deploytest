@@ -12,8 +12,10 @@ const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
   const abbreviation = useSelector(
     (state) => state.loggedUser?.user_data?.currency.abbreviation
   );
-  const isMobile = useSelector((state) => state.setMobile);
-  const amounts = isMobile ? depositAmountsOnMobile : depositAmounts;
+
+  const settings = useSelector((state) => state.settings);
+
+  const amounts = settings?.deposit_amount_options;
   const handleSelectAmount = (event, value) => {
     event.preventDefault();
     setAmount(value);

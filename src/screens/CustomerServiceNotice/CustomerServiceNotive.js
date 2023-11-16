@@ -20,9 +20,9 @@ export const CustomerServiceNotice = () => {
 
   useEffect(() => {
     axios.get(apiUrl.GET_SETTINGS).then((result) => {
-      dispatch(setSettings(result));
+      dispatch(setSettings(result.data));
 
-      if (!result?.data?.isCountryBlocked) {
+      if (!result?.data?.is_country_blocked) {
         router.replace("/");
       }
     });
@@ -37,7 +37,7 @@ export const CustomerServiceNotice = () => {
         </h1>
         <p className="customer-service-notice-subtitle">
           {t("customer_service_notice.thank_you_for_visiting", {
-            company: settings?.data?.companyName,
+            company: settings?.company_name,
           })}
           <br />
           {t(
@@ -48,10 +48,10 @@ export const CustomerServiceNotice = () => {
           {t("customer_service_notice.restricted_country_access_notice")}
         </p>
         <a
-          href={`mailto:${settings?.data?.companyServiceEmail}`}
+          href={`mailto:${settings?.company_service_email}`}
           className="customer-service-notice-email"
         >
-          {settings?.data?.companyServiceEmail}
+          {settings?.company_service_email}
         </a>
         <p className="customer-service-notice-description">
           {t("customer_service_notice.apology_for_inconvenience")}

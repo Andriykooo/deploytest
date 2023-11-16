@@ -4,9 +4,9 @@ import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+
 export const States = ({
   states,
-  setCountryState,
   showStates,
   setShowStates,
   handle,
@@ -69,7 +69,6 @@ export const States = ({
                         : "selectDecimal d-flex mb-3 "
                     )}
                     onClick={() => {
-                      setCountryState(state.name);
                       let newUser = user;
                       newUser["state"] = state?.code;
                       newUser["state_name"] = state?.name;

@@ -17,7 +17,7 @@ export const ProfileCard = styled.div`
 `;
 export const SidebarProfile = styled.div`
   background: var(--global-color-sidebar-selection);
-  width: ${(props) => (props.isOpen ? "276px" : "70px")};
+  width: ${(props) => (props.isOpen ? "240px" : "70px")};
   height: ${(props) => {
     let height = 74;
 

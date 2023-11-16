@@ -10,7 +10,7 @@ function Kyc() {
   const router = useRouter();
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       <div className="kycDiv">
         <p className="logInTitle">{t("kyc.verify_identity")}</p>
         <p className="oneClick d-flex">{t("kyc.take_about_2_minutes")}</p>

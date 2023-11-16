@@ -4,6 +4,7 @@ import { ArrowIcon } from "../../utils/icons";
 import { MatchOdds } from "../matches/MatchOdds";
 import { useTranslations } from "next-intl";
 import { Runner } from "./Runner";
+import Image from "next/image";
 
 export const RacingItem = ({ data, slug }) => {
   const t = useTranslations();
@@ -12,8 +13,6 @@ export const RacingItem = ({ data, slug }) => {
     moment().day() === moment(data.event_start_time).day()
       ? "today"
       : "tomorrow";
-
-
 
   return (
     <div>
@@ -35,6 +34,8 @@ export const RacingItem = ({ data, slug }) => {
               new Array(6 - data.selections.length).fill("")
             )
         )?.map((selection, index) => {
+          const isSuspended = selection.trading_status === "suspended";
+
           return (
             <div
               className="events-row-container"
@@ -44,19 +45,30 @@ export const RacingItem = ({ data, slug }) => {
                 <div className="horse-container">
                   <div className="silk-image">
                     {selection.silk_image && (
-                      <img
+                      <Image
                         src={selection.silk_image}
                         alt="slik"
                         onError={(e) => {
                           e.target.style.display = "none";
                         }}
+                        priority
+                        height={20}
+                        width={20}
                       />
                     )}
                   </div>
-                  <Runner data={selection} className="racing-item-runner" />
+                  <Runner data={selection} slug={slug} className="racing-item-runner" />
                   {selection && (
                     <div className="odds-of-horse">
-                      <MatchOdds selection={selection} />
+                      <MatchOdds
+                        selection={{
+                          ...selection,
+                          trading_status: "open",
+                          odds_decimal: selection.odds_decimal,
+                          odds_fractional: selection.odds_fractional,
+                        }}
+                        disable={isSuspended}
+                      />
                     </div>
                   )}
                 </div>

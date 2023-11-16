@@ -12,6 +12,7 @@ import { EventTime } from "@/components/EventTime/EventTime";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+
 export const HorseRacing = ({ sportContent, slug }) => {
   const t = useTranslations("common");
 
@@ -134,6 +135,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
               ...horseracingFilterOptions,
               ...marketOptions?.map((market, index) => ({
                 label: market.market_name,
+                value: market.market_name,
                 id: horseracingFilterOptions.length + 1 + index,
               })),
             ]}
@@ -147,16 +149,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
       {eventsData && (
         <>
           {eventsData.length > 0 ? (
-            <Accordion
-              alwaysOpen
-              className="accordion-wrapper horseracing-accordion"
-            >
-              <Accordion.Item>
-                <Accordion.Body>
-                  <RacingComponent data={eventsData} slug={slug} />
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+            <RacingComponent data={eventsData} slug={slug} />
           ) : (
             <div className="horse-racing-empty-state mx-3">
               <EmptyState message={t("no_more_races_for_the_day")} />

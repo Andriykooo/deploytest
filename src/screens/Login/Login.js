@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
-import { setSignUpPlatform, setUser } from "../../store/actions";
+import { setPromo, setSignUpPlatform, setUser } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
@@ -19,6 +19,7 @@ import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
 import { useTranslations } from "next-intl";
+
 const Login = ({ setShowConfirm }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
@@ -102,7 +103,6 @@ const Login = ({ setShowConfirm }) => {
           Object.assign(newUser, user);
           newUser["email"] = email;
           newUser["device_id"] = device_id;
-          addLocalStorageItem("device_id", device_id);
           dispatch(setUser(newUser));
           addLocalStorageItem("IsLogged", "not_logged");
           router.push("/sign_up");
@@ -159,10 +159,14 @@ const Login = ({ setShowConfirm }) => {
         device_id: uuidv4(),
       });
     }
+
+    if (params.get("promo")) {
+      dispatch(setPromo(params.get("promo")));
+    }
   }, [params]);
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       {isVerified ? (
         <LoginPassword
           newUser={newUser}

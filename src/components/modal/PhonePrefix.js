@@ -12,7 +12,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
 
   return (
     <>
-      <div className="emailValidation d-grid">
+      <div className="emailValidation d-grid m-0">
         <div className="residenceInput">
           <Button
             type="button"
@@ -37,16 +37,16 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                   <p className="countryName phonePrefixName">
                     +{selectedCountry?.phone_number_prefix}
                   </p>
+                  {!selectedCountry?.phone_number_same_country_required && (
+                    <Image
+                      src={images.arrowIcon}
+                      alt="arrow"
+                      className="residenceArrow2"
+                      width={14}
+                      height={8}
+                    />
+                  )}
                 </div>
-                {!selectedCountry?.phone_number_same_country_required && (
-                  <Image
-                    src={images.arrowIcon}
-                    alt="arrow"
-                    className="residenceArrow2"
-                    width={14}
-                    height={8}
-                  />
-                )}
               </>
             }
           />
@@ -60,7 +60,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
         aria-hidden="true"
         style={{ display: isOpen ? "block" : "none" }}
       >
-        <div className="modal-dialog modal-fullscreen top-50">
+        <div className="modal-dialog modal-fullscreen">
           <div className="modal-content fScreen mt-0 p-2">
             <div className="modal-content-inside">
               <div className="modalTitle">
@@ -80,7 +80,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                   }}
                 />
               </div>
-              <div className="selectDecimal d-flex mb-5">
+              <div className="selectDecimal-countries d-flex searchStyle">
                 <Image
                   src={images.search}
                   alt="Search"
@@ -90,7 +90,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                 />
                 <input
                   autoFocus
-                  className="decimalText searchField"
+                  className="decimalText countryModalText searchField"
                   placeholder={t("common.search")}
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
@@ -110,7 +110,7 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                     <div
                       key={index}
                       data-id={index}
-                      className={"selectDecimal d-flex mb-3"}
+                      className={"d-flex mb-3"}
                       alt="Close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
@@ -120,21 +120,22 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
                         setSelectedCountry(country);
                       }}
                     >
-                      <div className="selectDecimal d-flex">
+                      <div className="selectDecimal-countries d-flex">
                         <Image
                           src={country.flag_url}
                           alt={country.name}
                           className="countriesFlags"
-                          quality={50}
                           width={24}
                           height={24}
                         />
-                        <p className="countryModalDecimalText mx-3">
-                          +{country.phone_number_prefix}
-                        </p>
-                        <p className="countryModalDecimalText">
-                          {country.name}
-                        </p>
+                        <div className="decimalText">
+                          <p className="countryModalDecimalText me-2">
+                            +{country.phone_number_prefix}
+                          </p>
+                          <p className="countryModalDecimalText">
+                            {country.name}
+                          </p>
+                        </div>
 
                         {country.name === selectedCountry.name && (
                           <Image

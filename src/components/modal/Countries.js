@@ -79,7 +79,7 @@ export const Countries = ({
                     } else {
                       setStates([]);
                     }
-                    setCountry(country?.name);
+                    setCountry(country);
                     setCountryFlag(country?.flag_url);
                     setCountryCode(country?.cca2);
                     addLocalStorageItem("country_code", country?.cca2);

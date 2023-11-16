@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { Button } from "../button/Button";
 import "./BannerMenu.css";
 import { LinkType } from "../LinkType/LinkType";
+import Image from "next/image";
 
 export const BannerMenu = ({
   title,
@@ -22,7 +23,16 @@ export const BannerMenu = ({
       className="banner-menu"
       style={{ height: subtitle && options ? "115px" : "91px" }}
     >
-      {image && <img src={image} alt="banner" className="banner-menu-image" />}
+      {image && (
+        <Image
+          src={image}
+          alt="banner"
+          objectFit="cover"
+          fill
+          priority
+          onError={(e) => (e.target.style.display = "none")}
+        />
+      )}
       <div className="banner-menu-content">
         {title && <div className="banner-menu-title">{title}</div>}
         {subtitle && <div className="banner-menu-subtitle">{subtitle}</div>}

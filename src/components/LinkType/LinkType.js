@@ -55,8 +55,8 @@ export const LinkType = ({
           className={className}
           openType={type}
           onClick={onClick}
-          path={`?content=${modalData?.slug}${
-            modalData?.title ? "&name=" + modalData.title : ""
+          path={`?modal=${modalData?.slug}${
+            modalData?.title ? "&title=" + modalData.title : ""
           }`}
         >
           {children}

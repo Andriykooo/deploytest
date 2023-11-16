@@ -1,14 +1,15 @@
 import { useTranslations } from "next-intl";
-import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { MatchOdds } from "../matches/MatchOdds";
 import "./DynamicSelections.css";
 import { useEffect } from "react";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
 export const DynamicSelections = ({ selections, eventId }) => {
   const t = useTranslations("common");
+  const router = useRouter();
 
   useEffect(() => {
     selections.forEach((selection) => {
@@ -51,12 +52,13 @@ export const DynamicSelections = ({ selections, eventId }) => {
               </div>
             );
           })}
-          <LinkType type="default" path={`/match/${eventId}`} className="w-100">
-            <Button
-              className="btnPrimary betNowButtonOFSlider dynamic-selections-button px-1"
-              text={t("more")}
-            />
-          </LinkType>
+          <Button
+            onClick={() => {
+              router.push(`/match/${eventId}`);
+            }}
+            className="btnPrimary betNowButtonOFSlider dynamic-selections-button px-1"
+            text={t("more")}
+          />
         </>
       ) : (
         selections?.map((selection, index) => {

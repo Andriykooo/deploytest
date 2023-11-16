@@ -64,101 +64,180 @@
 
   /* Main Colors */
 
-  --global-main-color-icon-background: #D6C08F; /* arrows, betslip and profile icons */
-  --global-main-color-icon: #FFFFFF; /* arrows, betslip, profile, close icons */
-  --global-main-color-text: #FFFFFF; /* carousel, side-text */
-  --global-main-color-background: #1B1C21; /* carousel background, collapsed button, preferences */
+  --global-color-icon-background: #d6c08f; /* arrows, betslip and profile icons */
+  --global-color-icon: #ffffff; /* arrows, betslip, profile, close icons */
+  --global-color-text: #ffffff; /* carousel, side-text */
+  --global-color-text-secondary: #ffffff; /*registration pages or pages with a background image*/
+  --global-color-background: #1b1c21; /* carousel background, collapsed button, preferences */
+  --global-color-selected: rgba(188, 146, 57, 0.07); /*selected*/
 
   /* Header / Nav Bar */
 
-  --global-color-header-text: #FFFFFF;
-  --global-color-header-text-active: #C59E43;
-  --global-color-header-side-text: #C59E43;
-  --global-color-header-background: #2B2F34;
-  --global-color-header-background_side_bacground: #C59E43;
+  --global-color-header-text: #ffffff;
+  --global-color-header-text-active: #c59e43;
+  --global-color-header-side-text: #c59e43;
+  --global-color-header-background: #2b2f34;
+  --global-color-header-background_side_bacground: #c59e43;
 
   /* Sidebar */
 
-  --global-color-sidebar-background: #1B1C21;
-  --global-color-sidebar-selection: #353A40;
-  --global-color-sidebar-text: #FFFFFF;
+  --global-color-sidebar-background: #1b1c21;
+  --global-color-sidebar-selection: #353a40;
+  --global-color-sidebar-text: #ffffff;
   --global-color-sidebar-field-selected: rgba(199, 146, 57, 7%);
-  --global-color-sidebar-field-selected-sideline: #BC9239;
-  --global-color-sidebar-icons: #FFFFFF;
+  --global-color-sidebar-field-selected-sideline: #bc9239;
+  --global-color-sidebar-icons: #ffffff;
   --global-color-sidebar-icons-background: #414851;
-  --global-color-sidebar-chat_icon-background: #C59E43;
+  --global-color-sidebar-chat_icon-background: #c59e43;
 
   /* Trader Chat */
 
-  --global-color-trader-chat-primary: #C59E43;
-  --global-color-trader-chat-primary-text: #FFFFFF;
-  --global-color-trader-chat-background: #FFFFFF;
-  --global-color-trader-chat-bubble1: #EBE1D2;
-  --global-color-trader-chat-bubble1-text: #2B2F34;
-  --global-color-trader-chat-bubble2: #EBEBEB;
-  --global-color-trader-chat-bubble2-text: #2B2F34;
+  --global-color-trader-chat-primary: #c59e43;
+  --global-color-trader-chat-primary-text: #ffffff;
+  --global-color-trader-chat-background: #ffffff;
+  --global-color-trader-chat-bubble1: #ebe1d2;
+  --global-color-trader-chat-bubble1-text: #2b2f34;
+  --global-color-trader-chat-bubble2: #ebebeb;
+  --global-color-trader-chat-bubble2-text: #2b2f34;
   --global-color-trader-chat-secondary-text: #414851;
 
   /* Footer */
 
-  --global-color-footer-background: #25292D;
-  --global-color-footer-text-primary: #FFFFFF;
-  --global-color-footer-text-secondary: #BCBFC2;
-  --global-color-language-selector: #353A40;
+  --global-color-footer-background: #25292d;
+  --global-color-footer-text-primary: #ffffff;
+  --global-color-footer-text-secondary: #bcbfc2;
+  --global-color-language-selector: #353a40;
 
   /* Carousel */
 
-  --global-color-carousel-dots-active: #C59E43;
-  --global-color-carousel-dots-inactive: #FFFFFF;
+  --global-color-carousel-dots-active: #c59e43;
+  --global-color-carousel-dots-inactive: #ffffff;
 
   /* Links */
 
-  --global-color-links-background: linear-gradient(180deg, #DBB86D 0%, #BC9239 100%); /*carousel - casino, main page*/
-  --global-color-links-text: #FFFFFF;
-  
+  --global-color-links-background: linear-gradient(
+    180deg,
+    #dbb86d 0%,
+    #bc9239 100%
+  ); /*carousel - casino, main page*/
+  --global-color-links-text: #ffffff;
+
   /* Casino */
 
-  --global-color-casino-background: #25292D; /* background */
-  --global-color-casino-text1: #FFFFFF;
-  --global-color-casino-text2: #D6C08F;
-  
+  --global-color-casino-background: #25292d; /* background */
+  --global-color-casino-text1: #ffffff;
+  --global-color-casino-text2: #d6c08f;
+
   /* Buttons */
 
-  --global-color-buttons-background: linear-gradient(180deg, #C8A65C 0%, #BC9239 100%);
-  --global-color-buttons-text: #FFFFFF;
-  --global-color-buttons-background-disabled: #353A40;
-  --global-color-buttons-text-disabled: #BCBFC2;
+  --global-color-buttons-background: linear-gradient(
+    180deg,
+    #c8a65c 0%,
+    #bc9239 100%
+  );
+  --global-color-buttons-text: #ffffff;
+  --global-color-buttons-background-disabled: #353a40;
+  --global-color-buttons-text-disabled: #bcbfc2;
 
   /* Chips */
 
   --global-color-chip-round-background: #414851;
-  --global-color-chip-round-text: #FFFFFF;
-  --global-color-chip-round-background-disabled: #2B2F34;
-  --global-color-chip-round-text-disabled: #BCBFC2;
-  --global-color-chip-cube-background: #C59E43;
-  --global-color-chip-cube-text: #FFFFFF; /* live race, selected race, horse racing, greyhound */
+  --global-color-chip-round-text: #ffffff;
+  --global-color-chip-round-background-disabled: #2b2f34;
+  --global-color-chip-round-text-disabled: #bcbfc2;
+  --global-color-chip-cube-background: #c59e43;
+  --global-color-chip-cube-text: #ffffff; /* live race, selected race, horse racing, greyhound */
   --global-color-chip-cube-background-disabled: #414851; /* time race, race name */
-  --global-color-chip-cube-text-disabled: #C59E43; /* time race, race name */
-  --global-color-chip-cube1-text: #C59E43;
-  --global-color-chip-cube1-background: #353A40;
-  --global-color-chip-cube1-stroke-background: #C59E43;
+  --global-color-chip-cube-text-disabled: #c59e43; /* time race, race name */
+  --global-color-chip-cube1-text: #c59e43;
+  --global-color-chip-cube1-background: #353a40;
+  --global-color-chip-cube1-stroke-background: #c59e43;
+  --global-color-chip-line-text-active: #ffffff;
+  --global-color-chip-line-text-inactive: #bcbfc2;
+  --global-color-chip-line-active: #c59e43;
+  --global-color-chip-line-inactive: #353a40;
 
   /* Bet Slip */
 
-  --global-color-betslip-border: #1B1C21;
-  --global-color-betslip-header: #25292D;
-  --global-color-betslip-selector: #2B2F34;
-  --global-color-betslip-selector-active: #353A40;
-  --global-color-betslip-background: #1B1C21;
-  --global-color-betslip-shade-primary: #353A40; /* remove bets */
+  --global-color-betslip-background: #1b1c21; /*border, background */
+  --global-color-betslip-background-secondary: #ffffff;
+  --global-color-betslip-background-tertiary: #2b2f34;
+  --global-color-betslip-background-quaternary: #25292d;
+  --global-color-betslip-header: #25292d;
+  --global-color-betslip-selector-inactive: #2b2f34;
+  --global-color-betslip-selector-active: #353a40;
+  --global-color-betslip-selector-secondary-inactive: #25292d;
+  --global-color-betslip-selector-secondary-active: #414851;
+  --global-color-betslip-button-active: #c59e43;
+  --global-color-betslip-button-inactive: #6d6d6d;
+  --global-color-betslip-border-secondary: #414851;
+  --global-color-betslip-shade-primary: #353a40; /* remove bets */
   --global-color-betslip-shade-secondary: #414851; /* return and balance */
   --global-color-betslip-shade-tertiary: #414851; /* alert */
-  --global-color-betslip-shade-quaternary: #647F98; /*button alternative*/
-  --global-color-betslip-text-primary: #FFFFFF; /* header, buttons */
-  --global-color-betslip-text-secondary: #BCBFC2; /*non active selector text*/
-  --global-color-betslip-text-tertiary: #FFFFFF; /*body*/
-  --global-color-betslip-text-quaternary: #C59E43; /*match*/
-  --global-color-betslip-text-quinary: #FDC500; /*returns*/
+  --global-color-betslip-shade-quaternary: #647f98; /*button alternative*/
+  --global-color-betslip-shade-quinary: #ad0e3e; /*offer, error offer*/
+  --global-color-betslip-shade-senary: #1a835c;
+  --global-color-betslip-text-primary: #ffffff; /* header, buttons */
+  --global-color-betslip-text-secondary: #bcbfc2; /*non active selector text*/
+  --global-color-betslip-text-tertiary: #ffffff; /*body, returns, balance*/
+  --global-color-betslip-text-quaternary: #c59e43; /*match*/
+  --global-color-betslip-text-quinary: #fdc500; /*returns,balance after, deposit alert*/
+  --global-color-betslip-text-senary: #353a40;
+  --global-color-betslip-live: #00ff00; /*live games*/
+  --global-color-betslip-icons: #c59e43;
+
+  /* Notification */
+
+  --global-color-notification-background: #353a40;
+  --global-color-notification-background-secondary: rgba(245, 196, 81, 0.1);
+  --global-color-notification-text: #ffffff;
+  --global-color-notification-success: #036fee;
+  --global-color-notification-error: #ad0e3e;
+
+  /* Odds*/
+
+  --global-color-odds-text-primary: #25292d;
+  --global-color-odds-text-secondary: #ffffff;
+  --global-color-odds-text-tertiary: #bcbfc2;
+  --global-color-odds-shade-primary: #c59e43;
+  --global-color-odds-shade-secondary: #e2e9f0;
+  --global-color-odds-shade-tertiary: #f6afaf;
+  --global-color-odds-shade-quaternary: #bbf3c7;
+  --global-color-odds-shade-quinary: #6d6d6d;
+
+  /*Price*/
+
+  --global-color-price-text: #bcbfc2;
+  --global-color-price-shortening: #1a835c;
+  --global-color-price-drifting: #ad0e3e;
+  --global-color-price-suspended: #6d6d6d;
+  --global-color-price-selected: #c59e43;
+  --global-color-price-boost: rgba(245, 196, 81, 0.1);
+
+  /*Settings */
+
+  --global-color-settings-text-primary: #ffffff;
+  --global-color-settings-text-secondary: #e20b5c; /*required*/
+  --global-color-settings-text-tertiary: #2b2f34;
+  --global-color-settings-shade-primary: #3a3c42;
+  --global-color-settings-shade-secondary: #1b1c21;
+  --global-color-settings-line: rgba(245, 196, 81, 0.1);
+  --global-color-settings-shade-icons-primary: #ffffff;
+  --global-color-osettings-shade-icons-secondary: #c59e43;
+
+  /* Sports Table */
+
+  --global-color-table-background: #1b1c21; /* background */
+  --global-color-table-header-primary: #25292d; /* header 1, sport field */
+  --global-color-table-header-secondary: #2b2f34; /* header 2 */
+  --global-color-table-header-tertiary: #353a40; /* header 3 */
+  --global-color-table-grid-background: #414851; /* grid */
+  --global-color-table-grid-border: #353a40;
+  --global-color-table-text-primary: #ffffff; /* header 1, header 2, header 3 */
+  --global-color-table-text-secondary: #ffffff; /* grid */
+  --global-color-table-text-odds-primary: #c59e43; /* odds, vs */
+  --global-color-table-text-odds-secondary: #ffffff; /* odds selected */
+  --global-color-table-text-vs-background: rgba(245, 196, 81, 0.1);
 
   /* //// */
 
@@ -203,7 +282,6 @@
   --global-color-suspended-button: #faff00;
   --global-color-suspended: #e22727;
   --global-color-gold-button: #bc9239;
-  --global-color-price-boost: rgba(245, 196, 81, 0.1);
 
   /* Text */
   --global-color-text-primary: #ffffff;
@@ -219,20 +297,28 @@
   --global-color-button-secondary: #808080;
 
   /* Gradients */
-  --global-color-linear-primary: linear-gradient(186.6deg,
+  --global-color-linear-primary: linear-gradient(
+      186.6deg,
       rgba(255, 255, 255, 0.2) 5.18%,
-      rgba(255, 255, 255, 0) 69.62%),
+      rgba(255, 255, 255, 0) 69.62%
+    ),
     #bc9239;
-  --global-color-swifty-gradient: linear-gradient(158.32deg,
-      #ff005f 10.33%,
-      #109ff2 108.66%);
-  --global-color-linear-secondary: linear-gradient(180.02deg,
-      #34393f 0.02%,
-      #000000 284.75%);
-  --global-color-linear-tertiary: linear-gradient(135.53deg,
-      #ff3364 19.83%,
-      #bb34ff 50.53%,
-      #3586ff 80.25%);
+  --global-color-swifty-gradient: linear-gradient(
+    158.32deg,
+    #ff005f 10.33%,
+    #109ff2 108.66%
+  );
+  --global-color-linear-secondary: linear-gradient(
+    180.02deg,
+    #34393f 0.02%,
+    #000000 284.75%
+  );
+  --global-color-linear-tertiary: linear-gradient(
+    135.53deg,
+    #ff3364 19.83%,
+    #bb34ff 50.53%,
+    #3586ff 80.25%
+  );
 
   --toastify-toast-width: auto !important;
 }
@@ -240,8 +326,53 @@
 html,
 body {
   overflow-x: hidden;
-  background: var(--global-color-background-primary);
+  background: var(--global-color-background-primary) !important;
   height: 100%;
+}
+
+input[type="password"] {
+  font-family: Verdana;
+  font-size: 20px;
+}
+
+.Toastify__toast {
+  background-color: var(--global-color-notification-background) !important;
+  color: var(--global-color-notification-text) !important;
+  border-radius: 10px;
+  border-left: 10px solid var(--global-color-notification-error);
+  margin-top: 2rem;
+  margin-right: 1rem;
+  width: auto;
+  padding: 0 20px;
+}
+
+.Toastify__toast--success {
+  border-left: 10px solid var(--global-color-notification-success);
+}
+
+.Toastify__toast-container--top-right {
+  top: 1em;
+  right: 0em !important;
+  width: var(--toastify-toast-width);
+}
+
+.Toastify__close-button {
+  opacity: 1;
+  width: 24px;
+  height: 24px;
+  top: 30%;
+  right: 13px;
+  position: absolute;
+  text-align: center;
+}
+
+.Toastify__toast-body {
+  padding: 0;
+}
+
+.Toastify__toast-body > div:last-child {
+  padding-right: 25px;
+  padding-left: 10px;
 }
 
 body.opened::after {
@@ -341,7 +472,7 @@ body.opened::after {
 }
 
 .MuiTabs-flexContainer .MuiButtonBase-root {
-  border-bottom: 4px solid var(--global-color-background-quaternary);
+  border-bottom: 4px solid var(--global-color-chip-line-inactive);
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -393,7 +524,6 @@ body.opened::after {
   grid-area: article;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 600px;
 }
 
@@ -624,5 +754,12 @@ button {
 @media screen and (max-width: 991px) {
   .mainArticle {
     justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Toastify__toast {
+    border-radius: 8px;
+    margin: 1rem;
   }
 }

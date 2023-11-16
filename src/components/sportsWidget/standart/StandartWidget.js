@@ -15,17 +15,21 @@ export const StandartWidget = ({ data }) => {
 
   useEffect(() => {
     data.selections.forEach((selection) => {
-      gamingSocket.emit("subscribe_market", {
-        value: selection?.bet_id,
-      });
+      if (selection?.bet_id) {
+        gamingSocket.emit("subscribe_market", {
+          value: selection?.bet_id,
+        });
+      }
     });
 
     return () => {
       data.selections.forEach((selection) => {
-        gamingSocket.emit("unsubscribe_market", {
-          value: selection?.bet_id,
-          action_id: uuidv4(),
-        });
+        if (selection?.bet_id) {
+          gamingSocket.emit("unsubscribe_market", {
+            value: selection?.bet_id,
+            action_id: uuidv4(),
+          });
+        }
       });
     };
   }, []);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BannerMenu } from "../bannerMenu/BannerMenu";
 import { useTranslations } from "next-intl";
+
 export const SportsBanner = ({ data, title, subtitle, setData, image }) => {
   const t = useTranslations("sports");
   const [selectedFilter, setSelectedFilter] = useState({

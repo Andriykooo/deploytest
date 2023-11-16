@@ -62,9 +62,11 @@ export const ProfileSidebar = ({
                           ""
                         ) : (
                           <Image
+                            height={15}
+                            width={15}
                             src={images.arrowIcon}
                             alt="arrow"
-                            className="arrow rotate profileMenu"
+                            className="rotate profileMenu"
                           />
                         )}
                       </div>

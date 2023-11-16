@@ -15,7 +15,6 @@ export const BetSlipAds = () => {
               <Image
                 src={betslip.media.path}
                 alt={betslip.media.path}
-                quality={50}
                 height={305}
                 width={301}
                 priority
@@ -46,7 +45,6 @@ export const BetSlipAds = () => {
                 className="betslip-add"
                 src={betslip.media.path}
                 alt={betslip.media.path}
-                quality={50}
                 height={305}
                 width={301}
                 priority

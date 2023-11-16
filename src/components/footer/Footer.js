@@ -10,15 +10,17 @@ import LanguageDropdown from "../languageDropdown/languageDropdown";
 import { FooterList } from "./FooterList";
 import Seal from "./Seal";
 import { apiServices } from "@/utils/apiServices";
-import Cookies from "js-cookie";
 import { setFooter } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
+import { useParams } from "next/navigation";
+import classNames from "classnames";
 
 export const preselectedColumns = ["/terms", "/privacy"];
 
 export const Footer = ({ noMenu }) => {
   const dispatch = useDispatch();
-
+  const isPWA = window.matchMedia("(display-mode: standalone)").matches;
+  const params = useParams();
   const isTablet = useSelector((state) => state.isTablet);
   const footer = useSelector((state) => state.footer);
   const [isMounted, setIsMounted] = useState(false);
@@ -27,9 +29,9 @@ export const Footer = ({ noMenu }) => {
     setIsMounted(true);
 
     if (!footer?.data) {
-      const lang = Cookies.get("language");
+      const lang = params.lng;
 
-      let contentLanguage = "all";
+      let contentLanguage = params.lng;
 
       if (lang) {
         contentLanguage = lang === "en" ? "all" : lang;
@@ -48,7 +50,7 @@ export const Footer = ({ noMenu }) => {
       {isMounted && (
         <Helmet>{parse(footer.data.footer_row2?.header || "")}</Helmet>
       )}
-      <footer className="footer-container-div">
+      <footer className={classNames("footer-container-div", { pwa: isPWA })}>
         <div className="pt-5 footerContainerMenu">
           {isTablet ? (
             <div className="mobileVersionLinks row">
@@ -66,24 +68,14 @@ export const Footer = ({ noMenu }) => {
                         <strong>{column.name}</strong>
                       </div>
                       {column.links.map((link) => {
-                        const isPreselectedLink = preselectedColumns.includes(
-                          link.path
-                        );
-
                         return (
                           <div
                             className="col-12 mb-2"
                             key={`${link?.name}-${link?.page_type}-${link?.path}`}
                           >
                             <LinkType
-                              type={
-                                isPreselectedLink ? "default" : link?.page_type
-                              }
-                              path={
-                                isPreselectedLink
-                                  ? `${link.path}?mode=view`
-                                  : link.path
-                              }
+                              type={link?.page_type}
+                              path={link.path}
                               openType={link?.open_type}
                               modalData={{
                                 slug: link?.path,

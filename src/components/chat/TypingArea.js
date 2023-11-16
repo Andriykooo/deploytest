@@ -11,11 +11,13 @@ const TypingArea = ({
   maxLength,
   keyDownHandle,
   textareaHeight,
+  disabled = false
 }) => {
   const t = useTranslations("common");
   return (
     <form className="typing-area-form" onSubmit={onSubmit}>
       <textarea
+        disabled={disabled}
         style={{ height: `${textareaHeight}px` }}
         className="chat-textarea"
         maxLength={maxLength}
@@ -26,7 +28,7 @@ const TypingArea = ({
         placeholder={t("send_message")}
         onKeyDown={keyDownHandle}
       />
-      <button className="chat-send-btn" type="submit">
+      <button disabled={disabled} className="chat-send-btn" type="submit">
         <SendMessage
           color={
             value.trim().length > 0 && "var(--global-color-trader-chat-primary)"

@@ -3,8 +3,8 @@
   align-items: center;
   width: 100%;
   min-height: 45px;
-  background-color: var(--global-color-background-quinary);
-  border-left: 3px solid var(--global-color-primary);
+  background-color: var(--global-color-betslip-shade-tertiary);
+  border-left: 3px solid var(--global-color-betslip-icons);
   padding: 5px 10px
 }
 
@@ -17,5 +17,5 @@
 .warning-text {
   font-size: 12px;
   font-weight: 400;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-betslip-text-tertiary);
 }

@@ -22,7 +22,10 @@ export const MatchOdds = ({ selection, disable, children }) => {
   const [previousSelection, prevoiusSelection] = useState(selection);
   const [priceChangeType, setPriceChangeType] = useState("");
   const [isAnimationStart, setIsAnimationStart] = useState(false);
-  const isSuspended = selectionRow?.trading_status === "suspended";
+
+  const isSuspended =
+    selectionRow?.trading_status === "suspended" || !selection.bet_id;
+  const isSP = selection?.odds_decimal === "SP";
 
   const betIsOpen =
     selectionRow?.trading_status?.toLowerCase() === "open" ||
@@ -52,7 +55,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
       new_bet.event_id = selection?.event_id;
     }
 
-    if (selection?.odds_decimal === "SP") {
+    if (isSP) {
       new_bet.starting_price = true;
     }
 
@@ -62,7 +65,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
       if (item.bet_id == bet_id) {
         exist = true;
 
-        if (!!item.starting_price !== (selection.odds_decimal === "SP")) {
+        if (!!item.starting_price !== (isSP)) {
           return [...accum, new_bet];
         }
         return accum;
@@ -160,9 +163,9 @@ export const MatchOdds = ({ selection, disable, children }) => {
       >
         <div
           className={classNames("matchOdds", {
-            selectionPriceBoost: selectionRow?.price_boost && !isSuspended,
+            selectionPriceBoost: selectionRow?.price_boost && !isSuspended && !isSP,
             styleOfSelectedOdd: isSelected && !isSuspended,
-            suspended: isSuspended,
+            suspended: isSuspended || disable,
             drifting: priceChangeType === "drifting" && !isSuspended,
             shortening: priceChangeType === "shortening" && !isSuspended,
           })}
@@ -187,9 +190,9 @@ export const MatchOdds = ({ selection, disable, children }) => {
           >
             {children}
             <Odds
-              selection={selectionRow?.price_boost ? priceBoost : selectionRow}
+              selection={selectionRow?.price_boost && !isSP ? priceBoost : selectionRow}
             />
-            {selectionRow?.price_boost &&
+            {!isSP && selectionRow?.price_boost &&
               selectionRow?.trading_status !== "suspended" && (
                 <svg
                   width="8"

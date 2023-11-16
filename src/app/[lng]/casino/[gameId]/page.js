@@ -5,7 +5,7 @@ import { apiUrl } from "@/utils/constants";
 import { notFound } from "next/navigation";
 
 async function getData(id) {
-  return await apiServices.get(`${apiUrl.GET_GAME}?pragmaticGameId=${id}`);
+  return await apiServices.get(`${apiUrl.GET_GAME}?id=${id}`);
 }
 
 export default async function Page({ params }) {

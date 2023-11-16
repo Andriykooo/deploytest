@@ -13,6 +13,7 @@ import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -40,7 +41,7 @@ import {
   setSportTypes,
   setTablet,
   setUpdatedSelections,
-  updatePageLayoutContent,
+  setUserStats,
 } from "../../store/actions";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
@@ -49,6 +50,7 @@ import { getUserApi } from "@/utils/apiQueries";
 import { AlertModal } from "@/components/alertModal/AlertModal";
 import { useTranslations } from "next-intl";
 import { Tooltip } from "@/components/Tooltip/Tooltip";
+import moment from "moment";
 
 const modalList = [
   "/privacy",
@@ -65,26 +67,33 @@ const modalList = [
   "/email_sent",
   "/finish_account_setup",
   "/profile/*",
+  "/promo/*",
 ];
 
 const Content = ({ children, className }) => {
+  const dispatch = useDispatch();
+  const pathname = usePathname();
+  const router = useRouter();
+  const params = useParams();
   const t = useTranslations("common");
-  const [gamingAlert, setGamingAlert] = useState(false);
+  const accessToken = getLocalStorageItem("access_token");
+  const deviceIdMaybe = getLocalStorageItem("device_id");
+
+  if (!deviceIdMaybe) {
+    const uuidV4 = uuidv4();
+
+    addLocalStorageItem("device_id", uuidV4);
+  }
 
   const header = useSelector((state) => state.headerData);
   const loggedUser = useSelector((state) => state.loggedUser);
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
-  const accessToken = getLocalStorageItem("access_token");
 
-  const dispatch = useDispatch();
-  const pathname = usePathname();
-  const router = useRouter();
-  const params = useParams();
+  const [gamingAlert, setGamingAlert] = useState(false);
 
-  const currentPage = header?.find((page) => page.path === pathname);
-
+  const newTabId = useMemo(() => uuidv4(), []);
   const isModal = useMemo(() => {
     return modalList.some((modalPath) => {
       let path = pathname;
@@ -102,11 +111,63 @@ const Content = ({ children, className }) => {
     });
   }, [pathname]);
 
+  const disableHeader =
+    (params?.path &&
+      !header?.some((page) => page.path.substring(1) == params?.path)) ||
+    pathname === "/not_found" ||
+    pathname === `/${params.lng}/error` ||
+    pathname === "/customer_service_notice";
+
+  const getSportTypes = () => {
+    axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
+      let sportsData = result?.data;
+      if (sportsData && sportsData.length > 0) {
+        dispatch(setSportTypes(sportsData));
+        if (!activeSport) {
+          dispatch(setActiveSport(sportsData[0]?.id));
+        }
+      } else {
+        dispatch(setSportTypes([]));
+        dispatch(setActiveSport(null));
+      }
+    });
+  };
+
   const getUserData = () => {
     var newUser = loggedUser;
     getUserApi(dispatch).then((result) => {
       dispatch(setLoggedUser({ ...newUser, user_data: result }));
     });
+  };
+
+  const storageListener = (event) => {
+    if (event.key === "new_offer") {
+      dispatch(
+        setReviewBets({
+          singles: [],
+          combinations: [],
+          total_stakes: 0,
+          total_payout: 0,
+        })
+      );
+    }
+
+    if (event.key === "tab_id" && event.newValue === "removed") {
+      addLocalStorageItem("tab_id", newTabId);
+    }
+  };
+
+  const resizeHandler = () => {
+    dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
+    dispatch(
+      setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
+    );
+
+    dispatch(
+      setSidebarRight({
+        isActive: nextWindow.document.documentElement.clientWidth > 1400,
+      })
+    );
   };
 
   useEffect(() => {
@@ -125,7 +186,7 @@ const Content = ({ children, className }) => {
       dispatch(
         setOnBoardingData({
           ...result,
-          languages: result.languages.map((language) => ({
+          languages: result?.languages?.map((language) => ({
             ...language,
             code2: language.code2.toUpperCase(),
           })),
@@ -133,10 +194,11 @@ const Content = ({ children, className }) => {
       );
     });
 
+    getSportTypes();
+
     if (loggedUser) {
       addLocalStorageItem("swifty_id", loggedUser?.swifty_id);
     }
-
     dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
     dispatch(
       setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
@@ -147,6 +209,10 @@ const Content = ({ children, className }) => {
         isActive: nextWindow.document.documentElement.clientWidth > 1400,
       })
     );
+
+    moment.locale(params.lng);
+    addLocalStorageItem("tab_id", newTabId);
+    addLocalStorageItem("language", params.lng);
 
     nextWindow.addEventListener("resize", resizeHandler);
 
@@ -169,7 +235,21 @@ const Content = ({ children, className }) => {
               status: response?.new_status,
             })
           );
+
+          if (response?.new_status === "rejected") {
+            alertToast({
+              message: t("trader_offer_expired"),
+              autoClose: false,
+            });
+          }
           break;
+
+        case "user_updated":
+          apiServices.get(apiUrl.USER_STATS).then((response) => {
+            dispatch(setUserStats(response));
+          });
+          break;
+
         case "bet_ticker":
           dispatch(
             setBetTicker({
@@ -182,7 +262,7 @@ const Content = ({ children, className }) => {
           dispatch(
             setSettings({
               ...settings,
-              isTraderChatEnabled: false,
+              is_trader_chat_enabled: false,
             })
           );
           break;
@@ -191,21 +271,11 @@ const Content = ({ children, className }) => {
           dispatch(
             setSettings({
               ...settings,
-              isTraderChatEnabled: true,
+              is_trader_chat_enabled: true,
             })
           );
           break;
 
-        case "component_updated":
-          if (currentPage) {
-            dispatch(
-              updatePageLayoutContent({
-                content: response.updatedComponent,
-                slug: currentPage.slug,
-              })
-            );
-          }
-          break;
         case "event_resulted":
           dispatch(setResultedEvents(response.eventId));
           break;
@@ -263,12 +333,14 @@ const Content = ({ children, className }) => {
           },
         });
 
-        apiServices.post(apiUrl.GET_BET_SLIP, {
-          bets: [],
-          stakes: [],
-          action: "place",
-          bet_referral_id: response?.bet_referral_id,
-        });
+        if (newTabId === getLocalStorageItem("tab_id")) {
+          apiServices.post(apiUrl.GET_BET_SLIP, {
+            bets: [],
+            stakes: [],
+            action: "place",
+            bet_referral_id: response?.bet_referral_id,
+          });
+        }
       }
 
       if (response?.status === "rejected") {
@@ -311,7 +383,7 @@ const Content = ({ children, className }) => {
           })
         );
 
-        dispatch(setNewOfferTimer(response.bet_slip.expireSeconds));
+        dispatch(setNewOfferTimer(response.bet_slip.expire_seconds));
         dispatch(setReviewBets(response.bet_slip));
       }
     });
@@ -320,25 +392,27 @@ const Content = ({ children, className }) => {
       dispatch(setCurrentTime(new Date()));
     }, 1 * 60 * 1000);
 
+    nextWindow.addEventListener("storage", storageListener);
+    nextWindow.onbeforeunload = () => {
+      addLocalStorageItem("tab_id", "removed");
+    };
+
+    window.fbAsyncInit = () => {
+      window.FB.init({
+        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+        cookie: true,
+        xfbml: true,
+        version: "v18.0",
+      });
+    };
+
     return () => {
       gamingSocket.off("selection_updated");
       clearInterval(interval);
+      nextWindow.removeEventListener("storage", storageListener);
       nextWindow.removeEventListener("resize", resizeHandler);
     };
   }, []);
-
-  const resizeHandler = () => {
-    dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
-    dispatch(
-      setTablet(nextWindow.document.documentElement.clientWidth <= 1024)
-    );
-
-    dispatch(
-      setSidebarRight({
-        isActive: nextWindow.document.documentElement.clientWidth > 1400,
-      })
-    );
-  };
 
   useEffect(() => {
     let interval = null;
@@ -367,12 +441,6 @@ const Content = ({ children, className }) => {
       }
     };
   }, [loggedUser]);
-
-  const disableHeader =
-    (params?.path &&
-      !header?.some((page) => page.path.substring(1) == params?.path)) ||
-    pathname === "/not_found" ||
-    pathname === "/customer_service_notice";
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
@@ -408,6 +476,7 @@ const Content = ({ children, className }) => {
         <AlertModal />
         <PrivacyConfirmModal />
         <TermsConfirmModal />
+        <PageContentModal />
         <Tooltip />
         {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
         {accessToken &&
@@ -424,7 +493,6 @@ const Content = ({ children, className }) => {
           <Header isModal={isModal} />
           {children}
         </div>
-        <PageContentModal />
       </SocketContext.Provider>
     </GoogleOAuthProvider>
   );

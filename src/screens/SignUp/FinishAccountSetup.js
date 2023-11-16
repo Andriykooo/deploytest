@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
 import { useTranslations } from "next-intl";
+
 function FinishAccountSetup() {
   const t = useTranslations();
   const [showInformation, setShowInformation] = useState(false);
@@ -28,9 +29,10 @@ function FinishAccountSetup() {
 
   useEffect(() => {
     const onBoardingCountry = onBoarding.countries.find(
-      ({ cca2 }) => cca2 == user?.user_data.address_country
+      ({ cca2 }) => cca2 == user?.user_data?.country
     );
-    if (onBoardingCountry?.kyc_during_onboarding == false) {
+
+    if (!onBoardingCountry?.kyc_during_onboarding) {
       router.push("/");
     } else {
       setIsLoading(false);
@@ -47,8 +49,8 @@ function FinishAccountSetup() {
     );
 
   return (
-    <div className="backgroundImage finishAccountSetup">
-      <div className=" loginForm px-4">
+    <div className="signInImage finishAccountSetup">
+      <div className="loginForm px-4">
         <p className="logInTitle">
           {t("finish_account_setup.finish_account_setup")}
         </p>

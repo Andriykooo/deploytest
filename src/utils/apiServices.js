@@ -12,6 +12,7 @@ import {
   getLocalStorageItem,
 } from "./localStorage";
 import { nextWindow } from "./nextWindow";
+import moment from "moment";
 
 const clearStorage = () => {
   if (!nextWindow.location.pathname.includes("/login")) {
@@ -108,11 +109,11 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     // Get browser timezone offset in minutes
-    "browser-timezone-offset": new Date().getTimezoneOffset(),
+    "browser-timezone-offset": moment().utcOffset(),
     Accept: "application/json",
     language: "en",
     platform: "web",
-    app_version: "1",
+    'app-version': "1",
   },
 });
 
@@ -123,7 +124,8 @@ axiosInstance.interceptors.request.use((config) => {
     )}`;
   }
 
-  config.headers.device_id = getLocalStorageItem("device_id") || uuidv4();
+  config.headers["device-id"] = getLocalStorageItem("device_id") || uuidv4();
+  config.headers.language = getLocalStorageItem("language") || "en";
 
   return config;
 });
@@ -182,12 +184,21 @@ axiosInstance.interceptors.response.use(
 );
 
 class ApiServices {
+  /**
+   * @type {import('axios').AxiosInstance}
+   */
   #requestInstance = null;
 
   constructor(instance) {
     this.#requestInstance = instance;
   }
 
+  /**
+   * @param {string} url
+   * @param { Record<string, any> } body
+   * @param options { import('axios').AxiosRequestConfig }
+   * @returns {Promise<AxiosResponse<any> | void>}
+   */
   get(url, body, options = {}) {
     return this.#requestInstance
       .get(url, { params: body, ...options })

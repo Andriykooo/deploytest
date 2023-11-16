@@ -26,22 +26,26 @@ export const SportsTable = ({ data, type }) => {
       )}
       {sports.length > 0 ? (
         <div className="sports-table-sports">
-          {sports?.map((sport, index) => {
+          {sports?.map((sport) => {
+            const hasFavouriteCompetition = sport.competitions.some(
+              (competition) => competition.favorite
+            );
+
             return (
               <Accordion
                 title={sport.name}
                 className="sport-accordion"
                 key={sport.slug}
-                active={index === 0}
+                active={hasFavouriteCompetition}
               >
                 {!isTablet && <MarketOptions options={sport?.market_types} />}
-                {sport?.competitions?.map((competition, competitionIndex) => {
+                {sport?.competitions?.map((competition) => {
                   return (
                     <Accordion
                       key={competition.id}
                       className="leagues-accordion"
                       title={competition.name}
-                      active={index === 0 && competitionIndex === 0}
+                      active={!!competition.favorite}
                     >
                       {competition.events.map((event) => {
                         return (

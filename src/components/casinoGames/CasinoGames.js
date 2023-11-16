@@ -17,7 +17,7 @@ const CasinoGames = ({ data }) => {
       title: "Favorite Games",
       view_style: "single_line",
       games: Object.values(favoriteGames).filter((game) =>
-        game.name.toLowerCase().includes(search.toLowerCase())
+        game?.title?.toLowerCase()?.includes(search?.toLowerCase())
       ),
     },
     ...data,
@@ -38,7 +38,7 @@ const CasinoGames = ({ data }) => {
             <div className="categoryGrid">
               {category.games
                 .filter((game) =>
-                  game.name.toLowerCase().includes(search.toLowerCase())
+                  game?.title?.toLowerCase()?.includes(search?.toLowerCase())
                 )
                 .map((game, index) => {
                   if (isTablet) {
@@ -87,8 +87,8 @@ const CasinoGames = ({ data }) => {
             ?.map((casinoCategory) => {
               const filteredCategory = {
                 ...casinoCategory,
-                games: casinoCategory.games?.filter((game) =>
-                  game.name.toLowerCase().includes(search.toLowerCase())
+                games: casinoCategory?.games?.filter((game) =>
+                  game?.title?.toLowerCase()?.includes(search?.toLowerCase())
                 ),
               };
 

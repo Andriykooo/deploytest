@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import ProfileBack from "@/components/profileBack/ProfileBack";
 import "../Deposit/Deposit.css";
 import "../DepositLimit/DepositLimit.css";
 import DepositLimitComponent from "@/components/DepositLimitComponent/DepositLimitComponent";
@@ -24,9 +23,9 @@ const Deposit = () => {
   const [stepLoading, setStepLoading] = useState(false);
   const [skip, setSkip] = useState(!user?.user_data?.deposit_limit_initiated);
   const onBoarding = useSelector((state) => state.on_boarding);
-  const settings = useSelector((state) => state.settings);
-  const setLimitInitialDeposit = onBoarding.countries.find(
-    ({ cca2 }) => cca2 == settings?.country
+
+  const setLimitInitialDeposit = onBoarding?.countries?.find(
+    ({ cca2 }) => cca2 == user?.user_data?.country
   )?.set_limit_initial_deposit;
 
   const getGatewayLink = useCallback((value) => {

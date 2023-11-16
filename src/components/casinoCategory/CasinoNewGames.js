@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import nextIcon from "../../assets/images/nextIcon.png";
-import previousIcon from "../../assets/images/previousIcon.png";
 import { popularCasinoGames } from "../../utils/constants";
 import { Button } from "../button/Button";
+import { images } from "@/utils/imagesConstant";
 
 const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
   const isMobile = useSelector((state) => state.setMobile);
@@ -27,7 +26,7 @@ const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
                     // onClick={previousSlide}
                     text={
                       <>
-                        <Image src={previousIcon} />
+                        <Image src={images.previousIcon} />
                       </>
                     }
                   ></Button>
@@ -52,7 +51,7 @@ const CasinoNewGames = ({ gamesData, title, baseUrl }) => {
                     // onClick={nextSlide}
                     text={
                       <>
-                        <Image src={nextIcon} />
+                        <Image src={images.nextIcon} />
                       </>
                     }
                   />

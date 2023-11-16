@@ -13,7 +13,6 @@ import { Search } from "../profileMenu/SearchSport";
 import { ProfileCard, SidebarProfile } from "../profileMenu/Styled";
 import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
-import { getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 export const SidebarLeft = () => {
@@ -29,11 +28,9 @@ export const SidebarLeft = () => {
   const settings = useSelector((state) => state.settings);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
 
-  const chatIsActive =
-    getLocalStorageItem("access_token") &&
-    settings?.isTraderChatEnabled &&
-    loggedUser &&
-    loggedUser?.user_data?.trader_chat_enabled;
+  const chatIsActive = loggedUser
+  ? settings?.is_trader_chat_enabled && loggedUser.user_data?.trader_chat_enabled
+  : true;
 
   const [fileteredData, setFilteredData] = useState(sidebarLeft.data);
   const [isHovered, setIsHovered] = useState(false);
@@ -114,7 +111,6 @@ export const SidebarLeft = () => {
                       alt="img-minisidebar"
                       src={item?.icon}
                       priority
-                      quality={50}
                       className="sports-icon-miniSidebar"
                       height={20}
                       width={20}
@@ -134,6 +130,7 @@ export const SidebarLeft = () => {
         ) : (
           <MenuBarEmpty message={t("sport_not_found")} />
         )}
+        {!isTablet && chatIsActive && <Chat isOpen={sidebarLeft.isActive} />}
       </SidebarProfile>
       {isHovered && !isTablet && (
         <ArrowButton
@@ -148,7 +145,6 @@ export const SidebarLeft = () => {
           }}
         />
       )}
-      {!isTablet && chatIsActive && <Chat isOpen={sidebarLeft.isActive} />}
     </div>
   ) : (
     <SidebarLeftSkeleton />

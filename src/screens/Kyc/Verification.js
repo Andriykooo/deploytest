@@ -9,7 +9,7 @@ import { addLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
 import { Loader } from "@/components/loaders/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoggedUser } from "@/store/actions";
+import { setIsVerifyMessage, setLoggedUser } from "@/store/actions";
 
 export const Verification = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export const Verification = () => {
   }
 
   return (
-    <div className="backgroundImage">
+    <div className="signInImage">
       {kycAccessToken ? (
         <div className="verification-sumsub">
           <SumsubWebSdk
@@ -59,6 +59,7 @@ export const Verification = () => {
             }}
             onMessage={(idCheck, response) => {
               if (idCheck === "idCheck.onStepInitiated") {
+                dispatch(setIsVerifyMessage(false));
                 dispatch(
                   setLoggedUser({
                     ...user,
@@ -71,6 +72,7 @@ export const Verification = () => {
               }
 
               if (response?.reviewStatus) {
+                dispatch(setIsVerifyMessage(false));
                 dispatch(
                   setLoggedUser({
                     ...user,

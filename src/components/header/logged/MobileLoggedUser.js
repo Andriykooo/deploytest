@@ -17,7 +17,7 @@ export const MobileLoggedUser = () => {
   const settings = useSelector((state) => state.settings);
   const chatIsActive =
     getLocalStorageItem("access_token") &&
-    settings?.isTraderChatEnabled &&
+    settings?.is_trader_chat_enabled &&
     user &&
     user?.user_data?.trader_chat_enabled;
 
@@ -53,9 +53,9 @@ export const MobileLoggedUser = () => {
             <p className="signText balanceAmount">
               {userBalance
                 ? parseFloat(userBalance)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 : "0.00"}
             </p>
             <p className="signText balanceAmount ms-2">

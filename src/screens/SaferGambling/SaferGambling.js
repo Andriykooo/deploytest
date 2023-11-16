@@ -40,14 +40,14 @@ export const SaferGambling = () => {
       title: t("common.suspend_account"),
       link: "/profile/suspend_account",
       desc: t("safer_gambling.suspend_account_desc", {
-        company: settings?.companyName,
+        company: settings?.company_name,
       }),
     },
     {
       title: t("common.self_exclude"),
       link: "/profile/self_exclude",
       desc: t("safer_gambling.self_exclude_desc", {
-        company: settings?.companyName,
+        company: settings?.company_name,
       }),
     },
     {

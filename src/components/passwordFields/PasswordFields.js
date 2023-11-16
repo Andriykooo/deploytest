@@ -137,7 +137,7 @@ const PasswordFields = ({
             height={14}
           />
         </div>
-        <p className="newPassChecks">
+        <p className="newPassChecks mt-2">
           <span className={validation.length ? "dot valid" : "dot"} />
           {t("password_length_requirement")}
         </p>
@@ -150,27 +150,26 @@ const PasswordFields = ({
           {t("password_number_requirement")}
         </p>
       </div>
-      <div className="emailValidation">
-        <label className="newPasswordLabel">{t("confirm_password")}</label>
-        <div className="password-container">
-          <input
-            id="config_password"
-            type={showPassword["confirmpassword"] ? "text" : "password"}
-            className="password_input"
-            placeholder={t("enter_password")}
-            onChange={(e) => handlePassword(e.target.value, "confirm-password")}
-          />
-          <Image
-            onClick={() => togglePassword("confirmpassword")}
-            src={images.showPassIcon}
-            className="showPasswordIcon"
-            alt="Valid"
-            width={20}
-            height={14}
-          />
-        </div>
+      <label className="newPasswordLabel">{t("confirm_password")}</label>
+      <div className="password-container">
+        <input
+          id="config_password"
+          type={showPassword["confirmpassword"] ? "text" : "password"}
+          className="password_input"
+          placeholder={t("enter_password")}
+          onChange={(e) => handlePassword(e.target.value, "confirm-password")}
+        />
+        <Image
+          onClick={() => togglePassword("confirmpassword")}
+          src={images.showPassIcon}
+          className="showPasswordIcon"
+          alt="Valid"
+          width={20}
+          height={14}
+        />
       </div>
-      <p className="newPassChecks">
+
+      <p className="newPassChecks mt-2 mb-3">
         <span
           className={
             newPassword === confirmPassword && confirmPassword
@@ -180,7 +179,7 @@ const PasswordFields = ({
         />
         {t("passwords_must_match")}
       </p>
-      <div className="authButtonsContainer">
+      <div className="authButtonsContainer mt-4">
         <Button
           className={
             newPassword === confirmPassword &&

@@ -1,51 +1,85 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import classNames from "classnames";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { HeaderDiv } from "../header/HeaderDiv";
 import { images } from "@/utils/imagesConstant";
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
+
 const FooterMenu = ({ data, onClick }) => {
   const t = useTranslations("common");
   const activePage = useSelector((state) => state.activePage);
   const footerLinksRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [swipeStarted, setSwipeStarted] = useState(false);
+
+  const isPWA = window.matchMedia("(display-mode: standalone)").matches;
 
   const toggleFooterLinks = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSwipe = (e) => {
-    if (swipeStarted) {
-      return;
-    }
+  const mainItems = data?.slice(0, 4);
 
-    const footerPosition = footerLinksRef.current.getBoundingClientRect().y;
-    const swipePosition = e.targetTouches[0].clientY;
+  // We need reduce with reverse to make sure that data sorting is okay
+  const secondaryItems = data
+    ?.slice(4, data.lenght)
+    ?.reduce((result, value, index) => {
+      if (index % 5 === 0) {
+        result.push([]);
+      }
+      result[result.length - 1].push(value);
+      return result;
+    }, [])
+    .reverse();
 
-    if (!isOpen && footerPosition > swipePosition + 20) {
-      setIsOpen(true);
-      setSwipeStarted(true);
-    }
-
-    if (isOpen && footerPosition + 20 < swipePosition) {
-      setIsOpen(false);
-      setSwipeStarted(true);
-    }
+  const renderFooterMenuItem = (arr) => {
+    return arr?.map((item) => {
+      if (item?.path) {
+        return (
+          <div
+            key={item.id}
+            data-id={item.id}
+            className="footerMenuIcon"
+            onClick={() => {
+              onClick(item);
+            }}
+          >
+            <LinkType
+              onClick={() => {
+                onClick(item);
+              }}
+              className="ps-1 sports-header-link"
+              type={item.type}
+              path={item.path}
+              openType={item?.open_type}
+              modalData={{
+                slug: item.slug,
+                title: item.name,
+              }}
+            >
+              <HeaderDiv
+                active={item.id === activePage?.id}
+                className={
+                  (item.id === item.id) === activePage?.id
+                    ? "header-link active"
+                    : "header-link"
+                }
+              >
+                <Image src={item.icon} alt="page" height={24} width={24} />
+                <span className="footerSport">{item.name}</span>
+              </HeaderDiv>
+            </LinkType>
+          </div>
+        );
+      }
+    });
   };
 
   return (
-    <div
-      className={classNames("footerWrapper", { active: isOpen })}
-      onTouchMove={handleSwipe}
-      onTouchEnd={() => {
-        setSwipeStarted(false);
-      }}
-    >
+    <div className={classNames("footerWrapper", { pwa: isPWA })}>
       <div
         ref={footerLinksRef}
         className="footerLineWrapper"
@@ -54,84 +88,31 @@ const FooterMenu = ({ data, onClick }) => {
         <div className="footerLine" />
       </div>
       <div
-        className={classNames("footerIconsDiv", {
-          active: isOpen,
-          inline: data?.length < 5,
-        })}
+        style={{ height: isOpen && `${secondaryItems?.length * 72}px` }}
+        className="secondaryItems"
       >
-        {data?.map((item, index) => {
-          if (!isOpen && index === 4) {
-            return (
-              <div
-                key={0}
-                data-id={0}
-                className="footerMenuIcon"
-                onClick={toggleFooterLinks}
-              >
-                <div className="ps-1 sports-header-link">
-                  <HeaderDiv className="header-link">
-                    <div>
-                      <Image src={images.dotVector} alt="more" />
-                    </div>
-                    <span className="footerSport">{t("more")}</span>
-                  </HeaderDiv>
-                </div>
-              </div>
-            );
-          }
-
-          if (item?.path) {
-            return (
-              <div
-                key={item.id}
-                data-id={item.id}
-                className="footerMenuIcon"
-                onClick={() => {
-                  onClick(item);
-                }}
-              >
-                <LinkType
-                  onClick={() => {
-                    onClick(item);
-                  }}
-                  className="ps-1 sports-header-link"
-                  type={item.type}
-                  path={item.path}
-                  openType={item?.open_type}
-                  modalData={{
-                    slug: item.slug,
-                    title: item.name,
-                  }}
-                >
-                  <HeaderDiv
-                    active={item.id === activePage?.id}
-                    className={
-                      (item.id === item.id) === activePage?.id
-                        ? "header-link active"
-                        : "header-link"
-                    }
-                  >
-                    <Image src={item.icon} alt="page" height={24} width={24} />
-                    <span className="footerSport">{item.name}</span>
-                  </HeaderDiv>
-                </LinkType>
-              </div>
-            );
-          }
-        })}
-        {isOpen && (
-          <div className="footerMenuIcon" onClick={toggleFooterLinks}>
-            <div className="ps-1 sports-header-link">
-              <HeaderDiv className="header-link">
-                <div>
-                  <Image src={images.dotVector} alt="less" />
-                </div>
-                <span className="footerSport">{t("less")}</span>
-              </HeaderDiv>
+        {secondaryItems?.map((data, index) => {
+          return (
+            <div className="footerIconsDiv" key={index}>
+              {renderFooterMenuItem(data)}
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
+      <div className="footerIconsDiv">
+        {renderFooterMenuItem(mainItems)}
+        <div className="footerMenuIcon" onClick={toggleFooterLinks}>
+          <div className="ps-1 sports-header-link">
+            <HeaderDiv className="header-link">
+              <Image src={images.dotVector} alt="more-less" />
+              <span className="footerSport">
+                {isOpen ? t("less") : t("more")}
+              </span>
+            </HeaderDiv>
+          </div>
+        </div>
+      </div>
+      {isPWA && <div className="footerFade"></div>}
     </div>
   );
 };

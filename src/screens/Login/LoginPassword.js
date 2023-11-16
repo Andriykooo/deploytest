@@ -4,7 +4,7 @@ import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
 import { images } from "../../utils/imagesConstant";
 import "../Login/Login.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setForgotPassword } from "@/store/actions";
 import { useTranslations } from "next-intl";
 export const LoginPassword = ({
@@ -20,13 +20,16 @@ export const LoginPassword = ({
 }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
+  const isTablet = useSelector((state) => state.isTablet);
 
   return (
     <div className="loginForm">
-      <div onClick={goBack} className="go-back">
-        <Image src={images.goBackArrow} alt="Go back" />
-        <span>{t("common.go_back")}</span>
-      </div>
+      {!isTablet && (
+        <div onClick={goBack} className="go-back mb-3">
+          <Image src={images.goBackArrow} alt="Go back" />
+          <span>{t("common.go_back")}</span>
+        </div>
+      )}
       <h1 className="logInTitle">
         {t("login.welcome_back")}, {newUser.first_name}
       </h1>
@@ -45,7 +48,7 @@ export const LoginPassword = ({
             <Image
               src={images.showPassIcon}
               onClick={togglePassword}
-              className="showPasswordIconBtm welcome"
+              className="showPasswordIcon welcome"
               alt="Show password"
               width={20}
               height={14}

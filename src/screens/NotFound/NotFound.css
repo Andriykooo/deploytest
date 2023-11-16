@@ -17,6 +17,7 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 76px);
+  color: var(--global-color-text-primary);
 }
 .error-number {
   display: flex;

@@ -2,40 +2,60 @@
 
 import { addLocalStorageItem } from "@/utils/localStorage";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
 import { Countries } from "../../components/modal/Countries";
 import { States } from "../../components/modal/States";
-import { setCountryPhone, setUser } from "../../store/actions";
+import {
+  setCountryPhone,
+  setData,
+  setLoggedUser,
+  setSwiftyId,
+  setUser,
+} from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { images } from "../../utils/imagesConstant";
 import "../Login/Login.css";
 import "../SignUp/SignUp.css";
 import { useTranslations } from "next-intl";
+import { CheckboxIcon } from "@/utils/icons";
+import { Loader } from "@/components/loaders/Loader";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { refreshCommunicationSocket } from "@/context/socket";
+import { LinkType } from "@/components/LinkType/LinkType";
+import { DatePicker } from "@/components/datePicker/DatePicker";
+import moment from "moment";
+import classNames from "classnames";
+
+const socials = ["google", "facebook", "apple"];
+
 const SignUp = () => {
   const t = useTranslations();
+  const params = useParams();
   const [states, setStates] = useState([]);
-  const [isValid, setIsValid] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [stateName, setStateName] = useState("");
   const [countries, setCountries] = useState([]);
   const [countryFlag, setCountryFlag] = useState();
   const [countryCode, setCountryCode] = useState();
   const [showStates, setShowStates] = useState(false);
-  const [countryState, setCountryState] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(-1);
   const [showCountries, setShowCountries] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [passwordHasANumber, setpasswordHasANumber] = useState(false);
   const [passwordIsLongEnough, setpasswordIsLongEnough] = useState(false);
+  const [isValidDateOfBirth, setIsValidDateOfBirth] = useState(false);
   const [country, setCountry] = useState(t("sign_up.select_country_residence"));
   const [PasswordHasOneCharacter, setPasswordHasOneCharacter] = useState(false);
   const [passwordHasSpecialCharater, setpasswordHasSpecialCharater] =
     useState(false);
-  const [data, setData] = useState({
+  const [userData, setUserData] = useState({
     email: "",
     first_name: "",
     last_name: "",
@@ -44,19 +64,33 @@ const SignUp = () => {
     cca2: "",
     terms_version: "",
     policy_version: "",
+    date_of_birth: "",
   });
+
+  const isValid =
+    userData?.first_name &&
+    userData?.last_name &&
+    country &&
+    isValidDateOfBirth &&
+    PasswordHasOneCharacter &&
+    passwordHasANumber &&
+    passwordIsLongEnough &&
+    passwordHasSpecialCharater;
+
   const user = useSelector((state) => state.user);
   const settings = useSelector((state) => state.settings);
   const loggedUser = useSelector((state) => state.loggedUser);
   const on_boarding = useSelector((state) => state.on_boarding);
   const signup_platform = useSelector((state) => state.signup_platform);
-  const passwordValidation = false;
+  const countryPhone = useSelector((state) => state.countryPhone);
+  const promo = useSelector((state) => state.promo);
   const router = useRouter();
   const dispatch = useDispatch();
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+
   useEffect(() => {
     const userCountry = on_boarding?.countries?.find(
       (country) => country.cca2 === settings.country
@@ -66,7 +100,7 @@ const SignUp = () => {
     } else {
       setStates([]);
     }
-    setCountry(userCountry?.name);
+    setCountry(userCountry);
     setCountryFlag(userCountry?.flag_url);
     setCountryCode(userCountry?.cca2);
     addLocalStorageItem("country_code", userCountry?.cca2);
@@ -88,19 +122,6 @@ const SignUp = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (
-      (signup_platform === "google" ||
-        signup_platform === "facebook" ||
-        signup_platform === "apple") &&
-      data.first_name &&
-      data.last_name &&
-      user?.country
-    ) {
-      setIsValid(true);
-    }
-  }, [data, user?.country]);
-
   function submitValidate(e) {
     e.preventDefault();
     let InfoForCountry = countries.filter((state) => {
@@ -110,7 +131,7 @@ const SignUp = () => {
     if (!user.first_name || !user.email || !user.last_name || !user.country) {
       alertToast({ message: t("sign_up.fill_in_all_fields") });
     } else if (isValid) {
-      router.push("/terms");
+      signupAndVerify();
     } else {
       alertToast({ message: t("sign_up.password_incorrect") });
     }
@@ -128,49 +149,133 @@ const SignUp = () => {
       newUser["email"] = user.email;
     } else if (key === "last_name") {
       newUser["last_name"] = e.currentTarget.value;
+    } else if (key === "date_of_birth") {
+      const birthdateMoment = moment(e.target.value, "YYYY-MM-DD");
+      const currentMoment = moment();
+      const age = currentMoment.diff(birthdateMoment, "years");
+
+      if (age >= country?.gambling_age) {
+        setIsValidDateOfBirth(true);
+      } else {
+        setIsValidDateOfBirth(false);
+      }
     } else if (key === "password") {
       let userpassword = e.currentTarget.value;
       const specialCharRegExp = /(?=.*?[!@#$%^&*()_+?<>{};:"'\.,/`])/;
       const digitsRegExp = /(?=.*?[0-9])/;
       const digitsPassword = digitsRegExp.test(userpassword);
       const specialCharPassword = specialCharRegExp.test(userpassword);
-      if (userpassword.length > 0) {
-        setPasswordHasOneCharacter(true);
-      } else {
-        setPasswordHasOneCharacter(false);
-      }
-      if (userpassword.length > 7) {
-        setpasswordIsLongEnough(true);
-      } else {
-        setpasswordIsLongEnough(false);
-        setIsValid(false);
-      }
-      if (digitsPassword) {
-        setpasswordHasANumber(true);
-      } else {
-        setpasswordHasANumber(false);
-        setIsValid(false);
-      }
-      if (specialCharPassword) {
-        setpasswordHasSpecialCharater(true);
-      } else {
-        setpasswordHasSpecialCharater(false);
-        setIsValid(false);
-      }
+
+      setPasswordHasOneCharacter(userpassword.length > 0);
+      setpasswordIsLongEnough(userpassword.length > 7);
+      setpasswordHasANumber(digitsPassword);
+      setpasswordHasSpecialCharater(specialCharPassword);
+
       if (digitsPassword && specialCharPassword && userpassword.length > 7) {
         newUser["password"] = e.currentTarget.value;
-        setIsValid(true);
-      }
-      if (passwordValidation && isValid) {
-        setIsValid(true);
       }
     } else if (key === "state") {
       setStateName(e.target.value.toLocaleLowerCase());
     }
 
     dispatch(setUser(newUser));
-    setData({ ...data, [key]: e.target.value });
+    setUserData({ ...userData, [key]: e.target.value });
   }
+  const signupAndVerify = async () => {
+    try {
+      setIsLoading(true);
+      const language = params.lng || "en";
+      const termsReq = apiServices.get(apiUrl.TERMS, {
+        country: countryCode,
+        language,
+      });
+      const privacyReq = apiServices.get(apiUrl.PRIVACY, {
+        country: countryCode,
+        language,
+      });
+
+      const [termsResponse, privacyResponse] = await Promise.all([
+        termsReq,
+        privacyReq,
+      ]);
+
+      const body = {
+        email: user.email,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        country_code: countryCode,
+        terms_version: termsResponse.version,
+        policy_version: privacyResponse.version,
+        date_of_birth: moment(userData.date_of_birth).format("YYYY-DD-MM"),
+      };
+
+      if (promo) {
+        body.promo_code = promo;
+      }
+
+      if (socials.includes(signup_platform)) {
+        body.phone_number = "";
+        body.login_platform = signup_platform;
+        body.social_token = user?.social_token;
+        handleSocialSignIn(body);
+      } else {
+        body.password = user.password;
+        body.state_code = user?.state;
+        body.device_id = user.device_id;
+        continueToVerifyEmail(body);
+      }
+    } catch {
+      setIsLoading(false);
+    }
+  };
+
+  const continueToVerifyEmail = (body) => {
+    let url = apiUrl.SIGN_UP;
+    setIsLoading(true);
+    apiServices
+      .post(url, body)
+      .then((result) => {
+        addLocalStorageItem("access_token", result?.access_token);
+        addLocalStorageItem("refresh_token", result?.refresh_token);
+        addLocalStorageItem("swifty_id", result?.swifty_id);
+        dispatch(setSwiftyId(result?.swifty_id));
+        dispatch(setData(result));
+        setIsLoading(false);
+        refreshCommunicationSocket(result?.access_token);
+        router.push("/verify_email");
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleSocialSignIn = (body) => {
+    apiServices
+      .post(apiUrl.SIGNIN_SOCIAL, body)
+      .then((response) => {
+        setIsLoading(false);
+        addLocalStorageItem("access_token", response?.token);
+        addLocalStorageItem("refresh_token", response?.refresh_token);
+        addLocalStorageItem("swifty_id", response?.swifty_id);
+        addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
+        dispatch(setSwiftyId(response?.swifty_id));
+        dispatch(setData(response));
+        dispatch(setLoggedUser(response));
+        refreshCommunicationSocket(response?.token);
+        if (countryPhone && countryPhone.length > 0) {
+          if (countryPhone[0].phone_number_required) {
+            router.push("/sign_up_with_phone");
+          } else {
+            router.push("/finish_account_setup");
+          }
+        } else {
+          router.push("/finish_account_setup");
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
 
   const choosenCountry = countries?.filter((state) => {
     return state.name.toLocaleLowerCase().startsWith(selectedCountry);
@@ -181,8 +286,8 @@ const SignUp = () => {
   });
 
   return (
-    <div className="backgroundImage">
-      <form className=" loginForm" onSubmit={submitValidate}>
+    <div className="signInImage">
+      <form className="loginForm" onSubmit={submitValidate}>
         <p className="logInTitle">{t("sign_up.new_user_setup")}</p>
         <div className="emailValidation d-grid">
           <label className="nameLabels">{t("sign_up.first_name")}</label>
@@ -192,7 +297,7 @@ const SignUp = () => {
             type="text"
             className="login-buttons"
             placeholder={t("sign_up.enter_first_name")}
-            value={data.first_name}
+            value={userData.first_name}
             autoComplete="new-password"
           />
         </div>
@@ -204,7 +309,7 @@ const SignUp = () => {
             type="text"
             className="login-buttons"
             placeholder={t("sign_up.enter_last_name")}
-            value={data.last_name}
+            value={userData.last_name}
             autoComplete="new-password"
           />
         </div>
@@ -222,17 +327,17 @@ const SignUp = () => {
               placeholder={t("sign_up.select_country_residence")}
               text={
                 <>
-                  <div className="d-flex">
+                  <div className="d-flex align-items-center">
                     {countryFlag && (
                       <Image
                         src={countryFlag}
                         alt="country-flag"
-                        className="countriesFlags mb-2"
+                        className="countriesFlags"
                         height={24}
                         width={24}
                       />
                     )}
-                    <p className="ms-3 mb-0 mt-1 countryName">{country}</p>
+                    <p className="ms-3 mb-0 countryName">{country?.name}</p>
                   </div>
                   <Image
                     src={images.arrowIcon}
@@ -246,55 +351,46 @@ const SignUp = () => {
             />
           </div>
         </div>
-        {user?.country === "US" && states.length > 0 && (
-          <div className="emailValidation d-grid">
-            <label className="nameLabels">{t("sign_up.state_province")}</label>
-            <div className="residenceInput">
-              <Button
-                onClick={() => {
-                  setShowStates(true);
-                  setStateName("");
-                }}
-                id="country_code"
-                type="select"
-                className={"login-buttons p-0 mb-3"}
-                value={countryCode}
-                placeholder={t("sign_up.select_country_residence")}
-                text={
-                  <>
-                    <div className="d-flex">
-                      <p className="ms-3 mb-0 mt-1 countryName">
-                        {countryState || t("sign_up.select_state_province")}
-                      </p>
-                    </div>
-                    <Image
-                      src={images.arrowIcon}
-                      alt="arrow"
-                      className="residenceArrow"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </div>
-        )}
-        {!(
-          signup_platform === "google" ||
-          signup_platform === "facebook" ||
-          signup_platform === "apple"
-        ) && (
+
+        <div className="emailValidation d-grid">
+          <label className="nameLabels">{t("sign_up.date_of_birth")}</label>
+          <DatePicker
+            value={userData.date_of_birth}
+            onChange={(value) => handle({ target: { value } }, "date_of_birth")}
+            placeholder={t("sign_up.enter_date_of_birth")}
+          />
+          <p className="newPassChecks mb-0 mt-2">
+            <span className={isValidDateOfBirth ? "dot valid" : "dot"} />
+            {t("common.legal_age_requirement")}
+          </p>
+        </div>
+        {!socials.includes(signup_platform) && (
           <div className="emailValidation d-grid">
             <label className="nameLabels">{t("common.password")}</label>
-            <input
-              onChange={(e) => handle(e, "password")}
-              id="password"
-              type={passwordShown ? "text" : "password"}
-              className="login-buttons"
-              placeholder={t("common.enter_password")}
-              value={data.password}
-              autoComplete="new-password"
-            />
-            <p className="newPassChecks mb-0">
+            <div className="position-relative">
+              <input
+                onChange={(e) => handle(e, "password")}
+                id="password"
+                type={passwordShown ? "text" : "password"}
+                className="login-buttons"
+                placeholder={t("common.enter_password")}
+                value={userData.password}
+                autoComplete="new-password"
+              />
+              {PasswordHasOneCharacter ? (
+                <Image
+                  onClick={togglePassword}
+                  src={images.showPassIcon}
+                  className="showPasswordIcon signUp"
+                  alt="Valid"
+                  width={20}
+                  height={14}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+            <p className="newPassChecks mb-0 mt-2">
               <span className={passwordIsLongEnough ? "dot valid" : "dot"} />
               {t("common.password_length_requirement")}
             </p>
@@ -304,33 +400,55 @@ const SignUp = () => {
               />
               {t("common.password_character_requirement")}
             </p>
-            <p className="newPassChecks mb-4">
+            <p className="newPassChecks mb-0">
               <span className={passwordHasANumber ? "dot valid" : "dot"} />
               {t("common.password_number_requirement")}
             </p>
-            {PasswordHasOneCharacter ? (
-              <Image
-                onClick={togglePassword}
-                src={images.showPassIcon}
-                className="showPasswordIcon signUp"
-                alt="Valid"
-                width={20}
-                height={14}
-              />
-            ) : (
-              ""
-            )}
           </div>
         )}
+        <div className="termsPolicy">
+          <div
+            className={classNames("checkbox", { active: isAgree })}
+            onClick={() => setIsAgree(!isAgree)}
+          >
+            <CheckboxIcon active={isAgree} />
+          </div>
+          <p className="mb-0">
+            {t("sign_up.read_and_agree")}
+            <LinkType
+              className="termsPolicyLink"
+              path="/terms"
+              type="modal"
+              modalData={{
+                slug: "/terms",
+              }}
+            >
+              {t("common.terms_and_conditions")}
+            </LinkType>
+            {t("common.and")}
+            <LinkType
+              className="termsPolicyLink"
+              path="/privacy"
+              type="modal"
+              modalData={{
+                slug: "/privacy",
+              }}
+            >
+              {t("privacy.privacy_policy")}
+            </LinkType>
+          </p>
+        </div>
+
         <div className="authButtonsContainer">
           <Button
             type="submit"
+            disabled={!isAgree || !isValid}
             className={
-              isValid
+              isValid && isAgree
                 ? "btnPrimary continueBtn validBtn signUpBtn"
                 : "continueBtn signUpBtn"
             }
-            text={t("sign_up.sign_up")}
+            text={isLoading ? <Loader /> : t("sign_up.sign_up")}
           />
         </div>
       </form>
@@ -355,7 +473,6 @@ const SignUp = () => {
           states={choosenState}
           showStates={showStates}
           setShowStates={setShowStates}
-          setCountryState={setCountryState}
         />
       )}
     </div>

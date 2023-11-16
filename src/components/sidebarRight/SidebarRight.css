@@ -1,9 +1,9 @@
 .bet-slip-container {
   background: var(--global-color-betslip-background);
-  border: 1px solid var(--global-color-betslip-border);
+  border: 3px solid var(--global-color-betslip-background-quaternary);
   color: var(--global-color-betslip-text-tertiary);
   position: fixed;
-  width: 305px;
+  width: 296px;
   height: calc(100% - 74px);
   overflow: auto;
   transition: 0.5s;
@@ -32,7 +32,7 @@
 
 .offer-timer {
   display: flex;
-  background-color: var(--global-color-price-primary);
+  background-color: var(--global-color-betslip-shade-quinary);
 }
 
 .offer-icon {
@@ -45,7 +45,7 @@
 }
 
 .bet-slip-content {
-  padding: 2px;
+  margin-bottom: 2px;
 }
 
 .bet-slip-content > :not(:last-child) {
@@ -53,7 +53,7 @@
 }
 
 .bet-slip-container ~ .content {
-  margin-right: 305px;
+  margin-right: 296px;
 }
 
 .selected-bets {
@@ -92,14 +92,17 @@
 }
 
 .slip-bets-title {
-  background: var(--global-color-betslip-header);
+  background: var(--global-color-betslip-selector-active);
   display: flex;
-  gap: 2px;
   justify-content: center;
   text-transform: uppercase;
   height: 35px;
   align-items: center;
   margin-bottom: 2px;
+}
+
+.slips-bets-title-container {
+  height: 40px;
 }
 
 .betsStyle {
@@ -117,9 +120,10 @@
   align-items: center;
   width: 50%;
   height: 100%;
-  background-color: var(--global-color-betslip-selector);
+  background-color: var(--global-color-betslip-background);
   color: var(--global-color-betslip-text-secondary);
-  font-size: 14px;
+  font-size: 12px;
+  border: 1px solid var(--global-color-betslip-selector-active);
 }
 
 .bet-slip-description.active {
@@ -136,8 +140,8 @@
 
 .my-bets-hint {
   padding: 6px 12px;
-  background-color: var(--global-color-shade6);
-  color: var(--global-color-text-secondary);
+  background-color: var(--global-color-betslip-background-tertiary);
+  color: var(--global-color-betslip-text-secondary);
   font-size: 12px;
   font-weight: 400;
   margin-bottom: 2px;
@@ -149,23 +153,24 @@
 
 .buttons-of-bets {
   width: 100%;
-  background: var(--global-color-background-secondary);
-  color: var(--global-color-text-primary);
+  background: var(--global-color-betslip-selector-secondary-inactive);
+  color: var(--global-color-betslip-text-secondary);
   font-size: 12px;
   padding: 12px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid var(--global-color-shade7) !important;
+  border-right: 1px solid var(--global-color-betslip-border-secondary) !important;
 }
 
 .selected-myBets {
-  color: var(--global-color-text-primary);
-  background-color: var(--global-color-shade7);
+  color: var(--global-color-betslip-text-primary);
+  background-color: var(--global-color-betslip-selector-secondary-active);
 }
 
 .empty-slip {
   width: 100%;
+  height: 164px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -174,10 +179,10 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
-  padding: 35px;
   text-align: center;
   justify-content: center;
   align-items: center;
+  background-color: var(--global-color-betslip-background-quaternary);
 }
 
 .empty-slip-text {
@@ -194,24 +199,26 @@
 
 .remove-all-bets {
   background: var(--global-color-betslip-shade-primary);
-  padding: 9px 13px;
+  padding: 5px 14px;
   cursor: pointer;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .remove-text {
   color: var(--global-color-betslip-text-primary);
   margin-left: 7px;
   display: inline-block;
-  height: 15px;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .selected-bet-container {
-  background: var(--global-color-betslip-selector);
-  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  background: var(--global-color-betslip-background-tertiary);
+  padding: 10px 8px;
+  min-height: 140px;
 }
 
 .selected-bet-container.disabled {
@@ -263,30 +270,36 @@
 }
 
 .selected-bet-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
   padding-left: 20px;
 }
 
 .selected-market {
   display: block;
   color: var(--global-color-betslip-text-quaternary);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .selected-match {
   display: block;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   margin-bottom: 8px;
 }
 
 .containerOfMultiBets {
-  border-left: 3px solid var(--global-color-primary);
-  background: var(--global-color-shade3);
+  min-height: auto;
+  border-left: 3px solid var(--global-color-betslip-icons);
+  background: var(--global-color-betslip-background-quaternary);
+  height: 74px;
 }
 
 .slip-input {
-  background: var(--global-color-text-primary);
+  background: var(--global-color-betslip-background-secondary);
   border-radius: 2px 0 0 2px;
   border: none;
   width: 100%;
@@ -306,11 +319,12 @@
 }
 
 .selected-bet-title {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 4px;
 }
 
 .selected-bet-title.bog {
@@ -324,7 +338,7 @@
   width: 40px;
   height: 20px;
   border-radius: 2px;
-  background-color: var(--global-color-primary);
+  background-color: var(--global-color-betslip-button-active);
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -336,7 +350,7 @@
   border-radius: 2px;
   overflow: hidden;
   justify-content: space-between;
-  height: 35px;
+  height: 32px;
 }
 
 .showOrHideMultiples {
@@ -355,7 +369,7 @@
 }
 
 .racing-bet-odds {
-  background: var(--global-color-price-quinary);
+  background: var(--global-color-odds-shade-secondary);
   border-radius: 0;
   display: flex;
   align-items: center;
@@ -363,7 +377,7 @@
   font-weight: 600;
   font-size: 12px;
   cursor: pointer;
-  color: var(--global-color-shade6);
+  color: var(--global-color-odds-text-primary);
 }
 
 .starting-price-arrows {
@@ -374,7 +388,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 6px;
   gap: 70px;
 }
 
@@ -400,8 +414,8 @@
 .styleOfReturnValues {
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .styleOfReturnedValuesInline {
@@ -410,12 +424,12 @@
 }
 
 .totals-container {
-  padding: 6px 16px;
+  padding: 8px;
   background: var(--global-color-betslip-shade-secondary);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .amount {
@@ -431,18 +445,21 @@
   border-radius: 0px 0px 6px 6px;
   width: 100%;
   height: 50px;
-  color: var(--global-color-text-primary);
+  color: var(--global-color-betslip-text-primary);
   font-size: 14px;
   text-transform: uppercase;
 }
 
+.btnPrimary.activeBetButton {
+  background-color: var(--global-color-betslip-button-active);
+}
+
 .place-bet-button:disabled {
-  background: var(--global-color-shade4);
+  background: var(--global-color-betslip-button-inactive);
 }
 
 .bet-holder {
-  background-color: var(--global-color-background-secondary);
-  padding: 2px;
+  background-color: var(--global-color-betslip-background);
 }
 
 .default-odds {
@@ -546,8 +563,8 @@
   font-size: 12px;
   line-height: 16px;
   text-align: center;
-  color: #ffffff;
-  background-color: var(--global-color-price-quaternary);
+  color: var(--global-color-betslip-text-primary);
+  background-color: var(--global-color-betslip-shade-quaternary);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -560,7 +577,7 @@
   font-size: 14px;
   line-height: 20px;
   text-align: center;
-  color: #fdc500;
+  color: var(--global-color-betslip-text-quinary);
 }
 
 .totalsWrapper {
@@ -573,6 +590,7 @@
 }
 
 .remove-bet {
+  padding-left: 6px;
   cursor: pointer;
   display: flex;
 }

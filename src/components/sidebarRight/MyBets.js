@@ -12,7 +12,7 @@ export const MyBets = () => {
   const [myBets, setMyBets] = useState(null);
 
   const getMyBets = (type) => {
-    gamingSocket.emit("my_bets", { value: type }, (response) => {
+    gamingSocket.emit("my_bets", { value: type, page: 1 }, (response) => {
       if (response?.data?.errorMessage) {
         alertToast({ message: response?.data?.errorMessage });
       } else {

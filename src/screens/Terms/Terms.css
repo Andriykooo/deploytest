@@ -6,6 +6,17 @@
   margin: 0 auto;
 }
 
+.termsContainer {
+  background-color: var(--global-color-background-secondary);
+}
+
+.termsAndPrivacy {
+  max-width: 800px;
+  padding-top: 54px;
+  margin: 0 auto;
+  min-height: calc(100vh - 76px);
+}
+
 .termsContent {
   height: calc(100vh - 400px);
   margin: auto;
@@ -58,8 +69,7 @@ li {
   color: var(--global-color-text-primary);
   margin: 0 auto;
   max-width: 920px;
-  padding-top: 91px;
-  padding-bottom: 40px;
+  padding-block: 30px;
 }
 .backgroundImage {
   background-image: linear-gradient(

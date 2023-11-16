@@ -22,12 +22,24 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
 import { useTranslations } from "next-intl";
+
+const flattenObjectToArray = (nestedObj) => {
+  const result = [];
+  for (const key1 in nestedObj) {
+    const innerObj = nestedObj[key1];
+    for (const key2 in innerObj) {
+      const { date, data } = innerObj[key2];
+      result.push({ date, data });
+    }
+  }
+  return result;
+};
+
 const TransactionHistory = () => {
   const t = useTranslations();
   const skeletonHeader = new Array(4).fill(0);
   const isTablet = useSelector((state) => state.isTablet);
 
-  const [initialData, setInitialData] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [currPage, setCurrPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
@@ -36,13 +48,28 @@ const TransactionHistory = () => {
   const [selected, setSelected] = useState(0);
   const [transactionDetails, setTransactionDetails] = useState(null);
 
+  const groupByMonthYear = (data) => {
+    const groupedData = { ...transactions };
+
+    data.forEach((item) => {
+      const monthYear = moment(item.date).format("YYYY-MM");
+
+      if (!groupedData[monthYear]) {
+        groupedData[monthYear] = [];
+      }
+
+      groupedData[monthYear] = { ...groupedData[monthYear], [item.date]: item };
+    });
+
+    setTransactions(groupedData);
+  };
+
   const getTransactions = () => {
     setShowSpinner(true);
     apiServices
       .get(`${apiUrl.TRANSACTION_HISTORY}${currPage}`)
       .then((data) => {
-        setTransactions((prev) => [...prev, ...data.data]);
-        setInitialData(data.data);
+        groupByMonthYear(data.data);
         setCurrPage(data.current_page + 1);
         setHasMore(data.current_page < data.total_pages);
         setIsLoading(false);
@@ -57,21 +84,8 @@ const TransactionHistory = () => {
       });
   };
 
-  const handleClick = (transaction) => {
-    if (transaction.date === selected?.date) {
-      setTransactions(initialData);
-      setSelected(null);
-
-      return;
-    }
-
-    setTransactions(
-      initialData.filter((currentTransaction) => {
-        return currentTransaction.date === transaction.date;
-      })
-    );
-
-    setSelected(transaction);
+  const handleClick = (date) => {
+    setSelected(selected === date ? null : date);
   };
 
   const getDate = (date) => {
@@ -237,28 +251,32 @@ const TransactionHistory = () => {
     getTransactions();
   }, []);
 
+  const transactionsList = selected
+    ? Object.values(transactions[selected])
+    : flattenObjectToArray(transactions);
+
   return (
     <div className="depositLimit transactionHistory" id="scrollable">
       <div className="">
         <PreferencesTitle title={t("common.transaction_history")} />
         <div className="promotion-title">
-          {initialData.map((transaction) => {
-            const isSelected = selected?.date === transaction.date;
+          {Object.entries(transactions).map(([date]) => {
+            const isSelected = selected === date;
 
             return (
               <div
                 className={classNames("menu", {
                   ["selected-bonus"]: isSelected,
                 })}
-                key={transaction.date}
-                onClick={() => handleClick(transaction)}
+                key={date}
+                onClick={() => handleClick(date)}
               >
                 <Button
                   className={classNames("menu-link-promotions", {
                     selected: isSelected,
                   })}
                   type="button"
-                  text={moment(transaction.date).format("MMMM YYYY")}
+                  text={moment(date).format("MMMM YYYY")}
                 />
               </div>
             );
@@ -277,7 +295,7 @@ const TransactionHistory = () => {
 
           <div className="infiniteScroll">
             <InfiniteScroll
-              dataLength={transactions?.length}
+              dataLength={transactionsList?.length}
               next={getTransactions}
               loader={
                 showSpinner && (
@@ -318,7 +336,7 @@ const TransactionHistory = () => {
                   })
                 ) : (
                   <>
-                    {transactions.map((value, index) => {
+                    {transactionsList.map((value, index) => {
                       return (
                         <div key={value.date}>
                           <span

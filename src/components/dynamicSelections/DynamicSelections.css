@@ -28,7 +28,7 @@
 }
 
 .dynamic-selections-button .priceBoostIcon {
-  fill: var(--global-main-color-icon);
+  fill: var(--global-color-icon);
 }
 
 .dynamic-selections-button .animationBlock {
@@ -52,9 +52,4 @@
   font-size: inherit;
   border-radius: 4px;
   padding: 0 5px;
-  background-color: var(--global-color-links-background);
-}
-
-.dynamic-selections-button .matchOdds:hover {
-  background-color: var(--global-color-links-background);
 }

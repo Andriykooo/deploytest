@@ -28,6 +28,10 @@
   color: var(--global-color-trader-chat-secondary-text);
 }
 
+.chat-textarea:disabled {
+  background-color: transparent;
+}
+
 .chat-textarea::placeholder {
   font-size: 14px;
   line-height: 14px;

@@ -11,11 +11,18 @@
   transform: rotate(-90deg);
 }
 
-.goBackButton span {
-  font-size: 12px;
+.goBackText.boldText {
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 14px;
+  padding: auto;
+}
+
+.goBackText {
   color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  padding-block: 3px 1px;
 }

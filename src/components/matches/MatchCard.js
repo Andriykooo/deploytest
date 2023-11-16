@@ -10,6 +10,7 @@ import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
 import moment from "moment";
 import { useTranslations } from "next-intl";
+
 const MatchCard = ({ match, inPlay }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const MatchCard = ({ match, inPlay }) => {
       dispatch(setInPlay(false));
     }
   };
+
   const handleNotification = () => {
     setShowNotification(!showNotification);
     if (!showNotification) {

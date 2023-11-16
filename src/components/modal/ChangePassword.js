@@ -9,6 +9,7 @@ import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { addLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
+
 export const ChangePassowrd = ({
   currentPassword,
   newPassword,
@@ -182,7 +183,7 @@ export const ChangePassowrd = ({
                 <Image
                   onClick={() => togglePassword("confirmpassword")}
                   src={images.showPassIcon}
-                  className="showPasswordIconBtm welcome"
+                  className="showPasswordIcon welcome"
                   alt="Valid"
                   width={20}
                   height={14}

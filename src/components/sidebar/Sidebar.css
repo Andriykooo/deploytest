@@ -31,9 +31,9 @@ a {
 }
 
 .top {
-  padding-bottom: 15px !important;
-  padding-left: 1rem !important;
-  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+  padding-left: 12px !important;
+  padding-top: 10px !important;
 }
 
 .arrow,
@@ -164,6 +164,17 @@ a {
   background: var(--global-color-sidebar-field-selected);
 }
 
+.sport-d {
+  height: 43px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.sport-d > .popularDropdown.profile {
+  font-size: 14px;
+  line-height: 16px;
+}
+
 @media only screen and (max-width: 991px) {
   .sidebarMenu {
     margin-bottom: 30px;
@@ -171,11 +182,6 @@ a {
   }
 }
 
-.sport-d {
-  height: 60px;
-  cursor: pointer;
-  align-items: center;
-}
 
 @media only screen and (max-width: 991px) {
   .sidebar {

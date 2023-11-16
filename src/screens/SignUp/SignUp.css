@@ -16,31 +16,33 @@
 .modalTitle-countries {
   position: relative;
 }
+
 .residenceArrow {
   position: absolute;
-  transform: rotate(180deg);
-  top: 30%;
+  transform: rotate(180deg) translateY(50%);
+  top: 50%;
   right: 5%;
 }
+
 .residenceArrow2 {
-  position: absolute;
   rotate: 180deg;
-  top: 50%;
-  right: 18%;
-  transform: translateY(50%);
 }
+
 .country {
   padding-left: 10px;
 }
+
 .countryName {
   display: flex;
   align-items: center;
 }
+
 .phonePrefixName {
-  margin: 0 15px 0 10px;
+  margin: 0 10px;
   color: var(--global-color-text-primary);
   line-height: 100%;
 }
+
 .modal-content-inside {
   max-width: 500px;
   width: 100%;
@@ -49,12 +51,16 @@
   margin: auto;
   margin-top: 0;
   overflow-y: scroll;
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .modal-content-inside::-webkit-scrollbar {
   display: none;
 }
+
 .selectCountryTitle {
   font-style: normal;
   font-weight: 700;
@@ -63,23 +69,24 @@
   display: flex;
   justify-content: flex-start;
   text-align: start;
-  width: 310px;
 }
+
 .closeFullScreenModal {
   right: 0;
   top: 32px;
 }
+
 .countriesFlags {
-  margin-top: 0.7rem;
   width: 1.5rem;
   height: 1.5rem;
   margin-left: 1rem;
 }
+
 .countriesFlags2 {
   margin-left: 0.7rem;
 }
+
 .countriesSearch {
-  margin-top: 0.7rem;
   width: 1.5rem;
   height: 1.5rem;
   margin-left: 0.7rem;
@@ -96,14 +103,17 @@
   border: none;
   outline: none;
 }
+
 textarea:focus,
 input:focus {
   outline: none;
 }
+
 button:focus,
 input:focus {
   outline: none;
 }
+
 .codeSent {
   font-style: normal;
   font-weight: 400;
@@ -113,18 +123,57 @@ input:focus {
   width: 100%;
   max-width: 383px;
 }
+
 .authButtonsContainer {
   max-width: 383px;
 }
+
 .changePasswordButton {
   width: 100%;
 }
+
+.termsPolicy {
+  display: flex;
+  align-items: flex-start;
+  max-width: 384px;
+  font-size: 14px;
+  margin-bottom: 30px;
+  line-height: 24px;
+}
+
+.checkbox {
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+  border: 1px solid var(--global-color-text-primary);
+  margin: 4px 12px 0 0;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox.active {
+  background-color: var(--global-color-text-primary);
+}
+
+.termsPolicyLink {
+  font-weight: 600;
+  color: var(--global-color-primary);
+  margin-inline: 4px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
 .authButtonsContainer .loginbuttons1 {
   margin: 0;
 }
+
 .outline {
   border: 1px solid var(--global-color-gold-button);
 }
+
 .codeInput {
   width: 4.6rem !important;
   margin-bottom: 25px;
@@ -144,11 +193,12 @@ input:focus {
   max-width: 383px;
 }
 
-.codeVerification > div {
+.codeVerification>div {
   display: flex !important;
   justify-content: space-between !important;
   gap: 10px;
 }
+
 /* Hide arrows of number input */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -156,12 +206,14 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 /* Firefox */
 input[type="tel"] {
   -moz-appearance: textfield;
   text-indent: unset;
   text-align: center;
 }
+
 .labelStyle {
   color: var(--global-color-text-primary);
   height: 13px;
@@ -169,10 +221,12 @@ input[type="tel"] {
   line-height: 17.29px;
   font-size: 14px;
 }
+
 .HeaderStyle {
   margin-bottom: 32px;
   margin-top: 100px;
 }
+
 input.inputForPhone {
   width: 100%;
   height: 50px;
@@ -180,6 +234,7 @@ input.inputForPhone {
   text-align: left;
   margin-bottom: 0px;
 }
+
 .buttondesignforphone {
   width: 114px;
   height: 50px;
@@ -188,6 +243,7 @@ input.inputForPhone {
   border: none;
   margin-right: 12px;
 }
+
 .collectionOfInput {
   display: flex;
   align-items: center;
@@ -197,12 +253,14 @@ input.inputForPhone {
 .collectionOfInput2 {
   justify-content: left;
 }
+
 .codeSend2 {
   font-size: 14px;
   line-height: 21px;
   margin-top: 24px;
   margin-bottom: 40px;
 }
+
 .buttontoresendcode {
   background-color: transparent;
   color: white;
@@ -211,9 +269,11 @@ input.inputForPhone {
   padding-left: 0;
   height: 20px;
 }
+
 .codeBtn {
   margin-top: 50px;
 }
+
 .codeSend3 {
   font-size: 14px;
   line-height: 18px;
@@ -221,9 +281,11 @@ input.inputForPhone {
   margin-bottom: 40px;
   color: #fafafa;
 }
+
 input:-webkit-autofill-selected {
   border: 4px solid var(--global-color-background-quaternary);
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -241,12 +303,7 @@ input:-webkit-autofill:active {
   cursor: pointer;
   width: auto;
   width: 100%;
-  border: 1.5px solid transparent;
-}
-
-.Toastify__toast-body > div:last-child {
-  padding-right: 25px;
-  padding-left: 10px;
+  align-items: center;
 }
 
 .countryModalDecimalText {
@@ -256,12 +313,15 @@ input:-webkit-autofill:active {
   color: var(--global-color-text-primary);
   margin: 0;
 }
+
 .finishAccountSetup .logInTitle {
   margin-bottom: 6px;
 }
+
 .finishAccountSetup .codeSend2 {
   margin-bottom: 30px;
 }
+
 .finishSetupInfo {
   border: none;
   font-weight: 600;
@@ -287,6 +347,7 @@ input:-webkit-autofill:active {
     max-width: unset !important;
   }
 }
+
 .countriesModalDialog {
   padding-top: unset !important;
 }
@@ -295,6 +356,7 @@ input:-webkit-autofill:active {
   .GridStyleForPhone {
     display: block !important;
   }
+
   .inputForPhone {
     width: 200px !important;
     padding-right: 0 !important;
@@ -307,37 +369,46 @@ input:-webkit-autofill:active {
     width: 100%;
     padding-top: 54px;
   }
+
+  .loginForm {
+    justify-content: space-between;
+    min-height: calc(100vh - 56px);
+  }
+
   .selectDecimal-countries {
     width: 100%;
   }
+
   .selectDecimal-countries.selectedOdd {
     border: 1.5px solid var(--global-color-gold-button);
   }
+
   .codeVerification {
     margin: 0 auto;
     max-width: 100%;
   }
 
   .authButtonsContainer {
-    position: absolute;
     max-width: 100%;
-    bottom: 35px;
-    left: 1.5rem;
-    right: 1.5rem;
   }
+
   .authButtonsContainer .loginbuttons1 {
     width: 100%;
   }
+
   .inputForPhone {
     width: 100% !important;
   }
+
   .finishSetupInfo {
     font-size: 12px;
     margin-bottom: 0;
   }
+
   .finishAccountSetup .loginForm {
     display: block !important;
   }
+
   .finishAccountSetup .loginForm .loginForm {
     padding: 0;
   }

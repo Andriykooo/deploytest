@@ -7,107 +7,12 @@
   width: 100%;
   aspect-ratio: 16/9;
   max-height: 598px;
-  min-height: 290px;
   position: relative;
 }
 
-.customerWelcome {
-  position: absolute;
-  color: #fff;
-  width: 65%;
-  margin: auto;
-  inset: 0;
-  top: 72px;
-}
-
-.customerWelcomeGet {
-  display: flex;
-  margin-bottom: 30px;
-}
-
-.customerWelcomeGet span {
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 40px;
-}
-
-.customerWelcomeGet p {
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 30px;
-  margin-bottom: 0;
-}
-
-.customerWelcomeTitle {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 40px;
-  margin-bottom: 20px;
-}
-
-.customerWelcomeGet .goldGet {
-  color: var(--global-color-primary);
-  font-size: 100px;
-  line-height: 75px;
-  font-weight: 600;
-  margin-right: 14px;
-}
-
-.customerWelcomePlus {
-  display: flex;
-}
-
-.customerWelcomePlus span {
-  font-size: 32px;
-  line-height: 24px;
-  font-weight: 600;
-
-}
-
-.customerWelcomePlus .goldPlus {
-  color: var(--global-color-primary);
-  font-size: 44px;
-  font-weight: 600;
-  line-height: 18px;
-  margin-right: 8px;
-
-}
-
-.customerWelcomeGet>div {
-  margin-left: 20px;
-}
-
-.customerWelcomePlus>div {
-  margin-left: 30px;
-}
-
-.customerWelcomePlus>div,
-.customerWelcomeGet>div {
-  display: flex;
-}
-
-.gambleInfo {
-  display: flex;
-  gap: 60px;
-  margin-top: 40px;
-}
-
-.gambleInfo>p {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-}
-
-.gambleInfo>a {
-  color: #fff;
-  font-size: 16px;
-}
-
 .affiliatesBanner>img {
-  min-height: 290px;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .infoForCostumers {
@@ -150,7 +55,7 @@
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 60px;
+  gap: 44px;
   padding: 0;
 }
 
@@ -301,71 +206,6 @@ p {
     gap: 30px;
   }
 
-  .customerWelcome {
-    position: absolute;
-    color: #fff;
-    width: 100%;
-    margin: auto;
-    inset: 0;
-    top: 22px;
-    left: 24px;
-  }
-
-  .customerWelcomeTitle {
-    font-size: 20px;
-    line-height: normal;
-  }
-
-  .customerWelcomeGet span {
-    font-size: 34px;
-  }
-
-  .customerWelcomeGet .goldGet {
-    font-size: 78px;
-    line-height: 66px;
-  }
-
-  .customerWelcomeGet p {
-    font-size: 24px;
-  }
-
-  .customerWelcomePlus span {
-    font-size: 28px;
-  }
-
-  .customerWelcomePlus .goldPlus {
-    line-height: 24px;
-    font-size: 33px;
-    margin-bottom: 4px;
-  }
-
-  .customerWelcomePlus span {
-    line-height: 24px;
-  }
-
-  .customerWelcomePlus p {
-    font-size: 22px;
-  }
-
-  .gambleInfo>p {
-    font-size: 8px;
-    line-height: normal;
-  }
-
-  .gambleInfo>a {
-    font-size: 8px;
-  }
-
-  .customerWelcomePlus>div,
-  .customerWelcomeGet>div {
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .customerWelcomeGet {
-    margin-bottom: 14px;
-  }
-
   .affiliatesFooter>footer {
     background-color: var(--global-color-background-primary);
   }
@@ -374,14 +214,6 @@ p {
 @media screen and (max-width: 792px) {
   .registerNow {
     width: 100%;
-  }
-}
-
-@media screen and (max-width: 540px) {
-
-  .gambleInfo {
-    margin-top: 14px;
-    gap: 6px;
   }
 }
 
@@ -394,10 +226,6 @@ p {
     text-align: start;
     font-size: 8px;
     line-height: 2;
-  }
-
-  .affiliatesBanner {
-    height: 290px;
   }
 
   .listSequence {

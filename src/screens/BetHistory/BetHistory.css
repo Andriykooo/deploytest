@@ -1,6 +1,7 @@
 .betHistoryBody {
   padding-bottom: 8px;
-  min-height: calc(100vh - 74px);
+  height: calc(100vh - 74px);
+  overflow: auto;
   display: flex;
   flex-direction: column;
 }
@@ -19,6 +20,17 @@
   display: flex;
   gap: 8px;
   padding-bottom: 28px;
+}
+
+.max-container {
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden !important;
+  padding-bottom: 30px;
+}
+
+.spinnerStyle {
+  text-align: center;
 }
 
 .betHistoryMenu {
@@ -156,7 +168,7 @@
 
 @media screen and (max-width: 991px) {
   .betHistoryBody {
-    min-height: calc(100vh - 56px);
+    height: calc(100vh - 56px);
   }
 
   .betHistoryContent {
