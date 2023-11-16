@@ -194,7 +194,6 @@ const Profile = () => {
             <div className="limitDivs">
               {limits.map((limit) => (
                 <LimitChart
-                  key={limit.name}
                   title={limit.name}
                   used={limit.used_amount}
                   amount={limit.amount}
