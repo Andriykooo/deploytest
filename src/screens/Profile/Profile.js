@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader, LoaderXs } from "../../components/loaders/Loader";
+import { LoaderXs, PageLoader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
@@ -23,6 +23,7 @@ import { LogOutIcon } from "@/utils/icons";
 import { useTranslations } from "next-intl";
 import { setUserStats } from "@/store/actions";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 const InfoDiv = ({ children, clickable, onClick }) => {
   return (
@@ -38,7 +39,7 @@ const InfoDiv = ({ children, clickable, onClick }) => {
 const Profile = () => {
   const logout = useLogout();
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
   const t = useTranslations();
 
   const loggedUser = useSelector((state) => state.loggedUser);
@@ -194,7 +195,6 @@ const Profile = () => {
             <div className="limitDivs">
               {limits.map((limit) => (
                 <LimitChart
-                  key={limit.name}
                   title={limit.name}
                   used={limit.used_amount}
                   amount={limit.amount}
@@ -362,7 +362,7 @@ const Profile = () => {
           </div>
         </div>
       ) : (
-        <Loader />
+        <PageLoader />
       )}
     </div>
   );

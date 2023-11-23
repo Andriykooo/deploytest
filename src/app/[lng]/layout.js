@@ -1,6 +1,6 @@
 import { Provider } from "./provider";
 import { Montserrat } from "next/font/google";
-import { apiUrl } from "@/utils/constants";
+import { apiUrl, fallbackLng } from "@/utils/constants";
 import Script from "next/script";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,8 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import { locales } from "../../../i18n";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -50,17 +50,22 @@ export async function generateMetadata() {
   };
 }
 
-export async function generateStaticParams() {
-  return locales.map((lng) => ({ lng }));
-}
-
 export default async function RootLayout({ children, params: { lng } }) {
   let locales;
+
+  const onboarding = await fetch(apiUrl.ON_BOARDING);
+  const data = await onboarding.json();
+
+  if (!data.languages.some((language) => language.code2 === lng)) {
+    const cookieStore = cookies();
+
+    redirect(`/${cookieStore.get("language")?.value || fallbackLng}`);
+  }
 
   try {
     locales = (await import(`../../locales/${lng}.json`)).default;
   } catch (error) {
-    notFound();
+    locales = (await import(`../../locales/${fallbackLng}.json`)).default;
   }
 
   return (

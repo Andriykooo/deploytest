@@ -6,6 +6,7 @@ import { Button } from "../button/Button";
 import { GoBackButton } from "../goBackButton/GoBackButton";
 import { ProfileCard } from "./Styled";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "../Link/Link";
 export const PredictionsMenu = ({ page, active }) => {
   const t = useTranslations();
   return (
@@ -23,7 +24,7 @@ export const PredictionsMenu = ({ page, active }) => {
         {predictionPages.map((value, index) => {
           return (
             <div className="borderProfile" key={index}>
-              <Link href={value.route}>
+              <CustomLink href={value.route}>
                 <ProfileCard
                   key={index}
                   data-id={index}
@@ -53,7 +54,7 @@ export const PredictionsMenu = ({ page, active }) => {
                     />
                   </div>
                 </ProfileCard>
-              </Link>
+              </CustomLink>
             </div>
           );
         })}

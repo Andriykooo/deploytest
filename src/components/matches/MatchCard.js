@@ -10,11 +10,12 @@ import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
 import moment from "moment";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 const MatchCard = ({ match, inPlay }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const matchName = `${match.participants[0].name} v ${match.participants[1].name}`;
   const isTablet = useSelector((state) => state.isTablet);

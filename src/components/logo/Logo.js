@@ -7,6 +7,7 @@ import { setActiveSport, setLogos, setTablet } from "../../store/actions";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
 import axios from "axios";
+import { CustomLink } from "../Link/Link";
 
 export const Logo = ({ handleNavigateHome, className }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export const Logo = ({ handleNavigateHome, className }) => {
 
   return (
     logos && (
-      <Link href={"/"}>
+      <CustomLink href={"/"}>
         <img
           className={classNames("logo", className)}
           src={isTablet ? logos?.mobile_logo : logos?.desktop_logo}
@@ -41,7 +42,7 @@ export const Logo = ({ handleNavigateHome, className }) => {
             dispatch(setActiveSport("0"));
           }}
         />
-      </Link>
+      </CustomLink>
     )
   );
 };

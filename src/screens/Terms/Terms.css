@@ -11,10 +11,10 @@
 }
 
 .termsAndPrivacy {
-  max-width: 800px;
-  padding-top: 54px;
+  max-width: 848px;
+  padding: 54px 24px 0 24px;
   margin: 0 auto;
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - 74px);
 }
 
 .termsContent {
@@ -128,13 +128,29 @@ li {
   .termsContent {
     height: calc(100vh - 240px);
   }
+
+  .termsContainer {
+    height: 100vh;
+  }
+
+  .termsAndPrivacy {
+    padding: 10px 24px 30px;
+    height: 100%;
+  }
+
+  .closeDiv {
+    text-align: end;
+  }
+
   .termsTitleForMainPage {
     font-family: "Montserrat", sans-serif;
     justify-content: flex-start;
     font-weight: 700;
     line-height: 40px;
-    font-size: 32px;
-    padding: 30px 20px 20px;
+    font-size: 34px;
+    padding-block: 30px;
+    justify-content: flex-start;
+    max-width: unset;
   }
 
   .privacyModalTitle {
@@ -148,10 +164,6 @@ li {
     padding-top: 29px;
   }
 
-  .termsContent {
-    margin: 0 20px;
-  }
-
   .acceptBtn {
     max-width: calc(100% - 40px);
   }
@@ -163,14 +175,5 @@ li {
   .privacyContentModal {
     max-height: 70vh;
     height: auto;
-  }
-
-  .termsTitleForMainPage {
-    padding: 30px 20px !important;
-    justify-content: flex-start;
-    max-width: unset;
-  }
-  .termsContent {
-    height: calc(100vh - 270px);
   }
 }

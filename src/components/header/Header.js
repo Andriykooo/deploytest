@@ -20,12 +20,14 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useClientPathname } from "@/hooks/useClientPathname";
+import { CustomLink } from "../Link/Link";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
-function Header({ isModal }) {
+function Header({ isModal, disableHeader }) {
   const dispatch = useDispatch();
   const { pathname } = useClientPathname();
   const t = useTranslations("header");
-  const router = useRouter();
+  const router = useCustomRouter();
   const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);
   const activePage = useSelector((state) => state.activePage);
@@ -33,20 +35,13 @@ function Header({ isModal }) {
   const loggedUser = useSelector((state) => state.loggedUser);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
 
-  const disableHeader =
-    (params?.path &&
-      !headerData?.some((page) => page.path.substring(1) == params?.path)) ||
-    pathname === "/not_found" ||
-    pathname === "/error" ||
-    pathname === "/customer_service_notice";
-
   useEffect(() => {
     if (headerData) {
       // Initially, check if the window pathname and the active page path are not the same. If they are different
       // find and replace with the correct one
       if (activePage?.path !== pathname) {
         const page = headerData?.find((item) =>
-          pathname === "/" ? item.path === "/home-page" : item.path === pathname
+          pathname === "/" ? item.slug === "index" : item.path === pathname
         );
 
         if (page) {
@@ -86,7 +81,7 @@ function Header({ isModal }) {
       router.push("/");
     }
 
-    const home = headerData?.find((item) => item.path === "/home-page");
+    const home = headerData?.find((item) => item.slug === "index");
 
     if (home) {
       dispatch(setActivePage(home));
@@ -114,9 +109,9 @@ function Header({ isModal }) {
             })}
           >
             <div className="noVerifiedMsg">
-              <Link href="/verification">
+              <CustomLink href="/verification">
                 {t("please_verify_your_identity")}
-              </Link>
+              </CustomLink>
               <div
                 className="close-noVerifiedMsg"
                 onClick={() => dispatch(setIsVerifyMessage(false))}

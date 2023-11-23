@@ -24,18 +24,18 @@ import TypingArea from "./TypingArea";
 import { setSidebarLeft } from "../../store/actions";
 import { useTranslations } from "next-intl";
 import { ChatIcon } from "@/utils/icons";
-import Link from "next/link";
+import { CustomLink } from "../Link/Link";
 
 const minHeightTextarea = 16;
 const maxHeightTextarea = 80;
 
 export const Chat = ({ isOpen, isMobile = false }) => {
-  const t = useTranslations("common");
+  const t = useTranslations();
   const chatBlockRef = useRef(null);
   const messagesRef = useRef(null);
   const dispatch = useDispatch();
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
-  const loggedUser = useSelector((state) => state.loggedUser)
+  const loggedUser = useSelector((state) => state.loggedUser);
 
   const { communicationSocket } = useContext(SocketContext);
 
@@ -53,19 +53,19 @@ export const Chat = ({ isOpen, isMobile = false }) => {
     if (loggedUser) {
       setIsFetching(true);
 
-    communicationSocket.emit(
-      "last_messages",
-      { page: currentPage + 1 },
-      (messagesHistory) => {
-        setCurrentPage(messagesHistory.data.current_page);
-        setTotalPages(messagesHistory.data.total_pages);
-        setIsFetching(false);
-        setMessages((prev) => [
-          ...messagesHistory?.data?.messages?.reverse(),
-          ...prev,
-        ]);
-      }
-    );
+      communicationSocket.emit(
+        "last_messages",
+        { page: currentPage + 1 },
+        (messagesHistory) => {
+          setCurrentPage(messagesHistory.data.current_page);
+          setTotalPages(messagesHistory.data.total_pages);
+          setIsFetching(false);
+          setMessages((prev) => [
+            ...messagesHistory?.data?.messages?.reverse(),
+            ...prev,
+          ]);
+        }
+      );
     }
   };
 
@@ -230,7 +230,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
       {isChatActive && (
         <ChatBox isOpen={isOpen}>
           <ChatHeader>
-            <div>{t("live_chat")}</div>
+            <div>{t("chat.live_chat")}</div>
             <span onClick={chatCloseHandler}>
               <Image
                 height={18}
@@ -245,17 +245,21 @@ export const Chat = ({ isOpen, isMobile = false }) => {
               textareaHeight + (textareaHeight === minHeightTextarea ? 104 : 90)
             }
           >
-          {loggedUser ? (
+            {loggedUser && getLocalStorageItem("access_token") ? (
               <MessagesBlock onScroll={scrollHandler} ref={messagesRef}>
                 <RenderMessages messages={messages} />
                 <div ref={chatBlockRef}></div>
               </MessagesBlock>
-          ) : (
-            <UnLoggedMessage>
-              <p>Please <Link href="/login">Log In</Link> to send a message to us!</p>
-            </UnLoggedMessage>
+            ) : (
+              <UnLoggedMessage>
+                <p>
+                  {t("chat.please")}{" "}
+                  <CustomLink href="/login">{t("chat.log_in")}</CustomLink>{" "}
+                  {t("chat.to_send_a_message")}
+                </p>
+              </UnLoggedMessage>
             )}
-            </ChattingBlock>
+          </ChattingBlock>
           <TypingArea
             disabled={!loggedUser}
             onSubmit={sendMessageHandler}
@@ -284,7 +288,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
           <ChatIconStyled>
             <ChatIcon isMobile={isMobile} />
           </ChatIconStyled>
-          {isOpen && <ChatTitle>{t("chat")}</ChatTitle>}
+          {isOpen && <ChatTitle>{t("chat.chat")}</ChatTitle>}
         </ChatBottomSubWrapper>
         {numberUnreadMessage > 0 && (
           <NumberNewMessages isOpen={isOpen}>

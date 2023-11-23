@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
 
-export const Carousel = ({ arrowClassName, center, data }) => {
+export const Carousel = ({ arrowClassName, center, data, onScroll }) => {
   const {
     scrollRef,
     prev,
@@ -17,21 +17,18 @@ export const Carousel = ({ arrowClassName, center, data }) => {
   } = useSnapCarousel();
   const firstElementRef = useRef(null);
   const lastElementRef = useRef(null);
-
   const [hidePrevArrow, setHidePrevArrow] = useState(true);
   const [hideNextArrow, setHideNextArrow] = useState(true);
-
   const handleScroll = (e) => {
+    onScroll?.();
     const list = e.target.getBoundingClientRect();
     const firstElement = firstElementRef?.current?.getBoundingClientRect();
     const lastElement = lastElementRef?.current?.getBoundingClientRect();
-
     const hidePrevArrowByScroll =
       Math.floor(list.left) <= Math.round(firstElement.left);
 
     const hideNextArrowByScroll =
       Math.floor(lastElement.right) <= Math.round(list.right);
-
     if (hidePrevArrowByScroll !== hidePrevArrow) {
       setHidePrevArrow(hidePrevArrowByScroll);
     }
@@ -39,8 +36,8 @@ export const Carousel = ({ arrowClassName, center, data }) => {
     if (hideNextArrowByScroll !== hideNextArrow) {
       setHideNextArrow(hideNextArrowByScroll);
     }
-  };
 
+  };
   useEffect(() => {
     if (pages.length) {
       setHidePrevArrow(activePageIndex === 0);
@@ -70,8 +67,8 @@ export const Carousel = ({ arrowClassName, center, data }) => {
                 index === 0
                   ? firstElementRef
                   : index === data.length - 1
-                  ? lastElementRef
-                  : null
+                    ? lastElementRef
+                    : null
               }
               style={
                 snapPointIndexes.has(index) ? { scrollSnapAlign: "start" } : {}

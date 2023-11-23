@@ -55,8 +55,6 @@ const BannerComponent = ({ data, isLoading }) => {
           <Image
             src={data.details.image}
             alt="banner"
-            placeholder="blur"
-            quality={100}
             fill
             priority
           />

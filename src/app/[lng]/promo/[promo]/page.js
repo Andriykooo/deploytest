@@ -1,16 +1,16 @@
 import Affiliates from "@/screens/Affiliates/Affiliates";
 import { apiUrl } from "@/utils/constants";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
-async function fetchData(params) {
+async function fetchLandingPage(params) {
   const res = await fetch(
-    `${apiUrl.GET_AFFILIATES}${params.promo}&${params.lng}`
+    `${apiUrl.GET_AFFILIATES}?affiliate_slug=${params.promo}`
   );
   return await res.json();
 }
 
 export async function generateMetadata({ params }) {
-  const affiliatesData = await fetchData(params.promo);
+  const affiliatesData = await fetchLandingPage(params.promo);
 
   if (affiliatesData?.errCode === "1035") {
     return {};
@@ -30,11 +30,5 @@ export async function generateMetadata({ params }) {
   return seo;
 }
 export default async function Page({ params }) {
-  const affiliatesData = await fetchData(params);
-
-  if (affiliatesData?.errCode === "1035") {
-    notFound();
-  }
-
-  return <Affiliates data={affiliatesData} promo={params.promo} />;
+  return <Affiliates promo={params.promo} />;
 }

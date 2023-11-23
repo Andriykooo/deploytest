@@ -3,25 +3,28 @@
 import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 import { alertToast } from "@/utils/alert";
 import parse from "html-react-parser";
-import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import "../Terms/Terms.css";
+import { CloseIcon } from "@/utils/icons";
 
 const Privacy = () => {
   const t = useTranslations();
   const [policy, setPolicy] = useState([]);
   const [loader, setLoader] = useState(true);
   const loggedUser = useSelector((state) => state.loggedUser);
+  const isTablet = useSelector((state) => state.isTablet);
   const pathname = usePathname();
+  const params = useParams();
+  const router = useRouter();
 
   const getPolicy = () => {
-    const language = Cookies.get("language") || "en";
+    const language = params.lng;
     const country = loggedUser?.user_data?.country || "all";
 
     setLoader(true);
@@ -44,7 +47,13 @@ const Privacy = () => {
   return (
     <div className="termsContainer">
       <div className="termsAndPrivacy">
-        <GoBackButton fullIcon />
+        <div className="closeDiv">
+          {isTablet ? (
+            <CloseIcon onClick={() => router.back()} />
+          ) : (
+            <GoBackButton fullIcon />
+          )}
+        </div>
         <p className="termsTitleForMainPage">{t("privacy.privacy_policy")}</p>
         {loader ? (
           <Loader />

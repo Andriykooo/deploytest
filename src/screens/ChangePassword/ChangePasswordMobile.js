@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
 import { SuccesToast } from "@/utils/alert";
 import "react-toastify/dist/ReactToastify.css";
-import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import "./ChangePassword.css";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 const ChangePasswordMobile = () => {
   const t = useTranslations("common");
@@ -18,7 +18,7 @@ const ChangePasswordMobile = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,8 +48,8 @@ const ChangePasswordMobile = () => {
   return (
     <div className="change-password-container">
       <div className="change-password-content">
-        <PreferencesTitle title={t("change_password")} marginBottomSize="lg" />
         <PasswordFields
+          title={t("change_password")}
           changePassword
           setCurrentPassword={setCurrentPassword}
           isLoading={isLoading}

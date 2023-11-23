@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -11,10 +10,11 @@ import { apiUrl } from "@/utils/constants";
 import { setLoggedUser } from "@/store/actions";
 import "./SignUp.css";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 function SignUpWithPhone() {
   const t = useTranslations();
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const on_boarding = useSelector((state) => state.on_boarding);
   const user = useSelector((state) => state.loggedUser);
@@ -94,44 +94,46 @@ function SignUpWithPhone() {
   return (
     <div className="signInImage">
       {selectedCountry ? (
-        <div className="loginForm GridStyleForPhone">
-          <p className="logInTitle">
-            {t("sign_up_with_phone.add_mobile_number")}
-          </p>
-          <form
-            onSubmit={validateAndSubmitForm}
-            className="d-grid justify-content-center GridStyleForPhone"
-          >
-            <div className="emailValidation d-grid GridStyleForPhone">
-              <label className="nameLabels">{t("common.mobile_number")}</label>
-              <div className="collectionOfInput collectionOfInput2">
-                <PhonePrefix
-                  selectedCountry={selectedCountry}
-                  setSelectedCountry={setSelectedCountry}
-                />
-                <input
-                  id="call"
-                  type="text"
-                  className="login-buttons inputForPhone"
-                  placeholder={t("common.mobile_number")}
-                  onChange={handleChange}
-                />
+        <div className="loginForm signUpForm">
+          <div>
+            <p className="logInTitle">
+              {t("sign_up_with_phone.add_mobile_number")}
+            </p>
+            <form
+              onSubmit={validateAndSubmitForm}
+              className="d-grid justify-content-center"
+            >
+              <div className="emailValidation d-grid">
+                <label className="nameLabels phoneLabel">{t("common.mobile_number")}</label>
+                <div className="collectionOfInput collectionOfInput2">
+                  <PhonePrefix
+                    selectedCountry={selectedCountry}
+                    setSelectedCountry={setSelectedCountry}
+                  />
+                  <input
+                    id="call"
+                    type="text"
+                    className="login-buttons inputForPhone"
+                    placeholder={t("common.mobile_number")}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="codeSent mt-5 mb-5 codeSend2">
+                  {t("sign_up_with_phone.verification_code_message")}
+                </p>
               </div>
-              <p className="codeSent mt-5 mb-5 codeSend2">
-                {t("sign_up_with_phone.verification_code_message")}
-              </p>
-            </div>
-            <div className="authButtonsContainer">
-              <Button
-                type="submit"
-                className={
-                  isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
-                }
-                style={{ marginTop: "75px" }}
-                text={loader ? <Loader /> : t("sign_up_with_phone.send_code")}
-              />
-            </div>
-          </form>
+            </form>
+          </div>
+          <div className="authButtonsContainer">
+            <Button
+              type="submit"
+              className={
+                isValid ? "btnPrimary continueBtn validBtn " : "continueBtn"
+              }
+              style={{ marginTop: "75px" }}
+              text={loader ? <Loader /> : t("sign_up_with_phone.send_code")}
+            />
+          </div>
         </div>
       ) : (
         <div className="loader-center">

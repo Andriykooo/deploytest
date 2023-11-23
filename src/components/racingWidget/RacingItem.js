@@ -5,6 +5,7 @@ import { MatchOdds } from "../matches/MatchOdds";
 import { useTranslations } from "next-intl";
 import { Runner } from "./Runner";
 import Image from "next/image";
+import { CustomLink } from "../Link/Link";
 
 export const RacingItem = ({ data, slug }) => {
   const t = useTranslations();
@@ -57,7 +58,11 @@ export const RacingItem = ({ data, slug }) => {
                       />
                     )}
                   </div>
-                  <Runner data={selection} slug={slug} className="racing-item-runner" />
+                  <Runner
+                    data={selection}
+                    slug={slug}
+                    className="racing-item-runner"
+                  />
                   {selection && (
                     <div className="odds-of-horse">
                       <MatchOdds
@@ -76,7 +81,7 @@ export const RacingItem = ({ data, slug }) => {
             </div>
           );
         })}
-        <Link
+        <CustomLink
           href={`/racecard/${slug}/${data.event_venue.toLowerCase()}?id=${
             data.event_id
           }&filter=${day}`}
@@ -87,7 +92,7 @@ export const RacingItem = ({ data, slug }) => {
             </span>
             <ArrowIcon className="more-container-arrow" />
           </span>
-        </Link>
+        </CustomLink>
       </div>
     </div>
   );

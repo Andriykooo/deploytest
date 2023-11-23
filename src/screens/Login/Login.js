@@ -1,7 +1,7 @@
 "use client";
 
 import { addLocalStorageItem } from "@/utils/localStorage";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +19,11 @@ import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { images } from "@/utils/imagesConstant";
+import Image from "next/image";
 
-const Login = ({ setShowConfirm }) => {
+const Login = ({ setShowConfirm, loginCallback, className }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
@@ -31,9 +34,11 @@ const Login = ({ setShowConfirm }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const { onLoginSuccess, onLoginError } = useLoginCallbacks();
+  const { onLoginSuccess, onLoginError } = useLoginCallbacks({
+    loginCallback,
+  });
 
-  const router = useRouter();
+  const router = useCustomRouter();
   const params = useSearchParams();
 
   const dispatch = useDispatch();
@@ -166,35 +171,45 @@ const Login = ({ setShowConfirm }) => {
   }, [params]);
 
   return (
-    <div className="signInImage">
-      {isVerified ? (
-        <LoginPassword
-          newUser={newUser}
-          passwordShown={passwordShown}
-          password={password}
-          isValid={isPasswordValid}
-          togglePassword={togglePassword}
-          checkPassword={checkPassword}
-          isLoading={isLoading}
-          validatePassword={validatePassword}
-          goBack={() => {
-            setIsVerified(false);
-            setPassword("");
-            setIsPasswordValid(false);
-          }}
+    <div className={className}>
+      <div>
+        <Image
+          alt="back"
+          src={images.signInBack}
+          className="signInBack"
+          width={24}
+          height={24}
+          onClick={() => router.back()}
         />
-      ) : (
-        <LoginEmail
-          email={email}
-          isValid={isValid}
-          checkEmail={checkEmail}
-          isLoading={isLoading}
-          validateEmail={validateEmail}
-          setEmail={setEmail}
-          setIsLoading={setIsLoading}
-          setIsValid={setIsValid}
-        />
-      )}
+        {isVerified ? (
+          <LoginPassword
+            newUser={newUser}
+            passwordShown={passwordShown}
+            password={password}
+            isValid={isPasswordValid}
+            togglePassword={togglePassword}
+            checkPassword={checkPassword}
+            isLoading={isLoading}
+            validatePassword={validatePassword}
+            goBack={() => {
+              setIsVerified(false);
+              setPassword("");
+              setIsPasswordValid(false);
+            }}
+          />
+        ) : (
+          <LoginEmail
+            email={email}
+            isValid={isValid}
+            checkEmail={checkEmail}
+            isLoading={isLoading}
+            validateEmail={validateEmail}
+            setEmail={setEmail}
+            setIsLoading={setIsLoading}
+            setIsValid={setIsValid}
+          />
+        )}
+      </div>
     </div>
   );
 };

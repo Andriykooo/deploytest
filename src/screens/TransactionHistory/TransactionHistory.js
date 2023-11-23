@@ -4,8 +4,6 @@ import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "swiper/css";
-import { Swiper } from "swiper/react";
 import Spiner from "../../utils/Spiner";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
@@ -284,18 +282,9 @@ const TransactionHistory = () => {
         </div>
 
         <div className="mb-3">
-          <Swiper
-            id="feed-swiper"
-            className="monthsFilter col-12"
-            slidesPerView={"auto"}
-            spaceBetween={1}
-            freeMode={true}
-            loop={false}
-          ></Swiper>
-
           <div className="infiniteScroll">
             <InfiniteScroll
-              dataLength={transactionsList?.length}
+              dataLength={currPage}
               next={getTransactions}
               loader={
                 showSpinner && (

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
@@ -7,13 +6,13 @@ import {
   refreshGamingSocket,
 } from "@/context/socket";
 import { getUserApi } from "@/utils/apiQueries";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoggedUser } from "@/store/actions";
 import { useCallback } from "react";
 import { useTranslations } from "next-intl";
-import Cookies from "js-cookie";
 import moment from "moment";
+import { useCustomRouter } from "./useCustomRouter";
 
 const ContactsInfo = () => {
   const t = useTranslations("contact_us");
@@ -33,10 +32,10 @@ const ContactsInfo = () => {
   );
 };
 
-export function useLoginCallbacks() {
+export function useLoginCallbacks({ loginCallback }) {
   const t = useTranslations("common");
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
   const params = useSearchParams();
 
   const onLoginSuccess = useCallback(
@@ -47,8 +46,6 @@ export function useLoginCallbacks() {
       addLocalStorageItem("swifty_id", response?.swifty_id);
       refreshCommunicationSocket(response?.token);
       refreshGamingSocket(response?.token);
-
-      Cookies.set("country", response.user_data.country);
 
       getUserApi(dispatch).then((userData) => {
         let nextUrlPath = getLocalStorageItem("nextUrlPath");
@@ -74,6 +71,8 @@ export function useLoginCallbacks() {
             setShowConfirm(true);
           }
         }
+
+        loginCallback?.();
       });
     },
     [dispatch, router, params]

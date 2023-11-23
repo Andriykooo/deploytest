@@ -581,6 +581,7 @@ body.opened::after {
 
 .sportsBackground {
   background: var(--global-color-casino-background);
+  padding: 20px 0;
 }
 
 .App-header {

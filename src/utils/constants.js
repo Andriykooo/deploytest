@@ -21,6 +21,8 @@ import {
 } from "./icons";
 import { images } from "./imagesConstant";
 
+export const fallbackLng = "en";
+
 export const predictionsApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
 export const gamingApiDomain = process.env.NEXT_PUBLIC_GAMING_SOCKET_URL;
 export const casinoApiDomain = process.env.NEXT_PUBLIC_CASINO_URL;
@@ -61,6 +63,7 @@ export const apiUrl = {
 
   // Gaming API
   GET_OFFER: `${gamingApiDomain}/api/v1/betting/bet-ticker`,
+  GET_AFFILIATE_LINKS: `${gamingApiDomain}/api/v1/cms/affiliate-links`,
   BET_TICKER_LIST: `${gamingApiDomain}/api/v1/betting/bet-ticker-list`,
   TERMS: `${gamingApiDomain}/api/v1/cms/terms-conditions`,
   PRIVACY: `${gamingApiDomain}/api/v1/cms/privacy-policy`,
@@ -85,7 +88,7 @@ export const apiUrl = {
   GET_SETTINGS: `${gamingApiDomain}/api/v1/cms/settings`,
   GET_MY_BETS: `${gamingApiDomain}/api/v1/betting/my-bets`,
   GET_VENUE_EVENTS: `${gamingApiDomain}/api/v1/page-layout/venue-events`,
-  GET_AFFILIATES: `${gamingApiDomain}/api/v1/cms/landing-page?affiliate_slug=`,
+  GET_AFFILIATES: `${gamingApiDomain}/api/v1/cms/landing-page`,
 
   // Casino API
   CASINO_GAMES: `${casinoApiDomain}/api/v1/casino/games`,
@@ -93,10 +96,10 @@ export const apiUrl = {
   CASINO_LAYOUT: `${casinoApiDomain}/api/v1/casino/layout?slug=casino`,
 
   // Facebook graph
-  GRAPH_FACEBOOK: 'https://graph.facebook.com/v18.0/me',
+  GRAPH_FACEBOOK: "https://graph.facebook.com/v18.0/me",
 
   // Google
-  GOOGLE_OAUTH_USERINFO: 'https://www.googleapis.com/oauth2/v3/userinfo',
+  GOOGLE_OAUTH_USERINFO: "https://www.googleapis.com/oauth2/v3/userinfo",
 };
 
 export const sports = [

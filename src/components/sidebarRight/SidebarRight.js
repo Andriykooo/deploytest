@@ -41,6 +41,7 @@ import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
 import { BetslipDropdown } from "./BetslipDropdown/BetslipDropdown";
+import { CustomLink } from "../Link/Link";
 
 const emptyBetSlip = {
   singles: [],
@@ -98,8 +99,10 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
     timer > 0;
 
   const showTrederReview =
-    reviewBets.singles.length > 0 &&
-    (betTicker?.status === "new_offer" || betTicker?.data?.mode === "pending");
+    reviewBets?.singles?.length > 0 &&
+    (betTicker?.status === "new_offer" ||
+      betTicker?.status === "pending" ||
+      betTicker?.data?.mode === "pending");
 
   const hideBetSlip = () => {
     dispatch(setSidebarRight({ isActive: false }));
@@ -282,12 +285,12 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
     if (insufficientBalance) {
       return (
         <div className="place-bet-container">
-          <Link href="/profile/deposit">
+          <CustomLink href="/profile/deposit">
             <Button
               className={"btnPrimary place-bet-button"}
               text={t("please_deposit")}
             />
-          </Link>
+          </CustomLink>
         </div>
       );
     }
@@ -328,25 +331,24 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
   const stakesAndReturns = (data) => (
     <>
-      {
-        selectedBets.bets.length > 0 && (
-          <>
-            <div className="totals-container">
-              {/* Total Stakes */}
-              <span>{t("total_stakes")}: </span>
-              <span className="stakes amount">
-                {formatNumberWithDecimal(
-                  data?.new_total_stakes || data?.total_stakes || 0
-                )}
-              </span>
-            </div>
-            <div className="totals-container">
-              {/* Total Returns */}
-              <span>{t("total_returns")}:</span>
-              <span className="amount">
-                {data.total_payout == "?"
-                  ? "[?]"
-                  : formatNumberWithDecimal(
+      {selectedBets.bets.length > 0 && (
+        <>
+          <div className="totals-container">
+            {/* Total Stakes */}
+            <span>{t("total_stakes")}: </span>
+            <span className="stakes amount">
+              {formatNumberWithDecimal(
+                data?.new_total_stakes || data?.total_stakes || 0
+              )}
+            </span>
+          </div>
+          <div className="totals-container">
+            {/* Total Returns */}
+            <span>{t("total_returns")}:</span>
+            <span className="amount">
+              {data.total_payout == "?"
+                ? "[?]"
+                : formatNumberWithDecimal(
                     data?.new_total_payout || data?.total_payout || 0
                   )}
             </span>
@@ -375,21 +377,25 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (loggedUser?.user_data && getLocalStorageItem("access_token")) {
       apiServices.get(apiUrl.BET_TICKER_LIST).then((response) => {
-        const newOffer = response.find(
-          (bet) =>
-            bet.status === "new_offer" &&
+        const offer = response.find((bet) => {
+          return (
+            (bet.status === "new_offer" || bet.status === "pending") &&
             loggedUser?.user_data?.player_id === bet.player_id
-        );
+          );
+        });
 
-        if (newOffer) {
-          dispatch(setReviewBets(newOffer.bet_slip_json));
-          dispatch(setNewOfferTimer(newOffer.bet_slip_json.expire_seconds));
+        if (offer) {
+          dispatch(setReviewBets(offer.bet_slip_json));
+
+          if (offer?.bet_slip_json?.expire_seconds) {
+            dispatch(setNewOfferTimer(offer.bet_slip_json.expire_seconds));
+          }
 
           dispatch(
             setBetTicker({
-              ...newOffer,
-              bet_slip: newOffer.bet_slip_json,
-              bet_referral_id: newOffer.bet_ticker_id,
+              ...offer,
+              bet_slip: offer.bet_slip_json,
+              bet_referral_id: offer.bet_ticker_id,
             })
           );
         }
@@ -399,7 +405,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
     if (selectedBets.bets.length > 0) {
       selectedBets.bets.forEach((bet) => {
         if (bet.bet_id) {
-          gamingSocket.emit("subscribe_market", {
+          gamingSocket.emit("subscribe_selection", {
             value: bet.bet_id,
           });
         }
@@ -553,7 +559,11 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
       <div className="bet-slip-container" onClick={hideBetSlip}>
         <div className="sidebar-right" onClick={(e) => e.stopPropagation()}>
           <div className="bet-slip-content">
-            <div className={classNames("slip-bets-title slips-bets-title-container")}>
+            <div
+              className={classNames(
+                "slip-bets-title slips-bets-title-container"
+              )}
+            >
               <span
                 className={
                   selectedBets?.bets?.length < 1 && !isTablet
@@ -572,7 +582,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
             <div className="slip-bets-title">
               <button
                 className={classNames("bet-slip-description", {
-                  active: !myBets
+                  active: !myBets,
                 })}
                 onClick={() => handleClickBets("betslip")}
               >
@@ -586,7 +596,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
               </button>
               <button
                 className={classNames("bet-slip-description", {
-                  active: myBets
+                  active: myBets,
                 })}
                 onClick={() => handleClickBets("mybets")}
               >
@@ -660,7 +670,8 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
                         </div>
                       )}
 
-                      {betTicker?.data?.mode === "pending" && (
+                      {(betTicker?.data?.mode === "pending" ||
+                        betTicker?.status === "pending") && (
                         <div className="place-bet-container">
                           <Button
                             className={"btnPrimary place-bet-button"}
@@ -764,11 +775,11 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
                                 balance: balanceInequality.toFixed(2),
                               })}
                             </span>
-                            <Link href="/profile/deposit">
+                            <CustomLink href="/profile/deposit">
                               <span className="depositLink">
                                 {t("click_here_to_deposit")}
                               </span>
-                            </Link>
+                            </CustomLink>
                           </div>
                         )}
                         {stakesAndReturns(betSlipResponse)}
@@ -791,12 +802,12 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
                         {!loggedUser?.user_data ||
                         !getLocalStorageItem("access_token") ? (
                           <div className="place-bet-container">
-                            <Link href="/login">
+                            <CustomLink href="/login">
                               <Button
                                 className={"btnPrimary place-bet-button"}
                                 text={t("login_to_place_bet")}
                               />
-                            </Link>
+                            </CustomLink>
                           </div>
                         ) : (
                           renderBetButtons()

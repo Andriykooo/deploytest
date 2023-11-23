@@ -16,7 +16,7 @@ export const StandartWidget = ({ data }) => {
   useEffect(() => {
     data.selections.forEach((selection) => {
       if (selection?.bet_id) {
-        gamingSocket.emit("subscribe_market", {
+        gamingSocket.emit("subscribe_selection", {
           value: selection?.bet_id,
         });
       }
@@ -25,7 +25,7 @@ export const StandartWidget = ({ data }) => {
     return () => {
       data.selections.forEach((selection) => {
         if (selection?.bet_id) {
-          gamingSocket.emit("unsubscribe_market", {
+          gamingSocket.emit("unsubscribe_selection", {
             value: selection?.bet_id,
             action_id: uuidv4(),
           });

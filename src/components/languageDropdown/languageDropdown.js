@@ -8,14 +8,12 @@ import { LanguageIcon } from "@/utils/icons";
 import { usePathname } from "next/navigation";
 import "./languageDropdown.css";
 import { useParams } from "next/navigation";
-import { locales } from "../../../i18n";
 import { addLocalStorageItem } from "@/utils/localStorage";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const params = useParams();
-
   const dropdownLangRef = useRef(null);
 
   const language = useSelector((state) => state.language);
@@ -44,7 +42,7 @@ const LanguageDropdown = () => {
   });
 
   useEffect(() => {
-    if (!language) {
+    if (onboarding) {
       dispatch(
         setLanguage(
           onboarding.languages?.find(
@@ -63,25 +61,18 @@ const LanguageDropdown = () => {
     <div className="dropdown-lang-container" ref={dropdownLangRef}>
       <ul className="dropdown-lang-list">
         {isOpen &&
-          onboarding.languages
-            ?.filter((filterLanguage) => {
-              return (
-                filterLanguage?.code2 !== language?.code2 &&
-                locales.includes(filterLanguage.code2?.toLowerCase())
-              );
-            })
-            ?.map((language) => (
-              <li
-                key={language?.code2}
-                className="dropdown-lang-item"
-                onClick={() => languageSelectHandler(language)}
-              >
-                <div className="dropdown-lang-item-link">
-                  <LanguageIcon />
-                  {language?.language_name}
-                </div>
-              </li>
-            ))}
+          onboarding.languages?.map((language) => (
+            <li
+              key={language?.code2}
+              className="dropdown-lang-item"
+              onClick={() => languageSelectHandler(language)}
+            >
+              <div className="dropdown-lang-item-link">
+                <LanguageIcon />
+                {language?.language_name}
+              </div>
+            </li>
+          ))}
       </ul>
       <button
         className={`dropdown-lang-btn dropdown-lang-item ${

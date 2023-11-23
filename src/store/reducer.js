@@ -253,10 +253,6 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         headerData: action.payload,
-        activePage:
-          appstate.activePage ||
-          action?.payload?.find((page) => page.path === "/home-page") ||
-          "/home-page",
       };
 
     case constants.SET_SIDEBAR_RIGHT:
@@ -324,6 +320,16 @@ const rootReducer = (appstate = initialState, action) => {
         ...appstate,
         updatedSelections: updatedSelectionsData,
       };
+
+    case constants.REMOVE_UPDATED_SELECTION: {
+      const updatedSelectionsData = { ...appstate.updatedSelections };
+      delete updatedSelectionsData[action.payload];
+
+      return {
+        ...appstate,
+        updatedSelections: updatedSelectionsData,
+      };
+    }
 
     case constants.ADD_TO_UPDATED_BETSLIP_SELECTIONS:
       return {

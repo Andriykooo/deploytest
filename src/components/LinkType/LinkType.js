@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CustomLink } from "../Link/Link";
 
 const redirectTypes = [
   "page",
@@ -23,9 +24,9 @@ const OpenType = ({ openType, children, className, path, onClick }) => {
       {children}
     </a>
   ) : (
-    <Link className={className} href={path || ""} onClick={onClick}>
+    <CustomLink className={className} href={path || ""} onClick={onClick}>
       {children}
-    </Link>
+    </CustomLink>
   );
 };
 

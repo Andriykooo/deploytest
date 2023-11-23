@@ -6,12 +6,25 @@ import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
 import "./CasinoCategory.css";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { GameInfoModal } from "../Game/GameInfoModal";
+import { GameInfoMoadlMobile } from "../Game/GameInfoMoadlMobile";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+
 const CasinoCategory = ({ data, redirect }) => {
   const t = useTranslations("casino");
-  const router = useRouter();
+  const router = useCustomRouter();
   const dispatch = useDispatch();
   const headerData = useSelector((state) => state.headerData);
   const isMobile = useSelector((state) => state.setMobile);
+  const [modalInfo, setModalInfo] = useState(null);
+  const showModalInfo = (info) => {
+    setModalInfo(info);
+  }
+
+  const closeModalInfo = () => {
+    setModalInfo(null)
+  }
 
   const handleViewAll = () => {
     dispatch(setCasinoCategory(data));
@@ -24,129 +37,169 @@ const CasinoCategory = ({ data, redirect }) => {
   };
 
   return data ? (
-    <div className="mainGames">
-      <div className="mainGamesContainer">
-        <div className="mainGamesBox">
-          <div className="d-flex justify-content-between w-100">
-            <div className="recommendedTitle">{data.title}</div>
-            {data.view_style !== "trending" && (
-              <div className="recommendedTitle recommendedViewAll">
-                <span className="me-2" onClick={handleViewAll}>
-                  {t("view_all")}
-                </span>
-                <ArrowDownIcon viewAll />
-              </div>
-            )}
-          </div>
-
-          {data.view_style === "trending" && (
-            <Carousel
-              arrowClassName="tranding-arrow"
-              data={data?.games?.map((game, index) => {
-                return {
-                  id: game.id,
-                  render: <Game game={game} key={game.id} number={index + 1} />,
-                };
-              })}
-            />
-          )}
-          {data.view_style === "single_line" && (
-            <Carousel
-              data={data?.games?.map((game) => {
-                return {
-                  id: game.id,
-                  render: <Game game={game} key={game.id} />,
-                };
-              })}
-            />
-          )}
-          {data.view_style === "hero_multi_line" && (
-            <Carousel
-              data={
-                isMobile
-                  ? data?.games?.map((game) => {
-                      return {
-                        id: game.id,
-                        render: <Game game={game} key={game.id} />,
-                      };
-                    })
-                  : data.games
-                      .reduce((accum, currentGame, index) => {
-                        if (index === 0) {
-                          return [[currentGame]];
-                        }
-
-                        if (index % 2 === 0) {
-                          accum[accum?.length - 1]?.push(currentGame);
-                        } else {
-                          accum?.push([currentGame]);
-                        }
-
-                        return accum;
-                      }, [])
-                      .map((row, rowIndex) => {
-                        return {
-                          id: rowIndex,
-                          render:
-                            rowIndex === 0 ? (
-                              <Game
-                                game={data.games[0]}
-                                key={data.games[0].id}
-                                className="hero-multi-line"
-                                height={390}
-                                width={418}
-                              />
-                            ) : (
-                              <div
-                                key={rowIndex}
-                                className="hero-multi-line-item"
-                              >
-                                {row.map((game) =>
-                                  game ? (
-                                    <Game game={game} key={game.id} />
-                                  ) : null
-                                )}
-                              </div>
-                            ),
-                        };
-                      })
-              }
-            />
-          )}
-          {data.view_style === "multi_line" && (
-            <Carousel
-              data={
-                isMobile
-                  ? data?.games?.map((game) => {
-                      return {
-                        id: game.id,
-                        render: <Game game={game} key={game.id} />,
-                      };
-                    })
-                  : data.games
-                      .reduce((acc, val, index) => {
-                        if (index % 2 === 0) {
-                          acc.push([val, data.games[index + 1]]);
-                        }
-                        return acc;
-                      }, [])
-                      .map((row, index) => {
-                        return {
-                          id: index,
-                          render: (
-                            <div key={index} className="hero-multi-line-item">
-                              {row.map((game) =>
-                                game ? <Game game={game} key={game.id} /> : null
-                              )}
-                            </div>
-                          ),
-                        };
-                      })
-              }
-            />
+    <div className="mainGamesContainer">
+      <div className="mainGamesBox">
+        <div className="d-flex justify-content-between w-100">
+          <div className="recommendedTitle">{data.title}</div>
+          {data.view_style !== "trending" && (
+            <div className="recommendedTitle recommendedViewAll">
+              <span className="me-2" onClick={handleViewAll}>
+                {t("view_all")}
+              </span>
+              <ArrowDownIcon viewAll />
+            </div>
           )}
         </div>
+
+        {data.view_style === "trending" && (
+          <Carousel
+            onScroll={closeModalInfo}
+            arrowClassName="tranding-arrow"
+            data={data?.games?.map((game, index) => {
+              return {
+                id: game.id,
+                render: (
+                  <Game
+                    showModalInfo={(info) => showModalInfo(info, data.title)}
+                    modalInfoId={modalInfo?.gameId}
+                    game={game} key={game.id}
+                    className="single-line"
+                    number={index + 1}
+                  />
+                ),
+              };
+            })}
+          />
+        )}
+        {data.view_style === "single_line" && (
+          <Carousel
+            onScroll={closeModalInfo}
+            data={data?.games?.map((game) => {
+              return {
+                id: game.id,
+                render: <Game
+                  showModalInfo={(info) => showModalInfo(info, data.title)}
+                  modalInfoId={modalInfo?.gameId}
+                  className="single-line"
+                  game={game}
+                  key={game.id}
+                />,
+              };
+            })}
+          />
+        )}
+        {data.view_style === "hero-multi_line" && (
+          <Carousel
+            onScroll={closeModalInfo}
+            data={
+              isMobile
+                ? data?.games?.map((game) => {
+                  return {
+                    id: game.id,
+                    render: <Game
+                      showModalInfo={(info) => showModalInfo(info, data.title)}
+                      modalInfoId={modalInfo?.gameId}
+                      className="single-line"
+                      game={game}
+                      key={game.id}
+                    />,
+                  };
+                })
+                : data.games
+                  .reduce((accum, currentGame, index) => {
+                    if (index === 0) {
+                      return [[currentGame]];
+                    }
+                    if (index % 2 === 0) {
+                      accum[accum?.length - 1]?.push(currentGame);
+                    } else {
+                      accum?.push([currentGame]);
+                    }
+
+                    return accum;
+                  }, [])
+                  .map((row, rowIndex) => {
+                    return {
+                      id: rowIndex,
+                      render:
+                        rowIndex === 0 ? (
+                          <Game
+                            showModalInfo={(info) => showModalInfo(info, data.title)}
+                            modalInfoId={modalInfo?.gameId}
+                            game={data.games[0]}
+                            key={data.games[0].id}
+                            className="hero-multi-line-first-img mb-3"
+                          />
+                        ) : (
+                          <div key={rowIndex}>
+                            {row.map((game) =>
+                              game ? (
+                                <Game
+                                  showModalInfo={(info) => showModalInfo(info, data.title)}
+                                  modalInfoId={modalInfo?.gameId}
+                                  className="single-line mb-3"
+                                  game={game}
+                                  key={game.id}
+                                />
+                              ) : null
+                            )}
+                          </div>
+                        ),
+                    };
+                  })
+            }
+          />
+        )}
+        {data.view_style === "multi_line" && (
+          <Carousel
+            onScroll={closeModalInfo}
+            data={
+              isMobile
+                ? data?.games?.map((game) => {
+                  return {
+                    id: game.id,
+                    render: <Game
+                      showModalInfo={(info) => showModalInfo(info, data.title)}
+                      modalInfoId={modalInfo?.gameId}
+                      className="single-line"
+                      game={game}
+                      key={game.id}
+                    />,
+                  };
+                })
+                : data.games
+                  .reduce((acc, val, index) => {
+                    if (index % 2 === 0) {
+                      acc.push([val, data.games[index + 1]]);
+                    }
+                    return acc;
+                  }, [])
+                  .map((row, index) => {
+                    return {
+                      id: index,
+                      render: (
+                        <div key={index}>
+                          {row.map((game) =>
+                            game ? <Game
+                              showModalInfo={(info) => showModalInfo(info, data.title)}
+                              modalInfoId={modalInfo?.gameId}
+                              className="single-line mb-3"
+                              game={game}
+                              key={game.id}
+                            /> : null
+                          )}
+                        </div>
+                      ),
+                    };
+                  })
+            }
+          />
+        )}
       </div>
+      {!!modalInfo &&
+        isMobile ?
+        <GameInfoMoadlMobile modalInfo={modalInfo} onClose={closeModalInfo} /> :
+        <GameInfoModal modalInfo={modalInfo} onClose={closeModalInfo} />}
     </div>
   ) : null;
 };

@@ -1,11 +1,11 @@
 "use client";
 
+import { CustomLink } from "@/components/Link/Link";
 import { Logo } from "@/components/logo/Logo";
 import { useLogout } from "@/hooks/useLogout";
 import { images } from "@/utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
 
 export default function Error() {
@@ -26,7 +26,7 @@ export default function Error() {
           <Image src={images.emptyState} height={40} width={40} alt="warning" />
         </div>
         <span>{t("common.something_went_wrong")}</span>
-        <Link href="/">
+        <CustomLink href="/">
           <button className="btnPrimary error-page-navigation-button mt-4">
             {t("not_found.go_to_homepage")}
             <Image
@@ -37,7 +37,7 @@ export default function Error() {
               alt="arrow"
             />
           </button>
-        </Link>
+        </CustomLink>
       </div>
     </div>
   );

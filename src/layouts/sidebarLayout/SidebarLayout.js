@@ -5,10 +5,10 @@ import { SidebarLeft } from "../../components/sidebarLeft/SidebarLeft";
 import { SidebarRight } from "../../components/sidebarRight/SidebarRight";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { setSidebarLeft, setSidebarRight } from "@/store/actions";
+import { useParams } from "next/navigation";
 
 export const SidebarLayout = ({
   sidebarLeftIsActive,
@@ -17,14 +17,13 @@ export const SidebarLayout = ({
   className,
 }) => {
   const dispatch = useDispatch();
+  const params = useParams();
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
   const sidebarRight = useSelector((state) => state.sidebarRight);
   const loggedUser = useSelector((state) => state.loggedUser);
   const settings = useSelector((state) => state.settings);
 
   useEffect(() => {
-    const lang = Cookies.get("language");
-
     apiServices
       .get(apiUrl.GET_SIDEBAR_LEFT, {
         country:
@@ -37,7 +36,7 @@ export const SidebarLayout = ({
       });
 
     if (!sidebarRight.data) {
-      const contentLanguage = lang === "en" ? "all" : lang;
+      const contentLanguage = params.lng === "en" ? "all" : params.lng;
 
       apiServices
         .get(apiUrl.GET_SIDEBAR_RIGHT, { country: contentLanguage })

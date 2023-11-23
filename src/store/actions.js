@@ -411,3 +411,10 @@ export const setUserStats = (payload) => {
     payload,
   };
 };
+
+export const removeUpdatedSelection = (payload) => {
+  return {
+    type: constants.REMOVE_UPDATED_SELECTION,
+    payload,
+  };
+};

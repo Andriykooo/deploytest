@@ -54,7 +54,8 @@ const persistConfig = {
     "tooltip",
     "isVerifyMessage",
     "sportContent",
-    "userStats"
+    "userStats",
+    "reviewBets",
   ],
 };
 

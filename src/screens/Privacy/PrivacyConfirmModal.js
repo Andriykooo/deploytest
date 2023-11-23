@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
@@ -7,12 +7,13 @@ import { setPrivacytModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
+
 import { useTranslations } from "next-intl";
 const PrivacyConfirmModal = () => {
   const t = useTranslations("privacy");
   const dispatch = useDispatch();
   const pathname = usePathname();
+  const params = useParams();
 
   const privacyDivRef = useRef(null);
 
@@ -37,7 +38,7 @@ const PrivacyConfirmModal = () => {
   };
 
   const getPolicy = () => {
-    const language = Cookies.get("language") || "en";
+    const language = params.lng;
     const country = loggedUser?.user_data?.country || "all";
     setIsLoading(true);
 

@@ -8,6 +8,14 @@
   background-size: cover;
 }
 
+.signInBack {
+  margin: 20px 0 0 24px;
+
+  @media only screen and (min-width: 1024px) {
+    display: none;
+  }
+}
+
 .logInTitle {
   font-style: normal;
   font-weight: 700;
@@ -19,6 +27,10 @@
   max-width: 383px;
   width: 100%;
   margin-bottom: 30px;
+}
+
+.loginBack {
+  margin-block: 20px 24px;
 }
 
 .login-buttons {
@@ -37,6 +49,7 @@
 
 .login-buttons::placeholder {
   color: var(--global-color-text-secondary);
+  text-indent: 0;
 }
 
 .photo_buttons {
@@ -49,7 +62,7 @@
   justify-content: center;
   margin-bottom: 16px;
   width: 24rem;
-  height: 50px;
+  height: 48px;
   font-weight: 600;
   border: 0px solid var(--global-color-background-quaternary);
   color: var(--global-color-buttons-text-disabled);
@@ -82,6 +95,10 @@
 
 .emailValidation {
   position: relative;
+  margin-bottom: 12px;
+}
+
+.loginInput {
   margin-bottom: 24px;
 }
 
@@ -94,7 +111,7 @@
 .loginForm {
   display: grid;
   justify-content: center;
-  padding-top: 40px;
+  padding-top: 80px;
   padding-bottom: 20px;
 }
 
@@ -126,6 +143,7 @@
   align-items: center;
   text-align: center;
   color: var(--global-color-text-primary);
+  margin-block: 8px 24px;
 }
 
 .continueBtn.white {
@@ -195,15 +213,50 @@
 
 @media screen and (max-width: 1024px) {
   .signInImage {
-    min-height: calc(100vh - 56px);
+    min-height: 100vh;
+    background-image: none;
+  }
+  .signInImage.withHeader {
+    height: calc(100vh - 56px);
+    min-height: auto;
+  }
+
+  .loginForm.goingBack {
+    height: calc(100vh - 44px);
+  }
+
+  .emailValidation {
+    margin-bottom: 0;
+  }
+
+  .loginInput {
+    margin-bottom: 0;
   }
 
   .loginForm {
-    padding-left: 24px;
-    padding-right: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 30px 24px 0;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  a.button1 {
+    font-size: 12px;
+    line-height: 24px;
+    text-decoration: none !important;
+  }
+
+  .logInTitle {
+    max-width: 100%;
+    line-height: 40px;
+  }
+
+  .backgroundImage {
+    min-height: calc(100vh - 56px);
   }
 
   .forgotPassword .loginForm,
@@ -215,6 +268,10 @@
   .login-buttons {
     width: 100%;
     max-width: 100%;
+  }
+
+  .login-buttons::placeholder {
+    font-size: 14px;
   }
 
   .loginIconGoogle,
@@ -229,16 +286,32 @@
     left: 56px;
   }
 
-  .oneClick {
-    margin-bottom: 24px;
+  .login-buttons {
+    margin-bottom: 16px;
   }
-
+  
+  .oneClick {
+    margin-block: 24px 40px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  
   .loginWhiteButtons .continueBtn {
     margin-bottom: 16px;
   }
 
   .showPasswordIconBtm.welcome {
     top: 29%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .signInBack {
+    margin-top: 10px;
+  }
+
+  .loginForm.goingBack {
+    height: calc(100vh - 34px);
   }
 }
 
@@ -258,7 +331,7 @@
   margin-bottom: 33px;
   display: flex;
   justify-content: flex-end;
-  text-decoration: underline;
+  text-decoration: underline !important;
   text-underline-offset: 4px;
 }
 
@@ -278,17 +351,3 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: white !important;
 }
 
-@media (max-width: 1024px) {
-  .loginForm {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .logInTitle {
-    max-width: 100%;
-  }
-
-  .backgroundImage {
-    min-height: calc(100vh - 56px);
-  }
-}

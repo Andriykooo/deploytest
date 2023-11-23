@@ -6,7 +6,6 @@ import {
 } from "@/store/actions";
 import { apiServices } from "./apiServices";
 import { apiUrl } from "./constants";
-import Cookies from "js-cookie";
 import { clearLocalStorage } from "./localStorage";
 import moment from "moment";
 import { refreshGamingSocket } from "@/context/socket";
@@ -55,7 +54,6 @@ export const setSettingsApi = async (body, dispatch, callback) => {
 export const getUserApi = async (dispatch) => {
   try {
     const response = await apiServices.get(apiUrl.USER);
-    Cookies.set("country", response.country);
 
     return response;
   } catch (error) {

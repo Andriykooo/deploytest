@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { setSidebarRight } from "@/store/actions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CustomLink } from "@/components/Link/Link";
 
 export const MobileUnloggedUser = () => {
   const betslipResponse = useSelector((state) => state.betslipResponse);
@@ -34,12 +35,12 @@ export const MobileUnloggedUser = () => {
             )}
           </div>
         )}
-        <Link
+        <CustomLink
           className="signInContainer"
           href={`/login?redirect=${pathname.replace("/", "")}`}
         >
           <p className="signText">{t("register_or_login")}</p>
-        </Link>
+        </CustomLink>
       </div>
     </div>
   );

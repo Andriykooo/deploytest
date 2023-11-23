@@ -11,11 +11,12 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "@/store/actions";
 import { Logo } from "@/components/logo/Logo";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const CustomerServiceNotice = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
   const settings = useSelector((state) => state.settings);
 
   useEffect(() => {

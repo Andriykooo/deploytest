@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToUpdatedBetslipSelections,
+  removeUpdatedSelection,
   setBetSlipResponse,
   setSelectBet,
 } from "../../store/actions";
@@ -11,9 +12,12 @@ import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
+import { usePathname } from "next/navigation";
 
-export const MatchOdds = ({ selection, disable, children }) => {
+export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
   const t = useTranslations("common");
+  const pathname = usePathname();
+
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const updatedSelections = useSelector((state) => state.updatedSelections);
@@ -25,16 +29,19 @@ export const MatchOdds = ({ selection, disable, children }) => {
 
   const isSuspended =
     selectionRow?.trading_status === "suspended" || !selection.bet_id;
-  const isSP = selection?.odds_decimal === "SP";
+  const isSP = selectionRow?.odds_decimal === "SP";
 
   const betIsOpen =
     selectionRow?.trading_status?.toLowerCase() === "open" ||
     selectionRow?.trading_status?.toLowerCase() === "unnamed_favorite";
   const odd = updatedSelections?.[selectionRow?.bet_id];
+
   const isSelected = selectedPlayerBets.bets.some((element) => {
     return element.starting_price
-      ? selection.odds_decimal === "SP" && element.bet_id === selection?.bet_id
-      : selection.odds_decimal !== "SP" && element.bet_id === selection?.bet_id;
+      ? selectionRow.odds_decimal === "SP" &&
+          element.bet_id === selection?.bet_id
+      : selectionRow.odds_decimal !== "SP" &&
+          element.bet_id === selection?.bet_id;
   });
 
   const handlerOnClick = (e) => {
@@ -56,7 +63,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
     }
 
     if (isSP) {
-      new_bet.starting_price = true;
+      new_bet.starting_price = isSP;
     }
 
     let exist = false;
@@ -65,7 +72,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
       if (item.bet_id == bet_id) {
         exist = true;
 
-        if (!!item.starting_price !== (isSP)) {
+        if (!!item.starting_price !== isSP) {
           return [...accum, new_bet];
         }
         return accum;
@@ -95,19 +102,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
   useEffect(() => {
     let timeoutId;
 
-    if (selectionRow?.odds_decimal !== "SP" && odd) {
-      const isBetslipOdd = selectedPlayerBets.bets.some(
-        (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
-      );
-
-      const type =
-        +odd?.data?.odds_decimal > +selectionRow.odds_decimal
-          ? "drifting"
-          : "shortening";
-
-      setPriceChangeType(type);
-      setIsAnimationStart(true);
-      prevoiusSelection(selectionRow);
+    if (odd && !disableUpdate) {
       setSelectionRow((prev) => {
         return {
           ...prev,
@@ -115,7 +110,30 @@ export const MatchOdds = ({ selection, disable, children }) => {
         };
       });
 
+      if (odd.data.price_boost) {
+        odd.data.odds_decimal = odd.data.price_boost_odds.decimal;
+        odd.data.odds_fractional = odd.data.price_boost_odds.fractional;
+      }
+
+      if (+odd?.data?.odds_decimal === +selectionRow.odds_decimal) {
+        return;
+      }
+
+      const type =
+        +odd?.data?.odds_decimal > +selectionRow.odds_decimal
+          ? "drifting"
+          : "shortening";
+
+      const isBetslipOdd = selectedPlayerBets.bets.some(
+        (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
+      );
+
+      setPriceChangeType(type);
+      setIsAnimationStart(true);
+      prevoiusSelection(selectionRow);
+
       timeoutId = setTimeout(() => {
+        // dispatch(removeUpdatedSelection(odd.data.bet_id));
         setIsAnimationStart(false);
       }, 2500);
 
@@ -142,7 +160,7 @@ export const MatchOdds = ({ selection, disable, children }) => {
       className={classNames("matchOddsContainer matchOddsContainerFootball", {
         ["pe-none"]: disable,
       })}
-      key={selectionRow?.bet_id}
+      key={selectionRow}
     >
       <TooltipWrapper
         show={priceChangeType && !isSuspended && !isAnimationStart}
@@ -163,11 +181,14 @@ export const MatchOdds = ({ selection, disable, children }) => {
       >
         <div
           className={classNames("matchOdds", {
-            selectionPriceBoost: selectionRow?.price_boost && !isSuspended && !isSP,
+            selectionPriceBoost:
+              selectionRow?.price_boost && !isSuspended && !isSP,
             styleOfSelectedOdd: isSelected && !isSuspended,
             suspended: isSuspended || disable,
-            drifting: priceChangeType === "drifting" && !isSuspended,
-            shortening: priceChangeType === "shortening" && !isSuspended,
+            drifting:
+              priceChangeType === "drifting" && !isSuspended && !disable,
+            shortening:
+              priceChangeType === "shortening" && !isSuspended && !disable,
           })}
         >
           <div
@@ -190,9 +211,12 @@ export const MatchOdds = ({ selection, disable, children }) => {
           >
             {children}
             <Odds
-              selection={selectionRow?.price_boost && !isSP ? priceBoost : selectionRow}
+              selection={
+                selectionRow?.price_boost && !isSP ? priceBoost : selectionRow
+              }
             />
-            {!isSP && selectionRow?.price_boost &&
+            {!isSP &&
+              selectionRow?.price_boost &&
               selectionRow?.trading_status !== "suspended" && (
                 <svg
                   width="8"

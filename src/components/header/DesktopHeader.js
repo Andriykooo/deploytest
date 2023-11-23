@@ -30,7 +30,6 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
 
   // hide burger menu in the casino page
   const showMenuIcon = !pathname.startsWith("/casino");
-
   return (
     <>
       <div className="justify-content-between d-flex align-items-center">
@@ -64,48 +63,50 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
               {data && (
                 <Carousel
                   center
-                  data={data?.map((item, index) => {
-                    return {
-                      id: item.id,
-                      render: (
-                        <LinkType
-                          key={index}
-                          type={item.type}
-                          openType={item.open_type}
-                          path={item.path}
-                          modalData={{
-                            slug: item.path.substring(1).replaceAll("-", "_"),
-                            title: item.name,
-                          }}
-                          onClick={() => {
-                            onClick(item);
-                          }}
-                        >
-                          <HeaderDiv
-                            data-id={index}
-                            active={item.id === activePage?.id}
-                            className={"header-link active"}
+                  data={data
+                    ?.filter((item) => item?.show_in_menu)
+                    ?.map((item, index) => {
+                      return {
+                        id: item.id,
+                        render: (
+                          <LinkType
+                            key={index}
+                            type={item.type}
+                            openType={item.open_type}
+                            path={item.slug === "index" ? "/" : item.path}
+                            modalData={{
+                              slug: item.path.substring(1).replaceAll("-", "_"),
+                              title: item.name,
+                            }}
+                            onClick={() => {
+                              onClick(item);
+                            }}
                           >
-                            {item?.icon && (
-                              <Image
-                                src={item.icon}
-                                alt="page"
-                                height={16}
-                                width={16}
-                                onError={(e) =>
-                                  (e.target.style.display = "none")
-                                }
-                              />
-                            )}
+                            <HeaderDiv
+                              data-id={index}
+                              active={item.id === activePage?.id}
+                              className={"header-link active"}
+                            >
+                              {item?.icon && (
+                                <Image
+                                  src={item.icon}
+                                  alt="page"
+                                  height={16}
+                                  width={16}
+                                  onError={(e) =>
+                                    (e.target.style.display = "none")
+                                  }
+                                />
+                              )}
 
-                            <span className="ps-1 sports-header-link">
-                              {item.name}
-                            </span>
-                          </HeaderDiv>
-                        </LinkType>
-                      ),
-                    };
-                  })}
+                              <span className="ps-1 sports-header-link">
+                                {item.name}
+                              </span>
+                            </HeaderDiv>
+                          </LinkType>
+                        ),
+                      };
+                    })}
                 />
               )}
             </div>

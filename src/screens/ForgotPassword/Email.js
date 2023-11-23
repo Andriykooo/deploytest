@@ -6,16 +6,20 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CheckIcon } from "../../utils/icons";
-import { redirect } from "next/navigation";
 import { setForgotPassword } from "@/store/actions";
 import "../ForgotPassword/Email.css";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/button/Button";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+
 const Email = () => {
-  const t = useTranslations("email_sent");
+  const t = useTranslations();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const forgotPassword = useSelector((state) => state.forgotPassword);
+  const isTablet = useSelector((state) => state.isTablet);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useCustomRouter();
 
   const emailSent = () => {
     setIsLoading(true);
@@ -30,7 +34,7 @@ const Email = () => {
     if (user?.email && forgotPassword) {
       emailSent();
     } else {
-      redirect("/login");
+      router.push("/login");
     }
 
     return () => {
@@ -45,11 +49,26 @@ const Email = () => {
           <Loader />
         ) : (
           <>
-            <CheckIcon />
-            <p className="logInTitlee">{t("email_sent")}</p>
-            <p className="paragraphh">
-              {t("check_inbox_open_link_to_continue")}
-            </p>
+            <div className="email-sent-message">
+              <CheckIcon />
+              <p className="logInTitlee">{t("email_sent.email_sent")}</p>
+              <p className="paragraphh">
+                {t("email_sent.check_inbox_open_link_to_continue")}
+              </p>
+            </div>
+            {isTablet && (
+              <div className="authButtonsContainer">
+                <Button
+                  onClick={() => router.back()}
+                  className="closeBtn"
+                  text={t("common.cancel")}
+                />
+                <Button
+                  className="btnPrimary continueBtn validBtn"
+                  text={t("email_sent.open_email_app")}
+                />
+              </div>
+            )}
           </>
         )}
       </div>

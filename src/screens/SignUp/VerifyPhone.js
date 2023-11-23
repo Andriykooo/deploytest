@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,14 +9,15 @@ import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
-import Link from "next/link";
 import "../Login/Login.css";
 import { setLoggedUser } from "@/store/actions";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "@/components/Link/Link";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const VerifyPhone = () => {
   const t = useTranslations();
-  const router = useRouter();
+  const router = useCustomRouter();
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.loggedUser);
@@ -128,9 +128,9 @@ export const VerifyPhone = () => {
             </strong>
           </p>
           <p className="mb-5">
-            <Link href={"/sign_up_with_phone"} className="codeSent">
+            <CustomLink href={"/sign_up_with_phone"} className="codeSent">
               {t("verify_phone.wrong_number_change_link")}
-            </Link>
+            </CustomLink>
           </p>
           <div className="authButtonsContainer">
             <Button

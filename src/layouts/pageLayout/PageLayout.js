@@ -28,7 +28,7 @@ export const PageLayout = ({ children }) => {
   const layout = useSelector((state) => state.pageLayoutContent);
   const headerData = useSelector((state) => state.headerData);
   const params = useParams();
-  const path = params?.path?.[0] || "home-page";
+  const path = params?.path?.[0] || "index";
   const page = headerData?.find((page) => {
     return page?.path?.substring(1) === path;
   });
@@ -105,7 +105,6 @@ export const PageLayout = ({ children }) => {
       dispatch(setFavouriteGames(favouriteGames));
     }
   }, [data]);
-
   return (
     <SidebarLayout
       sidebarLeftIsActive={!!data?.show_sidebar}

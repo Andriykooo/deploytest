@@ -6,15 +6,16 @@ import { useEffect } from "react";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const DynamicSelections = ({ selections, eventId }) => {
   const t = useTranslations("common");
-  const router = useRouter();
+  const router = useCustomRouter();
 
   useEffect(() => {
     selections.forEach((selection) => {
       if (selection?.bet_id) {
-        gamingSocket.emit("subscribe_market", {
+        gamingSocket.emit("subscribe_selection", {
           value: selection.bet_id,
         });
       }
@@ -23,7 +24,7 @@ export const DynamicSelections = ({ selections, eventId }) => {
     return () => {
       selections.forEach((selection) => {
         if (selection?.bet_id) {
-          gamingSocket.emit("unsubscribe_market", {
+          gamingSocket.emit("unsubscribe_selection", {
             value: selection.bet_id,
             action_id: uuidv4(),
           });

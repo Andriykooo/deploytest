@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { setBetSlipResponse, setSelectBet } from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
@@ -24,6 +24,7 @@ export const Racecard = () => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const betTicker = useSelector((state) => state.betTicker);
+  const params = useParams();
 
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
@@ -205,7 +206,7 @@ export const Racecard = () => {
       dataKey: "name",
       width: "1fr",
       render: (item) => {
-        return <Runner data={item} />;
+        return <Runner data={item} slug={params.slug} />;
       },
     },
     ...forecastTricast,
@@ -305,7 +306,7 @@ export const Racecard = () => {
       dataKey: "name",
       width: "1fr",
       render: (item) => {
-        return <Runner data={item} />;
+        return <Runner data={item} slug={params.slug} />;
       },
     },
     {
@@ -367,6 +368,7 @@ export const Racecard = () => {
                   })}
                 >
                   <MatchOdds
+                    disableUpdate
                     disable={disablePrice}
                     selection={{
                       ...item,

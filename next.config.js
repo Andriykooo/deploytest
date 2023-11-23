@@ -10,6 +10,15 @@ const nextConfig = {
     compiler: {
       removeConsole: process.env.NODE_ENV === "production",
     },
+    // async redirects() {
+    //   return [
+    //     {
+    //       source: "/",
+    //       destination: "/en",
+    //       permanent: true,
+    //     },
+    //   ];
+    // },
     async rewrites() {
       return [
         {

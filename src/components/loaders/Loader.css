@@ -66,7 +66,7 @@ button .dot-flashing {
 }
 
 .page-loader {
-  height: 100%;
+  height: calc(100vh - 74px);
   width: 100%;
   display: flex;
   align-items: center;
@@ -95,6 +95,13 @@ button .dot-flashing {
   text-align: center;
   padding-top: 0.5rem;
 }
+
+@media (max-width: 1024px) {
+  .page-loader {
+    height: calc(100vh - 56px);
+  }
+}
+
 @media (max-width: 576px) {
   .styleOfLoader {
     padding-left: 8rem;

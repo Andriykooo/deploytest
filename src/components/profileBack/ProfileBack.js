@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { CustomLink } from "../Link/Link";
 
 const ProfileBack = ({
   showOnDesktop,
@@ -22,13 +23,13 @@ const ProfileBack = ({
       })}
     >
       <div className="d-flex">
-        <Link href={back || backRoute}>
+        <CustomLink href={back || backRoute}>
           <Image
             src={images.goBackArrow}
             alt="Go back"
             className="ms-0 mb-3"
           />
-        </Link>
+        </CustomLink>
       </div>
     </div>
   )

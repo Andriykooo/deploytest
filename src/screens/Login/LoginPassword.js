@@ -7,6 +7,8 @@ import "../Login/Login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setForgotPassword } from "@/store/actions";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "@/components/Link/Link";
+import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 export const LoginPassword = ({
   newUser,
   passwordShown,
@@ -23,56 +25,55 @@ export const LoginPassword = ({
   const isTablet = useSelector((state) => state.isTablet);
 
   return (
-    <div className="loginForm">
-      {!isTablet && (
-        <div onClick={goBack} className="go-back mb-3">
-          <Image src={images.goBackArrow} alt="Go back" />
-          <span>{t("common.go_back")}</span>
+    <div className="loginForm goingBack">
+      <div>
+        {!isTablet && <GoBackButton fullIcon className="loginBack" />}
+        <h1 className="logInTitle">
+          {t("login.welcome_back")}, {newUser.first_name}
+        </h1>
+        <div className="justify-content-center">
+          <div className="emailValidation">
+            <div className="signUpPassword">
+              <input
+                id="password"
+                type={passwordShown || !isValid ? "text" : "password"}
+                className="login-buttons mb-0"
+                placeholder={t("login.enter_password")}
+                value={password}
+                onChange={(e) => validatePassword(e)}
+                autoFocus
+              />
+              {isValid && (
+                <Image
+                  src={images.showPassIcon}
+                  onClick={togglePassword}
+                  className="showPasswordIcon welcome"
+                  alt="Show password"
+                  width={20}
+                  height={14}
+                />
+              )}
+            </div>
+          </div>
+          <CustomLink
+            href="/email_sent"
+            onClick={() => {
+              dispatch(setForgotPassword(true));
+            }}
+            className={"button1"}
+          >
+            {t("login.forgot_password")}
+          </CustomLink>
         </div>
-      )}
-      <h1 className="logInTitle">
-        {t("login.welcome_back")}, {newUser.first_name}
-      </h1>
-      <div className="justify-content-center">
-        <div className="emailValidation">
-          <input
-            id="password"
-            type={passwordShown ? "text" : "password"}
-            className="login-buttons"
-            placeholder={t("login.enter_password")}
-            value={password}
-            onChange={(e) => validatePassword(e)}
-            autoFocus
-          />
-          {isValid && (
-            <Image
-              src={images.showPassIcon}
-              onClick={togglePassword}
-              className="showPasswordIcon welcome"
-              alt="Show password"
-              width={20}
-              height={14}
-            />
-          )}
-        </div>
-        <Link
-          href="/email_sent"
-          onClick={() => {
-            dispatch(setForgotPassword(true));
-          }}
-          className={"button1"}
-        >
-          <Button text={t("login.forgot_password")} className={"button1"} />
-        </Link>
-        <div className="authButtonsContainer">
-          <Button
-            onClick={(e) => checkPassword(e)}
-            className={
-              isValid ? "btnPrimary continueBtn validBtn" : "continueBtn"
-            }
-            text={<>{isLoading ? <Loader /> : t("login.sign_in")}</>}
-          />
-        </div>
+      </div>
+      <div className="authButtonsContainer">
+        <Button
+          onClick={(e) => checkPassword(e)}
+          className={
+            isValid ? "btnPrimary continueBtn validBtn" : "continueBtn"
+          }
+          text={<>{isLoading ? <Loader /> : t("login.sign_in")}</>}
+        />
       </div>
     </div>
   );

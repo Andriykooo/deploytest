@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
@@ -7,13 +7,14 @@ import { setTermsModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+
 const TermsConfirmModal = () => {
   const t = useTranslations("terms");
   const dispatch = useDispatch();
   const pathname = usePathname();
   const termsDivRef = useRef(null);
+  const params = useParams();
 
   const [terms, setTerms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ const TermsConfirmModal = () => {
   }, [termsModal]);
 
   const getTerms = () => {
-    const language = Cookies.get("language") || "en";
+    const language = params.lng;
     const country = loggedUser?.user_data?.country || "all";
 
     setIsLoading(true);

@@ -1,24 +1,30 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/actions";
-import { images } from "../../utils/imagesConstant";
-import Image from "next/image";
-import { addLocalStorageItem } from "@/utils/localStorage";
+import { CloseIcon, CrossIcon } from "@/utils/icons";
+import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { images } from "../../utils/imagesConstant";
 export const Countries = ({
-  handle,
-  choosenCountry,
   setCountry,
-  setCountryFlag,
-  setCountryCode,
-  setSelectedCountry,
   setStates,
   showCountries,
   setShowCountries,
+  withCode
 }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.setMobile);
-  const dispatch = useDispatch();
+  const isTablet = useSelector((state) => state.isTablet);
+  const on_boarding = useSelector((state) => state.on_boarding);
+  const [scrolledPixels, setScrolledPixels] = useState();
+  const [searchCountry, setSearchCountry] = useState([]);
+  const searchRef = useRef(null);
+
+  const choosenCountry = on_boarding?.countries?.filter((country) => {
+    return country.name.toLocaleLowerCase().startsWith(searchCountry) || 
+    (withCode && country.phone_number_prefix?.toString().startsWith(searchCountry.replaceAll("+", "")));
+  });
 
   return (
     <div
@@ -27,26 +33,29 @@ export const Countries = ({
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
-      style={showCountries ? { display: "block" } : { display: "none" }}
+      style={{ display: showCountries ? "block" : "none" }}
     >
       <div className="modal-dialog modal-fullscreen countriesModalDialog">
-        <div className="modal-content fScreen mt-0 p-2">
-          <div className="modal-content-inside">
+        <div className="modal-content fScreen mt-0 countriesModalContainer">
+          <div
+            onScroll={() => setScrolledPixels(searchRef?.current?.getBoundingClientRect().top)}
+            className="modal-content-inside">
             <div className="modalTitle-countries">
               <p className="selectCountryTitle depositModalLimit">
                 {t("sign_up.select_country_residence")}
               </p>
-              <Image
-                src={images.closeIcon}
-                className="closeIconSus closeFullScreenModal"
-                alt="Close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                style={{ cursor: "pointer" }}
-                onClick={() => setShowCountries(false)}
-              />
+              <div className="closeDiv">
+                <CloseIcon
+                  onClick={() => {
+                    setShowCountries(false);
+                    setSearchCountry("");
+                  }}
+                />
+              </div>
             </div>
-            <div className="selectDecimal-countries d-flex searchStyle">
+            <div
+              ref={searchRef}
+              className="selectDecimal-countries d-flex searchStyle">
               <Image
                 src={images.search}
                 alt="Search icon"
@@ -54,10 +63,40 @@ export const Countries = ({
               />
               <input
                 autoFocus
+                value={searchCountry}
                 className="decimalText countryModalText searchField"
                 placeholder={t("common.search")}
-                onChange={(e) => handle(e, "country")}
+                onChange={(e) => setSearchCountry(e.currentTarget.value.toLocaleLowerCase())}
               />
+            </div>
+            <div className={classNames("modalHeader-fixed", { "d-flex": scrolledPixels <= 52 && isTablet })}>
+              <div className="modalTitle-fixed">
+                <p className="selectCountryTitle depositModalLimit">
+                  {t("sign_up.select_country_residence")}
+                </p>
+                <div className="closeDiv">
+                  <CloseIcon
+                    onClick={() => {
+                      setShowCountries(false);
+                      setSearchCountry("");
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="selectDecimal-countries d-flex searchStyle">
+                <Image
+                  src={images.search}
+                  alt="Search icon"
+                  className="countriesSearch"
+                />
+                <input
+                  autoFocus
+                  value={searchCountry}
+                  className="decimalText countryModalText searchField"
+                  placeholder={t("common.search")}
+                  onChange={(e) => setSearchCountry(e.currentTarget.value.toLocaleLowerCase())}
+                />
+              </div>
             </div>
             {choosenCountry?.map((country) => {
               const isActive = country.cca2 === user?.country;
@@ -74,20 +113,11 @@ export const Countries = ({
                   data-bs-dismiss="modal"
                   aria-label="Close"
                   onClick={() => {
-                    if (country?.states) {
-                      setStates(country?.states);
-                    } else {
-                      setStates([]);
+                    if (setStates) {
+                      setStates(country?.states || [])
                     }
                     setCountry(country);
-                    setCountryFlag(country?.flag_url);
-                    setCountryCode(country?.cca2);
-                    addLocalStorageItem("country_code", country?.cca2);
-                    let newUser = user;
-                    newUser["country"] = country?.cca2;
-                    newUser["country_name"] = country?.name;
-                    dispatch(setUser(newUser));
-                    setSelectedCountry("");
+                    setSearchCountry("");
                     setShowCountries(false);
                   }}
                 >
@@ -102,24 +132,21 @@ export const Countries = ({
                       width={24}
                     />
                     <p className="m-3 decimalText countryModalDecimalText">
-                      {isMobile && !!country.phone_number_prefix && (
+                      {withCode && !!country.phone_number_prefix && (
                         <span>+{country.phone_number_prefix}</span>
                       )}
                       {country.name}
                     </p>
                   </div>
-                  {isActive && (
-                    <Image
-                      src={images.validated}
-                      alt="selected"
-                      className="oddsSelected"
-                      height={24}
-                      width={24}
-                    />
-                  )}
                 </div>
               );
             })}
+            {!choosenCountry.length && (
+              <div className="couldntFind">
+                <CrossIcon />
+                <p>{t("sign_up.couldnt_find_country")}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

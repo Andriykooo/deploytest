@@ -64,18 +64,11 @@ const HomeSkeletonComponent = ({ isLoading }) => {
                     <div key={index} className="slider-image-container">
                       <Skeleton
                         variant="rectangular"
-                        width={210}
-                        height={155}
+                        width={320}
+                        height={160}
                       />
-                      <div className="slider-text">
-                        <Skeleton
-                          variant="text"
-                          sx={{ fontSize: "1.2rem" }}
-                          className="my-2"
-                          animation="wave"
-                          key={Math.random()}
-                        />
-                        <p className="sliderTextContent">
+                      <div className="slider-item-content">
+                        <div className="slider-text">
                           <Skeleton
                             variant="text"
                             sx={{ fontSize: "1.2rem" }}
@@ -83,7 +76,16 @@ const HomeSkeletonComponent = ({ isLoading }) => {
                             animation="wave"
                             key={Math.random()}
                           />
-                        </p>
+                          <p className="sliderTextContent">
+                            <Skeleton
+                              variant="text"
+                              sx={{ fontSize: "1.2rem" }}
+                              className="my-2"
+                              animation="wave"
+                              key={Math.random()}
+                            />
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </>

@@ -5,6 +5,7 @@ import { setActiveSport } from "../../store/actions";
 import { theme } from "../../utils/config";
 import { Button } from "../button/Button";
 import { ProfileCard, SidebarProfile } from "./Styled";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const SportsSidebar = ({
   sports,
@@ -17,7 +18,7 @@ export const SportsSidebar = ({
   const isMobile = useSelector((state) => state.setMobile);
   const activeSport = useSelector((state) => state.activeSport);
   const inPlay = useSelector((state) => state.inPlay);
-  const router = useRouter();
+  const router = useCustomRouter();
   const dispatch = useDispatch();
   const isActive = true;
 

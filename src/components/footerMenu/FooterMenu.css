@@ -39,6 +39,15 @@
   height: 62px;
   text-align: center;
   align-self: center;
+  overflow: hidden;
+}
+
+.footerMenuIcon .sports-header-link {
+  overflow: hidden;
+}
+
+.footerMenuIcon .header-link {
+  display: block;
 }
 
 .footerSport {
@@ -46,8 +55,11 @@
   font-size: 12px;
   margin-top: 4px;
   font-weight: 600;
-  display: flex;
+  display: block;
   font-style: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .footerIconsDiv {

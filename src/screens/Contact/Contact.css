@@ -119,7 +119,6 @@ input:-webkit-autofill {
   padding-top: 3rem;
 }
 
-input,
 select,
 textarea {
   text-indent: 10px;

@@ -52,6 +52,7 @@ import settledDone from "../assets/images/settledDone.svg";
 import showPassIcon from "../assets/images/showPassIcon.svg";
 import soccerLogo from "../assets/images/soccerLogo.svg";
 import streamVideo from "../assets/images/streamVideo.png";
+import signInBack from "../assets/images/signInBack.svg";
 import telegramIcon from "../assets/images/telegram-icon.svg";
 import {
   default as selected,
@@ -69,22 +70,15 @@ import apple from "../assets/images/apple.svg";
 import tickIcon from "../assets/images/tickIcon.svg";
 import calendar from "../assets/images/calendar.svg";
 import dashedLine from "../assets/images/dashedLine.png";
-import numberZeroTrending from "../assets/images/numberZeroTrending.png";
-import numberTwoTrending from "../assets/images/numberTwoTrending.png";
-import numberThreeTrending from "../assets/images/numberThreeTrending.png";
-import numberSixTrending from "../assets/images/numberSixTrending.png";
-import numberSevenTrending from "../assets/images/numberSevenTrending.png";
-import numberOneTrending from "../assets/images/numberOneTrending.png";
-import numberNineTrending from "../assets/images/numberNineTrending.png";
-import numberFourTrending from "../assets/images/numberFourTrending.png";
-import numberFiveTrending from "../assets/images/numberFiveTrending.png";
-import numberEightTrending from "../assets/images/numberEightTrending.png";
+import finishAccLine from "../assets/images/finishAccLine.png";
+import unableImage from "../assets/images/unableImage.svg";
 
 export const images = {
   calendar,
   apple,
   tickIcon,
   dashedLine,
+  unableImage,
   pointer,
   unnamedFavorite,
   arrowRight,
@@ -93,6 +87,7 @@ export const images = {
   streamVideo,
   soccerLogo,
   iceHockeyLogo,
+  finishAccLine,
   openPending,
   settledDone,
   gamingReminderLogo,
@@ -101,16 +96,6 @@ export const images = {
   nextIcon,
   previousIcon,
   dotVector,
-  numberZeroTrending,
-  numberTwoTrending,
-  numberThreeTrending,
-  numberSixTrending,
-  numberSevenTrending,
-  numberOneTrending,
-  numberNineTrending,
-  numberFourTrending,
-  numberFiveTrending,
-  numberEightTrending,
   playStreamIcon,
   jackpot,
   gorillaGold,
@@ -152,6 +137,7 @@ export const images = {
   withdrawalBlack,
   betPlacedBlack,
   search,
+  signInBack,
   betCancelled,
   betPushed,
   betWon,

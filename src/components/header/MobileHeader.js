@@ -6,6 +6,7 @@ import { images } from "../../utils/imagesConstant";
 import { MenuIcon } from "./MenuIcon";
 import { MobileLoggedUser } from "./logged/MobileLoggedUser";
 import { MobileUnloggedUser } from "./unlogged/MobileUnloggedUser";
+import { CustomLink } from "../Link/Link";
 
 export const MobileHeader = ({
   page,
@@ -35,9 +36,9 @@ export const MobileHeader = ({
           />
         </div>
         <div>
-          <Link href="/">
+          <CustomLink href="/">
             <Image src={images.gamingMobile} alt="logo" />
-          </Link>
+          </CustomLink>
         </div>
         <div className="sing-up-txt mobileAccInfo">
           <div className="d-flex align-items-center">

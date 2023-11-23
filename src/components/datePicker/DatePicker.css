@@ -49,3 +49,9 @@
   background: var(--global-color-primary);
   color: var(--global-color-text-primary);
 }
+
+@media only screen and (max-width: 1024px) {
+  .datePicker .login-buttons {
+    font-size: 14px;
+  }
+}

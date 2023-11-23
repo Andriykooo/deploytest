@@ -16,6 +16,7 @@ import { images } from "../../utils/imagesConstant";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 const OpenPredictions = () => {
   const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
@@ -89,7 +90,7 @@ const OpenPredictions = () => {
     getOpenPredictions();
   }, []);
 
-  const router = useRouter();
+  const router = useCustomRouter();
   return (
     <div
       className="depositLimit predictionBody"

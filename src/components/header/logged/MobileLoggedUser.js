@@ -5,6 +5,7 @@ import { Chat } from "@/components/chat/Chat";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
 import { setSidebarRight } from "@/store/actions";
+import { CustomLink } from "@/components/Link/Link";
 
 export const MobileLoggedUser = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,9 @@ export const MobileLoggedUser = () => {
     <div className="sing-up-txt mobileAccInfo">
       <div className="d-flex align-items-center justify-content-between w-100">
         <div className="d-flex">
-          <Link href="/profile">
+          <CustomLink href="/profile">
             <ProfileIcon />
-          </Link>
+          </CustomLink>
           <div
             className="slip-icon"
             onClick={() => {

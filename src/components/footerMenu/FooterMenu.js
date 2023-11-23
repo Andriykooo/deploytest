@@ -36,46 +36,48 @@ const FooterMenu = ({ data, onClick }) => {
     .reverse();
 
   const renderFooterMenuItem = (arr) => {
-    return arr?.map((item) => {
-      if (item?.path) {
-        return (
-          <div
-            key={item.id}
-            data-id={item.id}
-            className="footerMenuIcon"
-            onClick={() => {
-              onClick(item);
-            }}
-          >
-            <LinkType
+    return arr
+      ?.filter((item) => item?.show_in_menu)
+      ?.map((item) => {
+        if (item?.path) {
+          return (
+            <div
+              key={item.id}
+              data-id={item.id}
+              className="footerMenuIcon"
               onClick={() => {
                 onClick(item);
               }}
-              className="ps-1 sports-header-link"
-              type={item.type}
-              path={item.path}
-              openType={item?.open_type}
-              modalData={{
-                slug: item.slug,
-                title: item.name,
-              }}
             >
-              <HeaderDiv
-                active={item.id === activePage?.id}
-                className={
-                  (item.id === item.id) === activePage?.id
-                    ? "header-link active"
-                    : "header-link"
-                }
+              <LinkType
+                onClick={() => {
+                  onClick(item);
+                }}
+                className="ps-1 sports-header-link"
+                type={item.type}
+                path={item.slug === "index" ? "/" : item.path}
+                openType={item?.open_type}
+                modalData={{
+                  slug: item.slug,
+                  title: item.name,
+                }}
               >
-                <Image src={item.icon} alt="page" height={24} width={24} />
-                <span className="footerSport">{item.name}</span>
-              </HeaderDiv>
-            </LinkType>
-          </div>
-        );
-      }
-    });
+                <HeaderDiv
+                  active={item.id === activePage?.id}
+                  className={
+                    (item.id === item.id) === activePage?.id
+                      ? "header-link active"
+                      : "header-link"
+                  }
+                >
+                  <Image src={item.icon} alt="page" height={24} width={24} />
+                  <span className="footerSport">{item.name}</span>
+                </HeaderDiv>
+              </LinkType>
+            </div>
+          );
+        }
+      });
   };
 
   return (

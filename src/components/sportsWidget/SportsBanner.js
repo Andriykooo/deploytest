@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { BannerMenu } from "../bannerMenu/BannerMenu";
 import { useTranslations } from "next-intl";
 
-export const SportsBanner = ({ data, title, subtitle, setData, image }) => {
+export const SportsBanner = ({
+  data,
+  title,
+  subtitle,
+  setData,
+  image,
+  disableCta,
+}) => {
   const t = useTranslations("sports");
   const [selectedFilter, setSelectedFilter] = useState({
     name: t("all_sports"),
@@ -55,6 +62,7 @@ export const SportsBanner = ({ data, title, subtitle, setData, image }) => {
       }
       setSelected={handleFilter}
       selected={selectedFilter}
+      disableCta={disableCta}
     />
   );
 };

@@ -7,6 +7,7 @@ import { setInPlay } from "../../store/actions";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 const BasketballCard = ({
   match,
   moreMarkets,
@@ -18,7 +19,7 @@ const BasketballCard = ({
   let matchSelectionsData = match?.selections;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
 
   let homeTeam = match.participants.home_name,
     awayTeam = match.participants.away_name;

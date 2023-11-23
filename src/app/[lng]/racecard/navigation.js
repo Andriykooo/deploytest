@@ -7,7 +7,6 @@ import { images } from "@/utils/imagesConstant";
 import moment from "moment";
 import Image from "next/image";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "@/components/dropdown/Dropdown";
@@ -16,6 +15,7 @@ import { apiUrl } from "@/utils/constants";
 import SkeletonComponent from "@/utils/SkeletonComponent";
 import { EventTime } from "@/components/EventTime/EventTime";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const RacecardNavigation = ({ children }) => {
   const t = useTranslations("common");
@@ -34,7 +34,7 @@ export const RacecardNavigation = ({ children }) => {
 
   const raceCard = useSelector((state) => state.raceCard);
   const params = useParams();
-  const router = useRouter();
+  const router = useCustomRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 

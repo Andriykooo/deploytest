@@ -5,11 +5,12 @@ import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useUsageTime } from "@/hooks/useUsageTime";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 const GamingReminderAlert = ({ setGamingAlert }) => {
   const t = useTranslations("common");
 
-  const router = useRouter();
+  const router = useCustomRouter();
   const isMobile = useSelector((state) => state.setMobile);
   const timdeDifference = useUsageTime();
 

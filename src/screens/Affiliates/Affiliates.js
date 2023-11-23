@@ -9,28 +9,31 @@ import { validateUserEmail } from "@/utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { setPromo, setSignUpPlatform, setUser } from "@/store/actions";
 import { alertToast } from "@/utils/alert";
 import { addLocalStorageItem } from "@/utils/localStorage";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
-import { Loader } from "@/components/loaders/Loader";
+import { Loader, PageLoader } from "@/components/loaders/Loader";
 import { useTranslations } from "next-intl";
 import { AppleLogin } from "../Login/Social/AppleLogin";
 import { GoogleLogin } from "../Login/Social/GoogleLogin";
 import { FacebookLogin } from "../Login/Social/FacebookLogin";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
-const Affiliates = ({ data, promo }) => {
+const Affiliates = ({ promo }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
   const isMobile = useSelector((state) => state.setMobile);
   const [email, setEmail] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
+
   const dispatch = useDispatch();
   const params = useSearchParams();
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const checkEmail = (e) => {
     e.preventDefault();
@@ -100,21 +103,42 @@ const Affiliates = ({ data, promo }) => {
     }
   };
 
-  useEffect(() => {
+  const fetchData = async () => {
+    const affiliatesLinks = await apiServices.get(apiUrl.GET_AFFILIATE_LINKS);
+
+    if (!affiliatesLinks.some((link) => link.slug === promo)) {
+      router.replace("/");
+      return;
+    }
+
     dispatch(setPromo(promo));
+
+    try {
+      const landingPage = await apiServices.get(apiUrl.GET_AFFILIATES, {
+        affiliate_slug: promo,
+      });
+
+      setData(landingPage);
+    } catch (e) {
+      router.replace("/login");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
-  return (
+  return data ? (
     <div className="affiliates">
       <div className="affiliatesBanner">
         <Image
-          src={isMobile ? data.mobile_image : data.desktop_image}
+          src={isMobile ? data?.mobile_image : data?.desktop_image}
           alt="hero"
           fill
         />
       </div>
       <div className="infoForCostumers">
-        <p>{data.explainer_text}</p>
+        <p>{data?.explainer_text}</p>
       </div>
       <div className="affiliatesRegister">
         <form className="registerNow" onSubmit={(e) => e.preventDefault()}>
@@ -157,18 +181,20 @@ const Affiliates = ({ data, promo }) => {
           </div>
         </form>
         <div className="offerWorks">
-          <h2 className="offerWorksTitle">{data.offer_header}</h2>
-          <div dangerouslySetInnerHTML={{ __html: data.offer_text }} />
+          <h2 className="offerWorksTitle">{data?.offer_header}</h2>
+          <div dangerouslySetInnerHTML={{ __html: data?.offer_text }} />
         </div>
       </div>
       <div
         className="affiliatesInfo"
-        dangerouslySetInnerHTML={{ __html: data.terms }}
+        dangerouslySetInnerHTML={{ __html: data?.terms }}
       />
       <div className="affiliatesFooter">
         <Footer noMenu />
       </div>
     </div>
+  ) : (
+    <PageLoader />
   );
 };
 

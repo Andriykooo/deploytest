@@ -1,3 +1,5 @@
+import { useCustomRouter } from "./useCustomRouter";
+
 const { refreshCommunicationSocket } = require("@/context/socket");
 const {
   setLoggedUser,
@@ -11,7 +13,7 @@ const { useRouter } = require("next/navigation");
 const { useSelector, useDispatch } = require("react-redux");
 
 export const useSocialLogin = (params) => {
-  const router = useRouter();
+  const router = useCustomRouter();
   const dispatch = useDispatch();
   const promo = useSelector((state) => state.promo);
 

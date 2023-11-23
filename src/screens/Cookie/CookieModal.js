@@ -10,6 +10,7 @@ import { images } from "../../utils/imagesConstant";
 import "../Cookie/Cookie.css";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { CustomLink } from "@/components/Link/Link";
 
 const CookieModal = ({ setPageModal }) => {
   const t = useTranslations("common");
@@ -37,14 +38,14 @@ const CookieModal = ({ setPageModal }) => {
     <div className="full-screen-modal">
       <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between">
         <div className="swifty-gaming">
-          <Link href="/">
+          <CustomLink href="/">
             <Image
               alt="img-GroupSwifty"
               src={isMobile ? images.gamingMobile : images.GroupSwifty}
               height={30}
               width={195}
             />
-          </Link>
+          </CustomLink>
         </div>
         <div
           className="close-full-modal-container"

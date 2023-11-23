@@ -1,14 +1,12 @@
-import Image from "next/image";
-import { images } from "../../utils/imagesConstant";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Button } from "../button/Button";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useState } from "react";
+import { images } from "../../utils/imagesConstant";
+import { Button } from "../button/Button";
+import { Countries } from "./Countries";
 export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
   const t = useTranslations();
-  const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const on_boarding = useSelector((state) => state.on_boarding);
+  const [showCountries, setShowCountries] = useState(false);
 
   return (
     <>
@@ -21,139 +19,41 @@ export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
             placeholder="Select your country of residence"
             onClick={() => {
               if (!selectedCountry?.phone_number_same_country_required) {
-                setIsOpen(true);
+                setShowCountries(true);
               }
             }}
             text={
-              <>
-                <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center">
+                <Image
+                  src={selectedCountry?.flag_url}
+                  alt="country flag"
+                  className="countriesFlags2 m-0"
+                  width={24}
+                  height={24}
+                />
+                <p className="countryName phonePrefixName">
+                  +{selectedCountry?.phone_number_prefix}
+                </p>
+                {!selectedCountry?.phone_number_same_country_required && (
                   <Image
-                    src={selectedCountry?.flag_url}
-                    alt="country flag"
-                    className="countriesFlags2 m-0"
-                    width={24}
-                    height={24}
+                    src={images.arrowIcon}
+                    alt="arrow"
+                    className="residenceArrow2"
+                    width={14}
+                    height={8}
                   />
-                  <p className="countryName phonePrefixName">
-                    +{selectedCountry?.phone_number_prefix}
-                  </p>
-                  {!selectedCountry?.phone_number_same_country_required && (
-                    <Image
-                      src={images.arrowIcon}
-                      alt="arrow"
-                      className="residenceArrow2"
-                      width={14}
-                      height={8}
-                    />
-                  )}
-                </div>
-              </>
+                )}
+              </div>
             }
           />
         </div>
       </div>
-      <div
-        className="modal show"
-        id="limitModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        style={{ display: isOpen ? "block" : "none" }}
-      >
-        <div className="modal-dialog modal-fullscreen">
-          <div className="modal-content fScreen mt-0 p-2">
-            <div className="modal-content-inside">
-              <div className="modalTitle">
-                <p className="selectCountryTitle depositModalLimit">
-                  {t("sign_up_with_phone.country_selection_prompt")}
-                </p>
-                <Image
-                  src={images.closeIcon}
-                  className="closeIconSus closeFullScreenModal"
-                  alt="Close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  width={32}
-                  height={32}
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
-                />
-              </div>
-              <div className="selectDecimal-countries d-flex searchStyle">
-                <Image
-                  src={images.search}
-                  alt="Search"
-                  className="countriesSearch"
-                  width={24}
-                  height={24}
-                />
-                <input
-                  autoFocus
-                  className="decimalText countryModalText searchField"
-                  placeholder={t("common.search")}
-                  onChange={(e) => setSearch(e.target.value)}
-                  value={search}
-                />
-              </div>
-              {on_boarding?.countries
-                ?.filter((country) => {
-                  return (
-                    country.name.toLowerCase().includes(search.toLowerCase()) ||
-                    country?.phone_number_prefix
-                      ?.toString()
-                      .includes(search.toLowerCase().replaceAll("+", ""))
-                  );
-                })
-                ?.map((country, index) => {
-                  return (
-                    <div
-                      key={index}
-                      data-id={index}
-                      className={"d-flex mb-3"}
-                      alt="Close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => {
-                        setSearch("");
-                        setIsOpen(false);
-                        setSelectedCountry(country);
-                      }}
-                    >
-                      <div className="selectDecimal-countries d-flex">
-                        <Image
-                          src={country.flag_url}
-                          alt={country.name}
-                          className="countriesFlags"
-                          width={24}
-                          height={24}
-                        />
-                        <div className="decimalText">
-                          <p className="countryModalDecimalText me-2">
-                            +{country.phone_number_prefix}
-                          </p>
-                          <p className="countryModalDecimalText">
-                            {country.name}
-                          </p>
-                        </div>
-
-                        {country.name === selectedCountry.name && (
-                          <Image
-                            src={images.validated}
-                            alt="selected"
-                            className="oddsSelected"
-                            height={24}
-                            width={24}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        </div>
-      </div>
+      <Countries
+        setCountry={setSelectedCountry}
+        showCountries={showCountries}
+        setShowCountries={setShowCountries}
+        withCode
+      />
     </>
   );
 };

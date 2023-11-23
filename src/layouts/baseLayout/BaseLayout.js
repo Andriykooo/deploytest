@@ -1,7 +1,11 @@
 "use client";
 
+import { Tooltip } from "@/components/Tooltip/Tooltip";
+import { AlertModal } from "@/components/alertModal/AlertModal";
 import Header from "@/components/header/Header";
 import { PageContentModal } from "@/components/pageContentModal/PageContentModal";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerServiceNotive";
 import ConfirmDepositLimitModal from "@/screens/DepositLimit/ConfirmDepositLimitModal";
 import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
 import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
@@ -13,13 +17,17 @@ import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
-import { v4 as uuidv4 } from "uuid";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
+import { apiUrl } from "../../utils/constants";
+import { getUserApi } from "@/utils/apiQueries";
+import moment from "moment";
 import {
   SocketContext,
   communicationSocket,
@@ -43,21 +51,15 @@ import {
   setUpdatedSelections,
   setUserStats,
 } from "../../store/actions";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import { CustomerServiceNotice } from "@/screens/CustomerServiceNotice/CustomerServiceNotive";
-import { getUserApi } from "@/utils/apiQueries";
-import { AlertModal } from "@/components/alertModal/AlertModal";
-import { useTranslations } from "next-intl";
-import { Tooltip } from "@/components/Tooltip/Tooltip";
-import moment from "moment";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { apiServices } from "@/utils/apiServices";
+import Cookies from "js-cookie";
 
 const modalList = [
   "/privacy",
   "/verification",
   "/kyc",
   "/login",
-  "/terms",
   "/affiliates",
   "/sign_up",
   "/sign_up_with_phone",
@@ -70,10 +72,23 @@ const modalList = [
   "/promo/*",
 ];
 
+const tabletHeader = [
+  "/sign_up",
+  "/login",
+  "/email_sent",
+  "/terms",
+  "/privacy",
+  "/verify_email",
+  "/finish_account_setup",
+  "/sign_up_with_phone",
+  "/forgot_password",
+];
+
 const Content = ({ children, className }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
-  const router = useRouter();
+  const router = useCustomRouter();
+  const searchParams = useSearchParams();
   const params = useParams();
   const t = useTranslations("common");
   const accessToken = getLocalStorageItem("access_token");
@@ -90,24 +105,19 @@ const Content = ({ children, className }) => {
   const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
+  const isTablet = useSelector((state) => state.isTablet);
 
   const [gamingAlert, setGamingAlert] = useState(false);
 
   const newTabId = useMemo(() => uuidv4(), []);
   const isModal = useMemo(() => {
     return modalList.some((modalPath) => {
-      let path = pathname;
-
-      if (pathname.startsWith(`/${params.lng}`)) {
-        path = pathname.replace(`/${params.lng}`, "");
-      }
-
       if (modalPath.endsWith("/*")) {
         const prefix = modalPath.slice(0, -2);
-        return path.startsWith(prefix);
+        return pathname.startsWith(prefix);
       }
 
-      return path === modalPath;
+      return pathname === modalPath;
     });
   }, [pathname]);
 
@@ -115,8 +125,9 @@ const Content = ({ children, className }) => {
     (params?.path &&
       !header?.some((page) => page.path.substring(1) == params?.path)) ||
     pathname === "/not_found" ||
-    pathname === `/${params.lng}/error` ||
-    pathname === "/customer_service_notice";
+    pathname === "/error" ||
+    pathname === "/customer_service_notice" ||
+    (isTablet && tabletHeader.includes(searchParams.get("modal") || pathname));
 
   const getSportTypes = () => {
     axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
@@ -174,6 +185,8 @@ const Content = ({ children, className }) => {
     if (loggedUser && accessToken) {
       getUserData();
     }
+
+    Cookies.set("language", params.lng);
 
     apiServices
       .get(apiUrl.GET_SETTINGS)
@@ -248,6 +261,16 @@ const Content = ({ children, className }) => {
           apiServices.get(apiUrl.USER_STATS).then((response) => {
             dispatch(setUserStats(response));
           });
+
+          dispatch(
+            setLoggedUser({
+              ...loggedUser,
+              user_data: {
+                ...loggedUser.user_data,
+                kyc_status: response.kyc_status,
+              },
+            })
+          );
           break;
 
         case "bet_ticker":
@@ -476,7 +499,7 @@ const Content = ({ children, className }) => {
         <AlertModal />
         <PrivacyConfirmModal />
         <TermsConfirmModal />
-        <PageContentModal />
+        <PageContentModal disableHeader={disableHeader} />
         <Tooltip />
         {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
         {accessToken &&
@@ -490,7 +513,7 @@ const Content = ({ children, className }) => {
               loggedUser && isVerifyMessage && !disableHeader && !isModal,
           })}
         >
-          <Header isModal={isModal} />
+          <Header isModal={isModal} disableHeader={disableHeader} />
           {children}
         </div>
       </SocketContext.Provider>
@@ -499,7 +522,7 @@ const Content = ({ children, className }) => {
 };
 
 export const BaseLayout = (props) => {
-  const pathname = usePathname();
+  const { pathname } = useClientPathname();
 
   return (
     <>

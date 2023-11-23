@@ -7,6 +7,7 @@ import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
 import { ProfileCard, SidebarProfilMenu } from "./Styled";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "../Link/Link";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -29,7 +30,7 @@ export const ProfileSidebar = ({
             return (
               <div key={index} className="borderProfile">
                 {sideBarMenu && (
-                  <Link href={value.route} key={index} data-id={index}>
+                  <CustomLink href={value.route} key={index} data-id={index}>
                     {/* In the mobile version there shouldn't be any active menu items */}
                     <ProfileCard
                       active={
@@ -71,7 +72,7 @@ export const ProfileSidebar = ({
                         )}
                       </div>
                     </ProfileCard>
-                  </Link>
+                  </CustomLink>
                 )}
               </div>
             );

@@ -4,19 +4,23 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import "../ForgotPassword/ForgotPassword.css";
 import "../../components/passwordFields/PasswordFields.css";
+import Image from "next/image";
+import { images } from "@/utils/imagesConstant";
 
 const ForgotPassword = () => {
   const t = useTranslations("forgot_password");
+  const router = useRouter();
   const { onLoginSuccess, onLoginError } = useLoginCallbacks();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,10 +49,18 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="signInImage forgotPassword">
-      <div className="loginForm p-4">
-        <p className="logInTitle">{t("create_new_password")}</p>
+    <div className="signInImage">
+      <Image
+        alt="back"
+        src={images.signInBack}
+        className="signInBack"
+        width={24}
+        height={24}
+        onClick={() => router.back()}
+      />
+      <div className="loginForm goingBack">
         <PasswordFields
+          title={t("create_new_password")}
           isLoading={isLoading}
           handleSubmit={handleSubmit}
           newPassword={newPassword}

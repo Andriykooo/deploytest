@@ -13,6 +13,7 @@ export const BannerMenu = ({
   setSelected,
   callToActinButton,
   defaultItem,
+  disableCta,
 }) => {
   const handleClick = (item) => {
     setSelected(selected?.slug === item.slug ? defaultItem : item);
@@ -51,7 +52,7 @@ export const BannerMenu = ({
             );
           })}
         </div>
-        {callToActinButton?.name && (
+        {!disableCta && callToActinButton?.name && (
           <LinkType
             type={callToActinButton?.type}
             path={callToActinButton?.path}

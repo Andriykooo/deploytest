@@ -13,6 +13,7 @@ import "../SaferGambling/SaferGambling.css";
 import "../Withdraw/Withdraw.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "@/components/Link/Link";
 export const SaferGambling = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ export const SaferGambling = () => {
             {saferGambling.map((row, index) => {
               return (
                 <div className="infoDiv saferInfo mb-3" key={index}>
-                  <Link href={row.link}>
+                  <CustomLink href={row.link}>
                     <p className="saferTitle">{row.title}</p>
                     {!isTablet && <p className="saferMessage">{row.desc}</p>}
                     <Image
@@ -77,7 +78,7 @@ export const SaferGambling = () => {
                       src={images.arrowIcon}
                       className="profileArrow"
                     />
-                  </Link>
+                  </CustomLink>
                 </div>
               );
             })}

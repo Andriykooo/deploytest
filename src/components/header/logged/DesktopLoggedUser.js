@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import { useTranslations } from "next-intl";
 import { setSidebarRight } from "@/store/actions";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const DesktopLoggedUser = () => {
   const t = useTranslations("header");
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const betslipResponse = useSelector((state) => state.betslipResponse);
   const sidebarRight = useSelector((state) => state.sidebarRight);
-  const isMobile = useSelector((state) => state.setMobile);
 
   const user = useSelector((state) => state.loggedUser);
   const userBalance = user.user_data.balance;

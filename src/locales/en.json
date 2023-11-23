@@ -30,10 +30,24 @@
     "game": "game",
     "minimum_bet": "Minimum Bet:",
     "maximum_bet": "Maximum Bet:",
+    "min_bet": "Min Bet",
+    "max_bet": "Max Bet",
+    "rtp": "RTP",
+    "reels": "Reels",
+    "lines": "Lines",
+    "volatility": "Volatility",
     "return_to_player": "Return to player:",
     "game_added_to_favorites": "Game added to favorites!",
     "game_removed_from_favorites": "Game removed from favorites!",
+    "there_are_no_games_available": "There are no games available !",
     "view_all": "View All"
+  },
+  "chat": {
+    "chat": "Chat",
+    "live_chat": "Live Chat",
+    "please": "Please",
+    "log_in": "Log In",
+    "to_send_a_message": "to send a message to us!"
   },
   "common": {
     "play_now": "Play Now",
@@ -69,6 +83,7 @@
     "set_limit": "Set limit",
     "not_set": "Not set",
     "open": "Open",
+    "unable_to_preview": "Unable to preview",
     "all": "All",
     "and": "and",
     "stake": "Stake",
@@ -126,11 +141,9 @@
     "enter_current_password": "Enter current password",
     "max_password_length_256_chars": "Maximum length of password must be 256 characters",
     "page_content_not_found": "Page content not found",
-    "live_chat": "Live Chat",
     "sport_not_found": "We could not find the sport.",
     "send_message": "Send a message...",
     "less": "LESS",
-    "chat": "Chat",
     "any": "Any",
     "cash_out": "CASH OUT",
     "confirm_cash_out": "CONFIRM CASH OUT",
@@ -265,7 +278,8 @@
   },
   "email_sent": {
     "email_sent": "E-mail sent",
-    "check_inbox_open_link_to_continue": "Check your inbox and open the link we sent to continue"
+    "check_inbox_open_link_to_continue": "Check your inbox and open the link we sent to continue",
+    "open_email_app": "Open e-mail app"
   },
   "finish_account_setup": {
     "country_laws_require_details": "Your country's laws require us to get some more details before we start.",
@@ -274,6 +288,7 @@
     "upload_identity_document": "Upload identity document",
     "selfie_verification": "Selfie verification (photo time!)",
     "upload_proof_of_address": "Upload proof of address",
+    "required_documents": "Required documents",
     "swifty_app_identity_confirmation": "To use the Swifty app we need to confirm your identity. Country laws and/or gambling license rules require Swifty to perform customer due diligence before a player is allowed to use our platform. At a minimum, we are required to verify customer names, addresses and date of births. These checks are aimed at helping prevent harm on gaming platforms and to stop crime."
   },
   "forgot_password": {
@@ -450,13 +465,18 @@
     "enter_first_name": "Enter your first name",
     "enter_last_name": "Enter your last name",
     "country_of_residence": "Country of residence",
-    "date_of_birth": "Date of Brith",
+    "state_or_province": "State or Province",
+    "select_state_or_province": "Select state or province",
+    "date_of_birth": "Date of Birth",
     "enter_date_of_birth": "Enter your date of birth",
     "state_province": "State / Province",
     "new_user_setup": "New here? Let's get you setup",
     "select_state_province": "Select state or province",
     "read_and_agree": "I have read, and agree to the",
-    "more_information_required_question": "Want more information on why this is required?"
+    "more_information_required_question": "Want more information on why this is required?",
+    "save": "Save",
+    "legal_age_to_proceed": "Must be of legal age to proceed",
+    "couldnt_find_country": "Unfortunately, we couldn’t find this country. Please try again."
   },
   "sign_up_with_phone": {
     "add_mobile_number": "Add your mobile number",

@@ -8,7 +8,7 @@ import "./SportsTable.css";
 import { useTranslations } from "next-intl";
 import { Accordion } from "@/components/Accordion/Accordions";
 
-export const SportsTable = ({ data, type }) => {
+export const SportsTable = ({ data, type, disableCta }) => {
   const t = useTranslations("common");
   const isTablet = useSelector((state) => state.isTablet);
   const [sports, setSports] = useState(data.sports);
@@ -22,6 +22,7 @@ export const SportsTable = ({ data, type }) => {
           setData={setSports}
           data={data}
           image={data?.header_banner}
+          disableCta={disableCta}
         />
       )}
       {sports.length > 0 ? (

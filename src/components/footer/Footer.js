@@ -12,7 +12,7 @@ import Seal from "./Seal";
 import { apiServices } from "@/utils/apiServices";
 import { setFooter } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import classNames from "classnames";
 
 export const preselectedColumns = ["/terms", "/privacy"];
@@ -24,7 +24,8 @@ export const Footer = ({ noMenu }) => {
   const isTablet = useSelector((state) => state.isTablet);
   const footer = useSelector((state) => state.footer);
   const [isMounted, setIsMounted] = useState(false);
-
+  const pathName = usePathname();
+  const casinoPage = pathName.includes('/casino');
   useEffect(() => {
     setIsMounted(true);
 
@@ -50,7 +51,7 @@ export const Footer = ({ noMenu }) => {
       {isMounted && (
         <Helmet>{parse(footer.data.footer_row2?.header || "")}</Helmet>
       )}
-      <footer className={classNames("footer-container-div", { pwa: isPWA })}>
+      <footer className={classNames("footer-container-div", { pwa: isPWA }, {casinoPage: casinoPage})}>
         <div className="pt-5 footerContainerMenu">
           {isTablet ? (
             <div className="mobileVersionLinks row">

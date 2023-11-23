@@ -16,6 +16,7 @@ import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";
 import "../SettledPredictions/SettledPredictions.css";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 const SettledPredictions = () => {
   const t = useTranslations("common");
   const skeletonHeader = new Array(4).fill(0);
@@ -24,7 +25,7 @@ const SettledPredictions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [closedPredictions, setClosedPredictions] = useState([]);
   const isMobile = useSelector((state) => state.setMobile);
-  const router = useRouter();
+  const router = useCustomRouter();
 
   const getDate = (date) => {
     const weekday = new Array(7);

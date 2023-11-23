@@ -1,14 +1,13 @@
 import {
   useParams,
   usePathname,
-  useRouter,
   useSearchParams,
 } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../context/socket";
-import { XIcon } from "../../utils/icons";
+import { CloseIcon, XIcon } from "../../utils/icons";
 import { HtmlParse } from "../htmlParse/HtmlParse";
-import { Loader } from "../loaders/Loader";
+import { PageLoader } from "../loaders/Loader";
 import "./PageContentModal.css";
 import { Logo } from "../logo/Logo";
 import { alertToast } from "@/utils/alert";
@@ -16,11 +15,13 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+import classNames from "classnames";
 
-export const PageContentModal = () => {
+export const PageContentModal = ({ disableHeader }) => {
   const { gamingSocket } = useContext(SocketContext);
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useCustomRouter();
   const pathname = usePathname();
   const params = useParams();
   const loggedUser = useSelector((state) => state.loggedUser);
@@ -88,18 +89,31 @@ export const PageContentModal = () => {
 
   return (
     contentSlug && (
-      <div className="scrollable-modal content-modal">
-        <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between content-navBar">
-          <div className="swifty-gaming">
-            <Logo />
+      <div className={classNames("scrollable-modal content-modal", {
+        disableHeader: disableHeader
+      })}>
+        {disableHeader ?
+          (
+            <div className="closeModal">
+              <CloseIcon onClick={close} />
+            </div>
+          ) : (
+            <nav className="navbar navbar-expand-lg container-fluid p-0 d-flex justify-content-between content-navBar">
+              <div className="swifty-gaming">
+                <Logo />
+              </div>
+              <div className="close-full-modal-container" onClick={close}>
+                <XIcon />
+              </div>
+            </nav>
+          )}
+        {loader ? (
+          <PageLoader />
+        ) : (
+          <div className="page-content-modal">
+            <HtmlParse html={content} title={title} />
           </div>
-          <div className="close-full-modal-container" onClick={close}>
-            <XIcon />
-          </div>
-        </nav>
-        <div className="page-content-modal">
-          {loader ? <Loader /> : <HtmlParse html={content} title={title} />}
-        </div>
+        )}
       </div>
     )
   );

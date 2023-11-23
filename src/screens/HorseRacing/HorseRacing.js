@@ -12,6 +12,7 @@ import { EventTime } from "@/components/EventTime/EventTime";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import { CustomLink } from "@/components/Link/Link";
 
 export const HorseRacing = ({ sportContent, slug }) => {
   const t = useTranslations("common");
@@ -57,45 +58,53 @@ export const HorseRacing = ({ sportContent, slug }) => {
     );
   });
 
-  const regionsData = [];
+  const getRegions = () => {
+    const data = [];
 
-  for (const region of sportContent?.regions) {
-    const filteredRegion = {
-      name: region.name,
-      availabilities: region.availabilities.filter(
-        (availability) => availability === regionsDay
-      ),
-      meetings: [],
-    };
+    if (sportContent?.regions) {
+      for (const region of sportContent.regions) {
+        const filteredRegion = {
+          name: region.name,
+          availabilities: region.availabilities.filter(
+            (availability) => availability === regionsDay
+          ),
+          meetings: [],
+        };
 
-    for (const meeting of region.meetings) {
-      const filteredMeeting = {
-        name: meeting.name,
-        availabilities: meeting.availabilities.filter(
-          (availability) => availability === regionsDay
-        ),
-        events: meeting.events.filter((event) =>
-          event.availabilities.includes(regionsDay)
-        ),
-      };
+        for (const meeting of region.meetings) {
+          const filteredMeeting = {
+            name: meeting.name,
+            availabilities: meeting.availabilities.filter(
+              (availability) => availability === regionsDay
+            ),
+            events: meeting.events.filter((event) =>
+              event.availabilities.includes(regionsDay)
+            ),
+          };
 
-      if (
-        filteredMeeting.availabilities.length > 0 ||
-        filteredMeeting.events.length > 0
-      ) {
-        filteredRegion.meetings.push(filteredMeeting);
+          if (
+            filteredMeeting.availabilities.length > 0 ||
+            filteredMeeting.events.length > 0
+          ) {
+            filteredRegion.meetings.push(filteredMeeting);
+          }
+        }
+
+        if (
+          filteredRegion.availabilities.length > 0 ||
+          filteredRegion.meetings.length > 0
+        ) {
+          data.push(filteredRegion);
+        }
       }
     }
 
-    if (
-      filteredRegion.availabilities.length > 0 ||
-      filteredRegion.meetings.length > 0
-    ) {
-      regionsData.push(filteredRegion);
-    }
-  }
+    return data;
+  };
 
-  const marketOptions = sportContent.market_options.filter((market) => {
+  const regionsData = getRegions();
+
+  const marketOptions = sportContent?.market_options?.filter((market) => {
     return market.availabilities.includes(eventsDay);
   });
 
@@ -180,7 +189,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                           key={index}
                           className="matchCardRow2 matchCardRowWidth"
                         >
-                          <Link
+                          <CustomLink
                             className="matchTeam matchTeam2"
                             href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
                               meeting.events[0].event_id
@@ -188,7 +197,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                           >
                             {meeting.name}
                             <Image src={images.arrowIcon} alt="arrow" />
-                          </Link>
+                          </CustomLink>
                           <div className="meeting-events">
                             {meeting.events && meeting.events.length > 0 ? (
                               (meeting.events.length > 8
@@ -200,7 +209,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                                   )
                               ).map((currentEvent, index) => {
                                 return (
-                                  <Link
+                                  <CustomLink
                                     key={index}
                                     className={classNames("countriesItem", {
                                       "pe-none": !currentEvent?.event_id,
@@ -214,7 +223,7 @@ export const HorseRacing = ({ sportContent, slug }) => {
                                     }
                                   >
                                     <EventTime data={currentEvent} />
-                                  </Link>
+                                  </CustomLink>
                                 );
                               })
                             ) : (

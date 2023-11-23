@@ -15,9 +15,11 @@ import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+
 export const SidebarLeft = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useCustomRouter();
   const pathname = usePathname();
   const t = useTranslations("common");
 

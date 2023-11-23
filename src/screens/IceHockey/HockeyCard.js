@@ -7,6 +7,7 @@ import { theme } from "../../utils/config";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 const HockeyCard = (props) => {
   const t = useTranslations("common");
   const { match, firstRow, id, inPlay } = props;
@@ -15,7 +16,7 @@ const HockeyCard = (props) => {
   let homeTeam = match.participants[0].name,
     awayTeam = match.participants[1].name;
 
-  const router = useRouter();
+  const router = useCustomRouter();
   const handleClickRow = () => {
     router.push(`/match/${match.event_id}`);
     if (inPlay) {

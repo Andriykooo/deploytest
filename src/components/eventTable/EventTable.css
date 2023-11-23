@@ -188,11 +188,11 @@
   gap: 4px;
 }
 
-.racingBody > .casinoMenu {
+.racingBody>.casinoMenu {
   margin-top: -75px !important;
 }
 
-.horse-matches > .carousel-wrapper > .carousel-list {
+.horse-matches>.carousel-wrapper>.carousel-list {
   gap: 0px;
   padding: 0;
   border-radius: 4px;
@@ -224,7 +224,8 @@
 }
 
 .events-contents-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   width: 100%;
 }
 
@@ -238,13 +239,6 @@
   transform: rotate(90deg);
 }
 
-@media (max-width: 576px) {
-  .horse-matches .small-arrows svg,
-  .horse-matches .slick-arrow {
-    width: 26px;
-    height: 26px;
-  }
-}
 @media (max-width: 600px) {
   .events-contents-container {
     grid-template-columns: 1fr;
@@ -258,5 +252,14 @@
   .horse-container {
     min-width: 240px;
     width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .horse-matches .small-arrows svg,
+  .horse-matches .slick-arrow {
+    width: 26px;
+    height: 26px;
   }
 }

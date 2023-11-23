@@ -7,10 +7,12 @@ import { useRouter } from "next/navigation";
 import { useLayoutEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/logo/Logo";
+import { CustomLink } from "@/components/Link/Link";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const NotFoundScreen = () => {
   const t = useTranslations("not_found");
-  const router = useRouter();
+  const router = useCustomRouter();
 
   useLayoutEffect(() => {
     router.replace("/not_found");
@@ -27,7 +29,7 @@ export const NotFoundScreen = () => {
           <p className="error-title">{t("oops_exclamation")}</p>
           <p className="error-description">{t("page_not_found")}</p>
           <div className="error-page-navigation">
-            <Link href="/">
+            <CustomLink href="/">
               <button className="btnPrimary error-page-navigation-button">
                 {t("go_to_homepage")}
                 <Image
@@ -38,7 +40,7 @@ export const NotFoundScreen = () => {
                   alt="arrow"
                 />
               </button>
-            </Link>
+            </CustomLink>
           </div>
         </div>
       </div>

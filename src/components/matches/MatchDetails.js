@@ -23,7 +23,7 @@ const MatchDetails = ({ data, id }) => {
     { key: "key2", label: `${t("common.notification")} 2`, status: true },
   ]);
 
-  const markets = data?.markets?.length >= 1 ? data?.markets : []; // groupObjectsBySameValue(data?.markets) : [];
+  const markets = data?.markets?.length >= 1 ? data?.markets : []; 
 
   const [filteredMarkets, setFilteredMarkets] = useState(markets);
 

@@ -5,8 +5,7 @@
 
 .affiliatesBanner {
   width: 100%;
-  aspect-ratio: 16/9;
-  max-height: 598px;
+  height: 598px;
   position: relative;
 }
 

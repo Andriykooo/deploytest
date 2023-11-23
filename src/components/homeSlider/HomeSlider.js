@@ -5,7 +5,6 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Fragment } from "react";
 import Slider from "react-slick";
-import "swiper/css";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
 import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
@@ -30,7 +29,7 @@ const HomeSlider = ({
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     arrows: !isLoading,
-    centerMode: true,
+    centerMode: false,
     responsive: [
       {
         breakpoint: 390,
@@ -71,15 +70,15 @@ const HomeSlider = ({
                     : "slider-image-container"
                 }
               >
-          
-                  <>
-                    <Image
-                      src={carouselItem?.details?.image}
-                      alt="slider-img"
-                      priority
-                      height={190}
-                      width={280}
-                    />
+                <>
+                  <Image
+                    src={carouselItem?.details?.image}
+                    alt="slider-img"
+                    priority
+                    height={160}
+                    width={320}
+                  />
+                  <div className="slider-item-content">
                     <div className="slider-text">
                       {carouselItem?.details?.title}
                       <p className="sliderTextContent">
@@ -111,7 +110,8 @@ const HomeSlider = ({
                           </LinkType>
                         )}
                     </div>
-                  </>
+                  </div>
+                </>
               </div>
             </Fragment>
           );
