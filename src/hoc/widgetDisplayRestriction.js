@@ -2,7 +2,7 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 
 export const widgetDisplayRestriction = (WrappedComponent) => {
-  return (props) => {
+  return function WidgetDisplayRestriction(props) {
     const currentTime = useSelector((state) => state.currentTime);
     const time = moment(currentTime);
     const widgetEndDate = moment(props?.data?.publish_stop_date_time);

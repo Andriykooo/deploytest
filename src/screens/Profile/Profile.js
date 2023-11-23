@@ -3,7 +3,6 @@
 import { addLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LoaderXs, PageLoader } from "../../components/loaders/Loader";
@@ -195,6 +194,7 @@ const Profile = () => {
             <div className="limitDivs">
               {limits.map((limit) => (
                 <LimitChart
+                  key={limit.name}
                   title={limit.name}
                   used={limit.used_amount}
                   amount={limit.amount}
