@@ -1,114 +1,127 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AutocompleteSelect } from "@/components/custom/AutocompleteSelect";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import Matches from "../../components/matches/Matches";
-import { TabsSelect } from "@/components/tabsSelect/TabsSelect";
-import { SocketContext } from "@/context/socket";
 import SkeletonComponent from "../../utils/SkeletonComponent";
-import "../Home/Home.css";
-import "../Sports/Sports.css";
-import classNames from "classnames";
+import { TabsSelect } from "@/components/tabsSelect/TabsSelect";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { SportHeader } from "@/components/SportHeader/SportHeader";
+import { gamingSocket } from "@/context/socket";
+import { setSportContent } from "@/store/actions";
+import "../Home/Home.css";
+import "../Sports/Sports.css";
 
-export const Sport = ({ sportContent, setSportContent, slug }) => {
+export const Sport = ({ initialMarket }) => {
   const t = useTranslations();
-  const { gamingSocket } = useContext(SocketContext);
-  const isMobile = useSelector((state) => state.setMobile);
+  const dispatch = useDispatch();
   const params = useParams();
+
+  const isMobile = useSelector((state) => state.setMobile);
+  const activeSport = useSelector((state) => state.activeSport);
+  const data = useSelector((state) => state.sportContent);
 
   const [filterIsLoading, setFilterIsLoading] = useState(false);
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedMarket, setSelectedMarket] = useState(
-    sportContent?.market_options?.[0]
-  );
+  const [selectedMarket, setSelectedMarket] = useState(initialMarket);
 
-  const name = useMemo(() => sportContent?.name, []);
-  const marketOptions = useMemo(() => sportContent?.market_options, []);
+  const sportContent = data?.[params?.slug]?.[selectedMarket?.market_id];
+
+  const name = sportContent?.name || activeSport?.name;
+  const marketOptions = sportContent?.market_options;
 
   const fetchMarketData = (foundMarket) => {
-    setFilterIsLoading(true);
-    setSelectedMarket(foundMarket);
+    if (!data[params?.slug][foundMarket.market_id]) {
+      setFilterIsLoading(true);
+    }
 
     gamingSocket?.emit(
       "sport_content",
       {
-        value: slug,
+        value: params.slug,
         market_id: foundMarket.market_id,
         country: params.lng,
       },
       (response) => {
+        setSelectedMarket(foundMarket);
+
         setFilterIsLoading(false);
-        setSportContent(response.data);
+        dispatch(
+          setSportContent({
+            ...data,
+            [params.slug]: {
+              ...data[params.slug],
+              [foundMarket.market_id]: response.data,
+            },
+          })
+        );
       }
     );
   };
 
-  const isEmpty = !filterIsLoading && !sportContent?.competitions?.length;
-
   return (
-    <div
-      className={classNames("sport-container", {
-        "sport-container-empty": isEmpty,
-      })}
-    >
-      {name && (
-        <div className="sport-competitions mx-3 mt-3">
-          <div className="sport-competitions-head">
+    <div className="sport-container">
+      <div className="sport-header">
+        <SportHeader
+          headerContent={
             <label className="sport-name">{name?.toUpperCase()}</label>
-          </div>
-          <div className="autoCompleteMultipleInRow mt-2">
-            <AutocompleteSelect
-              placeholder={t("sports.competitions")}
-              data={
-                sportContent?.competitions?.map((competition) => ({
-                  label: competition.name,
-                  id: competition.id,
-                })) || []
-              }
-              onSelect={(item) => {
-                setSelectedCompetition(item?.id);
-              }}
-            />
-
-            {slug !== "horseracing" && (
+          }
+        >
+          {sportContent?.competitions?.length > 0 && (
+            <div className="autoCompleteMultipleInRow">
               <AutocompleteSelect
-                placeholder={t("common.region")}
+                placeholder={t("sports.competitions")}
                 data={
-                  sportContent?.regions?.map((region, index) => ({
-                    label: region.name,
-                    id: index,
+                  sportContent?.competitions?.map((competition) => ({
+                    label: competition.name,
+                    id: competition.id,
                   })) || []
                 }
                 onSelect={(item) => {
-                  setSelectedRegion(item?.label);
+                  setSelectedCompetition(item?.id);
                 }}
               />
-            )}
-          </div>
-        </div>
-      )}
-      {marketOptions?.length > 0 && (
-        <div className="mx-3">
-          <TabsSelect
-            data={marketOptions?.map((market) => ({
-              label: market.market_name,
-              id: market.market_id,
-            }))}
-            selectedItemId={selectedMarket?.id}
-            onChange={(selectedItem) => {
-              const foundMarket = marketOptions?.find((market) => {
-                return market.market_id === selectedItem.id;
-              });
-              fetchMarketData(foundMarket);
-            }}
-            placeholder={t("in_play.select_market")}
-            variant={marketOptions?.length > 7 ? "scrollable" : "fullWidth"}
-          />
-        </div>
-      )}
+
+              {params.slug !== "horseracing" && (
+                <AutocompleteSelect
+                  placeholder={t("common.region")}
+                  data={
+                    sportContent?.regions?.map((region, index) => ({
+                      label: region.name,
+                      id: index,
+                    })) || []
+                  }
+                  onSelect={(item) => {
+                    setSelectedRegion(item?.label);
+                  }}
+                />
+              )}
+            </div>
+          )}
+          {marketOptions?.length > 0 && (
+            <div>
+              <TabsSelect
+                data={marketOptions?.map((market) => ({
+                  label: market.market_name,
+                  id: market.market_id,
+                }))}
+                selectedItemId={selectedMarket?.market_id}
+                onChange={(selectedItem) => {
+                  const foundMarket = marketOptions?.find((market) => {
+                    return market.market_id === selectedItem.id;
+                  });
+                  fetchMarketData(foundMarket);
+                }}
+                placeholder={t("in_play.select_market")}
+                variant={marketOptions?.length > 7 ? "scrollable" : "fullWidth"}
+              />
+            </div>
+          )}
+        </SportHeader>
+      </div>
+
       {filterIsLoading && <SkeletonComponent isMobile={isMobile} />}
       {!filterIsLoading && (
         <>
@@ -128,7 +141,7 @@ export const Sport = ({ sportContent, setSportContent, slug }) => {
               )}
               marketOptions={sportContent?.market_options}
               inPlay={false}
-              type={slug}
+              type={params.slug}
             />
           ) : (
             <EmptyState message={t("sports.no_games_available")} />

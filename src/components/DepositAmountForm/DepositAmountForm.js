@@ -1,11 +1,10 @@
 import PreferencesTitle from "../preferencesTitle/PreferencesTitle";
-import "../DepositAmountForm/DepositAmountForm.css";
-import { depositAmounts, depositAmountsOnMobile } from "@/utils/constants";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
+import "../DepositAmountForm/DepositAmountForm.css";
 
 const DepositAmountForm = ({ setAmount, amount, onSetAmount, isLoading }) => {
   const t = useTranslations();

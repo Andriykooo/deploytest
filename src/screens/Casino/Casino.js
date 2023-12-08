@@ -1,11 +1,11 @@
 "use client";
 
-import { Footer } from "@/components/footer/Footer";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { CasinoPlayNow } from "../../components/modal/CasinoPlayNow";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./Casino.css";
+
 export const CasinoPage = ({ game }) => {
   const t = useTranslations("casino");
   const router = useCustomRouter();

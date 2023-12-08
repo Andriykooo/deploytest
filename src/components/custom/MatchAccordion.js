@@ -4,9 +4,7 @@ import { MarketOptions } from "../matches/MarketOptions";
 import MatchCard from "../matches/MatchCard";
 import { Accordion } from "../Accordion/Accordions";
 
-const matchTypes = ["basketball", "icehockey"];
-
-export const MatchAccordion = ({ row, type, inPlay, number }) => {
+export const MatchAccordion = ({ row, inPlay, number }) => {
   const isTablet = useSelector((state) => state.isTablet);
 
   const selectionTypes = [...row.events]
@@ -23,28 +21,12 @@ export const MatchAccordion = ({ row, type, inPlay, number }) => {
       className="accordionContainer"
       active={number === 1}
     >
-      {!isTablet && type !== "icehockey" && (
-        <MarketOptions options={selectionTypes} />
-      )}
+      {!isTablet && <MarketOptions options={selectionTypes} />}
       <div className="matchContainer">
-        {row?.events.map((row, index) => {
-          let moreMarkets = false;
-          let firstRow = false;
-          if (row?.selections) {
-            if (row?.selections?.length > 3) {
-              moreMarkets = true;
-            } else {
-              moreMarkets = false;
-            }
-          }
-          if (index === 0) {
-            firstRow = true;
-          }
-
-          moreMarkets = false;
+        {row?.events.map((row) => {
           return (
             <React.Fragment key={row.id}>
-              <MatchCard match={row} key={index} inPlay={inPlay} />
+              <MatchCard match={row} inPlay={inPlay} />
             </React.Fragment>
           );
         })}

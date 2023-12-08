@@ -1,10 +1,8 @@
 "use client";
 
-import { addLocalStorageItem } from "@/utils/localStorage";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import { setPromo, setSignUpPlatform, setUser } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
@@ -14,7 +12,6 @@ import {
   validateUserEmail,
   validateUserPassword,
 } from "../../utils/validation";
-import "../Login/Login.css";
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
@@ -22,8 +19,9 @@ import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
+import "../Login/Login.css";
 
-const Login = ({ setShowConfirm, loginCallback, className }) => {
+const Login = ({ setShowConfirm, loginCallback, className, back }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
@@ -105,11 +103,9 @@ const Login = ({ setShowConfirm, loginCallback, className }) => {
           }
         } else {
           let newUser = {};
-          Object.assign(newUser, user);
           newUser["email"] = email;
           newUser["device_id"] = device_id;
           dispatch(setUser(newUser));
-          addLocalStorageItem("IsLogged", "not_logged");
           router.push("/sign_up");
         }
       })
@@ -173,14 +169,17 @@ const Login = ({ setShowConfirm, loginCallback, className }) => {
   return (
     <div className={className}>
       <div>
-        <Image
-          alt="back"
-          src={images.signInBack}
-          className="signInBack"
-          width={24}
-          height={24}
-          onClick={() => router.back()}
-        />
+        {back && (
+          <Image
+            alt="back"
+            src={images.signInBack}
+            className="signInBack"
+            width={24}
+            height={24}
+            onClick={() => router.back()}
+          />
+        )}
+
         {isVerified ? (
           <LoginPassword
             newUser={newUser}
@@ -207,6 +206,7 @@ const Login = ({ setShowConfirm, loginCallback, className }) => {
             setEmail={setEmail}
             setIsLoading={setIsLoading}
             setIsValid={setIsValid}
+            loginCallback={loginCallback}
           />
         )}
       </div>

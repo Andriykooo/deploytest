@@ -8,21 +8,22 @@ export const BetSlipAds = () => {
 
   return sidebarRight?.data?.show_bet_holder ? (
     <div id="bet-holder" className="bet-holder">
-      {sidebarRight?.data?.betslips.map((betslip, index) => {
+      {sidebarRight?.data?.betslips?.map((betslip) => {
         if (betslip.promo_type === "dynamic") {
           return (
-            <div className="betslip-add" key={index}>
+            <div className="betslip-add" key={betslip.id}>
               <Image
-                src={betslip.media.path}
-                alt={betslip.media.path}
-                height={305}
-                width={301}
+                src={betslip.image}
+                alt={betslip.title}
+                height={294}
+                width={290}
                 priority
+                className="w-100"
               />
               <div className="dynamic-betslip">
                 <DynamicSelections
-                  selections={betslip.buttons}
-                  eventId={betslip.link_details.event_id}
+                  selections={betslip.button.selections}
+                  eventId={betslip.button.event_id}
                 />
               </div>
             </div>
@@ -32,21 +33,21 @@ export const BetSlipAds = () => {
         if (betslip.promo_type === "default") {
           return (
             <LinkType
-              type={betslip.link_details.type}
-              path={betslip.link_details.path}
-              openType={betslip.link_details?.open_type}
+              type={betslip.link_type}
+              path={betslip.button.link}
+              openType={betslip?.open_type}
               modalData={{
-                slug: betslip?.link_details?.path?.substring(1),
+                slug: betslip.button.link.substring(1),
                 title: betslip.title,
               }}
-              key={index}
+              key={betslip.id}
             >
               <Image
                 className="betslip-add"
-                src={betslip.media.path}
-                alt={betslip.media.path}
-                height={305}
-                width={301}
+                src={betslip.image}
+                alt={betslip.title}
+                height={294}
+                width={290}
                 priority
               />
             </LinkType>

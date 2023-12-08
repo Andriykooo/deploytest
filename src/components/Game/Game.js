@@ -14,11 +14,14 @@ import {
 import { CasinoPlayNow } from "../modal/CasinoPlayNow";
 import { addToFavouriteGames, removeFromFavouriteGames } from "@/store/actions";
 import { useTranslations } from "next-intl";
-import { GAME_INFO_HEIGHT, GAME_INFO_WIDTH } from "./GameInfoModal";
-import { CasinoLogin } from "../modal/CasinoLogin";
-import { usePathname, useRouter } from "next/navigation";
+import { CasinoLogin } from "../modal/CasinoLogin/CasinoLogin";
 import { images } from "@/utils/imagesConstant";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import { useParams } from "next/navigation";
+
+const GAME_INFO_WIDTH = 268;
+const GAME_INFO_HEIGHT = 248;
 
 export const Game = ({
   game,
@@ -26,21 +29,25 @@ export const Game = ({
   number,
   modalInfoId,
   showModalInfo,
-  heroGames
+  heroGames,
 }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
+  const router = useCustomRouter();
+  const params = useParams();
+
   const user = useSelector((state) => state.loggedUser);
   const favoriteGames = useSelector((state) => state.favouriteGames);
   const loggedUser = useSelector((state) => state.loggedUser);
   const isMobile = useSelector((state) => state.setMobile);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState("");
   const [hasImage, setHasImage] = useState(true);
-  const router = useCustomRouter();
-  const pathname = usePathname();
-  const isFavourite = favoriteGames?.[game.id] || game.favorite;
+  const { pathname } = useClientPathname();
+
+  const isFavourite = favoriteGames?.[game.id];
 
   const handleFavoriteGame = (game) => {
     if (!isFavourite) {
@@ -74,10 +81,10 @@ export const Game = ({
 
     const payload = {
       game_id: game?.id,
-      language: "en",
+      language: params.lng,
       platform: "WEB",
       minimode: isMobile ? "1" : "0",
-      playMode: 'LIVE',
+      playMode: "LIVE",
     };
 
     apiServices.post(apiUrl.OPEN_CASINO_GAME, payload).then((response) => {
@@ -121,7 +128,10 @@ export const Game = ({
         </div>
       )}
       <div
-        className={classNames(`casino-item ${heroGames? "hero-multi-line" : ""}`, { trending: number })}
+        className={classNames("casino-item", {
+          "hero-multi-line": heroGames,
+          trending: number,
+        })}
       >
         {modalInfoId === game.id && !isMobile ? (
           <div
@@ -138,9 +148,11 @@ export const Game = ({
             <CasinoItemInfo isMobile={isMobile} />
           </div>
         )}
-        <div className={classNames("gameImageWrapper", className, {
-          unableToPreview: !hasImage,
-        })}>
+        <div
+          className={classNames("gameImageWrapper", className, {
+            unableToPreview: !hasImage,
+          })}
+        >
           {user?.user_data && (
             <LikeIcon
               className="likeGame"

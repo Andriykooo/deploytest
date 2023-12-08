@@ -6,6 +6,7 @@ import { ArrowDownIcon } from "../../utils/icons";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+
 export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   const pathname = usePathname();
   const isTablet = useSelector((state) => state.isTablet);

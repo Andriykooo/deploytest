@@ -1,15 +1,14 @@
 import { setActivePage, setCasinoCategory } from "@/store/actions";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowDownIcon } from "../../utils/icons";
 import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
-import "./CasinoCategory.css";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { GameInfoModal } from "../Game/GameInfoModal";
 import { GameInfoMoadlMobile } from "../Game/GameInfoMoadlMobile";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./CasinoCategory.css";
 
 const CasinoCategory = ({ data, redirect }) => {
   const t = useTranslations("casino");
@@ -88,7 +87,7 @@ const CasinoCategory = ({ data, redirect }) => {
             })}
           />
         )}
-        {data.view_style === "hero-multi_line" && (
+        {data.view_style === "hero_multi_line" && (
           <Carousel
             onScroll={closeModalInfo}
             data={

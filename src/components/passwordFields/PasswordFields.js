@@ -1,17 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { alertToast } from "../../utils/alert";
-import { images } from "../../utils/imagesConstant";
 import { validateUserPassword } from "../../utils/validation";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
-import "react-toastify/dist/ReactToastify.css";
-import "./PasswordFields.css";
 import { useTranslations } from "next-intl";
+import { PasswordInput } from "../PasswordInput/PasswordInput";
+import "./PasswordFields.css";
+
 const PasswordFields = ({
   changePassword,
+  currentPassword,
   setCurrentPassword,
   newPassword,
   setNewPassword,
@@ -19,7 +19,8 @@ const PasswordFields = ({
   setConfirmPassword,
   handleSubmit,
   isLoading,
-  title
+  title,
+  subtitle,
 }) => {
   const t = useTranslations("common");
   const [validation, setValidation] = useState({
@@ -27,36 +28,6 @@ const PasswordFields = ({
     specialChar: false,
     numeric: false,
   });
-  const [showPassword, setShowPassword] = useState({
-    currentpassword: false,
-    newpassword: false,
-    confirmpassword: false,
-  });
-
-  const togglePassword = (type) => {
-    switch (type) {
-      case "currentpassword":
-        setShowPassword({
-          ...showPassword,
-          currentpassword: !showPassword.currentpassword,
-        });
-        break;
-      case "newpassword":
-        setShowPassword({
-          ...showPassword,
-          newpassword: !showPassword.newpassword,
-        });
-        break;
-      case "confirmpassword":
-        setShowPassword({
-          ...showPassword,
-          confirmpassword: !showPassword.confirmpassword,
-        });
-        break;
-      default:
-        return;
-    }
-  };
 
   const handlePassword = (value, type) => {
     switch (type) {
@@ -96,51 +67,29 @@ const PasswordFields = ({
   return (
     <>
       <div>
-        <p className="logInTitle">{title}</p>
+        <h1 className="logInTitle">{title}</h1>
+        {subtitle && <p className="passwordFieldsSubtitle">{subtitle}</p>}
         {changePassword && (
           <div className="emailValidation">
             <label className="newPasswordLabel">{t("current_password")}</label>
-            <div className="password-container position-relative">
-              <input
-                id="password"
-                type={showPassword["currentpassword"] ? "text" : "password"}
-                className="password_input"
-                placeholder={t("enter_current_password")}
-                onChange={(e) =>
-                  handlePassword(e.target.value, "current-password")
-                }
-              />
-              <Image
-                onClick={() => togglePassword("currentpassword")}
-                src={images.showPassIcon}
-                className="showPasswordIcon"
-                alt="Valid"
-                width={20}
-                height={14}
-              />
-            </div>
+            <PasswordInput
+              autoFocus
+              value={currentPassword}
+              placeholder={t("enter_current_password")}
+              onChange={(e) =>
+                handlePassword(e.target.value, "current-password")
+              }
+            />
           </div>
         )}
         <div className="emailValidation">
           <label className="newPasswordLabel">{t("password")}</label>
-          <div className="password-container">
-            <input
-              id="password"
-              type={showPassword["newpassword"] ? "text" : "password"}
-              className="password_input"
-              placeholder="Enter a password"
-              onChange={(e) => handlePassword(e.target.value, "new-password")}
-            />
-            <Image
-              onClick={() => togglePassword("newpassword")}
-              src={images.showPassIcon}
-              className="showPasswordIcon"
-              alt="Valid"
-              width={20}
-              height={14}
-            />
-          </div>
-          <p className="newPassChecks">
+          <PasswordInput
+            value={newPassword}
+            placeholder={t("enter_password")}
+            onChange={(e) => handlePassword(e.target.value, "new-password")}
+          />
+          <p className="newPassChecks mt-2">
             <span className={validation.length ? "dot valid" : "dot"} />
             {t("password_length_requirement")}
           </p>
@@ -155,43 +104,31 @@ const PasswordFields = ({
         </div>
         <div className="emailValidation">
           <label className="newPasswordLabel">{t("confirm_password")}</label>
-          <div className="password-container">
-            <input
-              id="config_password"
-              type={showPassword["confirmpassword"] ? "text" : "password"}
-              className="password_input"
-              placeholder={t("enter_password")}
-              onChange={(e) => handlePassword(e.target.value, "confirm-password")}
-            />
-            <Image
-              onClick={() => togglePassword("confirmpassword")}
-              src={images.showPassIcon}
-              className="showPasswordIcon"
-              alt="Valid"
-              width={20}
-              height={14}
-            />
-          </div>
-        </div>
-        <p className="newPassChecks">
-          <span
-            className={
-              newPassword === confirmPassword && confirmPassword
-                ? "dot valid"
-                : "dot"
-            }
+          <PasswordInput
+            value={confirmPassword}
+            placeholder={t("enter_password")}
+            onChange={(e) => handlePassword(e.target.value, "confirm-password")}
           />
-          {t("passwords_must_match")}
-        </p>
+          <p className="newPassChecks mt-2">
+            <span
+              className={
+                newPassword === confirmPassword && confirmPassword
+                  ? "dot valid"
+                  : "dot"
+              }
+            />
+            {t("passwords_must_match")}
+          </p>
+        </div>
       </div>
-      <div className="authButtonsContainer">
+      <div className="authButtonsContainer mt-4">
         <Button
           className={
             newPassword === confirmPassword &&
-              confirmPassword &&
-              validation?.length &&
-              validation?.numeric &&
-              validation?.specialChar
+            confirmPassword &&
+            validation?.length &&
+            validation?.numeric &&
+            validation?.specialChar
               ? "btnPrimary continueBtn validBtn"
               : "continueBtn"
           }

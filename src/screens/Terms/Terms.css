@@ -17,6 +17,13 @@
   min-height: calc(100vh - 74px);
 }
 
+.terms-modalContent {
+  padding: 30px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .termsContent {
   height: calc(100vh - 400px);
   margin: auto;
@@ -139,7 +146,7 @@ li {
   }
 
   .closeDiv {
-    text-align: end;
+    text-align: flex-end;
   }
 
   .termsTitleForMainPage {

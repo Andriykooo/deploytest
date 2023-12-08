@@ -3,7 +3,6 @@
 import { Skeleton } from "@mui/material";
 import { LinkType } from "../LinkType/LinkType";
 import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
-import Image from "next/image";
 
 const BannerComponent = ({ data, isLoading }) => {
   return (
@@ -52,12 +51,7 @@ const BannerComponent = ({ data, isLoading }) => {
         </>
       ) : (
         <>
-          <Image
-            src={data.details.image}
-            alt="banner"
-            fill
-            priority
-          />
+          <img src={data.details.image} alt="banner" />
           <div className="textContainer">
             <div className="firstImageText">
               {data?.title}

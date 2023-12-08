@@ -16,6 +16,11 @@ import SkeletonComponent from "@/utils/SkeletonComponent";
 import { EventTime } from "@/components/EventTime/EventTime";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { EventsFilter } from "@/components/EventsFilter/EventsFilter";
+import { SportHeader } from "@/components/SportHeader/SportHeader";
+import classNames from "classnames";
+import { TabsSelect } from "@/components/tabsSelect/TabsSelect";
+import "../../../screens/Sports/Sports.css";
 
 export const RacecardNavigation = ({ children }) => {
   const t = useTranslations("common");
@@ -32,17 +37,20 @@ export const RacecardNavigation = ({ children }) => {
     },
   ];
 
-  const raceCard = useSelector((state) => state.raceCard);
+  const data = useSelector((state) => state.raceCard);
+  const isTablet = useSelector((state) => state.isTablet);
   const params = useParams();
   const router = useCustomRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const [liveStreamIsActive, setLiveStreamIsActive] = useState(false);
+  // const [liveStreamIsActive, setLiveStreamIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [marketOptions, setMarketOptions] = useState(null);
 
   const filter = searchParams.get("filter") || "today";
   const id = searchParams.get("id");
+  const raceCard = data?.[params.venue];
 
   let defaultEvent = null;
 
@@ -57,13 +65,9 @@ export const RacecardNavigation = ({ children }) => {
       return event.event_id === id && available;
     }) || defaultEvent;
 
-  const marketOptions = raceCard?.market_options?.filter((market) => {
-    return market?.availabilities?.includes(filter);
-  });
-
-  const handleToggleLiveStream = () => {
-    setLiveStreamIsActive(!liveStreamIsActive);
-  };
+  // const handleToggleLiveStream = () => {
+  //   setLiveStreamIsActive(!liveStreamIsActive);
+  // };
 
   const filterByVenue = (venue) => {
     router.push(
@@ -80,7 +84,10 @@ export const RacecardNavigation = ({ children }) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    if (!raceCard) {
+      setIsLoading(true);
+    }
+
     apiServices
       .get(apiUrl.GET_VENUE_EVENTS, {
         value: decodeURI(params.venue),
@@ -88,7 +95,12 @@ export const RacecardNavigation = ({ children }) => {
         timezone: moment().utcOffset(),
       })
       .then((response) => {
-        dispatch(setRaceCard(response));
+        setMarketOptions(
+          response.market_options?.filter((market) => {
+            return market?.availabilities?.includes(filter);
+          })
+        );
+        dispatch(setRaceCard({ ...data, [params.venue]: response }));
       })
       .finally(() => {
         setIsLoading(false);
@@ -100,16 +112,24 @@ export const RacecardNavigation = ({ children }) => {
     (moment(event?.event_start_time)?.isSame(moment().add(1, "days"), "day") &&
       "tomorrow");
 
-  return raceCard ? (
-    <div className="sports-body">
-      <div className="sport-competitions">
-        <div className="sport-competitions-head">
-          <GoBackButton link="/sport/horseracing" />
-          <div className="race-date">
-            {t(day)} {moment(event?.event_start_time).format("D MMM, HH:mm")}
-          </div>
-          {/* todo: This can be hidden for now until we get the streams added. */}
-          {/* <div className="stream-container d-flex align-items-center">
+  return marketOptions ? (
+    <div className={classNames("sportNavigation-header", { "p-3": !isTablet })}>
+      <SportHeader
+        headerContent={
+          <>
+            <GoBackButton
+              className="navigationBack"
+              link={`/sport/${params.slug}`}
+              fullIcon={isTablet}
+            />
+            {!isTablet && (
+              <div className="race-date">
+                {t(day)}{" "}
+                {moment(event?.event_start_time).format("D MMM, HH:mm")}
+              </div>
+            )}
+            {/* todo: This can be hidden for now until we get the streams added. */}
+            {/* <div className="stream-container d-flex align-items-center">
             <Image
               src={images.playStreamIcon}
               className="playstreamIcon"
@@ -123,53 +143,103 @@ export const RacecardNavigation = ({ children }) => {
               onToggle={handleToggleLiveStream}
             />
           </div> */}
+            {isTablet ? (
+              <TabsSelect
+                data={horseracingMeetingOptions}
+                placeholder={horseracingMeetingOptions[0].label}
+                onChange={(item) => {
+                  const selectedFilter = item.label.toLowerCase();
 
-          <Dropdown
-            data={horseracingMeetingOptions}
-            onSelect={(item) => {
-              const selectedFilter = item.label.toLowerCase();
+                  const defaultMarket = raceCard?.market_options.find(
+                    (market) => market?.availabilities?.includes(selectedFilter)
+                  );
 
-              const defaultMarket = raceCard.market_options.find((market) =>
-                market?.availabilities?.includes(selectedFilter)
-              );
+                  router.push(
+                    `/racecard/${params.slug}/${defaultMarket.market_name}?filter=${selectedFilter}`
+                  );
+                }}
+                withBtns
+              />
+            ) : (
+              <Dropdown
+                data={horseracingMeetingOptions}
+                onSelect={(item) => {
+                  const selectedFilter = item.label.toLowerCase();
 
-              router.push(
-                `/racecard/${params.slug}/${defaultMarket.market_name}?filter=${selectedFilter}`
-              );
-            }}
-            selectedItem={horseracingMeetingOptions.find(
-              (item) => item.label.toLowerCase() === filter
+                  const defaultMarket = raceCard.market_options.find((market) =>
+                    market?.availabilities?.includes(selectedFilter)
+                  );
+
+                  router.push(
+                    `/racecard/${params.slug}/${defaultMarket.market_name}?filter=${selectedFilter}`
+                  );
+                }}
+                selectedItem={horseracingMeetingOptions.find(
+                  (item) => item.label.toLowerCase() === filter
+                )}
+              />
             )}
+          </>
+        }
+      >
+        {marketOptions && !isTablet ? (
+          <EventsFilter
+            options={marketOptions?.map((market) => {
+              return {
+                label: market.market_name,
+                id: market.market_name.toLowerCase(),
+              };
+            })}
+            onSelect={filterByVenue}
+            selectedId={decodeURI(params?.venue).toLowerCase()}
           />
-        </div>
-        {marketOptions && (
-          <div className="events-filters">
-            <SelectButtons
-              data={marketOptions?.map((market) => {
-                return {
-                  label: market.market_name,
-                  id: market.market_name.toLowerCase(),
-                };
-              })}
-              selectedId={decodeURI(params?.venue).toLowerCase()}
-              onSelect={filterByVenue}
-              borders
-            />
-          </div>
+        ) : (
+          <>
+            <div className="navigation-selects">
+              <TabsSelect
+                data={marketOptions?.map((market) => {
+                  return {
+                    label: market.market_name,
+                    id: market.market_name.toLowerCase(),
+                  };
+                })}
+                placeholder={marketOptions?.[0]?.market_name}
+                onChange={filterByVenue}
+              />
+              <TabsSelect
+                data={raceCard?.events
+                  ?.filter((event) => event?.availabilities?.includes(filter))
+                  .map((event) => {
+                    return {
+                      label: <EventTime data={event} />,
+                      id: event?.event_start_time,
+                      event_id: event?.event_id,
+                    };
+                  })}
+                placeholder={moment(
+                  raceCard?.events[0].event_start_time
+                ).format("HH:mm")}
+                onChange={filterByTime}
+              />
+            </div>
+            <div className="dashedLine">
+              <Image src={images.dashedLine} alt="horse-racing" fill />
+            </div>
+          </>
         )}
 
-        {liveStreamIsActive && (
+        {/* {liveStreamIsActive && (
           <Image
             src={images.horseRacingLiveStream}
             alt="horse-racing"
             className="race-live-stream"
           />
-        )}
-      </div>
+        )} */}
+      </SportHeader>
 
       {!isLoading ? (
         <>
-          {raceCard && (
+          {raceCard && !isTablet && (
             <div className="sport-events-filter">
               <SelectButtons
                 data={raceCard?.events

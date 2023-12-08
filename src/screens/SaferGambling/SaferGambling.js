@@ -1,19 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserSettings } from "../../store/actions";
-import { apiServices } from "../../utils/apiServices";
-import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
-import "../Profile/Profile.css";
-import "../SaferGambling/SaferGambling.css";
-import "../Withdraw/Withdraw.css";
-import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
 import { CustomLink } from "@/components/Link/Link";
+import { useDispatch, useSelector } from "react-redux";
+import "./SaferGambling.css";
+import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
+import { apiServices } from "@/utils/apiServices";
+import { setUserSettings } from "@/store/actions";
+import { apiUrl } from "@/utils/constants";
+import { images } from "@/utils/imagesConstant";
+
 export const SaferGambling = () => {
   const t = useTranslations();
   const dispatch = useDispatch();

@@ -21,9 +21,9 @@
   overflow: hidden;
 }
 
+.dynamic-selections-button .matchOdds:hover,
 .dynamic-selections-button .matchOdds.styleOfSelectedOdd,
 .dynamic-selections-button .matchOdds.selectionPriceBoost {
-  font-size: 10px;
   background: transparent;
 }
 
@@ -51,5 +51,8 @@
   color: inherit;
   font-size: inherit;
   border-radius: 4px;
+}
+
+.dynamic-selections-button .animationBlock {
   padding: 0 5px;
 }

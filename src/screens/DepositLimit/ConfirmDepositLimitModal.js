@@ -13,6 +13,8 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { getUserApi } from "@/utils/apiQueries";
+import "./ConfirmDepositLimitModal.css";
+import classNames from "classnames";
 
 const ConfirmDepositLimitModal = ({ data }) => {
   const t = useTranslations();
@@ -69,7 +71,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
 
   return (
     <div
-      className={isMobile ? "modal show modalFullScreen" : "modal"}
+      className={classNames("modal show", { modalFullScreen: isMobile })}
       id="alertGamingReminderModal"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
@@ -78,7 +80,7 @@ const ConfirmDepositLimitModal = ({ data }) => {
     >
       <div
         className={
-          isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog top-50"
+          isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog  top-50"
         }
       >
         <div className="modal-content modalCenterContent">

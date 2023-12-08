@@ -1,13 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useSelector } from "react-redux";
 import { profileCards } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import { Button } from "../button/Button";
 import { PredictionsMenu } from "./PredictionsMenu";
-import { ProfileCard, SidebarProfilMenu } from "./Styled";
 import { useTranslations } from "next-intl";
 import { CustomLink } from "../Link/Link";
+import { ProfileCard } from "../ProfileCard/ProfileCard";
 
 export const ProfileSidebar = ({
   sideBarMenu,
@@ -21,7 +19,7 @@ export const ProfileSidebar = ({
   const isTablet = useSelector((state) => state.isTablet);
 
   return (
-    <SidebarProfilMenu sideBarMenu version={version}>
+    <div className="sidebarProfilMenu">
       {version ? (
         <PredictionsMenu page={page} active={active} />
       ) : (
@@ -42,18 +40,14 @@ export const ProfileSidebar = ({
                       <div
                         className={
                           value.text === page
-                            ? "dropdown sidebarBox d-flex dropdownStyle "
-                            : "dropdown sidebarBox d-flex profileMenuDisplay"
+                            ? "sidebarBox"
+                            : "sidebarBox profileMenuDisplay"
                         }
                       >
-                        {value.icon}
-                        <Button
-                          className={
-                            "btn dropdown-toggle popularDropdown profile top w-100 "
-                          }
-                          type="button"
-                          text={t(value.cardName)}
-                        />
+                        <div className="profileMenuTimeTitle">
+                          {value.icon}
+                          <span>{t(value.cardName)}</span>
+                        </div>
                         {value?.buttonText && (
                           <button className="link-in-bonuses-promotions">
                             {value?.buttonText}{" "}
@@ -79,6 +73,6 @@ export const ProfileSidebar = ({
           })}
         </>
       )}
-    </SidebarProfilMenu>
+    </div>
   );
 };

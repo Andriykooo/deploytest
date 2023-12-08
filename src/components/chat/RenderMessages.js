@@ -1,4 +1,4 @@
-import { ChatMessage } from "./ChatStyled";
+import classNames from "classnames";
 
 const RenderMessages = ({ messages }) => {
   return messages?.map((message) => {
@@ -8,7 +8,11 @@ const RenderMessages = ({ messages }) => {
         key={message.message_id}
         id={message.message_id}
       >
-        <ChatMessage isRight={message.from_cms}>{message.message}</ChatMessage>
+        <div
+          className={classNames("ChatMessage", { isRight: message.from_cms })}
+        >
+          {message.message}
+        </div>
       </div>
     );
   });

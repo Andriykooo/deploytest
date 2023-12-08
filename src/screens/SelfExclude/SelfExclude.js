@@ -8,8 +8,10 @@ import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDro
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useLogout } from "@/hooks/useLogout";
-import "./SelfExclude.css";
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
+import "./SelfExclude.css";
+
 const SelfExclude = () => {
   const t = useTranslations();
   const [excludeData, setExcludeData] = useState({
@@ -143,12 +145,9 @@ const SelfExclude = () => {
         </div>
         <div className="suspendButton">
           <Button
-            className={
-              "setLimit suspendAccBtn w-100 " +
-              (excludePeriod
-                ? " btnPrimary "
-                : "btn finishBtn disabled setLimitBtn col-8")
-            }
+            className={classNames("setLimitBtn", {
+              disable: !excludePeriod,
+            })}
             onClick={() => excludePeriod && handleSetLimit()}
             text={
               <>

@@ -6,7 +6,9 @@ export async function generateMetadata({ params }) {
 
   const country = defaultLanguage === "en" ? "all" : defaultLanguage;
 
-  const response = await fetch(`${apiUrl.GET_MAIN_MENU}?country=${country}`);
+  const response = await fetch(`${apiUrl.GET_MAIN_MENU}?country=${country}`, {
+    next: { revalidate: 3 },
+  });
 
   if (response.status === 483) {
     return {

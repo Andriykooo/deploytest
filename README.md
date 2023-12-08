@@ -20,5 +20,6 @@ npm run buid
 npm run start
 ```
 
+Create an .env file in the root folder. Use .env.sample to configure .env file
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

@@ -1,7 +1,4 @@
-import {
-  refreshCommunicationSocket,
-  refreshGamingSocket,
-} from "@/context/socket";
+import { connectSocket, disconnectSocket } from "@/context/socket";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
@@ -13,19 +10,23 @@ import {
 } from "./localStorage";
 import { nextWindow } from "./nextWindow";
 import moment from "moment";
+import Cookies from "js-cookie";
 
 const clearStorage = () => {
   if (!nextWindow.location.pathname.includes("/login")) {
     nextWindow.location.href = "/login";
+    disconnectSocket();
     clearLocalStorage();
   }
 };
+
+const language = getLocalStorageItem("language");
 
 const checkError = (code, message) => {
   switch (code) {
     // Country Block
     case 483:
-      nextWindow.location.href = "/customer_service_notice";
+      nextWindow.location.href = `/${language}/customer_service_notice`;
       break;
 
     // Self-Exclude Account
@@ -71,15 +72,22 @@ const checkError = (code, message) => {
 };
 
 const handleError = (error, showError = true) => {
+  if (
+    error.code === "ERR_NETWORK" &&
+    !nextWindow.location.pathname.includes("/error")
+  ) {
+    nextWindow.location.href = `/${language}/error`;
+  }
+
   if (!showError) {
     throw error;
   }
-  if (error?.message.toLowerCase() === "network error") {
-    return;
-  }
 
   const code = error?.response?.status;
-  const message = error?.response?.data?.error?.message;
+  const message =
+    error?.response?.data?.error?.message ||
+    error?.response?.data?.message ||
+    error?.message;
   const suspendUntil =
     error?.response?.data?.error?.extra_data?.suspended_until;
 
@@ -108,12 +116,10 @@ const handleError = (error, showError = true) => {
 const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
-    // Get browser timezone offset in minutes
     "browser-timezone-offset": moment().utcOffset(),
     Accept: "application/json",
-    language: "en",
     platform: "web",
-    'app-version': "1",
+    "app-version": "1",
   },
 });
 
@@ -125,13 +131,23 @@ axiosInstance.interceptors.request.use((config) => {
   }
 
   config.headers["device-id"] = getLocalStorageItem("device_id") || uuidv4();
-  config.headers.language = getLocalStorageItem("language") || "en";
+  config.headers.country = getLocalStorageItem("country") || "all";
+  config.headers.language = Cookies?.get("language") || "en";
 
   return config;
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    if (
+      response.status === 213 &&
+      !nextWindow.location.href.includes("/change_password")
+    ) {
+      nextWindow.location.href = `/${language}/change_password`;
+    }
+
+    return response.data;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -161,8 +177,7 @@ axiosInstance.interceptors.response.use(
 
         addLocalStorageItem("access_token", token);
         addLocalStorageItem("refresh_token", refresh_token);
-        refreshCommunicationSocket(token);
-        refreshGamingSocket(token);
+        connectSocket(token);
 
         originalRequest.headers = {
           ...originalRequest.header,

@@ -2,15 +2,15 @@ import axios from "axios";
 import { Link } from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/button/Button";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import "../Contact/Contact.css";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import "../Contact/Contact.css";
+
 const ContactUsModal = ({ setPageModal }) => {
   const t = useTranslations("contact_us");
   const isMobile = useSelector((state) => state.setMobile);

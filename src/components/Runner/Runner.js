@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import "./Runner.css"
 
 export const Runner = ({ data, slug, className }) => {
   const disableNumbers = slug === "greyhoundracing";

@@ -8,27 +8,23 @@ import {
   setIsVerifyMessage,
 } from "../../store/actions";
 import FooterMenu from "../footerMenu/FooterMenu";
+import classNames from "classnames";
 import { DesktopHeader } from "./DesktopHeader";
-import { useParams, useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
 import { CloseIcon, XIcon } from "@/utils/icons";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import "../sidebar/Sidebar.css";
-import "./Header.css";
-import classNames from "classnames";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { CustomLink } from "../Link/Link";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./Header.css";
 
 function Header({ isModal, disableHeader }) {
   const dispatch = useDispatch();
   const { pathname } = useClientPathname();
   const t = useTranslations("header");
   const router = useCustomRouter();
-  const params = useParams();
   const isMobile = useSelector((state) => state.setMobile);
   const activePage = useSelector((state) => state.activePage);
   const headerData = useSelector((state) => state.headerData);
@@ -53,12 +49,7 @@ function Header({ isModal, disableHeader }) {
     }
 
     if (!headerData) {
-      const lang = params.lng;
-      const defaultLanguage = lang?.toLowerCase() || "en";
-
-      const country = defaultLanguage === "en" ? "all" : defaultLanguage;
-
-      apiServices.get(apiUrl.GET_MAIN_MENU, { country }).then((response) => {
+      apiServices.get(apiUrl.GET_MAIN_MENU).then((response) => {
         dispatch(
           setHeaderData(
             response?.map((page, index) => ({ ...page, id: index + 1 }))

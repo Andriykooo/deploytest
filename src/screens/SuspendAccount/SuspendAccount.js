@@ -8,9 +8,11 @@ import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDro
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useLogout } from "@/hooks/useLogout";
-import "../DepositLimit/DepositLimit.css";
-import "../SuspendAccount/SuspendAccount.css";
 import { useTranslations } from "next-intl";
+import "../DepositLimit/DepositLimit.css";
+import "./SuspendAccount.css";
+import classNames from "classnames";
+
 const SuspendAccount = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -144,12 +146,9 @@ const SuspendAccount = () => {
         </div>
         <div className="row suspendButton">
           <Button
-            className={
-              "setLimit suspendAccBtn w-100 " +
-              (suspendPeriod
-                ? " btnPrimary "
-                : "btn finishBtn disabled setLimitBtn col-8")
-            }
+            className={classNames("setLimitBtn", {
+              disable: !suspendPeriod,
+            })}
             onClick={() => suspendPeriod && handleSetLimit()}
             text={<>{isLoading ? <Loader /> : t("common.suspend_account")}</>}
           />

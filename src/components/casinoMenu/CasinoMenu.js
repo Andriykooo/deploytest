@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
-import "./CasinoMenu.css";
 import { setCasinoCategory } from "@/store/actions";
 import { useTranslations } from "next-intl";
+import "./CasinoMenu.css";
+
 const skeletonArray = Array(5).fill(null);
 
 const CasinoMenu = ({ data, search, setSearch, category, isLoading }) => {

@@ -15,27 +15,27 @@ import { theme } from "@/utils/config";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import axios from "axios";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import { apiUrl } from "../../utils/constants";
 import { getUserApi } from "@/utils/apiQueries";
 import moment from "moment";
 import {
-  SocketContext,
   communicationSocket,
+  connectSocket,
+  disconnectSocket,
   gamingSocket,
 } from "../../context/socket";
 import {
-  setActiveSport,
+  removeUpdatedSelection,
   setBetTicker,
+  setCountry,
   setCurrentTime,
   setIsVerifyMessage,
   setLoggedUser,
@@ -46,7 +46,6 @@ import {
   setReviewBets,
   setSettings,
   setSidebarRight,
-  setSportTypes,
   setTablet,
   setUpdatedSelections,
   setUserStats,
@@ -54,12 +53,19 @@ import {
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { apiServices } from "@/utils/apiServices";
 import Cookies from "js-cookie";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import "./BaseLayout.css";
 
 const modalList = [
   "/privacy",
   "/verification",
   "/kyc",
   "/login",
+  "/customer_service_notice",
+  "/change_password",
   "/affiliates",
   "/sign_up",
   "/sign_up_with_phone",
@@ -86,7 +92,7 @@ const tabletHeader = [
 
 const Content = ({ children, className }) => {
   const dispatch = useDispatch();
-  const pathname = usePathname();
+  const { pathname } = useClientPathname();
   const router = useCustomRouter();
   const searchParams = useSearchParams();
   const params = useParams();
@@ -94,18 +100,12 @@ const Content = ({ children, className }) => {
   const accessToken = getLocalStorageItem("access_token");
   const deviceIdMaybe = getLocalStorageItem("device_id");
 
-  if (!deviceIdMaybe) {
-    const uuidV4 = uuidv4();
-
-    addLocalStorageItem("device_id", uuidV4);
-  }
-
   const header = useSelector((state) => state.headerData);
   const loggedUser = useSelector((state) => state.loggedUser);
-  const activeSport = useSelector((state) => state.activeSport);
   const settings = useSelector((state) => state.settings);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
   const isTablet = useSelector((state) => state.isTablet);
+  const notFound = useSelector((state) => state.notFound);
 
   const [gamingAlert, setGamingAlert] = useState(false);
 
@@ -124,25 +124,9 @@ const Content = ({ children, className }) => {
   const disableHeader =
     (params?.path &&
       !header?.some((page) => page.path.substring(1) == params?.path)) ||
-    pathname === "/not_found" ||
-    pathname === "/error" ||
-    pathname === "/customer_service_notice" ||
-    (isTablet && tabletHeader.includes(searchParams.get("modal") || pathname));
-
-  const getSportTypes = () => {
-    axios.get(apiUrl.GET_SPORT_TYPES).then((result) => {
-      let sportsData = result?.data;
-      if (sportsData && sportsData.length > 0) {
-        dispatch(setSportTypes(sportsData));
-        if (!activeSport) {
-          dispatch(setActiveSport(sportsData[0]?.id));
-        }
-      } else {
-        dispatch(setSportTypes([]));
-        dispatch(setActiveSport(null));
-      }
-    });
-  };
+    (isTablet &&
+      tabletHeader.includes(searchParams.get("modal") || pathname)) ||
+    notFound;
 
   const getUserData = () => {
     var newUser = loggedUser;
@@ -186,12 +170,20 @@ const Content = ({ children, className }) => {
       getUserData();
     }
 
+    connectSocket(accessToken);
+
     Cookies.set("language", params.lng);
 
     apiServices
       .get(apiUrl.GET_SETTINGS)
       .then((result) => {
+        const country = result?.country || result?.default_country;
+
         dispatch(setSettings(result));
+
+        dispatch(setCountry(country));
+
+        addLocalStorageItem("country", country);
       })
       .catch();
 
@@ -207,7 +199,11 @@ const Content = ({ children, className }) => {
       );
     });
 
-    getSportTypes();
+    if (!deviceIdMaybe) {
+      const uuidV4 = uuidv4();
+
+      addLocalStorageItem("device_id", uuidV4);
+    }
 
     if (loggedUser) {
       addLocalStorageItem("swifty_id", loggedUser?.swifty_id);
@@ -267,7 +263,8 @@ const Content = ({ children, className }) => {
               ...loggedUser,
               user_data: {
                 ...loggedUser.user_data,
-                kyc_status: response.kyc_status,
+                kyc_status: response.value.kyc_status,
+                trader_chat_enabled: !!response.value.trader_chat_enabled,
               },
             })
           );
@@ -303,9 +300,7 @@ const Content = ({ children, className }) => {
           dispatch(setResultedEvents(response.eventId));
           break;
         case "new_user_balance":
-          // Update only user balance
-          // loggedUser.user_data.balance = response.value;
-          if (loggedUser && !Number.isNaN(+response.value)) {
+          if (loggedUser) {
             dispatch(
               setLoggedUser({
                 ...loggedUser,
@@ -323,6 +318,10 @@ const Content = ({ children, className }) => {
 
     gamingSocket.on("selection_updated", (response) => {
       dispatch(setUpdatedSelections(response));
+
+      setTimeout(() => {
+        dispatch(removeUpdatedSelection(response));
+      }, 5000);
     });
 
     communicationSocket?.on("bet_referral_message", (response) => {
@@ -432,6 +431,7 @@ const Content = ({ children, className }) => {
     return () => {
       gamingSocket.off("selection_updated");
       clearInterval(interval);
+      disconnectSocket();
       nextWindow.removeEventListener("storage", storageListener);
       nextWindow.removeEventListener("resize", resizeHandler);
     };
@@ -467,56 +467,49 @@ const Content = ({ children, className }) => {
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-      <SocketContext.Provider
-        value={{
-          gamingSocket,
-          communicationSocket,
+      <ToastContainer
+        position="top-right"
+        closeButton={CloseButton}
+        autoClose={4000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        limit={3}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastStyle={{
+          backgroundColor: theme?.colors?.mainSecondary,
+          color: "white",
+          fontFamily: theme?.fonts?.fontMedium,
+          fontStyle: "normal",
+          fontWeight: "400",
+          fontSize: "1rem",
+          lineHeight: "1.5rem",
+          boxShadow: "0px 4px 10px rgba(14, 16, 17, 0.3)",
         }}
+      />
+      <AlertModal />
+      <PrivacyConfirmModal />
+      <TermsConfirmModal />
+      <PageContentModal disableHeader={disableHeader} />
+      <Tooltip />
+      {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
+      {accessToken &&
+        loggedUser?.user_data?.actions?.map((action) => {
+          return <ConfirmDepositLimitModal data={action} key={action.id} />;
+        })}
+      <div
+        className={classNames("base-layout", className, {
+          ["not-found"]: disableHeader,
+          "kyc-status":
+            loggedUser && isVerifyMessage && !disableHeader && !isModal,
+        })}
       >
-        <ToastContainer
-          position="top-right"
-          closeButton={CloseButton}
-          autoClose={4000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          limit={3}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          toastStyle={{
-            backgroundColor: theme?.colors?.mainSecondary,
-            color: "white",
-            fontFamily: theme?.fonts?.fontMedium,
-            fontStyle: "normal",
-            fontWeight: "400",
-            fontSize: "1rem",
-            lineHeight: "1.5rem",
-            boxShadow: "0px 4px 10px rgba(14, 16, 17, 0.3)",
-          }}
-        />
-        <AlertModal />
-        <PrivacyConfirmModal />
-        <TermsConfirmModal />
-        <PageContentModal disableHeader={disableHeader} />
-        <Tooltip />
-        {gamingAlert && <GamingReminderAlert setGamingAlert={setGamingAlert} />}
-        {accessToken &&
-          loggedUser?.user_data?.actions?.map((action) => {
-            return <ConfirmDepositLimitModal data={action} key={action.id} />;
-          })}
-        <div
-          className={classNames("base-layout", className, {
-            ["not-found"]: disableHeader,
-            "kyc-status":
-              loggedUser && isVerifyMessage && !disableHeader && !isModal,
-          })}
-        >
-          <Header isModal={isModal} disableHeader={disableHeader} />
-          {children}
-        </div>
-      </SocketContext.Provider>
+        <Header isModal={isModal} disableHeader={disableHeader} />
+        {children}
+      </div>
     </GoogleOAuthProvider>
   );
 };
@@ -533,7 +526,6 @@ export const BaseLayout = (props) => {
           href={process.env.NEXT_PUBLIC_CSS}
         />
       </Helmet>
-
       {pathname === "/customer_service_notice" ? (
         <CustomerServiceNotice />
       ) : (

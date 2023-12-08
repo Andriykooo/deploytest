@@ -5,16 +5,15 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { images } from "../../utils/imagesConstant";
+
 export const Countries = ({
   setCountry,
-  setStates,
   showCountries,
   setShowCountries,
-  withCode
+  withCode,
 }) => {
   const t = useTranslations();
   const user = useSelector((state) => state.user);
-  const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
   const on_boarding = useSelector((state) => state.on_boarding);
   const [scrolledPixels, setScrolledPixels] = useState();
@@ -22,8 +21,13 @@ export const Countries = ({
   const searchRef = useRef(null);
 
   const choosenCountry = on_boarding?.countries?.filter((country) => {
-    return country.name.toLocaleLowerCase().startsWith(searchCountry) || 
-    (withCode && country.phone_number_prefix?.toString().startsWith(searchCountry.replaceAll("+", "")));
+    return (
+      country.name.toLocaleLowerCase().startsWith(searchCountry) ||
+      (withCode &&
+        country.phone_number_prefix
+          ?.toString()
+          .startsWith(searchCountry.replaceAll("+", "")))
+    );
   });
 
   return (
@@ -38,8 +42,11 @@ export const Countries = ({
       <div className="modal-dialog modal-fullscreen countriesModalDialog">
         <div className="modal-content fScreen mt-0 countriesModalContainer">
           <div
-            onScroll={() => setScrolledPixels(searchRef?.current?.getBoundingClientRect().top)}
-            className="modal-content-inside">
+            onScroll={() =>
+              setScrolledPixels(searchRef?.current?.getBoundingClientRect().top)
+            }
+            className="modal-content-inside"
+          >
             <div className="modalTitle-countries">
               <p className="selectCountryTitle depositModalLimit">
                 {t("sign_up.select_country_residence")}
@@ -55,9 +62,12 @@ export const Countries = ({
             </div>
             <div
               ref={searchRef}
-              className="selectDecimal-countries d-flex searchStyle">
+              className="selectDecimal-countries d-flex searchStyle"
+            >
               <Image
                 src={images.search}
+                height={15}
+                width={15}
                 alt="Search icon"
                 className="countriesSearch"
               />
@@ -66,10 +76,16 @@ export const Countries = ({
                 value={searchCountry}
                 className="decimalText countryModalText searchField"
                 placeholder={t("common.search")}
-                onChange={(e) => setSearchCountry(e.currentTarget.value.toLocaleLowerCase())}
+                onChange={(e) =>
+                  setSearchCountry(e.currentTarget.value.toLocaleLowerCase())
+                }
               />
             </div>
-            <div className={classNames("modalHeader-fixed", { "d-flex": scrolledPixels <= 52 && isTablet })}>
+            <div
+              className={classNames("modalHeader-fixed", {
+                "d-flex": scrolledPixels <= 52 && isTablet,
+              })}
+            >
               <div className="modalTitle-fixed">
                 <p className="selectCountryTitle depositModalLimit">
                   {t("sign_up.select_country_residence")}
@@ -86,6 +102,8 @@ export const Countries = ({
               <div className="selectDecimal-countries d-flex searchStyle">
                 <Image
                   src={images.search}
+                  height={15}
+                  width={15}
                   alt="Search icon"
                   className="countriesSearch"
                 />
@@ -94,7 +112,9 @@ export const Countries = ({
                   value={searchCountry}
                   className="decimalText countryModalText searchField"
                   placeholder={t("common.search")}
-                  onChange={(e) => setSearchCountry(e.currentTarget.value.toLocaleLowerCase())}
+                  onChange={(e) =>
+                    setSearchCountry(e.currentTarget.value.toLocaleLowerCase())
+                  }
                 />
               </div>
             </div>
@@ -113,9 +133,6 @@ export const Countries = ({
                   data-bs-dismiss="modal"
                   aria-label="Close"
                   onClick={() => {
-                    if (setStates) {
-                      setStates(country?.states || [])
-                    }
                     setCountry(country);
                     setSearchCountry("");
                     setShowCountries(false);
@@ -123,10 +140,8 @@ export const Countries = ({
                 >
                   <div className="selectDecimal-countries d-flex">
                     <Image
-                      rel="preload"
                       src={country.flag_url}
                       alt={country.name}
-                      priority
                       className="countriesFlags"
                       height={24}
                       width={24}

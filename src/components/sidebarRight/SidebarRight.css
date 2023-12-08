@@ -307,6 +307,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+  padding: 0 10px;
 }
 
 .slip-input::placeholder {
@@ -339,6 +340,7 @@
   height: 20px;
   border-radius: 2px;
   background-color: var(--global-color-betslip-button-active);
+  color: var(--global-color-text-primary);
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -527,18 +529,15 @@
 
 .betslip-add {
   position: relative;
-  height: 305px;
-  width: 301px;
   margin-bottom: 4px;
   border-radius: 6px;
   overflow: hidden;
   object-fit: cover;
+  border-radius: 6px;
 }
 
-.betslip-add img {
-  height: 100%;
-  width: 100%;
-  border-radius: 6px;
+.betslip-add .dynamic-selections .btnPrimary {
+  font-size: 10px;
 }
 
 .dynamic-betslip {

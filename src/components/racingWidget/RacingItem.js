@@ -1,11 +1,11 @@
 import moment from "moment";
-import Link from "next/link";
 import { ArrowIcon } from "../../utils/icons";
 import { MatchOdds } from "../matches/MatchOdds";
 import { useTranslations } from "next-intl";
-import { Runner } from "./Runner";
+import { Runner } from "../Runner/Runner";
 import Image from "next/image";
 import { CustomLink } from "../Link/Link";
+import "../eventTable/EventTable.css";
 
 export const RacingItem = ({ data, slug }) => {
   const t = useTranslations();
@@ -42,41 +42,38 @@ export const RacingItem = ({ data, slug }) => {
               className="events-row-container"
               key={selection?.bet_id || index}
             >
-              <div className="events-small-container">
-                <div className="horse-container">
-                  <div className="silk-image">
-                    {selection.silk_image && (
-                      <Image
-                        src={selection.silk_image}
-                        alt="slik"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                        priority
-                        height={20}
-                        width={20}
-                      />
-                    )}
-                  </div>
-                  <Runner
-                    data={selection}
-                    slug={slug}
-                    className="racing-item-runner"
-                  />
-                  {selection && (
-                    <div className="odds-of-horse">
-                      <MatchOdds
-                        selection={{
-                          ...selection,
-                          trading_status: "open",
-                          odds_decimal: selection.odds_decimal,
-                          odds_fractional: selection.odds_fractional,
-                        }}
-                        disable={isSuspended}
-                      />
-                    </div>
+              <div className="horse-container">
+                <div className="silk-image">
+                  {selection.silk_image && (
+                    <Image
+                      src={selection.silk_image}
+                      alt="slik"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                      height={20}
+                      width={20}
+                    />
                   )}
                 </div>
+                <Runner
+                  data={selection}
+                  slug={slug}
+                  className="racing-item-runner"
+                />
+                {selection && (
+                  <div className="odds-of-horse">
+                    <MatchOdds
+                      selection={{
+                        ...selection,
+                        trading_status: "open",
+                        odds_decimal: selection.odds_decimal,
+                        odds_fractional: selection.odds_fractional,
+                      }}
+                      disable={isSuspended}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           );

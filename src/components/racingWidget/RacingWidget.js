@@ -67,7 +67,7 @@ const RacingWidgetComponent = ({ data }) => {
                   name: t(item.name),
                   slug: item.name,
                 })),
-                ...data?.market_options?.map((option) => ({
+                ...data.market_options.map((option) => ({
                   name: option.market_name,
                   slug: option.market_name,
                 })),

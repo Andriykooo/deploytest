@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MyBet } from "./MyBet/MyBet";
 import { alertToast } from "@/utils/alert";
 import { useTranslations } from "next-intl";
+
 const myBetsArray = ["All", "Open", "Settled"];
 
 export const MyBets = () => {
@@ -62,7 +63,7 @@ export const MyBets = () => {
         })}
       </div>
       {selectedButton === 1 && myBets?.length > 0 && (
-        <div className="my-bets-hint">{t("showing_last_7_days")}</div>
+        <div className="my-bets-hint">{t("showing_last_20_bets")}</div>
       )}
       {myBets?.length > 0 ? (
         <div className="my-bets">

@@ -40,27 +40,33 @@ export const SportsTable = ({ data, type, disableCta }) => {
                 active={hasFavouriteCompetition}
               >
                 {!isTablet && <MarketOptions options={sport?.market_types} />}
-                {sport?.competitions?.map((competition) => {
-                  return (
-                    <Accordion
-                      key={competition.id}
-                      className="leagues-accordion"
-                      title={competition.name}
-                      active={!!competition.favorite}
-                    >
-                      {competition.events.map((event) => {
-                        return (
-                          <div key={event.id}>
-                            <MatchCard
-                              match={event}
-                              inPlay={type === "sport_widget_in_play"}
-                            />
-                          </div>
-                        );
-                      })}
-                    </Accordion>
-                  );
-                })}
+                {sport?.competitions?.length > 0 ? (
+                  sport?.competitions?.map((competition) => {
+                    return (
+                      <Accordion
+                        key={competition.id}
+                        className="leagues-accordion"
+                        title={competition.name}
+                        active={!!competition.favorite}
+                      >
+                        {competition.events.map((event) => {
+                          return (
+                            <div key={event.id}>
+                              <MatchCard
+                                match={event}
+                                inPlay={type === "sport_widget_in_play"}
+                              />
+                            </div>
+                          );
+                        })}
+                      </Accordion>
+                    );
+                  })
+                ) : (
+                  <div className="sports-table-empty-state">
+                    <EmptyState message={t("there_are_no_upcoming_events")} />
+                  </div>
+                )}
               </Accordion>
             );
           })}

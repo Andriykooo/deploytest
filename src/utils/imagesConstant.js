@@ -72,8 +72,10 @@ import calendar from "../assets/images/calendar.svg";
 import dashedLine from "../assets/images/dashedLine.png";
 import finishAccLine from "../assets/images/finishAccLine.png";
 import unableImage from "../assets/images/unableImage.svg";
+import hidePassword from "../assets/images/hidePassword.svg";
 
 export const images = {
+  hidePassword,
   calendar,
   apple,
   tickIcon,

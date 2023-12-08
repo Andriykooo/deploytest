@@ -1,8 +1,7 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SocketContext } from "../../context/socket";
 import SkeletonComponent from "../../utils/SkeletonComponent";
 import { HorseRacing } from "../HorseRacing/HorseRacing";
 import { Sport } from "../Sport/Sport";
@@ -10,16 +9,22 @@ import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import { useParams } from "next/navigation";
 import { setSportContent } from "@/store/actions";
-import { alertToast } from "@/utils/alert";
+import { gamingSocket } from "@/context/socket";
+import "./Sports.css";
 
 const Sports = ({ slug }) => {
   const dispatch = useDispatch();
-  const { gamingSocket } = useContext(SocketContext);
   const params = useParams();
 
   const isMobile = useSelector((state) => state.setMobile);
   const data = useSelector((state) => state.sportContent);
-  const sportContent = data?.[slug];
+  const firstMarket = Object.values(data?.[slug] || [])?.[0]
+    ?.market_options?.[0];
+
+  const [isLoading, setIsLoading] = useState(!data[slug]);
+  const [initialMarket, setInitialMarket] = useState(firstMarket);
+
+  const isRacing = slug === "horseracing" || slug === "greyhoundracing";
 
   useEffect(() => {
     gamingSocket.emit("subscribe_sport", {
@@ -43,24 +48,30 @@ const Sports = ({ slug }) => {
         timezone: moment().utcOffset(),
       },
       (response) => {
-        dispatch(setSportContent({ ...data, [slug]: response?.data }));
+        setIsLoading(false);
+        const market = response.data.market_options[0];
+
+        setInitialMarket(market);
+        dispatch(
+          setSportContent({
+            ...data,
+            [slug]: isRacing
+              ? response?.data
+              : {
+                  ...data[slug],
+                  [market.market_id]: response?.data,
+                },
+          })
+        );
       }
     );
   }, []);
 
-  return !sportContent ? (
+  return isLoading ? (
     <SkeletonComponent isMobile={isMobile} />
   ) : (
     <div className="mainArticle">
-      {slug === "horseracing" || slug === "greyhoundracing" ? (
-        <HorseRacing sportContent={sportContent} slug={slug} />
-      ) : (
-        <Sport
-          sportContent={sportContent}
-          setSportContent={setSportContent}
-          slug={slug}
-        />
-      )}
+      {isRacing ? <HorseRacing /> : <Sport initialMarket={initialMarket} />}
     </div>
   );
 };

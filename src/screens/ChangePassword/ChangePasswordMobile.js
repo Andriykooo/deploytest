@@ -4,13 +4,12 @@ import { addLocalStorageItem } from "@/utils/localStorage";
 import { useState } from "react";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { useRouter } from "next/navigation";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
 import { SuccesToast } from "@/utils/alert";
-import "react-toastify/dist/ReactToastify.css";
-import "./ChangePassword.css";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./ChangePassword.css";
+import "../Login/Login.css";
 
 const ChangePasswordMobile = () => {
   const t = useTranslations("common");
@@ -41,7 +40,6 @@ const ChangePasswordMobile = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        setShowChangePassword(false);
       });
   };
 

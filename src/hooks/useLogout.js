@@ -1,11 +1,10 @@
 "use client";
 
-import { refreshGamingSocket } from "@/context/socket";
+import { disconnectSocket } from "@/context/socket";
 import { destroySession } from "@/store/actions";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { clearLocalStorage, getLocalStorageItem } from "@/utils/localStorage";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 
 export const useLogout = () => {
@@ -18,14 +17,8 @@ export const useLogout = () => {
       })
       .finally(() => {
         clearLocalStorage();
-        refreshGamingSocket(null);
+        disconnectSocket();
         dispatch(destroySession());
-
-        const cookieKeys = Object.keys(Cookies.get());
-
-        cookieKeys.forEach((cookieKey) => {
-          Cookies.remove(cookieKey);
-        });
       });
   };
 

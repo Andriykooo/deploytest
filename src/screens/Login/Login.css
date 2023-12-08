@@ -113,6 +113,7 @@
   justify-content: center;
   padding-top: 80px;
   padding-bottom: 20px;
+  margin: 0 auto;
 }
 
 .loginForm form {
@@ -189,10 +190,6 @@
   text-underline-offset: 4px;
 }
 
-.showPasswordIconBtm.welcome {
-  top: 25%;
-}
-
 .social-login-title {
   position: absolute;
   left: 30%;
@@ -213,9 +210,10 @@
 
 @media screen and (max-width: 1024px) {
   .signInImage {
-    min-height: 100vh;
+    min-height: calc(100vh - 56px);
     background-image: none;
   }
+
   .signInImage.withHeader {
     height: calc(100vh - 56px);
     min-height: auto;
@@ -233,21 +231,25 @@
     margin-bottom: 0;
   }
 
+  .loginModal {
+    margin: 44px 0 0 24px;
+  }
+
   .loginForm {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
     padding: 30px 24px 0;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
 
-  a.button1 {
+  a.forgotPasswordButton {
     font-size: 12px;
     line-height: 24px;
     text-decoration: none !important;
+    margin-top: 12px;
   }
 
   .logInTitle {
@@ -270,10 +272,6 @@
     max-width: 100%;
   }
 
-  .login-buttons::placeholder {
-    font-size: 14px;
-  }
-
   .loginIconGoogle,
   .loginIconApple,
   .loginIconFb {
@@ -289,19 +287,15 @@
   .login-buttons {
     margin-bottom: 16px;
   }
-  
+
   .oneClick {
     margin-block: 24px 40px;
     font-size: 14px;
     line-height: 17px;
   }
-  
+
   .loginWhiteButtons .continueBtn {
     margin-bottom: 16px;
-  }
-
-  .showPasswordIconBtm.welcome {
-    top: 29%;
   }
 }
 
@@ -322,7 +316,7 @@
   margin-right: 12px;
 }
 
-.button1 {
+.forgotPasswordButton {
   background-color: transparent;
   color: white;
   border: none;
@@ -350,4 +344,3 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px var(--global-color-background-quaternary) inset !important;
   -webkit-text-fill-color: white !important;
 }
-

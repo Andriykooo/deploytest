@@ -91,18 +91,6 @@
   background-color: var(--global-color-background-quaternary) !important;
 }
 
-.depositModalLimit {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  margin-block: 28px 32px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: var(--global-color-text-primary);
-}
-
 .periodLine {
   background-color: var(--global-color-text-primary);
   width: 37px;
@@ -119,32 +107,6 @@
   overflow: hidden;
 }
 
-.depositModalLimitReminder {
-  line-height: auto;
-  width: 327px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-weight: 700;
-  font-size: 34px;
-  line-height: 38px;
-  color: var(--global-color-text-primary);
-  margin-top: 44px;
-  margin-bottom: 22px;
-}
-
-.gaming-alert-button {
-  border-radius: 10px;
-  background-color: var(--global-color-background-quaternary);
-  color: var(--global-color-text-primary);
-  font-size: 12px;
-  padding: 5px 10px;
-  margin-bottom: 200px;
-}
-
 .setLimit {
   background-color: var(--global-color-background-quaternary);
   border-radius: 10px;
@@ -155,28 +117,6 @@
   position: relative;
   text-align: start;
   padding: 0 !important;
-}
-
-.gaming-reminder-accept-button,
-.gaming-reminder-history-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 327px;
-  background: transparent;
-  border-radius: 10px;
-  color: var(--global-color-buttons-text);
-  height: 48px;
-}
-
-.gaming-reminder-history-button {
-  border: 1px solid var(--global-color-gold-button) !important;
-  margin-bottom: 16px;
-}
-
-.gaming-reminder-accept-button {
-  background: var(--global-color-buttons-background);
-  margin-bottom: 46px;
 }
 
 .gaming-reminder-content {
@@ -212,14 +152,20 @@
 }
 
 .setLimitBtn {
-  height: 50px !important;
-  margin-top: unset !important;
-  padding: 0 !important;
-  background: var(--global-color-linear-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background: var(--global-color-buttons-background);
+  color: var(--global-color-text-primary);
+  font-weight: 600;
 }
 
 .setLimitBtn.disable {
-  background: var(--global-color-background-quaternary);
+  background: var(--global-color-buttons-background-disabled);
+  pointer-events: none;
 }
 
 .setLimitBtn:hover {
@@ -230,20 +176,6 @@
 .modal-footer.limit {
   padding: 0 !important;
   margin-top: 1rem;
-}
-
-.depositLimit {
-  position: relative;
-  margin-left: 450px;
-  padding-top: 45px;
-}
-
-.depositBody {
-  max-width: 560px;
-}
-
-.depositBodyTransaction {
-  max-width: 560px;
 }
 
 .setLimitBtn2:hover {
@@ -271,71 +203,6 @@
   margin-top: unset !important;
 }
 
-.max-width-confirmContainer {
-  max-width: 920px;
-}
-
-.confirmDepositLimit {
-  position: relative;
-  padding-top: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 40px;
-  width: 100%;
-}
-
-.confirmContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  gap: 40px;
-  width: 100%;
-  height: 512px;
-}
-
-.confirmImg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.confirmTextContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  gap: 15px;
-  width: 100%;
-  height: 81px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-}
-
-.confirmHeader {
-  height: 42px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 42px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: var(--global-color-text-primary);
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin-bottom: 0;
-}
-
 .confirmHeader2 {
   height: unset;
   font-style: normal;
@@ -350,86 +217,6 @@
   order: 0;
   flex-grow: 0;
   margin-bottom: 0;
-}
-
-.secondHeader {
-  height: 24px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: var(--global-color-text-primary);
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  margin-bottom: 0;
-}
-
-.confirmButtonsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-  width: 165px;
-  height: 136px;
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-}
-
-.confirmFirstButton {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
-  width: 165px;
-  height: 34px;
-  background: var(--global-color-shade4);
-  border-radius: 100px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  color: var(--global-color-shade-dark);
-}
-
-.confirmArrows {
-  width: 30px;
-  height: 36px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-}
-
-.confirmSecondButton {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
-  width: 165px;
-  height: 34px;
-  background: var(--global-color-text-primary);
-  border-radius: 100px;
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-  color: black;
-}
-
-.confirmDepositButtons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  width: 100%;
 }
 
 .confirmFirstDepositButton {
@@ -563,44 +350,6 @@
     width: 100%;
   }
 
-  .confirmDepositLimit {
-    height: 100%;
-    justify-content: space-between;
-    padding-top: 30px;
-  }
-
-  .max-width-confirmContainer {
-    max-width: 920px;
-  }
-
-  .confirmContainer {
-    width: 100%;
-  }
-
-  .confirmTextContainer {
-    width: 100%;
-  }
-
-  .confirmButtonsContainer {
-    width: 100%;
-  }
-
-  .confirmHeader {
-    font-size: x-large;
-  }
-
-  .secondHeader {
-    font-size: small;
-  }
-
-  .confirmFirstDepositButton {
-    width: 100%;
-  }
-
-  .confirmSecondDepositButton {
-    width: 100%;
-  }
-
   .goBackArrowDeposit {
     position: fixed;
     top: 2%;
@@ -625,12 +374,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-
-  .depositLimit {
-    width: 100%;
-    padding-left: 0;
-    margin: 0;
   }
 
   .depositBodyTransaction {

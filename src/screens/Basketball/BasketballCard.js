@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { MatchOdds } from "../../components/matches/MatchOdds";
-import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../../components/matches/Matches.css";
+
 const BasketballCard = ({
   match,
   moreMarkets,

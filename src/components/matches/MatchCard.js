@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setInPlay } from "../../store/actions";
 import { SuccesToast, alertToast } from "../../utils/alert";
-import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { MatchOdds } from "./MatchOdds";
 import "./Matches.css";
@@ -44,6 +42,7 @@ const MatchCard = ({ match, inPlay }) => {
       });
     }
   };
+
   return (
     <div className="matchCardRowContainer">
       {isTablet && (
@@ -74,9 +73,19 @@ const MatchCard = ({ match, inPlay }) => {
                 : moment.utc(match.start_time).local().format("DD MMM HH:mm")}
             </div>
           </div>
-          <div className="more-markets-container" onClick={handleClickRow}>
-            <HorizontalDots />
+          <div className="odds">
+            {match?.selections?.length > 0 &&
+              match?.selections.map((selection, index) => {
+                return (
+                  <div className="selectionName" key={index}>
+                    {selection?.name || selection?.outcome_name}
+                  </div>
+                );
+              })}
           </div>
+          {/* <div className="more-markets-container" onClick={handleClickRow}>
+            <HorizontalDots />
+          </div> */}
         </div>
       )}
       <div className="matchCard row matchCardRow matchCardFootball">
@@ -116,22 +125,20 @@ const MatchCard = ({ match, inPlay }) => {
             <>
               <div className="matchAll mobileMatchCard mobileMatchRowForTeams">
                 <div className="matchTeam matchTeamStyle matchTeamMobile">
-                  {match?.participants[0].name}
+                  <div className="matchTeam-name">
+                    {match?.participants[0].name}
+                  </div>
+                  <div className="matchTeam-name">
+                    {match?.participants[1].name}
+                  </div>
                 </div>
-                <div className="matchResult matchResultMobile match-vs-teams">
-                  {match?.participants[0].score &&
-                  match?.participants[1].score &&
-                  match?.is_live ? (
-                    <>
-                      {match?.participants[0].score} :{" "}
-                      {match?.participants[1].score}
-                    </>
-                  ) : (
-                    t("common.vs")
-                  )}
-                </div>
-                <div className="matchTeam matchTeamMobile">
-                  {match?.participants[1].name}
+                <div className="matchTeam-score">
+                  <div className="match-score">
+                    {match?.is_live ? match?.participants[1].score : '-'}
+                  </div>
+                  <div className="match-score">
+                    {match?.is_live ? match?.participants[0].score : '-'}
+                  </div>
                 </div>
               </div>
             </>
@@ -154,7 +161,7 @@ const MatchCard = ({ match, inPlay }) => {
             </>
           )}
         </div>
-        {isTablet && (
+        {/* {isTablet && (
           <div className="odds">
             {match?.selections?.length > 0 &&
               match?.selections.map((selection, index) => {
@@ -165,7 +172,7 @@ const MatchCard = ({ match, inPlay }) => {
                 );
               })}
           </div>
-        )}
+        )} */}
         <div className="odds mobileBetsOdds rowBetsOdds">
           {match.selections.map((row, index) => {
             return (

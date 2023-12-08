@@ -7,6 +7,10 @@
   border-radius: 8px;
 }
 
+.sports-table-empty-state {
+  background-color: var(--global-color-table-grid-background);
+}
+
 .sport-accordion > .custom-accordion-header {
   font-weight: 600;
 }
@@ -29,4 +33,11 @@
 
 .sports-table-sports .accordion-body .accordion-button:not(.collapsed)::after {
   transform: rotate(180deg);
+}
+
+@media only screen and (max-width: 1024px) {
+  .sports-table-sports {
+    margin: 0;
+    border-radius: unset;
+  }
 }

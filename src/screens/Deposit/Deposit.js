@@ -4,12 +4,11 @@ import { useCallback, useState } from "react";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import "../Deposit/Deposit.css";
-import "../DepositLimit/DepositLimit.css";
 import DepositLimitComponent from "@/components/DepositLimitComponent/DepositLimitComponent";
 import DepositAmountForm from "@/components/DepositAmountForm/DepositAmountForm";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser } from "@/store/actions";
+import "../Deposit/Deposit.css";
 
 const Deposit = () => {
   const user = useSelector((state) => state.loggedUser);

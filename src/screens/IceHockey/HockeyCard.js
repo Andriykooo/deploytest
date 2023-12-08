@@ -1,16 +1,16 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import "../../components/matches/Matches.css";
 import { setInPlay } from "../../store/actions";
 import { theme } from "../../utils/config";
 import { HorizontalDots } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../../components/matches/Matches.css";
+
 const HockeyCard = (props) => {
   const t = useTranslations("common");
-  const { match, firstRow, id, inPlay } = props;
+  const { match, firstRow, inPlay } = props;
   const isMobile = useSelector((state) => state.setMobile);
   const dispatch = useDispatch();
   let homeTeam = match.participants[0].name,
@@ -25,10 +25,6 @@ const HockeyCard = (props) => {
       dispatch(setInPlay(false));
     }
   };
-  let moreMarket;
-  if (id === "15") {
-    moreMarket = true;
-  }
 
   return (
     <div className="matchCardRowContainer">

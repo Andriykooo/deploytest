@@ -7,12 +7,14 @@
 .imageContainer {
   position: relative;
   width: 100%;
-  height: 401px;
+  margin-bottom: 8px;
 }
 
 .imageContainer img {
   padding: 0;
   width: 100%;
+  min-height: 140px;
+  max-height: 500px;
   object-fit: cover;
 }
 
@@ -28,7 +30,7 @@
 }
 
 .casinoCarousel {
-  padding: 30px 40px 34px 40px;
+  padding: 30px 20px 34px 20px;
   background: var(--global-color-background);
   max-height: 226px;
   border-bottom: 1px solid var(--global-color-background-quinary);
@@ -65,7 +67,7 @@
   align-items: center;
   justify-content: space-between;
   position: absolute;
-  padding: 0 40px 40px 40px;
+  padding: 0 16px 40px 16px;
   width: 100%;
   bottom: 0;
 }
@@ -78,8 +80,8 @@
   gap: 6px;
   font-style: normal;
   font-weight: 600;
-  font-size: 32px;
-  line-height: 24px;
+  font-size: 24px;
+  line-height: 1;
   align-items: flex-start;
   justify-content: center;
   color: var(--global-color-casino-text1);
@@ -116,6 +118,10 @@
 
 .btnPrimary.bannerButton {
   position: static;
+  line-height: 10px;
+  padding: 0 15px;
+  height: 26px;
+  white-space: nowrap;
 }
 
 .mainContainer {
@@ -403,6 +409,7 @@
 .casinoGame {
   cursor: pointer;
   border-radius: 10px;
+  transition: 0.2s ease;
 }
 
 .casinoMultiSlider .slick-list {
@@ -646,7 +653,6 @@
 
 .gameImageWrapper.unableToPreview {
   height: 100%;
-  width: 100%;
   background-color: var(--global-color-background-quaternary);
   border-radius: 10px;
 }
@@ -714,7 +720,7 @@
 .trending {
   display: flex;
   justify-content: flex-end;
-  align-items: end;
+  align-items: flex-end;
   position: relative;
   margin-right: 6px;
 }
@@ -824,7 +830,6 @@
   }
 
   .imageContainer {
-    height: 247px;
     width: 100%;
     left: 0px;
   }

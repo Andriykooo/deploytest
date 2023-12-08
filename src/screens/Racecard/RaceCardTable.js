@@ -4,11 +4,15 @@ import { useSelector } from "react-redux";
 import classNames from "classnames";
 import moment from "moment";
 import { useTranslations } from "next-intl";
+
 export const RacecardTable = ({ headerData, data }) => {
-  const t = useTranslations("racecard");
-  const gridColumns = headerData.map((item) => item.width).join(" ");
+  const t = useTranslations();
+
   const currentTime = useSelector((state) => state.currentTime);
   const resultedEvents = useSelector((state) => state.resultedEvents);
+  const settings = useSelector((state) => state.settings);
+
+  const gridColumns = headerData.map((item) => item.width).join(" ");
   const isResulted = resultedEvents[data?.event_id] || data?.resulted;
   const activeRunners = [];
   const nonRunners = [];
@@ -51,7 +55,7 @@ export const RacecardTable = ({ headerData, data }) => {
   const renderNonRunners = (headItem, selection) => {
     if (headItem.render) {
       if (headItem.dataKey === "odds_decimal" || headItem.dataKey === "sp") {
-        return t("nr");
+        return t("racecard.nr");
       }
       return headItem.render(selection);
     }
@@ -61,19 +65,26 @@ export const RacecardTable = ({ headerData, data }) => {
   return data ? (
     <div className="race-table">
       <div className="race-table-head">
-        <div className="race-table-head-title">{data?.event_venue}</div>
-        <div className="race-table-head-subtitle">
-          <span className="race-table-head-subtitle-event">
-            {data?.event_name}
-          </span>
-          <span className="race-table-head-subtitle-description">
-            {data?.event_description}
-          </span>
+        <div className="race-table-head-title">
+          <div className="race-table-head-title">{data?.event_venue}</div>
+          <div className="race-table-head-subtitle">
+            <span className="race-table-head-subtitle-event">
+              {data?.event_name}
+            </span>
+            <span className="race-table-head-subtitle-description">
+              {data?.event_description}
+            </span>
+          </div>
         </div>
+        {settings.bog && (
+          <span className="selected-bet-bog align-self-center">{t("bog")}</span>
+        )}
       </div>
-      {isResulted && <div className="race-status">{t("race_result")}</div>}
+      {isResulted && (
+        <div className="race-status">{t("racecard.race_result")}</div>
+      )}
       {!isResulted && moment(data.event_start_time).isBefore(currentTime) && (
-        <div className="race-status">{t("race_in_progress")}</div>
+        <div className="race-status">{t("racecard.race_in_progress")}</div>
       )}
       <div className="race-table-head-items-container">
         <div
@@ -120,7 +131,9 @@ export const RacecardTable = ({ headerData, data }) => {
         })}
         {nonRunners.length > 0 && (
           <>
-            <div className="race-table-non-runner">{t("non_runner")}</div>
+            <div className="race-table-non-runner">
+              {t("racecard.non_runner")}
+            </div>
             {nonRunners?.map((selection) => {
               return (
                 <div

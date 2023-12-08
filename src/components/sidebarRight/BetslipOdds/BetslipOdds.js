@@ -2,6 +2,7 @@ import { Odds } from "@/components/Odds/Odds";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import "./BetslipOdds.css";
 
 export const BetslipOdds = ({ selection, className, children }) => {
   const priseChanged = useSelector((state) => state.priceIsChanged);
@@ -61,9 +62,7 @@ export const BetslipOdds = ({ selection, className, children }) => {
       })}
     >
       <Odds
-        selection={
-          selectionData?.price_boost ? priceBoost : selectionData
-        }
+        selection={selectionData?.price_boost ? priceBoost : selectionData}
       />
       <div
         className={classNames("betslip-odds-inner-content", {

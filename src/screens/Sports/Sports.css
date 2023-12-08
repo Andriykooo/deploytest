@@ -2,11 +2,6 @@
   margin-bottom: 10px;
 }
 
-.MuiTabs-flexContainer button {
-  font-size: 10px;
-  font-family: var(--bs-body-font-family);
-}
-
 .market-types {
   font-size: 16px;
   display: flex;
@@ -25,19 +20,6 @@
   margin: 0 10px;
 }
 
-.MuiTabs-indicator {
-  height: 4px !important;
-  background: var(--global-color-chip-line-active) !important;
-}
-
-.Mui-selected {
-  color: var(--global-color-chip-line-text-active) !important;
-}
-
-.MuiSwitch-switchBase {
-  padding: 0 !important;
-}
-
 .swiper-slide {
   width: auto !important;
 }
@@ -48,12 +30,12 @@
 
 .sport-container {
   flex: 1;
-}
-
-.sport-container.sport-container-empty {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+.sport-header {
+  margin: 16px 16px 0;
 }
 
 .sport-container .empty-state {
@@ -85,12 +67,12 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  background: #25292D;
+  background: #25292d;
   color: var(--global-color-text-primary);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  border-bottom: 1px solid #414851
+  border-bottom: 1px solid #414851;
 }
 
 .competitions-select_item {
@@ -99,12 +81,12 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  background: #25292D;
+  background: #25292d;
   color: var(--global-color-text-primary);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  border-bottom: 1px solid #414851
+  border-bottom: 1px solid #414851;
 }
 
 .competitions-select_item-active {
@@ -219,35 +201,6 @@ div .MuiAutocomplete-popper {
   top: auto !important;
 }
 
-.sport-competitions {
-  background-color: var(--global-color-table-header-secondary);
-  border-radius: 6px;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  margin-bottom: 16px;
-}
-
-.sport-competitions-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  border-bottom: 1px solid var(--global-color-table-background);
-  padding: 10px 12px;
-}
-
-.sport-competitions-head.mobile {
-  flex-direction: column;
-  align-items: start;
-  padding: 0;
-}
-
-.sport-competitions-head.mobile .selected-buttons {
-  padding-block: 12px;
-}
-
 .sport-name {
   line-height: 16px;
   display: flex;
@@ -276,34 +229,12 @@ div .MuiAutocomplete-popper {
   background: var(--global-color-primary);
 }
 
-.closeSidebarButton {
-  position: absolute;
-  transition: opacity 0.1s ease-in-out;
-  top: 50%;
-  left: 100%;
-  width: 20px;
-  height: 42px;
-  background: var(--global-color-background);
-  border-radius: 0px 5px 5px 0px;
-  transform: translateY(-100%);
-  padding: 0;
-  box-shadow: 6px 6px 10px 0px #00000052;
-}
-
 .closeSidebarButton2 {
   left: 50px;
 }
 
 .openSidebarButton {
   margin-left: 4px;
-}
-
-.closeSidebarButton .arrowImgSidebar {
-  transform: rotate(270deg);
-}
-
-.openSidebarButtonn .arrowImgSidebar {
-  transform: rotate(90deg);
 }
 
 .valueOfBets:hover {
@@ -413,7 +344,7 @@ div .MuiAutocomplete-popper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  padding: 0 12px 10px;
+  padding: 12px 10px;
 }
 
 .selectCompetition {
@@ -434,17 +365,31 @@ div .MuiAutocomplete-popper {
 }
 
 @media screen and (max-width: 1024px) {
+  .sport-name {
+    margin-top: 4px;
+  }
+
   .MuiAutocomplete-root {
     margin-bottom: 6px;
     max-width: 100% !important;
   }
-  
+
+  .sport-content {
+    background-color: var(--global-color-table-header-secondary);
+  }
+
+  .sport-header {
+    padding: 12px;
+    margin: 0;
+    border-bottom: 1px solid #414851
+  }
+
   .MuiInputBase-root {
     padding-top: 0px;
     padding-bottom: 0px;
     font-size: 10px !important;
   }
-  
+
   .autoCompleteMultipleInRow {
     grid-template-columns: 1fr;
     padding: 0 0 10px;
@@ -452,6 +397,60 @@ div .MuiAutocomplete-popper {
 
   .sport-events-filter {
     margin-bottom: 16px;
+  }
+
+  .sport-container .empty-state {
+    flex: 1 1;
+  }
+
+  .sportNavigation-header .sport-competitions-head.mobile {
+    padding-block: 10px;
+  }
+
+  .dashedLine {
+    position: relative;
+    margin-top: 6px;
+    height: 1px;
+  }
+
+  .sportNavigation-header .sport-competitions {
+    margin-bottom: 6px;
+  }
+
+  .navigation-selects,
+  .navigationBtns {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding-inline: 12px;
+  }
+
+  .navigation-selects .competitions-select span{
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .navigationBtns {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #414851
+  }
+
+  .navigationBtns button {
+    background-color: #353A40;
+    color: #C59E43;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    height: 36px;
+  }
+
+  .navigationBtns .btnPrimary {
+    color: #fff;
+  }
+
+  .navigationBack {
+    margin: 0 0 10px 12px;
   }
 
   .competitions-select_item {
@@ -483,27 +482,12 @@ div .MuiAutocomplete-popper {
     height: 40px;
   }
 
-  .sport-competitions-head {
-    padding-left: 0;
-  }
-
-  .sport-competitions-head.mobile .sport-name {
-    font-size: 14px;
-    line-height: 24px;
-  }
-
   .competitions-select.markets-select:not(.opened) {
     margin-bottom: 10px;
   }
 
   .sportsMatchesContainer {
     padding: 18px;
-  }
-
-  .sport-competitions {
-    background: transparent;
-    padding: 0;
-    height: auto;
   }
 
   .horse-sport-competitions {

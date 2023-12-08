@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { MatchAccordion } from "../custom/MatchAccordion";
 import "./Matches.css";
+import classNames from "classnames";
 
 const Matches = ({ competitionsData, marketOptions, inPlay, type }) => {
   let competitions = competitionsData;
   const selectedBets = useSelector((state) => state.selectedBets);
+  const isTablet = useSelector((state) => state.isTablet);
 
   useEffect(() => {
     if (competitions && competitions.length > 0) {
@@ -23,9 +25,9 @@ const Matches = ({ competitionsData, marketOptions, inPlay, type }) => {
 
   return (
     <div>
-      {competitionsData.map((row, index) => {
+      {competitionsData?.map((row, index) => {
         return (
-          <div key={row.id} className="mx-3">
+          <div key={row.id} className={classNames("bordered-match", {"mx-3": !isTablet})}>
             <MatchAccordion
               marketOptions={marketOptions}
               row={row}

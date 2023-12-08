@@ -3,6 +3,7 @@ import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+
 export const TransactionDetails = ({ data, close }) => {
   const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);
@@ -17,9 +18,7 @@ export const TransactionDetails = ({ data, close }) => {
       style={{ display: "block" }}
     >
       <div
-        className={
-          isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog  top-50"
-        }
+        className={isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog"}
       >
         <div className="modal-content modalCenterContent justify-content-between">
           <div className="d-flex align-items-center flex-column transactionDetailsContent">

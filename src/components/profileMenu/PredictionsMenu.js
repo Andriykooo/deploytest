@@ -1,21 +1,23 @@
 import Image from "next/image";
-import Link from "next/link";
 import { predictionPages } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
-import { GoBackButton } from "../goBackButton/GoBackButton";
-import { ProfileCard } from "./Styled";
 import { useTranslations } from "next-intl";
 import { CustomLink } from "../Link/Link";
+import { ProfileCard } from "../ProfileCard/ProfileCard";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+
 export const PredictionsMenu = ({ page, active }) => {
   const t = useTranslations();
+  const router = useCustomRouter();
+
   return (
     <>
       <div className="d-flex pb-3">
         <Image
           src={images.goBackArrow}
           alt="Go back"
-          className="ms-0 "
+          className="ms-0"
           onClick={() => router.push("/profile/profile")}
         />
       </div>

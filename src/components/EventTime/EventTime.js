@@ -20,6 +20,7 @@ export const EventTime = ({ data }) => {
     >
       {isResulted ? (
         <Image
+          className="me-1"
           alt={t("pointer_img")}
           src={images.pointer}
           height={13}

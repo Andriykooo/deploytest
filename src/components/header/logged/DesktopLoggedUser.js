@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
 import { useTranslations } from "next-intl";

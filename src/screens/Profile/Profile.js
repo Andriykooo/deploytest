@@ -10,10 +10,6 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-
-import "../Profile/Profile.css";
-import "../Withdraw/Withdraw.css";
-
 import { useLogout } from "@/hooks/useLogout";
 import { Button } from "@/components/button/Button";
 import classNames from "classnames";
@@ -23,6 +19,7 @@ import { useTranslations } from "next-intl";
 import { setUserStats } from "@/store/actions";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./Profile.css";
 
 const InfoDiv = ({ children, clickable, onClick }) => {
   return (

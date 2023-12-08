@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSport, setLogos, setTablet } from "../../store/actions";
@@ -39,7 +38,7 @@ export const Logo = ({ handleNavigateHome, className }) => {
           alt="logo"
           onClick={() => {
             handleNavigateHome?.(false);
-            dispatch(setActiveSport("0"));
+            dispatch(setActiveSport(null));
           }}
         />
       </CustomLink>

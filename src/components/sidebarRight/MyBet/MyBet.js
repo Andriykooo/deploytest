@@ -12,6 +12,8 @@ import classNames from "classnames";
 import Image from "next/image";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "./MyBet.css";
+import { setLoggedUser } from "@/store/actions";
 
 const Bet = ({ data }) => {
   return (
@@ -49,7 +51,7 @@ export const MyBet = ({ data, setData }) => {
   const dispatch = useDispatch();
   const getUserData = () => {
     getUserApi(dispatch).then((response) => {
-      dispatch(setLoggedUser({ ...loggedUser, user_data: response }));
+      dispatch(setLoggedUser({ ...user, user_data: response }));
     });
   };
   const [isConfirmed, setIsConfirmed] = useState(false);

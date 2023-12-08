@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { CloseIcon } from "../../utils/icons";
 import { useTranslations } from "next-intl";
+import "../matches/Matches.css";
+
 export const MobileSelect = ({ data, selectedItem, placeholder, onSelect }) => {
   const t = useTranslations("common");
   const autoselectRef = useRef(null);

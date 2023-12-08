@@ -59,11 +59,10 @@ const HomeSlider = ({
         )}
       </div>
       <Slider {...settings} className={type ? "casinoTrendingSlider" : ""}>
-        {data?.map((carouselItem, index) => {
+        {data?.map((carouselItem) => {
           return (
             <Fragment key={carouselItem.id}>
               <div
-                key={index}
                 className={
                   casinoSlider
                     ? "slider-image-container slider-image-container-casino"
@@ -72,7 +71,7 @@ const HomeSlider = ({
               >
                 <>
                   <Image
-                    src={carouselItem?.details?.image}
+                    src={carouselItem?.image}
                     alt="slider-img"
                     priority
                     height={160}
@@ -80,32 +79,32 @@ const HomeSlider = ({
                   />
                   <div className="slider-item-content">
                     <div className="slider-text">
-                      {carouselItem?.details?.title}
+                      {carouselItem?.title}
                       <p className="sliderTextContent">
-                        {carouselItem?.details?.subtitle}
+                        {carouselItem?.subtitle}
                       </p>
                     </div>
                     <div className="betNowBtnsContainer">
-                      {carouselItem?.details.promo_type === "dynamic" && (
+                      {carouselItem?.promo_type === "dynamic" && (
                         <DynamicSelections
-                          selections={carouselItem.buttons}
-                          eventId={carouselItem?.details.event_id}
+                          selections={carouselItem?.button?.selections}
+                          eventId={carouselItem?.button.event_id}
                         />
                       )}
-                      {carouselItem?.details.promo_type === "default" &&
-                        carouselItem?.details?.call_to_action && (
+                      {carouselItem?.promo_type === "default" &&
+                        carouselItem?.button?.name && (
                           <LinkType
-                            path={carouselItem.details.link}
-                            openType={carouselItem?.details?.open_type}
-                            type={carouselItem.details.link_type}
+                            path={carouselItem.button.link}
+                            openType={carouselItem?.open_type}
+                            type={carouselItem.link_type}
                             modalData={{
-                              slug: carouselItem?.details?.link?.substring(1),
-                              title: carouselItem?.details?.title,
+                              slug: carouselItem?.button?.link?.substring(1),
+                              title: carouselItem?.title,
                             }}
                           >
                             <Button
                               className={"btnPrimary betNowButtonOFSlider"}
-                              text={carouselItem?.details?.call_to_action}
+                              text={carouselItem?.button?.name}
                             />
                           </LinkType>
                         )}

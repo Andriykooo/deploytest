@@ -2,7 +2,6 @@
 
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
@@ -13,10 +12,11 @@ import Spiner from "../../utils/Spiner";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import "../DepositLimit/DepositLimit.css";
-import "../OpenPredictions/OpenPredictions.css";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../DepositLimit/DepositLimit.css";
+import "../OpenPredictions/OpenPredictions.css";
+
 const OpenPredictions = () => {
   const t = useTranslations("common");
   const isMobile = useSelector((state) => state.setMobile);

@@ -6,6 +6,8 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
+import "../SaferGambling/SaferGambling.css";
+
 const SaferGamblingInformation = () => {
   const t = useTranslations("safer_gambling_information");
   const [pageContent, setPageContent] = useState("");

@@ -5,9 +5,11 @@ import { notFound } from "next/navigation";
 
 async function getData(id) {
   try {
-    if (typeof id === "string") {
-      return await apiServices.get(`${apiUrl.MATCH_DETAILS}?eventId=${id}`);
-    }
+    return await apiServices.get(
+      apiUrl.MATCH_DETAILS,
+      { eventId: id },
+      { withCredentials: true }
+    );
   } catch (e) {
     notFound();
   }
@@ -15,7 +17,6 @@ async function getData(id) {
 
 export default async function Page({ params }) {
   const data = await getData(params.id);
-  
 
   return <MatchDetails data={data} id={params.id} />;
 }

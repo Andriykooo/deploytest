@@ -1,10 +1,7 @@
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
-import {
-  refreshCommunicationSocket,
-  refreshGamingSocket,
-} from "@/context/socket";
+import { addLocalStorageItem } from "@/utils/localStorage";
+import { connectSocket } from "@/context/socket";
 import { getUserApi } from "@/utils/apiQueries";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,35 +41,34 @@ export function useLoginCallbacks({ loginCallback }) {
       addLocalStorageItem("refresh_token", response?.refresh_token);
       addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
       addLocalStorageItem("swifty_id", response?.swifty_id);
-      refreshCommunicationSocket(response?.token);
-      refreshGamingSocket(response?.token);
+      connectSocket(response?.token);
+
+      if (params.get("redirect")) {
+        router.push("/" + params.get("redirect"));
+      } else {
+        router.push("/");
+      }
+
+      dispatch(setLoggedUser(response));
+
+      if (!response.user_data.email_verified) {
+        apiServices.get(apiUrl.RESEND_EMAIL).then(() => {
+          router.push("/verify_email");
+        });
+      }
+
+      if (
+        setShowConfirm &&
+        response?.user_data?.actions &&
+        response?.user_data?.actions.length > 0
+      ) {
+        setShowConfirm(true);
+      }
+
+      loginCallback?.();
 
       getUserApi(dispatch).then((userData) => {
-        let nextUrlPath = getLocalStorageItem("nextUrlPath");
         dispatch(setLoggedUser({ ...response, user_data: userData }));
-
-        if (!userData.email_verified) {
-          apiServices.get(apiUrl.RESEND_EMAIL).then(() => {
-            router.push("/verify_email");
-          });
-        } else if (params.get("redirect")) {
-          router.push("/" + params.get("redirect"));
-        } else if (nextUrlPath && nextUrlPath === "casino") {
-          router.push("/casino");
-        } else {
-          router.push("/");
-        }
-
-        if (setShowConfirm) {
-          if (
-            response?.user_data?.actions &&
-            response?.user_data?.actions.length > 0
-          ) {
-            setShowConfirm(true);
-          }
-        }
-
-        loginCallback?.();
       });
     },
     [dispatch, router, params]

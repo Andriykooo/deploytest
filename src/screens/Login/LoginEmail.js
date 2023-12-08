@@ -12,6 +12,7 @@ export const LoginEmail = ({
   checkEmail,
   isLoading,
   validateEmail,
+  loginCallback
 }) => {
   const t = useTranslations();
 
@@ -53,9 +54,9 @@ export const LoginEmail = ({
           {t("login.sign_in_one_click")}
         </p>
         <div className="whiteButtonsGroup d-grid">
-          <AppleLogin />
-          <FacebookLogin />
-          <GoogleLogin />
+          <AppleLogin loginCallback={loginCallback} />
+          <FacebookLogin loginCallback={loginCallback} />
+          <GoogleLogin loginCallback={loginCallback} />
         </div>
       </div>
     </div>

@@ -1,0 +1,10 @@
+.styledModalWrapper {
+  position: fixed;
+  left: 0;
+  top: 74px;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1055;
+}

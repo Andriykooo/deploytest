@@ -17,9 +17,6 @@
   right: 15%;
   top: 45%;
 }
-.max-width-container {
-  max-width: 454px;
-}
 
 .netDepositLimit .ddWrapper {
   max-height: 512px;
@@ -41,14 +38,4 @@
 
 .netShow {
   display: block;
-}
-
-@media screen and (max-width: 1024px) {
-  .max-width-container {
-    max-width: 100%;
-  }
-
-  .modalCenterContent {
-    align-items: center !important;
-  }
 }

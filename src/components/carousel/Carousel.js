@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
+import "./Carousel.css";
 
 export const Carousel = ({ arrowClassName, center, data, onScroll }) => {
   const {
@@ -36,7 +37,6 @@ export const Carousel = ({ arrowClassName, center, data, onScroll }) => {
     if (hideNextArrowByScroll !== hideNextArrow) {
       setHideNextArrow(hideNextArrowByScroll);
     }
-
   };
   useEffect(() => {
     if (pages.length) {
@@ -67,8 +67,8 @@ export const Carousel = ({ arrowClassName, center, data, onScroll }) => {
                 index === 0
                   ? firstElementRef
                   : index === data.length - 1
-                    ? lastElementRef
-                    : null
+                  ? lastElementRef
+                  : null
               }
               style={
                 snapPointIndexes.has(index) ? { scrollSnapAlign: "start" } : {}

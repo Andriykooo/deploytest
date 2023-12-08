@@ -10,9 +10,11 @@ import { setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import "../Login/Login.css";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../Login/Login.css";
+import "./VerifyEmail.css";
 
 const VerifyEmail = () => {
   const t = useTranslations();
@@ -21,7 +23,7 @@ const VerifyEmail = () => {
   const [seconds, setSeconds] = useState(59);
   const [loader, setLoader] = useState(false);
   const user = useSelector((state) => state.user);
-  const router = useCu();
+  const router = useCustomRouter();
   const isValid = OTP.length === 4;
 
   const dispatch = useDispatch();
@@ -62,7 +64,7 @@ const VerifyEmail = () => {
 
   const verifyCode = () => {
     if (loader) {
-      return;
+    return;
     }
 
     setLoader(true);
@@ -73,14 +75,14 @@ const VerifyEmail = () => {
       .then((result) => {
         dispatch(setLoggedUser(result));
         addLocalStorageItem("kyc_access_token", result?.kyc_access_token);
-        if (result.user_data.email_verified) {
-          if (result.user_data.required_values.phone_number) {
-            router.push("/sign_up_with_phone");
-          } else {
-            router.push("/finish_account_setup");
-          }
+if (result.user_data.email_verified) {
+        if (result.user_data.required_values.phone_number) {
+        router.push("/sign_up_with_phone");
         } else {
-          router.push("/");
+        router.push("/finish_account_setup");
+        }
+        } else {
+        router.push("/");
         }
       })
       .catch(() => {

@@ -1,0 +1,8 @@
+.gaming-alert-button {
+  border-radius: 10px;
+  background-color: var(--global-color-background-quaternary);
+  color: var(--global-color-text-primary);
+  font-size: 12px;
+  padding: 5px 10px;
+  margin-bottom: 200px;
+}

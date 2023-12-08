@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Link } from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";

@@ -1,61 +1,3 @@
-@import url(../../screens/Withdraw/Withdraw.css);
-@import url(../../screens/TransactionHistory/TransactionHistory.css);
-@import url(../../screens/Terms/Terms.css);
-@import url(../../screens/SuspendAccount/SuspendAccount.css);
-@import url(../../screens/Sports/Sports.css);
-@import url(../../screens/SettledPredictions/SettledPredictions.css);
-@import url(../../screens/SelfExclude/SelfExclude.css);
-@import url(../../screens/SaferGambling/SaferGambling.css);
-@import url(../../screens/RealityCheck/RealityCheck.css);
-@import url(../../screens/Profile/Profile.css);
-@import url(../../screens/OpenPredictions/OpenPredictions.css);
-@import url(../../screens/Notifications/Notifications.css);
-@import url(../../screens/NetDeposit/NetDeposit.css);
-@import url(../../screens/Login/Login.css);
-@import url(../../screens/Kyc/Kyc.css);
-@import url(../../screens/ForgotPassword/Email.css);
-@import url(../../screens/ForgotPassword/ForgotPassword.css);
-@import url(../../screens/Home/Home.css);
-@import url(../../screens/Deposit/Deposit.css);
-@import url(../../screens/DepositLimit/DepositLimit.css);
-@import url(../../screens/Cookie/Cookie.css);
-@import url(../../screens/Contact/Contact.css);
-@import url(../../screens/OddsFormat/OddsFormat.css);
-@import url(../../screens/BonuesesAndPromotions/BonuesesAndPromotions.css);
-@import url(../../screens/NotFound/NotFound.css);
-@import url(../../screens/HorseRacing/HorseRacing.css);
-@import url(../../screens/Casino/Casino.css);
-@import url(../../screens/Racecard/Racecard.css);
-@import url(../../screens/SignUp/SignUp.css);
-@import url(../../components/sidebarLeft/SedibarLeft.css);
-@import url(../../components/sidebar/Sidebar.css);
-@import url(../../components/profileMenu/ProfileMenu.css);
-@import url(../../components/pageContentModal/PageContentModal.css);
-@import url(../../components/matches/Matches.css);
-@import url(../../components/htmlParse/HtmlParse.css);
-@import url(../../components/homeSlider/HomeSlider.css);
-@import url(../../components/header/Header.css);
-@import url(../../components/footerMenu/FooterMenu.css);
-@import url(../../components/footer/Footer.css);
-@import url(../../components/eventTable/EventTable.css);
-@import url(../../components/casinoMenu/CasinoMenu.css);
-@import url(../../components/casinoCategory/CasinoCategory.css);
-@import url(../../components/carousel/Carousel.css);
-@import url(../../components/limitChart/LimitChart.css);
-@import url(../../components/loaders/Loader.css);
-@import url(../../components/bannerMenu/BannerMenu.css);
-@import url(../../components/emptyState/EmptyState.css);
-@import url(../../components/chat/Chat.css);
-@import url(../../components/languageDropdown/languageDropdown.css);
-@import url(../../components/pageContent/PageContent.css);
-@import url(../../components/sidebarRight/BetslipOdds/BetslipOdds.css);
-@import url(../../components/selectButtons/SelectButtons.css);
-@import url(../../components/dropdown/Dropdown.css);
-@import url(../../components/goBackButton/GoBackButton.css);
-@import url(../../components/sidebarRight/MyBet/MyBet.css);
-@import url(../../layouts/baseLayout/BaseLayout.css);
-@import url(../../components/sidebarRight/SidebarRight.css);
-
 :root {
   /* Fonts */
 
@@ -330,9 +272,13 @@ body {
   height: 100%;
 }
 
-input[type="password"] {
-  font-family: Verdana;
-  font-size: 20px;
+input::placeholder {
+  font-size: 16px;
+}
+
+textarea:focus-visible,
+input:focus-visible {
+  outline: none;
 }
 
 .Toastify__toast {
@@ -477,6 +423,24 @@ body.opened::after {
   padding-bottom: 0;
 }
 
+.MuiTabs-flexContainer button {
+  font-size: 10px;
+  font-family: var(--bs-body-font-family);
+}
+
+.Mui-selected {
+  color: var(--global-color-chip-line-text-active) !important;
+}
+
+.MuiTabs-indicator {
+  height: 4px !important;
+  background: var(--global-color-chip-line-active) !important;
+}
+
+.MuiSwitch-switchBase {
+  padding: 0 !important;
+}
+
 .MuiPaper-root.MuiAutocomplete-paper {
   box-shadow: -2px 5px 15px 0px rgba(0, 0, 0, 0.5);
   border-radius: 6px;
@@ -574,6 +538,77 @@ body.opened::after {
   height: 0 !important;
 }
 
+.newPassChecks {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: var(--global-color-text-primary);
+}
+
+.newPasswordLabel {
+  color: var(--global-color-text-primary);
+  padding: 10px;
+  display: flex;
+}
+
+.container-fluid {
+  position: relative;
+  padding-left: 50px;
+  height: 60px;
+}
+
+.decimalText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+  margin: 14px;
+}
+
+.closeIconSus {
+  width: 1.25rem;
+  height: 1.25rem;
+  position: absolute;
+  right: 2rem;
+  cursor: pointer;
+  top: 2rem;
+}
+
+.depositModalLimit {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-block: 28px 32px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--global-color-text-primary);
+}
+
+.searchStyle {
+  margin-bottom: 30px;
+}
+
+.dot {
+  background: #bcbfc2;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.valid {
+  background: var(--global-color-bullet-point);
+}
+
 .home-slider-container-skeleton {
   display: flex;
   justify-content: space-around;
@@ -600,6 +635,10 @@ body.opened::after {
 
 button {
   border: none;
+}
+
+a {
+  text-decoration: none;
 }
 
 #root::-webkit-scrollbar {
@@ -653,6 +692,52 @@ button {
 
 .modal.show .modal-dialog {
   transform: translateY(-50%);
+}
+
+.modal-content {
+  background: var(--global-color-background-secondary);
+  border-radius: 10px;
+  border: none;
+  align-items: center;
+}
+
+.gaming-reminder-accept-button,
+.gaming-reminder-history-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 327px;
+  background: transparent;
+  border-radius: 10px;
+  color: var(--global-color-buttons-text);
+  height: 48px;
+}
+
+.gaming-reminder-history-button {
+  border: 1px solid var(--global-color-gold-button) !important;
+  margin-bottom: 16px;
+}
+
+.gaming-reminder-accept-button {
+  background: var(--global-color-buttons-background);
+  margin-bottom: 46px;
+}
+
+.depositModalLimitReminder {
+  line-height: auto;
+  width: 327px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 38px;
+  color: var(--global-color-text-primary);
+  margin-top: 44px;
+  margin-bottom: 22px;
 }
 
 @media screen and (max-width: 1400px) {

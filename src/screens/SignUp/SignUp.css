@@ -21,7 +21,7 @@
 }
 
 .signUpModalClose {
-  text-align: end;
+  text-align: flex-end;
   margin: 10px 24px 0 0;
 }
 
@@ -51,8 +51,8 @@
 }
 
 .datepicker.default .datepicker-content .datepicker-wheel {
-  border-top: 1px solid #C59E43;
-  border-bottom: 1px solid #C59E43;
+  border-top: 1px solid #c59e43;
+  border-bottom: 1px solid #c59e43;
 }
 
 .datepicker.default .datepicker-content .datepicker-scroll li {
@@ -75,7 +75,7 @@
   align-items: center;
 }
 
-.calendarInput > span{
+.calendarInput > span {
   font-size: 16px;
   color: var(--global-color-buttons-text-disabled);
 }
@@ -94,7 +94,7 @@
   margin-top: 100px;
 }
 
-.modalTitle-countries > .selectCountryTitle{
+.modalTitle-countries > .selectCountryTitle {
   width: 100%;
   margin-block: 0 30px;
 }
@@ -204,16 +204,6 @@ input:focus {
   outline: none;
 }
 
-.codeSent {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 21px;
-  color: var(--global-color-text-primary);
-  width: 100%;
-  max-width: 383px;
-}
-
 .changePasswordButton {
   width: 100%;
 }
@@ -226,6 +216,7 @@ input:focus {
   font-size: 14px;
   margin-bottom: 30px;
   line-height: 24px;
+  color: var(--global-color-text-primary);
 }
 
 .checkbox {
@@ -239,10 +230,6 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.checkbox.active {
-  background-color: var(--global-color-text-primary);
 }
 
 .termsPolicyLink {
@@ -259,31 +246,6 @@ input:focus {
 
 .outline {
   border: 1px solid var(--global-color-gold-button);
-}
-
-.codeInput {
-  width: 4.6rem !important;
-  margin-bottom: 25px;
-  height: 4.6rem;
-  color: white;
-  background: var(--global-color-background-quaternary);
-  font-size: 2.5rem;
-  border: 2px solid var(--global-color-background-quaternary);
-  box-sizing: border-box;
-  border-radius: 10px;
-  text-indent: 0px;
-}
-
-.codeVerification {
-  position: relative;
-  width: 100%;
-  max-width: 383px;
-}
-
-.codeVerification>div {
-  display: flex !important;
-  justify-content: space-between !important;
-  gap: 10px;
 }
 
 /* Hide arrows of number input */
@@ -454,11 +416,6 @@ input:-webkit-autofill:active {
   border: 1.5px solid var(--global-color-gold-button);
 }
 
-.signUpPassword {
-  position: relative;
-  margin-bottom: 8px;
-}
-
 @media (min-width: 576px) {
   .modal.show .countriesModalDialog {
     transform: translateY(0);
@@ -476,7 +433,6 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 480px) {
-
   .inputForPhone {
     width: 200px !important;
     padding-right: 0 !important;
@@ -484,29 +440,14 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 1024px) {
-
-  .codeInput {
-    width: 64px !important;
-    height: 64px;
-  }
-
   .selectCountryTitle {
     font-size: 34px;
     width: 100%;
     margin: auto;
   }
 
-  .signUpPassword {
-    margin-bottom: 16px;
-  }
-
   .selectDecimal-countries {
     width: 100%;
-  }
-
-  .codeVerification {
-    margin: 0 auto;
-    max-width: 100%;
   }
 
   .authButtonsContainer {
@@ -540,7 +481,7 @@ input:-webkit-autofill:active {
   .finishAccLine img {
     width: 100%;
   }
-  
+
   .codeSend3 {
     margin: 0;
     max-width: none;
@@ -572,7 +513,13 @@ input:-webkit-autofill:active {
     top: 0;
     left: 0;
     z-index: 5;
-    background: linear-gradient(180deg, #2B2E32 82.27%, #2B2E32 89.94%, rgba(43, 46, 50, 0.94) 95.57%, #2B2E32 100%);
+    background: linear-gradient(
+      180deg,
+      #2b2e32 82.27%,
+      #2b2e32 89.94%,
+      rgba(43, 46, 50, 0.94) 95.57%,
+      #2b2e32 100%
+    );
     padding: 0 24px 12px;
     width: 100%;
     gap: 10px;
@@ -603,11 +550,11 @@ input:-webkit-autofill:active {
     margin-top: 190px;
   }
 
-  .modalTitle-countries > .selectCountryTitle{
+  .modalTitle-countries > .selectCountryTitle {
     margin: 30px 0;
   }
 
-  .calendarInput > span{
+  .calendarInput > span {
     font-size: 14px;
   }
 

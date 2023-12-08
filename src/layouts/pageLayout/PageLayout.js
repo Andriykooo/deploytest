@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer/Footer";
 import {
   setFavouriteGames,
   setPageLayoutContent,
+  setShowMenuIcon,
   updatePageLayoutContent,
 } from "@/store/actions";
 import { useEffect } from "react";
@@ -36,13 +37,9 @@ export const PageLayout = ({ children }) => {
   const data = layout?.[path];
 
   const fetchLayout = async () => {
-    const lang = params.lng;
-    const contentLanguage = lang === "en" ? "all" : lang;
-
     apiServices
       .get(apiUrl.GET_PAGE_LAYOUT, {
         value: page?.slug,
-        country: contentLanguage,
       })
       .then((response) => {
         dispatch(
@@ -51,19 +48,49 @@ export const PageLayout = ({ children }) => {
             [path]: response,
           })
         );
+
+        dispatch(setShowMenuIcon(response?.show_sidebar));
+
+        const favouriteGames = {};
+
+        response?.content?.forEach((component) => {
+          if (component.type === "casino_category") {
+            component.casino_category.games.forEach((game) => {
+              if (game.favorite) {
+                favouriteGames[game.id] = game;
+              }
+            });
+          }
+
+          if (component.type === "casino") {
+            component.casino.forEach((category) => {
+              category.games.forEach((game) => {
+                if (game.favorite) {
+                  favouriteGames[game.id] = game;
+                }
+              });
+            });
+          }
+        });
+
+        dispatch(setFavouriteGames(favouriteGames));
       });
   };
 
   useEffect(() => {
     communicationSocket?.on("new_event", (response) => {
       if (response?.type === "component_updated") {
-        dispatch(
-          updatePageLayoutContent({
-            content: response.updatedComponent,
-            slug: path,
-            language: params.lng,
-          })
-        );
+        apiServices
+          .get(`${apiUrl.GET_COMPONENT}/${response.updatedComponent.id}`)
+          .then((response) => {
+            dispatch(
+              updatePageLayoutContent({
+                content: response,
+                slug: path,
+                language: params.lng,
+              })
+            );
+          });
       }
     });
   }, []);
@@ -78,33 +105,6 @@ export const PageLayout = ({ children }) => {
     }
   }, [headerData]);
 
-  useEffect(() => {
-    if (data?.content) {
-      const favouriteGames = {};
-
-      data?.content?.forEach((component) => {
-        if (component.type === "casino_category") {
-          component.casino_category.games.forEach((game) => {
-            if (game.favorite) {
-              favouriteGames[game.id] = game;
-            }
-          });
-        }
-
-        if (component.type === "casino") {
-          component.casino.forEach((category) => {
-            category.games.forEach((game) => {
-              if (game.favorite) {
-                favouriteGames[game.id] = game;
-              }
-            });
-          });
-        }
-      });
-
-      dispatch(setFavouriteGames(favouriteGames));
-    }
-  }, [data]);
   return (
     <SidebarLayout
       sidebarLeftIsActive={!!data?.show_sidebar}

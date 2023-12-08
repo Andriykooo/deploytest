@@ -1,14 +1,15 @@
 import {
   destroySession,
   setAlertModal,
+  setCountry,
   setPrivacytModal,
   setTermsModal,
 } from "@/store/actions";
 import { apiServices } from "./apiServices";
 import { apiUrl } from "./constants";
-import { clearLocalStorage } from "./localStorage";
+import { addLocalStorageItem, clearLocalStorage } from "./localStorage";
 import moment from "moment";
-import { refreshGamingSocket } from "@/context/socket";
+import { disconnectSocket } from "@/context/socket";
 import { SuccesToast } from "./alert";
 
 export const setSettingsApi = async (body, dispatch, callback) => {
@@ -54,6 +55,8 @@ export const setSettingsApi = async (body, dispatch, callback) => {
 export const getUserApi = async (dispatch) => {
   try {
     const response = await apiServices.get(apiUrl.USER);
+    addLocalStorageItem("country", response.country.toLowerCase());
+    dispatch(setCountry(response.country.toLowerCase()));
 
     return response;
   } catch (error) {
@@ -93,14 +96,8 @@ export const getUserApi = async (dispatch) => {
     }
 
     clearLocalStorage();
-    refreshGamingSocket(null);
+    disconnectSocket();
     dispatch(destroySession());
-
-    const cookieKeys = Object.keys(Cookies.get());
-
-    cookieKeys.forEach((cookieKey) => {
-      Cookies.remove(cookieKey);
-    });
 
     throw error;
   }

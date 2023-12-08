@@ -60,20 +60,25 @@ export const PriceHistory = ({ item }) => {
           height={52}
           className={"position-absolute"}
         >
-          <LineChart data={priceHistory} height={52} width={108}>
-            <XAxis
-              interval={0}
-              axisLine={false}
-              tickLine={false}
-              dataKey={"name"}
-              tick={{ fontSize: 8 }}
-            />
+          <LineChart
+            data={priceHistory}
+            height={52}
+            width={108}
+            overflow="visible"
+          >
             <Line
               isAnimationActive={false}
               type="linear"
               dataKey="value"
               strokeWidth={1}
               r={4}
+            />
+            <XAxis
+              interval={0}
+              axisLine={false}
+              tickLine={false}
+              dataKey={"name"}
+              tick={{ fontSize: 8 }}
             />
           </LineChart>
         </ResponsiveContainer>

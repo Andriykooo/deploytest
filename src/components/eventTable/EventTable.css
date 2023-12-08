@@ -9,6 +9,7 @@
 
 .events-container {
   display: grid;
+  overflow: hidden;
   width: 100%;
   grid-template-columns: 1fr minmax(50px, auto);
   height: 44px;
@@ -82,28 +83,6 @@
   min-height: 49px;
   display: flex;
   gap: 10px;
-}
-
-.selection-name {
-  margin-bottom: 4px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 13px;
-  color: var(--global-color-table-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.selection-description {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  color: var(--global-color-text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .odds-of-horse {
@@ -188,11 +167,16 @@
   gap: 4px;
 }
 
-.racingBody>.casinoMenu {
+.racingBody > .casinoMenu {
   margin-top: -75px !important;
 }
 
-.horse-matches>.carousel-wrapper>.carousel-list {
+.racing-item-runner {
+  border-bottom: 1px solid var(--global-color-background-quaternary);
+  border-right: 1px solid var(--global-color-background-quaternary);
+}
+
+.horse-matches > .carousel-wrapper > .carousel-list {
   gap: 0px;
   padding: 0;
   border-radius: 4px;
@@ -205,6 +189,10 @@
   padding: 5px;
   margin: 0 11px;
   box-shadow: none;
+}
+
+.horse-matches .slick-arrow:hover {
+  background-color: var(--global-color-icon-background);
 }
 
 .horse-matches .arrow-wrapper,
@@ -235,8 +223,22 @@
   border-radius: 0;
 }
 
+.events-contents-container.horseEvents .events-row-container {
+  border-right: 0;
+}
+
 .horseEvents .more-container-arrow {
   transform: rotate(90deg);
+}
+
+@media (min-width: 600px) {
+  .events-contents-container > :last-child {
+    border-radius: 0 4px 4px 0;
+  }
+
+  .events-contents-container > :not(:last-child) {
+    border-right: 1px solid var(--global-color-table-grid-border);
+  }
 }
 
 @media (max-width: 600px) {
@@ -256,10 +258,20 @@
 }
 
 @media (max-width: 576px) {
-
   .horse-matches .small-arrows svg,
   .horse-matches .slick-arrow {
     width: 26px;
     height: 26px;
   }
 }
+
+@media (max-width: 1024px) {
+  .horse-matches {
+    padding: 0;
+  }
+
+  .horse-links{
+    background-color: var(--global-color-table-header-tertiary);
+  }
+}
+

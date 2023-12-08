@@ -145,7 +145,7 @@
 .typeDate {
   color: var(--global-color-text-secondary);
   display: grid;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .depositSum {
@@ -238,12 +238,27 @@
   height: calc(100vh - 74px);
 }
 
+.transactionHistory .modal-dialog {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.predictionDates {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-text-primary);
+}
+
 @media (max-width: 1024px) {
   .transactionDetailsContent {
     margin-bottom: 0;
   }
 
   .transactionHistory {
+    padding-right: 0;
     height: calc(100vh - 56px);
   }
 }

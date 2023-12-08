@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { useClientPathname } from "@/hooks/useClientPathname";
 import { CustomLink } from "../Link/Link";
+import Link from "next/link";
 
 const redirectTypes = [
   "page",
@@ -13,17 +14,29 @@ const redirectTypes = [
 ];
 
 const OpenType = ({ openType, children, className, path, onClick }) => {
-  return openType === "new_tab" ? (
-    <a
-      rel="noopener noreferrer"
-      href={path}
-      target="_blank"
-      className={className}
-      onClick={onClick}
-    >
-      {children}
-    </a>
-  ) : (
+  if (openType === "new_tab") {
+    return (
+      <a
+        rel="noopener noreferrer"
+        href={path}
+        target="_blank"
+        className={className}
+        onClick={onClick}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  if (/^(http:\/\/|https:\/\/)/.test(path)) {
+    return (
+      <Link className={className} href={path || ""} onClick={onClick}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
     <CustomLink className={className} href={path || ""} onClick={onClick}>
       {children}
     </CustomLink>
@@ -39,6 +52,8 @@ export const LinkType = ({
   onClick,
   className,
 }) => {
+  const { pathname } = useClientPathname();
+
   return (
     <>
       {type === "new_tab" && (
@@ -56,7 +71,7 @@ export const LinkType = ({
           className={className}
           openType={type}
           onClick={onClick}
-          path={`?modal=${modalData?.slug}${
+          path={`${pathname}?modal=${modalData?.slug}${
             modalData?.title ? "&title=" + modalData.title : ""
           }`}
         >
@@ -65,6 +80,7 @@ export const LinkType = ({
       )}
       {redirectTypes.includes(type) && (
         <OpenType
+          type={type}
           openType={openType}
           className={className}
           path={path}

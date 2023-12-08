@@ -104,6 +104,7 @@
 
 .animationBlock {
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -191,9 +192,9 @@
 }
 
 .animationBlock.driftingAnimation {
-  /* animation: drifting 5s ease; */
-  background-color: var(--global-color-price-drifting);
-  color: var(--global-color-table-text-secondary);
+  animation: drifting 5s ease;
+  /* background-color: var(--global-color-price-drifting); */
+  /* color: var(--global-color-table-text-secondary); */
 }
 
 .matchOdds.drifting::before {
@@ -210,9 +211,9 @@
 }
 
 .animationBlock.shorteningAnimation {
-  /* animation: shortening 5s ease; */
-  background-color: var(--global-color-price-shortening);
-  color: var(--global-color-table-text-secondary);
+  animation: shortening 5s ease;
+  /* background-color: var(--global-color-price-shortening); */
+  /* color: var(--global-color-table-text-secondary); */
 }
 
 .matchOdds.shortening::before {
@@ -254,16 +255,12 @@
   flex: 1;
 }
 
-.matchDetails
-  .sports-body
-  .markets-container
-  .markets-container-content.markets-container-content-empty {
+.matchDetails .sports-body .markets-container .markets-container-content.markets-container-content-empty {
   display: flex;
 }
 
 @keyframes drifting {
-  0% {
-  }
+  0% {}
 
   25% {
     background-color: var(--global-color-price-drifting);
@@ -275,13 +272,11 @@
     color: var(--global-color-table-text-secondary);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 @keyframes shortening {
-  0% {
-  }
+  0% {}
 
   25% {
     background-color: var(--global-color-price-shortening);
@@ -293,8 +288,7 @@
     color: var(--global-color-table-text-secondary);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 .matchOddsContainerFootball {
@@ -314,7 +308,7 @@
   height: 100%;
 }
 
-.odds > * {
+.odds>* {
   border-left: 1px solid var(--global-color-table-grid-border);
 }
 
@@ -373,15 +367,6 @@
   padding: 0px 12px 12px 12px !important;
 }
 
-.selected-types {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  margin: 20px auto 30px;
-  max-width: 920px;
-  color: var(--global-color-price-text);
-}
-
 .match-details-main .sports-types {
   padding: 0;
 }
@@ -389,22 +374,6 @@
 .sports-types {
   padding-left: 26px;
   padding-right: 26px;
-}
-
-.match-selected-type {
-  display: flex;
-  align-items: center;
-}
-
-.match-selected-type-color {
-  display: block;
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-}
-
-.match-selected-type-name {
-  margin-left: 10px;
 }
 
 .matchLeague {
@@ -565,36 +534,6 @@
   width: 105px;
 }
 
-@media screen and (max-width: 700px) {
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 143%;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-}
-
 @media screen and (max-width: 568px) {
   .matchResult {
     padding-left: 10px;
@@ -614,27 +553,6 @@
 
   .oddsDesc {
     padding-right: 1rem;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
   }
 }
 
@@ -675,27 +593,6 @@
     font-size: 12px !important;
   }
 
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-
   .matchTeam {
     font-size: 10px;
   }
@@ -713,27 +610,6 @@
   .matchCardDate {
     padding-left: 2px !important;
   }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
 }
 
 @media screen and (max-width: 400px) {
@@ -749,27 +625,6 @@
   .typeBet {
     width: 30px;
     text-align: center;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
   }
 }
 
@@ -1111,8 +966,8 @@
 }
 
 .matchTeamStyle {
-  justify-content: end;
-  text-align: end;
+  justify-content: flex-end;
+  text-align: flex-end;
 }
 
 .pitchCenter {
@@ -1152,27 +1007,6 @@
 
   .accordionContainer {
     margin-bottom: 16px;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
   }
 }
 
@@ -1256,27 +1090,6 @@
     min-height: 35px;
   }
 
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-
   .betAmountsIceHockey {
     color: var(--global-color-primary);
     padding: 6px;
@@ -1314,10 +1127,6 @@
   .live-label {
     height: 30px;
   }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
 }
 
 @media screen and (min-width: 1400px) {
@@ -1327,10 +1136,6 @@
 
   .live-label {
     height: 32px;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
   }
 }
 
@@ -1363,8 +1168,8 @@
 }
 
 .match-details-teams-teams:first-of-type {
-  text-align: end;
-  padding: 10px 16px 10px 0;
+  text-align: flex-end;
+  padding: 10px 16px;
 }
 
 .match-result-soccer-vs {
@@ -1398,6 +1203,10 @@
     margin-right: 0;
   }
 
+  .sports-body {
+    padding: 0;
+  }
+
   .leagues-accordion .custom-accordion-header {
     background-color: var(--global-color-background-tertiary);
     height: 40px;
@@ -1408,12 +1217,12 @@
     background: var(--global-color-background-tertiary);
   }
 
-  .odds > :not(:first-child) {
+  .odds> :not(:first-child) {
     border-left: 1px solid var(--global-color-background-quaternary);
   }
 
-  .odds .selectionName {
-    border-left: 0;
+  .mb-match-time {
+    padding: 4px 0 4px 10px;
   }
 
   .ice-hockey-container {
@@ -1423,7 +1232,19 @@
   }
 
   .sport-container .accordionContainer {
-    margin-top: 14px;
+    margin: 0;
+  }
+
+  .sport-container .bordered-match {
+    border-bottom: 1px solid #414851;
+  }
+
+  .bordered-match .custom-accordion-header {
+    min-height: 38px;
+  }
+
+  .containerOfSelectionsOthers {
+    width: auto;
   }
 
   .accordionContainer {
@@ -1447,7 +1268,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     height: 100%;
     width: calc(100% - 46px);
   }
@@ -1501,14 +1322,14 @@
   .team-for-matchdetails-mobile {
     display: flex;
     align-items: center;
-    height: 35px;
+    height: 32px;
     width: 100%;
     font-size: 12px;
     font-weight: 600;
     line-height: normal;
     padding: 0 12px;
-    color: var(--global-color-background-tertiary);
-    background: var(--global-color-text-secondary);
+    color: var(--global-color-text-primary);
+    background: var(--global-color-background-quinary);
     border-radius: 6px;
   }
 
@@ -1617,8 +1438,6 @@
 
   .mobileBetsOdds {
     width: 100% !important;
-    justify-content: space-around;
-    height: 44px;
   }
 
   .matchResultMobile {
@@ -1631,27 +1450,36 @@
     justify-content: space-around;
     padding-bottom: 14px;
     padding-top: 14px;
-    height: 44px;
-    border-bottom: 1px solid var(--global-color-background-quaternary);
   }
 
   .mobileMatchRowForTeams {
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+    gap: 4px;
   }
 
   .matchTeamMobile {
     font-style: normal;
     font-weight: 400;
-    justify-content: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
     font-size: 13px;
     line-height: 12px;
-    display: flex;
-    align-items: center;
-    text-align: right;
+    align-items: flex-start;
     color: var(--global-color-text-primary);
-    padding: 10px;
+    padding: 0;
+    gap: 4px;
+  }
+
+  .matchTeam-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    gap: 4px;
   }
 
   .dateandtimeofmatchinfootball {
@@ -1667,9 +1495,20 @@
   .matchTeamStyle {
     justify-content: flex-start;
     text-align: start;
-    justify-content: center;
+    justify-content: space-between;
     font-size: 13px;
-    height: 32px;
+    height: auto;
+  }
+
+  .match-score {
+    width: 100%;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--global-color-table-text-odds-primary);
+    background: var(--global-color-table-text-vs-background);
   }
 
   .matchResult {
@@ -1709,43 +1548,70 @@
     width: 100%;
   }
 
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type:nth-child(1) {
-    order: 2;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-
   .accordion {
-    margin-bottom: 6px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #414851;
   }
 
   .homeSportsMainContainer {
     margin-bottom: 2px;
+    border: none;
   }
 
   .match-vs-teams {
     height: 24px;
   }
+
+  .matchResult-soccer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .team-result-soccer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    color: var(--global-color-text-primary);
+    background: var(--global-color-primary);
+    min-width: 32px;
+    height: 32px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+
+  .matchCard-icon-inPlay-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .matchCard-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background: var(--global-color-background-quinary);
+    min-width: 32px;
+    height: 32px;
+  }
+
+  .inPlay-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--global-color-text-primary);
+    background: var(--global-color-background-quinary);
+    min-width: 32px;
+    height: 32px;
+    color: var(--global-color-betslip-live);
+  }
+
 }
 
 .betAmountsIceHockey {
@@ -2049,6 +1915,7 @@
 }
 
 @media screen and (max-width: 1024px) {
+
   .teams-for-matchdetails-container,
   .container-match-details-paragraph {
     background: transparent;
@@ -2056,15 +1923,17 @@
 
   .teams-for-matchdetails-container {
     margin-top: 10px;
+    gap: 8px;
   }
 
   .container-match-details-paragraph {
     border-bottom: 1px solid var(--global-color-background-quinary);
+    padding: 0;
   }
 
   .containerOfSelectionsSports,
   .containerOfSelections {
-    width: 100%;
+    width: 60px;
   }
 
   .starting-soon-games {
@@ -2074,9 +1943,7 @@
   }
 
   .selectionName {
-    width: 100%;
-    border-bottom: 1px solid var(--global-color-background-quaternary);
-    padding: 6px 0;
+    width: 60px;
   }
 
   .matchCardIcon {
@@ -2095,7 +1962,11 @@
   .matchCard {
     height: auto;
     min-height: 40px;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto max-content;
+  }
+
+  .markets-head {
+    padding-inline: 12px;
   }
 
   .tempmarketMenu {
@@ -2166,7 +2037,14 @@
 
   .matchesContainer {
     justify-content: space-between;
-    padding-left: 12px;
+    padding: 8px 16px;
+    min-width: auto;
+  }
+
+  .matchTeam-name {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
   }
 
   .teamsIceHockey {
@@ -2181,34 +2059,6 @@
     text-align: center;
   }
 
-  .selected-types {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.3rem;
-    width: 170%;
-  }
-
-  .match-selected-type:nth-child(4) {
-    order: 4;
-  }
-
-  .match-selected-type:nth-child(3) {
-    order: 3;
-  }
-
-  .match-selected-type-name {
-    margin-left: 10px;
-    color: #949495;
-  }
-
-  .match-selected-type {
-    width: 100%;
-  }
-
-  .match-selected-type-color {
-    width: 20px;
-  }
-
   .mainInPlay {
     padding: 0px;
   }
@@ -2217,14 +2067,6 @@
 @media screen and (max-width: 600px) {
   .matchCardRow2 {
     grid-template-columns: 1fr;
-  }
-
-  .selected-types {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    grid-gap: 0.3rem;
-    width: 100%;
   }
 }
 

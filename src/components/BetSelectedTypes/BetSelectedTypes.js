@@ -2,6 +2,8 @@
 
 import { types } from "../../utils/constants";
 import { useTranslations } from "next-intl";
+import "./BetSelectedTypes.css";
+
 export const BetSelectedTypes = () => {
   const t = useTranslations("common");
 

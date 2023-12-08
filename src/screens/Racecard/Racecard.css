@@ -35,18 +35,23 @@
   height: 334px;
 }
 
+.race-table-head-title {
+  display: flex;
+  flex-direction: column;
+}
+
 .race-table-head {
+  display: flex;
+  justify-content: space-between;
   background: var(--global-color-background-secondary);
   min-height: 44px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   padding: 5px 16px;
 }
 
 .race-table-head-items-container {
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .race-table-head-items {
@@ -77,27 +82,6 @@
 .silk {
   height: 14px;
   width: 18px;
-}
-
-.racing-item-runner {
-  border-bottom: 1px solid var(--global-color-background-quaternary);
-  border-right: 1px solid var(--global-color-background-quaternary);
-}
-
-.runner {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  padding-left: 12px;
-}
-
-.runner-number {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--global-color-text-primary);
 }
 
 .price {
@@ -232,5 +216,9 @@
 @media (max-width: 1024px) {
   .racecard-type {
     margin: 0;
+  }
+
+  .race-table {
+    margin-top: 0;
   }
 }

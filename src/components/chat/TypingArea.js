@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { images } from "../../utils/imagesConstant";
 import "./Chat.css";
 import { useTranslations } from "next-intl";
 import { SendMessage } from "@/utils/icons";
+import { useEffect, useRef } from "react";
 
 const TypingArea = ({
   onSubmit,
@@ -10,21 +9,30 @@ const TypingArea = ({
   onChange,
   maxLength,
   keyDownHandle,
-  textareaHeight,
-  disabled = false
+  disabled = false,
 }) => {
   const t = useTranslations("common");
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef?.current) {
+      textareaRef.current.style.height = "0px";
+      const scrollHeight = textareaRef.current.scrollHeight;
+
+      textareaRef.current.style.height = scrollHeight + "px";
+    }
+  }, [textareaRef, value]);
+
   return (
     <form className="typing-area-form" onSubmit={onSubmit}>
       <textarea
+        ref={textareaRef}
         disabled={disabled}
-        style={{ height: `${textareaHeight}px` }}
         className="chat-textarea"
         maxLength={maxLength}
         value={value.length > 0 ? value : ""}
-        onChange={(e) => {
-          onChange(e);
-        }}
+        onChange={onChange}
+        rows={1}
         placeholder={t("send_message")}
         onKeyDown={keyDownHandle}
       />

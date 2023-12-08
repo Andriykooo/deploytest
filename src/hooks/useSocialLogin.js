@@ -1,20 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { setLoggedUser, setSignUpPlatform, setUser } from "@/store/actions";
+import { addLocalStorageItem } from "@/utils/localStorage";
+import { connectSocket } from "@/context/socket";
 import { useCustomRouter } from "./useCustomRouter";
-
-const { refreshCommunicationSocket } = require("@/context/socket");
-const {
-  setLoggedUser,
-  setUser,
-  setSignUpPlatform,
-} = require("@/store/actions");
-const { apiServices } = require("@/utils/apiServices");
-const { apiUrl } = require("@/utils/constants");
-const { addLocalStorageItem } = require("@/utils/localStorage");
-const { useRouter } = require("next/navigation");
-const { useSelector, useDispatch } = require("react-redux");
+import { useParams } from "next/navigation";
 
 export const useSocialLogin = (params) => {
-  const router = useCustomRouter();
   const dispatch = useDispatch();
+  const router = useCustomRouter();
+  const paramsNext = useParams();
   const promo = useSelector((state) => state.promo);
 
   return async (data, platform) => {
@@ -42,14 +38,19 @@ export const useSocialLogin = (params) => {
         addLocalStorageItem("refresh_token", response?.refresh_token);
         addLocalStorageItem("kyc_access_token", response?.kyc_access_token);
         addLocalStorageItem("swifty_id", response?.swifty_id);
-        refreshCommunicationSocket(response?.token);
-        router.push("/");
+        connectSocket(response?.token);
+
+        if (paramsNext.get("redirect")) {
+          router.push("/" + paramsNext.get("redirect"));
+        } else {
+          router.push("/");
+        }
       } else {
         const newUser = {
-          email: data.email,
-          social_token: response?.accessToken,
-          first_name: data.first_name,
-          last_name: data.last_name,
+          email: data?.email,
+          social_token: data?.social_token,
+          first_name: data?.first_name,
+          last_name: data?.last_name,
         };
 
         dispatch(setUser(newUser));

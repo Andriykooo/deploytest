@@ -1,0 +1,49 @@
+.LabelWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.Label {
+  color: var(--global-color-text-primary);
+  font-style: normal;
+  margin-bottom: 0;
+  font-weight: 400;
+  display: block;
+}
+
+.switchLabel {
+  position: relative;
+  height: 32px;
+  width: 64px;
+  border-radius: 50px;
+  background-color: var(--global-color-buttons-text-disabled);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.switchLabel.checked {
+  background-color: var(--global-color-notification-success);
+}
+
+.switchInput {
+  opacity: 0;
+  position: absolute;
+}
+
+.switch {
+  height: 28px;
+  width: 28px;
+  top: 2px;
+  left: 2px;
+  background-color: var(--global-color-notification-text);
+  border-radius: 50%;
+  position: absolute;
+  transition: 0.3s ease;
+}
+
+.switch.checked {
+  transform: translateX(32px);
+}

@@ -2,8 +2,8 @@ import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import classNames from "classnames";
-
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./GoBackButton.css";
 
 export const GoBackButton = ({ link, fullIcon = false, className }) => {
   const t = useTranslations("common");

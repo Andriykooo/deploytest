@@ -14,22 +14,24 @@ import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import moment from "moment";
 import { useTranslations } from "next-intl";
-import { Runner } from "@/components/racingWidget/Runner";
+import { Runner } from "@/components/Runner/Runner";
 import { PriceHistory } from "./PriceHistory";
 import { Place } from "./Place";
 import { RacecardTable } from "./RaceCardTable";
+import "./Racecard.css";
 
 export const Racecard = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
-  const betTicker = useSelector((state) => state.betTicker);
   const params = useParams();
 
+  const betTicker = useSelector((state) => state.betTicker);
   const resultedEvents = useSelector((state) => state.resultedEvents);
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
-  const raceCard = useSelector((state) => state.raceCard);
+  const data = useSelector((state) => state.raceCard);
   const currentTime = useSelector((state) => state.currentTime);
+  const raceCard = data?.[params.venue];
 
   const day = searchParams.get("filter") || "today";
   const id = searchParams.get("id");
@@ -57,6 +59,7 @@ export const Racecard = () => {
     moment(event?.event_start_time)?.isBefore(currentTime);
 
   const hanldeSelect = (item, place) => {
+    // eslint-disable-next-line
     const { tricast, forecast, ...selectedBets } = { ...selectedPlayerBets };
     let temp = { ...selectedBets };
 
@@ -247,7 +250,7 @@ export const Racecard = () => {
       ? {
           ...event,
           selections: [
-            ...event?.selections,
+            ...event.selections,
             {
               bet_id: event?.event_id,
               name: t("racecard.unnamed_favorite"),
@@ -399,20 +402,27 @@ export const Racecard = () => {
 
   return tableData ? (
     <>
-      <TabsSelect
-        data={predictionsTabs}
-        placeholder={t("common.select_bet")}
-        onChange={setSelectedTab}
-        variant="fullWidth"
-      />
-      {selectedTab.id === 1 && (
-        <RacecardTable headerData={headerItemsWinEw} data={tableData} />
-      )}
-      {selectedTab.id === 2 && event?.forecast && (
-        <RacecardTable headerData={headerItemsForecast} data={tableData} />
+      {tableData?.selections?.length > 0 ? (
+        <>
+          <TabsSelect
+            data={predictionsTabs}
+            placeholder={t("common.select_bet")}
+            onChange={setSelectedTab}
+            variant="fullWidth"
+            withBtns
+          />
+          {selectedTab.id === 1 && (
+            <RacecardTable headerData={headerItemsWinEw} data={tableData} />
+          )}
+          {selectedTab.id === 2 && event?.forecast && (
+            <RacecardTable headerData={headerItemsForecast} data={tableData} />
+          )}
+        </>
+      ) : (
+        <EmptyState
+          message={t("racecard.no_more_races_message", { day: day })}
+        />
       )}
     </>
-  ) : (
-    <EmptyState message={t("racecard.no_more_races_message", { day: day })} />
-  );
+  ) : null;
 };

@@ -1,8 +1,7 @@
 "use client";
 
 import classNames from "classnames";
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeBet,
@@ -34,7 +33,6 @@ import { Warning } from "../warning/Warning";
 import { BetSlipAds } from "./BetSlipAds";
 import { SelectOfMultipleBets } from "./SelectBetOfMultipleBets";
 import { SelectedBet } from "./SelectedBet";
-import { SocketContext } from "@/context/socket";
 import { MyBets } from "./MyBets";
 import { getUserApi } from "@/utils/apiQueries";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
@@ -42,6 +40,9 @@ import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
 import { BetslipDropdown } from "./BetslipDropdown/BetslipDropdown";
 import { CustomLink } from "../Link/Link";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import { gamingSocket } from "@/context/socket";
+import "./SidebarRight.css";
 
 const emptyBetSlip = {
   singles: [],
@@ -52,8 +53,8 @@ const emptyBetSlip = {
 
 export const SidebarRight = ({ pageLayoutActiveStatus }) => {
   const t = useTranslations("common");
-  const { gamingSocket } = useContext(SocketContext);
   const dispatch = useDispatch();
+  const { pathname } = useClientPathname();
 
   const sidebarRight = useSelector((state) => state.sidebarRight);
   const isTablet = useSelector((state) => state.isTablet);
@@ -155,6 +156,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
     const unnamed_favorite = [];
 
     selectedBets?.bets?.forEach((selected_row) => {
+      // eslint-disable-next-line
       const { place, trading_status, ...bet } = selected_row;
 
       if (selected_row?.trading_status?.toLowerCase() === "open") {
@@ -377,7 +379,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
 
     if (loggedUser?.user_data && getLocalStorageItem("access_token")) {
       apiServices.get(apiUrl.BET_TICKER_LIST).then((response) => {
-        const offer = response.find((bet) => {
+        const offer = response?.find((bet) => {
           return (
             (bet.status === "new_offer" || bet.status === "pending") &&
             loggedUser?.user_data?.player_id === bet.player_id
@@ -437,6 +439,8 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
           single_row.stake = selected_row.stake;
         }
       });
+
+      // eslint-disable-next-line
       const { place, trading_status, ...bet } = selected_row;
 
       if (selected_row?.trading_status?.toLowerCase() === "open") {
@@ -802,7 +806,7 @@ export const SidebarRight = ({ pageLayoutActiveStatus }) => {
                         {!loggedUser?.user_data ||
                         !getLocalStorageItem("access_token") ? (
                           <div className="place-bet-container">
-                            <CustomLink href="/login">
+                            <CustomLink href={`/login?redirect=${pathname}`}>
                               <Button
                                 className={"btnPrimary place-bet-button"}
                                 text={t("login_to_place_bet")}

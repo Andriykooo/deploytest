@@ -27,7 +27,7 @@ export const PreferencesModalMobile = ({
   };
 
   const onSelect = (value) => {
-    if (!!handleSubmit) {
+    if (handleSubmit) {
       return handleSelect(value);
     }
 
@@ -92,11 +92,9 @@ export const PreferencesModalMobile = ({
           <div className="modal-footer limit d-flex justify-content-center w-100">
             <Button
               type="button"
-              className={
-                selectedLimit !== 0
-                  ? "btn btnPrimary finishBtn2 setLimitBtn2 col-8"
-                  : "btn finishBtn setLimitBtn col-8 disabled"
-              }
+              className={classNames("setLimitBtn", {
+                disable: selectedLimit === 0,
+              })}
               onClick={() => selectedLimit !== 0 && onSubmit()}
               text={<>{loading ? <Loader /> : btnTitle}</>}
             />

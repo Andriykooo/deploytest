@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
-import "./EmptyState.css";
 import { useTranslations } from "next-intl";
+import "./EmptyState.css";
+
 export const EmptyState = ({ message }) => {
   const t = useTranslations("common");
   return (

@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser } from "../../store/actions";
 import { SuccesToast, alertToast } from "../../utils/alert";
 import { emailNotifications, pushNotifications } from "../../utils/constants";
-import { ToggleLabel } from "./ToggleLabel";
+import { ToggleLabel } from "../../components/ToggleLabel/ToggleLabel";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import "../Notifications/Notifications.css";
-import "../Withdraw/Withdraw.css";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useTranslations } from "next-intl";
+import "../Withdraw/Withdraw.css";
+import "../Notifications/Notifications.css";
+
 const Notifications = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const Notifications = () => {
           <span className="notificationsSub ">
             {t("notifications.push_notifications")}
           </span>
-          {pushNotificationSettings.map((item, i) => (
+          {pushNotificationSettings.map((item) => (
             <ToggleLabel
               notification={{ ...item, text: t(`notifications.${item.text}`) }}
               key={item.key}
@@ -96,7 +97,6 @@ const Notifications = () => {
               value={item.status}
               onToggle={onToggle}
               isMobile={isMobile}
-              last={i + 1 === pushNotificationSettings?.length}
             />
           ))}
         </div>
@@ -106,7 +106,7 @@ const Notifications = () => {
             {t("notifications.email_notifications")}
           </span>
 
-          {emailNotificationSettings.map((item, i) => (
+          {emailNotificationSettings.map((item) => (
             <ToggleLabel
               notification={{ ...item, text: t(`notifications.${item.text}`) }}
               key={item.key}
@@ -114,7 +114,6 @@ const Notifications = () => {
               value={item.status}
               onToggle={onToggle}
               isMobile={isMobile}
-              first={i === 0}
             />
           ))}
         </div>

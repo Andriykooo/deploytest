@@ -1,0 +1,57 @@
+.sport-competitions {
+  background-color: var(--global-color-table-header-secondary);
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.sport-competitions {
+  background-color: var(--global-color-table-header-secondary);
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.sport-competitions-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid var(--global-color-table-background);
+  padding: 10px 12px;
+}
+
+.sport-competitions-head.mobile {
+  flex-direction: column;
+  align-items: start;
+  padding: 0;
+}
+
+.sport-competitions-head.mobile .selected-buttons {
+  padding-block: 12px;
+}
+
+@media screen and (max-width: 1024px) {
+  .sport-competitions-head {
+    padding-left: 0;
+    border: none;
+  }
+
+  .sport-competitions-head.mobile .sport-name {
+    font-size: 20px;
+    line-height: 24px;
+    padding: 6px 4px 8px;
+  }
+
+  .sport-competitions {
+    background: transparent;
+    padding: 0;
+    height: auto;
+  }
+}

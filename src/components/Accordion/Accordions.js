@@ -1,9 +1,8 @@
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 import "./Accordion.css";
-
-const classNames = require("classnames");
 
 export const Accordion = ({ children, title, className, active }) => {
   const contentRef = useRef(null);

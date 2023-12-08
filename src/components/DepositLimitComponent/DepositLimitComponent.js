@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SuccesToast } from "@/utils/alert";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
 import { getUserApi, setSettingsApi } from "@/utils/apiQueries";
@@ -245,12 +244,7 @@ const DepositLimitComponent = ({
       {!isTablet && (
         <div className="row suspendButton">
           <Button
-            className={
-              "setLimit suspendAccBtn w-100 " +
-              (selectedLimit
-                ? " btnPrimary "
-                : "btn finishBtn disabled setLimitBtn col-8 limitBtn")
-            }
+            className={classNames("setLimitBtn", { disable: !selectedLimit })}
             onClick={() => handleSelect()}
             text={isLoading ? <Loader /> : t("common.set_limit")}
           />

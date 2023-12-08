@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { SocketContext } from "../../context/socket";
 import { images } from "../../utils/imagesConstant";
 import { TabsSelect } from "../tabsSelect/TabsSelect";
 import { MatchOdds } from "./MatchOdds";
@@ -15,15 +14,20 @@ import { GoBackButton } from "../goBackButton/GoBackButton";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
 import { Accordion } from "../Accordion/Accordions";
+import { gamingSocket } from "@/context/socket";
+import { SuccesToast, alertToast } from "@/utils/alert";
+import "../../screens/Sports/Sports.css";
+import "./Matches.css";
+
 const MatchDetails = ({ data, id }) => {
   const t = useTranslations();
-
+  const [showNotification, setShowNotification] = useState("");
   const [pushNotificationSettings, setPushNotificationSettings] = useState([
     { key: "key1", label: `${t("common.notification")} 1`, status: false },
     { key: "key2", label: `${t("common.notification")} 2`, status: true },
   ]);
 
-  const markets = data?.markets?.length >= 1 ? data?.markets : []; 
+  const markets = data?.markets?.length >= 1 ? data?.markets : [];
 
   const [filteredMarkets, setFilteredMarkets] = useState(markets);
 
@@ -33,10 +37,8 @@ const MatchDetails = ({ data, id }) => {
     homeTeam: data.participants[0],
     awayTeam: data.participants[1],
   };
-
+  const matchName = `${teams.homeTeam.name} v ${teams.awayTeam.name}`;
   const isTablet = useSelector((state) => state.isTablet);
-
-  const { gamingSocket } = useContext(SocketContext);
   const selectedBets = useSelector((state) => state.selectedBets);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const MatchDetails = ({ data, id }) => {
     }
   }, [selectedBets, markets]);
 
+  // eslint-disable-next-line
   function handleToggle(item) {
     setPushNotificationSettings((prevSettings) =>
       prevSettings.map((setting) =>
@@ -76,11 +79,24 @@ const MatchDetails = ({ data, id }) => {
     );
   }
 
+  const handleNotification = () => {
+    setShowNotification(!showNotification);
+    if (!showNotification) {
+      SuccesToast({
+        message: t("sports.notifications_for_match_are_on", { matchName }),
+      });
+    } else {
+      alertToast({
+        message: t("sports.notifications_for_match_are_off", { matchName }),
+      });
+    }
+  };
+
   return (
     <div className="mainArticle matchDetails">
       <div className="col-12 sports-body">
         <div className={"markets-container"}>
-          <div>
+          <div className={classNames({ "markets-head": isTablet })}>
             {isTablet ? (
               <div>
                 <div className="container-match-details-paragraph">
@@ -118,6 +134,34 @@ const MatchDetails = ({ data, id }) => {
                 </div>
                 <div className="container-match-details-header teams-match-details--header">
                   <div className="teams-for-matchdetails-container teams-match-details-container">
+                    {data.is_live && (
+                      <div
+                        className="matchCard-icon-inPlay-container"
+                        onClick={handleNotification}
+                      >
+                        <div className="matchCard-icon">
+                          {showNotification ? (
+                            <Image
+                              src={images.notificationOnIcon}
+                              alt={t("sports.bell")}
+                              className="bellIcon"
+                              height={24}
+                              width={24}
+                            />
+                          ) : (
+                            <Image
+                              src={images.notificationOffIcon}
+                              alt={t("sports.bell")}
+                              className="bellIcon"
+                              height={24}
+                              width={24}
+                            />
+                          )}
+                        </div>
+
+                        <div className="inPlay-time">{data?.current_time}</div>
+                      </div>
+                    )}
                     <div className="teams-container-details">
                       <div className="team-for-matchdetails-mobile">
                         {teams?.homeTeam?.name}
@@ -126,11 +170,13 @@ const MatchDetails = ({ data, id }) => {
                         {teams?.awayTeam?.name}
                       </div>
                     </div>
-
-                    <div className="matchResult match-result-soccer-vs">
-                      {data?.is_live
-                        ? `${teams?.homeTeam?.score} : ${teams?.awayTeam?.score}`
-                        : t("common.vs")}
+                    <div className="matchResult-soccer">
+                      <div className="team-result-soccer">
+                        {data?.is_live ? teams?.homeTeam?.score : "-"}
+                      </div>
+                      <div className="team-result-soccer">
+                        {data?.is_live ? teams?.awayTeam?.score : "-"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -240,51 +286,54 @@ const MatchDetails = ({ data, id }) => {
               "markets-container-content-empty": !filteredMarkets.length,
             })}
           >
-            {filteredMarkets.length > 0 ? (
-              filteredMarkets.map((row) => {
-                return (
-                  <Accordion
-                    title={row?.market_name}
-                    key={`${row?.market_id}-${row?.market_name}`}
-                    className="accordionContainer"
-                  >
-                    <div
-                      className="d-grid"
-                      style={{
-                        gridTemplateColumns: `repeat(${
-                          row?.selections?.length > 3
-                            ? 3
-                            : row?.selections?.length
-                        }, 1fr)`,
-                      }}
+            <>
+              {filteredMarkets.length > 0 ? (
+                filteredMarkets.map((row, index) => {
+                  return (
+                    <Accordion
+                      title={row?.market_name}
+                      key={`${row?.market_id}-${row?.market_name}`}
+                      className="accordionContainer  bordered-match"
+                      active={index === 0}
                     >
-                      {row?.selections.map((selection) => {
-                        return (
-                          <div
-                            className="headerOfGames"
-                            key={selection?.bet_id}
-                          >
-                            <div className="d-flex position-relative match-event-selection">
-                              {selection.name}
-                            </div>
-
+                      <div
+                        className="d-grid"
+                        style={{
+                          gridTemplateColumns: `repeat(${
+                            row?.selections?.length > 3
+                              ? 3
+                              : row?.selections?.length
+                          }, 1fr)`,
+                        }}
+                      >
+                        {row?.selections.map((selection) => {
+                          return (
                             <div
-                              className={
-                                "d-flex position-relative match-event-odds"
-                              }
+                              className="headerOfGames"
+                              key={selection?.bet_id}
                             >
-                              <MatchOdds selection={selection} />
+                              <div className="d-flex position-relative match-event-selection">
+                                {selection.name}
+                              </div>
+
+                              <div
+                                className={
+                                  "d-flex position-relative match-event-odds"
+                                }
+                              >
+                                <MatchOdds selection={selection} />
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </Accordion>
-                );
-              })
-            ) : (
-              <EmptyState message={t("match.no_more_events")} />
-            )}
+                          );
+                        })}
+                      </div>
+                    </Accordion>
+                  );
+                })
+              ) : (
+                <EmptyState message={t("match.no_more_events")} />
+              )}
+            </>
           </div>
         </div>
       </div>

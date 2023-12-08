@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button } from "../../components/button/Button";
-import "../Kyc/Kyc.css";
-import "../Login/Login.css";
 import { useTranslations } from "next-intl";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "./Kyc.css";
+import "../Login/Login.css";
+
 function Kyc() {
   const t = useTranslations();
   const router = useCustomRouter();
@@ -46,24 +46,23 @@ function Kyc() {
           <p className="oneClick oneClick2 d-flex text-start">
             {t("kyc.accept_terms_and_conditions_personal_data_processing")}
           </p>
-
         </div>
 
-      <div className="authButtonsContainer">
-        <Button
-          className={"btnPrimary continueBtn validBtn"}
-          onClick={() => {
-            router.push("/verification");
-          }}
-          text={t("common.continue")}
-        />
-        <p
-          className="small-text text-white text-center"
-          style={{ fontSize: "12px" }}
-        >
-          {t("kyc.powered_by_sumsub")}
-        </p>
-      </div>
+        <div className="authButtonsContainer">
+          <Button
+            className={"btnPrimary continueBtn validBtn"}
+            onClick={() => {
+              router.push("/verification");
+            }}
+            text={t("common.continue")}
+          />
+          <p
+            className="small-text text-white text-center"
+            style={{ fontSize: "12px" }}
+          >
+            {t("kyc.powered_by_sumsub")}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
+
 export const SetRealityCheck = ({
   options,
   selectedLimit,
@@ -119,11 +121,9 @@ export const SetRealityCheck = ({
           <div className="modal-footer limit d-flex justify-content-center">
             <Button
               type="button"
-              className={
-                selectedLimit !== 0
-                  ? "btn btnPrimary finishBtn2 setLimitBtn2 col-8"
-                  : "btn finishBtn setLimitBtn col-8 disabled"
-              }
+              className={classNames("setLimitBtn", {
+                disable: selectedLimit === 0,
+              })}
               onClick={() => selectedLimit !== 0 && handleSetLimit()}
               text={<>{isLoading ? <Loader /> : t("common.set_limit")}</>}
             />

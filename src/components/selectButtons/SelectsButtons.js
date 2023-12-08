@@ -2,8 +2,15 @@ import classNames from "classnames";
 import { Button } from "../button/Button";
 import { Carousel } from "../carousel/Carousel";
 import { useEffect, useState } from "react";
+import "./SelectButtons.css";
 
-export const SelectButtons = ({ data, onSelect, selectedId, borders, fullWidth }) => {
+export const SelectButtons = ({
+  data,
+  onSelect,
+  selectedId,
+  borders,
+  fullWidth,
+}) => {
   const [active, setActive] = useState(selectedId || data[0]?.id);
 
   useEffect(() => {
@@ -13,9 +20,11 @@ export const SelectButtons = ({ data, onSelect, selectedId, borders, fullWidth }
   }, [selectedId]);
 
   return (
-    <div className={classNames("selected-buttons", {
-      "fullWidth": fullWidth
-    })}>
+    <div
+      className={classNames("selected-buttons", {
+        fullWidth: fullWidth,
+      })}
+    >
       {fullWidth ? (
         <>
           {data.map((item) => {
@@ -37,7 +46,7 @@ export const SelectButtons = ({ data, onSelect, selectedId, borders, fullWidth }
                   onSelect(item);
                 }}
               />
-            )
+            );
           })}
         </>
       ) : (

@@ -72,6 +72,7 @@
     "bet_history": "Bet History",
     "password_update_success": "Password successfully updated",
     "change_password": "Change Password",
+    "security_reasons": "For security reasons, please create a new password",
     "successfully_updated": "Successfully updated!",
     "change_request_cooldown_message": "Changes have been requested. There is a 24-hour cooldown period before applying.",
     "daily_limit": "Daily Limit",
@@ -141,14 +142,15 @@
     "enter_current_password": "Enter current password",
     "max_password_length_256_chars": "Maximum length of password must be 256 characters",
     "page_content_not_found": "Page content not found",
-    "sport_not_found": "We could not find the sport.",
+    "live_chat": "Live Chat",
+    "sport_not_found": "No results matching your search criteria",
     "send_message": "Send a message...",
     "less": "LESS",
     "any": "Any",
     "cash_out": "CASH OUT",
     "confirm_cash_out": "CONFIRM CASH OUT",
     "more": "MORE",
-    "showing_last_7_days": "Showing last 7 days",
+    "showing_last_20_bets": "Showing last 20 bets",
     "empty_bet_slip": "Your bet slip is empty!",
     "selections_description": "Make some selections and they will show up here",
     "bog": "BOG",
@@ -556,5 +558,8 @@
     "register_or_login": "REGISTER OR LOGIN",
     "balance": "Balance",
     "please_verify_your_identity": "Please verify your identity"
+  },
+  "footer": {
+    "local_date_and_Time": "Local Date and Time"
   }
 }

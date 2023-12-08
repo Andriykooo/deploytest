@@ -5,7 +5,6 @@ import "./DynamicSelections.css";
 import { useEffect } from "react";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 export const DynamicSelections = ({ selections, eventId }) => {
@@ -45,7 +44,7 @@ export const DynamicSelections = ({ selections, eventId }) => {
               >
                 <MatchOdds key={selection.bet_id} selection={selection}>
                   {selection?.name && (
-                    <span className="dynamic-selections-name">
+                    <span className="dynamic-selections-name pe-none">
                       {selection?.name}
                     </span>
                   )}
@@ -70,7 +69,7 @@ export const DynamicSelections = ({ selections, eventId }) => {
             >
               <MatchOdds key={selection.bet_id} selection={selection}>
                 {selection?.name && (
-                  <span className="dynamic-selections-name">
+                  <span className="dynamic-selections-name pe-none">
                     {selection?.name}
                   </span>
                 )}

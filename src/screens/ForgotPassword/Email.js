@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader } from "../../components/loaders/Loader";
+import { PageLoader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CheckIcon } from "../../utils/icons";
 import { setForgotPassword } from "@/store/actions";
-import "../ForgotPassword/Email.css";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/button/Button";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../ForgotPassword/Email.css";
 
 const Email = () => {
   const t = useTranslations();
@@ -44,34 +44,32 @@ const Email = () => {
 
   return (
     <div className="signInImage">
-      <div className="email-sent-container">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <div className="email-sent-message">
-              <CheckIcon />
-              <p className="logInTitlee">{t("email_sent.email_sent")}</p>
-              <p className="paragraphh">
-                {t("email_sent.check_inbox_open_link_to_continue")}
-              </p>
+      {isLoading ? (
+        <PageLoader />
+      ) : (
+        <div className="email-sent-container">
+          <div className="email-sent-message">
+            <CheckIcon />
+            <p className="logInTitlee">{t("email_sent.email_sent")}</p>
+            <p className="paragraphh">
+              {t("email_sent.check_inbox_open_link_to_continue")}
+            </p>
+          </div>
+          {isTablet && (
+            <div className="authButtonsContainer">
+              <Button
+                onClick={() => router.back()}
+                className="closeBtn"
+                text={t("common.cancel")}
+              />
+              <Button
+                className="btnPrimary continueBtn validBtn"
+                text={t("email_sent.open_email_app")}
+              />
             </div>
-            {isTablet && (
-              <div className="authButtonsContainer">
-                <Button
-                  onClick={() => router.back()}
-                  className="closeBtn"
-                  text={t("common.cancel")}
-                />
-                <Button
-                  className="btnPrimary continueBtn validBtn"
-                  text={t("email_sent.open_email_app")}
-                />
-              </div>
-            )}
-          </>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,10 @@ export const initialState = {
   tooltip: null,
   priceIsChanged: false,
   logos: null,
+  notFound: false,
+  country: null,
   language: null,
+  showMenuIcon: false,
   sportContent: {},
   betslipResponse: {
     singles: [],
@@ -101,7 +104,6 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, data: action.payload };
     case constants.SET_COUNTRY_PHONE:
       return { ...appstate, countryPhone: action.payload };
-
     case constants.SET_MOBILE:
       return { ...appstate, setMobile: action.payload };
     case constants.SET_TABLET:
@@ -130,6 +132,8 @@ const rootReducer = (appstate = initialState, action) => {
       return { ...appstate, logos: action.payload };
     case constants.COMPETITIONS_DATA:
       return { ...appstate, competitionsData: action.payload };
+    case constants.SET_COUNTRY:
+      return { ...appstate, country: action.payload };
     case constants.SELECT_BET:
       return {
         ...appstate,
@@ -309,21 +313,30 @@ const rootReducer = (appstate = initialState, action) => {
         isVerifyMessage: action.payload,
       };
 
-    case constants.SET_UPDATED_SELECTIONS:
+    case constants.SET_UPDATED_SELECTIONS: {
       const updatedSelectionsData = { ...appstate.updatedSelections };
 
       action.payload.forEach((selection) => {
-        updatedSelectionsData[selection.data.bet_id] = selection;
+        updatedSelectionsData[selection.data.bet_id] = {
+          animation: true,
+          selection,
+        };
       });
 
       return {
         ...appstate,
         updatedSelections: updatedSelectionsData,
       };
-
+    }
     case constants.REMOVE_UPDATED_SELECTION: {
       const updatedSelectionsData = { ...appstate.updatedSelections };
-      delete updatedSelectionsData[action.payload];
+
+      action.payload.forEach((selection) => {
+        updatedSelectionsData[selection.data.bet_id] = {
+          animation: false,
+          selection,
+        };
+      });
 
       return {
         ...appstate,
@@ -354,6 +367,12 @@ const rootReducer = (appstate = initialState, action) => {
         reviewBets: action.payload,
       };
 
+    case constants.SET_SHOW_MENU_ICON:
+      return {
+        ...appstate,
+        showMenuIcon: action.payload,
+      };
+
     case constants.UPDATE_PAGE_LAYOUT_CONTENT:
       return {
         ...appstate,
@@ -364,57 +383,10 @@ const rootReducer = (appstate = initialState, action) => {
             content: appstate.pageLayoutContent[
               action.payload.slug
             ]?.content?.map((component) => {
-              if (component.type === "carousel") {
+              if (component.type_id === action.payload.content.type_id) {
                 return {
-                  ...component,
-                  [component.type]: component[component.type].map((item) => {
-                    if (item.id === action.payload.content.id) {
-                      const language = action.payload.language;
-                      const details = action.payload.content.details;
-
-                      const newDetails = {
-                        ...details,
-
-                        title:
-                          language === "en"
-                            ? details.title
-                            : details[`title_${language}`],
-                        subtitle:
-                          language === "en"
-                            ? details.subtitle
-                            : details[`subtitle_${language}`],
-                      };
-
-                      return {
-                        ...item,
-                        details: newDetails,
-                      };
-                    }
-
-                    return item;
-                  }),
-                };
-              }
-              if (component.type_id === action.payload.content.id) {
-                const details = action.payload.content.details;
-                const language = action.payload.language;
-
-                return {
-                  ...component,
-                  [component.type]: {
-                    ...component[component.type],
-                    ...action.payload[component.type],
-                    details: details,
-                    header_banner: details?.image,
-                    title:
-                      language === "en"
-                        ? details.title
-                        : details[`title_${language}`],
-                    subtitle:
-                      language === "en"
-                        ? details.subtitle
-                        : details[`subtitle_${language}`],
-                  },
+                  nr_order: component.nr_order,
+                  ...action.payload.content,
                 };
               }
 
@@ -430,7 +402,7 @@ const rootReducer = (appstate = initialState, action) => {
         subscriptions: { ...appstate.subscriptions, ...action.payload },
       };
 
-    case constants.SET_RESULTED_EVENTS:
+    case constants.SET_RESULTED_EVENTS: {
       const reslutedEventsState = {
         ...appstate,
         resultedEvents: { ...appstate.resultedEvents, [action.payload]: true },
@@ -448,8 +420,8 @@ const rootReducer = (appstate = initialState, action) => {
       }
 
       return reslutedEventsState;
-
-    case constants.SET_PRICE_IS_CHANGED:
+    }
+    case constants.SET_PRICE_IS_CHANGED: {
       const data = {
         priceIsChanged: action.payload,
       };
@@ -462,11 +434,17 @@ const rootReducer = (appstate = initialState, action) => {
         ...appstate,
         ...data,
       };
-
+    }
     case constants.SET_FAVOURITE_GAMES:
       return {
         ...appstate,
         favouriteGames: action.payload,
+      };
+
+    case constants.SET_NOT_FOUND:
+      return {
+        ...appstate,
+        notFound: action.payload,
       };
 
     case constants.ADD_TO_FAVOURITE_GAMES:
@@ -482,7 +460,7 @@ const rootReducer = (appstate = initialState, action) => {
         },
       };
 
-    case constants.REMOVE_FROM_FAVOURITE_GAMES:
+    case constants.REMOVE_FROM_FAVOURITE_GAMES: {
       if (!appstate.favouriteGames[action.payload.id]) {
         break;
       }
@@ -495,7 +473,7 @@ const rootReducer = (appstate = initialState, action) => {
         ...appstate,
         favouriteGames: updatedData,
       };
-
+    }
     case constants.SET_CURRENT_TIME:
       return {
         ...appstate,

@@ -1,6 +1,5 @@
 import Affiliates from "@/screens/Affiliates/Affiliates";
 import { apiUrl } from "@/utils/constants";
-import { redirect } from "next/navigation";
 
 async function fetchLandingPage(params) {
   const res = await fetch(

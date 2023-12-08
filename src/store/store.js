@@ -7,12 +7,15 @@ import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 const createNoopStorage = () => {
   return {
+    // eslint-disable-next-line
     getItem(_key) {
       return Promise.resolve(null);
     },
+    // eslint-disable-next-line
     setItem(_key, value) {
       return Promise.resolve(value);
     },
+    // eslint-disable-next-line
     removeItem(_key) {
       return Promise.resolve();
     },
@@ -56,12 +59,13 @@ const persistConfig = {
     "sportContent",
     "userStats",
     "reviewBets",
+    "notFound",
   ],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-function makeStore(initialState = exampleInitialState) {
+function makeStore(initialState) {
   return createStore(
     persistedReducer,
     initialState,

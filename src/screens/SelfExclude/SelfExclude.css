@@ -23,7 +23,6 @@
 .modal-dialog {
   position: relative;
   width: auto;
-  margin: 0 var(--bs-modal-margin);
   pointer-events: none;
   transform: translateY(-50%);
 }

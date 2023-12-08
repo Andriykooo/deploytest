@@ -1,7 +1,6 @@
 import { theme } from "./config";
 import {
   BetHistoryIcon,
-  BonusesAndPromotionsIcon,
   ChangePasswordIcon,
   CreditCardLogoOfFooter,
   DepositIcon,
@@ -62,6 +61,7 @@ export const apiUrl = {
   EMAIL_SENT: `${predictionsApiDomain}/v1/user/request_reset_password?device_type=web&&email=`,
 
   // Gaming API
+  GET_COMPONENT: `${gamingApiDomain}/api/v1/page-layout/component`,
   GET_OFFER: `${gamingApiDomain}/api/v1/betting/bet-ticker`,
   GET_AFFILIATE_LINKS: `${gamingApiDomain}/api/v1/cms/affiliate-links`,
   BET_TICKER_LIST: `${gamingApiDomain}/api/v1/betting/bet-ticker-list`,

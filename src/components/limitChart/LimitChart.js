@@ -2,6 +2,7 @@ import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { Pie, PieChart } from "recharts";
+import "./LimitChart.css";
 
 export const LimitChart = ({ title, used, amount, usedPercent }) => {
   const t = useTranslations();
@@ -55,8 +56,8 @@ export const LimitChart = ({ title, used, amount, usedPercent }) => {
             nameKey="name"
             startAngle={90}
             endAngle={-270}
-            innerRadius={38}
-            outerRadius={45}
+            innerRadius={37}
+            outerRadius={46}
           />
         </PieChart>
         <div className="limitChartPercentWrapper">

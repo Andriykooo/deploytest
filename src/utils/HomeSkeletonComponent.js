@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import { Accordion } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { betGroupLinks, eventAtSlider, liveGamesData } from "./constants";
+import "../screens/Home/Home.css";
 
 const sports = [
   "Football",

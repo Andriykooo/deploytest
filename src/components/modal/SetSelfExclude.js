@@ -5,6 +5,8 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
+
 export const SetSelfExclude = ({
   excludeData,
   selectedLimit,
@@ -83,11 +85,9 @@ export const SetSelfExclude = ({
           <div className="modal-footer limit d-flex justify-content-center">
             <Button
               type="button"
-              className={
-                selectedLimit !== -1
-                  ? "btn btnPrimary finishBtn2 setLimitBtn2 col-8"
-                  : "btn finishBtn setLimitBtn col-8 disabled"
-              }
+              className={classNames("setLimitBtn", {
+                disable: selectedLimit === -1,
+              })}
               onClick={() => selectedLimit !== -1 && handleSetSelectedLimit()}
               text={<>{isLoading ? <Loader /> : t("set_limit")}</>}
             />

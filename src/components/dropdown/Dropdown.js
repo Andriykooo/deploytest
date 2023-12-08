@@ -5,6 +5,8 @@ import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useTranslations } from "next-intl";
+import "./Dropdown.css";
+
 export const Dropdown = ({ data, onSelect, selectedItem }) => {
   const t = useTranslations("common");
   const dropdownRef = useRef(null);

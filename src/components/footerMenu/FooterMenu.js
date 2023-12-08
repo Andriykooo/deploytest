@@ -4,10 +4,10 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
-import { HeaderDiv } from "../header/HeaderDiv";
 import { images } from "@/utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import classNames from "classnames";
+import "./FooterMenu.css";
 
 const FooterMenu = ({ data, onClick }) => {
   const t = useTranslations("common");
@@ -24,7 +24,9 @@ const FooterMenu = ({ data, onClick }) => {
   const mainItems = data?.slice(0, 4);
 
   // We need reduce with reverse to make sure that data sorting is okay
+
   const secondaryItems = data
+    ?.filter((page) => page.show_in_menu)
     ?.slice(4, data.lenght)
     ?.reduce((result, value, index) => {
       if (index % 5 === 0) {
@@ -62,17 +64,14 @@ const FooterMenu = ({ data, onClick }) => {
                   title: item.name,
                 }}
               >
-                <HeaderDiv
-                  active={item.id === activePage?.id}
-                  className={
-                    (item.id === item.id) === activePage?.id
-                      ? "header-link active"
-                      : "header-link"
-                  }
+                <div
+                  className={classNames("headerItem", {
+                    active: item.id === activePage?.id,
+                  })}
                 >
                   <Image src={item.icon} alt="page" height={24} width={24} />
-                  <span className="footerSport">{item.name}</span>
-                </HeaderDiv>
+                  <span>{item.name}</span>
+                </div>
               </LinkType>
             </div>
           );
@@ -105,12 +104,10 @@ const FooterMenu = ({ data, onClick }) => {
         {renderFooterMenuItem(mainItems)}
         <div className="footerMenuIcon" onClick={toggleFooterLinks}>
           <div className="ps-1 sports-header-link">
-            <HeaderDiv className="header-link">
+            <div className="headerItem">
               <Image src={images.dotVector} alt="more-less" />
-              <span className="footerSport">
-                {isOpen ? t("less") : t("more")}
-              </span>
-            </HeaderDiv>
+              <span>{isOpen ? t("less") : t("more")}</span>
+            </div>
           </div>
         </div>
       </div>

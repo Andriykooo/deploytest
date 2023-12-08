@@ -12,37 +12,29 @@ import Seal from "./Seal";
 import { apiServices } from "@/utils/apiServices";
 import { setFooter } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
-import { useParams, usePathname } from "next/navigation";
 import classNames from "classnames";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import { CurrentDate } from "../CurrentDate/CurrentDate";
+import "./Footer.css";
 
 export const preselectedColumns = ["/terms", "/privacy"];
 
 export const Footer = ({ noMenu }) => {
   const dispatch = useDispatch();
   const isPWA = window.matchMedia("(display-mode: standalone)").matches;
-  const params = useParams();
   const isTablet = useSelector((state) => state.isTablet);
   const footer = useSelector((state) => state.footer);
   const [isMounted, setIsMounted] = useState(false);
-  const pathName = usePathname();
-  const casinoPage = pathName.includes('/casino');
+  const { pathname } = useClientPathname();
+  const casinoPage = pathname.includes("/casino") || pathname.includes("/gameslist");
+
   useEffect(() => {
     setIsMounted(true);
 
     if (!footer?.data) {
-      const lang = params.lng;
-
-      let contentLanguage = params.lng;
-
-      if (lang) {
-        contentLanguage = lang === "en" ? "all" : lang;
-      }
-
-      apiServices
-        .get(apiUrl.GET_FOOTER, { country: contentLanguage })
-        .then((response) => {
-          dispatch(setFooter({ data: response }));
-        });
+      apiServices.get(apiUrl.GET_FOOTER).then((response) => {
+        dispatch(setFooter({ data: response }));
+      });
     }
   }, []);
 
@@ -51,7 +43,13 @@ export const Footer = ({ noMenu }) => {
       {isMounted && (
         <Helmet>{parse(footer.data.footer_row2?.header || "")}</Helmet>
       )}
-      <footer className={classNames("footer-container-div", { pwa: isPWA }, {casinoPage: casinoPage})}>
+      <footer
+        className={classNames(
+          "footer-container-div",
+          { pwa: isPWA },
+          { casinoPage: casinoPage }
+        )}
+      >
         <div className="pt-5 footerContainerMenu">
           {isTablet ? (
             <div className="mobileVersionLinks row">
@@ -116,9 +114,10 @@ export const Footer = ({ noMenu }) => {
                       </div>
                     ) : null;
                   })}
-                  {index === footer.data?.images?.length - 1 && (
-                    <Seal html={footer.data?.footer_row2.body} />
-                  )}
+                  {footer?.data?.footer_row2 &&
+                    index === footer?.data?.images?.length - 1 && (
+                      <Seal html={footer?.data?.footer_row2?.body} />
+                    )}
                 </div>
               );
             })}
@@ -126,6 +125,7 @@ export const Footer = ({ noMenu }) => {
           <div className="footer">
             <HtmlParse html={footer.data?.footer_row1} />
             <LanguageDropdown />
+            <CurrentDate />
           </div>
         </div>
       </footer>

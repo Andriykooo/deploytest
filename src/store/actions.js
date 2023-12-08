@@ -21,6 +21,27 @@ export const setCountryPhone = (payload) => {
   };
 };
 
+export const setNotFound = (payload) => {
+  return {
+    type: constants.SET_NOT_FOUND,
+    payload,
+  };
+};
+
+export const setShowMenuIcon = (payload) => {
+  return {
+    type: constants.SET_SHOW_MENU_ICON,
+    payload,
+  };
+};
+
+export const setCountry = (payload) => {
+  return {
+    type: constants.SET_COUNTRY,
+    payload,
+  };
+};
+
 export const setMobile = (payload) => {
   return {
     type: constants.SET_MOBILE,

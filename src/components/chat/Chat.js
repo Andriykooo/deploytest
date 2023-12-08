@@ -1,53 +1,42 @@
 "use client";
 
 import Image from "next/image";
-import { useContext, useEffect, useRef, useState } from "react";
-import { SocketContext } from "../../context/socket";
+import { useEffect, useRef, useState } from "react";
 import { images } from "../../utils/imagesConstant";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  ChatBottomSubWrapper,
-  ChatBottomWrapper,
-  ChatBox,
-  ChatHeader,
-  ChatIconStyled,
-  ChatTitle,
-  ChatWrapper,
-  ChattingBlock,
-  MessagesBlock,
-  NumberNewMessages,
-  UnLoggedMessage,
-} from "./ChatStyled";
 import RenderMessages from "./RenderMessages";
 import TypingArea from "./TypingArea";
 import { setSidebarLeft } from "../../store/actions";
 import { useTranslations } from "next-intl";
 import { ChatIcon } from "@/utils/icons";
 import { CustomLink } from "../Link/Link";
-
-const minHeightTextarea = 16;
-const maxHeightTextarea = 80;
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { communicationSocket } from "@/context/socket";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import classNames from "classnames";
+import "./Chat.css";
 
 export const Chat = ({ isOpen, isMobile = false }) => {
+  const dispatch = useDispatch();
   const t = useTranslations();
+  const { pathname } = useClientPathname();
+
   const chatBlockRef = useRef(null);
   const messagesRef = useRef(null);
-  const dispatch = useDispatch();
+
   const sidebarLeft = useSelector((state) => state.sidebarLeft);
   const loggedUser = useSelector((state) => state.loggedUser);
-
-  const { communicationSocket } = useContext(SocketContext);
 
   const [isChatActive, setIsChatActive] = useState(false);
   const [writtenMessage, setWrittenMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [textareaHeight, setTextareaHeight] = useState(minHeightTextarea);
   const [isFetching, setIsFetching] = useState(false);
   const [disableScroll, setDisableScroll] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [lastMessageId, setLastMessageId] = useState();
+
+  const hasNextPage = currentPage < totalPages;
 
   const fetchNextPage = () => {
     if (loggedUser) {
@@ -61,15 +50,13 @@ export const Chat = ({ isOpen, isMobile = false }) => {
           setTotalPages(messagesHistory.data.total_pages);
           setIsFetching(false);
           setMessages((prev) => [
-            ...messagesHistory?.data?.messages?.reverse(),
+            ...messagesHistory.data.messages.reverse(),
             ...prev,
           ]);
         }
       );
     }
   };
-
-  const hasNextPage = currentPage < totalPages;
 
   const scrollHandler = (e) => {
     if (e.target.scrollTop < 10 && !isFetching && hasNextPage) {
@@ -88,54 +75,9 @@ export const Chat = ({ isOpen, isMobile = false }) => {
     chatBlock && chatBlock.scrollIntoView();
   };
 
-  useEffect(() => {
-    scrollMessage();
-  }, [textareaHeight]);
-
   const changeMessageHandler = (event) => {
-    const { scrollHeight, value } = event.target;
-    setWrittenMessage(value);
-
-    if (!value.length) {
-      setTextareaHeight(minHeightTextarea);
-      return;
-    }
-
-    if (
-      scrollHeight <= maxHeightTextarea &&
-      scrollHeight % minHeightTextarea === 0
-    ) {
-      setTextareaHeight(scrollHeight);
-    }
+    setWrittenMessage(event.target.value);
   };
-
-  useEffect(() => {
-    if (loggedUser) {
-      communicationSocket.emit(
-        "last_messages",
-        { page: currentPage },
-        (messagesHistory) => {
-          setMessages(messagesHistory?.data?.messages?.reverse() || []);
-          setCurrentPage(messagesHistory.data.current_page);
-          setTotalPages(messagesHistory.data.total_pages);
-        }
-      );
-
-      communicationSocket.on("new_chat_message", (newMessage) => {
-        if (isChatActive) {
-          communicationSocket.emit("read_messages", {
-            messageIds: [newMessage.message_id],
-            roomId: newMessage?.room_id,
-          });
-
-          newMessage.is_read = true;
-        }
-
-        setMessages((prev) => [...prev, newMessage]);
-        setDisableScroll(false);
-      });
-    }
-  }, [loggedUser]);
 
   const keyDownHandle = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -146,7 +88,6 @@ export const Chat = ({ isOpen, isMobile = false }) => {
 
   const sendMessageHandler = (event) => {
     event.preventDefault();
-    setTextareaHeight(minHeightTextarea);
     if (writtenMessage.trim().length > 0) {
       communicationSocket.emit(
         "player_chat_message",
@@ -169,6 +110,27 @@ export const Chat = ({ isOpen, isMobile = false }) => {
       );
     }
   };
+
+  useEffect(() => {
+    communicationSocket.emit(
+      "last_messages",
+      { page: currentPage },
+      (messagesHistory) => {
+        setMessages(messagesHistory?.data?.messages?.reverse() || []);
+        setCurrentPage(messagesHistory.data.current_page);
+        setTotalPages(messagesHistory.data.total_pages);
+      }
+    );
+
+    communicationSocket.on("new_chat_message", (newMessage) => {
+      setMessages((prev) => [...prev, newMessage]);
+      setDisableScroll(false);
+    });
+
+    return () => {
+      communicationSocket.off("new_chat_message");
+    };
+  }, []);
 
   useEffect(() => {
     if (isChatActive && loggedUser) {
@@ -226,10 +188,10 @@ export const Chat = ({ isOpen, isMobile = false }) => {
   }, 0);
 
   return (
-    <ChatWrapper isOpen={isOpen}>
+    <div className={classNames("ChatWrapper", { isOpen })}>
       {isChatActive && (
-        <ChatBox isOpen={isOpen}>
-          <ChatHeader>
+        <div className={classNames("ChatBox", { isOpen })}>
+          <div className="ChatHeader">
             <div>{t("chat.live_chat")}</div>
             <span onClick={chatCloseHandler}>
               <Image
@@ -239,27 +201,31 @@ export const Chat = ({ isOpen, isMobile = false }) => {
                 alt="rollUp"
               />
             </span>
-          </ChatHeader>
-          <ChattingBlock
-            textareaHeight={
-              textareaHeight + (textareaHeight === minHeightTextarea ? 104 : 90)
-            }
-          >
+          </div>
+          <div className="ChattingBlock">
             {loggedUser && getLocalStorageItem("access_token") ? (
-              <MessagesBlock onScroll={scrollHandler} ref={messagesRef}>
+              <div
+                className="MessagesBlock"
+                onScroll={scrollHandler}
+                ref={messagesRef}
+              >
                 <RenderMessages messages={messages} />
                 <div ref={chatBlockRef}></div>
-              </MessagesBlock>
+              </div>
             ) : (
-              <UnLoggedMessage>
+              <div className="UnLoggedMessage">
                 <p>
                   {t("chat.please")}{" "}
-                  <CustomLink href="/login">{t("chat.log_in")}</CustomLink>{" "}
+                  <CustomLink
+                    href={`/login?redirect=${pathname.replace("/", "")}`}
+                  >
+                    {t("chat.log_in")}
+                  </CustomLink>{" "}
                   {t("chat.to_send_a_message")}
                 </p>
-              </UnLoggedMessage>
+              </div>
             )}
-          </ChattingBlock>
+          </div>
           <TypingArea
             disabled={!loggedUser}
             onSubmit={sendMessageHandler}
@@ -267,11 +233,11 @@ export const Chat = ({ isOpen, isMobile = false }) => {
             value={writtenMessage}
             onChange={changeMessageHandler}
             keyDownHandle={keyDownHandle}
-            textareaHeight={textareaHeight}
           />
-        </ChatBox>
+        </div>
       )}
-      <ChatBottomWrapper
+      <div
+        className="ChatBottomWrapper"
         onClick={() => {
           if (isMobile) {
             dispatch(
@@ -284,16 +250,16 @@ export const Chat = ({ isOpen, isMobile = false }) => {
           setIsChatActive((prevState) => !prevState);
         }}
       >
-        <ChatBottomSubWrapper>
-          <ChatIconStyled>
+        <div className="ChatBottomSubWrapper">
+          <div className="ChatIconStyled">
             <ChatIcon isMobile={isMobile} />
-          </ChatIconStyled>
-          {isOpen && <ChatTitle>{t("chat.chat")}</ChatTitle>}
-        </ChatBottomSubWrapper>
+          </div>
+          {isOpen && <div className="ChatTitle">{t("chat.chat")}</div>}
+        </div>
         {numberUnreadMessage > 0 && (
-          <NumberNewMessages isOpen={isOpen}>
+          <div className={classNames("NumberNewMessages", { isOpen })}>
             {numberUnreadMessage}
-          </NumberNewMessages>
+          </div>
         )}
         {isOpen && (
           <Image
@@ -304,7 +270,7 @@ export const Chat = ({ isOpen, isMobile = false }) => {
             height={8}
           />
         )}
-      </ChatBottomWrapper>
-    </ChatWrapper>
+      </div>
+    </div>
   );
 };

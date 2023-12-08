@@ -5,12 +5,13 @@ import { useSelector } from "react-redux";
 import { Loader } from "@/components/loaders/Loader";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import "../DepositLimit/DepositLimit.css";
-import "../NetDeposit/NetDeposit.css";
-import "../RealityCheck/RealityCheck.css";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
+import "../DepositLimit/DepositLimit.css";
+import "../SuspendAccount/SuspendAccount.css";
+import "./NetDeposit.css";
+
 const NetDeposit = () => {
   const t = useTranslations();
   const [netAmount, setNetAmount] = useState("");

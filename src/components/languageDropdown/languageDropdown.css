@@ -28,6 +28,7 @@
   position: absolute;
   width: 100%;
   margin-bottom: 0;
+  background-color: var(--global-color-primary);
 }
 
 .dropdown-lang-item {
@@ -40,10 +41,11 @@
   border-bottom: 1px solid #1b1c21;
   line-height: 24px;
   padding: 0;
+  transition: 0.3s ease;
 }
 
-.dropdown-lang-item:hover {
-  background: linear-gradient(177.73deg, #34393f -669.58%, #000000 870.68%);
+.dropdown-lang-list .dropdown-lang-item:hover {
+  background: var(--global-color-sidebar-field-selected);
 }
 
 .dropdown-lang-item-link {

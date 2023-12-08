@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { Button } from "../button/Button";
-import "./BannerMenu.css";
 import { LinkType } from "../LinkType/LinkType";
 import Image from "next/image";
+import "./BannerMenu.css";
 
 export const BannerMenu = ({
   title,
@@ -12,18 +12,14 @@ export const BannerMenu = ({
   selected,
   setSelected,
   callToActinButton,
-  defaultItem,
   disableCta,
 }) => {
   const handleClick = (item) => {
-    setSelected(selected?.slug === item.slug ? defaultItem : item);
+    setSelected(item);
   };
 
   return (
-    <div
-      className="banner-menu"
-      style={{ height: subtitle && options ? "115px" : "91px" }}
-    >
+    <div className="banner-menu">
       {image && (
         <Image
           src={image}
@@ -35,7 +31,23 @@ export const BannerMenu = ({
         />
       )}
       <div className="banner-menu-content">
-        {title && <div className="banner-menu-title">{title}</div>}
+        <div className="banner-menu-title">
+          {title && <span>{title}</span>}
+          {!disableCta && callToActinButton?.name && (
+            <LinkType
+              type={callToActinButton?.type}
+              path={callToActinButton?.path}
+              openType={callToActinButton?.open_type}
+              modalData={callToActinButton?.modalData}
+            >
+              <Button
+                type="button"
+                className="btnPrimary bannerButton buttonOfSlider cta"
+                text={callToActinButton?.name}
+              />
+            </LinkType>
+          )}
+        </div>
         {subtitle && <div className="banner-menu-subtitle">{subtitle}</div>}
         <div className="banner-menu-filter">
           {options?.map((item, index) => {
@@ -52,20 +64,6 @@ export const BannerMenu = ({
             );
           })}
         </div>
-        {!disableCta && callToActinButton?.name && (
-          <LinkType
-            type={callToActinButton?.type}
-            path={callToActinButton?.path}
-            openType={callToActinButton?.open_type}
-            modalData={callToActinButton?.modalData}
-          >
-            <Button
-              type="button"
-              className="btnPrimary bannerButton buttonOfSlider cta"
-              text={callToActinButton?.name}
-            />
-          </LinkType>
-        )}
       </div>
     </div>
   );

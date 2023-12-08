@@ -14,17 +14,17 @@ import SkeletonComponent from "../../utils/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
 import { useTranslations } from "next-intl";
+import { SportHeader } from "@/components/SportHeader/SportHeader";
+
 const InPlay = () => {
   const t = useTranslations("in_play");
   const [markets, setMarkets] = useState([]);
   const [message, setMessage] = useState("");
   const [marketId, setMarketId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [shortContent, setShortContent] = useState(false);
   const [selectionTypes, setSelectionTypes] = useState([]);
   const [competitionsData, setComponetitionsData] = useState([]);
   const [selectCompetition, setSelectedCompetition] = useState(null);
-
   const sports = useSelector((state) => state.sports);
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -45,9 +45,8 @@ const InPlay = () => {
         if (data.length < 1) {
           setMessage(t("no_games_available_message"));
         } else if (data.length < 3) {
-          setShortContent(true);
           setMessage("");
-        } else setShortContent(false);
+        }
       })
       .catch((err) => {
         alertToast({ message: err?.message });
@@ -98,47 +97,49 @@ const InPlay = () => {
           <div className="mainArticle">
             <div className="row w-100 sports-matches-container m-0 sportsMatchesContainer">
               <div className="col-12 sports-body">
-                <div className="sport-competitions mx-3 mt-3">
-                  <label className="sport-name">
-                    {sports
-                      ?.find((sport) => sport.id === +id)
-                      ?.name?.toUpperCase()}
-                  </label>
-                  <div className="autoCompleteMultipleInRow">
-                    <AutocompleteSelect
-                      placeholder={
-                        id !== 15 ? t("select_league") : t("competitions")
-                      }
-                      data={competitionsData.map((competition) => ({
-                        label: competition.competition_name,
-                        id: competition.competition_id,
-                      }))}
-                      onSelect={(item) => {
-                        setSelectedCompetition(
-                          competitionsData.find(
-                            (competition) =>
-                              competition?.competition_id === item?.id
-                          )
-                        );
-                      }}
-                    />
-                    {id === 15 && (
-                      <>
-                        <AutocompleteSelect
-                          placeholder={t("common.time")}
-                          data={[]}
-                        />
-                        <AutocompleteSelect
-                          placeholder={t("common.region")}
-                          data={[]}
-                        />
-                        <AutocompleteSelect
-                          placeholder={t("common.country")}
-                          data={[]}
-                        />
-                      </>
-                    )}
-                  </div>
+                <div className="m-3 mb-0">
+                  <SportHeader>
+                    <label className="sport-name">
+                      {sports
+                        ?.find((sport) => sport.id === +id)
+                        ?.name?.toUpperCase()}
+                    </label>
+                    <div className="autoCompleteMultipleInRow">
+                      <AutocompleteSelect
+                        placeholder={
+                          id !== 15 ? t("select_league") : t("competitions")
+                        }
+                        data={competitionsData.map((competition) => ({
+                          label: competition.competition_name,
+                          id: competition.competition_id,
+                        }))}
+                        onSelect={(item) => {
+                          setSelectedCompetition(
+                            competitionsData.find(
+                              (competition) =>
+                                competition?.competition_id === item?.id
+                            )
+                          );
+                        }}
+                      />
+                      {id === 15 && (
+                        <>
+                          <AutocompleteSelect
+                            placeholder={t("common.time")}
+                            data={[]}
+                          />
+                          <AutocompleteSelect
+                            placeholder={t("common.region")}
+                            data={[]}
+                          />
+                          <AutocompleteSelect
+                            placeholder={t("common.country")}
+                            data={[]}
+                          />
+                        </>
+                      )}
+                    </div>
+                  </SportHeader>
                 </div>
                 {id !== 15 && markets.length > 0 && (
                   <TabsSelect

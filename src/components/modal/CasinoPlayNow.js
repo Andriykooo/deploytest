@@ -10,7 +10,7 @@ export const CasinoPlayNow = ({ game, setGame, gameUrl }) => {
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
 
-  const [fullScreen, setFullScreen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(true);
 
   const handleClose = () => {
     setGame(null);

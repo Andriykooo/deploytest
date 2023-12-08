@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToUpdatedBetslipSelections,
-  removeUpdatedSelection,
   setBetSlipResponse,
   setSelectBet,
 } from "../../store/actions";
@@ -12,11 +11,9 @@ import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
-import { usePathname } from "next/navigation";
 
 export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
   const t = useTranslations("common");
-  const pathname = usePathname();
 
   const dispatch = useDispatch();
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
@@ -106,40 +103,44 @@ export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
       setSelectionRow((prev) => {
         return {
           ...prev,
-          ...odd?.data,
+          ...odd?.selection?.data,
         };
       });
 
-      if (odd.data.price_boost) {
-        odd.data.odds_decimal = odd.data.price_boost_odds.decimal;
-        odd.data.odds_fractional = odd.data.price_boost_odds.fractional;
+      if (odd.selection.data.price_boost) {
+        odd.selection.data.odds_decimal =
+          odd.selection.data.price_boost_odds.decimal;
+        odd.selection.data.odds_fractional =
+          odd.selection.data.price_boost_odds.fractional;
       }
 
-      if (+odd?.data?.odds_decimal === +selectionRow.odds_decimal) {
+      if (+odd?.selection?.data?.odds_decimal === +selectionRow.odds_decimal) {
         return;
       }
 
       const type =
-        +odd?.data?.odds_decimal > +selectionRow.odds_decimal
+        +odd?.selection?.data?.odds_decimal > +selectionRow.odds_decimal
           ? "drifting"
           : "shortening";
 
       const isBetslipOdd = selectedPlayerBets.bets.some(
-        (selectedPlayerBet) => selectedPlayerBet.bet_id === odd.data.bet_id
+        (selectedPlayerBet) =>
+          selectedPlayerBet.bet_id === odd?.selection.data.bet_id
       );
 
-      setPriceChangeType(type);
-      setIsAnimationStart(true);
-      prevoiusSelection(selectionRow);
+      if (odd?.animation) {
+        setIsAnimationStart(true);
+      }
 
-      timeoutId = setTimeout(() => {
-        // dispatch(removeUpdatedSelection(odd.data.bet_id));
-        setIsAnimationStart(false);
-      }, 2500);
+      setPriceChangeType(type);
+      prevoiusSelection(selectionRow);
 
       if (isBetslipOdd) {
         dispatch(
-          addToUpdatedBetslipSelections({ ...odd?.data, priceChangeType: type })
+          addToUpdatedBetslipSelections({
+            ...odd?.selection?.data,
+            priceChangeType: type,
+          })
         );
       }
     }
@@ -163,7 +164,7 @@ export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
       key={selectionRow}
     >
       <TooltipWrapper
-        show={priceChangeType && !isSuspended && !isAnimationStart}
+        show={priceChangeType && !isSuspended}
         message={
           <div className="matchOddsTipContent">
             <Odds selection={previousSelection} />
@@ -194,12 +195,14 @@ export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
           <div
             className={classNames("animationBlock", {
               driftingAnimation:
-                odd?.data?.odds_decimal === selectionRow.odds_decimal &&
+                odd?.selection?.data?.odds_decimal ===
+                  selectionRow.odds_decimal &&
                 priceChangeType === "drifting" &&
                 !isSuspended &&
                 isAnimationStart,
               shorteningAnimation:
-                odd?.data?.odds_decimal === selectionRow.odds_decimal &&
+                odd?.selection?.data?.odds_decimal ===
+                  selectionRow.odds_decimal &&
                 priceChangeType === "shortening" &&
                 !isSuspended &&
                 isAnimationStart,
@@ -208,6 +211,9 @@ export const MatchOdds = ({ selection, disable, disableUpdate, children }) => {
             id={"bet_odds_" + selectionRow?.bet_id}
             data-id={selectionRow?.bet_id}
             onClick={handlerOnClick}
+            onAnimationEnd={() => {
+              setIsAnimationStart(false);
+            }}
           >
             {children}
             <Odds

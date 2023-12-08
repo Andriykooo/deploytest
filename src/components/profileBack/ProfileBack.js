@@ -2,7 +2,6 @@ import { images } from "@/utils/imagesConstant";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import Image from "next/image";
-import Link from "next/link";
 import { CustomLink } from "../Link/Link";
 
 const ProfileBack = ({

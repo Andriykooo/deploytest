@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { LanguageIcon } from "@/utils/icons";
 import { usePathname } from "next/navigation";
-import "./languageDropdown.css";
 import { useParams } from "next/navigation";
 import { addLocalStorageItem } from "@/utils/localStorage";
+import "./languageDropdown.css";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();

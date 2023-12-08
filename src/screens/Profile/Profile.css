@@ -25,24 +25,6 @@
   margin-bottom: 0;
 }
 
-.infoDiv {
-  width: 100%;
-  min-width: 176px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  border-radius: 6px;
-  cursor: pointer;
-  min-height: 86px;
-  padding: 12px 16px 12px 16px;
-}
-
-.infoDiv.profileInfos {
-  background-color: var(--global-color-settings-shade-primary);
-  color: var(--global-color-settings-text-primary);
-}
-
 .logoutBtn {
   width: 124px;
   height: 30px;
@@ -94,7 +76,7 @@
 
 .saferGambContainer {
   height: 194px;
-  background-color: var(--global-color-settings-shade-primary);
+  background-color: var(--global-color-background-quaternary);
   padding: 12px 16px;
   border-radius: 6px;
 }
@@ -138,13 +120,6 @@
 .infoDiv.profile {
   position: relative;
   margin-left: 10px;
-}
-
-.profileArrow {
-  position: absolute;
-  right: 5%;
-  transform: rotate(90deg);
-  top: 45%;
 }
 
 .profileValidated {

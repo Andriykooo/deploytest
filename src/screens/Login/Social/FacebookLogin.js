@@ -1,7 +1,6 @@
 import { images } from "@/utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import { SocialButton } from "./SocialButton";
-import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { alertToast } from "@/utils/alert";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
@@ -22,7 +21,7 @@ const fbLogin = () => {
   });
 };
 
-export const FacebookLogin = () => {
+export const FacebookLogin = ({ loginCallback }) => {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,12 +32,12 @@ export const FacebookLogin = () => {
   });
 
   const responseFacebook = async () => {
-    setIsLoading(true);
-
     try {
       const response = await fbLogin();
+      setIsLoading(true);
 
       if (!response) {
+        setIsLoading(false);
         return;
       }
 
@@ -66,6 +65,8 @@ export const FacebookLogin = () => {
         },
         "facebook"
       );
+
+      loginCallback?.();
     } catch (e) {
       alertToast({
         message: e.message || t("login.facebook_login_failed"),

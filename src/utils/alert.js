@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
 import { toast } from "react-toastify";
-import { images } from "./imagesConstant";
 import { CloseIcon, ToastError, ToastSuccess } from "./icons";
 
 export const alertToast = ({

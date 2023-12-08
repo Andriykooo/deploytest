@@ -1,0 +1,9 @@
+.date {
+    color: var(--global-color-footer-text-primary);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.date span {
+    margin-left: 5px;
+}

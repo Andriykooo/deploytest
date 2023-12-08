@@ -1,25 +1,25 @@
+import Script from "next/script";
 import { Provider } from "./provider";
 import { Montserrat } from "next/font/google";
 import { apiUrl, fallbackLng } from "@/utils/constants";
-import Script from "next/script";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-toastify/dist/ReactToastify.css";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { PwaInstall } from "@/components/pwa/PwaInstall";
+import "./globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
+  preload: true,
   weight: ["400", "600", "700"],
   style: "normal",
   display: "swap",
 });
 
 export async function generateMetadata() {
-  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
+  const response = await fetch(apiUrl.GET_GLOBAL_SEO, {
+    next: { revalidate: 3 },
+  });
 
   if (response.status === 483) {
     return {
@@ -33,8 +33,6 @@ export async function generateMetadata() {
     title: seo.title,
     description: seo.description,
     keywords: seo.keywords,
-    viewport:
-      "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0",
     icons: {
       icon: seo.fav_icon,
       shortcut: seo.fav_icon,
@@ -46,14 +44,21 @@ export async function generateMetadata() {
       images: [seo.image],
     },
     manifest: "/manifest.json",
-    themeColor: "#2B2F34",
   };
 }
+
+export const viewport = {
+  themeColor: "#2B2F34",
+  viewport:
+    "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0",
+};
 
 export default async function RootLayout({ children, params: { lng } }) {
   let locales;
 
-  const onboarding = await fetch(apiUrl.ON_BOARDING);
+  const onboarding = await fetch(apiUrl.ON_BOARDING, {
+    next: { revalidate: 3 },
+  });
   const data = await onboarding.json();
 
   if (!data.languages.some((language) => language.code2 === lng)) {
@@ -83,9 +88,11 @@ export default async function RootLayout({ children, params: { lng } }) {
         src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
       />
       <body className={montserrat.className}>
-        <div id="fb-root"></div>
         <NextIntlClientProvider locale={lng} messages={locales}>
-          <Provider>{children}</Provider>
+          <Provider>
+            {children}
+            <PwaInstall />
+          </Provider>
         </NextIntlClientProvider>
       </body>
     </html>

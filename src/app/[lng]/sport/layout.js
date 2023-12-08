@@ -1,12 +1,13 @@
-import { BetSelectedTypes } from "@/components/custom/BetSelectedTypes";
+import { BetSelectedTypes } from "@/components/BetSelectedTypes/BetSelectedTypes";
 import { Footer } from "@/components/footer/Footer";
 import { SidebarLayout } from "@/layouts/sidebarLayout/SidebarLayout";
 
-export default function Layout({ children }) {
+export default async function Layout({ children }) {
   return (
     <SidebarLayout sidebarLeftIsActive sidebarRightIsActive>
-      <div>{children}</div>
-
+      <div className="sport-content">
+        {children}
+      </div>
       <div>
         <BetSelectedTypes />
         <Footer />

@@ -7,11 +7,11 @@ import { SuccesToast } from "../../utils/alert";
 import { oddsFormatTypes } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import "../OddsFormat/OddsFormat.css";
 import classNames from "classnames";
 import { useState } from "react";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useTranslations } from "next-intl";
+import "./OddsFormat.css";
 
 const OddsFormat = () => {
   const t = useTranslations();
@@ -58,9 +58,9 @@ const OddsFormat = () => {
               selectedOdd: activeOdd === value.id,
             })}
           >
-            <span className="">
-              <p className="decimalText">{t(`odds_format.${value.format}`)}</p>
-            </span>
+            <p className="decimalText ms-3">
+              {t(`odds_format.${value.format}`)}
+            </p>
             {activeOdd === value.id ? (
               <Image
                 src={images.validated}

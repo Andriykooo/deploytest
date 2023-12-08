@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileIcon, SlipIcon } from "../../../utils/icons";
-import Link from "next/link";
 import { Chat } from "@/components/chat/Chat";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { useTranslations } from "next-intl";
@@ -16,11 +15,11 @@ export const MobileLoggedUser = () => {
   const userCurrency = user.user_data.currency.abbreviation;
   const t = useTranslations("header");
   const settings = useSelector((state) => state.settings);
+
   const chatIsActive =
-    getLocalStorageItem("access_token") &&
-    settings?.is_trader_chat_enabled &&
-    user &&
-    user?.user_data?.trader_chat_enabled;
+    user && getLocalStorageItem("access_token")
+      ? settings?.is_trader_chat_enabled && user?.user_data?.trader_chat_enabled
+      : settings?.is_trader_chat_enabled;
 
   return (
     <div className="sing-up-txt mobileAccInfo">

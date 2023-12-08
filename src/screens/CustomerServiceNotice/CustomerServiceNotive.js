@@ -1,13 +1,10 @@
 "use client";
 
-import { images } from "@/utils/imagesConstant";
 import "./CustomerServiceNotive.css";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { apiUrl } from "@/utils/constants";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "@/store/actions";
 import { Logo } from "@/components/logo/Logo";

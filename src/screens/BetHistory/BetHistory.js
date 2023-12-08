@@ -5,21 +5,20 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { gamingSocket } from "@/context/socket";
 import { Button } from "../../components/button/Button";
-import {
-  BET_HISTORY_ALL_TAB,
-  BET_HISTORY_TABS,
-} from "@/utils/betHistory";
+import { BET_HISTORY_ALL_TAB, BET_HISTORY_TABS } from "@/utils/betHistory";
 import classNames from "classnames";
 import moment from "moment";
 import BetHistorySection from "./BetHistorySection";
 import BetHistorySectionRow from "./BetHistorySectionRow";
 import { EmptyState } from "@/components/emptyState/EmptyState";
-import "../DepositLimit/DepositLimit.css";
-import "./BetHistory.css";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { useTranslations } from "next-intl";
 import Spiner from "@/utils/Spiner";
 import InfiniteScroll from "react-infinite-scroll-component";
+import "../DepositLimit/DepositLimit.css";
+import "./BetHistory.css";
+import { alertToast } from "@/utils/alert";
+
 const skeletonHeader = new Array(4).fill(0);
 
 const BetHistory = () => {
@@ -42,7 +41,7 @@ const BetHistory = () => {
           hasMore.current = false;
         } else {
           hasMore.current = true;
-          setPage(page + 1)
+          setPage(page + 1);
         }
       } else {
         hasMore.current = false;
@@ -63,7 +62,6 @@ const BetHistory = () => {
   useEffect(() => {
     getMyBets(activeTab);
   }, [activeTab]);
-
 
   const tabData = useMemo(
     () =>
@@ -89,13 +87,15 @@ const BetHistory = () => {
 
     return (
       <InfiniteScroll
-        dataLength={myBets?.length}
+        dataLength={page}
         next={() => getMyBets(activeTab)}
-        loader={showSpinner && (
-          <span className="spinnerStyle">
-            <Spiner sell />
-          </span>
-        )}
+        loader={
+          showSpinner && (
+            <span className="spinnerStyle">
+              <Spiner sell />
+            </span>
+          )
+        }
         hasMore={hasMore.current && !isLoading}
         scrollableTarget="scrollable"
         className="max-container"
@@ -127,7 +127,8 @@ const BetHistory = () => {
                           odds_decimal: item.odds_decimal,
                           odds_fractional: item.odds_fractional,
                           odds_american: item.odds_american,
-                        }} />
+                        }}
+                      />
                     ))}
                   </BetHistorySection>
                 ))}
@@ -136,7 +137,7 @@ const BetHistory = () => {
           })}
         </div>
       </InfiniteScroll>
-    )
+    );
   };
 
   return (
@@ -152,7 +153,7 @@ const BetHistory = () => {
               })}
               onClick={() => {
                 if (activeTab !== tab.value) {
-                  handleChangeTab(tab.value)
+                  handleChangeTab(tab.value);
                 }
               }}
               text={
@@ -173,27 +174,27 @@ const BetHistory = () => {
       >
         {isLoading
           ? skeletonHeader.map((_, index) => {
-            return (
-              <React.Fragment key={index}>
-                <Skeleton
-                  variant="text"
-                  sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                  className="mt-2"
-                  animation="wave"
-                  width={250}
-                />
-                {skeletonHeader.map((__, headerIndex) => (
+              return (
+                <React.Fragment key={index}>
                   <Skeleton
                     variant="text"
-                    sx={{ fontSize: "1.2rem" }}
-                    className="my-2"
+                    sx={{ fontSize: "2rem", bgcolor: "#212536" }}
+                    className="mt-2"
                     animation="wave"
-                    key={headerIndex}
+                    width={250}
                   />
-                ))}
-              </React.Fragment>
-            );
-          })
+                  {skeletonHeader.map((__, headerIndex) => (
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "1.2rem" }}
+                      className="my-2"
+                      animation="wave"
+                      key={headerIndex}
+                    />
+                  ))}
+                </React.Fragment>
+              );
+            })
           : renderTab()}
       </div>
     </div>

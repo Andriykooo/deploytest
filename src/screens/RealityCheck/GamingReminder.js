@@ -1,11 +1,12 @@
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useUsageTime } from "@/hooks/useUsageTime";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import classNames from "classnames";
+import "./GamingReminder.css";
 
 const GamingReminderAlert = ({ setGamingAlert }) => {
   const t = useTranslations("common");
@@ -16,7 +17,7 @@ const GamingReminderAlert = ({ setGamingAlert }) => {
 
   return (
     <div
-      className={isMobile ? "modal show modalFullScreen" : "modal"}
+      className={classNames("modal show", { modalFullScreen: isMobile })}
       id="alertGamingReminderModal"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"

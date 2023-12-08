@@ -23,6 +23,9 @@
 }
 
 .dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   position: absolute;
   right: 0;
   padding: 8px 12px;
@@ -50,4 +53,11 @@
 
 .dropdown-button.active {
   border: 1px solid var(--global-color-chip-cube1-stroke-background);
+}
+
+@media screen and (max-width: 1024px) {
+  .dropdown-list {
+    right: auto;
+    left: 0;
+  }
 }

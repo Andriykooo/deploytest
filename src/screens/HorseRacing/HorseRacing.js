@@ -5,17 +5,20 @@ import { images } from "@/utils/imagesConstant";
 import { SelectButtons } from "@/components/selectButtons/SelectsButtons";
 import { Dropdown } from "@/components/dropdown/Dropdown";
 import { RacingComponent } from "@/components/racingComponent/RacingComponent";
-import Link from "next/link";
 import { EmptyState } from "@/components/emptyState/EmptyState";
-import "./HorseRacing.css";
 import { EventTime } from "@/components/EventTime/EventTime";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
 import { CustomLink } from "@/components/Link/Link";
+import { EventsFilter } from "@/components/EventsFilter/EventsFilter";
+import { SportHeader } from "@/components/SportHeader/SportHeader";
+import { useParams } from "next/navigation";
+import "./HorseRacing.css";
 
-export const HorseRacing = ({ sportContent, slug }) => {
+export const HorseRacing = () => {
   const t = useTranslations("common");
+  const params = useParams();
 
   const horseracingMeetingOptions = [
     {
@@ -46,6 +49,9 @@ export const HorseRacing = ({ sportContent, slug }) => {
   );
 
   const isTablet = useSelector((state) => state.isTablet);
+  const data = useSelector((state) => state.sportContent);
+  const sportContent = data?.[params?.slug];
+
   const eventsDay = selectedDay.value.toLowerCase();
   const regionsDay = selectedMeet.value.toLowerCase();
 
@@ -115,56 +121,57 @@ export const HorseRacing = ({ sportContent, slug }) => {
 
   return (
     <>
-      <div className="horse-sport-competitions sport-competitions mx-3 mt-3">
-        <div
-          className={classNames("sport-competitions-head", {
-            mobile: isTablet,
-          })}
+      <div className="horceRacing-header">
+        <SportHeader
+          headerContent={
+            <>
+              <label className="sport-name">
+                {params.slug === "horseracing"
+                  ? t("horse_racing")
+                  : t("greyhound_racing")}
+              </label>
+              {isTablet ? (
+                <SelectButtons
+                  data={horseracingMeetingOptions}
+                  onSelect={handleSelectDay}
+                  fullWidth
+                />
+              ) : (
+                <Dropdown
+                  data={horseracingMeetingOptions}
+                  onSelect={handleSelectDay}
+                />
+              )}
+            </>
+          }
         >
-          <label className="sport-name">
-            {slug === "horseracing" ? t("horse_racing") : t("greyhound_racing")}
-          </label>
-          {isTablet ? (
-            <SelectButtons
-              data={horseracingMeetingOptions}
-              onSelect={handleSelectDay}
-              fullWidth
-            />
-          ) : (
-            <Dropdown
-              data={horseracingMeetingOptions}
-              onSelect={handleSelectDay}
+          {marketOptions && (
+            <EventsFilter
+              options={[
+                ...horseracingFilterOptions,
+                ...marketOptions.map((market, index) => ({
+                  label: market.market_name,
+                  value: market.market_name,
+                  id: horseracingFilterOptions.length + 1 + index,
+                })),
+              ]}
+              selectedId={selectedMarket.id}
+              onSelect={setSelectedMarket}
             />
           )}
-        </div>
-
-        <div className="events-filters">
-          <SelectButtons
-            data={[
-              ...horseracingFilterOptions,
-              ...marketOptions?.map((market, index) => ({
-                label: market.market_name,
-                value: market.market_name,
-                id: horseracingFilterOptions.length + 1 + index,
-              })),
-            ]}
-            onSelect={setSelectedMarket}
-            selectedId={selectedMarket.id}
-            borders
-          />
-        </div>
+        </SportHeader>
       </div>
 
       {eventsData && (
         <>
           {eventsData.length > 0 ? (
-            <RacingComponent data={eventsData} slug={slug} />
+            <RacingComponent data={eventsData} slug={params.slug} />
           ) : (
             <div className="horse-racing-empty-state mx-3">
               <EmptyState message={t("no_more_races_for_the_day")} />
             </div>
           )}
-          <div className="m-3">
+          <div className="secondButtons">
             <SelectButtons
               data={horseracingMeetingOptions}
               onSelect={setSelectedMeet}
@@ -175,7 +182,9 @@ export const HorseRacing = ({ sportContent, slug }) => {
             return (
               <Accordion
                 alwaysOpen
-                className="accordion-wrapper mx-3"
+                className={classNames("accordion-wrapper", {
+                  "mx-3": !isTablet,
+                })}
                 key={index}
               >
                 <Accordion.Item
@@ -191,7 +200,9 @@ export const HorseRacing = ({ sportContent, slug }) => {
                         >
                           <CustomLink
                             className="matchTeam matchTeam2"
-                            href={`/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
+                            href={`/racecard/${
+                              params.slug
+                            }/${meeting.name?.toLowerCase()}?id=${
                               meeting.events[0].event_id
                             }&filter=${selectedMeet.value.toLowerCase()}`}
                           >
@@ -216,7 +227,9 @@ export const HorseRacing = ({ sportContent, slug }) => {
                                     })}
                                     href={
                                       currentEvent?.event_id
-                                        ? `/racecard/${slug}/${meeting.name?.toLowerCase()}?id=${
+                                        ? `/racecard/${
+                                            params.slug
+                                          }/${meeting.name?.toLowerCase()}?id=${
                                             currentEvent.event_id
                                           }&filter=${selectedMeet.value.toLowerCase()}`
                                         : ""

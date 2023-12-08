@@ -2,20 +2,24 @@
 
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useLayoutEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/logo/Logo";
 import { CustomLink } from "@/components/Link/Link";
-import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setNotFound } from "@/store/actions";
+import "./NotFound.css";
 
 export const NotFoundScreen = () => {
   const t = useTranslations("not_found");
-  const router = useCustomRouter();
+  const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
-    router.replace("/not_found");
+  useEffect(() => {
+    dispatch(setNotFound(true));
+
+    return () => {
+      dispatch(setNotFound(false));
+    };
   }, []);
 
   return (

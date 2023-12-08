@@ -7,20 +7,22 @@ import PasswordFields from "../../components/passwordFields/PasswordFields";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import "../ForgotPassword/ForgotPassword.css";
-import "../../components/passwordFields/PasswordFields.css";
 import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
+import { alertToast } from "@/utils/alert";
+import "../Login/Login.css";
+import "../../components/passwordFields/PasswordFields.css";
 
 const ForgotPassword = () => {
   const t = useTranslations("forgot_password");
   const router = useRouter();
-  const { onLoginSuccess, onLoginError } = useLoginCallbacks();
+  const { onLoginSuccess, onLoginError } = useLoginCallbacks({
+    loginCallback: () => {},
+  });
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
 
   const handleSubmit = (e) => {
     e.preventDefault();

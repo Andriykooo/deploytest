@@ -6,8 +6,9 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
 import { useState } from "react";
+import { alertToast } from "@/utils/alert";
 
-export const GoogleLogin = () => {
+export const GoogleLogin = ({ loginCallback }) => {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,6 +48,8 @@ export const GoogleLogin = () => {
         },
         "google"
       );
+
+      loginCallback?.();
     },
     scope: "email profile",
     flow: "implicit",

@@ -11,8 +11,6 @@ import { apiUrl } from "../../utils/constants";
 import { CasinoBet, CasinoResult } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
 import { TRANSACTION_HISTORY_STATUSES } from "@/utils/transactionHistory";
-import "../TransactionHistory/TransactionHistory.css";
-import "./TransactionModals";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
@@ -20,6 +18,8 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
 import { useTranslations } from "next-intl";
+import "./TransactionHistory.css";
+import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
 
 const flattenObjectToArray = (nestedObj) => {
   const result = [];
@@ -38,7 +38,7 @@ const TransactionHistory = () => {
   const skeletonHeader = new Array(4).fill(0);
   const isTablet = useSelector((state) => state.isTablet);
 
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState({});
   const [currPage, setCurrPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,10 +53,19 @@ const TransactionHistory = () => {
       const monthYear = moment(item.date).format("YYYY-MM");
 
       if (!groupedData[monthYear]) {
-        groupedData[monthYear] = [];
+        groupedData[monthYear] = {};
       }
 
-      groupedData[monthYear] = { ...groupedData[monthYear], [item.date]: item };
+      groupedData[monthYear] = {
+        ...groupedData[monthYear],
+        [item.date]: {
+          ...item,
+          data: [
+            ...(groupedData?.[monthYear]?.[item.date]?.data || []),
+            ...item.data,
+          ],
+        },
+      };
     });
 
     setTransactions(groupedData);
@@ -372,7 +381,7 @@ const TransactionHistory = () => {
                                       <span className="placed">
                                         {txDetails.title}
                                       </span>
-                                      {!!item.row2 ? (
+                                      {item.row2 ? (
                                         <span className="typeSubtitle">
                                           {item.row2}
                                         </span>

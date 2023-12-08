@@ -3,6 +3,8 @@ import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+
+
 const TransactionModals = ({ type }) => {
   const t = useTranslations();
   const isMobile = useSelector((state) => state.setMobile);

@@ -11,6 +11,7 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { CloseIcon } from "@/utils/icons";
+import "./Terms.css";
 
 const Terms = () => {
   const t = useTranslations();

@@ -20,3 +20,10 @@
   line-height: 14px;
   color: var(--global-color-text-primary);
 }
+
+@media screen and (max-width: 1024px) {
+  .empty-state {
+    height: 50vh;
+    background-color: var(--global-color-background-primary);
+  }
+}

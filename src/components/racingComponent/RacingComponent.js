@@ -9,6 +9,7 @@ import { useRef } from "react";
 export const RacingComponent = ({ data, slug }) => {
   const t = useTranslations("common");
   const resultedEvents = useSelector((state) => state.resultedEvents);
+  const isTablet = useSelector((state) => state.isTablet);
 
   const sliderRef = useRef(null);
 
@@ -16,26 +17,24 @@ export const RacingComponent = ({ data, slug }) => {
     return !resultedEvents[event.event_id];
   });
 
-  const slidesToShow = events?.length > 3 ? 3 : events?.length;
-
   return events?.length > 0 ? (
     <div className="horse-matches">
       <Slider
         ref={sliderRef}
-        accessibility={false}
-        slidesToScroll={3}
-        lazyLoad
-        speed={500}
+        lazyLoad="anticipated"
         waitForAnimate
-        slidesToShow={slidesToShow}
+        arrows={!isTablet}
+        slidesToScroll={3}
+        slidesToShow={events?.length > 3 ? 3 : events?.length}
         nextArrow={<SampleNextArrow />}
         prevArrow={<SamplePrevArrow />}
+        accessibility={false}
         infinite={false}
         responsive={[
           {
             breakpoint: 950,
             settings: {
-              slidesToShow: 2,
+              slidesToShow: events?.length > 2 ? 2 : events?.length,
               slidesToScroll: 2,
             },
           },

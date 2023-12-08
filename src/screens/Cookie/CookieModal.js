@@ -7,10 +7,9 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { XIcon } from "../../utils/icons";
 import { images } from "../../utils/imagesConstant";
-import "../Cookie/Cookie.css";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { CustomLink } from "@/components/Link/Link";
+import "../Cookie/Cookie.css";
 
 const CookieModal = ({ setPageModal }) => {
   const t = useTranslations("common");

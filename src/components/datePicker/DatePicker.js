@@ -4,11 +4,11 @@ import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
-import "react-calendar/dist/Calendar.css";
-import "./DatePicker.css";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSelector } from "react-redux";
 import WheelCalendar from "../modal/WheelCalendar";
+import "react-calendar/dist/Calendar.css";
+import "./DatePicker.css";
 
 export const DatePicker = ({
   value,
@@ -21,6 +21,7 @@ export const DatePicker = ({
   const isTablet = useSelector((state) => state.isTablet);
 
   const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line
   const [viewMode, setViewMode] = useState(false);
 
   const close = () => {
@@ -56,13 +57,15 @@ export const DatePicker = ({
             disabled
             className="login-buttons pe-none mb-0"
             placeholder={placeholder}
-            value={value && moment(value).format("DD - MMMM - YYYY")} />
+            value={value && moment(value).format("DD - MMMM - YYYY")}
+          />
           <Image
             src={images.calendar}
             className="showPasswordIcon signUp"
             alt="calendar"
             width={24}
-            height={25} />
+            height={25}
+          />
         </div>
         {isActive && !isTablet && (
           <Calendar
@@ -74,7 +77,8 @@ export const DatePicker = ({
             onChange={hanldeChange}
             value={value}
             locale={params.lng}
-            className="calendar" />
+            className="calendar"
+          />
         )}
       </div>
       {isActive && isTablet && (

@@ -19,6 +19,7 @@
   height: calc(100vh - 76px);
   color: var(--global-color-text-primary);
 }
+
 .error-number {
   display: flex;
   align-items: center;

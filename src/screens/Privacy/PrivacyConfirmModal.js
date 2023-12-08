@@ -7,8 +7,10 @@ import { setPrivacytModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
+import "../Terms/Terms.css";
+
 const PrivacyConfirmModal = () => {
   const t = useTranslations("privacy");
   const dispatch = useDispatch();
@@ -83,7 +85,7 @@ const PrivacyConfirmModal = () => {
 
   return privacyModal?.isOpen ? (
     <div
-      className={isMobile ? "modal show modalFullScreen" : "modal"}
+      className={classNames("modal show", { modalFullScreen: isMobile })}
       id="alertGamingReminderModal"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
@@ -92,9 +94,7 @@ const PrivacyConfirmModal = () => {
     >
       <div
         className={
-          isMobile
-            ? "modal-dialog modal-fullscreen"
-            : "modal-dialog privacyModal top-50"
+          isMobile ? "modal-dialog modal-fullscreen" : "modal-dialog  top-50"
         }
       >
         <div className="modal-content modalCenterContent terms-modalContent">

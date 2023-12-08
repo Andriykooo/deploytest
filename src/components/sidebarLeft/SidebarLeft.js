@@ -2,25 +2,26 @@
 
 import classNames from "classnames";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSport, setSidebarLeft } from "../../store/actions";
-import { Button } from "../button/Button";
 import { Chat } from "../chat/Chat";
 import { ArrowButton } from "../custom/ArrowButton";
 import { Search } from "../profileMenu/SearchSport";
-import { ProfileCard, SidebarProfile } from "../profileMenu/Styled";
 import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { getLocalStorageItem } from "@/utils/localStorage";
+import { ProfileCard } from "../ProfileCard/ProfileCard";
+import "./SedibarLeft.css";
 
 export const SidebarLeft = () => {
   const dispatch = useDispatch();
   const router = useCustomRouter();
   const pathname = usePathname();
+  const params = useParams();
   const t = useTranslations("common");
 
   const loggedUser = useSelector((state) => state.loggedUser);
@@ -30,12 +31,15 @@ export const SidebarLeft = () => {
   const settings = useSelector((state) => state.settings);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
 
-  const chatIsActive = loggedUser
-  ? settings?.is_trader_chat_enabled && loggedUser.user_data?.trader_chat_enabled
-  : true;
+  const chatIsActive =
+    loggedUser && getLocalStorageItem("access_token")
+      ? settings?.is_trader_chat_enabled &&
+        loggedUser?.user_data?.trader_chat_enabled
+      : settings?.is_trader_chat_enabled;
 
   const [fileteredData, setFilteredData] = useState(sidebarLeft.data);
   const [isHovered, setIsHovered] = useState(false);
+  const [activeTransition, setActiveTransition] = useState(false);
 
   const handleSearch = (value) => {
     setFilteredData(
@@ -46,7 +50,7 @@ export const SidebarLeft = () => {
   };
 
   const handleClick = (item) => {
-    dispatch(setActiveSport(item.id));
+    dispatch(setActiveSport(item));
     router.push(
       `/${pathname.includes("inplay") ? "inplay" : "sport"}/${item.slug}`
     );
@@ -68,7 +72,13 @@ export const SidebarLeft = () => {
   }, [sidebarLeft.data]);
 
   useEffect(() => {
-    dispatch(setActiveSport(null));
+    if (sidebarLeft.data && activeSport?.slug !== params.slug) {
+      dispatch(
+        setActiveSport(
+          sidebarLeft?.data?.find((sport) => sport.slug === params.slug)
+        )
+      );
+    }
   }, [pathname]);
 
   let timeoutId = null;
@@ -77,6 +87,7 @@ export const SidebarLeft = () => {
     <div
       className={classNames("sidebar-left", {
         active: sidebarLeft.isActive,
+        transition: activeTransition,
       })}
       onMouseEnter={() => {
         clearTimeout(timeoutId);
@@ -88,10 +99,17 @@ export const SidebarLeft = () => {
         }, 2000);
       }}
     >
-      <SidebarProfile
-        isOpen={sidebarLeft.isActive}
-        chatIsActive={chatIsActive}
-        noVerified={isVerifyMessage}
+      <div
+        className={classNames("sidebar-profile", {
+          active: sidebarLeft.isActive,
+        })}
+        style={{
+          height: `calc(100% - ${
+            isTablet
+              ? 56
+              : 74 + (chatIsActive ? 59 : 0) + (isVerifyMessage ? 34 : 0)
+          }px)`,
+        }}
       >
         <div>
           <Search handleSearch={handleSearch} />
@@ -103,7 +121,7 @@ export const SidebarLeft = () => {
                 <ProfileCard
                   active={
                     activeSport
-                      ? item.id === activeSport
+                      ? item.id === activeSport.id
                       : item.slug === pathname.split("/").pop()
                   }
                   onClick={() => handleClick(item)}
@@ -118,11 +136,7 @@ export const SidebarLeft = () => {
                       width={20}
                     />
                     {sidebarLeft.isActive && (
-                      <Button
-                        className="btn popularDropdown profile top"
-                        type="button"
-                        text={item.name}
-                      />
+                      <span className="sidebar-item-name">{item.name}</span>
                     )}
                   </div>
                 </ProfileCard>
@@ -133,11 +147,15 @@ export const SidebarLeft = () => {
           <MenuBarEmpty message={t("sport_not_found")} />
         )}
         {!isTablet && chatIsActive && <Chat isOpen={sidebarLeft.isActive} />}
-      </SidebarProfile>
+      </div>
       {isHovered && !isTablet && (
         <ArrowButton
           active={sidebarLeft.isActive}
           setActive={(value) => {
+            if (!activeTransition) {
+              setActiveTransition(true);
+            }
+
             dispatch(
               setSidebarLeft({
                 ...sidebarLeft,

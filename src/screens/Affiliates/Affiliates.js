@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import classNames from "classnames";
 import { images } from "../../utils/imagesConstant";
-import "../Affiliates/Affiliates.css";
 import { useState, useEffect } from "react";
 import { Footer } from "@/components/footer/Footer";
 import { validateUserEmail } from "@/utils/validation";
@@ -12,15 +12,15 @@ import { apiUrl } from "@/utils/constants";
 import { useSearchParams } from "next/navigation";
 import { setPromo, setSignUpPlatform, setUser } from "@/store/actions";
 import { alertToast } from "@/utils/alert";
-import { addLocalStorageItem } from "@/utils/localStorage";
 import { v4 as uuidv4 } from "uuid";
-import classNames from "classnames";
 import { Loader, PageLoader } from "@/components/loaders/Loader";
 import { useTranslations } from "next-intl";
 import { AppleLogin } from "../Login/Social/AppleLogin";
 import { GoogleLogin } from "../Login/Social/GoogleLogin";
 import { FacebookLogin } from "../Login/Social/FacebookLogin";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import "../Affiliates/Affiliates.css";
+import "../Login/Login.css";
 
 const Affiliates = ({ promo }) => {
   const t = useTranslations();
@@ -79,7 +79,6 @@ const Affiliates = ({ promo }) => {
           newUser["email"] = email;
           newUser["device_id"] = device_id;
           dispatch(setUser(newUser));
-          addLocalStorageItem("IsLogged", "not_logged");
           router.push("/sign_up");
           setIsLoading(true);
         }

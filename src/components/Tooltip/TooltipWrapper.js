@@ -1,5 +1,4 @@
 import { setTooltip } from "@/store/actions";
-import { memo } from "react";
 import { useDispatch } from "react-redux";
 
 export const TooltipWrapper = ({ children, className, message, show }) => {

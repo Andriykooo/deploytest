@@ -9,11 +9,11 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import Information from "@/components/information/Information";
-
-import "../Withdraw/Withdraw.css";
 import classNames from "classnames";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { useTranslations } from "next-intl";
+import "../Withdraw/Withdraw.css";
+
 const Withdraw = () => {
   const t = useTranslations();
   const [paymentUrl, setPaymentUrl] = useState("");

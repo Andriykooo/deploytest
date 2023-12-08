@@ -14,8 +14,8 @@
 
 .customer-service-notice-logo {
   margin-bottom: 40px;
-  width: 440px;
-  height: 72px;
+  width: 245px;
+  max-height: 100%;
 }
 
 .customer-service-notice-title {
@@ -48,5 +48,6 @@
 
   .customer-service-notice-logo {
     width: 100%;
+    max-height: 54px;
   }
 }

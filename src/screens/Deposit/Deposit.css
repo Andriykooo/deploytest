@@ -38,9 +38,6 @@
   margin-right: 34px;
   width: 56px;
 }
-.decimalText {
-  margin: 14px !important;
-}
 
 .buttonDepositDiv {
   display: flex;
@@ -58,7 +55,7 @@
 }
 
 .paymentIframe {
-  margin-left:  390px;
+  margin-left: 390px;
 }
 
 .depositLoader {

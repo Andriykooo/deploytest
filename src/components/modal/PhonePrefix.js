@@ -1,11 +1,10 @@
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Countries } from "./Countries";
+
 export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
-  const t = useTranslations();
   const [showCountries, setShowCountries] = useState(false);
 
   return (

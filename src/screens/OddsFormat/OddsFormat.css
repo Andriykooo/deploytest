@@ -9,18 +9,8 @@
   height: 50px;
   margin-bottom: 16px;
   border: 1.5px solid transparent;
+}
 
-}
-.decimalText {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
-  color: var(--global-color-text-primary);
-  margin: 0;
-}
 .countryModalText {
   font-size: 16px !important;
   line-height: 20px;
@@ -33,9 +23,7 @@
   right: 3%;
   top: 25%;
 }
-.searchStyle {
-  margin-bottom: 30px;
-}
+
 
 @media only screen and (max-width: 991px) {
   .mobilePadding {

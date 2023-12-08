@@ -1,11 +1,11 @@
 import { images } from "@/utils/imagesConstant";
 import { useTranslations } from "next-intl";
 import { SocialButton } from "./SocialButton";
-import { appleAuthHelpers } from "react-apple-signin-auth";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
-export const AppleLogin = () => {
+export const AppleLogin = ({ loginCallback }) => {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,33 +15,38 @@ export const AppleLogin = () => {
     },
   });
 
-  const responseApple = () => {
-    appleAuthHelpers.signIn({
-      authOptions: {
-        clientId: "com.web.swiftygaming.development",
-        redirectURI: "https://gaming-dev.devswiftyglobal.com/apple_callback",
-        scope: "email name",
-        state: "state",
-        nonce: "nonce",
-        usePopup: true,
-      },
-      onError: () => {
-        setIsLoading(false);
-      },
-      onSuccess: async (response) => {
-        setIsLoading(true);
-        await socialLogin(
-          {
-            email: response?.user?.email,
-            social_token: response?.authorization?.id_token,
-            first_name: response?.user?.name?.firstName,
-            last_name: response?.user?.name?.lastName,
-          },
-          "apple"
-        );
-      },
-      onError: (error) => console.error(error),
+  const responseApple = async () => {
+    // eslint-disable-next-line
+    AppleID.auth.init({
+      clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
+      scope: "name email",
+
+      redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI,
+      usePopup: true,
     });
+
+    try {
+      // eslint-disable-next-line
+      const response = await AppleID.auth.signIn();
+      const email =
+        response?.user?.email ||
+        jwtDecode(response?.authorization?.id_token)?.email;
+
+      setIsLoading(true);
+      await socialLogin(
+        {
+          email,
+          social_token: response?.authorization?.id_token,
+          first_name: response?.user?.name?.firstName,
+          last_name: response?.user?.name?.lastName,
+        },
+        "apple"
+      );
+
+      loginCallback?.();
+    } catch (e) {
+      setIsLoading(false);
+    }
   };
 
   return (
