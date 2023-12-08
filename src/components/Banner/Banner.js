@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
+
 import { LinkType } from "../LinkType/LinkType";
 import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
 
@@ -8,47 +8,7 @@ const BannerComponent = ({ data, isLoading }) => {
   return (
     <div className="imageContainer">
       {isLoading ? (
-        <>
-          <Skeleton
-            sx={{
-              fontSize: "1.5rem",
-              bgcolor: "#212536",
-              height: "100%",
-              width: "95%",
-              margin: "0 auto",
-            }}
-            animation="wave"
-            variant="rectangular"
-          />
-          <div className="textContainer">
-            <div className="firstImageText">
-              <Skeleton
-                animation="wave"
-                variant="text"
-                sx={{ fontSize: "2rem" }}
-                width={250}
-                height={50}
-              />
-              <br />
-              <span className="secondImageText">
-                <Skeleton
-                  animation="wave"
-                  variant="text"
-                  sx={{ fontSize: "2rem" }}
-                  width={100}
-                  height={50}
-                />
-              </span>
-            </div>
-            <button className="btnPrimary playButton">
-              <Skeleton
-                animation="wave"
-                variant="text"
-                sx={{ fontSize: "0" }}
-              />
-            </button>
-          </div>
-        </>
+       null
       ) : (
         <>
           <img src={data.details.image} alt="banner" />

@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -308,30 +307,7 @@ const TransactionHistory = () => {
             >
               <div className="mb-4">
                 {isLoading ? (
-                  skeletonHeader.map((item, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        <Skeleton
-                          variant="text"
-                          sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                          className="mt-2"
-                          animation="wave"
-                          width={250}
-                          key={index}
-                        />
-                        {skeletonHeader.map((item, index) => (
-                          <Skeleton
-                            variant="text"
-                            sx={{ fontSize: "1.2rem" }}
-                            className="my-2"
-                            animation="wave"
-                            width={600}
-                            key={index}
-                          />
-                        ))}
-                      </React.Fragment>
-                    );
-                  })
+                 null
                 ) : (
                   <>
                     {transactionsList.map((value, index) => {

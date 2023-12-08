@@ -1,4 +1,3 @@
-import { Skeleton } from "@mui/material";
 import React from "react";
 import { betGroupLinks } from "../../utils/constants";
 import { useTranslations } from "next-intl";
@@ -18,18 +17,7 @@ export const BetGroup = ({ isLoading, isMobile }) => {
               <>
                 <div className="bet-group" key={row.name}>
                   <span className="bet-group-text">
-                    {" "}
-                    <Skeleton
-                      variant="text"
-                      sx={
-                        !isMobile
-                          ? { fontSize: "1.2rem", width: "150px" }
-                          : { fontSize: "rem", width: "50px" }
-                      }
-                      className="my-2"
-                      animation="wave"
-                      key={Math.random()}
-                    />
+
                   </span>
                 </div>
                 {counter <= maxCounter && (

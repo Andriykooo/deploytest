@@ -1,4 +1,3 @@
-import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
@@ -11,7 +10,7 @@ export const TabsSelect = ({
   placeholder,
   selectedItemId,
   variant = "scrollable",
-  withBtns
+  withBtns,
 }) => {
   const isTablet = useSelector((state) => state.isTablet);
   const [selectedItem, setSelectedItem] = useState(
@@ -24,41 +23,15 @@ export const TabsSelect = ({
   };
 
   return !isTablet ? (
-    <div className="markets-container">
-      <Box>
-        <Tabs
-          variant={variant}
-          value={data?.find((item) => item.id === selectedItem?.id) || data?.[0]}
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-          onChange={(_, item) => {
-            handleSelect(item);
-          }}
-        >
-          {data?.map((item) => {
-            return (
-              <Tab
-                label={item?.label}
-                value={item}
-                sx={{
-                  color:
-                    selectedItem?.label === item?.label ? "var(--global-color-chip-line-text-active)" : "var(--global-color-chip-line-text-inactive)",
-                  textTransform: "none",
-                  display: "flex",
-                }}
-                key={item.id}
-              />
-            );
-          })}
-        </Tabs>
-      </Box>
-    </div>
+    <div className="markets-container"></div>
   ) : withBtns ? (
     <div className="navigationBtns">
-      {data.map(item => (
+      {data.map((item) => (
         <Button
           key={item.id}
-          className={classNames({ btnPrimary: (selectedItem?.label || data[0].label) === item?.label })}
+          className={classNames({
+            btnPrimary: (selectedItem?.label || data[0].label) === item?.label,
+          })}
           text={item.label}
           onClick={() => handleSelect(item)}
         />

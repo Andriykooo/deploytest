@@ -1,8 +1,5 @@
-import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { theme } from "../../utils/config";
-import { ArrowDownIcon } from "../../utils/icons";
 import { MobileSelect } from "../mobileSelect/MobileSelect";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -23,33 +20,7 @@ export const AutocompleteSelect = ({ placeholder, data, onSelect }) => {
   }, [pathname]);
 
   return !isTablet ? (
-    <Autocomplete
-      popupIcon={<ArrowDownIcon />}
-      noOptionsText={t("no_options")}
-      id="autocomplete-competition"
-      options={data}
-      value={selectedItem}
-      isOptionEqualToValue={(option, value) => option.value === value.value}
-      sx={{
-        width: "100%",
-        color: theme?.colors?.colorTextPrimary,
-      }}
-      renderOption={(props, option) => {
-        return (
-          <li {...props} key={option.id}>
-            {option?.label}
-          </li>
-        );
-      }}
-      renderInput={(params) => {
-        return (
-          <TextField placeholder={placeholder} {...params} variant="outlined" />
-        );
-      }}
-      onChange={(_, item) => {
-        handleSelect(item);
-      }}
-    />
+   null
   ) : (
     <MobileSelect
       data={data}

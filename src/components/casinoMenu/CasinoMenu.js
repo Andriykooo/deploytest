@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -39,25 +38,7 @@ const CasinoMenu = ({ data, search, setSearch, category, isLoading }) => {
 
   return (
     <div className="casinoMenu">
-      {isLoading ? (
-        <>
-          {skeletonArray.map((_, index) => (
-            <Skeleton
-              key={index}
-              className="my-2"
-              variant="text"
-              sx={{
-                bgcolor: "#212536",
-                width: "100px",
-                height: "100%",
-              }}
-            />
-          ))}
-          <div className="casino-search">
-            <input className="searchInput" type="text" />
-          </div>
-        </>
-      ) : (
+      {isLoading ? null : (
         <>
           <div className="categories">
             <div

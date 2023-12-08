@@ -53,11 +53,8 @@ import {
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { apiServices } from "@/utils/apiServices";
 import Cookies from "js-cookie";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-toastify/dist/ReactToastify.css";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import "./BaseLayout.css";
+import { PwaInstall } from "@/components/pwa/PwaInstall";
 
 const modalList = [
   "/privacy",
@@ -531,6 +528,7 @@ export const BaseLayout = (props) => {
       ) : (
         <Content {...props} />
       )}
+      <PwaInstall />
     </>
   );
 };

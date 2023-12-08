@@ -9,7 +9,6 @@ import {
 } from "../../store/actions";
 import { XIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Checkbox } from "@mui/material";
 import { BetslipOdds } from "./BetslipOdds/BetslipOdds";
 import { useTranslations } from "next-intl";
 import classNames from "classnames";
@@ -195,25 +194,7 @@ export const SelectedBet = ({ row, disabled }) => {
                 {row.allow_each_way && (
                   <div className="betslip-odds rounded-end-1">
                     <span className="me-1">{t("ew")}</span>
-                    <Checkbox
-                      onChange={() =>
-                        setIsEW((prev) => {
-                          handlerSetSingleStake(isSP, !prev);
-
-                          return !prev;
-                        })
-                      }
-                      sx={{
-                        padding: 0,
-                        color: "#FFFFFF",
-                        "&.Mui-checked": {
-                          color: "#BC9239",
-                        },
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 16,
-                        },
-                      }}
-                    />
+                    
                   </div>
                 )}
               </>

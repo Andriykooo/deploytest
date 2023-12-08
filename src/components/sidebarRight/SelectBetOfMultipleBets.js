@@ -5,7 +5,6 @@ import { InfoInformationIcon } from "../../utils/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import CombinationInfo from "@/components/modal/CombinationInfo";
 import { useTranslations } from "next-intl";
-import { Checkbox } from "@mui/material";
 import classNames from "classnames";
 
 const prohibitedCharacters = ["e", "+", " "];
@@ -145,19 +144,6 @@ export const SelectOfMultipleBets = ({ row }) => {
               {allowEachWay && (
                 <div className="betslip-odds rounded-end-1">
                   <span className="me-1">{t("ew")}</span>
-                  <Checkbox
-                    onChange={handleEw}
-                    sx={{
-                      padding: 0,
-                      color: "#FFFFFF",
-                      "&.Mui-checked": {
-                        color: "#BC9239",
-                      },
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 16,
-                      },
-                    }}
-                  />
                 </div>
               )}
             </div>

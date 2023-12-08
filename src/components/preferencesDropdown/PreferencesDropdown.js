@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { Button } from "@/components/button/Button";
-import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -8,7 +7,7 @@ import { useSelector } from "react-redux";
 import { PreferencesModalMobile } from "../modal/PreferencesModalMobile";
 import classNames from "classnames";
 
-import './PreferencesDropdown.css';
+import "./PreferencesDropdown.css";
 
 const PreferencesDropdown = ({
   handleToggle,
@@ -24,7 +23,7 @@ const PreferencesDropdown = ({
 }) => {
   const listRef = useRef(null);
   const isTablet = useSelector((state) => state.isTablet);
-  useClickOutside(listRef, handleToggle)
+  useClickOutside(listRef, handleToggle);
   return (
     <div className="col-6 selectDepositDiv ">
       <Button
@@ -33,17 +32,7 @@ const PreferencesDropdown = ({
         onClick={handleToggle}
         text={
           <>
-            {loader ? (
-              <div className="d-flex justify-content-between">
-                <Skeleton
-                  variant="rectangular"
-                  className="my-2 depositSkeleton"
-                  animation="wave"
-                />
-              </div>
-            ) : (
-              placeholder
-            )}
+            {loader ? null : placeholder}
             <Image
               src={images.arrowIcon}
               className="depositLimitArrow"
@@ -52,8 +41,15 @@ const PreferencesDropdown = ({
           </>
         }
       />
-      {(data.show && type === data.type) && (
-        <div className={modalOnMobile && isTablet ? 'mobileDdWrapper' : "preferencesDropdown-desktop ddWrapper"} ref={listRef}>
+      {data.show && type === data.type && (
+        <div
+          className={
+            modalOnMobile && isTablet
+              ? "mobileDdWrapper"
+              : "preferencesDropdown-desktop ddWrapper"
+          }
+          ref={listRef}
+        >
           {modalOnMobile && isTablet ? (
             <PreferencesModalMobile
               data={data}
@@ -70,9 +66,12 @@ const PreferencesDropdown = ({
                 <div
                   key={index}
                   data-id={index}
-                  className={classNames("preferencesDropdown-item selectDecimal d-flex w-100", {
-                    selectedOdd: selectedItem === value.value
-                  })}
+                  className={classNames(
+                    "preferencesDropdown-item selectDecimal d-flex w-100",
+                    {
+                      selectedOdd: selectedItem === value.value,
+                    }
+                  )}
                   onClick={() => {
                     handleToggle();
                     handleSelect(value.value);

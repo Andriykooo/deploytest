@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
 import { Fragment } from "react";
@@ -43,21 +42,7 @@ const HomeSlider = ({
 
   return (
     <div className={classNames({ recommendedSubtitle: subtitle }, className)}>
-      <div className="d-flex justify-content-between">
-        {isLoading && (
-          <Skeleton
-            sx={{
-              fontSize: "1.5rem",
-              bgcolor: "#212536",
-              height: "100%",
-              width: "95%",
-              margin: "0 auto",
-            }}
-            animation="wave"
-            variant="rectangular"
-          />
-        )}
-      </div>
+      <div className="d-flex justify-content-between">{isLoading && null}</div>
       <Slider {...settings} className={type ? "casinoTrendingSlider" : ""}>
         {data?.map((carouselItem) => {
           return (

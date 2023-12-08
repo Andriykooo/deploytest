@@ -5,7 +5,6 @@ import { apiUrl, fallbackLng } from "@/utils/constants";
 import { NextIntlClientProvider } from "next-intl";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { PwaInstall } from "@/components/pwa/PwaInstall";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
@@ -93,7 +92,6 @@ export default async function RootLayout({ children, params: { lng } }) {
           <Provider>
             {children}
             <SpeedInsights />
-            <PwaInstall />
           </Provider>
         </NextIntlClientProvider>
       </body>

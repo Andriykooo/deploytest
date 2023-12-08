@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -15,46 +14,12 @@ const SkeletonComponent = ({ matchesLoading }) => {
     <div className="mainArticle">
       <div className="row w-100 sports-matches-container m-0 sportsMatchesContainer">
         <div className="col-12 sports-body skeleton-large-screen sports-match-details-skeleton-container">
-          {isMobile && activeSport && (
-            <Skeleton
-              variant="rectangular"
-              sx={{ fontSize: "5.2rem", bgcolor: "#212536" }}
-              animation="wave"
-            />
-          )}
+          {isMobile && activeSport && null}
 
-          {activeSport &&
-            skeleteInline.map((item, index) => (
-              <Skeleton
-                variant="text"
-                sx={{ fontSize: "1rem", bgcolor: "#grey" }}
-                className="mt-2"
-                animation="wave"
-                key={index}
-              />
-            ))}
+          {activeSport && skeleteInline.map((item, index) => null)}
           {!matchesLoading &&
             skeletonHeader.map((item, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Skeleton
-                    variant="text"
-                    sx={{ fontSize: "2rem", bgcolor: "#212536" }}
-                    className="mt-2"
-                    animation="wave"
-                    key={index}
-                  />
-                  {skeletonHeader.map((item, index) => (
-                    <Skeleton
-                      variant="text"
-                      sx={{ fontSize: "1.2rem" }}
-                      className="my-2"
-                      animation="wave"
-                      key={index}
-                    />
-                  ))}
-                </React.Fragment>
-              );
+              return <React.Fragment key={index}></React.Fragment>;
             })}
         </div>
       </div>
