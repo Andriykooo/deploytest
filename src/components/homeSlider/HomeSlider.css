@@ -1,0 +1,327 @@
+.slider-item-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 16px;
+  padding: 16px 19px 16px 16px;
+}
+
+.slider-text {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  width: 70%;
+  height: 50%;
+  color: var(--global-color-carousel-text);
+  top: 16px;
+  left: 16px;
+  bottom: 0;
+  right: 0;
+}
+
+.slick-slider {
+  font-display: swap;
+}
+
+.slick-slide > div {
+  height: 100%;
+  width: 100%;
+}
+
+.slick-slide img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.sliderTextContent {
+  font-size: 11px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+  font-weight: 400;
+  color: var(--global-color-carousel-text);
+}
+
+.btnPrimary.betNowButtonOFSlider {
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
+  width: 100%;
+  border-radius: 4px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  line-height: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 15px;
+  white-space: nowrap;
+}
+
+.betNowBtnsContainer {
+  overflow: auto;
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.slick-slider:hover .slick-arrow {
+  opacity: 1;
+}
+
+.slick-arrow {
+  position: absolute;
+  height: 100%;
+  width: 34px;
+  top: 0;
+  opacity: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: none;
+  background: #1c1c1c99;
+  z-index: 2;
+  transition: var(--global-transition);
+}
+
+.slick-arrow:hover {
+  background: #1c1c1c99 !important;
+}
+
+.slick-arrow::before {
+  content: "" !important;
+  opacity: 1;
+}
+
+.slick-prev {
+  left: 0;
+}
+
+.slick-next {
+  right: 0;
+}
+
+.slick-dots {
+  bottom: -28px;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--global-color-carousel-dots_active);
+  opacity: 1;
+}
+
+.slick-dots li button:before {
+  color: var(--global-color-carousel-dots_inactive);
+  opacity: 1;
+  font-size: 8px;
+}
+
+.betting-in-home-slider {
+  position: relative;
+  padding: 0;
+}
+
+.handballLogoImage {
+  padding: 0;
+  width: 100%;
+  object-fit: cover;
+  max-height: 230px;
+}
+
+.slider-title-in-homepage {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--global-color-main-text_primary);
+}
+
+.slider-title-in-homepage-description {
+  position: absolute;
+  top: 55px;
+  left: 30px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 17px;
+  color: var(--global-color-main-text_primary);
+  font-style: normal;
+}
+
+.buttonOfSlider {
+  background: var(--global-color-links-background);
+  color: var(--global-color-links-text);
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border-radius: 4px;
+  padding: 5px 18px 5px 18px;
+  font-size: 12px;
+  padding: 5px 20px;
+}
+
+.buttonOfEventsHomepage {
+  top: 0;
+}
+
+.bannerButton {
+  top: 0;
+}
+
+.container-of-bets-in-slider {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-of-bets-in-row {
+  flex-basis: calc(33.33% - 4px);
+  margin-right: 10px;
+  height: 100px;
+  height: 33px;
+  background: #373b40;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-hero-widget-container {
+  flex-basis: calc(50% - 4px);
+}
+
+.container-of-bets-in-row:last-child {
+  margin-right: 0;
+}
+
+.markets-slider-page {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #dcdcdc;
+}
+
+.bets-of-markets-slider {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  width: 50px;
+  line-height: 15px;
+  color: var(--global-color-main-text_secondary);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #414851;
+  padding-left: 10px;
+}
+
+.recommendedSubtitle {
+  margin: 0 50px;
+}
+
+.slider-image-container {
+  position: relative;
+  height: 152px;
+  width: 392px;
+}
+
+@media only screen and (max-width: 480px) {
+  .casinoCarousel .slick-track {
+    display: flex;
+  }
+
+  .container-of-bets-in-row {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .slider-image-container {
+    width: 312px;
+  }
+
+  .recommendedSubtitle {
+    margin: 0;
+  }
+
+  .container-of-bets-in-slider {
+    flex-direction: column;
+    height: 140px;
+  }
+
+  .container-of-bets-in-row {
+    margin-right: 0;
+  }
+
+  .markets-slider-page,
+  .bets-of-markets-slider {
+    line-height: 40px;
+  }
+
+  .buttonOfSlider {
+    padding: 3px 10px;
+    border-radius: 4px;
+    top: 50px;
+    right: 16px;
+    font-size: 12px;
+    padding: 5px 20px;
+    width: fit-content;
+  }
+
+  .bannerButton {
+    top: 0;
+  }
+
+  .slider-title-in-homepage {
+    line-height: 16px;
+  }
+
+  .slider-title-in-homepage-description {
+    font-size: 12px;
+    top: 40px;
+  }
+
+  .slider-title-in-homepage-description-skeleton {
+    top: 45px;
+  }
+
+  .slider-text {
+    width: auto;
+    margin-right: 5px;
+    font-size: 12px;
+  }
+
+  .sliderTextContent {
+    margin-bottom: 5px;
+  }
+
+  .betNowButtonOFSlider {
+    padding: 5px 8px;
+  }
+}
+
+@media only screen and (max-width: 345px) {
+  .slider-title-in-homepage-description {
+    left: 5px;
+  }
+
+  .container-of-bets-in-slider {
+    left: 5px;
+  }
+
+  .slider-title-in-homepage {
+    left: 5px;
+  }
+}

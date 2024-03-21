@@ -1,0 +1,18 @@
+.mobileHeaderContainerForLeftSidebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.mobileHeaderForLeftSidebar {
+  padding-left: 20px;
+}
+.closeIconForLeftSidebar {
+  width: 100px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--global-color-account_navbar-background);
+}

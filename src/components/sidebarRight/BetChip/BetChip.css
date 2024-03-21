@@ -1,0 +1,19 @@
+.bet-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  min-height: 18px;
+  min-width: 61px;
+  color: var(--global-color-main-text_primary);
+}
+
+.bet-chip.partial {
+  background-color: var(--global-color-settings-button_blue);
+}
+
+.bet-chip.pushed {
+  background-color: var(--global-color-settings-button_grey);
+}

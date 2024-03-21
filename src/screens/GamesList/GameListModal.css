@@ -1,0 +1,177 @@
+.gameList-modal-dialog {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.gameList-modal-content {
+  max-width: 1024px !important;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+  background: var(--global-color-casino_background);
+}
+
+.gameList-modal-header {
+  background: #c59e43;
+  height: 44px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  justify-content: space-between !important;
+  color: var(--global-color-casino-text_primary);
+  border-bottom: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.gameList-modal-body {
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 96px 53px 96px;
+    gap: 23px;
+}
+
+.img-description-container {
+  display: flex;
+  align-items: center;
+  min-height: 254px;
+  height: 100%;
+  margin-bottom: 23px;
+  gap: 37px;
+}
+
+.modal-game-image {
+  position: relative;
+  max-width: 248px;
+  width: 100%;
+  height: 148px;
+}
+
+.game-content-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 23px;
+}
+
+.game-description {
+  max-width: 900px;
+  width: 100%;
+  line-height: 16px;
+  font-size: 12px;
+  color: var(--global-color-casino-text_primary);
+}
+
+.dashedLine {
+  position: relative;
+  height: 1px;
+  width: 100%;
+}
+
+.modalList-details {
+  display: flex;
+  justify-content: space-between;
+  max-width: 727px;
+  gap: 15px;
+  width: 100%;
+}
+
+.infoItem-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px
+}
+
+.infoItem-modal h3 {
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--global-color-casino-text_primary);
+}
+
+.infoItem-modal p {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--global-color-casino-trending_background);
+}
+
+.btnPlayNow {
+  background: var(--global-color-button-active);
+  color: var(--global-color-button-text_active);
+  border-radius: 8px;
+  font-size: 14px;
+  height: 30px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.button-play-now {
+  max-width: 245px;
+  width: 100%;
+}
+
+.play-now {
+  height: 40px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 4px;
+}
+
+
+
+@media screen and (max-width: 1024px) {
+  .gameList-modal-content,
+  .gameList-modal-header {
+    border-radius: 0;
+  }
+
+  .gameList-modal-body {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 45px;
+    height: calc(100vh - 44px);
+  }
+
+  .game-content-bottom {
+    flex: 1;
+  }
+  .game-description {
+    max-width: 800px;
+  }
+
+  .modalList-details {
+    max-width: 600px;
+  }
+
+  .img-description-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 490px;
+  }
+
+  .button-play-now {
+    display: flex;
+    align-items: flex-end;
+    max-width: 100%;
+    height: 100%;
+  }
+
+  .modal-game-image { 
+    height: 100%;
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modalList-details {
+    flex-direction: column;
+  }
+}

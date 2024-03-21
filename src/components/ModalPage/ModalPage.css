@@ -1,0 +1,14 @@
+.modal-page-content {
+  height: calc(100vh - 74px);
+  overflow: auto;
+}
+
+.modal-page-content::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .modal-page-content {
+    height: calc(100vh - 56px);
+  }
+}

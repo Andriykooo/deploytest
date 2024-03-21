@@ -1,0 +1,41 @@
+.netDepositValue {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 42px;
+  color: var(--global-color-settings-text_primary);
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+  padding-bottom: 16px;
+}
+.selectField {
+  position: relative;
+}
+.arrowDeposit.net {
+  position: absolute;
+  right: 15%;
+  top: 45%;
+}
+
+.netDepositLimit .ddWrapper {
+  max-height: 512px;
+}
+
+.depositText {
+  color: var(--global-color-settings-text_primary);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+.depositTextDisplay {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--global-color-main-text_primary);
+}
+
+.netShow {
+  display: block;
+}

@@ -1,0 +1,249 @@
+.profileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.profileContainer {
+  padding-right: 45px;
+  padding-bottom: 34px;
+}
+
+.profileIcon {
+  height: 40px;
+  width: 40px;
+}
+
+.profile_username {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--global-color-settings-text_primary);
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.logoutBtn {
+  position: fixed;
+  bottom: 0;
+  width: 402px;
+  padding: 0;
+  border-radius: 4px;
+  background-color: var(--global-color-sidebar-selection);
+}
+
+.logoutBtn span {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+  height: 60px;
+  font-weight: 600;
+  justify-content: space-between;
+  padding: 0 24px;
+  align-items: center;
+  width: 100%;
+  background-color: var(--global-color-header-background);
+  color: var(--global-color-sidebar-text);
+}
+
+.infoDivs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  overflow: auto;
+}
+
+.limitDivs::-webkit-scrollbar,
+.infoDivs::-webkit-scrollbar {
+  display: none;
+}
+
+.fieldSubTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  color: var(--global-color-settings-text_primary);
+}
+
+.fieldValue {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--global-color-settings-text_primary);
+}
+
+.fieldBorder {
+  position: absolute;
+  width: calc(100% - 32px);
+  height: 3px;
+  border-radius: 2px 2px 0px 0px;
+  background-color: var(--global-color-settings_line);
+  bottom: 0;
+}
+
+.saferGambContainer {
+  height: 194px;
+  background-color: var(--global-color-settings-shade_tenary);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.saferGambTitle {
+  color: var(--global-color-settings-text_primary);
+  margin-bottom: 18px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.dashedDiv > img {
+  margin-block: 24px;
+  width: 100%;
+}
+
+.limitDivs {
+  display: flex;
+  gap: 16px;
+  overflow: auto;
+}
+
+.verifyDivs {
+  display: flex;
+  gap: 16px;
+}
+
+.verifyInfo {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--global-color-settings-text_primary);
+  width: 88%;
+  word-break: break-all;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.infoDiv.profile {
+  position: relative;
+  margin-left: 10px;
+}
+
+.profileValidated {
+  position: absolute;
+  right: 5%;
+  top: 35%;
+}
+
+.notVerified {
+  color: var(--global-color-settings-text_required);
+}
+
+.changePw {
+  cursor: pointer;
+}
+
+.changePass {
+  margin-top: 3rem;
+  width: 650px;
+}
+
+.logInTitle.profile {
+  margin-top: 1rem;
+  font-size: 22px;
+}
+
+.modal-content.changePass {
+  position: relative;
+}
+
+.changeTop {
+  top: 17%;
+}
+
+.profileRow {
+  max-width: 454px;
+  width: 100%;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.pageContent {
+  width: 100%;
+  height: auto;
+}
+
+.scrollableDivs {
+  overflow-y: scroll;
+  gap: 12px;
+}
+
+.gamingReminderMin {
+  text-transform: capitalize;
+}
+
+@media only screen and (max-width: 1024px) {
+  .logoutBtn {
+    width: 100%;
+  }
+  .profileHeader {
+    margin-top: 24px;
+  }
+  .pageContent {
+    width: 100%;
+    padding-right: 0;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profileRow {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .changePass {
+    width: auto;
+    margin-top: 0px;
+  }
+
+  .contentPosition {
+    display: flex;
+    justify-content: center;
+  }
+
+  .secondContentPosition {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .saferGambContainer {
+    height: auto;
+  }
+
+  .limitDivs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .verifyDivs {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .playerId {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.minim {
+  margin-left: -2px !important;
+}

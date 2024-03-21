@@ -1,0 +1,9 @@
+.eventTime {
+  padding: 0 16px;
+  position: relative;
+}
+
+.eventTimePointer {
+  position: absolute;
+  left: 0;
+}

@@ -1,0 +1,90 @@
+.backgroundImage {
+  background-image: linear-gradient(
+      0deg,
+      rgba(37, 40, 44, 0.41),
+      rgba(37, 40, 44, 0.41)
+    ),
+    url("/images/loginBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.photo_buttons {
+  text-align: start;
+  margin: auto;
+}
+.kycDiv {
+  margin: auto;
+  width: 100%;
+  max-width: 383px;
+  padding-top: 2rem;
+}
+
+.kycDiv .oneClick {
+  margin-block: 0 20px;
+}
+
+.kycDiv .oneClick2 {
+  margin-block: 20px;
+}
+
+.small-text {
+  color: var(--global-color-main-text_primary);
+}
+
+.kycModal {
+  text-align: center;
+  color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.kycModal h3 {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: 0px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.kycModal p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  max-width: 383px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+
+.kycModal button {
+  margin: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .kyc.loginForm {
+    height: calc(100vh - 56px);
+  }
+
+  .kycDiv .oneClick {
+    margin-block: 0 24px;
+  }
+
+  .kycDiv .oneClick2 {
+    margin-block: 12px 0;
+  }
+
+  .kycDiv {
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+  }
+  .photo_buttons {
+    padding: 0 16px !important;
+    font-size: 14px;
+  }
+}

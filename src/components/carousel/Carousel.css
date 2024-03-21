@@ -1,0 +1,88 @@
+.carousel-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.carousel-list {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.carousel-list li {
+  padding-top: 0;
+}
+
+.carousel-list > * {
+  flex-shrink: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item:hover .btnPrimary,
+.carousel-item:hover .likeGame {
+  display: block;
+}
+
+.carousel-wrapper:hover .arrow-wrapper {
+  opacity: 1;
+}
+
+.arrow-wrapper {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 34px;
+  top: 0;
+  opacity: 0;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--global-transition);
+}
+
+.arrow-wrapper.showArrowGradient {
+  background: #1c1c1c99;
+}
+
+.arrow-wrapper.previous {
+  left: 0;
+}
+
+.arrow-wrapper.next {
+  right: 0;
+}
+
+.previousSvg,
+.nextSvg {
+  width: 10px;
+  height: 18px;
+  box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.46);
+  -webkit-box-shadow: none;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.previousSvg.disabled,
+.nextSvg.disabled {
+  background: rgba(193, 179, 147, 0.4);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .arrow-wrapper {
+    display: none;
+  }
+}

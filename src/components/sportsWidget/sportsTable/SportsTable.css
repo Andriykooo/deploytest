@@ -1,0 +1,58 @@
+.sports-table-sports {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  margin: 16px;
+  border-radius: 8px;
+}
+
+.sports-table-empty-state {
+  background-color: var(--global-color-table-grid-background);
+}
+
+.sport-accordion > .custom-accordion-header {
+  background-color: var(--global-color-table-header-primary);
+  font-weight: 600;
+}
+
+.sports-table-sports > .accordion {
+  margin-bottom: 0;
+}
+
+.sports-table-sports > .accordion-special-container {
+  border-radius: 8px;
+}
+
+.sports-table-sports .accordion-collapse {
+  overflow: hidden;
+}
+
+.sports-table-sports .accordion-body .accordion-button:after {
+  transform: rotate(95deg);
+}
+
+.sports-table-sports .accordion-body .accordion-button:not(.collapsed)::after {
+  transform: rotate(180deg);
+}
+
+.empty-state {
+  flex: 1;
+ }
+
+@media only screen and (max-width: 1024px) {
+  .sports-table-sports {
+    margin: 0;
+    border-radius: unset;
+    background-color: var(--global-color-table-grid-background);
+  }
+
+  .sports-table-empty-state .empty-state {
+    height: 126px;
+    background-color: var(--global-color-table-grid-background);
+  }
+
+  .sport-accordion > .custom-accordion-header {
+    height: 38px;
+  }
+}

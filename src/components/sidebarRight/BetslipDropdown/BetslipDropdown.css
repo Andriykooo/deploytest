@@ -1,0 +1,43 @@
+.betslip-dropdown-name {
+  color: var(--global-color-main-text_primary);
+  margin-right: 10px;
+}
+
+.betslip-dropdown-status {
+  color: var(--global-color-betslip-market_text);
+  margin-right: 10px;
+}
+
+.betslip-dropdown-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--global-color-betslip_description);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.betslip-dropdown-toggler svg {
+  transform: rotate(180deg);
+  transition: var(--global-transition);
+}
+
+.betslip-dropdown-toggler.active svg {
+  transform: rotate(0deg);
+}
+
+.betslip-dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: var(--global-transition);
+}
+
+.betslip-dropdown-content.active {
+  margin-top: 2px;
+}
+
+.betslip-dropdown-content .remove-all-bets {
+  margin-bottom: 2px;
+}

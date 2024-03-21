@@ -1,0 +1,406 @@
+.chat-send-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.typing-area-form {
+  display: flex;
+  flex-shrink: 0;
+  border-top: 1px solid var(--global-color-trader_chat-shade_secondary);
+  position: relative;
+  height: auto;
+  width: 100%;
+  min-height: 64px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+}
+
+.chat-textarea {
+  resize: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  max-height: 120px;
+  width: 100%;
+  padding: 0;
+  color: var(--global-color-trader-chat-text_primary);
+}
+
+.chat-textarea:disabled {
+  background-color: transparent;
+}
+
+.chat-textarea::placeholder {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.chat-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.chat-item-left {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.message-time {
+  color: var(--global-color-trader-chat-text_timedate);
+  font-size: 10px;
+  line-height: 12px;
+  margin-bottom: 20px;
+}
+
+.message-date {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  margin-block: 12px;
+}
+
+.message-date > span {
+  color: var(--global-color-trader-chat-text_timedate);
+  font-size: 12px;
+  padding-inline: 16px;
+  background-color: white;
+  z-index: 5;
+}
+
+.message-date-line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--global-color-trader-chat-stroke);
+  position: absolute;
+  top: 50%;
+  transform: translate(0, 50%);
+}
+
+.chat-arrow {
+  transform: rotate(90deg);
+}
+
+.ChatWrapper {
+  position: absolute;
+  z-index: 1000;
+  bottom: 0;
+  width: 100%;
+  box-shadow: -2px -2px 4px 0px #00000040;
+  transition: var(--global-transition);
+}
+
+.ChatBottomWrapper {
+  display: flex;
+  cursor: pointer;
+  width: 100%;
+  height: 59px;
+  background: var(--global-color-sidebar-selection);
+  padding: 15px 26px 15px 18px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ChatBottomSubWrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.ChatIconStyled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+
+.ChatBox {
+  width: 372px;
+  height: 563px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3px;
+  background: var(--global-color-trader_chat-shade_primary);
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 8px 8px 0px 0px;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 73px;
+  border: 1px solid var(--global-color-trader_chat-shade_secondary);
+  opacity: 0;
+  transform: scale(0);
+  transition: var(--global-transition);
+  transform-origin: left bottom;
+}
+
+.ChatBox.isChatActive {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.ChatBox.isOpen {
+  left: 243px;
+}
+
+.ChatHeader {
+  width: 100%;
+  height: 58px;
+  background: var(--global-color-trader_chat-shade_secondary);
+  display: flex;
+  justify-content: space-between;
+  padding: 19px 18px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--global-color-trader_chat-shade_primary);
+}
+
+.ChatHeader > span {
+  cursor: pointer;
+}
+
+.ChattingBlock {
+  padding: 0 16px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  gap: 14px;
+}
+
+.ChatTitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-sidebar-text);
+}
+
+.NumberNewMessages {
+  position: absolute;
+  right: 10px;
+  bottom: 35px;
+  width: 18px;
+  height: 18px;
+  background: var(--global-color-trader_chat-shade_primary);
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  color: var(--global-color-trader_chat-shade_secondary);
+}
+
+.NumberNewMessages.isOpen {
+  right: 54px;
+  bottom: 21px;
+  background: var(--global-color-sidebar-chat_icon-background);
+  color: var(--global-color-trader_chat-shade_primary);
+}
+
+.ChatMessage {
+  max-width: 286px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--global-color-trader-chat-text_primary);
+  padding: 6px;
+  overflow: hidden;
+  display: flex;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  background: var(--global-color-trader-chat-bubble_primary);
+  white-space: pre-line;
+  border-radius: 6px;
+}
+
+.ChatMessage.isRight {
+  color: var(--global-color-trader-chat-text_primary);
+  background: var(--global-color-trader-chat-bubble_secondary);
+}
+
+.MessagesBlock {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: scroll;
+}
+
+.MessagesBlock > :first-child {
+  margin-top: 14px;
+}
+
+.UnLoggedMessage {
+  margin: auto 27px;
+  background: var(--global-color-trader-chat-bubble_primary);
+  border-radius: 6px;
+  height: 136px;
+  display: grid;
+  place-items: center;
+  white-space: initial;
+}
+
+.UnLoggedMessage p {
+  margin: 0;
+  width: 180px;
+  text-align: center;
+  color: var(--global-color-trader-chat-text_primary);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.UnLoggedMessage p a {
+  color: var(--global-color-trader_chat-shade_secondary);
+  text-decoration: underline !important;
+  font-weight: 600;
+}
+
+.ChatSpinner {
+  display: flex;
+  justify-content: center;
+}
+
+.ChatSpinner.spiner::after {
+  height: 30px;
+  width: 30px;
+  border-width: 3px;
+}
+
+.MessagesBlock .notMessages {
+  color: var(--global-color-trader-chat-text_primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  margin: auto;
+}
+
+@media (min-width: 1024px) {
+  .ChatSpinner.spiner::after {
+    border: 3px solid var(--global-color-trader_chat-shade_secondary);
+    border-color: var(--global-color-trader_chat-shade_secondary)
+      var(--global-color-trader_chat-shade_secondary)
+      var(--global-color-trader_chat-shade_secondary) transparent;
+  }
+}
+
+@media (max-width: 1024px) {
+  .message-date > span {
+    background-color: var(--global-color-main-background_secondary);
+  }
+
+  .typing-area-form {
+    width: 100%;
+    min-height: 90px;
+    border-top: 2px solid var(--global-color-trader_chat-shade_secondary);
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .chat-arrow {
+    display: none;
+  }
+
+  .ChatWrapper {
+    width: auto;
+    position: static;
+    box-shadow: none;
+  }
+
+  .ChatBottomWrapper {
+    position: relative;
+    padding: 0;
+    border-radius: 50%;
+    height: 32px;
+  }
+
+  .ChatBox {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: auto;
+    z-index: 1;
+    max-height: unset;
+    border-radius: 0;
+    margin-bottom: 0;
+    border: none;
+    background-color: var(--global-color-main-background_secondary);
+    transform-origin: bottom;
+    transform: translateY(100%);
+    opacity: 1;
+  }
+
+  .ChatBox.isChatActive {
+    transform: translateY(0);
+  }
+
+  .ChatHeader {
+    border-radius: 0;
+    background-color: var(--global-color-trader-chat-text_primary);
+    font-size: 16px;
+    line-height: 24px;
+    height: 64px;
+    padding: 20px 16px;
+  }
+
+  .NumberNewMessages {
+    top: -4px;
+    right: -6px;
+  }
+
+  .MessagesBlock {
+    height: calc(100vh - 163px);
+  }
+
+  .chat-textarea {
+    background-color: transparent;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #ccd1d5;
+    margin-top: 4px;
+  }
+
+  .chat-textarea::placeholder {
+    color: #ccd1d5;
+    font-size: 16px;
+  }
+
+  .ChatMessage {
+    background-color: var(--global-color-trader_chat-shade_secondary);
+    color: var(--global-color-trader_chat-shade_primary);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    line-height: 24px;
+  }
+
+  .ChatMessage.isRight {
+    background-color: var(--global-color-trader-chat-text_primary);
+    color: #ccd1d5;
+  }
+
+  .MessagesBlock .notMessages {
+    color: var(--global-color-trader_chat-shade_primary);
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+}

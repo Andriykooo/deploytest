@@ -1,0 +1,16 @@
+.profile-card {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--global-color-sidebar-selection);
+  box-sizing: border-box;
+  padding-right: 1rem;
+  border-left: 6px solid transparent;
+  transition: var(--global-transition);
+}
+
+.profile-card.active {
+  background: var(--global-color-sidebar-field-selected);
+  border-left: 6px solid var(--global-color-sidebar-field-selected-stroke);
+}

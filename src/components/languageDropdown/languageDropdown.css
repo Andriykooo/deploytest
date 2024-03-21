@@ -1,0 +1,75 @@
+.dropdown-lang-container {
+  min-width: 245px;
+  height: 44px;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown-lang-container .dropdown-lang-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  border: none;
+}
+
+.dropdown-lang-flag {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+}
+
+.dropdown-lang-list {
+  list-style: none;
+  padding-left: 0;
+  bottom: 44px;
+  max-height: 146px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.dropdown-lang-list::-webkit-scrollbar {
+  width: 2px;
+  display: block;
+  background: var(--global-color-language-selector);
+}
+
+.dropdown-lang-item {
+  width: 100%;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--global-color-footer-text-primary);
+  background: var(--global-color-language-selector);
+  text-transform: capitalize;
+  border-bottom: 1px solid var(--global-color-footer-background);
+  line-height: 24px;
+  padding: 0;
+  transition: var(--global-transition);
+}
+
+.dropdown-lang-list .dropdown-lang-item:hover {
+  background: var(--global-color-main-background_primary);
+}
+
+.dropdown-lang-item-link {
+  padding: 0 18px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-lang-arrow {
+  transform: scaleX(-1);
+}
+
+.dropdown-lang-btn svg {
+  transform: rotate(360deg);
+  transition: all var(--global-transition);
+}
+
+.dropdown-lang-btn .lang-opened {
+  transform: rotate(180deg);
+  transition: all var(--global-transition);
+}

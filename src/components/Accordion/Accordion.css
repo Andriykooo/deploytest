@@ -1,0 +1,32 @@
+.custom-accordion {
+  width: 100%;
+}
+
+.custom-accordion-header {
+  padding: 7px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--global-color-table-header-primary);
+  color: var(--global-color-table-text-primary);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 16px;
+  min-height: 32px;
+}
+
+.custom-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--global-color-table-header-primary);
+  transition: var(--global-transition);
+}
+
+.dropdown-arrow {
+  transition: var(--global-transition);
+  transform: rotate(180deg);
+}
+
+.dropdown-arrow.active {
+  transform: rotate(0deg);
+}

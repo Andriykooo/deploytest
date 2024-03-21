@@ -5,7 +5,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: ["eslint:recommended", "plugin:react/recommended", "next"],
   overrides: [
     {
       env: {
@@ -29,5 +29,6 @@ module.exports = {
     "no-useless-escape": "off",
     "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
+    "@next/next/no-img-element": "off",
   },
 };

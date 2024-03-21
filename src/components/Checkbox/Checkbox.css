@@ -1,0 +1,31 @@
+.checkbox-label {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid var(--global-color-betslip-text_primary);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: var(--global-transition);
+}
+
+.checkbox-label.active {
+  background-color: var(--global-color-betslip-text_primary);
+}
+
+.checkbox-check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-input {
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}

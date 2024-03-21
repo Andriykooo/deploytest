@@ -1,0 +1,378 @@
+.signInImage {
+  min-height: calc(100vh - 74px);
+  background-image: linear-gradient(
+      0deg,
+      rgba(37, 40, 44, 0.41),
+      rgba(37, 40, 44, 0.41)
+    ),
+    url("/images/signInImage.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.signInBack {
+  margin: 20px 0 0 24px;
+  cursor: pointer;
+
+  @media only screen and (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.login-container {
+  min-height: calc(100vh - 74px);
+}
+
+.loginForm-content {
+  padding-bottom: 90px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.legal-age {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 384px;
+  height: 63px;
+  background-color: var(--global-color-button-inactive);
+  border-radius: 8px;
+  padding-inline: 41px;
+}
+
+.legal-age span {
+  text-align: center;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--global-color-betslip-text_primary);
+}
+
+.logInTitle {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 38px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-main-text_primary);
+  max-width: 383px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.loginBack {
+  margin-block: 20px 24px;
+}
+
+.login-buttons {
+  position: relative;
+  width: 24rem;
+  height: 50px;
+  color: var(--global-color-label-text_active);
+  background: var(--global-color-label-background);
+  border: 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding-right: 12%;
+  text-align: left;
+}
+
+.login-buttons::placeholder {
+  color: var(--global-color-label-text_inactive);
+  text-indent: 0;
+}
+
+.photo_buttons {
+  padding: 12px 16px;
+}
+
+.continueBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 24rem;
+  height: 48px;
+  font-weight: 600;
+  border: 0px solid var(--global-color-background-quaternary);
+  color: var(--global-color-button-text_inactive);
+  background: var(--global-color-button-inactive);
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.continueBtn.outline {
+  border: 1px solid var(--global-color-label-stroke);
+}
+
+.continueBtn2 {
+  margin-bottom: 25px;
+  width: 24rem;
+  height: 50px;
+  font-weight: 600;
+  color: var(--global-color-text-secondary);
+  border: 0px solid var(--global-color-background-quaternary);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.validBtn {
+  background: var(--global-color-button-active);
+  border-radius: 10px;
+  color: var(--global-color-button-text_active);
+}
+
+.emailValidation {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.loginInput {
+  margin-bottom: 24px;
+}
+
+.validatedIcon {
+  position: absolute;
+  top: 13px;
+  right: 5%;
+}
+
+.loginForm {
+  display: grid;
+  justify-content: center;
+  padding-top: 80px;
+  padding-bottom: 20px;
+  margin: 0 auto;
+}
+
+.loginForm form {
+  width: 100% !important;
+}
+
+.loginForm .go-back {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.loginForm .go-back span {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--global-color-main-text_primary);
+}
+
+.oneClick {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--global-color-main-text_primary);
+  margin-block: 8px 24px;
+}
+
+.continueBtn.white {
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 10px;
+  height: 48px;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--global-color-button-social_login_text);
+  background: var(--global-color-button-social_login_background);
+}
+
+.loginIconApple {
+  position: absolute;
+  left: 20%;
+  top: 15%;
+}
+
+.loginIconFb {
+  position: absolute;
+  left: 20%;
+  top: 15%;
+}
+
+.loginIconGoogle {
+  position: absolute;
+  left: 20%;
+  top: 15%;
+}
+
+.loginWhiteButtons {
+  position: relative;
+}
+
+.newPasswordLabel.welcomeBack {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.social-login-title {
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  width: fit-content;
+}
+
+.google-btn,
+.kep-login-facebook {
+  opacity: 0 !important;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+@media screen and (max-width: 1024px) {
+  .signInImage {
+    min-height: unset;
+    background-image: none;
+  }
+
+  .signInImage.withHeader {
+    min-height: auto;
+  }
+
+  .emailValidation {
+    margin-bottom: 0;
+  }
+
+  .loginInput {
+    margin-bottom: 0;
+  }
+
+  .loginModal {
+    margin-top: 44px;
+  }
+
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 24px 0;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  a.forgotPasswordButton {
+    font-size: 12px;
+    line-height: 24px;
+    text-decoration: none !important;
+    margin-top: 12px;
+  }
+
+  .loginForm-content {
+    padding-bottom: 40px;
+  }
+
+  .legal-age {
+    gap: 16px;
+    width: 100%;
+    padding-inline: 16px;
+  }
+
+  .logInTitle {
+    max-width: 100%;
+    line-height: 40px;
+  }
+
+  .backgroundImage {
+    min-height: calc(100vh - 56px);
+  }
+
+  .forgotPassword .loginForm,
+  .loginForm form {
+    justify-content: stretch !important;
+  }
+
+  .continueBtn,
+  .login-buttons {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .loginIconGoogle,
+  .loginIconApple,
+  .loginIconFb {
+    left: 16px;
+    width: 24px;
+    object-fit: contain;
+  }
+
+  .social-login-title {
+    left: 56px;
+  }
+
+  .login-buttons {
+    margin-bottom: 16px;
+  }
+
+  .oneClick {
+    margin-block: 24px 40px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .loginWhiteButtons .continueBtn {
+    margin-bottom: 16px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .signInBack {
+    margin-top: 10px;
+  }
+}
+
+.mobile-login-form {
+  width: auto;
+  padding: 0 20px;
+  margin-bottom: 0;
+  margin-right: 12px;
+}
+
+.forgotPasswordButton {
+  background-color: transparent;
+  color: var(--global-color-main-text_primary);
+  border: none;
+  border-left: 1px;
+  height: 19px;
+  margin-bottom: 33px;
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--global-color-label-background) inset !important;
+  -webkit-text-fill-color: var(--global-color-label-text_active) !important;
+}
+
+#email:-webkit-autofill,
+#email:-webkit-autofill:hover,
+#email:-webkit-autofill:focus,
+#email:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--global-color-label-background) inset !important;
+  -webkit-text-fill-color: var(--global-color-label-text_active) !important;
+}

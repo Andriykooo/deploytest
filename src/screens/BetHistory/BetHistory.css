@@ -1,0 +1,235 @@
+.betHistoryBody {
+  padding-bottom: 8px;
+  height: calc(100vh - 74px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.betHistoryContent {
+  flex: 1;
+}
+
+.betHistoryContent.betHistoryContentCentered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.betHistoryMenuBar {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 28px;
+}
+
+.max-container {
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden !important;
+  padding-bottom: 30px;
+}
+
+.spinnerStyle .spiner {
+  display: flex;
+  justify-content: center;
+}
+
+.betHistoryMenu {
+  width: auto;
+  height: 39px;
+  padding: 18px;
+  background: var(--global-color-chip-round_background-unselected);
+  border-radius: 40px;
+  color: var(--global-color-chip-round_text-selected);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.betHistoryDate {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--global-color-settings-text_primary);
+}
+
+.activeButton {
+  background-color: var(--global-color-chip-round_background-selected);
+}
+
+.betHistorySection {
+  background-color: var(--global-color-settings-shade_octanary);
+  border-radius: 4px;
+  padding: 0 14px;
+  margin-bottom: 6px;
+  border-left: 3px solid transparent;
+}
+
+.betHistorySection.betHistorySectionMulti {
+  padding-top: 14px;
+}
+
+.betHistorySection.betHistorySectionWinner {
+  border-left-color: var(--global-color-settings-button_green);
+}
+
+.betHistorySection.betHistorySectionLoser {
+  border-left-color: var(--global-color-settings-text_required);
+}
+
+.betHistorySection.betHistorySectionPartial {
+  border-left-color: var(--global-color-settings-button_blue);
+}
+
+.betHistorySection.betHistorySectionPushed {
+  border-left-color: var(--global-color-settings-button_grey);
+}
+
+.betHistorySectionHeaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding-bottom: 12px;
+  padding-right: 26px;
+}
+
+.betHistorySectionHeader {
+  color: var(--global-color-settings-text_primary);
+  gap: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.betHistorySectionHeader p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.betHistoryBetTime {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color: #fff;
+  margin: 0 0 0 10px !important;
+  white-space: nowrap;
+}
+
+.betHistoryBog {
+  margin: 6px 20px;
+  background: #353a40;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  font-weight: 400;
+  padding: 8px;
+}
+
+.betHistoryBog p {
+  margin: 0;
+}
+
+.betHistorySectionArrow {
+  transform: rotate(0);
+  transition: var(--global-transition);
+}
+
+.betHistorySectionArrow.active {
+  transform: rotate(180deg);
+}
+
+.betHistorySectionFooter {
+  color: var(--global-color-settings-text_primary);
+  height: 36px;
+  font-size: 12px;
+  padding: 0 20px;
+}
+
+.betHistorySectionFooter p {
+  margin: 0;
+}
+
+.betHistorySectionFooter span {
+  font-weight: 600;
+  color: var(--global-color-settings-text_quartenary);
+}
+
+.betHistoryRow {
+  padding: 12px 26px 12px 20px;
+  border-bottom: 1px solid var(--global-color-settings-shade_tenary);
+}
+
+.betHistoryRowHeader {
+  position: relative;
+}
+
+.betHistoryRowHeader::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 10px;
+}
+
+.betHistoryRowHeader.betHistoryRowHeaderWinner::before {
+  background-color: var(--global-color-settings-button_green);
+}
+
+.betHistoryRowHeader.betHistoryRowHeaderLoser::before {
+  background-color: var(--global-color-settings-text_required);
+}
+
+.betHistoryRow p {
+  margin: 0;
+}
+
+.betHistoryRowTitle {
+  font-size: 14px;
+  color: var(--global-color-settings-text_primary);
+}
+
+.betHistoryRowOdds {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--global-color-settings-text_primary);
+}
+
+.betHistoryRowResult {
+  margin: 4px 0 !important;
+  color: var(--global-color-settings-text_quartenary);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.betHistoryRowName {
+  font-size: 12px;
+  color: var(--global-color-settings-text_primary);
+}
+
+@media screen and (max-width: 991px) {
+  .betHistoryBody {
+    height: calc(100vh - 56px);
+  }
+
+  .betHistoryContent {
+    max-width: 100%;
+  }
+
+  .betHistoryTitle {
+    min-width: auto;
+  }
+}

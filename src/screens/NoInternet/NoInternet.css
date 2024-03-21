@@ -1,0 +1,45 @@
+.no-internet-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: var(--global-color-main-background_secondary);
+}
+
+.no-internet-page {
+  text-align: center;
+}
+
+.no-internet-title {
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 700;
+  color: var(--global-color-gaming-logo_secondary);
+  text-align: center;
+  margin: 40px 0 16px 0;
+}
+
+.no-internet-description {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 500;
+  color: var(--global-color-gaming-logo_secondary);
+  text-align: center;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .no-internet-icon {
+    width: 60px;
+    height: 59px;
+  }
+
+  .no-internet-title {
+    font-size: 24px;
+  }
+
+  .no-internet-description {
+    font-size: 18px;
+  }
+}

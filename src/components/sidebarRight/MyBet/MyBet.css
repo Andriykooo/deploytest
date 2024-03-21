@@ -1,0 +1,184 @@
+.my-bet-name-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.my-bet-name {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 0;
+  background-color: var(--global-color-betslip-background_secondary);
+  width: fit-content;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.my-bet-arrow {
+  transition: var(--global-transition);
+  margin-top: 5px;
+}
+
+.my-bet-arrow.active {
+  transform: rotate(180deg);
+}
+
+.my-bet {
+  color: var(--global-color-betslip-event_text);
+  background-color: var(--global-color-betslip-background_secondary);
+  border-left: 3px solid transparent;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.cashout-dialog {
+  padding: 2px;
+}
+
+.cashout-message {
+  color: #ffffff;
+  background-color: #b11443;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  padding: 8px;
+  margin-bottom: 2px;
+}
+
+.cashout-message p {
+  line-height: 15px;
+}
+
+.cash-out-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  border-radius: 0 0 2px 0;
+  padding: 12px 10px;
+  background-color: #c59e43;
+  color: #ffffff;
+}
+.cash-out-btn.reject {
+  background-color: #6d6d6d;
+  border-radius: 0 0 0 2px;
+  margin-right: 2px;
+}
+
+.my-bet.winner {
+  border-left-color: var(--global-color-betslip-green);
+}
+
+.my-bet.loser {
+  border-left-color: var(--global-color-notification-alert_error);
+}
+
+.my-bet.partial {
+  border-left-color: var(--global-color-settings-button_blue);
+}
+
+.my-bet.pushed {
+  border-left-color: var(--global-color-settings-button_grey);
+}
+
+.my-bet-competition {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--global-color-betslip-title_text);
+  width: 100%;
+  font-size: 14px;
+}
+
+.my-bet-odds {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.my-bet-content {
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  gap: 6px;
+}
+
+.my-bet-result-dot {
+  height: 6px;
+  width: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.my-bet-result-dot.winner {
+  background-color: var(--global-color-betslip-green);
+}
+
+.my-bet-result-dot.loser {
+  background-color: var(--global-color-notification-alert_error);
+}
+
+.my-bet-result-dot.pushed {
+  background-color: var(--global-color-settings-button_grey);
+}
+
+.my-bets-dropdown .betslip-dropdown-content > :first-child {
+  padding-top: 0;
+}
+
+/* .my-bet-result {
+  color: var(--global-color-betslip-stake_amount);
+} */
+
+.my-bet-market-name {
+  color: var(--global-color-betslip-market_text);
+  font-weight: 500;
+}
+
+.my-bet-date {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #b19e71;
+}
+
+.my-bet-bog {
+  margin: 6px 0px;
+  background: #353a40;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  font-weight: 400;
+  padding: 8px;
+}
+
+.my-bet-bog p {
+  margin: 0;
+  flex: 1;
+  font-size: 10px;
+}
+
+.my-bet-returns {
+  padding: 0 15px 15px 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnAction.cash-out,
+.btnPrimary.cash-out {
+  height: 36px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 2px;
+}

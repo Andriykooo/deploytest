@@ -1,0 +1,34 @@
+.preferencesTitle {
+  color: var(--global-color-settings-text_primary);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.17;
+  margin-bottom: 0;
+}
+
+.preferencesTitle.preferencesTitle-arrowVisible {
+  margin-top: 16px;
+}
+
+.preferencesTitle.preferencesTitle-margin-sm {
+  margin-bottom: 12px;
+}
+
+.preferencesTitle.preferencesTitle-margin-md {
+  margin-bottom: 24px;
+}
+
+.preferencesTitle.preferencesTitle-margin-lg {
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 1024px) {
+  .preferencesTitle {
+    margin-top: 20px;
+  }
+  .preferencesTitle.preferencesTitle-margin-sm,
+  .preferencesTitle.preferencesTitle-margin-md,
+  .preferencesTitle.preferencesTitle-margin-lg {
+    margin-bottom: 20px;
+  }
+}

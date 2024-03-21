@@ -1,0 +1,45 @@
+.suspendAccBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-indent: unset;
+  background: var(--global-color-button-active) !important;
+  color: var(--global-color-button-text_active) !important;
+}
+
+.activeSuspend {
+  background: var(--global-color-linear-primary);
+  color: var(--global-color-main-text_primary);
+}
+
+.ddWrapper {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  background-color: var(--global-color-settings-shade_octanary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  z-index: 1000;
+  max-width: 248px;
+  max-height: 276px;
+  overflow-y: auto;
+}
+
+.ddWrapper > div {
+  height: 36px;
+  margin-bottom: 0.75rem;
+}
+.preferencesDropdown-desktop:hover {
+  cursor: pointer;
+}
+
+.ddText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--global-color-settings-text_primary);
+}

@@ -3,7 +3,7 @@
 const nextConfig = {
   output: "standalone",
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole: process.env.NODE_ENV !== "development",
   },
   async rewrites() {
     return [
@@ -14,6 +14,7 @@ const nextConfig = {
     ];
   },
   images: {
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

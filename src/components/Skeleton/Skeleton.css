@@ -1,0 +1,27 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--global-color-skeleton-background) 25%,
+    var(--global-color-skeleton-wave) 40%,
+    var(--global-color-skeleton-background) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton.skeleton-light {
+  background: linear-gradient(
+    90deg,
+    var(--global-color-skeleton-background-light) 25%,
+    var(--global-color-skeleton-wave-light) 40%,
+    var(--global-color-skeleton-background-light) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  to {
+    background-position: -200% 0;
+  }
+}

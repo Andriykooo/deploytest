@@ -1,0 +1,61 @@
+.infoContainer {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% / 3);
+  gap: 7px;
+}
+
+.infoItem h3 {
+  text-align: center;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--global-color-casino-text_primary);
+}
+
+.infoItem p {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--global-color-casino-text_secondary);
+}
+
+button.btnPlayNow {
+  background: var(--global-color-button-active);
+  color: var(--global-color-button-text_active);
+  border-radius: 8px;
+  font-size: 14px;
+  height: 30px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.infoModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--global-color-casino-shade_secondary);
+  width: 268px;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 20px 24px;
+  position: fixed;
+  z-index: 11;
+}
+
+.infoModal h2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--global-color-casino-text_primary);
+  margin-bottom: 20px;
+}

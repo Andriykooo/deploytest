@@ -1,0 +1,127 @@
+.games-container {
+  min-height: 500px;
+  padding: 50px 60px;
+  background: var(--global-color-casino_background);
+}
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.game-list-item {
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  overflow: hidden;
+}
+
+.games-list-title {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 12px;
+  background-color: #b89950;
+}
+
+.games-list-title p {
+  color: var(--global-color-table-text-primary);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  margin: 0;
+}
+
+.games-list-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+}
+
+.game-title {
+  background-color: var(--global-color-table-header-tertiary);
+  height: 36px;
+  padding-inline: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.empty-item {
+  cursor: default;
+}
+
+.game-title p {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--global-color-main-text_primary);
+  margin: 0;
+}
+
+.casino-modal {
+  display: block;
+}
+
+.casino-modal-content {
+  padding: 0rem !important;
+  margin-top: 0rem;
+  display: block;
+  border-radius: 0;
+}
+
+.casino-modal-header {
+  background: var(--global-color-casino-shade_primary);
+  height: 44px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  justify-content: space-between !important;
+  color: var(--global-color-casino-text_primary);
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0;
+}
+
+.casino-modal-body {
+  position: relative;
+  padding: 0 !important;
+  border-radius: 0 0 6px 6px;
+  display: flex;
+  flex-direction: column;
+  min-height: 604px;
+  background: var(--global-color-main-background_tertiary);
+}
+
+.casino-full-screen .casino-modal-content {
+  height: 100%;
+  background: var(--global-color-main-background_tertiary);
+}
+
+.casino-full-screen .casino-modal-body {
+  height: calc(100% - 44px);
+}
+
+@media (max-width: 1400px) {
+  .games-list-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .games-list-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .games-container {
+    padding: 26px 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .games-list-content {
+    grid-template-columns: 1fr;
+  }
+}

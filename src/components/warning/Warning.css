@@ -1,0 +1,21 @@
+.warning {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 45px;
+  background-color: var(--global-color-betslip-shade_primary);
+  border-left: 3px solid var(--global-color-betslip-info);
+  padding: 5px 10px
+}
+
+.warning-image {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.warning-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--global-color-betslip-text_primary);
+}

@@ -1,0 +1,29 @@
+.goBackButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--global-color-main-text_primary);
+}
+
+.goBackArrow {
+  transform: rotate(-90deg);
+}
+
+.goBackText.boldText {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 14px;
+  padding: auto;
+}
+
+.goBackText {
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  padding-block: 3px 1px;
+}

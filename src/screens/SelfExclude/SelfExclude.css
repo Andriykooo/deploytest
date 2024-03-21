@@ -1,0 +1,69 @@
+.selfExcludePage {
+  position: relative;
+  margin-left: 450px;
+  padding-top: 45px;
+  height: 800px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 1;
+}
+
+.modal-overlay .fade {
+  opacity: 1;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.modal-pass {
+  top: 50%;
+  padding-top: 2rem;
+}
+
+.contentPass {
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+
+.privacyModal {
+  max-width: 600px;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .selfExcludePage {
+    position: relative;
+    margin-left: 0px;
+    padding-top: 16px;
+  }
+
+  .modal-overlay {
+    z-index: 1000;
+  }
+
+  .modal-dialog {
+    width: 100%;
+    padding-top: 0;
+    max-width: 100%;
+    margin: 0;
+  }
+}

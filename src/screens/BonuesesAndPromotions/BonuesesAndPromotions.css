@@ -1,0 +1,255 @@
+.menu-link-promotions {
+  height: 40px;
+  border-radius: 40px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  width: max-content;
+  background-color: var(--global-color-chip-round_background-unselected);
+  color: var(--global-color-chip-round_text-selected);
+  padding: 12px 10px;
+}
+
+.selected-bonus button {
+  padding: 11px 9px;
+  background: var(--global-color-chip-round_background-selected);
+}
+
+.empty-container {
+  display: flex;
+  height: 50vh;
+}
+
+.promotions-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 560px;
+  height: 68px;
+  color: var(--global-color-settings-text_primary);
+  background: var(--global-color-settings-shade_tenary);
+  margin-top: 10px;
+  border-radius: 4px;
+  padding: 12px 16px;
+}
+
+.promotions-container:first-of-type {
+  margin-top: 24px;
+}
+
+.promotion-duration {
+  min-width: 98px;
+  padding: 5px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: var(--global-color-settings-button_blue);
+  margin-bottom: 0px;
+  right: 16px;
+}
+
+.expired-promotion {
+  background-color: var(--global-color-settings-button_grey);
+}
+
+.available-promotion {
+  background-color: var(--global-color-settings-button_gold);
+}
+
+.partly_used-promotion {
+  background-color: var(--global-color-settings-button_blue);
+}
+
+.used-promotion {
+  background-color: var(--global-color-settings-button_green);
+}
+
+.promotion-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.promotion-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.promotion-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  line-height: 1;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.promotion-amount {
+  margin-left: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  min-width: 165px;
+}
+
+.promotion-value {
+  font-size: 14px;
+}
+
+.promotion-valid {
+  font-size: 14px;
+}
+
+.promotion-competition {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 8px;
+  margin-top: 12px;
+}
+
+.promotion-expiring {
+  color: var(--global-color-settings-text_primary);
+}
+
+.promotion-nav {
+  gap: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  overflow: auto;
+  padding-right: 20px;
+  margin-bottom: 40px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.menuTitle {
+  margin-bottom: 24px;
+}
+
+.bonuses-container-menu {
+  overflow: hidden;
+  width: calc(100vw - 448px);
+  height: 100%;
+}
+
+.promotions-body {
+  height: calc(100% - 165px);
+  overflow: auto;
+  padding-bottom: 15px;
+}
+
+.promotion-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.bonuses-container-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.promotion-values-container {
+  display: flex;
+}
+
+@media screen and (max-width: 1024px) {
+  .bonuses-container-menu {
+    width: 100%;
+  }
+
+  .menuTitle {
+    margin-bottom: 20px;
+  }
+
+  .promotion-nav {
+    margin-bottom: 20px;
+  }
+
+  .promotions-container {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 92px;
+    margin-top: 6px;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
+  .promotion-info {
+    flex-direction: column-reverse;
+    justify-content: center;
+    background-color: var(--global-color-settings-shade_tenary);
+    padding-left: 16px;
+    height: 62px;
+    gap: 6px;
+  }
+
+  .promotion-amount,
+  .promotion-competition,
+  .promotion-valid,
+  .promotion-value {
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+
+  .promotion-amount {
+    display: flex;
+    gap: 14px;
+    margin-left: 0;
+  }
+
+  .promotion-competition {
+    line-height: 30px;
+    margin: 0;
+    padding-left: 16px;
+  }
+
+  .promotion-duration {
+    width: 72px;
+    font-size: 10px;
+    height: 22px;
+    top: 42px;
+  }
+
+  .promotion-details {
+    height: 100%;
+  }
+
+  .menu {
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .promotions-body {
+    height: calc(100% - 215px);
+  }
+}
+
+.promotion-background-circle {
+  margin-right: 12px;
+  border-radius: 50%;
+  background: var(--global-color-settings-shade_octanary);
+  width: 38px;
+  height: 38px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.promotion-icon {
+  display: flex;
+}

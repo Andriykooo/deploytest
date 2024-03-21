@@ -1,0 +1,46 @@
+.runner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 5px;
+}
+
+.runner-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--global-color-table-text-secondary);
+  min-width: 15px;
+}
+
+.selection-name {
+  margin-bottom: 4px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 13px;
+  color: var(--global-color-table-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selection-description {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--global-color-table-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+}
+
+@media (max-width: 600px) {
+  .runner {
+    padding-left: 10px;
+  }
+}

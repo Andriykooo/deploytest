@@ -1,0 +1,77 @@
+.autoselect {
+  position: relative;
+  width: 100%;
+}
+
+.autoselectInput::placeholder,
+.autoselectWrapper {
+  position: relative;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--global-color-table-text-primary);
+}
+
+.autoselectInput {
+  width: 100%;
+  height: 36px;
+  cursor: pointer;
+  background-color: var(--global-color-table-grid-background);
+  color: var(--global-color-table-text-primary);
+  border: 0;
+  border-radius: 4px;
+  padding: 10px 65px 10px 10px;
+}
+
+.autoselectList {
+  position: absolute;
+  width: 100%;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin-top: 2px;
+  background-color: var(--global-color-table-grid-background);
+  box-shadow: -2px 5px 15px 0px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.autoselectList > :not(:last-child) {
+  border-bottom: 1px solid var(--global-color-table-background);
+}
+
+.autoselectListItem {
+  height: 32px;
+  padding: 6px 16px;
+  transition: var(--global-transition);
+  cursor: pointer;
+}
+
+.autoselectListItem:hover {
+  background-color: var(--global-color-table-text-odds-primary);
+}
+
+.autoselectArrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: var(--global-transition);
+}
+
+.autoselectArrow.active {
+  transform-origin: center;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.autoselectReset {
+  height: 22px;
+  width: 22px;
+  padding: 5px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
