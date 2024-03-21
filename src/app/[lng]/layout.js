@@ -12,19 +12,6 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export async function generateStaticParams() {
-  const response = await fetch(apiUrl.ON_BOARDING, {
-    next: { revalidate: 3600 },
-  });
-  const onboarding = await response.json();
-
-  return onboarding.languages.map((language) => {
-    return {
-      lng: language.code2,
-    };
-  });
-}
-
 export default async function RootLayout({ children, params: { lng } }) {
   let locales;
 
