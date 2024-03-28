@@ -33,7 +33,7 @@
 }
 
 .closeModal {
-  text-align: end;
+  text-align: flex-end;
   margin: 10px 24px 0 0;
 }
 

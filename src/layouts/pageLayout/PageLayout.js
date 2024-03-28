@@ -42,8 +42,6 @@ export const PageLayout = ({ children, slug }) => {
         })
       );
 
-        console.log(response);
-
       dispatch(setSelections({}));
       dispatch(setUpdatedEvents({}));
     },

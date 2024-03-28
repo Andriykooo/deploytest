@@ -3,11 +3,7 @@ import { apiUrl } from "@/utils/constants";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
-  const defaultLanguage = params.lng || "en";
-
-  const country = defaultLanguage === "en" ? "all" : defaultLanguage;
-
-  const response = await fetch(`${apiUrl.GET_MAIN_MENU}?country=${country}`, {
+  const response = await fetch(apiUrl.GET_MAIN_MENU, {
     next: { revalidate: 10 },
   });
 

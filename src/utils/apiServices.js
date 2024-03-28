@@ -181,8 +181,6 @@ const axiosService = {
   async onResponseError(err) {
     const originalRequest = err.config;
 
-    // console.log(err);
-
     if (
       err.response.status === 401 &&
       !originalRequest._retry &&

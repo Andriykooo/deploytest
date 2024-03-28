@@ -8,7 +8,7 @@
   height: auto;
 }
 
-.affiliatesBanner>img {
+.affiliatesBanner > img {
   width: 100%;
   height: 100%;
 }
@@ -22,7 +22,7 @@
   padding-inline: 24px;
 }
 
-.infoForCostumers>p {
+.infoForCostumers > p {
   font-size: 14px;
   line-height: 16px;
   color: var(--global-color-main-icon_primary);
@@ -49,7 +49,7 @@
   padding: 0;
 }
 
-.offerWorksLists>li {
+.offerWorksLists > li {
   list-style: none;
   display: flex;
   align-items: center;
@@ -85,8 +85,8 @@
   max-width: 290px;
 }
 
-.listInfo>p {
-  text-align: start;
+.listInfo > p {
+  text-align: flex-start;
   margin: 0;
   font-size: 14px;
   font-weight: 400;
@@ -94,7 +94,7 @@
   color: var(--global-color-main-icon_primary);
 }
 
-.listInfo>h4 {
+.listInfo > h4 {
   margin: 0;
 }
 
@@ -148,7 +148,7 @@ p {
   line-height: 24px;
 }
 
-.affiliatesInfoTerms>p {
+.affiliatesInfoTerms > p {
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -164,11 +164,11 @@ p {
   margin: 80px auto 50px;
 }
 
-.affiliatesFooter>footer {
+.affiliatesFooter > footer {
   background: var(--global-color-main-background_tertiary);
 }
 
-.affiliatesFooter>footer>.footerContainerMenu {
+.affiliatesFooter > footer > .footerContainerMenu {
   max-width: 960px;
 }
 
@@ -200,7 +200,7 @@ p {
     font-size: 30px;
   }
 
-  .offerWorksLists>li {
+  .offerWorksLists > li {
     gap: 16px;
   }
 
@@ -220,8 +220,8 @@ p {
     height: 28px;
   }
 
-  .infoForCostumers>p {
-    text-align: start;
+  .infoForCostumers > p {
+    text-align: flex-start;
     font-size: 8px;
     line-height: 2;
   }

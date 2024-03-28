@@ -116,7 +116,7 @@
   font-weight: 400;
   color: var(--global-color-table-text-secondary);
   padding-right: 1rem;
-  text-align: start;
+  text-align: flex-start;
   width: 100%;
 }
 

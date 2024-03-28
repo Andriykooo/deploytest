@@ -36,7 +36,7 @@
   color: var(--global-color-table-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: start;
+  text-align: flex-start;
 }
 
 @media (max-width: 600px) {

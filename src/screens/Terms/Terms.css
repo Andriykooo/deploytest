@@ -147,7 +147,7 @@ li {
   }
 
   .closeDiv {
-    text-align: end;
+    text-align: flex-end;
   }
 
   .termsTitleForMainPage {

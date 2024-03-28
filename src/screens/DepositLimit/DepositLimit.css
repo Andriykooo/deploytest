@@ -116,7 +116,7 @@
   height: 50px;
   text-indent: 10px;
   position: relative;
-  text-align: start;
+  text-align: flex-start;
   padding: 0 !important;
 }
 
