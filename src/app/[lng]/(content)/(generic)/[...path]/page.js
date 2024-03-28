@@ -1,11 +1,20 @@
 import { PageLayout } from "@/layouts/pageLayout/PageLayout";
 import { apiUrl } from "@/utils/constants";
+import axios from "axios";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }) {
-  const response = await fetch(apiUrl.GET_MAIN_MENU, {
-    next: { revalidate: 10 },
+export const revalidate = 10;
+
+export async function generateStaticParams() {
+  const pages = await axios.get(apiUrl.GET_MAIN_MENU);
+
+  return pages.data.map((page) => {
+    return { path: [page.path.substring(1)] };
   });
+}
+
+export async function generateMetadata({ params }) {
+  const response = await fetch(apiUrl.GET_MAIN_MENU);
 
   if (response.status === 483) {
     return {
@@ -35,9 +44,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const response = await fetch(apiUrl.GET_MAIN_MENU, {
-    next: { revalidate: 10 },
-  });
+  const response = await fetch(apiUrl.GET_MAIN_MENU);
 
   if (params.path.length > 1) {
     notFound();
