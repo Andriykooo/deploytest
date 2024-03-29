@@ -1,4 +1,5 @@
 import { apiUrl } from "@/utils/constants";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const revalidate = 10;
 
@@ -40,5 +41,10 @@ export const viewport = {
 };
 
 export default function Layout({ children }) {
-  return children;
+  return (
+    <>
+      {children}
+      <SpeedInsights />
+    </>
+  );
 }
