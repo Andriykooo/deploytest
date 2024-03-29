@@ -1,13 +1,15 @@
 import classNames from "classnames";
+import { CustomLink } from "../Link/Link";
 import "./ProfileCard.css";
 
-export const ProfileCard = ({ children, active, className, onClick }) => {
+export const ProfileCard = ({ children, active, href, className, onClick }) => {
   return (
-    <div
+    <CustomLink
+      href={href}
       className={classNames("profile-card", className, { active })}
       onClick={onClick}
     >
       {children}
-    </div>
+    </CustomLink>
   );
 };

@@ -13,9 +13,25 @@ import { NotificationOff, NotificationOn } from "@/utils/icons";
 import "./Matches.css";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl, phaseStatus } from "@/utils/constants";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { isMatchSuspended } from "@/utils/global";
 import classNames from "classnames";
+
+const SecondsIndicator = () => {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShow((value) => !value);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return show ? "'" : null;
+};
 
 const MatchCard = ({
   match,
@@ -33,7 +49,7 @@ const MatchCard = ({
   const activeSport = useSelector((state) => state.activeSport);
   const updatedEvents = useSelector((state) => state.updatedEvents);
   const [currentTime, setCurrentTime] = useState(match?.current_time);
-  const phaseTime = useRef(match?.phase_time);
+  const [currentPhase, setCurrentPhase] = useState(match?.current_phase);
 
   const updatesForMatch = updatedEvents?.[match.id];
 
@@ -103,52 +119,44 @@ const MatchCard = ({
 
   useEffect(() => {
     let intervalId = null;
+    let timeoutId = null;
 
     try {
       if (isLive) {
-        switch (sportSlug) {
-          case "soccer": {
-            const currentPhaseTime =
-              updatesForMatch?.data?.phase_time || match?.phase_time;
+        clearInterval(intervalId);
+        clearTimeout(timeoutId);
 
-            const currentPhase =
-              updatesForMatch?.data?.current_phase || match?.current_phase;
+        const phaseTime =
+          updatesForMatch?.data?.phase_time || match?.phase_time;
 
-            setCurrentTime(
-              currentPhaseTime
-                ? updatesForMatch?.data?.current_time || match?.current_time
-                : currentPhase
-            );
+        const currentPhase =
+          updatesForMatch?.data?.current_phase || match?.current_phase;
 
-            phaseTime.current = currentPhaseTime;
+        const currentTime = parseInt(
+          updatesForMatch?.data?.current_time || match?.current_time
+        );
 
-            if (currentPhaseTime && currentPhaseTime.includes(":")) {
-              intervalId = setInterval(() => {
-                let [minutes, seconds] = phaseTime.current.split(":");
+        setCurrentTime(currentTime);
+        setCurrentPhase(currentPhase);
 
-                if (seconds >= 59) {
-                  minutes++;
-                  seconds = 0;
-                } else {
-                  seconds++;
-                }
+        if (currentTime && phaseTime && phaseTime.includes(":")) {
+          const [minutes, seconds] = phaseTime.split(":");
 
-                setCurrentTime(+minutes + (seconds % 2 === 0 ? "'" : ""));
+          timeoutId = setTimeout(() => {
+            setCurrentTime(minutes + 1);
 
-                phaseTime.current = `${
-                  minutes < 10 ? `${0}${+minutes}` : minutes
-                }:${seconds < 10 ? `${0}${+seconds}` : seconds}`;
-              }, 1000);
-            }
+            intervalId = setInterval(() => {
+              setCurrentTime((prevValue) => prevValue + 1);
+            }, 60 * 1000);
+          }, seconds * 1000);
 
-            break;
-          }
-          default: {
-            setCurrentTime(
-              updatesForMatch?.data?.current_time || match?.current_time
-            );
-            break;
-          }
+          return;
+        }
+
+        if (currentTime) {
+          intervalId = setInterval(() => {
+            setCurrentTime((prevValue) => prevValue + 1);
+          }, 60 * 1000);
         }
       }
     } catch (e) {
@@ -156,6 +164,10 @@ const MatchCard = ({
     }
 
     return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
       if (intervalId) {
         clearInterval(intervalId);
       }
@@ -175,7 +187,15 @@ const MatchCard = ({
               )}
             </div>
             <div className={isLive ? "in-play-time" : "starting-soon-games"}>
-              {isLive && currentTime}
+              {isLive &&
+                (currentTime ? (
+                  <>
+                    {currentTime}
+                    <SecondsIndicator />
+                  </>
+                ) : (
+                  currentPhase
+                ))}
               {isPreMatch &&
                 moment(matchData.start_time).format("DD MMM HH:mm")}
               {!isPreMatch &&
@@ -226,7 +246,15 @@ const MatchCard = ({
               )}
             </div>
             <div className={isLive ? "in-play-time" : "starting-soon-games"}>
-              {isLive && currentTime}
+              {isLive &&
+                (currentTime ? (
+                  <>
+                    {currentTime}
+                    <SecondsIndicator />
+                  </>
+                ) : (
+                  currentPhase
+                ))}
               {isPreMatch &&
                 moment(matchData.start_time).format("DD MMM HH:mm")}
               {!isPreMatch &&

@@ -19,7 +19,11 @@ import "../../screens/Sports/Sports.css";
 import "./Matches.css";
 import { Skeleton } from "../Skeleton/Skeleton";
 import SkeletonComponent from "../SkeletonComponent/SkeletonComponent";
-import { addEventData, setSelections, setUpdatedEvents } from "@/store/actions";
+import {
+  addEventData,
+  setUpdatedEvents,
+  updateSelections,
+} from "@/store/actions";
 import { useAxiosData } from "@/hooks/useAxiosData";
 
 const sortTypes = {
@@ -99,7 +103,11 @@ const Markets = ({ markets }) => {
                 selections = [];
 
                 sortTypes[key].forEach((type) => {
-                  selections.push(groupedSelectionByOutcomeType[type]);
+                  selections.push(
+                    groupedSelectionByOutcomeType[type].sort((a, b) => {
+                      return a.name.localeCompare(b.name);
+                    })
+                  );
                 });
               }
             }
@@ -221,7 +229,15 @@ const MatchDetails = ({ id, sportSlug }) => {
         setSelectedMarket(response.data.market_list[0].list_id);
       }
 
-      dispatch(setSelections({}));
+      const selections = {};
+
+      response.data.markets.forEach((market) => {
+        market.selections.forEach((selection) => {
+          selections[selection.bet_id] = selection;
+        });
+      });
+
+      dispatch(updateSelections(Object.values(selections)));
       dispatch(setUpdatedEvents({}));
 
       dispatch(

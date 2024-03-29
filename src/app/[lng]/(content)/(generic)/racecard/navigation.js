@@ -2,7 +2,11 @@
 
 import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 import { SelectButtons } from "@/components/selectButtons/SelectsButtons";
-import { setRaceCard, setSelections, setUpdatedEvents } from "@/store/actions";
+import {
+  setRaceCard,
+  setUpdatedEvents,
+  updateSelections,
+} from "@/store/actions";
 import { images } from "@/utils/imagesConstant";
 import moment from "moment";
 import Image from "next/image";
@@ -109,7 +113,16 @@ export const RacecardNavigation = ({ children }) => {
           })
         );
         dispatch(setRaceCard({ ...data, [params.venue]: response }));
-        dispatch(setSelections({}));
+
+        const selections = {};
+
+        response.events?.forEach((event) => {
+          event.selections.forEach((selection) => {
+            selections[selection.bet_id] = selection;
+          });
+        });
+
+        dispatch(updateSelections(Object.values(selections)));
         dispatch(setUpdatedEvents({}));
         setIsLoading(false);
       },

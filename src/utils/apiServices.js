@@ -2,7 +2,6 @@ import { connectSocket } from "@/context/socket";
 import axios from "axios";
 import { store } from "@/store/store";
 
-import { v4 as uuidv4 } from "uuid";
 import { alertToast } from "./alert";
 import { apiUrl, fallbackLng } from "./constants";
 import {
@@ -16,8 +15,6 @@ import { destroySession } from "@/store/actions";
 import { nextWindow } from "./nextWindow";
 import moment from "moment";
 import { CustomCookie } from "./cookie";
-
-// const dispatch = useDispatch();
 
 const getLanguage = () => {
   return (
@@ -169,8 +166,7 @@ const axiosService = {
         )}`;
       }
 
-      config.headers["device-id"] =
-        getLocalStorageItem("device_id") || uuidv4();
+      config.headers["device-id"] = getLocalStorageItem("device_id");
       config.headers.country = getLocalStorageItem("country") || "all";
       config.headers.language = getLanguage();
     }
@@ -180,6 +176,8 @@ const axiosService = {
 
   async onResponseError(err) {
     const originalRequest = err.config;
+
+    // console.log(err);
 
     if (
       err.response.status === 401 &&
@@ -228,6 +226,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "browser-timezone-offset": moment().utcOffset(),
+    "device-id": getLocalStorageItem("device_id"),
     Accept: "application/json",
     platform: "web",
     "app-version": "1",

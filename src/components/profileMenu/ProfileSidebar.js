@@ -1,5 +1,4 @@
 import { useTranslations } from "next-intl";
-import { CustomLink } from "../Link/Link";
 import { ProfileCard } from "../ProfileCard/ProfileCard";
 import {
   BetHistoryIcon,
@@ -143,34 +142,30 @@ export const ProfileSidebar = ({ sideBarMenu, profileMenu }) => {
         return (
           <div key={page.text} className="borderProfile">
             {sideBarMenu && (
-              <CustomLink href={page.route}>
-                {/* In the mobile version there shouldn't be any active menu items */}
-                <ProfileCard
-                  active={isActive}
-                  onClick={() => {
-                    setActivePage(page.route);
-                  }}
+              <ProfileCard
+                href={page.route}
+                active={isActive}
+                onClick={() => {
+                  setActivePage(page.route);
+                }}
+              >
+                <div
+                  className={
+                    isActive ? "sidebarBox" : "sidebarBox profileMenuDisplay"
+                  }
                 >
-                  <div
-                    className={
-                      isActive ? "sidebarBox" : "sidebarBox profileMenuDisplay"
-                    }
-                  >
-                    <div className="profileMenuTimeTitle">
-                      {page.icon}
-                      <span>{t(page.cardName)}</span>
-                    </div>
-                    {page?.buttonText && (
-                      <button className="link-in-bonuses-promotions">
-                        {page?.buttonText}
-                      </button>
-                    )}
-                    {profileMenu && (
-                      <ProfileArrowIcon className="profileMenu" />
-                    )}
+                  <div className="profileMenuTimeTitle">
+                    {page.icon}
+                    <span>{t(page.cardName)}</span>
                   </div>
-                </ProfileCard>
-              </CustomLink>
+                  {page?.buttonText && (
+                    <button className="link-in-bonuses-promotions">
+                      {page?.buttonText}
+                    </button>
+                  )}
+                  {profileMenu && <ProfileArrowIcon className="profileMenu" />}
+                </div>
+              </ProfileCard>
             )}
           </div>
         );

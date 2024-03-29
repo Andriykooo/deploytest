@@ -12,6 +12,8 @@ import Information from "@/components/information/Information";
 import classNames from "classnames";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { useTranslations } from "next-intl";
+import BillingAddress from "@/components/BillingAddress/BillingAddress";
+
 import "../Withdraw/Withdraw.css";
 import "../Deposit/Deposit.css";
 
@@ -27,6 +29,9 @@ const Withdraw = () => {
   const userCurrency = useSelector(
     (state) => state.loggedUser?.user_data.currency?.symbol || ""
   );
+
+  const user = useSelector((state) => state.loggedUser);
+
   const isTablet = useSelector((state) => state.isTablet);
 
   const handleGatewayLink = () => {
@@ -52,6 +57,13 @@ const Withdraw = () => {
   const handleChangeInput = (e) => {
     setValueOfInput(e.target.value);
   };
+
+  if (
+    user?.user_data?.kyc_status === "not_started" &&
+    !user?.user_data?.billing_address_set
+  ) {
+    return <BillingAddress />;
+  }
 
   if (paymentUrl) {
     return (

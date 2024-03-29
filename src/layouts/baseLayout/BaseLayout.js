@@ -7,11 +7,11 @@ import { PageContentModal } from "@/components/pageContentModal/PageContentModal
 import { ConfirmDepositLimitModals } from "@/screens/DepositLimit/ConfirmDepositLimitModal";
 import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
 import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
+import PwaInstall from "@/components/pwa/PwaInstall";
 import TermsConfirmModal from "@/screens/Terms/TermsConfirmModal";
 import { CloseButton, SuccesToast, alertToast } from "@/utils/alert";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
@@ -21,7 +21,6 @@ import { ToastContainer } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { apiUrl, fallbackLng } from "../../utils/constants";
 import { getUserApi } from "@/utils/apiQueries";
-import moment from "moment";
 import {
   communicationSocket,
   connectSocket,
@@ -47,7 +46,6 @@ import {
   upadateUserBalance,
   updatePageLayoutContent,
   setNotifyCasinoSession,
-  setSelections,
   updateSelections,
   addUpdatedEvents,
   addProviderSuspended,
@@ -57,12 +55,10 @@ import { apiServices } from "@/utils/apiServices";
 import { CustomCookie } from "@/utils/cookie";
 import { useInternetStatus } from "@/hooks/useInternetStatus";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
-import Script from "next/script";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./BaseLayout.css";
-import "moment/min/locales";
 
 export const BaseLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -182,7 +178,15 @@ export const BaseLayout = ({ children }) => {
         })
       );
 
-      dispatch(setSelections({}));
+      const selections = {};
+
+      response.betslips?.forEach((betslip) => {
+        betslip.button.selections.forEach((selection) => {
+          selections[selection.bet_id] = selection;
+        });
+      });
+
+      dispatch(updateSelections(Object.values(selections)));
     });
 
     apiServices.get(apiUrl.GET_CSS_CONTENT).then((response) => {
@@ -438,7 +442,6 @@ export const BaseLayout = ({ children }) => {
     });
 
     connectSocket(accessToken);
-    moment.locale(params.lng);
     addLocalStorageItem("tab_id", newTabId);
 
     dispatch(setMobile(nextWindow.document.documentElement.clientWidth <= 600));
@@ -490,14 +493,6 @@ export const BaseLayout = ({ children }) => {
 
   return (
     <>
-      <Script
-        strategy="lazyOnload"
-        src="https://connect.facebook.net/en_US/sdk.js"
-      />
-      <Script
-        strategy="lazyOnload"
-        src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
-      />
       <Helmet>
         <link
           rel="stylesheet"
@@ -536,9 +531,8 @@ export const BaseLayout = ({ children }) => {
       <CookieBanner />
       <GamingReminderAlert />
       <ConfirmDepositLimitModals />
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-        <div className="base-layout">{children}</div>
-      </GoogleOAuthProvider>
+      <PwaInstall />
+      <div className="base-layout">{children}</div>
     </>
   );
 };

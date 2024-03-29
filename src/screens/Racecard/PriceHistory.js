@@ -17,26 +17,35 @@ export const PriceHistory = ({ item, className }) => {
   const format =
     user?.user_data?.settings?.odds_format || settings.default_odds_format;
 
-  const [priceHistory, setPriceHistory] = useState(
-    item?.price_history?.slice(-3)?.map((price) => {
-      const odd = formatOdd(price, format);
+  const [priceHistory, setPriceHistory] = useState([]);
+  const [isInitial, setIsInitial] = useState(false);
 
-      return {
-        value: +price?.value,
-        name: odd,
-      };
-    })
-  );
+  useEffect(() => {
+    if (user) {
+      setPriceHistory(
+        item?.price_history?.slice(-3)?.map((price) => {
+          const odd = formatOdd(price, format);
+
+          return {
+            value: +price?.value,
+            name: odd,
+          };
+        })
+      );
+      setIsInitial(true);
+    }
+  }, [user]);
 
   const minValue = Math.min(...priceHistory.map((entry) => entry.value));
 
   useEffect(() => {
-    if (updatedSelection) {
+    if (!!updatedSelection?.previousOdds?.odds_decimal && user && isInitial) {
       const updatedSelectionOdds = getSelectionOdds(updatedSelection);
 
       if (
+        updatedSelectionOdds.odds_decimal === "SP" ||
         +updatedSelectionOdds.odds_decimal ===
-        +priceHistory?.[priceHistory.length - 1]?.value
+          +priceHistory?.[priceHistory.length - 1]?.value
       ) {
         return;
       }
@@ -54,7 +63,7 @@ export const PriceHistory = ({ item, className }) => {
         setPriceHistory([...priceHistory.slice(1), data]);
       }
     }
-  }, [updatedSelection]);
+  }, [updatedSelection?.previousOdds?.odds_decimal, user, isInitial]);
 
   return (
     <div className={classNames("price-history", className)}>

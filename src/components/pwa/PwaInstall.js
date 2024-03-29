@@ -1,13 +1,13 @@
 "use client";
 
 import { getLocalStorageItem } from "@/utils/localStorage";
-import "@khmyznikov/pwa-install";
 import Cookies from "js-cookie";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
+import "@khmyznikov/pwa-install";
 
-export const PwaInstall = () => {
+const PwaInstall = () => {
   const userData = useSelector((state) => state.loggedUser);
   const searchParams = useSearchParams();
   const queryPwa = searchParams.get("pwa");
@@ -41,3 +41,5 @@ export const PwaInstall = () => {
     />
   );
 };
+
+export default PwaInstall;

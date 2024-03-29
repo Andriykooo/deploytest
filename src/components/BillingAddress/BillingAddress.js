@@ -15,7 +15,7 @@ import { setLoggedUser } from "@/store/actions";
 import "../../screens/Login/Login.css";
 import "../../screens/SignUp/SignUp.css";
 
-const DepositBillingAddress = () => {
+const BillingAddress = () => {
   const t = useTranslations("");
   const dispatch = useDispatch();
 
@@ -131,7 +131,7 @@ const DepositBillingAddress = () => {
 
   return (
     <div className="depositLimit">
-      <form className="depositBillinAddress" onSubmit={submitBilling}>
+      <form className="BillingAddress" onSubmit={submitBilling}>
         <div className="signUpWrapper">
           <p className="logInTitle">{t("billing.billing_address")}</p>
           <div className="emailValidation d-grid">
@@ -291,4 +291,4 @@ const DepositBillingAddress = () => {
   );
 };
 
-export default DepositBillingAddress;
+export default BillingAddress;

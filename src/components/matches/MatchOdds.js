@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setPriceIsChanged } from "../../store/actions";
+import {
+  setPriceIsChanged,
+  setUpdatedBetslipSelections,
+} from "../../store/actions";
 import { Odds } from "../Odds/Odds";
 import classNames from "classnames";
 import { memo } from "react";
@@ -80,6 +83,7 @@ const Selection = memo(function SelectionContent({
 
     generateBetslip(tmp);
     dispatch(setPriceIsChanged(false));
+    dispatch(setUpdatedBetslipSelections({}));
   };
 
   const selectionsOdds = getSelectionOdds(selection);
@@ -88,6 +92,8 @@ const Selection = memo(function SelectionContent({
       ? "drifting"
       : "shortening";
 
+  // console.log(selection);
+
   return (
     <div
       className={classNames("matchOddsContainer matchOddsContainerFootball", {
@@ -95,7 +101,7 @@ const Selection = memo(function SelectionContent({
       })}
     >
       <TooltipWrapper
-        show={selection?.previousOdds}
+        show={selection?.previousOdds?.odds_decimal && !isSuspended}
         message={
           <div className="matchOddsTipContent">
             <Odds selection={selection?.previousOdds} />
@@ -116,7 +122,8 @@ const Selection = memo(function SelectionContent({
             styleOfSelectedOdd: isSelected && !isSuspended,
             suspended:
               isSuspended || disable || isMatchSuspended(currentStatus),
-            [priceChangeType]: selection?.previousOdds,
+            [priceChangeType]:
+              selection?.previousOdds?.odds_decimal && !isSuspended,
           })}
           onClick={handlerOnClick}
         >
@@ -137,25 +144,23 @@ const Selection = memo(function SelectionContent({
               currentStatus={currentStatus}
               providerSuspended={isProviderSuspended}
             />
-            {!isSP &&
-              selection?.price_boost &&
-              selection?.trading_status !== "suspended" && (
-                <svg
-                  width="8"
-                  height="14"
-                  viewBox="0 0 8 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={classNames("priceBoostIcon", {
-                    active: isSelected,
-                  })}
-                >
-                  <path
-                    d="M2.77003 14L3.61941 8.39639H0L5.22997 0L4.38059 5.60361H8L2.77003 14Z"
-                    fill="neno"
-                  />
-                </svg>
-              )}
+            {!isSP && selection?.price_boost && !isSuspended && (
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={classNames("priceBoostIcon", {
+                  active: isSelected,
+                })}
+              >
+                <path
+                  d="M2.77003 14L3.61941 8.39639H0L5.22997 0L4.38059 5.60361H8L2.77003 14Z"
+                  fill="neno"
+                />
+              </svg>
+            )}
           </div>
         </div>
       </TooltipWrapper>
@@ -165,11 +170,8 @@ const Selection = memo(function SelectionContent({
 
 export const MatchOdds = (props) => {
   const selections = useSelector((state) => state.selections);
-  const selection = selections[props.selection?.bet_id];
 
-  if (selection && !selection?.previousOdds?.odds_decimal) {
-    selection.previousOdds = getSelectionOdds(props.selection);
-  }
+  const selection = selections[props.selection?.bet_id];
 
   return (
     <Selection

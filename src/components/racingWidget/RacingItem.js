@@ -141,10 +141,10 @@ export const RacingItem = ({ event, slug, className }) => {
           </span>
         </div>
         <div className="racingUnderTitle">
-          {handicapRow ? "Handicap | " : ""}
           {event.event_description}
           {event.event_description && event.each_way && " | "}
           {event.each_way}
+          {handicapRow ? " | Handicap" : ""}
         </div>
       </div>
       <div className="events-contents-container horseEvents">

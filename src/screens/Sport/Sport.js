@@ -9,9 +9,9 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { SportHeader } from "@/components/SportHeader/SportHeader";
 import {
-  setSelections,
   setSportContent,
   setSportFilters,
+  updateSelections,
 } from "@/store/actions";
 import "../Home/Home.css";
 import "../Sports/Sports.css";
@@ -76,12 +76,24 @@ export const Sport = ({ initialData }) => {
             },
           })
         );
+
+        const selections = {};
+
+        response.competitions?.forEach((competition) => {
+          competition.events.forEach((event) => {
+            event.selections.forEach((selection) => {
+              if (selection) {
+                selections[selection.bet_id] = selection;
+              }
+            });
+          });
+        });
+
+        dispatch(updateSelections(Object.values(selections)));
       })
       .finally(() => {
         setFilterIsLoading(false);
       });
-
-    dispatch(setSelections({}));
   };
 
   useEffect(() => {

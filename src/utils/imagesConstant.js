@@ -3,7 +3,7 @@ export const images = {
   tickIcon: "/images/tickIcon.svg",
   dashedLine: "/images/dashedLine.png",
   pointer: "/images/pointer.svg",
-  unnamedFavorite: "/images/unnamedFavorite.png",
+  unnamedFavorite: "/images/unnamedFavorite.svg",
   arrowRight: "/images/arrow_right.svg",
   horseRacingLiveStream: "/images/horseRacingLiveStream.png",
   emptyState: "/images/emptyState.svg",

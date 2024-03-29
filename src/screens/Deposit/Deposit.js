@@ -6,7 +6,7 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import DepositLimitComponent from "@/components/DepositLimitComponent/DepositLimitComponent";
 import DepositAmountForm from "@/components/DepositAmountForm/DepositAmountForm";
-import DepositBillingAddress from "@/components/DepositBillingAddress/DepositBillingAddress";
+import BillingAddress from "@/components/BillingAddress/BillingAddress";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser } from "@/store/actions";
 import "../Deposit/Deposit.css";
@@ -108,7 +108,7 @@ const Deposit = () => {
     user?.user_data?.kyc_status === "not_started" &&
     !user?.user_data?.billing_address_set
   ) {
-    return <DepositBillingAddress />;
+    return <BillingAddress />;
   }
 
   if (step === "amount") {

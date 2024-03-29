@@ -169,6 +169,7 @@ export const SidebarRight = ({ alwaysDisplay }) => {
   };
 
   const placeBetsHandler = ({ freeBet }) => {
+    if (placeFreeBetLoading || placeBetIsLoading) return;
     if (selectedBets.singles.length == 0) return;
 
     const bets = [];
@@ -270,6 +271,7 @@ export const SidebarRight = ({ alwaysDisplay }) => {
             onClick={() => {
               generateBetslip({ ...selectedBets });
               dispatch(setPriceIsChanged(false));
+              dispatch(setUpdatedBetslipSelections({}));
             }}
           />
         </div>
@@ -345,7 +347,9 @@ export const SidebarRight = ({ alwaysDisplay }) => {
                   !loggedUser?.user_data?.bet_referral_enabled)) ||
               freeBetCreditSelect?.id
             }
-            className={"btnPrimary activeBetButton place-bet-button"}
+            className={`btnPrimary activeBetButton place-bet-button ${
+              placeBetIsLoading ? "pe-none" : ""
+            }`}
             text={
               placeBetIsLoading && !placeFreeBetLoading ? (
                 <Loader />
@@ -373,7 +377,9 @@ export const SidebarRight = ({ alwaysDisplay }) => {
     return (
       selectedBets?.free_bets?.length > 0 && (
         <Button
-          className={"btnPrimary activeBetButton place-bet-button"}
+          className={`btnPrimary activeBetButton place-bet-button  ${
+            placeFreeBetLoading ? "pe-none" : ""
+          }`}
           text={placeFreeBetLoading ? <Loader /> : t("common.use_free_credits")}
           disabled={
             selectedBets.total_stakes > +freeBetCreditSelect?.amount ||

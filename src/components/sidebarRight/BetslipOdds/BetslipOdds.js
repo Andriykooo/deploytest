@@ -27,7 +27,7 @@ export const BetslipOdds = ({ selection, className, children, onClick }) => {
   const [priceChangeType, setPriceChangeType] = useState(null);
 
   useEffect(() => {
-    if (odd && betTicker?.status !== "new_offer") {
+    if (odd?.priceChangeType && betTicker?.status !== "new_offer") {
       setPriceChangeType(odd.priceChangeType);
 
       if (!selection?.starting_price) setSelectionData(odd);

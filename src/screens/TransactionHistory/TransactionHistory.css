@@ -45,8 +45,11 @@
   align-items: center;
   min-height: 67px;
   padding: 8px 14px;
-  cursor: pointer;
   gap: 24px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .profile-modal {
@@ -131,6 +134,16 @@
   font-size: 14px;
   line-height: 16px;
   color: var(--global-color-settings-text_primary);
+}
+
+.placed span {
+  display: block;
+}
+
+.placed .subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
 }
 
 .typeSubtitle {

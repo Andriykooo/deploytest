@@ -1,5 +1,5 @@
 import { useParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -8,6 +8,7 @@ import WheelCalendar from "../modal/WheelCalendar";
 import "react-calendar/dist/Calendar.css";
 import "./DatePicker.css";
 import { CalendarIcon } from "@/utils/icons";
+import "moment/min/locales";
 
 export const DatePicker = ({
   value,
@@ -44,6 +45,10 @@ export const DatePicker = ({
     close();
   };
 
+  useEffect(() => {
+    moment.locale(params.lng);
+  }, []);
+
   useClickOutside(datePickerRef, close);
 
   return (
@@ -57,9 +62,7 @@ export const DatePicker = ({
             placeholder={placeholder}
             value={value && moment(value).format("DD - MMMM - YYYY")}
           />
-          <CalendarIcon
-            className="showPasswordIcon signUp"
-          />
+          <CalendarIcon className="showPasswordIcon signUp" />
         </div>
         {isActive && !isTablet && (
           <Calendar

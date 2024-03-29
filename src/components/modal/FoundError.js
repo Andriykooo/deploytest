@@ -20,7 +20,7 @@ const FoundError = ({ modalClose }) => {
     >
       <div className="modal-dialog casino-modal-dialog">
         <div className={classNames("modal-content casino-modal-content")}>
-          <div className="modal-body casino-modal-body session-modal session-closed bigger">
+          <div className="modal-body casino-modal-body session-modal session-closed bigger justify-content-center">
             <div>
               <WarningIcon />
               <h3 className="session-title smaller">{t("casino.found_bug")}</h3>

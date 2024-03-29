@@ -87,7 +87,7 @@
   line-height: 16px;
   font-weight: 400;
   color: var(--global-color-sidebar-text);
-  padding: 10px 0 10px 50px;
+  padding: 10px 0 10px 54px;
   max-width: 194px;
   height: 48px;
   opacity: 0;
@@ -170,7 +170,7 @@
 
 .search-label .sports-search-icon {
   position: absolute;
-  left: 18px;
+  left: 22px;
   pointer-events: none;
 }
 
@@ -221,6 +221,8 @@
   align-items: center;
   right: 14px;
   width: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .search-close-icon-container.is-active {

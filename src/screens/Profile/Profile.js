@@ -209,7 +209,7 @@ const Profile = () => {
                     <ProfileValidatedIcon className="profileValidated" />
                   </InfoDiv>
                 ) : (
-                  <InfoDiv className={"infoBigDiv"}>
+                  <InfoDiv className={"infoBigDiv"} clickable={true}>
                     <div onClick={handleClickRedirect}>
                       <p
                         className="fieldSubTitle"
@@ -232,6 +232,7 @@ const Profile = () => {
               onClick={() => {
                 !(userStats?.kyc_status === "verified") && getNewAccessToken();
               }}
+              clickable={userStats?.kyc_status === "verified" ? false : true}
               className={"infoBigDiv"}
             >
               <p className="fieldSubTitle cursorPointer">

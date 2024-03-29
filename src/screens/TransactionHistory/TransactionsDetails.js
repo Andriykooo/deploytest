@@ -13,10 +13,11 @@ export const TransactionDetails = ({ data, close }) => {
 
   useEffect(() => {
     const currencySymbol = loggedUser?.user_data?.currency?.symbol || "";
-    const transactionDate = moment(data?.transaction_datetime).format(
-      "DD MMM YYYY"
-    );
-    const transactionTime = moment(data?.transaction_datetime).format("HH:mm");
+    const transactionDate = moment(data?.datetime).format("DD MMM YYYY");
+    const transactionTime = moment
+      .utc(data?.datetime)
+      .local()
+      .format("hh:mm:ss A");
 
     let raw_amount;
 

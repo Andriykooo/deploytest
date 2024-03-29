@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "@/store/actions";
 import { useTranslations } from "next-intl";
 import { SearchCloseIcon, SearchIcon } from "@/utils/icons";
-import { ProfileCard } from "../ProfileCard/ProfileCard";
 import classNames from "classnames";
 import { _debounce } from "@/helpers/debounce";
 import { useEffect, useState } from "react";
@@ -42,11 +41,10 @@ export const Search = ({ handleSearch, searchValue, setSearchData }) => {
   }, [isTablet]);
 
   return (
-    <ProfileCard>
+    <div className="position-relative">
       <form>
         <label className="sport-d d-flex search-label" onClick={onClickSearch}>
           <SearchIcon />
-
           <input
             value={value}
             className={classNames("input-search-sports", {
@@ -70,6 +68,6 @@ export const Search = ({ handleSearch, searchValue, setSearchData }) => {
           })}
         />
       }
-    </ProfileCard>
+    </div>
   );
 };

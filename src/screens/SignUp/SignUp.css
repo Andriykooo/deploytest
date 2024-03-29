@@ -360,6 +360,8 @@ input:-webkit-autofill:active {
   border: 10px solid var(--global-color-background-quaternary);
   text-indent: unset;
   background-color: var(--global-color-background-quaternary) !important;
+  -webkit-text-fill-color: var(--global-color-label-text_active) !important;
+  color: var(--global-color-label-text_active) !important;
 }
 
 .selectDecimal-countries {

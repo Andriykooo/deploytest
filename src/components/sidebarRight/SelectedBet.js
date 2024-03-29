@@ -83,6 +83,7 @@ export const SelectedBet = ({ bet, disabled }) => {
     tmp.action = "check";
     generateBetslip(tmp);
   };
+
   const handlerSetSingleStake = (value) => {
     const limit = calcStakeLimit(value);
 
@@ -117,6 +118,10 @@ export const SelectedBet = ({ bet, disabled }) => {
 
     handlerSetSingleStake(e.target.value);
   };
+
+  useEffect(() => {
+    setIsEW(bet?.each_way);
+  }, [bet?.each_way]);
 
   return (
     <div className={classNames("selected-bet-container", { disabled })}>

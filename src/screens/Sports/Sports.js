@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SkeletonComponent from "../../components/SkeletonComponent/SkeletonComponent";
 import { Sport } from "../Sport/Sport";
-import { setSelections, setSportContent, setUpdatedEvents } from "@/store/actions";
+import {
+  setSportContent,
+  setUpdatedEvents,
+  updateSelections,
+} from "@/store/actions";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import "../Sports/Sports.css";
@@ -35,7 +39,25 @@ const Sports = ({ slug }) => {
         })
       );
 
-      dispatch(setSelections({}));
+      const selections = {};
+
+      if (isRacing) {
+        response.events.forEach((event) => {
+          event.selections.forEach((selection) => {
+            selections[selection.bet_id] = selection;
+          });
+        });
+      } else {
+        response.competitions?.forEach((competition) => {
+          competition.events.forEach((event) => {
+            event.selections.forEach((selection) => {
+              selections[selection.bet_id] = selection;
+            });
+          });
+        });
+      }
+
+      dispatch(updateSelections(Object.values(selections)));
       dispatch(setUpdatedEvents({}));
     },
     onError: () => {

@@ -455,7 +455,6 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.ADD_TO_UPDATED_BETSLIP_SELECTIONS:
       return {
         ...appstate,
-        priceIsChanged: true,
         updatedBetslipSelections: {
           ...appstate.updatedBetslipSelections,
           [action.payload.bet_id]: action.payload,
@@ -465,7 +464,6 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.SET_UPDATED_BETSLIP_SELECTIONS:
       return {
         ...appstate,
-        priceIsChanged: true,
         updatedBetslipSelections: action.payload,
       };
 
@@ -533,7 +531,6 @@ const rootReducer = (appstate = initialState, action) => {
       return {
         ...appstate,
         priceIsChanged: action.payload,
-        updatedBetslipSelections: {},
       };
     }
 
@@ -635,33 +632,44 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.UPDATE_SELECTIONS: {
       const newSelectionsData = {};
       const updatedBetslipSelections = { ...appstate.updatedBetslipSelections };
-      let priceIsChanged = false;
+      let priceIsChanged = appstate.priceIsChanged;
 
-      action.payload.forEach((selection) => {
-        const prevSelection = appstate.selections[selection.data.bet_id] || {};
+      action.payload.forEach((item) => {
+        const selection = item?.data || item;
+        const prevSelection = appstate.selections[selection.bet_id] || {};
+
         const oldSelectionOdds = getSelectionOdds(prevSelection);
+        const newSelectionOdds = getSelectionOdds(selection);
 
         const newData = {
           ...prevSelection,
-          ...selection.data,
+          ...selection,
         };
 
-        if (oldSelectionOdds.odds_decimal !== selection.data.odds_decimal) {
+        const hasOddsDifference =
+          oldSelectionOdds?.odds_decimal &&
+          selection?.odds_decimal !== "SP" &&
+          +oldSelectionOdds.odds_decimal !== +newSelectionOdds.odds_decimal;
+
+        if (hasOddsDifference) {
           newData.previousOdds = oldSelectionOdds;
         }
 
-        if (appstate.selectedBetsIds.has(selection.data.bet_id)) {
-          updatedBetslipSelections[selection.data.bet_id] = {
-            ...newData,
-            priceChangeType:
-              oldSelectionOdds.odds_decimal < selection.data.odds_decimal
+        if (appstate.selectedBetsIds.has(selection.bet_id)) {
+          const newSelectedBetdata = { ...newData };
+
+          if (hasOddsDifference) {
+            priceIsChanged = true;
+            newSelectedBetdata.priceChangeType =
+              +oldSelectionOdds.odds_decimal < +newSelectionOdds.odds_decimal
                 ? "drifting"
-                : "shortening",
-          };
-          priceIsChanged = true;
+                : "shortening";
+          }
+
+          updatedBetslipSelections[selection.bet_id] = newSelectedBetdata;
         }
 
-        newSelectionsData[selection.data.bet_id] = newData;
+        newSelectionsData[selection.bet_id] = newData;
       });
 
       const updatedData = {
@@ -669,13 +677,10 @@ const rootReducer = (appstate = initialState, action) => {
         updatedBetslipSelections,
       };
 
-      if (priceIsChanged) {
-        updatedData.priceIsChanged = priceIsChanged;
-      }
-
       return {
         ...appstate,
         ...updatedData,
+        priceIsChanged,
       };
     }
 

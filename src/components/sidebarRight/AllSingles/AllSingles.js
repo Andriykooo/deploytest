@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
 import { calcStakeLimit } from "@/utils/global";
+import { Checkbox } from "../../Checkbox/Checkbox";
 
 export const AllSingles = () => {
   const t = useTranslations("common");
@@ -14,6 +15,11 @@ export const AllSingles = () => {
   const generateBetslip = useGenerateBetslip();
 
   const [input, setInput] = useState("");
+  const [isEW, setIsEW] = useState(false);
+
+  const allowEachWay = userSelectedBets?.singles.some(
+    (bet) => bet.allow_each_way == true
+  );
 
   const handleChangeStakes = (value) => {
     const tmp = { ...userSelectedBets };
@@ -24,6 +30,21 @@ export const AllSingles = () => {
 
     tmp.action = "check";
 
+    generateBetslip(tmp);
+  };
+
+  const handleChangeEW = () => {
+    const tmp = { ...userSelectedBets };
+
+    tmp.singles.forEach((element) => {
+      if (element?.allow_each_way) {
+        element.each_way = !isEW;
+      }
+    });
+
+    tmp.action = "check";
+
+    setIsEW(!isEW);
     generateBetslip(tmp);
   };
 
@@ -66,6 +87,13 @@ export const AllSingles = () => {
             className="slip-input"
             onChange={handleChange}
           />
+
+          {allowEachWay && (
+            <div className="betslip-odds rounded-end-1">
+              <span className="me-1">{t("ew")}</span>
+              <Checkbox onChange={handleChangeEW} value={isEW} />
+            </div>
+          )}
         </div>
       </div>
     </div>

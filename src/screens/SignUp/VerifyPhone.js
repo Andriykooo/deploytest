@@ -20,7 +20,6 @@ export const VerifyPhone = () => {
   const t = useTranslations();
   const router = useCustomRouter();
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.loggedUser);
 
   const [OTP, setOTP] = useState("");

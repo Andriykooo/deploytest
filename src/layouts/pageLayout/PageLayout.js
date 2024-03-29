@@ -2,10 +2,10 @@
 
 import {
   setPageLayoutContent,
-  setSelections,
   setShowMenuIcon,
   setSidebarRight,
   setUpdatedEvents,
+  updateSelections,
 } from "@/store/actions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,7 +42,45 @@ export const PageLayout = ({ children, slug }) => {
         })
       );
 
-      dispatch(setSelections({}));
+      const selections = {};
+
+      response.content.forEach((item) => {
+        if (item.type === "carousel") {
+          item.carousel?.forEach((carouselItem) => {
+            carouselItem.button.selections.forEach((selection) => {
+              selections[selection.bet_id] = selection;
+            });
+          });
+        }
+
+        if (item.type === "racing_widget") {
+          item.racing_widget?.events?.forEach((racingEvent) => {
+            racingEvent.selections.forEach((selection) => {
+              selections[selection.bet_id] = selection;
+            });
+          });
+        }
+
+        if (item.type === "sport_widget") {
+          if (item.sport_widget.widget_type === "sport_widget_standard") {
+            item.sport_widget.selections.forEach((selection) => {
+              selections[selection.bet_id] = selection;
+            });
+          } else {
+            item.sport_widget?.sports?.forEach((sport) => {
+              sport.competitions?.forEach((competition) => {
+                competition.events?.forEach((event) => {
+                  event.selections.forEach((selection) => {
+                    selections[selection.bet_id] = selection;
+                  });
+                });
+              });
+            });
+          }
+        }
+      });
+
+      dispatch(updateSelections(Object.values(selections)));
       dispatch(setUpdatedEvents({}));
     },
   });

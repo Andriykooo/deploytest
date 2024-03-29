@@ -6,7 +6,7 @@ import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
-import { setLoggedUser } from "../../store/actions";
+import { setLastVisitedPage, setLoggedUser } from "../../store/actions";
 import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
@@ -82,6 +82,7 @@ const VerifyEmail = () => {
         if (result.user_data.email_verified) {
           if (result.user_data.required_values.phone_number) {
             router.push("/sign_up_with_phone");
+            dispatch(setLastVisitedPage("/finish_account_setup"));
           } else {
             router.push("/finish_account_setup");
           }

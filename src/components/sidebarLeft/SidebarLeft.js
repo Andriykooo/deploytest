@@ -12,7 +12,6 @@ import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
 import { useTranslations } from "next-intl";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { ProfileCard } from "../ProfileCard/ProfileCard";
 import { apiServices } from "@/utils/apiServices";
@@ -22,7 +21,6 @@ import "./SedibarLeft.css";
 
 export const SidebarLeft = ({ alwaysDisplay }) => {
   const dispatch = useDispatch();
-  const router = useCustomRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const params = useParams();
@@ -70,9 +68,6 @@ export const SidebarLeft = ({ alwaysDisplay }) => {
 
   const handleClick = (item) => {
     dispatch(setActiveSport(item));
-    router.push(
-      `/${pathname.includes("inplay") ? "inplay" : "sport"}/${item.slug}`
-    );
 
     if (isTablet) {
       dispatch(
@@ -84,10 +79,7 @@ export const SidebarLeft = ({ alwaysDisplay }) => {
     }
   };
 
-  const handleClickMatch = (item) => {
-    const slug =
-      item.sport_slug === "horseracing" ||
-      item.sport_slug === "greyhoundracing";
+  const handleClickMatch = () => {
     if (isTablet) {
       dispatch(
         setSidebarLeft({
@@ -96,12 +88,6 @@ export const SidebarLeft = ({ alwaysDisplay }) => {
         })
       );
     }
-    if (slug) {
-      return router.push(
-        `/racecard/${item.sport_slug}/${item.event_name}?id=${item.event_id}`
-      );
-    }
-    router.push(`/${item.sport_slug}/event/${item.event_id}`);
   };
 
   useEffect(() => {
@@ -189,9 +175,18 @@ export const SidebarLeft = ({ alwaysDisplay }) => {
           ) : searchData?.value ? (
             searchData?.data.length > 0 ? (
               searchData?.data.map((item) => {
+                const isRaceEvent =
+                  item.sport_slug === "horseracing" ||
+                  item.sport_slug === "grayhoundracing";
+
                 return (
                   <div key={item.event_id}>
                     <ProfileCard
+                      href={
+                        isRaceEvent
+                          ? `/racecard/${item.sport_slug}/${item.event_name}?id=${item.event_id}`
+                          : `/${item.sport_slug}/event/${item.event_id}`
+                      }
                       className="matches-item-container"
                       active={activeMatch?.event_id === item.event_id}
                       onClick={() => handleClickMatch(item)}
@@ -219,6 +214,7 @@ export const SidebarLeft = ({ alwaysDisplay }) => {
               return (
                 <div key={item.id}>
                   <ProfileCard
+                    href={`/sport/${item.slug}`}
                     active={
                       activeSport
                         ? item.id === activeSport.id

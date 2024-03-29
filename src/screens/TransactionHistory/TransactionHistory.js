@@ -16,6 +16,7 @@ import {
   CasinoBetIcon,
   DepositBlack,
   WithdrawalBlack,
+  DefaultIcon,
 } from "../../utils/icons";
 import { TRANSACTION_HISTORY_STATUSES } from "@/utils/transactionHistory";
 import classNames from "classnames";
@@ -40,6 +41,17 @@ const flattenObjectToArray = (nestedObj) => {
     }
   }
   return result;
+};
+
+const transactionIcons = {
+  bet_cancelled: <BetCancelled />,
+  cash_free_bet: <AddCashFreeBet />,
+  bet_place: <BetPlacedBlack />,
+  bet_pushed: <BetPushed />,
+  deposit: <DepositBlack />,
+  withdrawal: <WithdrawalBlack />,
+  casino: <CasinoBetIcon />,
+  bet_win: <BetWon />,
 };
 
 const TransactionHistory = () => {
@@ -127,98 +139,29 @@ const TransactionHistory = () => {
   };
 
   const getTxDetails = (item) => {
-    var icon = ``;
-    var transactionTitle = ``;
-    let row = item?.transaction_type;
-    if (
-      item?.transaction_type?.includes("deposit") ||
-      item?.transaction_type == "depsit"
-    ) {
-      row = "deposit";
-    } else if (item?.transaction_type?.includes("withdrawal")) {
-      row = "withdrawal";
-    } else if (item?.transaction_type?.includes("bet_pushed")) {
-      row = "bet_pushed";
-    }
+    let title = item.type;
+    const depositOrWithdrawal =
+      item.transaction_type.includes("deposit") ||
+      item.transaction_type.includes("withdrawal");
 
-    switch (row) {
-      case "bet_cancel":
-      case "cancel_bet_payout":
-      case "bet_undo":
-        icon = <BetCancelled />;
-        transactionTitle = `${t("transaction_history.bet_cancelled")} (#${
-          item.id
-        })`;
-        break;
-      case "add_cash_free_bet":
-        icon = <AddCashFreeBet />;
-        transactionTitle = `${t("transaction_history.add_cash_free_Bet")}`;
-        break;
-      case "cancel_cash_free_bet":
-        icon = <AddCashFreeBet />;
-        transactionTitle = `${t("transaction_history.cancel_cash_free_Bet")}`;
-        break;
-      case "bet_place":
-        icon = <BetPlacedBlack />;
-        transactionTitle = `${t("transaction_history.bet_placed")} (#${
-          item.id
-        })`;
-        break;
-      case "bet_pushed":
-        icon = <BetPushed />;
-        transactionTitle = `${t("transaction_history.bet_pushed")} (#${
-          item.id
-        })`;
-        break;
-      case "deposit":
-        icon = <DepositBlack />;
-        transactionTitle = t("common.deposit");
-        break;
-      case "withdrawal":
-        icon = <WithdrawalBlack />;
-        transactionTitle = t("transaction_history.withdrawal");
-        break;
-      case "user_balance_adjustment":
-        icon = <DepositBlack />;
-        transactionTitle = t("transaction_history.balance_adjustment");
-        break;
-      case "casino_bet":
-        icon = <CasinoBetIcon />;
-        transactionTitle = t("transaction_history.casino");
-        break;
-      case "casino_result":
-        icon = <CasinoBetIcon />;
-        transactionTitle = t("transaction_history.casino");
-        break;
-      default:
-        // Place Bet
-        if (row?.includes("bet_slip_place")) {
-          icon = <BetPlacedBlack />;
-          transactionTitle = item.description;
-        } else if (row?.includes("bet_win")) {
-          icon = <BetWon />;
-          transactionTitle = `${t("transaction_history.bet_won")} (#${
-            item.id
-          })`;
-        } else if (row?.includes("cash_out") > -1) {
-          icon = <BetPushed />;
-          transactionTitle = ` Cash Out (#${item.id})`;
-        }
-        break;
-    }
+    if (item.show_id) title += ` (#${item.id})`;
+
+    var icon = transactionIcons[item.icon_slug] || <DefaultIcon />;
 
     var amount = parseFloat(item.amount);
 
     amount =
       !amount || amount < 0 ? amount.toFixed(2) : "+" + amount.toFixed(2);
 
-    const date = moment(item.transaction_datetime).format("hh:mm:ss A");
+    const date = moment.utc(item.datetime).local().format("hh:mm:ss A");
 
     return {
       icon,
-      title: transactionTitle,
+      title,
+      subtitle: item.description,
       amount,
       date,
+      isClickable: depositOrWithdrawal,
     };
   };
 
@@ -340,12 +283,16 @@ const TransactionHistory = () => {
                             return (
                               <div
                                 key={item.id}
-                                className="transactionCardWrapper col-8 mb-2 d-flex"
+                                className={`transactionCardWrapper col-8 mb-2 d-flex ${
+                                  txDetails.isClickable ? "cursor-pointer" : ""
+                                }`}
                                 onClick={() => {
-                                  setTransactionDetails({
-                                    ...item,
-                                    ...txDetails,
-                                  });
+                                  if (txDetails.isClickable) {
+                                    setTransactionDetails({
+                                      ...item,
+                                      ...txDetails,
+                                    });
+                                  }
                                 }}
                               >
                                 <div className="transactionCard">
@@ -368,7 +315,12 @@ const TransactionHistory = () => {
                                       })}
                                     >
                                       <span className="placed">
-                                        {txDetails.title}
+                                        <span>{txDetails.title}</span>
+                                        {txDetails?.subtitle && (
+                                          <span className="subtitle">
+                                            {txDetails.subtitle}
+                                          </span>
+                                        )}
                                       </span>
                                       {item?.status && (
                                         <div

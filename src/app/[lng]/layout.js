@@ -23,19 +23,19 @@ export async function generateStaticParams() {
   });
 }
 
-export default async function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params: { lng } }) {
   let locales;
 
   try {
-    locales = (await import(`../../locales/${params.lng}.json`)).default;
+    locales = (await import(`../../locales/${lng}.json`)).default;
   } catch (error) {
     locales = (await import(`../../locales/${fallbackLng}.json`)).default;
   }
 
   return (
-    <html lang={params.lng}>
+    <html lang={lng}>
       <body className={montserrat.className}>
-        <NextIntlClientProvider locale={params.lng} messages={locales}>
+        <NextIntlClientProvider locale={lng} messages={locales}>
           <ReduxLayout>{children}</ReduxLayout>
         </NextIntlClientProvider>
       </body>

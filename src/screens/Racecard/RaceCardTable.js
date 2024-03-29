@@ -19,6 +19,7 @@ export const RacecardTable = ({ headerData, data }) => {
   const isAbandoned =
     updatedEvent?.current_status === phaseStatus.ABANDONED ||
     data?.event_status === phaseStatus.ABANDONED;
+  const handicapRow = data?.handicap == "Y";
 
   let activeRunners = [];
   const nonRunners = [];
@@ -27,6 +28,8 @@ export const RacecardTable = ({ headerData, data }) => {
     if (
       selection.status === "active" ||
       selection.status === "pulledup" ||
+      selection.status === "fell" ||
+      selection.status === "broughtdown" ||
       selection.status === "jocky_change" ||
       selection.status === "reserve_runner"
     ) {
@@ -41,19 +44,28 @@ export const RacecardTable = ({ headerData, data }) => {
       nonRunners.push(selection);
     }
   });
-
   activeRunners = isResulted
     ? activeRunners.sort((a, b) => {
-        if (a.finish_num === "PU" && b.finish_num !== "PU") {
-          return 1; // "PU" comes after other finish_num
-        } else if (a.finish_num !== "PU" && b.finish_num === "PU") {
-          return -1; // Other finish_num comes before "PU"
-        } else if (a.finish_num === "PU" && b.finish_num === "PU") {
-          return 0; // If both are "PU", maintain their order
-        } else {
-          // If both are not "PU", sort by numeric value of finish_num
-          return parseInt(a.finish_num) - parseInt(b.finish_num);
+        const numA = parseInt(a.finish_num);
+        const numB = parseInt(b.finish_num);
+
+        // If both are numbers, sort by numeric value
+        if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+
+        // If one is a number and the other is not, number comes before non-number
+        if (!isNaN(numA)) return -1;
+
+        if (!isNaN(numB)) return 1;
+
+        // If both are not numbers, sort "F" before "PU"
+        if (a.finish_num === "F" && b.finish_num === "PU") {
+          return -1; // "F" comes before "PU"
+        } else if (a.finish_num === "PU" && b.finish_num === "F") {
+          return 1; // "PU" comes after "F"
         }
+
+        // If both are "F" or both are "PU", maintain their order
+        return 0;
       })
     : activeRunners
         .map((selection) => {
@@ -99,6 +111,7 @@ export const RacecardTable = ({ headerData, data }) => {
               {data?.event_description}
               {data.event_description && data.each_way && " | "}
               {data.each_way}
+              {handicapRow ? " | Handicap" : ""}
             </span>
           </div>
         </div>

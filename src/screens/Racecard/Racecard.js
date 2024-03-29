@@ -21,12 +21,15 @@ import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
 import { setRaceCard } from "@/store/actions";
 import { apiUrl, phaseStatus } from "@/utils/constants";
 import { apiServices } from "@/utils/apiServices";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+
 import "./Racecard.css";
 
 export const Racecard = () => {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const params = useParams();
+  const router = useCustomRouter();
   const dispatch = useDispatch();
 
   const [hasForeacastImage, setHasForecastImage] = useState(true);
@@ -40,6 +43,7 @@ export const Racecard = () => {
 
   const generateBets = useGenerateBetslip();
   const raceCard = data?.[params.venue];
+
   const day = searchParams.get("filter") || "today";
   const id = searchParams.get("id");
 
@@ -88,6 +92,25 @@ export const Racecard = () => {
         });
     }
   }, [updatedEvent]);
+
+  useEffect(() => {
+    if (id) {
+      const event = raceCard?.events.find(({ event_id }) => event_id === id);
+
+      if (event) {
+        const date = event?.event_start_time;
+        const day =
+          (moment(date)?.isSame(moment(), "day") && "today") ||
+          (moment(date)?.isSame(moment().add(1, "days"), "day") && "tomorrow");
+
+        if (day) {
+          router.push(
+            `/racecard/${params.slug}/${params.venue}?id=${id}&filter=${day}`
+          );
+        }
+      }
+    }
+  }, [id]);
 
   const hanldeSelect = (item, place) => {
     // eslint-disable-next-line

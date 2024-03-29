@@ -3,7 +3,8 @@ import { apiUrl } from "@/utils/constants";
 
 async function fetchLandingPage(params) {
   const res = await fetch(
-    `${apiUrl.GET_AFFILIATES}?affiliate_slug=${params.promo}`
+    `${apiUrl.GET_AFFILIATES}?affiliate_slug=${params.promo}`,
+    { next: { revalidate: 10 } }
   );
   return await res.json();
 }

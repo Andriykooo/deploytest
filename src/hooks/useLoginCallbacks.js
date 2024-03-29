@@ -59,7 +59,7 @@ export function useLoginCallbacks({ loginCallback, disableRedirect }) {
 
       const uuidV4 = uuidv4();
 
-      if (getLocalStorageItem("device_id") === null) {
+      if (!getLocalStorageItem("device_id")) {
         addLocalStorageItem("device_id", uuidV4);
       }
 

@@ -39,7 +39,7 @@ function FinishAccountSetup() {
     );
 
     if (!onBoardingCountry?.kyc_during_onboarding) {
-      // router.push("/");
+      router.push("/");
     } else {
       setIsLoading(false);
     }

@@ -142,9 +142,10 @@ const PasswordFields = ({
           </p>
         </div>
       </div>
+
       <div className="authButtonsContainer mt-4">
         <Button
-          className={
+          className={`w-100 ${
             newPassword === confirmPassword &&
             confirmPassword &&
             validation?.length &&
@@ -152,7 +153,7 @@ const PasswordFields = ({
             validation?.specialChar
               ? "btnPrimary continueBtn validBtn"
               : "continueBtn"
-          }
+          }`}
           onClick={(e) => {
             handleSubmit(e);
           }}

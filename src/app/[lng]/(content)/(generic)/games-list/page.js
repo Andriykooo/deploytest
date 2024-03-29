@@ -1,12 +1,11 @@
 import { GamesList } from "@/screens/GamesList/GamesList";
-import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
+import axios from "axios";
 
 async function fetchGameList() {
-  const res = await apiServices.get(apiUrl.GET_PAGE_LAYOUT, {
-    value: "casino",
-  });
-  return await res?.content?.find((item) => item.type === "casino").casino;
+  const res = await axios.get(`${apiUrl.GET_PAGE_LAYOUT}?value=casino`);
+  return await res?.data?.content?.find((item) => item.type === "casino")
+    .casino;
 }
 
 export default async function Page() {

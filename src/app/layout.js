@@ -1,5 +1,7 @@
 import { apiUrl } from "@/utils/constants";
 
+export const revalidate = 10;
+
 export async function generateMetadata() {
   const response = await fetch(apiUrl.GET_GLOBAL_SEO, {
     next: { revalidate: 10 },

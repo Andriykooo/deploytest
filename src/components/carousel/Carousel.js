@@ -38,7 +38,9 @@ export const Carousel = ({
   const handleScroll = (e) => {
     onScroll?.();
 
-    setCurrentSnapIndex(Math.floor(e.target.scrollLeft / itemWidth));
+    if (itemWidth) {
+      setCurrentSnapIndex(Math.floor(e.target.scrollLeft / itemWidth));
+    }
 
     const list = e.target.getBoundingClientRect();
     const firstElement = firstElementRef?.current?.getBoundingClientRect();
@@ -48,6 +50,7 @@ export const Carousel = ({
 
     const hideNextArrowByScroll =
       Math.floor(lastElement.right) <= Math.round(list.right);
+
     if (hidePrevArrowByScroll !== hidePrevArrow) {
       setHidePrevArrow(hidePrevArrowByScroll);
     }
