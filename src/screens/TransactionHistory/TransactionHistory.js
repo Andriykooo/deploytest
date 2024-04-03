@@ -29,7 +29,7 @@ import { useTranslations } from "next-intl";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 import "./TransactionHistory.css";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";
-import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+// import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 
 const flattenObjectToArray = (nestedObj) => {
   const result = [];
@@ -148,10 +148,9 @@ const TransactionHistory = () => {
 
     var icon = transactionIcons[item.icon_slug] || <DefaultIcon />;
 
-    var amount = parseFloat(item.amount);
+    var amount = Number(item.amount.replace(/,/g, ""));
 
-    amount =
-      !amount || amount < 0 ? amount.toFixed(2) : "+" + amount.toFixed(2);
+    amount = !amount || amount < 0 ? item.amount : "+" + item.amount;
 
     const date = moment.utc(item.datetime).local().format("hh:mm:ss A");
 
@@ -340,11 +339,7 @@ const TransactionHistory = () => {
                                     {txDetails.date}
                                   </span>
                                   <div className="placed my_bet_result_container justify-content-end mt-1">
-                                    <span>
-                                      {formatNumberWithDecimal(
-                                        txDetails.amount
-                                      )}
-                                    </span>
+                                    <span>{txDetails.amount}</span>
                                     {item?.is_free_bet == "1" && (
                                       <AddCashFreeBetLogo />
                                     )}

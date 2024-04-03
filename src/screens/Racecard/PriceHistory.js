@@ -21,25 +21,28 @@ export const PriceHistory = ({ item, className }) => {
   const [isInitial, setIsInitial] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setPriceHistory(
-        item?.price_history?.slice(-3)?.map((price) => {
-          const odd = formatOdd(price, format);
+    setPriceHistory(
+      item?.price_history?.slice(-3)?.map((price) => {
+        const odd = formatOdd(price, format);
 
-          return {
-            value: +price?.value,
-            name: odd,
-          };
-        })
-      );
-      setIsInitial(true);
-    }
-  }, [user]);
+        return {
+          value: +price?.value,
+          name: odd,
+        };
+      })
+    );
+    setIsInitial(true);
+
+    return () => {
+      setPriceHistory([]);
+      setIsInitial(false);
+    };
+  }, [format]);
 
   const minValue = Math.min(...priceHistory.map((entry) => entry.value));
 
   useEffect(() => {
-    if (!!updatedSelection?.previousOdds?.odds_decimal && user && isInitial) {
+    if (!!updatedSelection?.previousOdds?.odds_decimal && isInitial) {
       const updatedSelectionOdds = getSelectionOdds(updatedSelection);
 
       if (

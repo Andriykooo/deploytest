@@ -28,13 +28,14 @@ import { DatePicker } from "@/components/datePicker/DatePicker";
 import moment from "moment";
 import classNames from "classnames";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
-import "../Login/Login.css";
-import "../SignUp/SignUp.css";
 import { PasswordInput } from "@/components/PasswordInput/PasswordInput";
 import { messagingGetToken } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { CustomCookie } from "@/utils/cookie";
 import { getUserApi } from "@/utils/apiQueries";
+
+import "../Login/Login.css";
+import "../SignUp/SignUp.css";
 
 const socials = ["google", "facebook", "apple"];
 

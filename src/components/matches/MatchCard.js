@@ -132,11 +132,11 @@ const MatchCard = ({
         const currentPhase =
           updatesForMatch?.data?.current_phase || match?.current_phase;
 
-        const currentTime = parseInt(
+        const currentTime = Number(
           updatesForMatch?.data?.current_time || match?.current_time
         );
 
-        setCurrentTime(currentTime);
+        if (currentTime) setCurrentTime(currentTime);
         setCurrentPhase(currentPhase);
 
         if (currentTime && phaseTime && phaseTime.includes(":")) {

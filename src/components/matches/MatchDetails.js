@@ -180,7 +180,7 @@ const MatchDetails = ({ id, sportSlug }) => {
   const marketList = match?.market_list?.length ? match?.market_list : [];
   const eventHeader = match
     ? `${match?.competition_name ? match?.competition_name + " | " : ""}  ${
-        match.current_time || ""
+        match.current_time || match.current_phase || ""
       }`
     : "";
   const teams = {

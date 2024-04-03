@@ -1,12 +1,9 @@
 import { apiUrl } from "@/utils/constants";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const revalidate = 10;
 
 export async function generateMetadata() {
-  const response = await fetch(apiUrl.GET_GLOBAL_SEO, {
-    next: { revalidate: 10 },
-  });
+  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
 
   if (response.status === 483) {
     return {
@@ -41,10 +38,5 @@ export const viewport = {
 };
 
 export default function Layout({ children }) {
-  return (
-    <>
-      {children}
-      <SpeedInsights />
-    </>
-  );
+  return children;
 }

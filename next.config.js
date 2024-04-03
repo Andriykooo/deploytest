@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  runtime: 'experimental-edge',
   output: "standalone",
+  reactStrictMode: false,
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
