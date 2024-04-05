@@ -2,6 +2,7 @@
 
 const nextConfig = {
   output: "standalone",
+  generateEtags: false,
   reactStrictMode: false,
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",

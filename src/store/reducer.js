@@ -648,7 +648,7 @@ const rootReducer = (appstate = initialState, action) => {
 
         const hasOddsDifference =
           oldSelectionOdds?.odds_decimal &&
-          selection?.odds_decimal !== "SP" &&
+          newSelectionOdds?.odds_decimal !== "SP" &&
           +oldSelectionOdds.odds_decimal !== +newSelectionOdds.odds_decimal;
 
         if (hasOddsDifference) {

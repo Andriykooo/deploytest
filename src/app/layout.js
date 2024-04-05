@@ -1,9 +1,10 @@
 import { apiUrl } from "@/utils/constants";
+import axios from "axios";
 
 export const revalidate = 10;
 
 export async function generateMetadata() {
-  const response = await fetch(apiUrl.GET_GLOBAL_SEO);
+  const response = await axios.get(apiUrl.GET_GLOBAL_SEO);
 
   if (response.status === 483) {
     return {
@@ -11,7 +12,7 @@ export async function generateMetadata() {
     };
   }
 
-  const seo = await response.json();
+  const seo = response.data;
 
   return {
     title: seo.title,

@@ -32,9 +32,6 @@ export const Racecard = () => {
   const router = useCustomRouter();
   const dispatch = useDispatch();
 
-  const [hasForeacastImage, setHasForecastImage] = useState(true);
-  const [hasWinEwImage, setHasWinEwImage] = useState(true);
-
   const betTicker = useSelector((state) => state.betTicker);
   const selectedPlayerBets = useSelector((state) => state.selectedBets);
   const data = useSelector((state) => state.raceCard);
@@ -246,12 +243,13 @@ export const Racecard = () => {
       width: isMobile ? "44px" : "50px",
       className: "",
       render: (item) => {
-        return hasForeacastImage ? (
+        return item.silk_image ? (
           <Image
             src={item.silk_image}
             alt="slik"
-            onError={() => {
-              setHasForecastImage(false);
+            onError={(event) => {
+              event.target.id = images.unnamedFavorite;
+              event.target.srcset = images.unnamedFavorite;
             }}
             height={20}
             width={20}
@@ -357,12 +355,13 @@ export const Racecard = () => {
       dataKey: "silk_image",
       width: isMobile ? "44px" : "50px",
       render: (item) => {
-        return hasWinEwImage ? (
+        return item.silk_image ? (
           <Image
             src={item.silk_image}
             alt="slik"
-            onError={() => {
-              setHasWinEwImage(false);
+            onError={(event) => {
+              event.target.id = images.unnamedFavorite;
+              event.target.srcset = images.unnamedFavorite;
             }}
             height={20}
             width={20}

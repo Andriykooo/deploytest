@@ -1,6 +1,7 @@
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { CustomLink } from "../Link/Link";
 import Link from "next/link";
+import { nextWindow } from "@/utils/nextWindow";
 
 const redirectTypes = [
   "page",
@@ -29,7 +30,7 @@ const OpenType = ({ openType, children, className, path, onClick }) => {
   }
 
   if (/^(http:\/\/|https:\/\/)/.test(path)) {
-    const currentURL = window.location.origin;
+    const currentURL = nextWindow.location.origin;
     const target = path.includes(currentURL);
     return (
       <Link
@@ -42,6 +43,7 @@ const OpenType = ({ openType, children, className, path, onClick }) => {
       </Link>
     );
   }
+
   return (
     <CustomLink className={className} href={path || ""} onClick={onClick}>
       {children}

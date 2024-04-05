@@ -1,5 +1,7 @@
 import { Racecard } from "@/screens/Racecard/Racecard";
 
-export default async function Page() {
+export const dynamic = "force-static";
+
+export default function Page() {
   return <Racecard />;
 }

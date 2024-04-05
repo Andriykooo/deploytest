@@ -1,11 +1,10 @@
 import { apiUrl } from "@/utils/constants";
+import axios from "axios";
 
 export async function GET() {
   try {
-    const response = await fetch(apiUrl.GET_GLOBAL_SEO, {
-      next: { revalidate: 10 },
-    });
-    const seo = await response.json();
+    const response = await axios.get(apiUrl.GET_GLOBAL_SEO);
+    const seo = response.data;
 
     const manifestTemplate = {
       name: seo.title,

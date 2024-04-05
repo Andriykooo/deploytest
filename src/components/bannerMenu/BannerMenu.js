@@ -53,12 +53,11 @@ export const BannerMenu = ({
         <div className="banner-menu-filter">
           <Carousel
             arrowClassName="banner-arrow-wrapper"
-            data={options.map((item, index) => {
+            data={options.map((item) => {
               return {
                 id: item.id,
                 render: (
                   <Button
-                    key={index}
                     onClick={() => handleClick(item)}
                     className={classNames("banner-menu-button", {
                       selected: selected?.slug === item.slug,

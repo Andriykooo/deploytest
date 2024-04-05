@@ -1,12 +1,14 @@
 import Affiliates from "@/screens/Affiliates/Affiliates";
 import { apiUrl } from "@/utils/constants";
+import axios from "axios";
+
+export const dynamic = "force-static";
 
 async function fetchLandingPage(params) {
-  const res = await fetch(
-    `${apiUrl.GET_AFFILIATES}?affiliate_slug=${params.promo}`,
-    { next: { revalidate: 10 } }
+  const res = axios.get(
+    `${apiUrl.GET_AFFILIATES}?affiliate_slug=${params.promo}`
   );
-  return await res.json();
+  return res.data;
 }
 
 export async function generateMetadata({ params }) {
@@ -30,6 +32,6 @@ export async function generateMetadata({ params }) {
   return seo;
 }
 
-export default async function Page({ params }) {
+export default function Page({ params }) {
   return <Affiliates promo={params.promo} />;
 }

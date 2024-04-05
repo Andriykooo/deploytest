@@ -25,6 +25,7 @@ import {
   updateSelections,
 } from "@/store/actions";
 import { useAxiosData } from "@/hooks/useAxiosData";
+import { useParams } from "next/navigation";
 
 const sortTypes = {
   homeDrawAway: ["home", "draw", "away"],
@@ -150,24 +151,17 @@ const Markets = ({ markets }) => {
   );
 };
 
-const MatchDetails = ({ id, sportSlug }) => {
+const MatchDetails = () => {
   const t = useTranslations();
   const dispatch = useDispatch();
+  const params = useParams();
 
   const updatedEvents = useSelector((state) => state.updatedEvents);
   const eventsData = useSelector((state) => state.eventsData);
   const isTablet = useSelector((state) => state.isTablet);
 
-  const [showNotification, setShowNotification] = useState("");
-  const [pushNotificationSettings, setPushNotificationSettings] = useState([
-    { key: "key1", label: `${t("common.notification")} 1`, status: false },
-    { key: "key2", label: `${t("common.notification")} 2`, status: true },
-  ]);
-  const [selectedMarket, setSelectedMarket] = useState(null);
-  const [eventNotFound, setEventNotFound] = useState(false);
-
-  const updatesForMatch = updatedEvents?.[id];
-  let match = eventsData?.[id];
+  const updatesForMatch = updatedEvents?.[params.id];
+  let match = eventsData?.[params.id];
 
   if (updatesForMatch) {
     match = {
@@ -176,7 +170,18 @@ const MatchDetails = ({ id, sportSlug }) => {
     };
   }
 
+  const [showNotification, setShowNotification] = useState("");
+  const [pushNotificationSettings, setPushNotificationSettings] = useState([
+    { key: "key1", label: `${t("common.notification")} 1`, status: false },
+    { key: "key2", label: `${t("common.notification")} 2`, status: true },
+  ]);
+  const [selectedMarket, setSelectedMarket] = useState(
+    match?.market_list?.[0]?.list_id
+  );
+  const [eventNotFound, setEventNotFound] = useState(false);
+
   const markets = match?.markets?.[selectedMarket];
+
   const marketList = match?.market_list?.length ? match?.market_list : [];
   const eventHeader = match
     ? `${match?.competition_name ? match?.competition_name + " | " : ""}  ${
@@ -204,8 +209,8 @@ const MatchDetails = ({ id, sportSlug }) => {
 
   const getData = (listId) => {
     const payload = {
-      value: id,
-      sport_slug: sportSlug,
+      value: params.id,
+      sport_slug: params.sport,
     };
 
     if (listId) {
@@ -239,7 +244,6 @@ const MatchDetails = ({ id, sportSlug }) => {
 
       dispatch(updateSelections(Object.values(selections)));
       dispatch(setUpdatedEvents({}));
-
       dispatch(
         addEventData({
           data: response.data,
@@ -267,17 +271,17 @@ const MatchDetails = ({ id, sportSlug }) => {
   useEffect(() => {
     gamingSocket.on("connection", () => {
       gamingSocket.emit("subscribe_match", {
-        value: id,
+        value: params.id,
       });
     });
 
     gamingSocket.emit("subscribe_match", {
-      value: id,
+      value: params.id,
     });
 
     return () => {
       gamingSocket.emit("unsubscribe_match", {
-        value: id,
+        value: params.id,
         action_id: uuidv4(),
       });
     };

@@ -71,6 +71,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
             <div className="navBarLinks">
               {data && (
                 <Carousel
+                  disableScrollToTab
                   center
                   data={data
                     ?.filter((item) => item?.show_in_menu)
@@ -79,7 +80,6 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
                         id: item.id,
                         render: (
                           <LinkType
-                            key={item.id}
                             type={item.type}
                             openType={item.open_type}
                             path={item.path}

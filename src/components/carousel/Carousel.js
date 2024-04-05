@@ -15,6 +15,7 @@ export const Carousel = ({
   onScroll,
   showGradient,
   itemWidth,
+  disableScrollToTab,
 }) => {
   const { scrollRef, prev, next, activePageIndex, pages, refresh } =
     useSnapCarousel();
@@ -96,11 +97,13 @@ export const Carousel = ({
                 scrollSnapAlign: "start",
               }}
               onClick={(e) => {
-                e.currentTarget.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                  inline: "center",
-                });
+                if (!disableScrollToTab) {
+                  e.currentTarget.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                    inline: "center",
+                  });
+                }
               }}
             >
               {itemWidth

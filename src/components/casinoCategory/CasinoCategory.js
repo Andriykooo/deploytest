@@ -22,6 +22,7 @@ const CasinoCategory = ({ data, redirect }) => {
   const isMobile = useSelector((state) => state.setMobile);
   const [modalInfo, setModalInfo] = useState(null);
   const pathname = usePathname();
+  const carouselItemWidth = isMobile ? 126 : 296;
 
   const showModalInfo = (info) => {
     setModalInfo(info);
@@ -62,6 +63,7 @@ const CasinoCategory = ({ data, redirect }) => {
 
         {data.view_style === "trending" && (
           <Carousel
+            itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient
             arrowClassName="tranding-arrow"
@@ -84,6 +86,7 @@ const CasinoCategory = ({ data, redirect }) => {
         )}
         {data.view_style === "single_line" && (
           <Carousel
+            itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient
             data={data?.games?.map((game) => {
@@ -175,6 +178,7 @@ const CasinoCategory = ({ data, redirect }) => {
         )}
         {data.view_style === "multi_line" && (
           <Carousel
+            itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient
             data={

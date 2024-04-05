@@ -1,5 +1,3 @@
-"use client";
-
 import { LinkType } from "../LinkType/LinkType";
 import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
 
