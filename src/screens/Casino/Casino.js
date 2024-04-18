@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { CasinoPlayNow } from "../../components/modal/CasinoPlayNow";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "./Casino.css";
 import { useEffect, useState } from "react";

@@ -6,18 +6,16 @@ import Spiner from "../../components/Spiner/Spiner";
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import {
-  AddCashFreeBet,
-  AddCashFreeBetLogo,
-  BetCancelled,
-  BetPlacedBlack,
-  BetPushed,
-  BetWon,
-  CasinoBetIcon,
-  DepositBlack,
-  WithdrawalBlack,
-  DefaultIcon,
-} from "../../utils/icons";
+import { AddCashFreeBet } from "@/icons/AddCashFreeBet";
+import { BetCancelled } from "@/icons/BetCancelled";
+import { AddCashFreeBetLogo } from "@/icons/AddCashFreeBetLogo";
+import { BetPlacedBlack } from "@/icons/BetPlacedBlack";
+import { BetPushed } from "@/icons/BetPushed";
+import { BetWon } from "@/icons/BetWon";
+import { CasinoBetIcon } from "@/icons/CasinoBetIcon";
+import { DepositBlack } from "@/icons/DepositBlack";
+import { WithdrawalBlack } from "@/icons/WithdrawalBlack";
+import { DefaultIcon } from "@/icons/DefaultIcon";
 import { TRANSACTION_HISTORY_STATUSES } from "@/utils/transactionHistory";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -25,7 +23,7 @@ import { Button } from "../../components/button/Button";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import moment from "moment";
 import { TransactionDetails } from "./TransactionsDetails";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 import "./TransactionHistory.css";
 import "../BonuesesAndPromotions/BonuesesAndPromotions.css";

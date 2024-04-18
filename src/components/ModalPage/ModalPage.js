@@ -1,17 +1,17 @@
 "use client";
 
-import { XIcon } from "@/utils/icons";
+import { XIcon } from "@/icons/XIcon";
 import { Logo } from "../logo/Logo";
 import { useSelector } from "react-redux";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { useClientPathname } from "@/hooks/useClientPathname";
 import "./ModalPage.css";
 import "../header/Header.css";
-import { useClientPathname } from "@/hooks/useClientPathname";
 
 export const ModalPage = ({ children }) => {
-  const lastVisitedPage = useSelector((state) => state.lastVisitedPage);
-  const router = useCustomRouter();
   const { pathname } = useClientPathname();
+  const router = useCustomRouter();
+  const lastVisitedPage = useSelector((state) => state.lastVisitedPage);
 
   const closeModal = () => {
     router.push(lastVisitedPage !== pathname ? lastVisitedPage || "/" : "/");

@@ -4,7 +4,7 @@ import { EmptyState } from "../../emptyState/EmptyState";
 import { MarketTypes } from "../../matches/MarketTypes";
 import MatchCard from "../../matches/MatchCard";
 import { SportsBanner } from "../SportsBanner";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Accordion } from "@/components/Accordion/Accordions";
 import "./SportsTable.css";
 

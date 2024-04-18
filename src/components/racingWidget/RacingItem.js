@@ -1,17 +1,17 @@
 import moment from "moment";
-import { ArrowIcon } from "../../utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import { MatchOdds } from "../matches/MatchOdds";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Runner } from "../Runner/Runner";
 import Image from "next/image";
 import { CustomLink } from "../Link/Link";
-import "../eventTable/EventTable.css";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
 import { phaseStatus } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import { getSelectionOdds } from "@/utils/getSelectionOdds";
 import { useMemo, useState } from "react";
+import "../eventTable/EventTable.css";
 
 const RacingSelection = ({ selection, event }) => {
   const isSuspended = selection.trading_status === "suspended";
@@ -56,14 +56,22 @@ const SilkImageContainer = ({ silkImage }) => {
 };
 
 const RacingSelections = ({ selections, slug, event }) => {
+  const updatedSelections = useSelector((state) => state.selections);
+
   const sortedSelections = selections.sort((a, b) => {
-    if (a.odds_decimal === "SP" && b.odds_decimal !== "SP") {
+    const aSelection = updatedSelections[a.bet_id] || a;
+    const bSelection = updatedSelections[b.bet_id] || b;
+
+    if (aSelection.odds_decimal === "SP" && bSelection.odds_decimal !== "SP") {
       return 1;
-    } else if (a.odds_decimal !== "SP" && b.odds_decimal === "SP") {
+    } else if (
+      aSelection.odds_decimal !== "SP" &&
+      bSelection.odds_decimal === "SP"
+    ) {
       return -1;
     } else {
-      const aPrice = getSelectionOdds(a).odds_decimal;
-      const bPrice = getSelectionOdds(b).odds_decimal;
+      const aPrice = getSelectionOdds(aSelection).odds_decimal;
+      const bPrice = getSelectionOdds(bSelection).odds_decimal;
 
       return +aPrice - +bPrice;
     }

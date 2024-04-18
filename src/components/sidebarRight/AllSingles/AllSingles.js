@@ -1,6 +1,6 @@
 import { prohibitedCharacters } from "@/utils/constants";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useSelector } from "react-redux";
 import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
 import { calcStakeLimit } from "@/utils/global";

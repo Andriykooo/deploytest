@@ -6,7 +6,9 @@ import {
 } from "@/store/actions";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useDebounce } from "./useDebounce";
 
 export const useGenerateBetslip = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,46 @@ export const useGenerateBetslip = () => {
   const betIsRejected = useSelector((state) => state.betIsRejected);
   const freeBetCreditSelect = useSelector((state) => state.freeBetCreditSelect);
 
-  return (selectedBets) => {
+  const delay = useRef(300);
+
+  const [betslipPayload, setBetslipPayload] = useState();
+
+  const debouncedPayload = useDebounce(betslipPayload, delay.current);
+
+  const fetchBetslip = (payload) => {
+    apiServices.post(apiUrl.GET_BET_SLIP, payload).then((response) => {
+      const formatedResponse = { ...response };
+      const unnamed_favorites = {};
+
+      formatedResponse.combinations = formatedResponse.combinations.filter(
+        (combination) => {
+          const isUnnamedFavorite = combination?.type === "unnamed_favorite";
+
+          if (isUnnamedFavorite) {
+            delete combination.stake;
+
+            unnamed_favorites[combination?.event_id] = {
+              ...combination,
+              bet_id: combination?.event_id,
+              odds_decimal: 0,
+            };
+          }
+
+          return !isUnnamedFavorite;
+        }
+      );
+
+      dispatch(mergeSelectedBets(formatedResponse));
+    });
+  };
+
+  useEffect(() => {
+    if (debouncedPayload) {
+      fetchBetslip(debouncedPayload);
+    }
+  }, [debouncedPayload]);
+
+  return (selectedBets, debounce) => {
     dispatch(setSelectBet(selectedBets));
 
     let racingBetsCounter = 0;
@@ -44,7 +85,7 @@ export const useGenerateBetslip = () => {
           newBet.starting_price = bet.starting_price;
         }
 
-        if (bet.each_way) {
+        if (bet.allow_each_way) {
           newBet.each_way = bet.each_way;
         }
 
@@ -93,29 +134,11 @@ export const useGenerateBetslip = () => {
       payload.unnamed_favorite = unnamed_favorite;
     }
 
-    apiServices.post(apiUrl.GET_BET_SLIP, payload).then((response) => {
-      const formatedResponse = { ...response };
-      const unnamed_favorites = {};
-
-      formatedResponse.combinations = formatedResponse.combinations.filter(
-        (combination) => {
-          const isUnnamedFavorite = combination?.type === "unnamed_favorite";
-
-          if (isUnnamedFavorite) {
-            delete combination.stake;
-
-            unnamed_favorites[combination?.event_id] = {
-              ...combination,
-              bet_id: combination?.event_id,
-              odds_decimal: 0,
-            };
-          }
-
-          return !isUnnamedFavorite;
-        }
-      );
-
-      dispatch(mergeSelectedBets(formatedResponse));
-    });
+    if (debounce) {
+      setBetslipPayload(payload);
+      delay.current = debounce;
+    } else {
+      fetchBetslip(payload);
+    }
   };
 };

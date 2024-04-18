@@ -1,9 +1,9 @@
 import { Montserrat } from "next/font/google";
 import { apiUrl, fallbackLng } from "@/utils/constants";
-import { NextIntlClientProvider } from "next-intl";
 import { ReduxLayout } from "@/store/provider";
-import "./globals.css";
+import { LocaleProvider } from "@/context/locale";
 import axios from "axios";
+import "./globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -35,9 +35,9 @@ export default async function RootLayout({ children, params: { lng } }) {
   return (
     <html lang={lng}>
       <body className={montserrat.className}>
-        <NextIntlClientProvider locale={lng} messages={locales}>
+        <LocaleProvider locale={locales}>
           <ReduxLayout>{children}</ReduxLayout>
-        </NextIntlClientProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -10,7 +10,7 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { getUserApi } from "@/utils/apiQueries";
 import "./ConfirmDepositLimitModal.css";

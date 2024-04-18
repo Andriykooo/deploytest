@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { InfoInformationIcon } from "../../utils/icons";
-import { useTranslations } from "next-intl";
+import { InfoInformationIcon } from "@/icons/InfoInformationIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
@@ -23,7 +23,7 @@ export const SelectOfMultipleBets = ({
   const [payout, setPayout] = useState("");
   const [isEW, setIsEW] = useState(false);
 
-  const allowEachWay = useMemo(() => row.each_way, []);
+  const allowEachWay = useMemo(() => row.allow_each_way, [row.allow_each_way]);
 
   const generateBetslip = useGenerateBetslip();
 
@@ -83,16 +83,7 @@ export const SelectOfMultipleBets = ({
   };
 
   const handleEw = (type) => {
-    let tmp = { ...userSelectedBets };
-    tmp.stakes.forEach((element) => {
-      if (element.type === row.type) {
-        element.each_way = !isEW;
-      }
-    });
-
-    tmp.action = "check";
     setIsEW(!isEW);
-    generateBetslip(tmp);
     handlerSetMultipleStake(input, !isEW, type);
   };
 
@@ -129,7 +120,7 @@ export const SelectOfMultipleBets = ({
       >
         <div
           className={classNames("selectMultipleBets", {
-            eachWay: allowEachWay,
+            // eachWay: allowEachWay,
             bog: row.bog_applicable,
           })}
         >
@@ -163,7 +154,7 @@ export const SelectOfMultipleBets = ({
 
               <div className="betslip-odds">{returnAmountFormatted}</div>
               {allowEachWay && (
-                <div className="betslip-odds rounded-end-1">
+                <div className="betslip-odds rounded-end-1 left-border">
                   <span className="me-1">{t("ew")}</span>
                   <Checkbox onChange={() => handleEw(row.type)} value={isEW} />
                 </div>

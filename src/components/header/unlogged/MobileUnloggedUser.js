@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { SlipIcon } from "../../../utils/icons";
-import { useTranslations } from "next-intl";
+import { SlipIcon } from "@/icons/SlipIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import { setSidebarRight } from "@/store/actions";
 import { CustomLink } from "@/components/Link/Link";
 

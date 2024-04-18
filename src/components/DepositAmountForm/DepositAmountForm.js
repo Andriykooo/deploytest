@@ -1,7 +1,7 @@
 import PreferencesTitle from "../preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import "../DepositAmountForm/DepositAmountForm.css";

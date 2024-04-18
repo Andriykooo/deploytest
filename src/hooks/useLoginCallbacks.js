@@ -13,7 +13,7 @@ import {
   setSidebarLeft,
 } from "@/store/actions";
 import { useCallback } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import moment from "moment";
 import { useCustomRouter } from "./useCustomRouter";
 import { messagingGetToken } from "../../firebase";

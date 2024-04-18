@@ -5,20 +5,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { SuccesToast, alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import {
-  CasinoItemClose,
-  CasinoItemInfo,
-  LikeIcon,
-  TrendingNumberIcon,
-  UnableIcon,
-} from "../../utils/icons";
+import { CasinoItemClose } from "@/icons/CasinoItemClose";
+import { CasinoItemInfo } from "@/icons/CasinoItemInfo";
+import { LikeIcon } from "@/icons/LikeIcon";
+import { TrendingNumberIcon } from "@/icons/TrendingNumberIcon";
+import { UnableIcon } from "@/icons/UnableIcon";
 import { CasinoPlayNow } from "../modal/CasinoPlayNow";
 import { addToFavouriteGames, removeFromFavouriteGames } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { getLocalStorageItem } from "@/utils/localStorage";
+import { Skeleton } from "../Skeleton/Skeleton";
 
 const GAME_INFO_WIDTH = 268;
 const GAME_INFO_HEIGHT = 248;
+
+const GameImage = ({ game, playGame, setHasImage }) => {
+  const isMobile = useSelector((state) => state.setMobile);
+  const [imageLoad, setImageLoad] = useState(true);
+
+  return (
+    <>
+      {imageLoad && <Skeleton height="100%" width="100%" />}
+      <Image
+        className="casinoGame"
+        src={isMobile ? game?.mobile_image_url : game?.web_image_url}
+        alt={game?.title}
+        fill
+        onLoad={() => {
+          setImageLoad(false);
+        }}
+        onError={() => {
+          setHasImage(false);
+        }}
+        onClick={() => playGame(game)}
+      />
+    </>
+  );
+};
 
 export const Game = ({
   game,
@@ -138,15 +161,10 @@ export const Game = ({
             />
           )}
           {hasImage ? (
-            <Image
-              className="casinoGame"
-              src={isMobile ? game?.mobile_image_url : game?.web_image_url}
-              alt={game?.title}
-              fill
-              onError={() => {
-                setHasImage(false);
-              }}
-              onClick={() => playGame(game)}
+            <GameImage
+              game={game}
+              playGame={playGame}
+              setHasImage={setHasImage}
             />
           ) : (
             <div

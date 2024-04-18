@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./Spiner.css";
 import classNames from "classnames";
 

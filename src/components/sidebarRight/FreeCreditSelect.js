@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
-import { InfoIcon } from "@/utils/icons";
-import { useTranslations } from "next-intl";
+import { InfoIcon } from "@/icons/InfoIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const FreeCreditSelect = ({
   freeBet,

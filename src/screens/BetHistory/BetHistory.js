@@ -10,7 +10,7 @@ import BetHistorySection from "./BetHistorySection";
 import BetHistorySectionRow from "./BetHistorySectionRow";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import Spiner from "@/components/Spiner/Spiner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { alertToast } from "@/utils/alert";
@@ -141,6 +141,7 @@ const BetHistory = () => {
                         bogEnabled={item.bog_enabled}
                         bogAmount={item.bog_amount}
                         symbol={symbol}
+                        ewTerms={item.ew_terms}
                         odds={{
                           odds_decimal: item.odds_decimal,
                           odds_fractional: item.odds_fractional,

@@ -2,13 +2,14 @@
 
 import { Logo } from "@/components/logo/Logo";
 import { images } from "@/utils/imagesConstant";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { useEffect } from "react";
-import Image from "next/image";
-import "../NotFound/NotFound.css";
 import { useDispatch } from "react-redux";
 import { resetSession } from "@/store/actions";
+import { nextWindow } from "@/utils/nextWindow";
+import Image from "next/image";
+import "../NotFound/NotFound.css";
 
 export const Error = ({ reset }) => {
   const t = useTranslations();
@@ -24,7 +25,10 @@ export const Error = ({ reset }) => {
       <div className="header-of-error-component">
         <Logo />
       </div>
-      <div className="error-content flex-column">
+      <div
+        className="error-content flex-column"
+        style={{ height: nextWindow.innerHeight }}
+      >
         <div className="mb-3">
           <Image src={images.emptyState} height={40} width={40} alt="warning" />
         </div>
@@ -33,7 +37,7 @@ export const Error = ({ reset }) => {
           className="btnPrimary error-page-navigation-button mt-4"
           onClick={() => {
             reset();
-            router.push("/index");
+            router.push("/");
           }}
         >
           {t("not_found.go_to_homepage")}

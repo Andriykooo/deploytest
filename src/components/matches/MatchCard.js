@@ -7,15 +7,16 @@ import {
 import { SuccesToast, alertToast } from "../../utils/alert";
 import { MatchOdds } from "./MatchOdds";
 import moment from "moment";
-import { useTranslations } from "next-intl";
-import { useCustomRouter } from "@/hooks/useCustomRouter";
-import { NotificationOff, NotificationOn } from "@/utils/icons";
-import "./Matches.css";
+import { useTranslations } from "@/hooks/useTranslations";
+import { NotificationOn } from "@/icons/NotificationOn";
+import { NotificationOff } from "@/icons/NotificationOff";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl, phaseStatus } from "@/utils/constants";
 import { useEffect, useState } from "react";
 import { isMatchSuspended } from "@/utils/global";
 import classNames from "classnames";
+import { CustomLink } from "../Link/Link";
+import "./Matches.css";
 
 const SecondsIndicator = () => {
   const [show, setShow] = useState(false);
@@ -42,7 +43,6 @@ const MatchCard = ({
 }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
-  const router = useCustomRouter();
 
   const favoriteGames = useSelector((state) => state.favouriteGames);
   const isTablet = useSelector((state) => state.isTablet);
@@ -76,15 +76,10 @@ const MatchCard = ({
   const canHaveResult = matchData?.can_have_result;
 
   const handleClickRow = () => {
-    if (!isMatchSuspended(currentStatus)) {
-      router.push(
-        `/${sportSlug}/event/${matchData?.id || matchData?.event_id}`
-      );
-      if (inPlay) {
-        dispatch(setInPlay(true));
-      } else {
-        dispatch(setInPlay(false));
-      }
+    if (inPlay) {
+      dispatch(setInPlay(true));
+    } else {
+      dispatch(setInPlay(false));
     }
   };
 
@@ -263,8 +258,11 @@ const MatchCard = ({
             </div>
           </div>
         )}
-        <div
-          className="matchesContainer mobileMatchContainer"
+        <CustomLink
+          href={`/${sportSlug}/event/${matchData?.id || matchData?.event_id}`}
+          className={classNames("matchesContainer mobileMatchContainer", {
+            "pe-none": isMatchSuspended(currentStatus),
+          })}
           onClick={handleClickRow}
         >
           {isTablet ? (
@@ -310,7 +308,7 @@ const MatchCard = ({
               <div className="matchTeam">{matchData?.participants[1].name}</div>
             </>
           )}
-        </div>
+        </CustomLink>
         {/* {isTablet && (
           <div className="odds">
             {match?.selections?.length > 0 &&

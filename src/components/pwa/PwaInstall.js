@@ -37,7 +37,7 @@ const PwaInstall = () => {
       manual-apple="true"
       manual-chrome="true"
       id="pwa-install"
-      manifest-url="/manifest.json"
+      manifest-url="/manifest.webmanifest"
     />
   );
 };

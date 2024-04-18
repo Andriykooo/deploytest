@@ -8,7 +8,7 @@ import { emailNotifications, pushNotifications } from "../../utils/constants";
 import { ToggleLabel } from "../../components/ToggleLabel/ToggleLabel";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "../Withdraw/Withdraw.css";
 import "../Notifications/Notifications.css";
 

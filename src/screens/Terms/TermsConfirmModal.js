@@ -7,7 +7,7 @@ import { setTermsModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./Terms.css";
 import classNames from "classnames";
 

@@ -15,13 +15,11 @@ import {
 import { LoginEmail } from "./LoginEmail";
 import { LoginPassword } from "./LoginPassword";
 import { useLoginCallbacks } from "@/hooks/useLoginCallbacks";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import "../Login/Login.css";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import Script from "next/script";
 
 const Login = ({
   setShowConfirm,
@@ -171,50 +169,60 @@ const Login = ({
     }
   }, [params]);
 
+  // useEffect(() => {
+  //   window.fbAsyncInit = () => {
+  //     window.FB.init({
+  //       appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+  //       cookie: true,
+  //       xfbml: true,
+  //       version: "v18.0",
+  //     });
+  //   };
+  // }, []);
+
   return (
     <div className={className}>
-      <Script src="https://connect.facebook.net/en_US/sdk.js" />
+      {/* <Script src="https://connect.facebook.net/en_US/sdk.js" />
       <Script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" />
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-        {back && (
-          <Image
-            alt="back"
-            src={images.signInBack}
-            className="signInBack"
-            width={24}
-            height={24}
-            onClick={() => router.back()}
-          />
-        )}
-
-        {isVerified ? (
-          <LoginPassword
-            newUser={newUser}
-            password={password}
-            isValid={isPasswordValid}
-            checkPassword={checkPassword}
-            isLoading={isLoading}
-            validatePassword={validatePassword}
-            goBack={() => {
-              setIsVerified(false);
-              setPassword("");
-              setIsPasswordValid(false);
-            }}
-          />
-        ) : (
-          <LoginEmail
-            email={email}
-            isValid={isValid}
-            checkEmail={checkEmail}
-            isLoading={isLoading}
-            validateEmail={validateEmail}
-            setEmail={setEmail}
-            setIsLoading={setIsLoading}
-            setIsValid={setIsValid}
-            loginCallback={loginCallback}
-          />
-        )}
-      </GoogleOAuthProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}> */}
+      {back && (
+        <Image
+          alt="back"
+          src={images.signInBack}
+          className="signInBack"
+          width={24}
+          height={24}
+          onClick={() => router.back()}
+        />
+      )}
+      {isVerified ? (
+        <LoginPassword
+          newUser={newUser}
+          password={password}
+          isValid={isPasswordValid}
+          checkPassword={checkPassword}
+          isLoading={isLoading}
+          validatePassword={validatePassword}
+          goBack={() => {
+            setIsVerified(false);
+            setPassword("");
+            setIsPasswordValid(false);
+          }}
+        />
+      ) : (
+        <LoginEmail
+          email={email}
+          isValid={isValid}
+          checkEmail={checkEmail}
+          isLoading={isLoading}
+          validateEmail={validateEmail}
+          setEmail={setEmail}
+          setIsLoading={setIsLoading}
+          setIsValid={setIsValid}
+          loginCallback={loginCallback}
+        />
+      )}
+      {/* </GoogleOAuthProvider> */}
     </div>
   );
 };

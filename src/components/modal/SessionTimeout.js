@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { CasinoXIcon, Timeout } from "../../utils/icons";
+import { CasinoXIcon } from "@/icons/CasinoXIcon";
+import { Timeout } from "@/icons/Timeout";
 import { Button } from "@/components/button/Button";
 import { apiServices } from "@/utils/apiServices";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { apiUrl } from "@/utils/constants";
 import { setNotifyCasinoSession } from "@/store/actions";
 import { useDispatch } from "react-redux";

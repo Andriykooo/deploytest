@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 export const MarketTypes = ({ options }) => {
   const t = useTranslations("sports");
   return (

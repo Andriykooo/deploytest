@@ -1,7 +1,7 @@
-import { useState } from "react";
 import classNames from "classnames";
+import { useState } from "react";
+import { PasswordIcon } from "@/icons/PasswordIcon";
 import "./PasswordInput.css";
-import { PasswordIcon } from "@/utils/icons";
 
 export const PasswordInput = ({ value, onChange, placeholder, autoFocus }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +26,8 @@ export const PasswordInput = ({ value, onChange, placeholder, autoFocus }) => {
           }}
           className="showPasswordIcon"
           show={showPassword}
-        />)}
+        />
+      )}
     </div>
   );
 };

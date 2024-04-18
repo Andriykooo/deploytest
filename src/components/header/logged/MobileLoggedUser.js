@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ProfileIcon, SlipIcon } from "../../../utils/icons";
+import { ProfileIcon } from "@/icons/ProfileIcon";
+import { SlipIcon } from "@/icons/SlipIcon";
 import { Chat } from "@/components/chat/Chat";
 import { getLocalStorageItem } from "@/utils/localStorage";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { setSidebarRight } from "@/store/actions";
 import { CustomLink } from "@/components/Link/Link";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";

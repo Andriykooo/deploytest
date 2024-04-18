@@ -24,7 +24,7 @@ const getLanguage = () => {
   );
 };
 
-const clearStorage = () => {
+export const clearStorage = () => {
   if (!nextWindow.location.pathname.includes("/login")) {
     const language = getLanguage();
     nextWindow.location.href = `/${language}/login`;
@@ -176,8 +176,6 @@ const axiosService = {
 
   async onResponseError(err) {
     const originalRequest = err.config;
-
-    // console.log(err);
 
     if (
       err.response.status === 401 &&

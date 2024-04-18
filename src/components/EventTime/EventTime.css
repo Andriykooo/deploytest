@@ -1,9 +1,11 @@
 .eventTime {
   padding: 0 16px;
   position: relative;
+  line-height: 100%;
 }
 
 .eventTimePointer {
   position: absolute;
   left: 0;
+  bottom: 1px;
 }

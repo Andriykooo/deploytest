@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { getSelectionOdds } from "@/utils/getSelectionOdds";
 
-export const PriceHistory = ({ item, className }) => {
+const PriceHistory = ({ item, className }) => {
   const updatedSelections = useSelector((state) => state.selections);
   const user = useSelector((state) => state.loggedUser);
   const settings = useSelector((state) => state.settings);
@@ -97,3 +97,5 @@ export const PriceHistory = ({ item, className }) => {
     </div>
   );
 };
+
+export default PriceHistory;

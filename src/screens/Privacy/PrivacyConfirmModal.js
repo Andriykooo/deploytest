@@ -7,7 +7,7 @@ import { setPrivacytModal, setUser } from "@/store/actions";
 import { SuccesToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import "../Terms/Terms.css";
 

@@ -10,7 +10,7 @@ import { ArrowButton } from "../custom/ArrowButton";
 import { Search } from "../profileMenu/SearchSport";
 import { MenuBarEmpty } from "../menuBarSearch/menuBarEmpty";
 import { SidebarLeftSkeleton } from "./SidebarLeftSkeleton";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { getLocalStorageItem } from "@/utils/localStorage";
 import { ProfileCard } from "../ProfileCard/ProfileCard";

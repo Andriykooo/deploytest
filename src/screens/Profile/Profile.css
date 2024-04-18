@@ -97,11 +97,6 @@
   font-weight: 500;
 }
 
-.dashedDiv > img {
-  margin-block: 24px;
-  width: 100%;
-}
-
 .limitDivs {
   display: flex;
   gap: 16px;

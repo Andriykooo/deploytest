@@ -29,7 +29,7 @@ export async function generateMetadata() {
       images: [seo.image],
     },
     themeColor: "#2B2F34",
-    manifest: "/manifest.json",
+    manifest: "/manifest.webmanifest",
   };
 }
 

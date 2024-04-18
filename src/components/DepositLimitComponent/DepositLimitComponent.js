@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
 import { getUserApi, setSettingsApi } from "@/utils/apiQueries";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";

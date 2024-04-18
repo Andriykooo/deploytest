@@ -26,7 +26,9 @@ export const SidebarLayout = ({ children }) => {
       }}
     >
       <SidebarLeft alwaysDisplay={enableSidebar} />
-      <div className="content">{children}</div>
+      <div className="content" id="content">
+        {children}
+      </div>
       <SidebarRight alwaysDisplay={enableSidebar} />
     </div>
   );

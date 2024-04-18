@@ -1,5 +1,5 @@
 import { Odds } from "@/components/Odds/Odds";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import moment from "moment";
 
@@ -16,6 +16,7 @@ const BetHistorySectionRow = ({
   bogEnabled,
   bogAmount,
   symbol,
+  ewTerms,
 }) => {
   const t = useTranslations("");
   return (
@@ -45,7 +46,14 @@ const BetHistorySectionRow = ({
         </div>
         <p className="betHistoryRowResult">
           {eventResult ? `(${eventResult})` : ""} {market}
+          {ewTerms?.deduction && ewTerms?.places && market && (
+            <span className="ew">
+              {" | "} {t("common.ew")}: {ewTerms.deduction} {t("common.for")}{" "}
+              {ewTerms?.places} {t("common.places")}
+            </span>
+          )}
         </p>
+
         <div className="d-flex justify-content-between">
           <p className="betHistoryRowName">
             {eventStartTime &&

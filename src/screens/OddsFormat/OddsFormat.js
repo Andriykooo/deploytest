@@ -7,8 +7,8 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
 import { useState } from "react";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useTranslations } from "next-intl";
-import { ProfileValidatedIcon } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { ProfileValidatedIcon } from "@/icons/ProfileValidatedIcon";
 import "./OddsFormat.css";
 
 const OddsFormat = () => {

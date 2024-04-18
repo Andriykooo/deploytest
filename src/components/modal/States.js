@@ -3,7 +3,7 @@ import { setUser } from "../../store/actions";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useState } from "react";
 
 export const States = ({
@@ -40,7 +40,7 @@ export const States = ({
                   height={24}
                   width={24}
                   src={images.closeIcon}
-                  className="closeIconSus closeFullScreenModal"
+                  className="closeIconSus closeFullScreenModal closeIconModal"
                   alt="Close"
                   data-bs-dismiss="modal"
                   aria-label="Close"

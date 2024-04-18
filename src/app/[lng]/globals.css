@@ -536,6 +536,10 @@ body.opened::after {
   cursor: pointer;
   top: 2rem;
 }
+.closeIconModal {
+  position: static;
+  margin-top: 10px;
+}
 
 .depositModalLimit {
   font-style: normal;
@@ -630,6 +634,7 @@ a {
 }
 
 .header-of-error-component {
+  position: absolute;
   padding-top: 38px;
   padding-left: 38px;
 }
@@ -664,6 +669,11 @@ a {
   border-radius: 10px;
   border: none;
   align-items: center;
+}
+
+.modal-fullscreen .modal-content {
+  min-height: 100%;
+  height: auto;
 }
 
 .gaming-reminder-accept-button,
@@ -727,6 +737,17 @@ a {
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
+}
+
+.dashedDiv {
+  margin-block: 24px;
+  width: 100%;
+  border-bottom: 1px dashed white;
+  opacity: 0.3;
+}
+
+.dashedDiv.smaller {
+  margin-block: 12px;
 }
 
 @media screen and (max-width: 1400px) {

@@ -6,7 +6,7 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PasswordFields from "../../components/passwordFields/PasswordFields";
 import { SuccesToast } from "@/utils/alert";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "./ChangePassword.css";
 import "../Login/Login.css";

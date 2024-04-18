@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../button/Button";
 import { images } from "@/utils/imagesConstant";
 import { setAlertModal } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./AlertModal.css";
 import { useEffect, useState } from "react";
 

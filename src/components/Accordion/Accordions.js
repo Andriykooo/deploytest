@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import "./Accordion.css";
-import { ArrowIcon } from "@/utils/icons";
 
 export const Accordion = ({ children, title, className, active }) => {
   const contentRef = useRef(null);

@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ProfileIcon, SlipIcon } from "../../../utils/icons";
-import { useTranslations } from "next-intl";
+import { ProfileIcon } from "@/icons/ProfileIcon";
+import { SlipIcon } from "@/icons/SlipIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import { setSidebarRight } from "@/store/actions";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
+import { CustomLink } from "@/components/Link/Link";
 
 export const DesktopLoggedUser = () => {
   const t = useTranslations("header");
@@ -26,11 +28,9 @@ export const DesktopLoggedUser = () => {
       <div className="d-grid user-profile-grid">
         <div className="d-flex user-profile-flex">
           <div className="d-flex align-items-center">
-            <ProfileIcon
-              onClick={() => {
-                router.push("/settings/profile");
-              }}
-            />
+            <CustomLink href="/settings/profile">
+              <ProfileIcon />
+            </CustomLink>
             <div
               className="slip-icon"
               onClick={() => {

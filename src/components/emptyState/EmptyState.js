@@ -1,4 +1,4 @@
-import { EmptyStateIcon } from "@/utils/icons";
+import { EmptyStateIcon } from "@/icons/EmptyStateIcon";
 import "./EmptyState.css";
 
 export const EmptyState = ({ message }) => {

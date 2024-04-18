@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { betGroupLinks, eventAtSlider } from "../../utils/constants";
+import { eventAtSlider } from "../../utils/constants";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 import SkeletonComponent from "../SkeletonComponent/SkeletonComponent";
 import "../../screens/Home/Home.css";
@@ -10,6 +10,7 @@ import "../../screens/Home/Home.css";
 const HomeSkeletonComponent = () => {
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
+  const betGroupLinks = new Array(5).fill("");
 
   let counter = 0;
   const maxCounter = betGroupLinks.length - 1;

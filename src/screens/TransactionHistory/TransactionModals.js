@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const TransactionModals = ({ type }) => {
   const t = useTranslations();

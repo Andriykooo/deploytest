@@ -4,7 +4,7 @@ import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { RacingComponent } from "../racingComponent/RacingComponent";
 import { gamingSocket } from "@/context/socket";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { widgetDisplayRestriction } from "@/hoc/widgetDisplayRestriction";
 import classNames from "classnames";
 import { useSelector } from "react-redux";

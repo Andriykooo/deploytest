@@ -28,7 +28,6 @@ export const BannerMenu = ({
             src={image}
             alt="banner"
             fill
-            priority
             onError={(e) => (e.target.style.display = "none")}
           />
         )}

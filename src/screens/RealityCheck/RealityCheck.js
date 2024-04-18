@@ -9,7 +9,7 @@ import { Loader } from "@/components/loaders/Loader";
 import { setSettingsApi } from "@/utils/apiQueries";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import "../DepositLimit/DepositLimit.css";
 import "./RealityCheck.css";

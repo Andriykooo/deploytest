@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux";
 import Slider from "react-slick";
-import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { SampleNextArrow } from "@/icons/SampleNextArrow";
+import { SamplePrevArrow } from "@/icons/SamplePrevArrow";
 
 const sliderPadding = "0px 30px";
 

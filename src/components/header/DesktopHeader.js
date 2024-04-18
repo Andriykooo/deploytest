@@ -82,7 +82,7 @@ export const DesktopHeader = ({ data, onClick, handleNavigateHome }) => {
                           <LinkType
                             type={item.type}
                             openType={item.open_type}
-                            path={item.path}
+                            path={item.slug === "index" ? "/" : item.path}
                             modalData={{
                               slug: item.path.substring(1).replaceAll("-", "_"),
                               title: item.name,

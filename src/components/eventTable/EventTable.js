@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowDownIcon } from "../../utils/icons";
+import { ArrowDownIcon } from "@/icons/ArrowDownIcon";
 import { MatchOdds } from "../matches/MatchOdds";
 import "./EventTable.css";
 

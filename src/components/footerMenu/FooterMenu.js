@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { LinkType } from "../LinkType/LinkType";
 import { images } from "@/utils/imagesConstant";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import "./FooterMenu.css";
 

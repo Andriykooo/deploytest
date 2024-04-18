@@ -187,11 +187,13 @@
     "cash_out": "CASH OUT",
     "confirm_cash_out": "CONFIRM CASH OUT",
     "more": "MORE",
-    "showing_last_20_bets": "Showing last 20 bets",
+    "showing_last_7_days": "Showing last 7 days",
     "empty_bet_slip": "Your bet slip is empty!",
     "selections_description": "Make some selections and they will show up here",
     "bog": "BOG",
     "ew": "EW",
+    "for": "for",
+    "places": "Places",
     "reject": "REJECT",
     "total_stakes": "Total stakes",
     "total_returns": "Total returns",
@@ -297,7 +299,10 @@
     "reject_all": "Reject All",
     "accept_all": "Accept All",
     "we_use_cookie": "We Use Cookies!",
-    "cookie_message": "We use cookies to personalize content and ads, provide social media features, and analyze traffic. By clicking 'Accept All' you consent to our use of cookies. Click 'Preferences to manage preferences. Disabling some cookies may impact your experience."
+    "cookie_message": "We use cookies to personalize content and ads, provide social media features, and analyze traffic. By clicking 'Accept All' you consent to our use of cookies. Click 'Preferences to manage preferences. Disabling some cookies may impact your experience.",
+
+    "uk_ireland": "UK and Ireland",
+    "international": "International"
   },
 
   "contact_us": {

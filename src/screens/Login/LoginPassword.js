@@ -2,7 +2,7 @@ import { Button } from "../../components/button/Button";
 import { Loader } from "../../components/loaders/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { setForgotPassword } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { CustomLink } from "@/components/Link/Link";
 import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 import { PasswordInput } from "@/components/PasswordInput/PasswordInput";

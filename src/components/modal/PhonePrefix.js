@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../button/Button";
 import { Countries } from "./Countries";
-import { ArrowIcon } from "@/utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 
 export const PhonePrefix = ({ selectedCountry, setSelectedCountry }) => {
   const [showCountries, setShowCountries] = useState(false);

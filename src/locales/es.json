@@ -174,11 +174,13 @@
     "cash_out": "COBRAR",
     "confirm_cash_out": "CONFIRMAR COBRO",
     "more": "MÁS",
-    "showing_last_20_bets": "Mostrando las últimas 20 apuestas",
+    "showing_last_7_days": "Mostrando las últimas 7 días",
     "empty_bet_slip": "¡Tu boleto de apuestas está vacío!",
     "selections_description": "Realice algunas selecciones y aparecerán aquí",
     "bog": "BOG",
     "ew": "EW",
+    "for": "para",
+    "places": "El puesto",
     "reject": "RECHAZAR",
     "total_stakes": "Total de apuestas",
     "total_returns": "Total de ganancias",
@@ -279,7 +281,10 @@
     "forecast_bet_description": "Una apuesta en la que predices los dos primeros finalistas de una carrera en el orden correcto.",
     "tricast_bet_description": "Una apuesta en la que predices los tres primeros finalistas de una carrera en el orden exacto.",
     "reverse_forecast_description": "Una apuesta que implica seleccionar dos caballos, ganas si terminan primero y segundo en cualquier orden.",
-    "reverse_tricast_description": "Una apuesta que implica seleccionar tres caballos, ganas si terminan primero, segundo y tercero en cualquier orden."
+    "reverse_tricast_description": "Una apuesta que implica seleccionar tres caballos, ganas si terminan primero, segundo y tercero en cualquier orden.",
+
+    "uk_ireland": "UK e Ireland",
+    "international": "Internacional"
   },
   "contact_us": {
     "fill_in_all_fields": "Por favor, complete todos los campos",
@@ -535,6 +540,16 @@
     "validated_number_succesfully": "Ha validado el número exitosamente",
     "resend_code_succesfully": "Código reenviado exitosamente",
     "country_selection_prompt": "Seleccione el país del número móvil"
+  },
+  "billing": {
+    "billing_address": "Dirección de Envio",
+    "country": "País",
+    "address": "Dirección",
+    "enter_address": "Introduce tu dirección",
+    "city": "Ciudad",
+    "enter_city": "Introduce tu ciudad",
+    "zip_code": "Código postal",
+    "enter_zip_code": "Ingrese su codigo postal"
   },
   "sports": {
     "competitions": "Competencias",

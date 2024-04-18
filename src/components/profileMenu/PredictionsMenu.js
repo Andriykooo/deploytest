@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { ProfileCard } from "../ProfileCard/ProfileCard";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
-import { ArrowIcon } from "@/utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 
 const predictionPages = [
   {

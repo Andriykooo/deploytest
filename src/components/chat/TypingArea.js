@@ -1,6 +1,6 @@
 import "./Chat.css";
-import { useTranslations } from "next-intl";
-import { SendMessage } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { SendMessage } from "@/icons/SendMessage";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
@@ -41,7 +41,11 @@ const TypingArea = ({
       <button disabled={disabled} className="chat-send-btn" type="submit">
         <SendMessage
           color={
-            value.trim().length > 0 ? (isTablet ? "#CCD1D5" : "var(--global-color-trader_chat-shade_secondary)") : null
+            value.trim().length > 0
+              ? isTablet
+                ? "#CCD1D5"
+                : "var(--global-color-trader_chat-shade_secondary)"
+              : null
           }
         />
       </button>

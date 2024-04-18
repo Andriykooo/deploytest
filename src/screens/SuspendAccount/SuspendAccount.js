@@ -8,7 +8,7 @@ import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDro
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import { setSettingsApi } from "@/utils/apiQueries";
 import { useLogout } from "@/hooks/useLogout";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "../DepositLimit/DepositLimit.css";
 import "./SuspendAccount.css";
 import classNames from "classnames";

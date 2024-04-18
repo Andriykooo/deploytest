@@ -31,7 +31,7 @@ export function middleware(req) {
       req,
     });
 
-  if (pathname.split("/").length < 3) {
-    return NextResponse.redirect(new URL(`/${language}/index`, req.url));
+  if (pathname.split("/")[1].length === 0) {
+    return NextResponse.redirect(new URL(`/${language}`, req.url));
   }
 }

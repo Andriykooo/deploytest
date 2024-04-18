@@ -1,5 +1,5 @@
 import { eventStatus } from "@/utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./BetChip.css";
 
 export const BetChip = ({ variant }) => {

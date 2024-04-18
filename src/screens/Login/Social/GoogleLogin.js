@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { SocialButton } from "./SocialButton";
 import { apiUrl } from "@/utils/constants";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -6,7 +6,7 @@ import axios from "axios";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
 import { useState } from "react";
 import { alertToast } from "@/utils/alert";
-import { GoogleIcon } from "@/utils/icons";
+import { GoogleIcon } from "@/icons/GoogleIcon";
 
 export const GoogleLogin = ({ loginCallback }) => {
   const t = useTranslations();
@@ -57,7 +57,7 @@ export const GoogleLogin = ({ loginCallback }) => {
 
   return (
     <SocialButton
-      icon={<GoogleIcon className="loginIconFb"/>}
+      icon={<GoogleIcon className="loginIconFb" />}
       text={t("login.continue_with_google")}
       loading={isLoading}
       loginCallback={responseGoogle}

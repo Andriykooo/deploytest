@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { XIcon } from "../../utils/icons";
-import "../Terms/Terms.css";
-import { useTranslations } from "next-intl";
+import { XIcon } from "@/icons/XIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Logo } from "@/components/logo/Logo";
+import "../Terms/Terms.css";
 
 const TermsModal = ({ setPageModal }) => {
   const t = useTranslations();

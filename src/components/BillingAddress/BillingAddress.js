@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Button } from "@/components/button/Button";
-import { ArrowIcon } from "@/utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import { Countries } from "@/components/modal/Countries";
 import { PhonePrefix } from "@/components/modal/PhonePrefix";
 import { Loader } from "@/components/loaders/Loader";

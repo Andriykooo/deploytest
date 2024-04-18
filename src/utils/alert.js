@@ -1,7 +1,9 @@
 "use client";
 
 import { toast } from "react-toastify";
-import { CloseIcon, ToastError, ToastSuccess } from "./icons";
+import { CloseIcon } from "@/icons/CloseIcon";
+import { ToastError } from "@/icons/ToastError";
+import { ToastSuccess } from "@/icons/ToastSuccess";
 
 export const alertToast = ({
   message,
@@ -9,9 +11,7 @@ export const alertToast = ({
   onClose = () => {},
 }) => {
   toast.error(message, {
-    icon: () => (
-      <ToastError />
-    ),
+    icon: () => <ToastError />,
     position: "top-right",
     autoClose,
     onClose,
@@ -29,9 +29,7 @@ export const SuccesToast = ({
   onClose = () => {},
 }) => {
   toast.success(message, {
-    icon: () => (
-      <ToastSuccess />
-    ),
+    icon: () => <ToastSuccess />,
     position: "top-right",
     onClose,
     autoClose,

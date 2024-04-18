@@ -8,7 +8,7 @@ import { PhonePrefix } from "../../components/modal/PhonePrefix";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { setLoggedUser } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "./SignUp.css";
 import "../../screens/Login/Login.css";

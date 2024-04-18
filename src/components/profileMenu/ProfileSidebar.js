@@ -1,20 +1,18 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { ProfileCard } from "../ProfileCard/ProfileCard";
-import {
-  BetHistoryIcon,
-  BonusesAndPromotionsIcon,
-  ChangePasswordIcon,
-  DepositIcon,
-  LogOutIcon,
-  NetDepositIcon,
-  NotificationsIcon,
-  OddsFormatIcon,
-  ProfileArrowIcon,
-  ProfileMenuIcon,
-  SaferGamblingIcon,
-  TransactionIcon,
-  WithdrawIcon,
-} from "@/utils/icons";
+import { BetHistoryIcon } from "@/icons/BetHistoryIcon";
+import { BonusesAndPromotionsIcon } from "@/icons/BonusesAndPromotionsIcon";
+import { ChangePasswordIcon } from "@/icons/ChangePasswordIcon";
+import { DepositIcon } from "@/icons/DepositIcon";
+import { LogOutIcon } from "@/icons/LogOutIcon";
+import { NetDepositIcon } from "@/icons/NetDepositIcon";
+import { NotificationsIcon } from "@/icons/NotificationsIcon";
+import { OddsFormatIcon } from "@/icons/OddsFormatIcon";
+import { ProfileArrowIcon } from "@/icons/ProfileArrowIcon";
+import { ProfileMenuIcon } from "@/icons/ProfileMenuIcon";
+import { SaferGamblingIcon } from "@/icons/SaferGamblingIcon";
+import { TransactionIcon } from "@/icons/TransactionIcon";
+import { WithdrawIcon } from "@/icons/WithdrawIcon";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { useEffect, useState } from "react";
 import { apiServices } from "@/utils/apiServices";
@@ -23,14 +21,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBonusesAndPromotions } from "@/store/actions";
 import { Button } from "../button/Button";
 import { useLogout } from "@/hooks/useLogout";
-
 import "../../screens/Profile/Profile.css";
+import { useRouter } from "next/navigation";
 
 export const ProfileSidebar = ({ sideBarMenu, profileMenu }) => {
   const t = useTranslations("common");
   const { pathname } = useClientPathname();
   const dispatch = useDispatch();
   const logout = useLogout();
+  const router = useRouter();
 
   const bonusesAndPromotions = useSelector(
     (state) => state.bonusesAndPromotions
@@ -132,6 +131,7 @@ export const ProfileSidebar = ({ sideBarMenu, profileMenu }) => {
 
   const onLogOut = () => {
     logout();
+    router.push("/");
   };
 
   return (

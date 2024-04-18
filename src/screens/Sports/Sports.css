@@ -116,7 +116,7 @@
   font-weight: 400;
   color: var(--global-color-table-text-secondary);
   padding-right: 1rem;
-  text-align: flex-start;
+  text-align: start;
   width: 100%;
 }
 
@@ -274,6 +274,27 @@
   padding: 0;
 }
 
+.market-filter-container {
+  padding: 10px 12px;
+}
+
+.region-select-filter {
+  border-radius: 4px;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.region-select-filter .dropdown-toggler,
+.region-select-filter .dropdown-list .dropdown-button {
+  white-space: nowrap;
+}
+
+.region-select-filter .dropdown-list {
+  right: auto;
+  left: -10px;
+  top: calc(100% + 5px);
+}
+
 @media screen and (max-width: 1024px) {
   .sport-name {
     margin-top: 4px;
@@ -304,6 +325,9 @@
 
   .sportNavigation-header .sport-competitions-head.mobile {
     padding-block: 10px;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 12px;
   }
 
   .dashedLine {
@@ -352,9 +376,10 @@
     margin-left: 12px;
   }
 
-  .navigationBack span {
-    font-size: 12px;
-    font-weight: 500;
+  .navigationBack span,
+  .race-date {
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .competitions-select_item {

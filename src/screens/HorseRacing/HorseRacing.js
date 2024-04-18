@@ -1,26 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { SelectButtons } from "@/components/selectButtons/SelectsButtons";
 import { Dropdown } from "@/components/dropdown/Dropdown";
 import { RacingComponent } from "@/components/racingComponent/RacingComponent";
 import { EmptyState } from "@/components/emptyState/EmptyState";
 import { EventTime } from "@/components/EventTime/EventTime";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { CustomLink } from "@/components/Link/Link";
 import { EventsFilter } from "@/components/EventsFilter/EventsFilter";
 import { SportHeader } from "@/components/SportHeader/SportHeader";
 import { useParams } from "next/navigation";
 import { MobileSelect } from "@/components/mobileSelect/MobileSelect";
-import { Accordion } from "@/components/Accordion/Accordions";
+// import { Accordion } from "@/components/Accordion/Accordions";
 // import { ArrowIcon } from "@/utils/icons";
-import "./HorseRacing.css";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
+import { racingRegionFilters } from "@/utils/constants";
+import { setSportFilters } from "@/store/actions";
+
+import "./HorseRacing.css";
+
+const regionFilters = Object.keys(racingRegionFilters).map(
+  (key) => racingRegionFilters[key]
+);
 
 export const HorseRacing = () => {
   const t = useTranslations("common");
   const params = useParams();
+  const dispatch = useDispatch();
 
   const horseracingMeetingOptions = [
     {
@@ -35,6 +43,12 @@ export const HorseRacing = () => {
     },
   ];
 
+  const regionsDataFilters = regionFilters.map((region) => ({
+    label: t(region),
+    value: region,
+    id: region,
+  }));
+
   const horseracingFilterOptions = [
     {
       label: t("next_races"),
@@ -42,6 +56,9 @@ export const HorseRacing = () => {
       value: "next",
     },
   ];
+
+  const sportFilters = useSelector((state) => state.sportFilters);
+
   const [isOpenSelect, setIsOpenSelect] = useState(false);
   const [selectedDay, setSelectedDay] = useState(horseracingMeetingOptions[0]);
   const [selectedMeet, setSelectedMeet] = useState(
@@ -50,6 +67,10 @@ export const HorseRacing = () => {
   const [selectedMarket, setSelectedMarket] = useState(
     horseracingFilterOptions[0]
   );
+  const { selectedRegionFilter } = sportFilters?.[params?.slug] || {
+    selectedRegionFilter: null,
+  };
+
   const [resetSlider, setResetSlider] = useState(false);
 
   const isTablet = useSelector((state) => state.isTablet);
@@ -68,7 +89,7 @@ export const HorseRacing = () => {
     );
   });
 
-  const getRegions = () => {
+  const getRegions = useCallback(() => {
     const data = [];
 
     if (sportContent?.regions) {
@@ -100,9 +121,17 @@ export const HorseRacing = () => {
           }
         }
 
+        const regionSelected = [
+          racingRegionFilters.ALL,
+          ...(region.name == "UK & Ireland"
+            ? [racingRegionFilters?.UK_IRELAND]
+            : [racingRegionFilters?.INTERNATIONAL]),
+        ]?.includes(selectedRegionFilter?.id);
+
         if (
-          filteredRegion.availabilities.length > 0 ||
-          filteredRegion.meetings.length > 0
+          (filteredRegion.availabilities.length > 0 ||
+            filteredRegion.meetings.length > 0) &&
+          regionSelected
         ) {
           data.push(filteredRegion);
         }
@@ -110,9 +139,18 @@ export const HorseRacing = () => {
     }
 
     return data;
-  };
+  }, [regionsDay, selectedRegionFilter, sportContent]);
 
   const regionsData = getRegions();
+
+  const changeSportFilters = (newValues) => {
+    const prevData = sportFilters?.[params?.slug];
+    dispatch(setSportFilters({ [params.slug]: { ...prevData, ...newValues } }));
+  };
+
+  useEffect(() => {
+    if (!sportFilters?.[params?.slug]) onRegionFilter(regionsDataFilters[0]);
+  }, [params?.slug]);
 
   const marketOptions = sportContent?.market_options?.filter(
     (market) =>
@@ -148,6 +186,10 @@ export const HorseRacing = () => {
       });
     };
   }, []);
+
+  const onRegionFilter = (item) => {
+    changeSportFilters({ selectedRegionFilter: item });
+  };
 
   return (
     <>
@@ -226,99 +268,138 @@ export const HorseRacing = () => {
               <EmptyState message={t("no_more_races_for_the_day")} />
             </div>
           )}
-          <div className="secondButtons">
-            <SelectButtons
-              data={horseracingMeetingOptions}
-              onSelect={setSelectedMeet}
-              fullWidth={isTablet}
-            />
-          </div>
 
-          {regionsData?.length > 0 ? (
-            regionsData.map((region) => {
-              return (
-                <Accordion
-                  active
-                  title={region.name}
-                  className={classNames("accordion-wrapper", {
-                    "mx-3": !isTablet,
-                  })}
-                  key={region.name}
-                >
-                  <div className="matchCardRowContainer">
-                    {region.meetings.map((meeting, index) => {
-                      const isFullList = meeting.events.length > 8;
-                      return (
-                        <div
-                          key={index}
-                          className="matchCardRow2 matchCardRowWidth"
-                        >
-                          <CustomLink
-                            className="matchTeam matchTeam2"
-                            href={`/racecard/${
-                              params.slug
-                            }/${meeting.name?.toLowerCase()}?id=${
-                              meeting.events[0].event_id
-                            }&filter=${selectedMeet.value.toLowerCase()}`}
-                          >
-                            {meeting.name}
-                            {/* <ArrowIcon color="var(--global-color-table-text-odds-secondary" /> */}
-                          </CustomLink>
+          <div className="region-data-contianer">
+            <SportHeader
+              headerContent={
+                <>
+                  {isTablet ? (
+                    <>
+                      <MobileSelect
+                        data={[
+                          ...regionsDataFilters.map(({ label, value, id }) => ({
+                            label,
+                            value,
+                            id,
+                          })),
+                        ]}
+                        setIsOpenSelect={setIsOpenSelect}
+                        selectedItem={selectedRegionFilter}
+                        placeholder={selectedRegionFilter?.label}
+                        onSelect={onRegionFilter}
+                      />
+                      <SelectButtons
+                        data={horseracingMeetingOptions}
+                        onSelect={setSelectedMeet}
+                        fullWidth
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <EventsFilter
+                        options={[
+                          ...regionsDataFilters.map(({ label, value, id }) => ({
+                            label,
+                            value,
+                            id,
+                          })),
+                        ]}
+                        selectedId={selectedRegionFilter?.id}
+                        onSelect={onRegionFilter}
+                        noSpace
+                      />
+
+                      <Dropdown
+                        data={horseracingMeetingOptions}
+                        onSelect={setSelectedMeet}
+                      />
+                    </>
+                  )}
+                </>
+              }
+            >
+              {regionsData?.length > 0 ? (
+                regionsData.map((region, i) => {
+                  return (
+                    <div className="matchCardRowContainer" key={i}>
+                      {region.meetings.map((meeting, index) => {
+                        const isFullList = meeting.events.length > 8;
+                        return (
                           <div
-                            className="meeting-events"
-                            style={{
-                              gridTemplateColumns: `repeat(${
-                                isTablet && 4
-                              }, 1fr)`,
-                            }}
+                            key={i + "-" + index}
+                            className="matchCardRow2 matchCardRowWidth"
                           >
-                            {meeting.events && meeting.events.length > 0 ? (
-                              (isFullList
-                                ? meeting.events
-                                : [...meeting.events].concat(
-                                    new Array(8 - meeting.events.length).fill(
-                                      ""
+                            <CustomLink
+                              className="matchTeam matchTeam2"
+                              href={`/racecard/${
+                                params.slug
+                              }/${meeting.name?.toLowerCase()}?id=${
+                                meeting.events[0].event_id
+                              }&filter=${selectedMeet.value.toLowerCase()}$regionFilter=${
+                                selectedRegionFilter?.id
+                              }`}
+                            >
+                              {meeting.name}
+                              {/* <ArrowIcon color="var(--global-color-table-text-odds-secondary" /> */}
+                            </CustomLink>
+                            <div
+                              className="meeting-events"
+                              style={{
+                                gridTemplateColumns: `repeat(${
+                                  isTablet && 4
+                                }, 1fr)`,
+                              }}
+                            >
+                              {meeting.events && meeting.events.length > 0 ? (
+                                (isFullList
+                                  ? meeting.events
+                                  : [...meeting.events].concat(
+                                      new Array(8 - meeting.events.length).fill(
+                                        ""
+                                      )
                                     )
-                                  )
-                              ).map((currentEvent, index) => {
-                                return (
-                                  <CustomLink
-                                    key={index}
-                                    className={classNames("countriesItem", {
-                                      "pe-none": !currentEvent?.event_id,
-                                    })}
-                                    href={
-                                      currentEvent?.event_id
-                                        ? `/racecard/${
-                                            params.slug
-                                          }/${meeting.name?.toLowerCase()}?id=${
-                                            currentEvent.event_id
-                                          }&filter=${selectedMeet.value.toLowerCase()}`
-                                        : ""
-                                    }
-                                  >
-                                    <EventTime data={currentEvent} />
-                                  </CustomLink>
-                                );
-                              })
-                            ) : (
-                              <div className="countriesItem">
-                                {t("no_time_available")}
-                              </div>
-                            )}
+                                ).map((currentEvent, index) => {
+                                  return (
+                                    <CustomLink
+                                      key={index}
+                                      className={classNames("countriesItem", {
+                                        "pe-none": !currentEvent?.event_id,
+                                      })}
+                                      href={
+                                        currentEvent?.event_id
+                                          ? `/racecard/${
+                                              params.slug
+                                            }/${meeting.name?.toLowerCase()}?id=${
+                                              currentEvent.event_id
+                                            }&filter=${selectedMeet.value.toLowerCase()}&regionFilter=${
+                                              selectedRegionFilter?.id
+                                            }`
+                                          : ""
+                                      }
+                                    >
+                                      <EventTime data={currentEvent} />
+                                    </CustomLink>
+                                  );
+                                })
+                              ) : (
+                                <div className="countriesItem">
+                                  {t("no_time_available")}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </Accordion>
-              );
-            })
-          ) : (
-            <div className="horse-racing-empty-state mx-3 my-3">
-              <EmptyState message={t("no_more_races_for_the_day")} />
-            </div>
-          )}
+                        );
+                      })}
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="horse-racing-empty-state">
+                  <EmptyState message={t("no_more_races_for_the_day")} />
+                </div>
+              )}
+            </SportHeader>
+          </div>
         </>
       )}
     </>

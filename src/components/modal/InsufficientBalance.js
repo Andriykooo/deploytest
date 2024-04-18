@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
-import { WarningIcon } from "../../utils/icons";
+import { WarningIcon } from "@/icons/WarningIcon";
 import { Button } from "@/components/button/Button";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 const InsufficentBalance = ({ modalClose }) => {

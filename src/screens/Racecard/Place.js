@@ -2,7 +2,7 @@
 
 import { useSelector } from "react-redux";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export const Place = ({ item, place, onClick, disable, eventId }) => {
   const t = useTranslations();

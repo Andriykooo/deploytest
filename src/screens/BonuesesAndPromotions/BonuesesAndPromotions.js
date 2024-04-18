@@ -5,7 +5,7 @@ import { Button } from "../../components/button/Button";
 import { apiUrl, bonusesChipDates } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./BonuesesAndPromotions.css";
 import { apiServices } from "@/utils/apiServices";
 import moment from "moment/moment";
@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/emptyState/EmptyState";
 import { setBonusesAndPromotions } from "@/store/actions";
 import classNames from "classnames";
 import Image from "next/image";
-import { FreeBetCreditsIcon } from "@/utils/icons";
+import { FreeBetCreditsIcon } from "@/icons/FreeBetCreditsIcon";
 
 function BonuesesAndPromotions() {
   const t = useTranslations();

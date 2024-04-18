@@ -540,6 +540,10 @@
   font-size: 10px;
 }
 
+.left-border {
+  border-left: 0.5px solid #fff;
+}
+
 .dynamic-betslip {
   position: absolute;
   width: 100%;

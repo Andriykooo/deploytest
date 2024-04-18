@@ -1,11 +1,11 @@
-import { CloseIcon } from "@/utils/icons";
-import "./HeaderNotification.css";
+import { CloseIcon } from "@/icons/CloseIcon";
 import { useDispatch, useSelector } from "react-redux";
-import classNames from "classnames";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { setHeaderNotification } from "@/store/actions";
 import { DynamicSelections } from "@/components/dynamicSelections/DynamicSelections";
 import { LinkType } from "@/components/LinkType/LinkType";
+import classNames from "classnames";
+import "./HeaderNotification.css";
 
 const HeaderNotification = ({ data, active }) => {
   const dispatch = useDispatch();
@@ -43,12 +43,8 @@ const HeaderNotification = ({ data, active }) => {
   return (
     <div className={classNames("header-notification", { active: active })}>
       <div className="notification-left-wrapper">
-      <p
-        className="notification-text"
-      >
-        {data.title}
-      </p>
-      {data?.promo_type === "dynamic" && data?.button?.name && (
+        <p className="notification-text">{data.title}</p>
+        {data?.promo_type === "dynamic" && data?.button?.name && (
           <DynamicSelections
             selections={data?.button?.selections}
             eventId={data?.button?.event_id}
@@ -70,9 +66,9 @@ const HeaderNotification = ({ data, active }) => {
           </LinkType>
         )}
       </div>
-        <div className="close-header-notification">
-          <CloseIcon width={16} height={16} onClick={changeNotifications} />
-        </div>
+      <div className="close-header-notification">
+        <CloseIcon width={16} height={16} onClick={changeNotifications} />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { CloseMenu } from "@/utils/icons";
+import { CloseMenu } from "@/icons/CloseMenu";
 import { Logo } from "../logo/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "@/store/actions";

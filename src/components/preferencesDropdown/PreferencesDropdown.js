@@ -1,13 +1,14 @@
+import classNames from "classnames";
 import React, { useRef } from "react";
+import { useSelector } from "react-redux";
 import { Button } from "@/components/button/Button";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useSelector } from "react-redux";
 import { PreferencesModalMobile } from "../modal/PreferencesModalMobile";
-import classNames from "classnames";
 import { Skeleton } from "../Skeleton/Skeleton";
+import { PreferencesDropdownItemIcon } from "@/icons/PreferencesDropdownItemIcon";
+import { ProfileArrowIcon } from "@/icons/ProfileArrowIcon";
 import "./PreferencesDropdown.css";
 import "../../screens/Deposit/Deposit.css";
-import { PreferencesDropdownItemIcon, ProfileArrowIcon } from "@/utils/icons";
 
 const PreferencesDropdown = ({
   handleToggle,

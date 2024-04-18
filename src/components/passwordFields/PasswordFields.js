@@ -5,7 +5,7 @@ import { alertToast } from "../../utils/alert";
 import { validateUserPassword } from "../../utils/validation";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { PasswordInput } from "../PasswordInput/PasswordInput";
 import "./PasswordFields.css";
 import classNames from "classnames";

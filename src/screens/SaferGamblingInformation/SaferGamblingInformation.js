@@ -5,7 +5,7 @@ import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "../SaferGambling/SaferGambling.css";
 
 const SaferGamblingInformation = () => {

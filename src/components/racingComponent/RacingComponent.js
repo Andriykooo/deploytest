@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import { RacingItem } from "../racingWidget/RacingItem";
 import Slider from "react-slick";
-import { SampleNextArrow, SamplePrevArrow } from "@/utils/icons";
+import { SampleNextArrow } from "@/icons/SampleNextArrow";
+import { SamplePrevArrow } from "@/icons/SamplePrevArrow";
 import { EmptyState } from "../emptyState/EmptyState";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useRef, useEffect } from "react";
 import { Carousel } from "../carousel/Carousel";
 import classNames from "classnames";
@@ -70,7 +71,9 @@ export const RacingComponent = ({
           ]}
         >
           {events?.map((event) => {
-            return <RacingItem event={event} slug={slug} key={event.event_id} />;
+            return (
+              <RacingItem event={event} slug={slug} key={event.event_id} />
+            );
           })}
         </Slider>
       ) : (

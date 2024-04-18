@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import classNames from "classnames";
-import { AddCashFreeBetLogo, ArrowIcon } from "@/utils/icons";
+import { AddCashFreeBetLogo } from "@/icons/AddCashFreeBetLogo";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import { BetslipDropdown } from "@/components/sidebarRight/BetslipDropdown/BetslipDropdown";
 import { eventStatus } from "@/utils/constants";
 import { BetChip } from "@/components/sidebarRight/BetChip/BetChip";

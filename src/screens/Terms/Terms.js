@@ -3,14 +3,14 @@
 import { GoBackButton } from "@/components/goBackButton/GoBackButton";
 import { alertToast } from "@/utils/alert";
 import parse from "html-react-parser";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { CloseIcon } from "@/utils/icons";
+import { CloseIcon } from "@/icons/CloseIcon";
 import "./Terms.css";
 
 const Terms = () => {

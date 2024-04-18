@@ -5,8 +5,8 @@ import { Game } from "@/components/Game/Game";
 import { useDispatch, useSelector } from "react-redux";
 import { GameInfoModal } from "../Game/GameInfoModal";
 import { GameInfoMoadlMobile } from "../Game/GameInfoMoadlMobile";
-import { useTranslations } from "next-intl";
-import { NoAvailableGamesIcon } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { NoAvailableGamesIcon } from "@/icons/NoAvailableGamesIcon";
 import { setCasinoCategory } from "@/store/actions";
 import { useClientPathname } from "@/hooks/useClientPathname";
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { CustomLink } from "@/components/Link/Link";
 import { useDispatch, useSelector } from "react-redux";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
@@ -10,7 +10,7 @@ import { apiServices } from "@/utils/apiServices";
 import { setUserSettings } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";
 import { images } from "@/utils/imagesConstant";
-import { ProfileArrowIcon } from "@/utils/icons";
+import { ProfileArrowIcon } from "@/icons/ProfileArrowIcon";
 import "./SaferGambling.css";
 
 export const SaferGambling = () => {

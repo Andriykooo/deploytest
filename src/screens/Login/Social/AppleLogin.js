@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { SocialButton } from "./SocialButton";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { AppleIcon } from "@/utils/icons";
+import { AppleIcon } from "@/icons/AppleIcon";
 
 export const AppleLogin = ({ loginCallback }) => {
   const t = useTranslations();
@@ -50,7 +50,7 @@ export const AppleLogin = ({ loginCallback }) => {
 
   return (
     <SocialButton
-      icon={<AppleIcon className="loginIconFb"/>}
+      icon={<AppleIcon className="loginIconFb" />}
       text={t("login.continue_with_apple")}
       loading={isLoading}
       loginCallback={responseApple}

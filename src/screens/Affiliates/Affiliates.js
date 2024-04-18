@@ -12,10 +12,7 @@ import { setPromo, setSignUpPlatform, setUser } from "@/store/actions";
 import { alertToast } from "@/utils/alert";
 import { v4 as uuidv4 } from "uuid";
 import { Loader, PageLoader } from "@/components/loaders/Loader";
-import { useTranslations } from "next-intl";
-import { AppleLogin } from "../Login/Social/AppleLogin";
-import { GoogleLogin } from "../Login/Social/GoogleLogin";
-import { FacebookLogin } from "../Login/Social/FacebookLogin";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { Footer } from "@/components/footer/Footer";
 import "../Affiliates/Affiliates.css";
@@ -169,15 +166,15 @@ const Affiliates = ({ promo }) => {
             >
               {isLoading ? <Loader /> : t("common.continue")}
             </button>
-            <p className="oneClick d-flex justify-content-center">
+            {/* <p className="oneClick d-flex justify-content-center">
               {t("affiliates.sign_in_one_click")}
-            </p>
+            </p> */}
           </div>
-          <div className="whiteButtonsGroup d-grid affiliatesButtons">
+          {/* <div className="whiteButtonsGroup d-grid affiliatesButtons">
             <AppleLogin />
             <FacebookLogin />
             <GoogleLogin />
-          </div>
+          </div> */}
         </form>
         <div className="offerWorks">
           <h2 className="offerWorksTitle">{data?.offer_header}</h2>

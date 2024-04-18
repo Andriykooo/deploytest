@@ -1,8 +1,10 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { GoBackArrowFull } from "@/icons/GoBackArrowFull";
+import { ArrowIcon } from "@/icons/ArrowIcon";
+
 import "./GoBackButton.css";
-import { ArrowIcon, GoBackArrowFull } from "@/utils/icons";
 
 export const GoBackButton = ({
   link,
@@ -10,7 +12,7 @@ export const GoBackButton = ({
   fullIcon = false,
   className,
   arrowColor,
-  withoutText ,
+  withoutText,
 }) => {
   const t = useTranslations("common");
   const router = useCustomRouter();

@@ -1,5 +1,5 @@
 import { formatOdd } from "@/utils/global";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useSelector } from "react-redux";
 
 export const Odds = ({ selection, sp, currentStatus, providerSuspended }) => {

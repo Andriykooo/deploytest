@@ -1,7 +1,18 @@
 "use client";
 
+import HeaderNotification from "./headerNotification/HeaderNotification";
+import FooterMenu from "../footerMenu/FooterMenu";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DesktopHeader } from "./DesktopHeader";
+import { CloseIcon } from "@/icons/CloseIcon";
+import { apiServices } from "@/utils/apiServices";
+import { apiUrl } from "@/utils/constants";
+import { useTranslations } from "@/hooks/useTranslations";
+import { useClientPathname } from "@/hooks/useClientPathname";
+import { CustomLink } from "../Link/Link";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { getLocalStorageItem } from "@/utils/localStorage";
 import {
   setActivePage,
   setHeaderBoundingClientRect,
@@ -10,18 +21,7 @@ import {
   setIsVerifyMessage,
   setLastVisitedPage,
 } from "../../store/actions";
-import FooterMenu from "../footerMenu/FooterMenu";
-import { DesktopHeader } from "./DesktopHeader";
-import { CloseIcon } from "@/utils/icons";
-import { apiServices } from "@/utils/apiServices";
-import { apiUrl } from "@/utils/constants";
-import { useTranslations } from "next-intl";
-import { useClientPathname } from "@/hooks/useClientPathname";
-import { CustomLink } from "../Link/Link";
-import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "./Header.css";
-import HeaderNotification from "./headerNotification/HeaderNotification";
-import { getLocalStorageItem } from "@/utils/localStorage";
 
 function Header() {
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ function Header() {
   const headerData = useSelector((state) => state.headerData);
   const isVerifyMessage = useSelector((state) => state.isVerifyMessage);
   const headerNotification = useSelector((state) => state.headerNotification);
+  const home = headerData?.find((item) => item.slug === "index");
 
   const handleClick = (item) => {
     if (item.type === "casino") {
@@ -46,8 +47,6 @@ function Header() {
 
   const handleNavigateHome = () => {
     router.replace("/");
-
-    const home = headerData?.find((item) => item.slug === "index");
 
     if (home) {
       dispatch(setActivePage(home));
@@ -62,10 +61,12 @@ function Header() {
 
   useEffect(() => {
     if (headerData) {
-      // Initially, check if the window pathname and the active page path are not the same. If they are different
-      // find and replace with the correct one
+      dispatch(setLastVisitedPage(pathname));
+
       if (activePage?.path !== pathname) {
-        const page = headerData?.find((item) => item.path === pathname);
+        const page = headerData?.find(
+          (item) => (item.slug === "index" ? "/" : item.path) === pathname
+        );
 
         if (page) {
           dispatch(setActivePage(page));
@@ -84,8 +85,6 @@ function Header() {
         );
       });
     }
-
-    dispatch(setLastVisitedPage(pathname));
   }, [headerData, pathname]);
 
   useEffect(() => {

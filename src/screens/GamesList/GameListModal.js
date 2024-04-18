@@ -1,14 +1,12 @@
-import { CasinoXIcon } from "@/utils/icons";
-import "./GameListModal.css";
-import { useSelector } from "react-redux";
 import Image from "next/image";
-import { images } from "@/utils/imagesConstant";
-import { useTranslations } from "next-intl";
+import { useSelector } from "react-redux";
+import { useTranslations } from "@/hooks/useTranslations";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { Button } from "@/components/button/Button";
+import { CasinoXIcon } from "@/icons/CasinoXIcon";
+import "./GameListModal.css";
 
 export const GameListModal = ({ onClose, game, playGame }) => {
-  
   const t = useTranslations();
   const isMobile = useSelector((state) => state.setMobile);
   const settings = useSelector((state) => state.settings);
@@ -42,15 +40,20 @@ export const GameListModal = ({ onClose, game, playGame }) => {
             </div>
             <div className="modal-body gameList-modal-body">
               <div className="img-description-container">
-              <div className="modal-game-image">
-                <Image objectFit="contain" fill alt={game?.title} src={isMobile? game.mobile_image_url : game.web_image_url} />
-              </div>
-              <div className="game-description">{game.details?.description}</div>
+                <div className="modal-game-image">
+                  <Image
+                    objectFit="contain"
+                    fill
+                    alt={game?.title}
+                    src={isMobile ? game.mobile_image_url : game.web_image_url}
+                  />
+                </div>
+                <div className="game-description">
+                  {game.details?.description}
+                </div>
               </div>
               <div className="game-content-bottom">
-                <div className="dashedLine">
-                  <Image src={images.dashedLine} alt="horse-racing" fill />
-                </div>
+                <div className="dashedDiv" />
                 <div className="modalList-details">
                   {!!min_bet && (
                     <div className="infoItem-modal">

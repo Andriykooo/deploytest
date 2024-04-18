@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Odds } from "@/components/Odds/Odds";
 import { Button } from "@/components/button/Button";
 import { Loader } from "@/components/loaders/Loader";
@@ -11,9 +11,13 @@ import classNames from "classnames";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedUser, setMyBets } from "@/store/actions";
-import { AddCashFreeBetLogo, ArrowIcon } from "@/utils/icons";
+import { AddCashFreeBetLogo } from "@/icons/AddCashFreeBetLogo";
+import { InfoInformationIcon } from "@/icons/InfoInformationIcon";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import { BetslipDropdown } from "../BetslipDropdown/BetslipDropdown";
 import { BetChip } from "../BetChip/BetChip";
+import { nextWindow } from "@/utils/nextWindow";
+
 import moment from "moment";
 
 import "./MyBet.css";
@@ -63,11 +67,18 @@ const Bet = ({ data, singleBet, bet_date, symbol }) => {
         {data.market_name && (
           <div className="my-bet-market-name">
             {data?.event_result && (
-              <span className="my-bet-result">{data.event_result}</span>
+              <span className="my-bet-result">({data.event_result})</span>
             )}{" "}
             {data.market_name}
+            {data?.ew_terms?.deduction && data?.ew_terms?.places && (
+              <span className="ew">
+                {" | "} {t("common.ew")}: {data?.ew_terms?.deduction}{" "}
+                {t("common.for")} {data?.ew_terms?.places} {t("common.places")}
+              </span>
+            )}
           </div>
         )}
+
         <div>
           {data?.event_start_time &&
             moment.utc(data?.event_start_time).local().format("DD MMM HH:mm") +
@@ -153,6 +164,15 @@ export const MyBet = ({ data, selectedButton }) => {
       });
   };
 
+  const getCashoutDetails = () => {
+    apiServices
+      .get(apiUrl.CASH_OUT_DETAILS + `/${data.bet_id}`)
+      .then((response) => {
+        var newWindow = nextWindow.open();
+        newWindow.document.write(response);
+      });
+  };
+
   return data.bets.length > 0 ? (
     <div>
       <div
@@ -219,9 +239,25 @@ export const MyBet = ({ data, selectedButton }) => {
           <Button
             className="btnAction cash-out"
             onClick={() => setIsConfirmed(true)}
-            text={`${t("cash_out")} ${formatNumberWithDecimal(
-              cashOut.amount
-            )} ${userCurrency}`}
+            text={
+              <>
+                <>
+                  {t("cash_out")}{" "}
+                  {formatNumberWithDecimal(cashOut.amount) + " "}
+                  {userCurrency}
+                </>
+
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    getCashoutDetails();
+                  }}
+                  className="mx-1"
+                >
+                  <InfoInformationIcon />
+                </div>
+              </>
+            }
           />
         ) : cashOut.message ? (
           <div className="cashout-dialog">
@@ -252,9 +288,8 @@ export const MyBet = ({ data, selectedButton }) => {
               isLoading ? (
                 <Loader />
               ) : (
-                `${t("confirm_cash_out")} ${formatNumberWithDecimal(
-                  cashOut.amount
-                )} ${userCurrency}`
+                `${t("confirm_cash_out")} 
+                ${formatNumberWithDecimal(cashOut.amount)} ${userCurrency}`
               )
             }
           />

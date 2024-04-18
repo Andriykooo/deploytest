@@ -2,10 +2,11 @@
 
 import { useSelector } from "react-redux";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { phaseStatus } from "@/utils/constants";
 import { Button } from "@/components/button/Button";
 import { getSelectionOdds } from "@/utils/getSelectionOdds";
+import moment from "moment";
 
 export const RacecardTable = ({ headerData, data }) => {
   const t = useTranslations();
@@ -105,7 +106,10 @@ export const RacecardTable = ({ headerData, data }) => {
     <div className="race-table">
       <div className="race-table-head">
         <div className="race-table-head-title">
-          <div className="race-table-head-title">{data?.event_venue}</div>
+          <div className="race-table-head-title">
+            {moment(data?.event_start_time_utc).format("HH:mm") + " "}
+            {data?.event_venue}
+          </div>
           <div className="race-table-head-subtitle">
             <span className="race-table-head-subtitle-event">
               {data?.event_description}

@@ -1,7 +1,7 @@
 import { PageLayout } from "@/layouts/pageLayout/PageLayout";
 import { apiUrl } from "@/utils/constants";
-import axios from "axios";
 import { notFound } from "next/navigation";
+import axios from "axios";
 
 export const revalidate = 10;
 

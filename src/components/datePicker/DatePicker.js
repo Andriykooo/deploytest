@@ -5,10 +5,10 @@ import moment from "moment";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSelector } from "react-redux";
 import WheelCalendar from "../modal/WheelCalendar";
+import { CalendarIcon } from "@/icons/CalendarIcon";
+import "moment/min/locales";
 import "react-calendar/dist/Calendar.css";
 import "./DatePicker.css";
-import { CalendarIcon } from "@/utils/icons";
-import "moment/min/locales";
 
 export const DatePicker = ({
   value,

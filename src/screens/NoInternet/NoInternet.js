@@ -1,11 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import "./NoInternet.css";
-import { WarningIcon } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { WarningIcon } from "@/icons/WarningIcon";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useInternetStatus } from "@/hooks/useInternetStatus";
+import "./NoInternet.css";
 
 export const NoInternet = () => {
   const t = useTranslations();

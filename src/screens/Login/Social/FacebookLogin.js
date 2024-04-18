@@ -1,11 +1,11 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { SocialButton } from "./SocialButton";
 import { apiUrl } from "@/utils/constants";
 import { alertToast } from "@/utils/alert";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
 import axios from "axios";
 import { useState } from "react";
-import { FacebookIcon } from "@/utils/icons";
+import { FacebookIcon } from "@/icons/FacebookIcon";
 
 const fbLogin = () => {
   return new Promise((resolve) => {

@@ -6,7 +6,7 @@ import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
 import { setSettingsApi } from "@/utils/apiQueries";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 
 export const SetRealityCheck = ({

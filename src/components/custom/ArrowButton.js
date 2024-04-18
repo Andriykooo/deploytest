@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Button } from "../button/Button";
-import { ArrowIconSidebarLeft } from "@/utils/icons";
+import { ArrowIconSidebarLeft } from "@/icons/ArrowIconSidebarLeft";
 
 export const ArrowButton = ({ active, show, setActive }) => {
   return (

@@ -1,29 +1,32 @@
 "use client";
 
 import Image from "next/image";
+import classNames from "classnames";
+import moment from "moment";
+// import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { MatchOdds } from "../../components/matches/MatchOdds";
 import { TabsSelect } from "../../components/tabsSelect/TabsSelect";
 import { useDispatch, useSelector } from "react-redux";
-import classNames from "classnames";
 import { images } from "@/utils/imagesConstant";
 import { useParams, useSearchParams } from "next/navigation";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 import { EmptyState } from "@/components/emptyState/EmptyState";
-import moment from "moment";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Runner } from "@/components/Runner/Runner";
-import { PriceHistory } from "./PriceHistory";
 import { Place } from "./Place";
+import PriceHistory from "./PriceHistory";
 import { RacecardTable } from "./RaceCardTable";
 import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
 import { setRaceCard } from "@/store/actions";
 import { apiUrl, phaseStatus } from "@/utils/constants";
 import { apiServices } from "@/utils/apiServices";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
-
+import { getSelectionOdds } from "@/utils/getSelectionOdds";
 import "./Racecard.css";
+
+// const PriceHistory = dynamic(() => import("./PriceHistory"));
 
 export const Racecard = () => {
   const t = useTranslations();
@@ -61,6 +64,7 @@ export const Racecard = () => {
 
       return event?.event_id === id && event?.availabilities?.includes(day);
     }) || defaultEvent;
+
   const updatedEvent = updatedEvents?.[event?.event_id]?.data;
   const isAbandoned =
     (updatedEvent?.current_status || event?.event_status) ===
@@ -73,41 +77,6 @@ export const Racecard = () => {
     phaseStatus.IN_PLAY;
 
   const disablePrice = isResulted || inPlay;
-
-  useEffect(() => {
-    if (
-      updatedEvent?.current_status === phaseStatus.ABANDONED ||
-      updatedEvent?.current_status === phaseStatus.FINISHED
-    ) {
-      apiServices
-        .get(apiUrl.GET_VENUE_EVENTS, {
-          value: decodeURI(params.venue),
-          sport_slug: params.slug,
-        })
-        .then((response) => {
-          dispatch(setRaceCard({ ...data, [params.venue]: response }));
-        });
-    }
-  }, [updatedEvent]);
-
-  useEffect(() => {
-    if (id) {
-      const event = raceCard?.events.find(({ event_id }) => event_id === id);
-
-      if (event) {
-        const date = event?.event_start_time;
-        const day =
-          (moment(date)?.isSame(moment(), "day") && "today") ||
-          (moment(date)?.isSame(moment().add(1, "days"), "day") && "tomorrow");
-
-        if (day) {
-          router.push(
-            `/racecard/${params.slug}/${params.venue}?id=${id}&filter=${day}`
-          );
-        }
-      }
-    }
-  }, [id]);
 
   const hanldeSelect = (item, place) => {
     // eslint-disable-next-line
@@ -312,30 +281,8 @@ export const Racecard = () => {
     });
   }
 
-  const tableData =
-    event && !disablePrice
-      ? {
-          ...event,
-          abandoned: isAbandoned,
-          selections: [
-            ...event.selections,
-            {
-              bet_id: event?.event_id,
-              name: t("racecard.unnamed_favorite"),
-              description: "-",
-              odds_decimal: t("racecard.sp"),
-              odds_fractional: t("racecard.sp"),
-              runner_num: "?",
-              silk_image: images.unnamedFavorite,
-              status: "active",
-              trading_status: "unnamed_favorite",
-            },
-          ],
-        }
-      : { ...event, abandoned: isAbandoned };
-
   const showPriceHistory =
-    tableData?.selections?.some((item) => !!item.price_history?.length) ||
+    event?.selections?.some((item) => !!item.price_history?.length) ||
     enablePriceHistory;
   !disablePrice;
 
@@ -517,6 +464,40 @@ export const Racecard = () => {
   }, []);
 
   useEffect(() => {
+    if (
+      updatedEvent?.current_status === phaseStatus.ABANDONED ||
+      updatedEvent?.current_status === phaseStatus.FINISHED
+    ) {
+      apiServices
+        .get(apiUrl.GET_VENUE_EVENTS, {
+          value: decodeURI(params.venue),
+          sport_slug: params.slug,
+        })
+        .then((response) => {
+          dispatch(setRaceCard({ ...data, [params.venue]: response }));
+        });
+    }
+  }, [updatedEvent]);
+
+  useEffect(() => {
+    if (id) {
+      const event = raceCard?.events.find(({ event_id }) => event_id === id);
+      if (event) {
+        const date = event?.event_start_time;
+        const formatedDay =
+          (moment(date)?.isSame(moment(), "day") && "today") ||
+          (moment(date)?.isSame(moment().add(1, "days"), "day") && "tomorrow");
+
+        if (!searchParams.get("filter")) {
+          router.push(
+            `/racecard/${params.slug}/${params.venue}?id=${id}&filter=${formatedDay}`
+          );
+        }
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
     gamingSocket.emit("subscribe_match", {
       value: event?.event_id,
     });
@@ -529,7 +510,78 @@ export const Racecard = () => {
     };
   }, [event?.event_id]);
 
-  return tableData ? (
+  return (
+    <RaceCardTable
+      disablePrice={disablePrice}
+      event={event}
+      isAbandoned={isAbandoned}
+      predictionsTabs={predictionsTabs}
+      selectedTab={selectedTab}
+      setSelectedTab={setSelectedTab}
+      headerItemsWinEw={headerItemsWinEw}
+      headerItemsForecast={headerItemsForecast}
+      day={day}
+    />
+  );
+};
+
+const RaceCardTable = ({
+  disablePrice,
+  event,
+  isAbandoned,
+  predictionsTabs,
+  selectedTab,
+  setSelectedTab,
+  headerItemsWinEw,
+  headerItemsForecast,
+  day,
+}) => {
+  const t = useTranslations();
+  const updatedSelections = useSelector((state) => state.selections);
+
+  const tableData =
+    event && !disablePrice
+      ? {
+          ...event,
+          abandoned: isAbandoned,
+          selections: [
+            ...event.selections.sort((a, b) => {
+              const aSelection = updatedSelections[a.bet_id] || a;
+              const bSelection = updatedSelections[b.bet_id] || b;
+
+              if (
+                aSelection.odds_decimal === "SP" &&
+                bSelection.odds_decimal !== "SP"
+              ) {
+                return 1;
+              } else if (
+                aSelection.odds_decimal !== "SP" &&
+                bSelection.odds_decimal === "SP"
+              ) {
+                return -1;
+              } else {
+                const aPrice = getSelectionOdds(aSelection).odds_decimal;
+                const bPrice = getSelectionOdds(bSelection).odds_decimal;
+
+                return +aPrice - +bPrice;
+              }
+            }),
+            {
+              bet_id: event?.event_id,
+              name: t("racecard.unnamed_favorite"),
+              description: "-",
+              odds_decimal: t("racecard.sp"),
+              odds_fractional: t("racecard.sp"),
+              runner_num: "?",
+              silk_image: images.unnamedFavorite,
+              status: "active",
+              trading_status: "unnamed_favorite",
+            },
+          ],
+        }
+      : { ...event, abandoned: isAbandoned };
+
+  return tableData && event ? (
     <>
       {tableData?.selections?.length > 0 ? (
         <>

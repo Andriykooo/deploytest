@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeBet, setSidebarRight } from "../../store/actions";
-import { LiveBetslip, XIcon } from "../../utils/icons";
+import { LiveBetslip } from "@/icons/LiveBetslip";
+import { XIcon } from "@/icons/XIcon";
 import { BetslipOdds } from "./BetslipOdds/BetslipOdds";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import { phaseStatus, prohibitedCharacters } from "@/utils/constants";
 import { Checkbox } from "../Checkbox/Checkbox";
@@ -97,7 +98,7 @@ export const SelectedBet = ({ bet, disabled }) => {
       });
 
       tmp.action = "check";
-      generateBetslip(tmp);
+      generateBetslip(tmp, 300);
     }
   };
 

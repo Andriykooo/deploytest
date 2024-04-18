@@ -1,5 +1,5 @@
-import { ReminderIcon } from "@/utils/icons";
-import { useTranslations } from "next-intl";
+import { ReminderIcon } from "@/icons/ReminderIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Button } from "../../components/button/Button";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 

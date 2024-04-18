@@ -1,31 +1,32 @@
 "use client";
 
 import Image from "next/image";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { useParams } from "next/navigation";
 import { images } from "../../utils/imagesConstant";
 import { TabsSelect } from "../tabsSelect/TabsSelect";
 import { MatchOdds } from "./MatchOdds";
 import { EmptyState } from "../emptyState/EmptyState";
 import { GoBackButton } from "../goBackButton/GoBackButton";
-import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Accordion } from "../Accordion/Accordions";
 import { gamingSocket } from "@/context/socket";
 import { SuccesToast, alertToast } from "@/utils/alert";
-import { NotificationOff, NotificationOn } from "@/utils/icons";
-import "../../screens/Sports/Sports.css";
-import "./Matches.css";
+import { NotificationOn } from "@/icons/NotificationOn";
+import { NotificationOff } from "@/icons/NotificationOff";
 import { Skeleton } from "../Skeleton/Skeleton";
+import { useAxiosData } from "@/hooks/useAxiosData";
 import SkeletonComponent from "../SkeletonComponent/SkeletonComponent";
 import {
   addEventData,
   setUpdatedEvents,
   updateSelections,
 } from "@/store/actions";
-import { useAxiosData } from "@/hooks/useAxiosData";
-import { useParams } from "next/navigation";
+import "../../screens/Sports/Sports.css";
+import "./Matches.css";
 
 const sortTypes = {
   homeDrawAway: ["home", "draw", "away"],
@@ -104,11 +105,7 @@ const Markets = ({ markets }) => {
                 selections = [];
 
                 sortTypes[key].forEach((type) => {
-                  selections.push(
-                    groupedSelectionByOutcomeType[type].sort((a, b) => {
-                      return a.name.localeCompare(b.name);
-                    })
-                  );
+                  selections.push(groupedSelectionByOutcomeType[type]);
                 });
               }
             }
@@ -266,7 +263,7 @@ const MatchDetails = () => {
     }
   };
 
-  useAxiosData(() => getData(selectedMarket));
+  const { isLoading } = useAxiosData(() => getData(selectedMarket));
 
   useEffect(() => {
     gamingSocket.on("connection", () => {
@@ -373,7 +370,7 @@ const MatchDetails = () => {
                 </div>
               </div>
             ) : (
-              <div className="my-3">
+              <div className="mt-3">
                 <div className="container-match-details-paragraph ">
                   <GoBackButton
                     arrowColor="var(--global-color-table-text-primary)"
@@ -441,8 +438,8 @@ const MatchDetails = () => {
             )}
           </div>
 
-          <div className="tab-select-container">
-            {!match ? (
+          <div className="tab-select-container mt-2">
+            {!match && isLoading ? (
               <Skeleton height={48} width={"100%"} />
             ) : (
               <TabsSelect
@@ -464,7 +461,7 @@ const MatchDetails = () => {
             )}
           </div>
           {!markets && !eventNotFound ? (
-            <SkeletonComponent disableHeader className={"mt-3"} />
+            <SkeletonComponent disableHeader className="mt-2" />
           ) : (
             <Markets markets={markets} />
           )}

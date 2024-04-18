@@ -1,6 +1,8 @@
-import { CloseIcon, CrossIcon, SearchIcon } from "@/utils/icons";
+import { CloseIcon } from "@/icons/CloseIcon";
+import { CrossIcon } from "@/icons/CrossIcon";
+import { SearchIcon } from "@/icons/SearchIcon";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -64,7 +66,7 @@ export const Countries = ({
               ref={searchRef}
               className="selectDecimal-countries d-flex searchStyle"
             >
-              <SearchIcon className="countriesSearch"/>
+              <SearchIcon className="countriesSearch" />
               <input
                 autoFocus
                 value={searchCountry}

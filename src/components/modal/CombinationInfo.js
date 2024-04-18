@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
 import { multipleBetTypesInfo } from "@/utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { translateNumberToText } from "@/utils/global";
 import { useParams } from "next/navigation";
 

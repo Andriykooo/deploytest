@@ -86,7 +86,7 @@
 }
 
 .listInfo > p {
-  text-align: flex-start;
+  text-align: start;
   margin: 0;
   font-size: 14px;
   font-weight: 400;
@@ -221,7 +221,7 @@ p {
   }
 
   .infoForCostumers > p {
-    text-align: flex-start;
+    text-align: start;
     font-size: 8px;
     line-height: 2;
   }

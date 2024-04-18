@@ -1,17 +1,15 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: "standalone",
-  generateEtags: false,
   reactStrictMode: false,
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
-  async rewrites() {
+  rewrites: async () => {
     return [
       {
         source: "/manifest.json",
-        destination: "/api/manifest",
+        destination: "/webmanifest.manifest",
       },
     ];
   },

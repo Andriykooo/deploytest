@@ -1,10 +1,10 @@
 import { setActivePage, setCasinoCategory } from "@/store/actions";
 
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowDownIcon } from "../../utils/icons";
+import { ArrowDownIcon } from "@/icons/ArrowDownIcon";
 import { Game } from "../Game/Game";
 import { Carousel } from "../carousel/Carousel";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useState } from "react";
 import { GameInfoModal } from "../Game/GameInfoModal";
 import { GameInfoMoadlMobile } from "../Game/GameInfoMoadlMobile";
@@ -20,9 +20,22 @@ const CasinoCategory = ({ data, redirect }) => {
   const dispatch = useDispatch();
   const headerData = useSelector((state) => state.headerData);
   const isMobile = useSelector((state) => state.setMobile);
+  const isTablet = useSelector((state) => state.isTablet);
   const [modalInfo, setModalInfo] = useState(null);
   const pathname = usePathname();
-  const carouselItemWidth = isMobile ? 126 : 296;
+
+  let carouselItemWidth = 294;
+  let heroCarouselItemWidth = 598;
+
+  if (isTablet) {
+    carouselItemWidth = 274;
+    heroCarouselItemWidth = 558;
+  }
+
+  if (isMobile) {
+    carouselItemWidth = 124;
+    heroCarouselItemWidth = 124;
+  }
 
   const showModalInfo = (info) => {
     setModalInfo(info);
@@ -63,6 +76,7 @@ const CasinoCategory = ({ data, redirect }) => {
 
         {data.view_style === "trending" && (
           <Carousel
+            disableScrollToTab
             itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient
@@ -86,6 +100,7 @@ const CasinoCategory = ({ data, redirect }) => {
         )}
         {data.view_style === "single_line" && (
           <Carousel
+            disableScrollToTab
             itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient
@@ -107,8 +122,10 @@ const CasinoCategory = ({ data, redirect }) => {
         )}
         {data.view_style === "hero_multi_line" && (
           <Carousel
+            disableScrollToTab
             onScroll={closeModalInfo}
             showGradient
+            itemWidth={carouselItemWidth}
             data={
               isMobile
                 ? data?.games?.map((game) => {
@@ -143,6 +160,10 @@ const CasinoCategory = ({ data, redirect }) => {
                     .map((row, rowIndex) => {
                       return {
                         id: rowIndex,
+                        itemWidth:
+                          rowIndex === 0
+                            ? heroCarouselItemWidth
+                            : carouselItemWidth,
                         render:
                           rowIndex === 0 ? (
                             <Game
@@ -178,6 +199,7 @@ const CasinoCategory = ({ data, redirect }) => {
         )}
         {data.view_style === "multi_line" && (
           <Carousel
+            disableScrollToTab
             itemWidth={carouselItemWidth}
             onScroll={closeModalInfo}
             showGradient

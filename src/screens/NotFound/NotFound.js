@@ -2,10 +2,11 @@
 
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Logo } from "@/components/logo/Logo";
 import { CustomLink } from "@/components/Link/Link";
 import "./NotFound.css";
+import { nextWindow } from "@/utils/nextWindow";
 
 export const NotFoundScreen = () => {
   const t = useTranslations("not_found");
@@ -15,7 +16,7 @@ export const NotFoundScreen = () => {
       <div className="header-of-error-component">
         <Logo />
       </div>
-      <div className="error-content">
+      <div className="error-content" style={{ height: nextWindow.innerHeight }}>
         <div className="error-number">404</div>
         <div className="error-redirect">
           <p className="error-title">{t("oops_exclamation")}</p>

@@ -4,9 +4,9 @@ import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
-import { ValidIcon } from "@/utils/icons";
+import { ValidIcon } from "@/icons/ValidIcon";
 
 export const SetSelfExclude = ({
   excludeData,

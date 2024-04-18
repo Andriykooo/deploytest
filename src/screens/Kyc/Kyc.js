@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "../../components/button/Button";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { useSelector } from "react-redux";
 import KycModal from "./KycModal";

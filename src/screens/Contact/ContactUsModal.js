@@ -1,13 +1,13 @@
 import { Logo } from "@/components/logo/Logo";
 import axios from "axios";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import Image from "next/image";
 import { Link } from "next/link";
 import { useState } from "react";
 import { Button } from "../../components/button/Button";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
-import { XIcon } from "../../utils/icons";
+import { XIcon } from "@/icons/XIcon";
 import { images } from "../../utils/imagesConstant";
 import "../Contact/Contact.css";
 

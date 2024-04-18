@@ -4,20 +4,15 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Fragment } from "react";
 import Slider from "react-slick";
-import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
+import { useSelector } from "react-redux";
+import { SampleNextArrow } from "@/icons/SampleNextArrow";
+import { SamplePrevArrow } from "@/icons/SamplePrevArrow";
 import { LinkType } from "../LinkType/LinkType";
 import { Button } from "../button/Button";
 import { DynamicSelections } from "../dynamicSelections/DynamicSelections";
-import { useSelector } from "react-redux";
 import "./HomeSlider.css";
 
-const HomeSlider = ({
-  data,
-  casinoSlider,
-  subtitle,
-  isLoading,
-  className,
-}) => {
+const HomeSlider = ({ data, casinoSlider, subtitle, isLoading, className }) => {
   const isMobile = useSelector((state) => state.setMobile);
   const isTablet = useSelector((state) => state.isTablet);
 

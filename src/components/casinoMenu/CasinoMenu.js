@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { setCasinoCategory } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./CasinoMenu.css";
 import { Carousel } from "../carousel/Carousel";
 
@@ -76,6 +76,7 @@ const CasinoMenu = ({ data, search, setSearch, category }) => {
         onMouseLeave={handleMouseLeave}
       >
         <Carousel
+          disableScrollToTab
           center
           data={[
             ...[{ id: "home_casino_button", render: returnHome() }],

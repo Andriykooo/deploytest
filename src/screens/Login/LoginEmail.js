@@ -1,12 +1,9 @@
 import { Loader } from "../../components/loaders/Loader";
-import { useTranslations } from "next-intl";
-import { FacebookLogin } from "./Social/FacebookLogin";
-import { GoogleLogin } from "./Social/GoogleLogin";
-import { AppleLogin } from "./Social/AppleLogin";
-import { LegalAge } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { ValidIcon } from "@/utils/icons";
+import { LegalAge } from "@/icons/LegalAge";
+import { ValidIcon } from "@/icons/ValidIcon";
 
 export const LoginEmail = ({
   email,
@@ -14,7 +11,6 @@ export const LoginEmail = ({
   checkEmail,
   isLoading,
   validateEmail,
-  loginCallback,
 }) => {
   const t = useTranslations();
   const isTablet = useSelector((state) => state.isTablet);
@@ -53,14 +49,14 @@ export const LoginEmail = ({
             {isLoading ? <Loader /> : t("common.continue")}
           </button>
         </form>
-        <p className="oneClick d-flex justify-content-center">
+        {/* <p className="oneClick d-flex justify-content-center">
           {t("login.sign_in_one_click")}
         </p>
         <div className="whiteButtonsGroup d-grid">
           <AppleLogin loginCallback={loginCallback} />
           <FacebookLogin loginCallback={loginCallback} />
           <GoogleLogin loginCallback={loginCallback} />
-        </div>
+        </div> */}
         <div
           className={classNames("w-100 d-flex align-items-end", {
             "h-100": !isTablet,

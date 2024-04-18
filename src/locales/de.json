@@ -173,11 +173,13 @@
     "cash_out": "CASH OUT",
     "confirm_cash_out": "CASH OUT BESTÄTIGEN",
     "more": "MEHR",
-    "showing_last_20_bets": "Die letzten 20 Wetten anzeigen",
+    "showing_last_7_days": "Die letzten 20 Tage",
     "empty_bet_slip": "Ihr Wettschein ist leer!",
     "selections_description": "Treffen Sie einige Auswahlmöglichkeiten, und sie werden hier angezeigt",
     "bog": "BOG",
     "ew": "EW",
+    "for": "zu",
+    "places": "Der Ort",
     "reject": "ABLEHNEN",
     "total_stakes": "Gesamteinsätze",
     "total_returns": "Gesamtgewinne",
@@ -278,7 +280,10 @@
     "forecast_bet_description": "Eine Wette, bei der Sie die ersten beiden Finisher eines Rennens in der richtigen Reihenfolge vorhersagen.",
     "tricast_bet_description": "Eine Wette, bei der Sie die ersten drei Finisher eines Rennens in der genauen Reihenfolge vorhersagen.",
     "reverse_forecast_description": "Bei einer Wette, bei der zwei Pferde ausgewählt werden, gewinnen Sie, wenn sie in beliebiger Reihenfolge Erster und Zweiter werden.",
-    "reverse_tricast_description": "Bei einer Wette, bei der drei Pferde ausgewählt werden, gewinnen Sie, wenn diese in beliebiger Reihenfolge Erster, Zweiter und Dritter werden."
+    "reverse_tricast_description": "Bei einer Wette, bei der drei Pferde ausgewählt werden, gewinnen Sie, wenn diese in beliebiger Reihenfolge Erster, Zweiter und Dritter werden.",
+
+    "uk_ireland": "UK und Ireland",
+    "international": "International"
   },
   "contact_us": {
     "fill_in_all_fields": "¡Por favor complete todos los campos!",
@@ -534,6 +539,16 @@
     "validated_number_succesfully": "Ha validado el número exitosamente",
     "resend_code_succesfully": "Reenviar código exitosamente",
     "country_selection_prompt": "Seleccionar país del número de móvil"
+  },
+  "billing": {
+    "billing_address": "Rechnungsadresse",
+    "country": "Land",
+    "address": "Adresse",
+    "enter_address": "Geben Sie Ihre Adresse ein",
+    "city": "Stadt",
+    "enter_city": "Geben Sie Ihre Stadt ein",
+    "zip_code": "PLZ",
+    "enter_zip_code": "Geben Sie Ihre Postleitzahl ein"
   },
   "sports": {
     "competitions": "Competencias",

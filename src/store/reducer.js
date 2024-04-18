@@ -87,12 +87,7 @@ export const initialState = {
   notifyCasinoSession: null,
   eventsData: {},
   selections: {},
-  sportFilters: {
-    selectedCompetition: null,
-    selectedRegion: null,
-    selectedMarket: null,
-    sportSlug: null,
-  },
+  sportFilters: {},
   providersSuspended: [],
 };
 
@@ -641,10 +636,18 @@ const rootReducer = (appstate = initialState, action) => {
         const oldSelectionOdds = getSelectionOdds(prevSelection);
         const newSelectionOdds = getSelectionOdds(selection);
 
-        const newData = {
+        let newData = {
           ...prevSelection,
           ...selection,
         };
+
+        if (
+          oldSelectionOdds?.odds_decimal &&
+          oldSelectionOdds?.odds_decimal !== "SP" &&
+          newSelectionOdds?.odds_decimal == "SP"
+        ) {
+          newData = { ...prevSelection };
+        }
 
         const hasOddsDifference =
           oldSelectionOdds?.odds_decimal &&
@@ -693,6 +696,9 @@ const rootReducer = (appstate = initialState, action) => {
     case constants.DESTROY_SESSION:
       return {
         ...initialState,
+        headerData: appstate.headerData,
+        sportContent: appstate.sportContent,
+        pageLayoutContent: appstate.pageLayoutContent,
         sidebarLeft: {
           data: appstate?.sidebarLeft?.data,
           isActive: false,

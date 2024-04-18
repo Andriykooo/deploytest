@@ -1,7 +1,7 @@
 "use client";
 
 import "./CustomerServiceNotive.css";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useEffect } from "react";
 import { apiUrl } from "@/utils/constants";
 import axios from "axios";

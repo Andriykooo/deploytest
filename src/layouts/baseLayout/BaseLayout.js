@@ -2,17 +2,15 @@
 
 import { Tooltip } from "@/components/Tooltip/Tooltip";
 import { AlertModal } from "@/components/alertModal/AlertModal";
-import CookieBanner from "@/components/CookieBanner/CookieBanner";
 import { PageContentModal } from "@/components/pageContentModal/PageContentModal";
 import { ConfirmDepositLimitModals } from "@/screens/DepositLimit/ConfirmDepositLimitModal";
-import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
-import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
-import PwaInstall from "@/components/pwa/PwaInstall";
-import TermsConfirmModal from "@/screens/Terms/TermsConfirmModal";
+import { apiServices } from "@/utils/apiServices";
+import { CustomCookie } from "@/utils/cookie";
+import { useInternetStatus } from "@/hooks/useInternetStatus";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { CloseButton, SuccesToast, alertToast } from "@/utils/alert";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 import { nextWindow } from "@/utils/nextWindow";
-import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
@@ -20,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { apiUrl, fallbackLng } from "../../utils/constants";
+import { useTranslations } from "@/hooks/useTranslations";
 import { getUserApi } from "@/utils/apiQueries";
 import {
   communicationSocket,
@@ -51,14 +50,14 @@ import {
   addProviderSuspended,
   removeProviderSuspended,
 } from "../../store/actions";
-import { apiServices } from "@/utils/apiServices";
-import { CustomCookie } from "@/utils/cookie";
-import { useInternetStatus } from "@/hooks/useInternetStatus";
-import { useCustomRouter } from "@/hooks/useCustomRouter";
+import PrivacyConfirmModal from "@/screens/Privacy/PrivacyConfirmModal";
+import GamingReminderAlert from "@/screens/RealityCheck/GamingReminder";
+import PwaInstall from "@/components/pwa/PwaInstall";
+import TermsConfirmModal from "@/screens/Terms/TermsConfirmModal";
+import CookieBanner from "@/components/CookieBanner/CookieBanner";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "./BaseLayout.css";
 
 export const BaseLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -163,7 +162,7 @@ export const BaseLayout = ({ children }) => {
 
         dispatch(setCountry(country));
 
-        addLocalStorageItem("country", country);
+        addLocalStorageItem("country", country.toLowerCase());
       })
       .catch();
 
@@ -295,8 +294,7 @@ export const BaseLayout = ({ children }) => {
               const changeType =
                 +previousValue < +newValue ? "drifting" : "shortening";
 
-              bet.className = "animationBlock";
-              bet.classList.add(`${changeType}Animation`);
+              bet.className = `animationBlock ${changeType}Animation`;
               bet.setAttribute("data-current-odds", newValue);
             }
           });
@@ -424,8 +422,7 @@ export const BaseLayout = ({ children }) => {
           const changeType =
             +previousValue < +newValue ? "drifting" : "shortening";
 
-          bet.className = "animationBlock";
-          bet.classList.add(`${changeType}Animation`);
+          bet.className = `animationBlock ${changeType}Animation`;
           bet.setAttribute("data-current-odds", newValue);
         }
       });
@@ -472,15 +469,6 @@ export const BaseLayout = ({ children }) => {
     nextWindow.addEventListener("storage", storageListener);
     nextWindow.onbeforeunload = () => {
       addLocalStorageItem("tab_id", "removed");
-    };
-
-    window.fbAsyncInit = () => {
-      window.FB.init({
-        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-        cookie: true,
-        xfbml: true,
-        version: "v18.0",
-      });
     };
 
     return () => {
@@ -532,7 +520,7 @@ export const BaseLayout = ({ children }) => {
       <GamingReminderAlert />
       <ConfirmDepositLimitModals />
       <PwaInstall />
-      <div className="base-layout">{children}</div>
+      <div style={{ minHeight: nextWindow.innerHeight }}>{children}</div>
     </>
   );
 };

@@ -11,7 +11,7 @@ import { SuccesToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "../Login/Login.css";
 import "./VerifyEmail.css";

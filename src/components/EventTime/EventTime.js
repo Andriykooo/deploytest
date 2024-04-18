@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { images } from "@/utils/imagesConstant";
 import classNames from "classnames";
 import moment from "moment";
@@ -32,7 +32,10 @@ export const EventTime = ({ data }) => {
           width={13}
         />
       ) : null}
-      {data?.event_start_time && moment(data.event_start_time).format("HH:mm")}
+      <span>
+        {data?.event_start_time &&
+          moment(data.event_start_time).format("HH:mm")}
+      </span>
     </div>
   );
 };

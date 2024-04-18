@@ -3,8 +3,9 @@ import Image from "next/image";
 import { images } from "@/utils/imagesConstant";
 import { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { ArrowIcon, CloseIcon } from "../../utils/icons";
-import { useTranslations } from "next-intl";
+import { ArrowIcon } from "@/icons/ArrowIcon";
+import { CloseIcon } from "@/icons/CloseIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import "../matches/Matches.css";
 
 export const MobileSelect = ({

@@ -33,7 +33,7 @@ export const TabsSelect = ({
         )
       );
     }
-  }, [selectedItemId, selectedItemLabel]);
+  }, [selectedItemId, selectedItemLabel, data]);
 
   const handleSelect = (item) => {
     setSelectedItem(item);

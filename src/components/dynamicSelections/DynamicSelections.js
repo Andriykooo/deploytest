@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Button } from "../button/Button";
 import { MatchOdds } from "../matches/MatchOdds";
 import "./DynamicSelections.css";

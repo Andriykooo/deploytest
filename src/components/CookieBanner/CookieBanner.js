@@ -4,7 +4,7 @@ import React from "react";
 
 import "./CookieBanner.css";
 import CookieConsent from "react-cookie-consent";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const CookieBanner = () => {
   const t = useTranslations("common");

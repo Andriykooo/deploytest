@@ -1,9 +1,9 @@
 import { gamingSocket } from "@/context/socket";
-import { EmptyFolder } from "@/utils/icons";
+import { EmptyFolder } from "@/icons/EmptyFolder";
 import { useState } from "react";
 import { MyBet } from "./MyBet/MyBet";
 import { alertToast } from "@/utils/alert";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useDispatch, useSelector } from "react-redux";
 import { setMyBets } from "@/store/actions";
 import { getLocalStorageItem } from "@/utils/localStorage";
@@ -59,11 +59,12 @@ export const MyBets = () => {
           );
         })}
       </div>
+      {isLoggedIn && (
+        <div className="my-bets-hint">{t("showing_last_7_days")}</div>
+      )}
+
       {myBets?.[selectedButton]?.length > 0 && isLoggedIn ? (
         <>
-          {selectedButton === "all" && (
-            <div className="my-bets-hint">{t("showing_last_20_bets")}</div>
-          )}
           <div className="my-bets">
             {myBets[selectedButton].map((bet) => {
               return (

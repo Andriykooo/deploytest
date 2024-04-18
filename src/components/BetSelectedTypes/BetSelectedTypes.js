@@ -1,7 +1,7 @@
 "use client";
 
 import { types } from "../../utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "./BetSelectedTypes.css";
 
 export const BetSelectedTypes = () => {

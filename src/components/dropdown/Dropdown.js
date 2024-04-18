@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../button/Button";
 import classNames from "classnames";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 import "./Dropdown.css";
-import { ArrowIcon } from "@/utils/icons";
 
 export const Dropdown = ({ data, onSelect, selectedItem }) => {
   const dropdownRef = useRef(null);

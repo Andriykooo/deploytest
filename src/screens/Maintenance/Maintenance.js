@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/logo/Logo";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "@/store/actions";
 import { apiUrl } from "@/utils/constants";

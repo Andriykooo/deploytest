@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { useTranslations } from 'next-intl';
+
 import './CurrentDate.css';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export const CurrentDate = () => {
     const t = useTranslations('footer');

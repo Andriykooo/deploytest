@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import moment from "moment";
 import Cookies from "js-cookie";
 import { apiUrl, fallbackLng } from "@/utils/constants";
-import { apiServices } from "@/utils/apiServices";
+import { apiServices, clearStorage } from "@/utils/apiServices";
 
 const commonOptions = {
   transports: ["websocket"],
@@ -56,19 +56,24 @@ class CustomSocket {
           swifty_id: getLocalStorageItem("swifty_id"),
         });
 
-        const { token, refresh_token } = await apiServices.post(
-          apiUrl.URI_REFRESH_TOKEN,
-          body,
-          {
-            headers,
-          }
-        );
+        try {
+          const { token, refresh_token } = await apiServices.post(
+            apiUrl.URI_REFRESH_TOKEN,
+            body,
+            false,
+            {
+              headers,
+            }
+          );
 
-        addLocalStorageItem("access_token", token);
-        addLocalStorageItem("refresh_token", refresh_token);
-        connectSocket(token);
+          addLocalStorageItem("access_token", token);
+          addLocalStorageItem("refresh_token", refresh_token);
+          connectSocket(token);
 
-        this.emit(emitName, args, callback);
+          this.emit(emitName, args, callback);
+        } catch {
+          clearStorage();
+        }
 
         return;
       }

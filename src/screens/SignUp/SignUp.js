@@ -17,8 +17,9 @@ import {
 } from "../../store/actions";
 import { alertToast } from "../../utils/alert";
 import { images } from "../../utils/imagesConstant";
-import { useTranslations } from "next-intl";
-import { ArrowIcon, CheckboxIcon } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { ArrowIcon } from "@/icons/ArrowIcon";
+import { CheckboxIcon } from "@/icons/CheckboxIcon";
 import { Loader } from "@/components/loaders/Loader";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";

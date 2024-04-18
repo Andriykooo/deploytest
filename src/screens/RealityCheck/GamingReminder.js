@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
 import { images } from "../../utils/imagesConstant";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useUsageTime } from "@/hooks/useUsageTime";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import classNames from "classnames";

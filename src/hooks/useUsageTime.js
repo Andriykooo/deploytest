@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

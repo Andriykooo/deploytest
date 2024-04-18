@@ -1,7 +1,7 @@
 import "./BetslipDropdown.css";
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { ArrowIcon } from "@/utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
 
 export const BetslipDropdown = ({
   name,

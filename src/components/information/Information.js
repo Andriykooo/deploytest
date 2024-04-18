@@ -1,6 +1,6 @@
 import "./Information.css";
 import classNames from "classnames";
-import { InfoIcon } from "@/utils/icons";
+import { InfoIcon } from "@/icons/InfoIcon";
 
 const Information = ({ text, className }) => {
   return (

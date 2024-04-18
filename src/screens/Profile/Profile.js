@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoaderXs, PageLoader } from "../../components/loaders/Loader";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import { images } from "../../utils/imagesConstant";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import classNames from "classnames";
 import { LimitChart } from "@/components/limitChart/LimitChart";
-import { ProfileArrowIcon, ProfileValidatedIcon } from "@/utils/icons";
-import { useTranslations } from "next-intl";
+import { ProfileArrowIcon } from "@/icons/ProfileArrowIcon";
+import { ProfileValidatedIcon } from "@/icons/ProfileValidatedIcon";
+import { useTranslations } from "@/hooks/useTranslations";
 import { setUserStats } from "@/store/actions";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
@@ -175,9 +175,7 @@ const Profile = () => {
               ))}
             </div>
           </div>
-          <div className="dashedDiv relative">
-            <img alt="" src={images.dashedLine} />
-          </div>
+          <div className="dashedDiv" />
           <div className="verifyDivs">
             <InfoDiv
               clickable={userStats?.kyc_status === "verified" ? false : true}

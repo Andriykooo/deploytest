@@ -25,7 +25,7 @@
 }
 
 .signUpModalClose {
-  text-align: flex-end;
+  text-align: end;
   margin: 10px 24px 0 0;
 }
 
@@ -49,7 +49,7 @@
   line-height: 40px;
   font-weight: 700;
   color: #fff;
-  text-align: flex-start;
+  text-align: start;
   min-height: auto;
   margin-bottom: 100px;
 }
@@ -169,7 +169,7 @@
   line-height: 40px;
   display: flex;
   justify-content: flex-start;
-  text-align: flex-start;
+  text-align: start;
 }
 
 .closeFullScreenModal {
@@ -538,7 +538,7 @@ input:-webkit-autofill:active {
   }
 
   .modalTitle-countries {
-    flex-direction: column-reverse;
+    /* flex-direction: column-reverse; */
     margin: 0;
     padding-top: 10px;
   }

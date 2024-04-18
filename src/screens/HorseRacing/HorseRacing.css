@@ -28,6 +28,10 @@
   padding: 16px 16px 0;
 }
 
+.region-data-contianer {
+  margin: 16px 16px 0 16px;
+}
+
 .custom-accordion.accordion-wrapper {
   overflow: hidden;
   width: auto;

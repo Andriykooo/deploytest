@@ -129,7 +129,7 @@
   transform: translate(-100%, -50%);
   transition: var(--global-transition);
   padding: 0;
-  z-index: -1;
+  z-index: 1;
 }
 
 .closeSidebarButton.show {
@@ -170,7 +170,7 @@
 
 .search-label .sports-search-icon {
   position: absolute;
-  left: 22px;
+  left: 24px;
   pointer-events: none;
 }
 
@@ -189,6 +189,7 @@
   flex-direction: column;
   transition: width 0.2s ease, height 0.2s ease-in;
   white-space: nowrap;
+  z-index: 2;
 }
 
 .sidebar-profile-items {

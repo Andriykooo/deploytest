@@ -1,7 +1,9 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CasinoXIcon, CompressIcon, ExpandIcon } from "../../utils/icons";
+import { CasinoXIcon } from "@/icons/CasinoXIcon";
+import { CompressIcon } from "@/icons/CompressIcon";
+import { ExpandIcon } from "@/icons/ExpandIcon";
 import { apiServices } from "@/utils/apiServices";
 import { useParams } from "next/navigation";
 import { apiUrl, casinoSessionTypes } from "@/utils/constants";

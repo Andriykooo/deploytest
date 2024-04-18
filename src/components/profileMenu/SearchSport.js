@@ -1,10 +1,11 @@
+import classNames from "classnames";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarLeft } from "@/store/actions";
-import { useTranslations } from "next-intl";
-import { SearchCloseIcon, SearchIcon } from "@/utils/icons";
-import classNames from "classnames";
+import { useTranslations } from "@/hooks/useTranslations";
+import { SearchCloseIcon } from "@/icons/SearchCloseIcon";
+import { SearchIcon } from "@/icons/SearchIcon";
 import { _debounce } from "@/helpers/debounce";
-import { useEffect, useState } from "react";
 
 const debounce = _debounce();
 

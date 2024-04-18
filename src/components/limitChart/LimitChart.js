@@ -1,5 +1,5 @@
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useSelector } from "react-redux";
 import { Pie, PieChart } from "recharts";
 import "./LimitChart.css";

@@ -29,7 +29,7 @@
 
 .sport-competitions-head.mobile {
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   padding: 0;
 }
 

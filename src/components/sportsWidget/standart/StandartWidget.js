@@ -3,7 +3,7 @@ import { EmptyState } from "../../emptyState/EmptyState";
 import { EventTable } from "../../eventTable/EventTable";
 import { MatchOdds } from "../../matches/MatchOdds";
 import { SportsBanner } from "../SportsBanner";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { v4 as uuidv4 } from "uuid";
 import { gamingSocket } from "@/context/socket";
 import { useEffect } from "react";

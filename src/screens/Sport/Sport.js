@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/emptyState/EmptyState";
 import Matches from "../../components/matches/Matches";
 import SkeletonComponent from "../../components/SkeletonComponent/SkeletonComponent";
 import { TabsSelect } from "@/components/tabsSelect/TabsSelect";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useParams } from "next/navigation";
 import { SportHeader } from "@/components/SportHeader/SportHeader";
 import {
@@ -20,6 +20,12 @@ import { apiUrl } from "@/utils/constants";
 import { gamingSocket } from "@/context/socket";
 import { v4 as uuidv4 } from "uuid";
 
+const defaultFilters = {
+  selectedCompetition: null,
+  selectedRegion: null,
+  selectedMarket: null,
+};
+
 export const Sport = ({ initialData }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -31,8 +37,8 @@ export const Sport = ({ initialData }) => {
 
   const [filterIsLoading, setFilterIsLoading] = useState(false);
 
-  const { selectedCompetition, selectedRegion, selectedMarket, sportSlug } =
-    sportFilters;
+  const { selectedCompetition, selectedRegion, selectedMarket } =
+    sportFilters?.[params?.slug] || defaultFilters;
 
   const sportContent = data?.[params?.slug]?.[selectedMarket?.market_id];
 
@@ -116,16 +122,16 @@ export const Sport = ({ initialData }) => {
   }, [selectedMarket]);
 
   const changeSportFilters = (newValues) => {
-    dispatch(setSportFilters({ ...newValues }));
+    const prevData = sportFilters?.[params?.slug];
+    dispatch(setSportFilters({ [params.slug]: { ...prevData, ...newValues } }));
   };
 
   useEffect(() => {
-    if (params.slug !== sportSlug)
+    if (!sportFilters?.[params?.slug])
       changeSportFilters({
         selectedCompetition: null,
         selectedRegion: null,
         selectedMarket: initialData?.market_options?.[0],
-        sportSlug: params?.slug,
       });
   }, [params?.slug]);
 

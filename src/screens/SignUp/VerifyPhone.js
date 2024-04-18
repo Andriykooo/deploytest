@@ -10,7 +10,7 @@ import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import classNames from "classnames";
 import { setLoggedUser } from "@/store/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { CustomLink } from "@/components/Link/Link";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "../Login/Login.css";

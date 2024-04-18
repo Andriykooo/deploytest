@@ -11,7 +11,7 @@ import { setCompetitions } from "../../store/actions";
 import SkeletonComponent from "../../components/SkeletonComponent/SkeletonComponent";
 import { alertToast } from "../../utils/alert";
 import { apiUrl } from "../../utils/constants";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { SportHeader } from "@/components/SportHeader/SportHeader";
 
 const InPlay = () => {

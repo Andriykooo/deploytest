@@ -7,7 +7,7 @@ import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import PreferencesDropdown from "@/components/preferencesDropdown/PreferencesDropdown";
 import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import "../DepositLimit/DepositLimit.css";
 import "../SuspendAccount/SuspendAccount.css";
 import "./NetDeposit.css";

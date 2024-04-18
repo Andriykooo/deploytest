@@ -20,13 +20,11 @@ import {
 import { alertToast } from "../../utils/alert";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
-import {
-  ClockIcon,
-  CloseIcon,
-  EmptyFolder,
-  OkIcon,
-  XIcon,
-} from "../../utils/icons";
+import { ClockIcon } from "@/icons/ClockIcon";
+import { CloseIcon } from "@/icons/CloseIcon";
+import { EmptyFolder } from "@/icons/EmptyFolder";
+import { OkIcon } from "@/icons/OkIcon";
+import { XIcon } from "@/icons/XIcon";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
 import { Warning } from "../warning/Warning";
@@ -37,7 +35,7 @@ import { MyBets } from "./MyBets";
 import { getUserApi } from "@/utils/apiQueries";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { addLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { BetslipDropdown } from "./BetslipDropdown/BetslipDropdown";
 import { CustomLink } from "../Link/Link";
 import { useClientPathname } from "@/hooks/useClientPathname";

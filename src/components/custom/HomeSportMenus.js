@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { inPlayHomeMenu } from "../../utils/constants";
 import { Button } from "../button/Button";
 import "../casinoMenu/CasinoMenu.css";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export const InPlayHomeMenu = () => {
   const t = useTranslations("home");

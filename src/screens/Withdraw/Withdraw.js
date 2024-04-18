@@ -11,7 +11,7 @@ import PreferencesTitle from "@/components/preferencesTitle/PreferencesTitle";
 import Information from "@/components/information/Information";
 import classNames from "classnames";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import BillingAddress from "@/components/BillingAddress/BillingAddress";
 
 import "../Withdraw/Withdraw.css";

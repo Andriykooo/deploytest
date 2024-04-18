@@ -1,11 +1,9 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
-import "./GameInfoMoadlMobile.css";
+import { useTranslations } from "@/hooks/useTranslations";
 import { formatNumberWithDecimal } from "@/utils/formatNumberWithDecimal";
 import { Button } from "../button/Button";
-import { images } from "@/utils/imagesConstant";
 import { useSelector } from "react-redux";
-import { CloseMenu } from "@/utils/icons";
+import { CloseMenu } from "@/icons/CloseMenu";
+import "./GameInfoMoadlMobile.css";
 
 export const GameInfoMoadlMobile = ({ onClose, modalInfo }) => {
   const t = useTranslations();
@@ -37,8 +35,8 @@ export const GameInfoMoadlMobile = ({ onClose, modalInfo }) => {
             }}
           />
         </div>
-        <div className="dashed-img-div">
-          <Image alt="line" src={images.dashedLine} />
+        <div className="px-3 w-100">
+          <div className="dashedDiv" />
         </div>
         <div className="preferencesModalMobile-list game-modal-mobile">
           <div className="info-modal-content">

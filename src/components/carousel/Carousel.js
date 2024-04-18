@@ -3,8 +3,8 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
-import { SampleNextArrow, SamplePrevArrow } from "../../utils/icons";
-
+import { SampleNextArrow } from "@/icons/SampleNextArrow";
+import { SamplePrevArrow } from "@/icons/SamplePrevArrow";
 import "./Carousel.css";
 
 export const Carousel = ({
@@ -32,14 +32,17 @@ export const Carousel = ({
     : 0;
 
   const visibleElements = {
-    from: currentSnapIndex > 0 ? currentSnapIndex - 1 : 0,
+    from: 0,
     to: currentSnapIndex + currentVisibleElements,
   };
 
   const handleScroll = (e) => {
     onScroll?.();
+    const snapIndex = Math.floor(e.target.scrollLeft / itemWidth);
 
-    setCurrentSnapIndex(Math.floor(e.target.scrollLeft / itemWidth));
+    if (snapIndex > currentSnapIndex) {
+      setCurrentSnapIndex(Math.floor(e.target.scrollLeft / itemWidth));
+    }
 
     const list = e.target.getBoundingClientRect();
     const firstElement = firstElementRef?.current?.getBoundingClientRect();
@@ -93,7 +96,7 @@ export const Carousel = ({
               }
               className={classNames(className)}
               style={{
-                width: itemWidth,
+                width: item?.itemWidth || itemWidth,
                 scrollSnapAlign: "start",
               }}
               onClick={(e) => {
@@ -122,17 +125,24 @@ export const Carousel = ({
             showArrowGradient: showGradient,
           })}
         >
-          <SamplePrevArrow onClick={prev} />
+          <SamplePrevArrow />
         </div>
       )}
       {!hideNextArrow && (
         <div
-          onClick={next}
+          onClick={async () => {
+            if (data.length >= currentSnapIndex) {
+              await setCurrentSnapIndex(
+                currentSnapIndex + currentVisibleElements
+              );
+            }
+            next();
+          }}
           className={classNames("arrow-wrapper next", arrowClassName, {
             showArrowGradient: showGradient,
           })}
         >
-          <SampleNextArrow onClick={next} />
+          <SampleNextArrow />
         </div>
       )}
     </div>

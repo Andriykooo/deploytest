@@ -4,13 +4,14 @@ import { setLanguage } from "@/store/actions";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { ArrowIcon, LanguageIcon } from "@/utils/icons";
+import { ArrowIcon } from "@/icons/ArrowIcon";
+import { LanguageIcon } from "@/icons/LanguageIcon";
 import { usePathname } from "next/navigation";
 import { useParams } from "next/navigation";
 import classNames from "classnames";
 import { CustomCookie } from "@/utils/cookie";
-import "./languageDropdown.css";
 import { addLocalStorageItem } from "@/utils/localStorage";
+import "./languageDropdown.css";
 
 const LanguageDropdown = () => {
   const dispatch = useDispatch();

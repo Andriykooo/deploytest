@@ -1,14 +1,3 @@
-import {
-  CreditCardLogoOfFooter,
-  FastestPayoutsIcon,
-  Games,
-  LiveBettingIcon,
-  LiveIconOfFooter,
-  OddsBoostIcon,
-  SpeedLogoOfFooter,
-} from "./icons";
-import { images } from "./imagesConstant";
-
 export const fallbackLng = "en";
 
 export const predictionsApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
@@ -73,6 +62,7 @@ export const apiUrl = {
   UPDATE_BET_STATUS: `${gamingApiDomain}/api/v1/betting/update-bet-offer-status`,
   GET_BET_SLIP: `${gamingApiDomain}/api/v1/betting/generate-bet-slips`,
   CASH_OUT: `${gamingApiDomain}/api/v1/betting/cash-out`,
+  CASH_OUT_DETAILS: `${gamingApiDomain}/api/v1/betting/cash-out/details`,
   GET_GLOBAL_SEO: `${gamingApiDomain}/api/v1/cms/global-seo`,
   GET_CSS_CONTENT: `${gamingApiDomain}/api/v1/cms/css-style`,
   GET_SETTINGS: `${gamingApiDomain}/api/v1/cms/settings`,
@@ -196,61 +186,10 @@ export const types = [
   },
 ];
 
-export const betGroupLinks = [
-  {
-    name: "live_betting",
-    icon: <LiveBettingIcon />,
-  },
-  {
-    name: "odds_boost",
-    icon: <OddsBoostIcon />,
-  },
-  {
-    name: "fastest_payouts",
-    icon: <FastestPayoutsIcon />,
-  },
-  {
-    name: "online_casino",
-    icon: <Games background="var(--global-color-casino-trending_background)" />,
-  },
-];
-
 export const eventAtSlider = [
   { page: "Leeds Rhinos", bet: "19/10" },
   { page: "Tie", bet: "19/10" },
   { page: "Catalans", bet: "19/10" },
-];
-
-export const liveGamesData = [
-  {
-    icon: <SpeedLogoOfFooter />,
-    title: "Faster Withdrawal",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem.",
-  },
-  {
-    icon: <LiveIconOfFooter />,
-    title: "Live Streaming",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem.",
-  },
-  {
-    icon: <CreditCardLogoOfFooter />,
-    title: "Odds Boost",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem.",
-  },
-];
-
-export const popularCasinoGames = [
-  images.royalCasino,
-  images.bigcatkino,
-  images.gemie,
-  images.gorillaGold,
-  images.jackpot,
-  images.bigcatkino,
-  images.bigcatkino,
-  images.gemie,
-  images.gorillaGold,
-  images.jackpot,
-  images.bigcatkino,
 ];
 
 export const multipleBetTypesInfo = {
@@ -292,6 +231,12 @@ export const casinoSessionTypes = {
   CLOSE_CASINO_SESSION: "close_casino_session",
   NOTIFY_CASINO_SESSION: "notify_casino_session",
   CLOSE_ALL_CASINO_SESSIONS: "close_all_casino_session",
+};
+
+export const racingRegionFilters = {
+  ALL: "all",
+  UK_IRELAND: "uk_ireland",
+  INTERNATIONAL: "international",
 };
 
 export const stakeLimit = 1000000;

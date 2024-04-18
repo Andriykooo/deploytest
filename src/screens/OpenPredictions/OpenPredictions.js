@@ -11,7 +11,7 @@ import Spiner from "../../components/Spiner/Spiner";
 import { apiServices } from "../../utils/apiServices";
 import { apiUrl } from "../../utils/constants";
 import { images } from "../../utils/imagesConstant";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import "../DepositLimit/DepositLimit.css";
 import "../OpenPredictions/OpenPredictions.css";

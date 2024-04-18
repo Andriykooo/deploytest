@@ -1,11 +1,9 @@
+import classNames from "classnames";
 import { useState } from "react";
-import { images } from "../../utils/imagesConstant";
 import { Button } from "../button/Button";
 import { Loader } from "../loaders/Loader";
-import Image from "next/image";
-import classNames from "classnames";
+import { CloseIcon } from "@/icons/CloseIcon";
 import "../../components/Game/GameInfoMoadlMobile.css";
-import { CloseIcon } from "@/utils/icons";
 
 export const PreferencesModalMobile = ({
   data,
@@ -51,13 +49,11 @@ export const PreferencesModalMobile = ({
         <div className="modal-content rounded-bottom-0 pb-4">
           <div className="d-flex justify-content-center periodLine mt-3"></div>
           <div className="modal-head px-4">
-            <h2>
-              {data.title}
-            </h2>
+            <h2>{data.title}</h2>
             <CloseIcon onClick={() => handleToggle()} />
           </div>
-          <div className="dashed-img-div p-0">
-            <Image alt="line" src={images.dashedLine} fill />
+          <div className="px-4 w-100">
+            <div className="dashedDiv" />
           </div>
           <div className="preferencesModalMobile-list profileModal">
             {data?.data?.map((value, index) => {

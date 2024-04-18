@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BannerMenu } from "../bannerMenu/BannerMenu";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export const SportsBanner = ({
   data,

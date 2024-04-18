@@ -1,4 +1,5 @@
-import { CloseMenu, BurgerMenu } from "@/utils/icons";
+import { CloseMenu } from "@/icons/CloseMenu";
+import { BurgerMenu } from "@/icons/BurgerMenu";
 
 export const MenuIcon = ({ swiftyMenu, setSwiftyMenu }) => {
   return swiftyMenu ? (

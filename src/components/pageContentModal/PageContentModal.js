@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { XIcon } from "../../utils/icons";
+import { XIcon } from "@/icons/XIcon";
 import { HtmlParse } from "../htmlParse/HtmlParse";
 import { PageLoader } from "../loaders/Loader";
 import { Logo } from "../logo/Logo";
@@ -8,7 +8,7 @@ import { alertToast } from "@/utils/alert";
 import { apiServices } from "@/utils/apiServices";
 import { apiUrl } from "@/utils/constants";
 import { useSelector } from "react-redux";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { useClientPathname } from "@/hooks/useClientPathname";
 import { gamingSocket } from "@/context/socket";

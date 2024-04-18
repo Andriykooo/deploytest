@@ -1,4 +1,4 @@
-import { InfoInformationIcon } from "@/utils/icons";
+import { InfoInformationIcon } from "@/icons/InfoInformationIcon";
 import classNames from "classnames";
 import "./Warning.css";
 

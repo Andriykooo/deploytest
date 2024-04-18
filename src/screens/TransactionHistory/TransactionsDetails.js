@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Button } from "../../components/button/Button";
-import { useTranslations } from "next-intl";
-import { ReminderIcon } from "@/utils/icons";
+import { useTranslations } from "@/hooks/useTranslations";
+import { ReminderIcon } from "@/icons/ReminderIcon";
 import { useEffect, useState } from "react";
 import moment from "moment";
 

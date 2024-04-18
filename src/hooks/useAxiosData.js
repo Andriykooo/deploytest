@@ -5,19 +5,6 @@ export const useAxiosData = (query, options, dependencies = []) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isTabFocused, setIsTabFocused] = useState(
-    isObject(options) && Object.hasOwn(options, "enabled")
-      ? options.enabled
-      : true
-  );
-
-  const handleVisibilityChange = () => {
-    if (document.hidden) {
-      setIsTabFocused(false);
-    } else {
-      setIsTabFocused(true);
-    }
-  };
 
   const fetchData = async () => {
     try {
@@ -39,18 +26,19 @@ export const useAxiosData = (query, options, dependencies = []) => {
   };
 
   useEffect(() => {
-    if (isTabFocused) {
+    const enabled =
+      isObject(options) && Object.hasOwn(options, "enabled") && options.enabled;
+
+    if (!enabled) {
       fetchData();
     }
-  }, [isTabFocused, ...dependencies]);
 
-  useEffect(() => {
-    window.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", fetchData);
 
     return () => {
-      window.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", fetchData);
     };
-  }, [fetchData]);
+  }, dependencies);
 
   return { data, isLoading, error };
 };

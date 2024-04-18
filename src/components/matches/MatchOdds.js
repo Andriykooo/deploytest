@@ -8,7 +8,7 @@ import classNames from "classnames";
 import { memo } from "react";
 import { images } from "@/utils/imagesConstant";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@/hooks/useTranslations";
 import { TooltipWrapper } from "../Tooltip/TooltipWrapper";
 import { useGenerateBetslip } from "@/hooks/useGenerateBetslip";
 import { getSelectionOdds } from "@/utils/getSelectionOdds";
@@ -92,8 +92,6 @@ const Selection = memo(function SelectionContent({
       ? "drifting"
       : "shortening";
 
-  // console.log(selection);
-
   return (
     <div
       className={classNames("matchOddsContainer matchOddsContainerFootball", {
@@ -116,15 +114,19 @@ const Selection = memo(function SelectionContent({
         }
       >
         <div
-          className={classNames("matchOdds", {
-            selectionPriceBoost:
-              selection?.price_boost && !isSuspended && !isSP,
-            styleOfSelectedOdd: isSelected && !isSuspended,
-            suspended:
-              isSuspended || disable || isMatchSuspended(currentStatus),
-            [priceChangeType]:
-              selection?.previousOdds?.odds_decimal && !isSuspended,
-          })}
+          className={classNames(
+            "matchOdds",
+            isSuspended ? "animationBlock-susp" : "animationBlock-success",
+            {
+              selectionPriceBoost:
+                selection?.price_boost && !isSuspended && !isSP,
+              styleOfSelectedOdd: isSelected && !isSuspended,
+              suspended:
+                isSuspended || disable || isMatchSuspended(currentStatus),
+              [priceChangeType]:
+                selection?.previousOdds?.odds_decimal && !isSuspended,
+            }
+          )}
           onClick={handlerOnClick}
         >
           <div
@@ -133,9 +135,6 @@ const Selection = memo(function SelectionContent({
             data-current-odds={selectionsOdds.odds_decimal}
             onAnimationStart={() => {
               onUpdate?.();
-            }}
-            onAnimationEnd={(e) => {
-              e.target.classList.remove(e.target.classList[1]);
             }}
           >
             {children}
